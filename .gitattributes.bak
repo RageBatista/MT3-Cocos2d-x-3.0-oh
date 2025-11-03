@@ -42,6 +42,40 @@ client/**/res/** filter=lfs diff=lfs merge=lfs -text
 *.wmv filter=lfs diff=lfs merge=lfs -text
 *.chm filter=lfs diff=lfs merge=lfs -text
 server/**/gamedata/xml/** filter=lfs diff=lfs merge=lfs -text
+
+# Text files with automatic line ending handling
+*.java text
+*.xml text
+*.txt text
+*.md text
+*.properties text
+*.json text
+*.js text
+*.html text
+*.css text
+*.scss text
+*.less text
+*.yml text
+*.yaml text
+*.sh text
+*.bat text
+*.cmd text
+*.ps1 text
+*.py text
+*.cpp text
+*.c text
+*.h text
+*.hpp text
+*.lua text
+*.proto text
+*.mk text
+*.cmake text
+# Visual Studio files should have CRLF line endings on Windows
+*.sln text eol=crlf
+*.vcxproj text eol=crlf
+*.vcxproj.filters text eol=crlf
+# Default for all other text files
+* text=auto
 *.psd filter=lfs diff=lfs merge=lfs -text
 *.ljfp filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
