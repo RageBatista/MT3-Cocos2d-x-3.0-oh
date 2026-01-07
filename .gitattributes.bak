@@ -1,94 +1,47 @@
-*.apk filter=lfs diff=lfs merge=lfs -text
-*.lib filter=lfs diff=lfs merge=lfs -text
-*.a filter=lfs diff=lfs merge=lfs -text
-*.sdf filter=lfs diff=lfs merge=lfs -text
-*.pch filter=lfs diff=lfs merge=lfs -text
-*.ipch filter=lfs diff=lfs merge=lfs -text
-*.pdb filter=lfs diff=lfs merge=lfs -text
-*.exe filter=lfs diff=lfs merge=lfs -text
-*.log filter=lfs diff=lfs merge=lfs -text
-*.doc filter=lfs diff=lfs merge=lfs -text
-*.docx filter=lfs diff=lfs merge=lfs -text
-*.xls filter=lfs diff=lfs merge=lfs -text
-*.xlsx filter=lfs diff=lfs merge=lfs -text
-*.rar filter=lfs diff=lfs merge=lfs -text
-client/FireClient/FireClient/Chartboost_sdk/Chartboost.framework/** filter=lfs diff=lfs merge=lfs -text
-*.ttf filter=lfs diff=lfs merge=lfs -text
-*.ncb filter=lfs diff=lfs merge=lfs -text
-*.framework/** filter=lfs diff=lfs merge=lfs -text
-client/android/LocojoyProject/assets/res/** filter=lfs diff=lfs merge=lfs -text
-client/res_ios/res/** filter=lfs diff=lfs merge=lfs -text
-*.png filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
-*.jpeg filter=lfs diff=lfs merge=lfs -text
-client/res_android/res/** filter=lfs diff=lfs merge=lfs -text
-**/*.framework/** filter=lfs diff=lfs merge=lfs -text
-client/FireClient/FireClient/**/*.framework/** filter=lfs diff=lfs merge=lfs -text
-server/server/game_server/gs/gamedata/xml/** filter=lfs diff=lfs merge=lfs -text
-client/resource/res/table/xmltable/*.xml filter=lfs diff=lfs merge=lfs -text
-server/server/proxy_server/proxy/gdeliverd filter=lfs diff=lfs merge=lfs -text
-server/server/gate_server/gate/glinkd filter=lfs diff=lfs merge=lfs -text
-client/res_win/res/** filter=lfs diff=lfs merge=lfs -text
-server/serverbin/gs/gamedata/xml/** filter=lfs diff=lfs merge=lfs -text
-server/server/game_server/robot/config/auto/*.xml filter=lfs diff=lfs merge=lfs -text
-*.dll filter=lfs diff=lfs merge=lfs -text
-*.zip filter=lfs diff=lfs merge=lfs -text
-*.7z filter=lfs diff=lfs merge=lfs -text
-*.gz filter=lfs diff=lfs merge=lfs -text
-*.bz2 filter=lfs diff=lfs merge=lfs -text
-*.tar filter=lfs diff=lfs merge=lfs -text
-client/**/res/** filter=lfs diff=lfs merge=lfs -text
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-*.wmv filter=lfs diff=lfs merge=lfs -text
-*.chm filter=lfs diff=lfs merge=lfs -text
-server/**/gamedata/xml/** filter=lfs diff=lfs merge=lfs -text
+# Git LFS 配置 - 大型二进制文件
 
-# Text files with automatic line ending handling
-*.java text
-*.xml text
-*.txt text
-*.md text
-*.properties text
-*.json text
-*.js text
-*.html text
-*.css text
-*.scss text
-*.less text
-*.yml text
-*.yaml text
-*.sh text
-*.bat text
-*.cmd text
-*.ps1 text
-*.py text
-*.cpp text
-*.c text
-*.h text
-*.hpp text
-*.lua text
-*.proto text
-*.mk text
-*.cmake text
-# Visual Studio files should have CRLF line endings on Windows
-*.sln text eol=crlf
-*.vcxproj text eol=crlf
-*.vcxproj.filters text eol=crlf
-# Default for all other text files
-* text=auto
-*.psd filter=lfs diff=lfs merge=lfs -text
-*.ljfp filter=lfs diff=lfs merge=lfs -text
+# 预编译库文件
+*.lib filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+*.exp filter=lfs diff=lfs merge=lfs -text
+*.pdb filter=lfs diff=lfs merge=lfs -text
+*.a filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
+*.dylib filter=lfs diff=lfs merge=lfs -text
+# 游戏资源文件
+*.wmv filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.avi filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.ogg filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+# 图像文件（大于 100KB 的通常使用 LFS）
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.ai filter=lfs diff=lfs merge=lfs -text
+# 压缩包
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.rar filter=lfs diff=lfs merge=lfs -text
+*.7z filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+# 可执行文件
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.sdf filter=lfs diff=lfs merge=lfs -text
+*.ipch filter=lfs diff=lfs merge=lfs -text
+*.pch filter=lfs diff=lfs merge=lfs -text
+*.ljfp filter=lfs diff=lfs merge=lfs -text
 *.obj filter=lfs diff=lfs merge=lfs -text
+*.apk filter=lfs diff=lfs merge=lfs -text
 *.ap_ filter=lfs diff=lfs merge=lfs -text
 *.jar filter=lfs diff=lfs merge=lfs -text
-*.tar.gz filter=lfs diff=lfs merge=lfs -text
+*.xlsx filter=lfs diff=lfs merge=lfs -text
+*.xls filter=lfs diff=lfs merge=lfs -text
 *.csv filter=lfs diff=lfs merge=lfs -text
 *.xml filter=lfs diff=lfs merge=lfs -text
 *.json filter=lfs diff=lfs merge=lfs -text
 *.tsv filter=lfs diff=lfs merge=lfs -text
-*.ogg filter=lfs diff=lfs merge=lfs -text
-*.wav filter=lfs diff=lfs merge=lfs -text
+*.ttf filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
 *.tar.xz filter=lfs diff=lfs merge=lfs -text
 *.xlsm filter=lfs diff=lfs merge=lfs -text
 *.txt filter=lfs diff=lfs merge=lfs -text
@@ -100,6 +53,7 @@ server/**/gamedata/xml/** filter=lfs diff=lfs merge=lfs -text
 *.dex filter=lfs diff=lfs merge=lfs -text
 *.SF filter=lfs diff=lfs merge=lfs -text
 *.MF filter=lfs diff=lfs merge=lfs -text
+client/android/LocojoyProject/assets/res/** filter=lfs diff=lfs merge=lfs -text
 client/android/LocojoyProject64/assets/res/** filter=lfs diff=lfs merge=lfs -text
 temp/apk_analysis/working_apk/assets/res/** filter=lfs diff=lfs merge=lfs -text
 assets/dev_res/** filter=lfs diff=lfs merge=lfs -text
