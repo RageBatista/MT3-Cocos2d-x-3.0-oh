@@ -35,6 +35,12 @@
 /.agents/**/*.ps1 text eol=lf
 /tools/scripts/*.ps1 text eol=lf
 /docs/**/*.md text eol=lf
+# Win32 archived runtime/prebuilt binaries are byte-exact Git blobs; LFS remains disabled.
+*.dll binary
+*.lib binary
+*.exp binary
+*.pdb binary
+*.exe binary
 # Native/Android binaries are byte-exact vendored artifacts or build outputs.
 *.a binary
 *.so binary
@@ -43,6 +49,8 @@
 *.ap_ binary
 *.keystore binary
 *.jks binary
+# Cocos2d-x 2.2.6 third-party vendor files keep upstream bytes.
+/cocos2d-x-2.2.6-mt3/cocos2dx/platform/third_party/** -text
 # CEGUI 0.7.1 vendor snapshot - preserve original bytes under core.autocrlf=true.
 /tools/CEGUI-0.7.1/** -text
 /tools/CEGUI-0.7.1/**/*.dll binary
