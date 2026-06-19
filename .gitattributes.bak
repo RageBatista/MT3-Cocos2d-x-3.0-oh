@@ -27,8 +27,22 @@
 # 可执行文件
 # *.exe filter=lfs diff=lfs merge=lfs -text
 # Codex/docs governance files are maintained as UTF-8 no BOM + LF.
+/.gitattributes text eol=lf
+/.gitignore text eol=lf
 /.codex/** text eol=lf
+/.claude/**/*.md text eol=lf
+/.agents/**/*.md text eol=lf
+/.agents/**/*.ps1 text eol=lf
+/tools/scripts/*.ps1 text eol=lf
 /docs/**/*.md text eol=lf
+# Native/Android binaries are byte-exact vendored artifacts or build outputs.
+*.a binary
+*.so binary
+*.jar binary
+*.apk binary
+*.ap_ binary
+*.keystore binary
+*.jks binary
 # CEGUI 0.7.1 vendor snapshot - preserve original bytes under core.autocrlf=true.
 /tools/CEGUI-0.7.1/** -text
 /tools/CEGUI-0.7.1/**/*.dll binary
