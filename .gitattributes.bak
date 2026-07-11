@@ -119,4 +119,6 @@ assets/source_template_promoted_unresolved/** filter=lfs diff=lfs merge=lfs -tex
 # Reassert governance text overrides after the broad JSON/TXT LFS rules above.
 /.codex/** -filter diff merge text eol=lf
 /.agents/**/*.txt -filter diff merge text eol=lf
+/.agents/skills/**/agents/openai.yaml -filter diff merge text eol=lf
+/.claude/tests/*.ps1 text eol=lf
 tools/ExcelParse2auto/** !text !filter !merge !diff
