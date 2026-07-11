@@ -116,4 +116,7 @@ assets/source_template_promoted_unresolved/** filter=lfs diff=lfs merge=lfs -tex
 /.roo/*.json text eol=lf -filter -diff -merge
 # Resource UI baselines are small reviewable JSON snapshots; keep them outside LFS.
 /tools/scripts/baselines/*.json text eol=lf -filter -diff -merge
+# Reassert governance text overrides after the broad JSON/TXT LFS rules above.
+/.codex/** -filter diff merge text eol=lf
+/.agents/**/*.txt -filter diff merge text eol=lf
 tools/ExcelParse2auto/** !text !filter !merge !diff
