@@ -133,4 +133,12 @@ assets/source_template_promoted_unresolved/** filter=lfs diff=lfs merge=lfs -tex
 /dependencies/pcre-8.31/prj2/pcrelib/pcrelib/pcrelib-Prefix.pch -filter -diff -merge -text
 /docs/09-历史归档/文档审计/2026-07-14-docs逐篇审查清单.csv -filter diff merge text eol=crlf
 /tools/codex/** -filter diff merge text eol=lf
+# The complete client resource snapshot uses regular Git blobs because this repository's LFS budget is exhausted.
+/client/resource/res/** -filter
+/client/resource/res/**/*.mp4 -diff -merge -text
+/client/resource/res/**/*.ttf -diff -merge -text
+/client/resource/res/**/*.png -diff -merge -text
+/client/resource/res/**/*.jpg -diff -merge -text
+/client/resource/res/**/*.ogg -diff -merge -text
+/client/resource/res/**/*.wav -diff -merge -text
 tools/ExcelParse2auto/** !text !filter !merge !diff
