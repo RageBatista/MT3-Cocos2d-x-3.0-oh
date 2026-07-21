@@ -1,32 +1,33 @@
-# Git LFS 配置 - 大型二进制文件
-# 注意：LFS 已禁用以避免 GitHub LFS 配额限制
+# Git LFS 配置 - 完全禁用
+# 生成时间: 2026-07-21
+# 原因: GitHub LFS 配额超限，所有 LFS 规则已禁用
 
-# 预编译库文件
-# *.lib filter=lfs diff=lfs merge=lfs -text
-# *.dll filter=lfs diff=lfs merge=lfs -text
-# *.exp filter=lfs diff=lfs merge=lfs -text
-# *.pdb filter=lfs diff=lfs merge=lfs -text
-# *.a filter=lfs diff=lfs merge=lfs -text
-# *.so filter=lfs diff=lfs merge=lfs -text
-# *.dylib filter=lfs diff=lfs merge=lfs -text
-# 游戏资源文件
-# *.wmv filter=lfs diff=lfs merge=lfs -text
-# *.mp4 filter=lfs diff=lfs merge=lfs -text
-# *.avi filter=lfs diff=lfs merge=lfs -text
-# *.mp3 filter=lfs diff=lfs merge=lfs -text
-# *.ogg filter=lfs diff=lfs merge=lfs -text
-# *.wav filter=lfs diff=lfs merge=lfs -text
-# 图像文件（大于 100KB 的通常使用 LFS）
-# *.psd filter=lfs diff=lfs merge=lfs -text
-# *.ai filter=lfs diff=lfs merge=lfs -text
-# 压缩包
-# *.zip filter=lfs diff=lfs merge=lfs -text
-# *.rar filter=lfs diff=lfs merge=lfs -text
-# *.7z filter=lfs diff=lfs merge=lfs -text
-# *.tar.gz filter=lfs diff=lfs merge=lfs -text
-# 可执行文件
-# *.exe filter=lfs diff=lfs merge=lfs -text
-# Codex/docs governance files are maintained as UTF-8 no BOM + LF.
+# 注意: 本文件完全禁用了 Git LFS，所有文件使用普通 Git 对象存储
+
+# ============ 基础文本/二进制配置 ============
+# 所有文本文件使用 LF 换行符
+* text=auto
+
+# 二进制文件标记
+*.dll binary
+*.lib binary
+*.exp binary
+*.pdb binary
+*.exe binary
+*.a binary
+*.so binary
+*.jar binary
+*.apk binary
+*.ap_ binary
+*.keystore binary
+*.jks binary
+*.sdf binary
+*.ipch binary
+*.pch binary
+*.obj binary
+*.otf binary
+
+# ============ 开发配置文件 ============
 /.gitattributes text eol=lf
 /.gitignore text eol=lf
 /.codex/** text eol=lf
@@ -38,107 +39,36 @@
 /.agents/**/*.ps1 text eol=lf
 /tools/scripts/*.ps1 text eol=lf
 /docs/**/*.md text eol=lf
-# Win32 archived runtime/prebuilt binaries are byte-exact Git blobs; LFS remains disabled.
-*.dll binary
-*.lib binary
-*.exp binary
-*.pdb binary
-*.exe binary
-# Native/Android binaries are byte-exact vendored artifacts or build outputs.
-*.a binary
-*.so binary
-*.jar binary
-*.apk binary
-*.ap_ binary
-*.keystore binary
-*.jks binary
-# Cocos2d-x 2.2.6 third-party vendor files keep upstream bytes.
+
+# ============ VS Code / Roo Code 配置 ============
+/.vscode/*.json text eol=lf -filter -diff -merge
+/.roo/*.json text eol=lf -filter -diff -merge
+/tools/scripts/baselines/*.json text eol=lf -filter -diff -merge
+
+# ============ Claude Code 配置 ============
+/.claude/tests/*.ps1 text eol=lf
+/.claude/config/**/*.json -filter diff merge text eol=lf
+/.claude/hooks/*.json -filter diff merge text eol=lf
+/.agents/**/*.txt -filter diff merge text eol=lf
+/.agents/skills/**/agents/openai.yaml -filter diff merge text eol=lf
+
+# ============ 第三方库配置 ============
 /cocos2d-x-2.2.6-mt3/cocos2dx/platform/third_party/** -text
-# CEGUI 0.7.1 vendor snapshot - preserve original bytes under core.autocrlf=true.
-/tools/CEGUI-0.7.1/** -text
+
+# ============ CEGUI 工具目录 ============
+/tools/CEGUI-0.7.1/** -text -filter
 /tools/CEGUI-0.7.1/**/*.dll binary
 /tools/CEGUI-0.7.1/**/*.exe binary
 /tools/CEGUI-0.7.1/**/*.lib binary
 /tools/CEGUI-0.7.1/**/*.exp binary
-*.sdf filter=lfs diff=lfs merge=lfs -text
-*.ipch filter=lfs diff=lfs merge=lfs -text
-*.pch filter=lfs diff=lfs merge=lfs -text
-*.ljfp filter=lfs diff=lfs merge=lfs -text
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-*.so filter=lfs diff=lfs merge=lfs -text
-*.obj filter=lfs diff=lfs merge=lfs -text
-*.a filter=lfs diff=lfs merge=lfs -text
-*.dll filter=lfs diff=lfs merge=lfs -text
-*.lib filter=lfs diff=lfs merge=lfs -text
-*.exe filter=lfs diff=lfs merge=lfs -text
-*.pdb filter=lfs diff=lfs merge=lfs -text
-*.apk filter=lfs diff=lfs merge=lfs -text
-*.ap_ filter=lfs diff=lfs merge=lfs -text
-*.jar filter=lfs diff=lfs merge=lfs -text
-*.zip filter=lfs diff=lfs merge=lfs -text
-*.rar filter=lfs diff=lfs merge=lfs -text
-*.7z filter=lfs diff=lfs merge=lfs -text
-*.tar.gz filter=lfs diff=lfs merge=lfs -text
-# 禁用四个工具目录的 LFS（GitHub LFS 配额已用完）
+
+# ============ 其他工具目录 ============
 /tools/CELayoutEditor-0.7.1/** -filter
-/tools/CEGUI-0.7.1/** -filter
 /tools/CEImagesetEditor-0.7.1/** -filter
 /tools/ExcelParse2auto/** -filter
-# 文本格式文件不应使用 LFS - 移回普通 Git 对象以便 diff/review
-# *.xlsx filter=lfs diff=lfs merge=lfs -text   # 已移出 LFS (文本/表格类)
-# *.xls filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS
-# *.csv filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS
-# *.xml filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS
-# *.json filter=lfs diff=lfs merge=lfs -text    # 已移出 LFS
-# *.tsv filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS
-# *.xlsm filter=lfs diff=lfs merge=lfs -text    # 已移出 LFS
-# *.txt filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS
-# *.tlog filter=lfs diff=lfs merge=lfs -text    # 已移出 LFS (构建产物)
-# *.abi filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS
-# *.idb filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS (构建产物)
-# *.dex filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS
-# *.SF filter=lfs diff=lfs merge=lfs -text      # 已移出 LFS
-# *.MF filter=lfs diff=lfs merge=lfs -text      # 已移出 LFS
-# *.rp filter=lfs diff=lfs merge=lfs -text      # 已移出 LFS
-# *.ljpm filter=lfs diff=lfs merge=lfs -text    # 已移出 LFS
-# 真正的大型二进制文件保留 LFS
-*.ttf filter=lfs diff=lfs merge=lfs -text
-*.png filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
-*.ogg filter=lfs diff=lfs merge=lfs -text
-*.wav filter=lfs diff=lfs merge=lfs -text
-*.tar.xz filter=lfs diff=lfs merge=lfs -text
-client/android/LocojoyProject/assets/res/** filter=lfs diff=lfs merge=lfs -text
-client/android/LocojoyProject64/assets/res/** filter=lfs diff=lfs merge=lfs -text
-temp/apk_analysis/working_apk/assets/res/** filter=lfs diff=lfs merge=lfs -text
-assets/dev_res/** filter=lfs diff=lfs merge=lfs -text
-assets/unpacked_res/** filter=lfs diff=lfs merge=lfs -text
-assets/formal_results_unpack_20260423/** filter=lfs diff=lfs merge=lfs -text
-assets/source_template_reports/** filter=lfs diff=lfs merge=lfs -text
-assets/source_template_promoted/** filter=lfs diff=lfs merge=lfs -text
-assets/source_template_reports_targets/** filter=lfs diff=lfs merge=lfs -text
-assets/source_template_promoted_targets/** filter=lfs diff=lfs merge=lfs -text
-assets/source_template_reports_unresolved/** filter=lfs diff=lfs merge=lfs -text
-assets/source_template_promoted_unresolved/** filter=lfs diff=lfs merge=lfs -text
-# VS Code workspace configuration must stay as regular text JSON.
-/.vscode/*.json text eol=lf -filter -diff -merge
-# Roo Code workspace configuration must stay as regular text JSON.
-/.roo/*.json text eol=lf -filter -diff -merge
-# Resource UI baselines are small reviewable JSON snapshots; keep them outside LFS.
-/tools/scripts/baselines/*.json text eol=lf -filter -diff -merge
-# Reassert governance text overrides after the broad JSON/TXT LFS rules above.
-/.codex/** -filter diff merge text eol=lf
-/.agents/**/*.txt -filter diff merge text eol=lf
-/.agents/skills/**/agents/openai.yaml -filter diff merge text eol=lf
-/.claude/tests/*.ps1 text eol=lf
-/.claude/config/**/*.json -filter diff merge text eol=lf
-/.claude/hooks/*.json -filter diff merge text eol=lf
-# These three small files are regular Git blobs so pushes do not consume LFS quota.
-/dependencies/pcre-8.31/prj2/pcrelib/pcrelib/._pcrelib-Prefix.pch -filter -diff -merge -text
-/dependencies/pcre-8.31/prj2/pcrelib/pcrelib/pcrelib-Prefix.pch -filter -diff -merge -text
-/docs/09-历史归档/文档审计/2026-07-14-docs逐篇审查清单.csv -filter diff merge text eol=crlf
 /tools/codex/** -filter diff merge text eol=lf
-# The complete client resource snapshot uses regular Git blobs because this repository's LFS budget is exhausted.
+
+# ============ 客户端资源目录 (完全禁用 LFS) ============
 /client/resource/res/** -filter
 /client/resource/res/**/*.mp4 -diff -merge -text
 /client/resource/res/**/*.ttf -diff -merge -text
@@ -146,4 +76,71 @@ assets/source_template_promoted_unresolved/** filter=lfs diff=lfs merge=lfs -tex
 /client/resource/res/**/*.jpg -diff -merge -text
 /client/resource/res/**/*.ogg -diff -merge -text
 /client/resource/res/**/*.wav -diff -merge -text
-tools/ExcelParse2auto/** !text !filter !merge !diff
+
+# ============ Android 资源目录 (完全禁用 LFS) ============
+client/android/LocojoyProject/assets/res/** -filter
+client/android/LocojoyProject64/assets/res/** -filter
+
+# ============ 其他资源目录 (完全禁用 LFS) ============
+temp/apk_analysis/working_apk/assets/res/** -filter
+assets/dev_res/** -filter
+assets/unpacked_res/** -filter
+assets/formal_results_unpack_20260423/** -filter
+assets/source_template_reports/** -filter
+assets/source_template_promoted/** -filter
+assets/source_template_reports_targets/** -filter
+assets/source_template_promoted_targets/** -filter
+assets/source_template_reports_unresolved/** -filter
+assets/source_template_promoted_unresolved/** -filter
+
+# ============ pcre 依赖特殊处理 ============
+/dependencies/pcre-8.31/prj2/pcrelib/pcrelib/._pcrelib-Prefix.pch -filter -diff -merge -text
+/dependencies/pcre-8.31/prj2/pcrelib/pcrelib/pcrelib-Prefix.pch -filter -diff -merge -text
+
+# ============ 历史归档 CSV ============
+/docs/09-历史归档/文档审计/2026-07-14-docs逐篇审查清单.csv -filter diff merge text eol=crlf
+
+# ============ 大型二进制文件类型 (禁用 LFS，使用普通 Git) ============
+# 这些文件现在使用普通 Git blob 存储，不消耗 LFS 配额
+*.ttf -filter binary
+*.png -filter binary
+*.jpg -filter binary
+*.jpeg -filter binary
+*.ogg -filter binary
+*.wav -filter binary
+*.mp4 -filter binary
+*.mp3 -filter binary
+*.avi -filter binary
+*.wmv -filter binary
+*.tar.xz -filter binary
+*.zip -filter binary
+*.rar -filter binary
+*.7z -filter binary
+*.tar.gz -filter binary
+*.ljfp -filter binary
+*.psd -filter binary
+*.ai -filter binary
+
+# ============ 构建产物 (禁用 LFS) ============
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.csv -filter -diff -merge text
+*.xml -filter -diff -merge text
+*.json -filter -diff -merge text
+*.txt -filter -diff -merge text
+*.TXT -filter -diff -merge text
+*.h -filter -diff -merge text
+*.cpp -filter -diff -merge text
+*.c -filter -diff -merge text
+*.cc -filter -diff -merge text
+*.hpp -filter -diff -merge text
+*.java -filter -diff -merge text
+*.lua -filter -diff -merge text
+*.py -filter -diff -merge text
+*.js -filter -diff -merge text
+*.ts -filter -diff -merge text
+*.sh -filter -diff -merge text eol=lf
+*.bat -filter -diff -merge text eol=crlf
+*.ps1 -filter -diff -merge text eol=lf
