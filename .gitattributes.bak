@@ -79,6 +79,11 @@
 *.rar filter=lfs diff=lfs merge=lfs -text
 *.7z filter=lfs diff=lfs merge=lfs -text
 *.tar.gz filter=lfs diff=lfs merge=lfs -text
+# 禁用四个工具目录的 LFS（GitHub LFS 配额已用完）
+/tools/CELayoutEditor-0.7.1/** -filter
+/tools/CEGUI-0.7.1/** -filter
+/tools/CEImagesetEditor-0.7.1/** -filter
+/tools/ExcelParse2auto/** -filter
 # 文本格式文件不应使用 LFS - 移回普通 Git 对象以便 diff/review
 # *.xlsx filter=lfs diff=lfs merge=lfs -text   # 已移出 LFS (文本/表格类)
 # *.xls filter=lfs diff=lfs merge=lfs -text     # 已移出 LFS
