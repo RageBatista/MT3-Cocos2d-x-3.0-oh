@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{82553CD6-9DD2-45FA-8D78-8ED6052B60BF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>BinLayoutStudio</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PreprocessorDefinitions>CEGUI_STATIC;__WXMSW__;WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4005;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>../../wxWidgets-3.0.5/include;../../wxWidgets-3.0.5/lib/vc_lib/mswud;../../cegui/CEGUI/include;../../../common/platform;../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/pthread;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>../../wxWidgets-3.0.5/lib/vc_lib;../../../dependencies/pcre-8.31/$(ConfigurationName).win32;../../../dependencies/SILLY-0.1.0/$(ConfigurationName).win32;../../../dependencies/jpeg/prebuilt/win32;../../../dependencies/png/prebuilt/win32;../../../dependencies/freetype-2.4.12/objs/win32/vc2010;../../../client/FireClient/$(ConfigurationName).win32;../../../client/MT3Win32App/$(ConfigurationName).win32;../../../cocos2d-x-2.2.6/$(ConfigurationName).win32;../../../cocos2d-x-2.2.6/external/Box2D/proj.win32/$(ConfigurationName).win32;../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libraries;../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/libraries/vs2013/Win32;../../../cocos2d-x-2.2.6/external/curl/prebuilt/win32;../../../cocos2d-x-2.2.6/external/tiff/prebuilt/win32;../../../dependencies/opengles_v2/Lib;../../../dependencies/cegui/project/win32/$(ConfigurationName).win32;../../../dependencies/cegui/lib;../../../tools/CEGUI-0.7.1/dependencies/lib/dynamic;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wxmsw30ud_core.lib;wxbase30ud.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexud.lib;wxexpatd.lib;rpcrt4.lib;wsock32.lib;wininet.lib;Comctl32.lib;Comdlg32.lib;Ws2_32.lib;opengl32.lib;glew32.lib;libEGL.lib;libGLESv2.lib;libBox2D.lib;libcocos2d.lib;libCocosDenshion.lib;libExtensions.lib;libspeex.lib;libogg.lib;libvorbis.lib;esUtil.lib;libpng.lib;libjpeg.lib;libtiff.lib;freetype.lib;libzlib.lib;cegui_d.lib;pcre.lib;silly.lib;liblua.lib;lua51.lib;platform.lib;cauthc.lib;ljfm.lib;engine.lib;FireClient.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;libcurl_imp.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -Command "&amp; { $dest='..\\..\\..\\client\\resource\\bin\\$(ConfigurationName)'; New-Item -ItemType Directory -Force -Path $dest -ErrorAction Stop | Out-Null; try { Copy-Item -Force -ErrorAction Stop '$(TargetPath)' -Destination $dest } catch { Write-Host ('PostBuild: copy skipped: ' + $_.Exception.Message) } }"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <StringPooling>true</StringPooling>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PreprocessorDefinitions>CEGUI_STATIC;__WXMSW__;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4005;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../../wxWidgets-3.0.5/include;../../wxWidgets-3.0.5/lib/vc_lib/mswu;../../cegui/CEGUI/include;../../../common/platform;../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/pthread;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../../wxWidgets-3.0.5/lib/vc_lib;../../../dependencies/pcre-8.31/$(ConfigurationName).win32;../../../dependencies/SILLY-0.1.0/$(ConfigurationName).win32;../../../dependencies/jpeg/prebuilt/win32;../../../dependencies/png/prebuilt/win32;../../../client/FireClient/$(ConfigurationName).win32;../../../client/MT3Win32App/$(ConfigurationName).win32;../../../cocos2d-x-2.2.6/$(ConfigurationName).win32;../../../cocos2d-x-2.2.6/external/Box2D/proj.win32/$(ConfigurationName).win32;../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libraries;../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/libraries/vs2013/Win32;../../../cocos2d-x-2.2.6/external/curl/prebuilt/win32;../../../cocos2d-x-2.2.6/external/tiff/prebuilt/win32;../../../dependencies/opengles_v2/Lib;../../../dependencies/cegui/project/win32/$(ConfigurationName).win32;../../../dependencies/cegui/lib;../../../tools/CEGUI-0.7.1/dependencies/lib/dynamic;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wxmsw30u_core.lib;wxbase30u.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;wxregexu.lib;wxexpat.lib;rpcrt4.lib;wsock32.lib;wininet.lib;Comctl32.lib;Comdlg32.lib;Ws2_32.lib;opengl32.lib;glew32.lib;libEGL.lib;libGLESv2.lib;libBox2D.lib;libcocos2d.lib;libCocosDenshion.lib;libExtensions.lib;libspeex.lib;libogg.lib;libvorbis.lib;esUtil.lib;libpng.lib;libjpeg.lib;libtiff.lib;freetype.lib;libzlib.lib;cegui.lib;pcre.lib;silly.lib;liblua.lib;lua51.lib;platform.lib;cauthc.lib;ljfm.lib;engine.lib;FireClient.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;libcurl_imp.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>powershell -NoProfile -ExecutionPolicy Bypass -Command "&amp; { $dest='..\\..\\..\\client\\resource\\bin\\$(ConfigurationName)'; New-Item -ItemType Directory -Force -Path $dest -ErrorAction Stop | Out-Null; try { Copy-Item -Force -ErrorAction Stop '$(TargetPath)' -Destination $dest } catch { Write-Host ('PostBuild: copy skipped: ' + $_.Exception.Message) } }"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BinLayoutStudioBatchConvert.cpp" />
+    <ClCompile Include="BinLayoutStudioBinCodec.cpp" />
+    <ClCompile Include="BinLayoutStudioWxMain.cpp" />
+    <ClCompile Include="BinLayoutStudioXmlWriter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BinLayoutStudioBatchConvert.h" />
+    <ClInclude Include="BinLayoutStudioBinCodec.h" />
+    <ClInclude Include="BinLayoutStudioXmlWriter.h" />
+    <None Include="BinLayoutStudioPropTypes_v1.inc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

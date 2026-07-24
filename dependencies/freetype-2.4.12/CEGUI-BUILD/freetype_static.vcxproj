@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{588C9E33-E517-3568-8C8B-5FEC06DB923F}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>freetype_static</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">I:\cegui\cegui-dependencies\dependencies\lib\static\x86\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">freetype_static.dir\Debug\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">freetype_d</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">I:\cegui\cegui-dependencies\dependencies\lib\static\x86\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">freetype_static.dir\Release\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">freetype</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">I:\cegui\cegui-dependencies\dependencies\lib\static\x86\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">freetype_static.dir\MinSizeRel\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">freetype</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">I:\cegui\cegui-dependencies\dependencies\lib\static\x86\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">freetype_static.dir\RelWithDebInfo\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">freetype</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\..\include;I:\cegui\cegui-dependencies\dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule I:/cegui/cegui-dependencies/src/freetype-2.4.12/CEGUI-BUILD/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HI:/cegui/cegui-dependencies -BI:/cegui/cegui-dependencies --check-stamp-file I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">I:/cegui/cegui-dependencies/src/freetype-2.4.12/CEGUI-BUILD/CMakeLists.txt;I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\freetype.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\ft2build.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftconfig.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftheader.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftmodule.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftoption.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftstdlib.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftadvanc.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftautoh.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbbox.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbdf.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbitmap.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbzip2.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcache.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcffdrv.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fterrors.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fterrdef.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgasp.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftglyph.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgxval.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgzip.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftimage.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftincrem.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlcdfil.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlist.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlzw.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmac.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmm.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmodapi.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmoderr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftotval.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftoutln.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftpfr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftrender.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsizes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsnames.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftstroke.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsynth.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsystem.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fttrigon.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fttypes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftwinfnt.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftxf86.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\t1tables.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ttnameid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\tttables.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\tttags.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ttunpat.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\autohint.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftcalc.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftdebug.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftdriver.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftgloadr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftmemory.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftobjs.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftpic.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftserv.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftstream.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\fttrace.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftvalid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\internal.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\psaux.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\pshints.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\sfnt.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\t1types.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\tttypes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\ft2build.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\docs\LICENSE.TXT;I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule I:/cegui/cegui-dependencies/src/freetype-2.4.12/CEGUI-BUILD/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HI:/cegui/cegui-dependencies -BI:/cegui/cegui-dependencies --check-stamp-file I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">I:/cegui/cegui-dependencies/src/freetype-2.4.12/CEGUI-BUILD/CMakeLists.txt;I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\freetype.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\ft2build.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftconfig.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftheader.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftmodule.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftoption.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftstdlib.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftadvanc.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftautoh.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbbox.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbdf.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbitmap.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbzip2.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcache.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcffdrv.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fterrors.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fterrdef.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgasp.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftglyph.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgxval.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgzip.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftimage.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftincrem.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlcdfil.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlist.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlzw.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmac.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmm.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmodapi.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmoderr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftotval.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftoutln.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftpfr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftrender.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsizes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsnames.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftstroke.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsynth.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsystem.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fttrigon.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fttypes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftwinfnt.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftxf86.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\t1tables.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ttnameid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\tttables.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\tttags.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ttunpat.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\autohint.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftcalc.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftdebug.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftdriver.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftgloadr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftmemory.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftobjs.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftpic.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftserv.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftstream.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\fttrace.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftvalid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\internal.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\psaux.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\pshints.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\sfnt.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\t1types.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\tttypes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\ft2build.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\docs\LICENSE.TXT;I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule I:/cegui/cegui-dependencies/src/freetype-2.4.12/CEGUI-BUILD/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HI:/cegui/cegui-dependencies -BI:/cegui/cegui-dependencies --check-stamp-file I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">I:/cegui/cegui-dependencies/src/freetype-2.4.12/CEGUI-BUILD/CMakeLists.txt;I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\freetype.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\ft2build.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftconfig.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftheader.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftmodule.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftoption.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftstdlib.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftadvanc.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftautoh.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbbox.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbdf.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbitmap.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbzip2.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcache.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcffdrv.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fterrors.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fterrdef.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgasp.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftglyph.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgxval.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgzip.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftimage.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftincrem.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlcdfil.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlist.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlzw.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmac.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmm.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmodapi.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmoderr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftotval.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftoutln.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftpfr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftrender.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsizes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsnames.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftstroke.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsynth.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsystem.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fttrigon.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fttypes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftwinfnt.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftxf86.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\t1tables.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ttnameid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\tttables.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\tttags.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ttunpat.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\autohint.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftcalc.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftdebug.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftdriver.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftgloadr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftmemory.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftobjs.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftpic.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftserv.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftstream.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\fttrace.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftvalid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\internal.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\psaux.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\pshints.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\sfnt.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\t1types.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\tttypes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\ft2build.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\docs\LICENSE.TXT;I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule I:/cegui/cegui-dependencies/src/freetype-2.4.12/CEGUI-BUILD/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HI:/cegui/cegui-dependencies -BI:/cegui/cegui-dependencies --check-stamp-file I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">I:/cegui/cegui-dependencies/src/freetype-2.4.12/CEGUI-BUILD/CMakeLists.txt;I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\freetype.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\ft2build.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftconfig.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftheader.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftmodule.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftoption.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\config\ftstdlib.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftadvanc.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftautoh.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbbox.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbdf.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbitmap.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftbzip2.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcache.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcffdrv.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftcid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fterrors.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fterrdef.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgasp.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftglyph.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgxval.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftgzip.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftimage.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftincrem.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlcdfil.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlist.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftlzw.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmac.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmm.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmodapi.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftmoderr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftotval.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftoutln.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftpfr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftrender.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsizes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsnames.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftstroke.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsynth.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftsystem.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fttrigon.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\fttypes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftwinfnt.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ftxf86.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\t1tables.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ttnameid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\tttables.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\tttags.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\ttunpat.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\autohint.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftcalc.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftdebug.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftdriver.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftgloadr.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftmemory.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftobjs.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftpic.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftserv.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftstream.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\fttrace.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\ftvalid.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\internal.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\psaux.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\pshints.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\sfnt.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\t1types.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\freetype\internal\tttypes.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\include\ft2build.h;I:\cegui\cegui-dependencies\src\freetype-2.4.12\docs\LICENSE.TXT;I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">I:\cegui\cegui-dependencies\src\freetype-2.4.12\CEGUI-BUILD\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\basepic.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftadvanc.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftapi.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftbbox.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftbdf.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftbitmap.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftcalc.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftcid.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftdbgmem.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftdebug.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftfstype.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftgasp.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftgloadr.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftglyph.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftgxval.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftinit.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftlcdfil.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftmm.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftobjs.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftotval.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftoutln.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftpatent.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftpfr.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftpic.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftrfork.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftsnames.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftstream.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftstroke.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftsynth.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftsystem.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\fttrigon.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\fttype1.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftutil.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftwinfnt.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\ftxf86.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\base\md5.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\smooth\ftgrays.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\smooth\ftsmooth.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\smooth\ftspic.c"  />
+    <ClCompile Include="I:\cegui\cegui-dependencies\src\freetype-2.4.12\src\winfonts\winfnt.c"  />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="I:/cegui/cegui-dependencies/ZERO_CHECK.vcxproj">
+      <Project>0828BEB8-3A27-34C2-A0F0-1D9E212861F0</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
