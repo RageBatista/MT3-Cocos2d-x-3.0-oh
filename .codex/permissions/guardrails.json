@@ -1,0 +1,138 @@
+{
+  "schema_version": "3.0.0",
+  "updated": "2026-07-12",
+  "runtime_status": {
+    "mode": "native-plus-audit",
+    "runtime_sources": [
+      ".codex/config.toml",
+      ".codex/rules/mt3-guardrails.rules",
+      ".codex/hooks.json",
+      "active managed/system requirements source when present"
+    ],
+    "audit_sidecars": [
+      ".codex/requirements.toml",
+      ".codex/permissions/guardrails.json",
+      ".codex/project-map.json"
+    ],
+    "note": "Codex 原生命令前缀规则位于 .codex/rules，跨 wrapper、编码写入与生成物补丁检查位于项目 PreToolUse hook；requirements.toml 仅用于审计与托管策略导出。"
+  },
+  "rule_references": [
+    {
+      "id": "win32-build-canonical-entry",
+      "native_rule_sources": [
+        ".codex/rules/mt3-guardrails.rules",
+        ".codex/hooks/mt3-pretool-guard.ps1"
+      ],
+      "authority_source": ".claude/BUILD_GUIDE.md",
+      "enforcement_channel": "project-rules-and-hook",
+      "audit_status": "active"
+    },
+    {
+      "id": "win32-toolset-v120-required",
+      "native_rule_source": ".codex/rules/mt3-guardrails.rules",
+      "authority_source": ".claude/RULES.md",
+      "enforcement_channel": "project-rule-prompt-and-instructions",
+      "audit_status": "advisory",
+      "notes": "execpolicy 只能在直接 msbuild 调用时触发确认，不能证明命令已显式携带 /p:PlatformToolset=v120；最终约束由 canonical build 入口和构建验证承担。"
+    },
+    {
+      "id": "android-gradle-disallowed",
+      "native_rule_sources": [
+        ".codex/rules/mt3-guardrails.rules",
+        ".codex/hooks/mt3-pretool-guard.ps1"
+      ],
+      "authority_source": ".claude/RULES.md",
+      "enforcement_channel": "project-rules-and-hook",
+      "audit_status": "active"
+    },
+    {
+      "id": "server-non-ant-build-disallowed",
+      "native_rule_sources": [
+        ".codex/rules/mt3-guardrails.rules",
+        ".codex/hooks/mt3-pretool-guard.ps1"
+      ],
+      "authority_source": ".claude/RULES.md",
+      "enforcement_channel": "project-rules-and-hook",
+      "audit_status": "active"
+    },
+    {
+      "id": "unsafe-text-write-without-encoding",
+      "native_rule_sources": [
+        ".codex/rules/mt3-guardrails.rules",
+        ".codex/hooks/mt3-pretool-guard.ps1"
+      ],
+      "authority_source": ".claude/RULES.md#6-编码与文件写回硬约束",
+      "enforcement_channel": "project-rules-and-hook",
+      "audit_status": "partial",
+      "notes": "hook 覆盖 PowerShell、.NET、Python 与未加引号重定向的常见文本写入；任意解释器、别名或动态构造命令仍由指令与审计兜底。"
+    },
+    {
+      "id": "generated-code-protected",
+      "native_rule_source": ".codex/hooks/mt3-pretool-guard.ps1",
+      "authority_sources": [
+        "AGENTS.md §5.2 二进制、生成物与 ABI 边界",
+        ".codex/project-map.json"
+      ],
+      "enforcement_channel": "project-hook-and-instructions",
+      "audit_status": "partial",
+      "notes": "hook 覆盖 apply_patch/Edit/Write 及常见 PowerShell、.NET、Python、Git restore 写入面；未知工具或动态构造命令无法由正则完备判定。"
+    },
+    {
+      "id": "dependencies-vendor-protected",
+      "authority_sources": [
+        "AGENTS.md §6 目录治理矩阵",
+        ".codex/project-map.json"
+      ],
+      "enforcement_channel": "instructions-and-audit",
+      "audit_status": "advisory",
+      "notes": "当前没有针对 dependencies/** 的通用原生 deny 规则；目录边界依赖指令、审查与审计。"
+    },
+    {
+      "id": "cegui-vendor-snapshot-gate",
+      "native_rule_source": ".codex/rules/mt3-guardrails.rules",
+      "enforcement_channel": "project-rules",
+      "audit_status": "partial",
+      "notes": "规则可提示 vendor 根路径暂存与 sparse-checkout 变更，但 ignore、attributes、git add -n 与 bad-path 清单仍需审计链验证。"
+    },
+    {
+      "id": "broad-git-staging-prompt",
+      "native_rule_sources": [
+        ".codex/rules/mt3-guardrails.rules",
+        ".codex/hooks/mt3-pretool-guard.ps1"
+      ],
+      "enforcement_channel": "project-rules-and-hook",
+      "audit_status": "active"
+    },
+    {
+      "id": "destructive-git-clean-gate",
+      "native_rule_sources": [
+        ".codex/rules/mt3-guardrails.rules",
+        ".codex/hooks/mt3-pretool-guard.ps1"
+      ],
+      "enforcement_channel": "project-rules-and-hook",
+      "audit_status": "active"
+    },
+    {
+      "id": "sparse-checkout-boundary-prompt",
+      "native_rule_sources": [
+        ".codex/rules/mt3-guardrails.rules",
+        ".codex/hooks/mt3-pretool-guard.ps1"
+      ],
+      "enforcement_channel": "project-rules-and-hook",
+      "audit_status": "active"
+    },
+    {
+      "id": "codex-config-lfs-materialized",
+      "native_rule_sources": [
+        ".gitattributes",
+        ".agents/skills/mt3-project-guidelines/scripts/skill-script-helpers.ps1"
+      ],
+      "enforcement_channel": "attributes-and-audit",
+      "audit_status": "active"
+    }
+  ],
+  "verification": {
+    "execpolicy_matrix": ".claude/tests/test-codex-execpolicy.ps1",
+    "pretool_hook_matrix": ".claude/tests/test-codex-pretool-hook.ps1"
+  }
+}

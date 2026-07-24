@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+	<!--表格插件css-->
+	<link rel="stylesheet" href="__MB__/js/bootstrap-table/bootstrap-table.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+	<!--日期选择器css-->
+	<link rel="stylesheet" type="text/css" href="__MB__/js/bootstrap-datepicker/bootstrap-datepicker3.min.css">
+	<!--时间日期选择器css-->
+	<link rel="stylesheet" type="text/css" href="__MB__/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+</head>
+
+<body>
+	<div class="container-fluid">
+
+		<div class="row">
+
+			<div class="col-lg-12">
+				<div class="card">
+					<header class="card-header">
+						<div class="card-title">订单查询</div>
+					</header>
+					<div class="card-body">
+						<div class="card-search mb-2-5">
+							<form class="search-form" method="get" action="#!" role="form">
+
+								<div class="row">
+									<div class="col-md-3">
+										<div class="row">
+											<label class="col-sm-4 col-form-label"><span class="text-danger">*</span>
+												订单号</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" name="orderid" value=""
+													placeholder="订单号" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="row">
+											<label class="col-sm-4 col-form-label"><span class="text-danger">*</span>
+												代理账号</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" name="agent" value=""
+													placeholder="代理账号" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="row">
+											<label class="col-sm-4 col-form-label"><span class="text-danger">*</span>
+												玩家账号</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" name="user" value=""
+													placeholder="玩家账号" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<button type="submit" class="btn btn-primary me-1">搜索</button>
+										<button type="reset" class="btn btn-default">重置</button>
+									</div>
+								</div>
+
+							</form>
+						</div>
+						<table id="table"></table>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+	<!--表格插件js-->
+	<script src="__MB__/js/bootstrap-table/bootstrap-table.js"></script>
+	<script src="__MB__/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<!--通知弹窗-->
+	<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+	<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+	<!--日期选择器js-->
+	<script type="text/javascript" src="__MB__/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<script type="text/javascript"
+		src="__MB__/js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+
+	<!--时间日期选择器js-->
+	<script type="text/javascript" src="__MB__/js/momentjs/moment.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/momentjs/locale/zh-cn.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+
+
+	<script>
+		/**
+		 * 分页相关的配置
+		 **/
+		var csrf_token = "{$csrf_token}";
+		var pagination = {
+			// 分页方式：[client] 客户端分页，[server] 服务端分页
+			sidePagination: "server",
+			// 初始化加载第一页，默认第一页
+			pageNumber: 1,
+			// 每页的记录行数
+			pageSize: 10,
+			// 可供选择的每页的行数 - (亲测大于1000存在渲染问题)
+			pageList: [5, 10, 25, 50, 100],
+			// 在上百页的情况下体验较好 - 能够显示首尾页
+			paginationLoop: true,
+			// 展示首尾页的最小页数
+			paginationPagesBySide: 2
+		};
+
+		/**
+		 * 按钮相关配置
+		 **/
+		var button = {
+			// 按钮的类
+			buttonsClass: 'default',
+			// 类名前缀
+			buttonsPrefix: 'btn'
+		}
+
+		/**
+		 * 图标相关配置
+		 **/
+		var icon = {
+			// 图标前缀
+			iconsPrefix: 'mdi',
+			// 图标大小
+			iconSize: 'mini',
+			// 图标的设置
+			icons: {
+				paginationSwitchDown: 'mdi-door-closed',
+				paginationSwitchUp: 'mdi-door-open',
+				refresh: 'mdi-refresh',
+				toggleOff: 'mdi-toggle-switch-off',
+				toggleOn: 'mdi-toggle-switch',
+				columns: 'mdi-table-column-remove',
+				detailOpen: 'mdi-plus',
+				detailClose: 'mdi-minus',
+				fullscreen: 'mdi-monitor-screenshot',
+				search: 'mdi-table-search',
+				clearSearch: 'mdi-trash-can-outline'
+			}
+		};
+
+		/**
+		 * 表格相关的配置
+		 **/
+		var table = {
+			classes: 'table table-bordered table-hover table-striped lyear-table',
+			// 请求地址
+			url: '/index.php?s=/{$app}/order/list_table/status/{$status}',
+			// 唯一ID字段
+			uniqueId: 'id',
+			// 每行的唯一标识字段
+			idField: 'id',
+			// 是否启用点击选中行
+			clickToSelect: true,
+			// 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
+			// showToggle: true,
+			// 请求得到的数据类型
+			dataType: 'jsonp',
+			// 请求方法
+			method: 'post',
+			// 工具按钮容器
+			toolbar: '#toolbar',
+			// 是否分页
+			pagination: true,
+			// 是否显示所有的列
+			showColumns: true,
+			// 是否显示刷新按钮
+			showRefresh: true,
+			// 显示图标
+			showButtonIcons: true,
+			// 显示文本
+			showButtonText: false,
+			// 显示全屏
+			showFullscreen: true,
+			// 开关控制分页
+			showPaginationSwitch: true,
+			// 总数字段
+			totalField: 'total',
+			// 当字段为 undefined 显示
+			undefinedText: '-',
+			// 排序方式
+			sortOrder: "desc",
+			...icon,
+			...pagination,
+			...button
+		};
+
+		/**
+		 * 用于演示的列信息
+		 **/
+		var columns = [{
+			field: 'id',
+			title: 'ID',
+			// 使用[align]，[halign]和[valign]选项来设置列和它们的标题的对齐方式。
+			// h表示横向，v标识垂直
+			align: 'center',
+			// 是否作为排序列
+			sortable: true,
+			// 当列名称与实际名称不一致时可用
+			sortName: 'id',
+			switchable: false,
+			// 列的宽度
+			width: 3,
+			// 宽度单位
+			widthUnit: 'rem'
+		}, {
+			field: 'orderid',
+			align: 'center',
+			title: '订单ID'
+		}, {
+			field: 'agent_name',
+			align: 'center',
+			title: '所属代理',
+		}, {
+			field: 'ordertype',
+			align: 'center',
+			title: '订单类型',
+			formatter: function (value, row, ordertype) {
+				var value = "";
+				if (row.ordertype == '1') {
+					value = '<span class="badge bg-danger">仙玉充值</span>';
+				} else if (row.ordertype == '2') {
+					value = '<span class="badge bg-primary">CDK购买</span>';
+				} else {
+					value = '<span class="badge bg-secondary">未知</span>';
+				}
+				return value;
+			}
+		}, {
+			field: 'user',
+			align: 'center',
+			title: '玩家信息'
+		}, {
+			field: 'item',
+			align: 'center',
+			title: '充值内容'
+		}, {
+			field: 'channel',
+			align: 'center',
+			title: '通道信息'
+		}, {
+			field: 'paytype',
+			align: 'center',
+			title: '支付方式',
+			formatter: function (value, row, paytype) {
+				var value = "";
+				if (row.paytype == 'alipay') {
+					value = '<span class="badge bg-indigo">支付宝</span>';
+				} else if (row.paytype == 'wxpay') {
+					value = '<span class="badge bg-cyan">微信</span>';
+				} else {
+					value = '<span class="badge bg-secondary">未知</span>';
+				}
+				return value;
+			}
+		}, {
+			field: 'realmoney',
+			align: 'center',
+			title: '充值金额'
+		}, {
+			field: 'date',
+			align: 'center',
+			title: '订单时间'
+		}, {
+			field: 'ip',
+			align: 'center',
+			title: '支付IP'
+		}, {
+			field: 'city',
+			align: 'center',
+			title: '支付地点'
+		}, {
+			field: 'status',
+			title: '状态',
+			formatter: function (value, row, index) {
+				var value = "";
+				if (row.status == '0') {
+					value = '<a href="#!" class="btn btn-sm btn-danger status-btn" title="未支付" data-bs-toggle="tooltip"><span>未支付</span></a>';
+				} else if (row.status == '1') {
+					value = '<a href="#!" class="btn btn-sm btn-success status-btn" title="已支付" data-bs-toggle="tooltip"><span>已支付</span></a>';
+				} else if (row.status == '2') {
+					value = '<a href="#!" class="btn btn-sm btn-yellow status-btn" title="已退款" data-bs-toggle="tooltip"><span>已退款</span></a>';
+				} else {
+					value = '<span class="badge bg-secondary">未知</span>';
+				}
+				return value;
+			},
+			events: {
+				'click .status-btn': function (event, value, row, index) {
+					event.stopPropagation();
+					statusOrder(row);
+				}
+			}
+		}];
+
+		$('table').bootstrapTable({
+			...table,
+			// 自定义的查询参数
+			queryParams: function (params) {
+				return {
+					// 每页数据量
+					limit: params.limit,
+					// sql语句起始索引
+					offset: params.offset,
+					page: (params.offset / params.limit) + 1,
+					// 排序的列名
+					sort: params.sort,
+					// 排序方式 'asc' 'desc'
+					sortOrder: params.order
+				};
+			},
+			columns,
+			onLoadSuccess: function (data) {
+				$("[data-bs-toggle='tooltip']").tooltip();
+			}
+		});
+		//操作方法 - 退款
+		function statusOrder(row) {
+			var id = row.id;
+			$.post("/index.php?s=/{$app}/order/tuikuan", { id: id, csrf_token: csrf_token }, function (res) {
+				if (res.code == 1) {
+					var Toast = Swal.mixin({
+						toast: true,
+						position: "top",
+						showConfirmButton: false,
+						timer: 1500,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer;
+						}
+					});
+					Toast.fire({
+						icon: "success",
+						title: res.msg
+					});
+					setTimeout("self.location.reload();", 1500);
+				} else {
+					var Toast = Swal.mixin({
+						toast: true,
+						position: "top",
+						showConfirmButton: false,
+						timer: 1500,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer;
+						}
+					});
+					Toast.fire({
+						icon: "error",
+						title: res.msg
+					});
+					//setTimeout("self.location.reload();",1500);
+				}
+			}).fail(function () {
+				var Toast = Swal.mixin({
+					toast: true,
+					position: "top",
+					showConfirmButton: false,
+					timer: 1500,
+					timerProgressBar: true,
+					didOpen: (toast) => {
+						toast.onmouseenter = Swal.stopTimer;
+						toast.onmouseleave = Swal.resumeTimer;
+					}
+				});
+				Toast.fire({
+					icon: "question",
+					title: '服务异常'
+				});
+				//setTimeout("self.location.reload();",1500);
+			});
+		}
+	</script>
+
+</body>
+
+</html>

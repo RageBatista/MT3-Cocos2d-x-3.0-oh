@@ -1,0 +1,72 @@
+{
+  "$schema": "../schemas/mcp-profile.schema.json",
+  "kind": "mcp-profile-catalog",
+  "schema_version": "2.0.0",
+  "updated": "2026-07-14",
+  "runtime_effect": "none",
+  "automatic_runtime_switching": false,
+  "known_servers": [
+    "apktool", "atlassian", "chrome-devtools", "context7", "docker-gateway", "exa",
+    "fetch", "filesystem", "git", "github", "linear", "memory", "node_repl", "notion",
+    "open-websearch", "openaiDeveloperDocs", "playwright", "postgres", "puppeteer",
+    "sequential-thinking", "sqlite", "tavily-search", "time"
+  ],
+  "profiles": [
+    {
+      "id": "none",
+      "aliases": ["default"],
+      "enable": [],
+      "disable": [
+        "apktool", "atlassian", "chrome-devtools", "context7", "docker-gateway", "exa",
+        "fetch", "filesystem", "git", "github", "linear", "memory", "node_repl", "notion",
+        "open-websearch", "openaiDeveloperDocs", "playwright", "postgres", "puppeteer",
+        "sequential-thinking", "sqlite", "tavily-search", "time"
+      ],
+      "required_configured": [],
+      "startup_timeout_sec": 5,
+      "tool_timeout_sec": 60
+    },
+    {
+      "id": "official-docs",
+      "aliases": ["config-governance"],
+      "enable": ["openaiDeveloperDocs"],
+      "disable": [
+        "apktool", "atlassian", "chrome-devtools", "context7", "docker-gateway", "exa",
+        "fetch", "filesystem", "git", "github", "linear", "memory", "node_repl", "notion",
+        "open-websearch", "playwright", "postgres", "puppeteer", "sequential-thinking",
+        "sqlite", "tavily-search", "time"
+      ],
+      "required_configured": ["openaiDeveloperDocs"],
+      "startup_timeout_sec": 8,
+      "tool_timeout_sec": 60
+    },
+    {
+      "id": "research",
+      "aliases": [],
+      "enable": ["openaiDeveloperDocs", "context7", "tavily-search"],
+      "disable": [
+        "apktool", "atlassian", "chrome-devtools", "docker-gateway", "exa", "fetch",
+        "filesystem", "git", "github", "linear", "memory", "node_repl", "notion",
+        "open-websearch", "playwright", "postgres", "puppeteer", "sequential-thinking",
+        "sqlite", "time"
+      ],
+      "required_configured": ["openaiDeveloperDocs", "context7", "tavily-search"],
+      "startup_timeout_sec": 15,
+      "tool_timeout_sec": 60
+    },
+    {
+      "id": "browser-debug",
+      "aliases": ["browser-automation"],
+      "enable": ["chrome-devtools", "playwright"],
+      "disable": [
+        "apktool", "atlassian", "context7", "docker-gateway", "exa", "fetch", "filesystem",
+        "git", "github", "linear", "memory", "node_repl", "notion", "open-websearch",
+        "openaiDeveloperDocs", "postgres", "puppeteer", "sequential-thinking", "sqlite",
+        "tavily-search", "time"
+      ],
+      "required_configured": ["chrome-devtools", "playwright"],
+      "startup_timeout_sec": 20,
+      "tool_timeout_sec": 120
+    }
+  ]
+}

@@ -1,0 +1,779 @@
+/**
+ * Player模块公共样式
+ * 统一配色方案和布局
+ * 版本: 1.0
+ * 更新日期: 2026-02-15
+ */
+
+/* ==================== CSS变量定义 ==================== */
+:root {
+    /* 主色调 */
+    --player-primary: #667eea;
+    --player-secondary: #764ba2;
+    --player-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* 功能色 */
+    --player-success: #28a745;
+    --player-warning: #ffc107;
+    --player-danger: #dc3545;
+    --player-info: #17a2b8;
+    
+    /* 文字颜色 */
+    --player-text: #333333;
+    --player-text-muted: #666666;
+    --player-text-light: #999999;
+    
+    /* 背景色 */
+    --player-bg: #f5f5f5;
+    --player-card-bg: #ffffff;
+    --player-hover-bg: #f8f9fa;
+    
+    /* 边框和阴影 */
+    --player-border: #e0e0e0;
+    --player-border-radius: 10px;
+    --player-border-radius-sm: 5px;
+    --player-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --player-shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.2);
+    
+    /* 过渡动画 */
+    --player-transition: all 0.3s ease;
+    
+    /* 间距 */
+    --player-spacing-xs: 5px;
+    --player-spacing-sm: 10px;
+    --player-spacing-md: 15px;
+    --player-spacing-lg: 20px;
+    --player-spacing-xl: 30px;
+}
+
+/* ==================== 基础布局 ==================== */
+
+/**
+ * 页面基础样式
+ */
+body.player-page {
+    background: var(--player-bg);
+    padding: var(--player-spacing-lg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Microsoft YaHei', sans-serif;
+    color: var(--player-text);
+    min-height: 100vh;
+}
+
+/**
+ * 主容器
+ */
+.player-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/**
+ * 小容器（用于登录、注册等页面）
+ */
+.player-container-sm {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* ==================== 导航栏 ==================== */
+
+/**
+ * 导航栏样式
+ */
+.player-navbar {
+    background: var(--player-card-bg);
+    padding: var(--player-spacing-md) var(--player-spacing-lg);
+    border-radius: var(--player-border-radius);
+    margin-bottom: var(--player-spacing-lg);
+    box-shadow: var(--player-shadow);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.player-navbar a {
+    margin-right: var(--player-spacing-lg);
+    color: var(--player-text);
+    text-decoration: none;
+    transition: var(--player-transition);
+    white-space: nowrap;
+}
+
+.player-navbar a:hover {
+    color: var(--player-primary);
+}
+
+.player-navbar a.active {
+    color: var(--player-primary);
+    font-weight: bold;
+}
+
+.player-navbar a.logout {
+    color: var(--player-danger);
+    margin-left: auto;
+}
+
+.player-navbar a.logout:hover {
+    color: #c82333;
+}
+
+/* ==================== 卡片组件 ==================== */
+
+/**
+ * 基础卡片
+ */
+.player-card {
+    background: var(--player-card-bg);
+    border-radius: var(--player-border-radius);
+    box-shadow: var(--player-shadow);
+    padding: var(--player-spacing-lg);
+    margin-bottom: var(--player-spacing-lg);
+}
+
+/**
+ * 卡片头部
+ */
+.player-card-header {
+    border-bottom: 1px solid var(--player-border);
+    padding-bottom: var(--player-spacing-md);
+    margin-bottom: var(--player-spacing-md);
+}
+
+/**
+ * 卡片标题
+ */
+.player-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--player-text);
+    margin: 0;
+}
+
+/**
+ * 卡片副标题
+ */
+.player-card-subtitle {
+    font-size: 14px;
+    color: var(--player-text-muted);
+    margin-top: var(--player-spacing-xs);
+}
+
+/* ==================== 欢迎卡片 ==================== */
+
+/**
+ * 欢迎卡片（渐变背景）
+ */
+.player-welcome-card {
+    background: var(--player-gradient);
+    color: #ffffff;
+    border-radius: var(--player-border-radius);
+    padding: var(--player-spacing-xl);
+    margin-bottom: var(--player-spacing-lg);
+}
+
+.player-welcome-card h2 {
+    margin: 0 0 var(--player-spacing-sm) 0;
+    font-size: 24px;
+}
+
+.player-welcome-card p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* ==================== 统计卡片 ==================== */
+
+/**
+ * 统计卡片
+ */
+.player-stat-card {
+    background: var(--player-card-bg);
+    border-radius: var(--player-border-radius);
+    box-shadow: var(--player-shadow);
+    padding: var(--player-spacing-lg);
+    text-align: center;
+    margin-bottom: var(--player-spacing-lg);
+}
+
+/**
+ * 统计数字
+ */
+.player-stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--player-primary);
+    margin: 0;
+}
+
+/**
+ * 统计标签
+ */
+.player-stat-label {
+    color: var(--player-text-muted);
+    margin-top: var(--player-spacing-sm);
+    font-size: 14px;
+}
+
+/* ==================== 快捷链接 ==================== */
+
+/**
+ * 快捷链接
+ */
+.player-quick-link {
+    display: block;
+    padding: var(--player-spacing-md);
+    margin-bottom: var(--player-spacing-sm);
+    background: var(--player-hover-bg);
+    border-radius: var(--player-border-radius-sm);
+    text-decoration: none;
+    color: var(--player-text);
+    transition: var(--player-transition);
+}
+
+.player-quick-link:hover {
+    background: var(--player-primary);
+    color: #ffffff;
+}
+
+.player-quick-link i {
+    margin-right: var(--player-spacing-sm);
+}
+
+/* ==================== 状态标签 ==================== */
+
+/**
+ * 成功状态
+ */
+.player-status-success {
+    color: var(--player-success);
+    font-weight: bold;
+}
+
+/**
+ * 待处理状态
+ */
+.player-status-pending {
+    color: var(--player-warning);
+    font-weight: bold;
+}
+
+/**
+ * 失败/危险状态
+ */
+.player-status-danger {
+    color: var(--player-danger);
+    font-weight: bold;
+}
+
+/**
+ * 状态徽章
+ */
+.player-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.player-badge-success {
+    background: #d4edda;
+    color: var(--player-success);
+}
+
+.player-badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.player-badge-danger {
+    background: #f8d7da;
+    color: var(--player-danger);
+}
+
+/* ==================== 表格样式 ==================== */
+
+/**
+ * 玩家表格
+ */
+.player-table {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.player-table th {
+    background: var(--player-hover-bg);
+    font-weight: bold;
+    color: var(--player-text);
+    border-bottom: 2px solid var(--player-border);
+}
+
+.player-table td {
+    vertical-align: middle;
+    color: var(--player-text);
+}
+
+.player-table tbody tr:hover {
+    background: var(--player-hover-bg);
+}
+
+/* ==================== 按钮样式 ==================== */
+
+/**
+ * 主按钮
+ */
+.btn-player {
+    background: var(--player-gradient);
+    border: none;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: var(--player-border-radius-sm);
+    transition: var(--player-transition);
+    font-weight: bold;
+}
+
+.btn-player:hover {
+    opacity: 0.9;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.btn-player:active {
+    transform: translateY(0);
+}
+
+/**
+ * 大按钮
+ */
+.btn-player-lg {
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
+/**
+ * 小按钮
+ */
+.btn-player-sm {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+/**
+ * 块级按钮
+ */
+.btn-player-block {
+    display: block;
+    width: 100%;
+}
+
+/* ==================== 充值卡片 ==================== */
+
+/**
+ * 充值商品卡片
+ */
+.player-recharge-card {
+    background: var(--player-card-bg);
+    border-radius: var(--player-border-radius);
+    box-shadow: var(--player-shadow);
+    padding: var(--player-spacing-lg);
+    margin-bottom: var(--player-spacing-lg);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--player-transition);
+    border: 2px solid transparent;
+}
+
+.player-recharge-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--player-shadow-hover);
+}
+
+.player-recharge-card.selected {
+    border-color: var(--player-primary);
+}
+
+/**
+ * 充值金额
+ */
+.player-recharge-amount {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--player-primary);
+}
+
+/**
+ * 充值商品名称
+ */
+.player-recharge-name {
+    color: var(--player-text);
+    margin-top: var(--player-spacing-sm);
+}
+
+/* ==================== 角色卡片 ==================== */
+
+/**
+ * 角色卡片
+ */
+.player-role-card {
+    background: var(--player-card-bg);
+    border-radius: var(--player-border-radius);
+    box-shadow: var(--player-shadow);
+    padding: var(--player-spacing-lg);
+    margin-bottom: var(--player-spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player-role-card h3 {
+    margin: 0;
+    color: var(--player-text);
+}
+
+.player-role-meta {
+    color: var(--player-text-muted);
+    margin-top: var(--player-spacing-sm);
+}
+
+.player-role-meta p {
+    margin: 0 0 var(--player-spacing-xs) 0;
+}
+
+/* ==================== 表单样式 ==================== */
+
+/**
+ * 表单组
+ */
+.player-form-group {
+    margin-bottom: var(--player-spacing-lg);
+}
+
+.player-form-group label {
+    display: block;
+    margin-bottom: var(--player-spacing-sm);
+    font-weight: bold;
+    color: var(--player-text);
+}
+
+.player-form-group .form-control {
+    border-radius: var(--player-border-radius-sm);
+    border: 1px solid var(--player-border);
+    padding: 10px 15px;
+    transition: var(--player-transition);
+}
+
+.player-form-group .form-control:focus {
+    border-color: var(--player-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* ==================== 分页样式 ==================== */
+
+/**
+ * 分页容器
+ */
+.player-pagination {
+    text-align: center;
+    margin-top: var(--player-spacing-lg);
+}
+
+.player-pagination .pagination {
+    margin: 0;
+}
+
+.player-pagination .pagination > li > a {
+    color: var(--player-primary);
+}
+
+.player-pagination .pagination > .active > a {
+    background-color: var(--player-primary);
+    border-color: var(--player-primary);
+    color: #ffffff;
+}
+
+.player-pagination .pagination > li > a:hover {
+    background-color: var(--player-hover-bg);
+}
+
+/* ==================== 登录/注册页面 ==================== */
+
+/**
+ * 登录容器
+ */
+.player-login-container {
+    background: var(--player-card-bg);
+    border-radius: var(--player-border-radius);
+    box-shadow: var(--player-shadow-hover);
+    padding: var(--player-spacing-xl);
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/**
+ * 登录标题
+ */
+.player-login-title {
+    text-align: center;
+    margin-bottom: var(--player-spacing-xl);
+    color: var(--player-text);
+}
+
+/**
+ * 登录页脚
+ */
+.player-login-footer {
+    text-align: center;
+    margin-top: var(--player-spacing-lg);
+}
+
+.player-login-footer a {
+    color: var(--player-primary);
+    text-decoration: none;
+}
+
+.player-login-footer a:hover {
+    text-decoration: underline;
+}
+
+/**
+ * 登录页面背景
+ */
+.player-login-bg {
+    background: var(--player-gradient);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--player-spacing-lg);
+}
+
+/* ==================== 信息展示 ==================== */
+
+/**
+ * 信息标签
+ */
+.player-info-label {
+    font-weight: bold;
+    color: var(--player-text);
+}
+
+/**
+ * 信息值
+ */
+.player-info-value {
+    color: var(--player-text-muted);
+}
+
+/* ==================== 提示信息 ==================== */
+
+/**
+ * 空数据提示
+ */
+.player-empty {
+    text-align: center;
+    padding: var(--player-spacing-xl);
+    color: var(--player-text-light);
+}
+
+.player-empty i {
+    font-size: 48px;
+    margin-bottom: var(--player-spacing-md);
+}
+
+/* ==================== 响应式适配 ==================== */
+
+@media (max-width: 992px) {
+    .player-container {
+        padding: 0 var(--player-spacing-sm);
+    }
+    
+    .player-navbar {
+        padding: var(--player-spacing-sm) var(--player-spacing-md);
+    }
+    
+    .player-navbar a {
+        margin-right: var(--player-spacing-md);
+    }
+}
+
+@media (max-width: 768px) {
+    body.player-page {
+        padding: var(--player-spacing-sm);
+    }
+    
+    .player-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .player-navbar a {
+        display: inline-block;
+        margin: var(--player-spacing-xs) var(--player-spacing-sm) var(--player-spacing-xs) 0;
+    }
+    
+    .player-navbar a.logout {
+        margin-left: 0;
+    }
+    
+    .player-stat-number {
+        font-size: 24px;
+    }
+    
+    .player-recharge-amount {
+        font-size: 24px;
+    }
+    
+    .player-welcome-card {
+        padding: var(--player-spacing-lg);
+    }
+    
+    .player-welcome-card h2 {
+        font-size: 20px;
+    }
+    
+    .player-role-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .player-role-card .btn {
+        margin-top: var(--player-spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .player-login-container {
+        padding: var(--player-spacing-lg);
+    }
+    
+    .player-card {
+        padding: var(--player-spacing-md);
+    }
+}
+
+/* ==================== 动画效果 ==================== */
+
+/**
+ * 淡入动画
+ */
+@keyframes playerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.player-fade-in {
+    animation: playerFadeIn 0.3s ease;
+}
+
+/**
+ * 脉冲动画（用于状态指示）
+ */
+@keyframes playerPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.player-pulse {
+    animation: playerPulse 2s infinite;
+}
+
+/* ==================== 工具类 ==================== */
+
+/**
+ * 文字颜色
+ */
+.text-player-primary { color: var(--player-primary); }
+.text-player-success { color: var(--player-success); }
+.text-player-warning { color: var(--player-warning); }
+.text-player-danger { color: var(--player-danger); }
+.text-player-muted { color: var(--player-text-muted); }
+
+/**
+ * 背景颜色
+ */
+.bg-player-primary { background: var(--player-primary); }
+.bg-player-gradient { background: var(--player-gradient); }
+
+/**
+ * 边距工具
+ */
+.mt-player { margin-top: var(--player-spacing-lg); }
+.mb-player { margin-bottom: var(--player-spacing-lg); }
+.pt-player { padding-top: var(--player-spacing-lg); }
+.pb-player { padding-bottom: var(--player-spacing-lg); }
+
+/**
+ * 文字对齐
+ */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* ==================== 转区申请样式 ==================== */
+
+/**
+ * 转区申请项
+ */
+.transfer-item {
+    padding: 16px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.transfer-item:last-child {
+    border-bottom: none;
+}
+
+/**
+ * 转区申请头部
+ */
+.transfer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/**
+ * 转区申请标题
+ */
+.transfer-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/**
+ * 转区申请信息
+ */
+.transfer-info {
+    margin-bottom: 12px;
+}
+
+.transfer-info p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+/**
+ * 转区申请回复
+ */
+.transfer-reply {
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-top: 12px;
+}

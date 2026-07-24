@@ -1,0 +1,192 @@
+{
+  "schema_version": "1.1.0",
+  "updated": "2026-07-12",
+  "thresholds": {
+    "route_max_skills": {
+      "warning": 4,
+      "error": 6
+    },
+    "keyword_collision_count": {
+      "warning": 3,
+      "error": 6
+    },
+    "orphan_skill_count": {
+      "warning": 0,
+      "error": 2
+    },
+    "dependency_depth": {
+      "warning": 6,
+      "error": 8
+    },
+    "unmapped_required_workflows": {
+      "warning": 0,
+      "error": 1
+    },
+    "missing_required_config_files": {
+      "warning": 0,
+      "error": 1
+    },
+    "enabled_mcp_server_count": {
+      "warning": 3,
+      "error": 5
+    }
+  },
+  "required_workflow_intents": [
+    "build_windows",
+    "build_android",
+    "build_server",
+    "build_compile",
+    "build_failure",
+    "verification",
+    "orchestration",
+    "skill_evolution",
+    "claude_config_governance"
+  ],
+  "required_config_files": [
+    "agents.manifest.json",
+    "skills.manifest.json",
+    "router.json",
+    "proxies.manifest.json",
+    "commands.manifest.json",
+    "hooks.manifest.json",
+    "mcp.manifest.json",
+    "workflows.manifest.json",
+    "quality-gates.json",
+    "evidence-contract.json",
+    "source-authority.json",
+    "evolution.config.json",
+    "README.md",
+    "INDEX.md"
+  ],
+  "entry_contract": {
+    "required_entry_files": [
+      "AGENTS.md",
+      ".claude/RULES.md",
+      ".claude/BUILD_GUIDE.md",
+      ".claude/CODEX_BRIDGE.md",
+      ".claude/CLAUDE.md"
+    ],
+    "required_root_references": [
+      ".claude/RULES.md",
+      ".claude/BUILD_GUIDE.md",
+      ".claude/CODEX_BRIDGE.md"
+    ],
+    "recommended_root_references": [
+      ".claude/config/router.json",
+      ".agents/skills/mt3-project-guidelines/SKILL.md"
+    ],
+    "expected_load_order": [
+      "AGENTS.md",
+      ".claude/RULES.md",
+      ".claude/BUILD_GUIDE.md",
+      ".claude/CODEX_BRIDGE.md",
+      ".claude/config/router.json",
+      ".claude/config/proxies.manifest.json",
+      ".claude/config/agents.manifest.json",
+      ".claude/config/skills.manifest.json",
+      ".claude/config/commands.manifest.json",
+      ".claude/config/workflows.manifest.json",
+      ".claude/config/hooks.manifest.json",
+      ".claude/config/mcp.manifest.json",
+      ".claude/config/quality-gates.json",
+      ".claude/config/evidence-contract.json",
+      ".claude/config/source-authority.json",
+      ".claude/config/evolution.config.json",
+      ".agents/skills/mt3-project-guidelines/SKILL.md",
+      ".claude/CLAUDE.md"
+    ]
+  },
+  "codex_runtime_contract": {
+    "required_paths": [
+      ".codex/config.toml",
+      ".codex/rules/mt3-guardrails.rules",
+      ".codex/compat/claude-bridge.json",
+      ".codex/permissions/guardrails.json",
+      ".codex/mcp/mcp-profiles.json",
+      ".codex/requirements.toml",
+      ".agents/skills/mt3-project-guidelines/SKILL.md",
+      ".agents/skills/claude-config-governance/SKILL.md",
+      ".codex/project-map.json",
+      ".codex/workflows/workflow-engine.json",
+      ".codex/schemas/project-map.schema.json",
+      ".codex/schemas/workflow-catalog.schema.json",
+      ".codex/hooks.json",
+      ".codex/hooks/mt3-pretool-guard.ps1"
+    ],
+    "required_agent_ids": [
+      "mt3_build_expert",
+      "mt3_docs_researcher",
+      "mt3_planner",
+      "mt3_reviewer"
+    ],
+    "skills_root": ".agents/skills",
+    "required_skill_metadata_relative_path": "agents/openai.yaml",
+    "required_sidecar_validator": ".claude/scripts/validate_codex_sidecars.ps1",
+    "required_guardrail_audit": ".claude/scripts/audit_codex_guardrails.ps1",
+    "required_skill_audit": ".claude/scripts/audit_codex_skills.ps1",
+    "required_schema_paths": [
+      ".codex/schemas/project-map.schema.json",
+      ".codex/schemas/workflow-catalog.schema.json"
+    ],
+    "required_workflow_count": 13,
+    "quality_gate_extensions": [
+      ".toml",
+      ".rules",
+      ".yaml",
+      ".txt"
+    ],
+    "required_fixture_tests": [
+      ".claude/tests/test-codex-execpolicy.ps1",
+      ".claude/tests/test-codex-pretool-hook.ps1",
+      ".claude/tests/test-codex-skill-scripts.ps1",
+      ".claude/tests/test-codex-governance-audits.ps1"
+    ]
+  },
+  "quality_dimensions": [
+    {
+      "id": "structure",
+      "description": "配置目录结构完整，核心文件齐全且命名符合规范"
+    },
+    {
+      "id": "integrity",
+      "description": "配置文件引用完整，无缺失文件与断链"
+    },
+    {
+      "id": "consistency",
+      "description": "参数、路由、技能定义一致且可解析"
+    },
+    {
+      "id": "efficiency",
+      "description": "单路由技能装载控制在预算范围，减少冗余上下文"
+    },
+    {
+      "id": "stability",
+      "description": "依赖拓扑无循环，关键意图有稳定工作流映射"
+    },
+    {
+      "id": "governance",
+      "description": ".claude 结构变更后，入口契约、装载顺序与审计脚本保持同口径并可闭环验证"
+    },
+    {
+      "id": "native_runtime",
+      "description": ".codex 原生运行面、sidecar 校验和 .agents 技能元数据保持一致且可审计"
+    }
+  ],
+  "governance_scope": {
+    "roots": [
+      ".codex/**",
+      ".agents/skills/**",
+      ".claude/config/**",
+      ".claude/scripts/**",
+      ".claude/tests/**"
+    ],
+    "description": "治理门禁覆盖 Codex 原生运行面、sidecar/schema/workflow、repo-local skills 以及对应审计与测试。",
+    "fail_closed_tools": [
+      "python",
+      "git",
+      "codex",
+      "powershell.exe",
+      "pwsh.exe"
+    ]
+  }
+}

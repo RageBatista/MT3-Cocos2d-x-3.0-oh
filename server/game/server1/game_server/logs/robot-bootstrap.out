@@ -1,0 +1,568 @@
+robot_bootstrap_begin|serverIp=127.0.0.1|serverPort=42001|startIndex=1|count=10|prefix=mt3robot|taskType=37|protocolsType=0|delaySeconds=30|mkdbEnable=true|uniqName=false|说明=机器人启动开始
+trace_runtime_info|traceClassSource=file:/home/game/server1/game_server/lib/monkeyking.jar|traceClassLoader=sun.misc.Launcher$AppClassLoader@5c647e05|defaultCharset=UTF-8|fileEncoding=UTF-8|sunJnuEncoding=UTF-8|traceFileArg=trace.log|traceLevel=INFO|说明=跟踪日志运行时信息
+register bean name=fire.pb.mission.SMissionData
+register bean name=fire.pb.skill.SLifeSkill
+register bean name=fire.pb.shop.MarketThreeTable
+register bean name=fire.pb.role.SCreateRoleConfig
+register bean name=fire.pb.item.EquipItemShuXing
+register bean name=fire.pb.npc.SNpcServiceConfig
+register bean name=fire.pb.mission.SSpecialScenarioQuestConfig
+register bean name=fire.pb.npc.SNpcShare
+register bean name=fire.pb.circletask.CircTaskConf
+register bean name=fire.pb.item.SItemToItem
+register bean name=fire.pb.skill.SInbornInfo
+register bean name=fire.pb.instance.SBingFengCfg
+robot_loginui_start|idx=1|username=mt3robot1|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=1|timeoutSeconds=15|username=mt3robot1|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=2|username=mt3robot2|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=2|timeoutSeconds=15|username=mt3robot2|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=3|username=mt3robot3|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=3|timeoutSeconds=15|username=mt3robot3|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=4|username=mt3robot4|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=4|timeoutSeconds=15|username=mt3robot4|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=5|username=mt3robot5|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=5|timeoutSeconds=15|username=mt3robot5|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=6|username=mt3robot6|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=6|timeoutSeconds=15|username=mt3robot6|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=7|username=mt3robot7|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=7|timeoutSeconds=15|username=mt3robot7|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=8|username=mt3robot8|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=8|timeoutSeconds=15|username=mt3robot8|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=9|username=mt3robot9|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=9|timeoutSeconds=15|username=mt3robot9|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=10|username=mt3robot10|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=10|timeoutSeconds=15|username=mt3robot10|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=1|userid=1|username=mt3robot1 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=1 <===|说明=发送角色列表请求
+===> robot_auth_ok|idx=6|userid=4|username=mt3robot6 <===|说明=鉴权成功
+===> robot_auth_ok|idx=5|userid=7|username=mt3robot5 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=5 <===|说明=发送角色列表请求
+===> robot_auth_ok|idx=7|userid=6|username=mt3robot7 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=7 <===|说明=发送角色列表请求
+===> robot_auth_ok|idx=2|userid=5|username=mt3robot2 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=2 <===|说明=发送角色列表请求
+===> robot_send_crolelist|idx=6 <===|说明=发送角色列表请求
+===> robot_auth_ok|idx=4|userid=3|username=mt3robot4 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=4 <===|说明=发送角色列表请求
+===> robot_auth_ok|idx=3|userid=2|username=mt3robot3 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=3 <===|说明=发送角色列表请求
+===> robot_auth_ok|idx=8|userid=8|username=mt3robot8 <===|说明=鉴权成功
+===> robot_auth_ok|idx=9|userid=9|username=mt3robot9 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=8 <===|说明=发送角色列表请求
+===> robot_auth_ok|idx=10|userid=10|username=mt3robot10 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=10 <===|说明=发送角色列表请求
+===> robot_send_crolelist|idx=9 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=4097|idx=1|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot1|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=4097 | username=mt3robot1 | level=1 | school=13 <==========|说明=角色进入世界
+robot_send_device_info|roleId=4097|说明=发送设备信息
+robot_enter_world_stage|roleId=4097|idx=1|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot1|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=4097|idx=1|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot1|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=4097|idx=1|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot1|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=4097|idx=1|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot1|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=4097|idx=1|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot1|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=4097 | username=mt3robot1 | userid=1 <==========|说明=角色登录成功
+roleid=4097	username=mt3robot1	userid=1==========login_success
+robot_task_dispatching|roleId=4097|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=4097|amount=100000
+robot_mode|roleId=4097|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=4097 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=4097|idx=1|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot1|说明=进入世界阶段推进
+robot_task_create|roleId=4097|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=4097|idx=1|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_enter_world_stage|roleId=12289|idx=7|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=12289 | username=mt3robot7 | level=1 | school=11 <==========|说明=角色进入世界
+robot_send_device_info|roleId=12289|说明=发送设备信息
+robot_enter_world_stage|roleId=12289|idx=7|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot7|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=12289 | username=mt3robot7 | userid=6 <==========|说明=角色登录成功
+roleid=12289	username=mt3robot7	userid=6==========login_success
+robot_task_dispatching|roleId=12289|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=12289|amount=100000
+robot_mode|roleId=12289|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=12289 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=12289|idx=7|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot7|说明=进入世界阶段推进
+robot_task_create|roleId=12289|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_enter_world_stage|roleId=20481|idx=2|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=20481 | username=mt3robot2 | level=1 | school=14 <==========|说明=角色进入世界
+robot_send_device_info|roleId=20481|说明=发送设备信息
+robot_enter_world_stage|roleId=20481|idx=2|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot2|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=20481 | username=mt3robot2 | userid=5 <==========|说明=角色登录成功
+roleid=20481	username=mt3robot2	userid=5==========login_success
+robot_task_dispatching|roleId=20481|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=20481|amount=100000
+robot_mode|roleId=20481|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=20481 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=20481|idx=2|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot2|说明=进入世界阶段推进
+robot_task_create|roleId=20481|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=12289|idx=7|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_enter_world_stage|roleId=40961|idx=8|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=40961 | username=mt3robot8 | level=1 | school=23 <==========|说明=角色进入世界
+robot_send_device_info|roleId=40961|说明=发送设备信息
+robot_enter_world_stage|roleId=40961|idx=8|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=16385 | username=mt3robot6 | level=1 | school=23 <==========|说明=角色进入世界
+robot_send_device_info|roleId=16385|说明=发送设备信息
+robot_enter_world_stage|roleId=16385|idx=6|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot8|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=40961 | username=mt3robot8 | userid=8 <==========|说明=角色登录成功
+roleid=40961	username=mt3robot8	userid=8==========login_success
+robot_task_dispatching|roleId=40961|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=40961|amount=100000
+robot_mode|roleId=40961|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=40961 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=40961|idx=8|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot8|说明=进入世界阶段推进
+robot_task_create|roleId=40961|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_enter_world_stage|roleId=16385|idx=6|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot6|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=16385 | username=mt3robot6 | userid=4 <==========|说明=角色登录成功
+roleid=16385	username=mt3robot6	userid=4==========login_success
+robot_task_dispatching|roleId=16385|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=16385|amount=100000
+robot_mode|roleId=16385|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=16385 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=16385|idx=6|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot6|说明=进入世界阶段推进
+robot_task_create|roleId=16385|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=40961|idx=8|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=16385|idx=6|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=20481|idx=2|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_enter_world_stage|roleId=24577|idx=3|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=24577 | username=mt3robot3 | level=1 | school=15 <==========|说明=角色进入世界
+robot_send_device_info|roleId=24577|说明=发送设备信息
+robot_enter_world_stage|roleId=24577|idx=3|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot3|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=24577 | username=mt3robot3 | userid=2 <==========|说明=角色登录成功
+roleid=24577	username=mt3robot3	userid=2==========login_success
+robot_task_dispatching|roleId=24577|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=24577|amount=100000
+robot_mode|roleId=24577|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=24577 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=24577|idx=3|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot3|说明=进入世界阶段推进
+robot_task_create|roleId=24577|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_enter_world_stage|roleId=28673|idx=4|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot4|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=28673 | username=mt3robot4 | level=1 | school=22 <==========|说明=角色进入世界
+robot_send_device_info|roleId=28673|说明=发送设备信息
+robot_enter_world_stage|roleId=28673|idx=4|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot4|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=28673|idx=4|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot4|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=28673|idx=4|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot4|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=28673|idx=4|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot4|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=28673|idx=4|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot4|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=28673 | username=mt3robot4 | userid=3 <==========|说明=角色登录成功
+roleid=28673	username=mt3robot4	userid=3==========login_success
+robot_task_dispatching|roleId=28673|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=28673|amount=100000
+robot_mode|roleId=28673|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=28673 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=28673|idx=4|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot4|说明=进入世界阶段推进
+robot_task_create|roleId=28673|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=24577|idx=3|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=28673|idx=4|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_enter_world_stage|roleId=8193|idx=5|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=8193 | username=mt3robot5 | level=1 | school=15 <==========|说明=角色进入世界
+robot_send_device_info|roleId=8193|说明=发送设备信息
+robot_enter_world_stage|roleId=8193|idx=5|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot5|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=8193 | username=mt3robot5 | userid=7 <==========|说明=角色登录成功
+roleid=8193	username=mt3robot5	userid=7==========login_success
+robot_task_dispatching|roleId=8193|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=8193|amount=100000
+robot_mode|roleId=8193|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=8193 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=8193|idx=5|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot5|说明=进入世界阶段推进
+robot_task_create|roleId=8193|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=8193|idx=5|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_enter_world_stage|roleId=32769|idx=9|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=32769 | username=mt3robot9 | level=1 | school=14 <==========|说明=角色进入世界
+robot_send_device_info|roleId=32769|说明=发送设备信息
+robot_enter_world_stage|roleId=32769|idx=9|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot9|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=32769 | username=mt3robot9 | userid=9 <==========|说明=角色登录成功
+roleid=32769	username=mt3robot9	userid=9==========login_success
+robot_task_dispatching|roleId=32769|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=32769|amount=100000
+robot_mode|roleId=32769|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=32769 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=32769|idx=9|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot9|说明=进入世界阶段推进
+robot_task_create|roleId=32769|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=32769|idx=9|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_enter_world_stage|roleId=36865|idx=10|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot10|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=36865 | username=mt3robot10 | level=1 | school=22 <==========|说明=角色进入世界
+robot_send_device_info|roleId=36865|说明=发送设备信息
+robot_enter_world_stage|roleId=36865|idx=10|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot10|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=36865|idx=10|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot10|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=36865|idx=10|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot10|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=36865|idx=10|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot10|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=36865|idx=10|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot10|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=36865 | username=mt3robot10 | userid=10 <==========|说明=角色登录成功
+roleid=36865	username=mt3robot10	userid=10==========login_success
+robot_task_dispatching|roleId=36865|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=36865|amount=100000
+robot_mode|roleId=36865|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=36865 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=36865|idx=10|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot10|说明=进入世界阶段推进
+robot_task_create|roleId=36865|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=36865|idx=10|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=2|username=mt3robot2|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=2|timeoutSeconds=15|username=mt3robot2|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=2|userid=5|username=mt3robot2 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=2 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=20481|idx=2|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=20481 | username=mt3robot2 | level=1 | school=14 <==========|说明=角色进入世界
+robot_send_device_info|roleId=20481|说明=发送设备信息
+robot_enter_world_stage|roleId=20481|idx=2|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot2|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=20481 | username=mt3robot2 | userid=5 <==========|说明=角色登录成功
+roleid=20481	username=mt3robot2	userid=5==========login_success
+robot_task_dispatching|roleId=20481|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=20481|amount=100000
+robot_mode|roleId=20481|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=20481 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=20481|idx=2|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot2|说明=进入世界阶段推进
+robot_task_create|roleId=20481|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=20481|idx=2|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=9|username=mt3robot9|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=9|timeoutSeconds=15|username=mt3robot9|说明=鉴权超时看门狗已启动
+robot_loginui_start|idx=7|username=mt3robot7|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=7|timeoutSeconds=15|username=mt3robot7|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=9|userid=9|username=mt3robot9 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=9 <===|说明=发送角色列表请求
+===> robot_auth_ok|idx=7|userid=6|username=mt3robot7 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=7 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=32769|idx=9|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=32769 | username=mt3robot9 | level=1 | school=14 <==========|说明=角色进入世界
+robot_send_device_info|roleId=32769|说明=发送设备信息
+robot_enter_world_stage|roleId=32769|idx=9|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot9|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=32769 | username=mt3robot9 | userid=9 <==========|说明=角色登录成功
+roleid=32769	username=mt3robot9	userid=9==========login_success
+robot_task_dispatching|roleId=32769|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=32769|amount=100000
+robot_mode|roleId=32769|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=32769 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=32769|idx=9|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot9|说明=进入世界阶段推进
+robot_task_create|roleId=32769|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_enter_world_stage|roleId=12289|idx=7|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=12289 | username=mt3robot7 | level=1 | school=11 <==========|说明=角色进入世界
+robot_send_device_info|roleId=12289|说明=发送设备信息
+robot_enter_world_stage|roleId=12289|idx=7|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=32769|idx=9|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_enter_world_stage|roleId=12289|idx=7|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot7|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=12289 | username=mt3robot7 | userid=6 <==========|说明=角色登录成功
+roleid=12289	username=mt3robot7	userid=6==========login_success
+robot_task_dispatching|roleId=12289|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=12289|amount=100000
+robot_mode|roleId=12289|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=12289 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=12289|idx=7|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot7|说明=进入世界阶段推进
+robot_task_create|roleId=12289|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=12289|idx=7|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=6|username=mt3robot6|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=6|timeoutSeconds=15|username=mt3robot6|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=6|userid=4|username=mt3robot6 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=6 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=16385|idx=6|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=16385 | username=mt3robot6 | level=1 | school=23 <==========|说明=角色进入世界
+robot_send_device_info|roleId=16385|说明=发送设备信息
+robot_enter_world_stage|roleId=16385|idx=6|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot6|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=16385 | username=mt3robot6 | userid=4 <==========|说明=角色登录成功
+roleid=16385	username=mt3robot6	userid=4==========login_success
+robot_task_dispatching|roleId=16385|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=16385|amount=100000
+robot_mode|roleId=16385|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=16385 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=16385|idx=6|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot6|说明=进入世界阶段推进
+robot_task_create|roleId=16385|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=16385|idx=6|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=8|username=mt3robot8|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=8|timeoutSeconds=15|username=mt3robot8|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=8|userid=8|username=mt3robot8 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=8 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=40961|idx=8|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=40961 | username=mt3robot8 | level=1 | school=23 <==========|说明=角色进入世界
+robot_send_device_info|roleId=40961|说明=发送设备信息
+robot_enter_world_stage|roleId=40961|idx=8|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot8|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=40961 | username=mt3robot8 | userid=8 <==========|说明=角色登录成功
+roleid=40961	username=mt3robot8	userid=8==========login_success
+robot_task_dispatching|roleId=40961|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=40961|amount=100000
+robot_mode|roleId=40961|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=40961 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=40961|idx=8|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot8|说明=进入世界阶段推进
+robot_task_create|roleId=40961|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=40961|idx=8|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=5|username=mt3robot5|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=5|timeoutSeconds=15|username=mt3robot5|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=5|userid=7|username=mt3robot5 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=5 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=8193|idx=5|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=8193 | username=mt3robot5 | level=1 | school=15 <==========|说明=角色进入世界
+robot_send_device_info|roleId=8193|说明=发送设备信息
+robot_enter_world_stage|roleId=8193|idx=5|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot5|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=8193 | username=mt3robot5 | userid=7 <==========|说明=角色登录成功
+roleid=8193	username=mt3robot5	userid=7==========login_success
+robot_task_dispatching|roleId=8193|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=8193|amount=100000
+robot_mode|roleId=8193|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=8193 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=8193|idx=5|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot5|说明=进入世界阶段推进
+robot_task_create|roleId=8193|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=8193|idx=5|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=3|username=mt3robot3|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=3|timeoutSeconds=15|username=mt3robot3|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=3|userid=2|username=mt3robot3 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=3 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=24577|idx=3|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=24577 | username=mt3robot3 | level=1 | school=15 <==========|说明=角色进入世界
+robot_send_device_info|roleId=24577|说明=发送设备信息
+robot_enter_world_stage|roleId=24577|idx=3|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot3|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=24577 | username=mt3robot3 | userid=2 <==========|说明=角色登录成功
+roleid=24577	username=mt3robot3	userid=2==========login_success
+robot_task_dispatching|roleId=24577|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=24577|amount=100000
+robot_mode|roleId=24577|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=24577 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=24577|idx=3|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot3|说明=进入世界阶段推进
+robot_task_create|roleId=24577|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=24577|idx=3|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=7|username=mt3robot7|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=7|timeoutSeconds=15|username=mt3robot7|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=7|userid=6|username=mt3robot7 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=7 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=12289|idx=7|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=12289 | username=mt3robot7 | level=1 | school=11 <==========|说明=角色进入世界
+robot_send_device_info|roleId=12289|说明=发送设备信息
+robot_enter_world_stage|roleId=12289|idx=7|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot7|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=12289 | username=mt3robot7 | userid=6 <==========|说明=角色登录成功
+roleid=12289	username=mt3robot7	userid=6==========login_success
+robot_task_dispatching|roleId=12289|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=12289|amount=100000
+robot_mode|roleId=12289|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=12289 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=12289|idx=7|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot7|说明=进入世界阶段推进
+robot_task_create|roleId=12289|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=12289|idx=7|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=6|username=mt3robot6|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=6|timeoutSeconds=15|username=mt3robot6|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=6|userid=4|username=mt3robot6 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=6 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=16385|idx=6|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=16385 | username=mt3robot6 | level=1 | school=23 <==========|说明=角色进入世界
+robot_send_device_info|roleId=16385|说明=发送设备信息
+robot_enter_world_stage|roleId=16385|idx=6|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot6|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=16385|idx=6|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot6|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=16385 | username=mt3robot6 | userid=4 <==========|说明=角色登录成功
+roleid=16385	username=mt3robot6	userid=4==========login_success
+robot_task_dispatching|roleId=16385|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=16385|amount=100000
+robot_mode|roleId=16385|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=16385 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=16385|idx=6|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot6|说明=进入世界阶段推进
+robot_task_create|roleId=16385|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=16385|idx=6|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=8|username=mt3robot8|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=8|timeoutSeconds=15|username=mt3robot8|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=8|userid=8|username=mt3robot8 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=8 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=40961|idx=8|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=40961 | username=mt3robot8 | level=1 | school=23 <==========|说明=角色进入世界
+robot_send_device_info|roleId=40961|说明=发送设备信息
+robot_enter_world_stage|roleId=40961|idx=8|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot8|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=40961|idx=8|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot8|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=40961 | username=mt3robot8 | userid=8 <==========|说明=角色登录成功
+roleid=40961	username=mt3robot8	userid=8==========login_success
+robot_task_dispatching|roleId=40961|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=40961|amount=100000
+robot_mode|roleId=40961|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=40961 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=40961|idx=8|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot8|说明=进入世界阶段推进
+robot_task_create|roleId=40961|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=40961|idx=8|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=2|username=mt3robot2|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=2|timeoutSeconds=15|username=mt3robot2|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=2|userid=5|username=mt3robot2 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=2 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=20481|idx=2|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=20481 | username=mt3robot2 | level=2 | school=14 <==========|说明=角色进入世界
+robot_send_device_info|roleId=20481|说明=发送设备信息
+robot_enter_world_stage|roleId=20481|idx=2|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot2|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=20481|idx=2|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot2|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=20481 | username=mt3robot2 | userid=5 <==========|说明=角色登录成功
+roleid=20481	username=mt3robot2	userid=5==========login_success
+robot_task_dispatching|roleId=20481|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=20481|amount=100000
+robot_mode|roleId=20481|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=20481 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=20481|idx=2|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot2|说明=进入世界阶段推进
+robot_task_create|roleId=20481|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=20481|idx=2|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=9|username=mt3robot9|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=9|timeoutSeconds=15|username=mt3robot9|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=9|userid=9|username=mt3robot9 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=9 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=32769|idx=9|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=32769 | username=mt3robot9 | level=2 | school=14 <==========|说明=角色进入世界
+robot_send_device_info|roleId=32769|说明=发送设备信息
+robot_enter_world_stage|roleId=32769|idx=9|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot9|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=32769|idx=9|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot9|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=32769 | username=mt3robot9 | userid=9 <==========|说明=角色登录成功
+roleid=32769	username=mt3robot9	userid=9==========login_success
+robot_task_dispatching|roleId=32769|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=32769|amount=100000
+robot_mode|roleId=32769|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=32769 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=32769|idx=9|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot9|说明=进入世界阶段推进
+robot_task_create|roleId=32769|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=32769|idx=9|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+ROLEID=4097	INFO=创建了一个队伍。目前共有 1个队伍
+ROLEID=32769	INFO=创建了一个队伍。目前共有 2个队伍
+robot_loginui_start|idx=5|username=mt3robot5|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=5|timeoutSeconds=15|username=mt3robot5|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=5|userid=7|username=mt3robot5 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=5 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=8193|idx=5|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=8193 | username=mt3robot5 | level=1 | school=15 <==========|说明=角色进入世界
+robot_send_device_info|roleId=8193|说明=发送设备信息
+robot_enter_world_stage|roleId=8193|idx=5|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot5|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=8193|idx=5|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot5|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=8193 | username=mt3robot5 | userid=7 <==========|说明=角色登录成功
+roleid=8193	username=mt3robot5	userid=7==========login_success
+robot_task_dispatching|roleId=8193|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=8193|amount=100000
+robot_mode|roleId=8193|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=8193 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=8193|idx=5|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot5|说明=进入世界阶段推进
+robot_task_create|roleId=8193|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=8193|idx=5|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+robot_loginui_start|idx=3|username=mt3robot3|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=3|timeoutSeconds=15|username=mt3robot3|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=3|userid=2|username=mt3robot3 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=3 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=24577|idx=3|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=24577 | username=mt3robot3 | level=2 | school=15 <==========|说明=角色进入世界
+robot_send_device_info|roleId=24577|说明=发送设备信息
+robot_enter_world_stage|roleId=24577|idx=3|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot3|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=24577|idx=3|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot3|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=24577 | username=mt3robot3 | userid=2 <==========|说明=角色登录成功
+roleid=24577	username=mt3robot3	userid=2==========login_success
+robot_task_dispatching|roleId=24577|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=24577|amount=100000
+robot_mode|roleId=24577|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=24577 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=24577|idx=3|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot3|说明=进入世界阶段推进
+robot_task_create|roleId=24577|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=24577|idx=3|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+ROLEID=40961	INFO=创建了一个队伍。目前共有 2个队伍
+robot_loginui_start|idx=7|username=mt3robot7|host=127.0.0.1|port=42001|说明=登录界面启动
+robot_auth_watchdog_schedule|idx=7|timeoutSeconds=15|username=mt3robot7|说明=鉴权超时看门狗已启动
+===> robot_auth_ok|idx=7|userid=6|username=mt3robot7 <===|说明=鉴权成功
+===> robot_send_crolelist|idx=7 <===|说明=发送角色列表请求
+robot_enter_world_stage|roleId=12289|idx=7|stage=phase_entering_world|stageDesc=开始进入世界|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+==========> ROBOT_ENTER_WORLD | roleId=12289 | username=mt3robot7 | level=2 | school=11 <==========|说明=角色进入世界
+robot_send_device_info|roleId=12289|说明=发送设备信息
+robot_enter_world_stage|roleId=12289|idx=7|stage=device_info_sent|stageDesc=设备信息已发送|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=queue_heartbeat_stopped|stageDesc=登录心跳已停止|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=loginrole_created|stageDesc=角色对象已创建|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=loginrole_added|stageDesc=角色已加入管理器|phase=ENTERING_WORLD|phaseDesc=进入世界中|username=mt3robot7|说明=进入世界阶段推进
+robot_enter_world_stage|roleId=12289|idx=7|stage=phase_online|stageDesc=角色已上线|phase=ONLINE|phaseDesc=已在线|username=mt3robot7|说明=进入世界阶段推进
+==========> ROBOT_LOGIN_SUCCESS | roleId=12289 | username=mt3robot7 | userid=6 <==========|说明=角色登录成功
+roleid=12289	username=mt3robot7	userid=6==========login_success
+robot_task_dispatching|roleId=12289|taskType=37|taskTypeDesc=真实玩家成长链|说明=开始分发角色任务
+robot_add_fushi|roleId=12289|amount=100000
+robot_mode|roleId=12289|taskType=37|taskTypeDesc=真实玩家成长链|gmEnabled=true|说明=机器人运行模式
+==========> ROBOT_TASK_STARTING | roleId=12289 | taskType=37 | taskTypeDesc=真实玩家成长链 <==========|说明=准备启动角色任务
+robot_enter_world_stage|roleId=12289|idx=7|stage=task_dispatch_begin|stageDesc=开始分发任务|phase=ONLINE|phaseDesc=已在线|username=mt3robot7|说明=进入世界阶段推进
+robot_task_create|roleId=12289|task=AutonomousTask|taskDesc=自动自治任务|说明=创建角色任务
+robot_task_start|taskType=37|taskTypeDesc=真实玩家成长链|desc=autonomous_task|说明=角色任务已启动
+robot_task_dispatch_result|roleId=12289|idx=7|taskType=37|taskTypeDesc=真实玩家成长链|started=true|task=AutonomousTask|taskDesc=自动自治任务|reason=dispatch_complete|reasonDesc=任务分发完成|phase=ONLINE|phaseDesc=已在线|说明=任务分发结果
+ROLEID=12289	INFO=创建了一个队伍。目前共有 3个队伍

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.1.0",
+  "updated": "2026-04-11",
+  "defaults": {
+    "profile": "strict",
+    "on_failure": "block",
+    "log_level": "warn",
+    "rate_limit_per_minute": 60,
+    "cooldown_seconds": 2
+  },
+  "profiles": [
+    {
+      "id": "strict",
+      "description": "生产模式：高风险操作阻断，中风险告警。"
+    },
+    {
+      "id": "warn-only",
+      "description": "调试模式：仅告警，不阻断。"
+    }
+  ],
+  "hooks": [
+    {
+      "id": "session-start-profile",
+      "event": "SessionStart",
+      "matcher": "*",
+      "mode": "warn",
+      "script": "../hooks/session-start-profile.ps1",
+      "description": "会话启动时输出 MT3 配置概况、工具链变量与常用治理命令。"
+    },
+    {
+      "id": "pre-msbuild-toolset-guard",
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "mode": "block",
+      "script": "../hooks/pre-msbuild-guard.ps1",
+      "description": "检测 MSBuild 命令是否违反 v120 工具链约束。"
+    },
+    {
+      "id": "pre-git-commit-secret-guard",
+      "event": "PreToolUse",
+      "matcher": "Bash",
+      "mode": "block",
+      "script": "../hooks/pre-git-commit-secret-guard.ps1",
+      "description": "在 git commit 前触发敏感信息检查。"
+    },
+    {
+      "id": "post-edit-generated-code-guard",
+      "event": "PostToolUse",
+      "matcher": "Edit|Write|MultiEdit",
+      "mode": "warn",
+      "script": "../hooks/post-edit-generated-guard.ps1",
+      "description": "编辑生成代码时输出强提示。"
+    },
+    {
+      "id": "post-edit-encoding-reminder",
+      "event": "PostToolUse",
+      "matcher": "Edit|Write|MultiEdit",
+      "mode": "warn",
+      "script": "../hooks/post-edit-encoding-reminder.ps1",
+      "description": "按扩展名校验 BOM/编码约束，并提醒执行回读校验。"
+    },
+    {
+      "id": "stop-config-audit",
+      "event": "Stop",
+      "matcher": "*",
+      "mode": "warn",
+      "script": "../hooks/stop-config-audit.ps1",
+      "description": "检测 .claude 配置改动后是否忘记执行审计脚本。"
+    },
+    {
+      "id": "stop-quality-gate",
+      "event": "Stop",
+      "matcher": "*",
+      "mode": "warn",
+      "script": "../hooks/stop-quality-gate.ps1",
+      "description": "在响应结束时对当前改动集执行轻量质量门禁扫描。"
+    }
+  ]
+}

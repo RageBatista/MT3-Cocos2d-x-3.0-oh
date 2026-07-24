@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="mission">
+	<bean name="CMainMissionInfo" from="r任务相关/z主任务配置" genxml="client">
+		<variable name="id" type="int" fromCol="MissionID"/>
+		<variable name="AutoDo" type="int" fromCol="AutoDo"/>
+		<variable name="MissionName" type="string" fromCol="MissionName"/>
+		<variable name="MissionTypeString" type="string" fromCol="MissionTypeString"/>
+		<variable name="MinLevel" type="int" fromCol="MinLevel"/>
+		<variable name="MaxLevel" type="int" fromCol="MaxLevel"/>
+		<variable name="CruiseId" type="int" fromCol="CruiseId"/>
+		<variable name="TransMinLevel" type="int" fromCol="TransMinLevel"/>
+		<variable name="TransMaxLevel" type="int" fromCol="TransMaxLevel"/>
+		<variable name="RequestRoleIDList" type="vector" fromCol="RequestRoleIDList0,RequestRoleIDList1" value="long"/>
+		<variable name="PostMissionList" type="vector" fromCol="PostMissionList0,PostMissionList1,PostMissionList2,PostMissionList3,PostMissionList4,PostMissionList5,PostMissionList6,PostMissionList7,PostMissionList8,PostMissionList9" value="int"/>
+		<variable name="TransformID" type="int" fromCol="TransformID"/>
+		<variable name="FollowID" type="int" fromCol="FollowID"/>
+		<variable name="NoteInfo" type="string" fromCol="NoteInfo"/>
+		<variable name="ExpReward" type="long" fromCol="ExpReward"/>
+		<variable name="MoneyReward" type="long" fromCol="MoneyReward"/>
+		<variable name="PetExpReward" type="long" fromCol="PetExpReward"/>
+		<variable name="ShengWang" type="int" fromCol="ShengWang"/>
+		<variable name="SMoney" type="long" fromCol="SMoney"/>
+		<variable name="RewardMapJumpType" type="int" fromCol="RewardMapJumpType"/>
+		<variable name="RewardMapID" type="int" fromCol="RewardMapID"/>
+		<variable name="RewardMapXPos" type="int" fromCol="RewardMapXPos"/>
+		<variable name="RewardMapYPos" type="int" fromCol="RewardMapYPos"/>
+		<variable name="ProcessBarTime" type="int" fromCol="ProcessBarTime"/>
+		<variable name="ProcessBarText" type="string" fromCol="ProcessBarText"/>
+		<variable name="ProcessBarColor" type="string" fromCol="ProcessBarColor"/>
+		<variable name="RewardType" type="int" fromCol="RewardType"/>
+		<variable name="RewardOption" type="int" fromCol="RewardOption"/>
+		<variable name="RewardItemIDList" type="vector" fromCol="RewardItemIDList0,RewardItemIDList1" value="int"/>
+		<variable name="RewardItemNumList" type="vector" fromCol="RewardItemNumList0,RewardItemNumList1" value="int"/>
+		<variable name="RewardItemShapeIDList" type="vector" fromCol="RewardItemShapeIDList0,RewardItemShapeIDList1" value="int"/>
+		<variable name="RewardItemIsBindList" type="vector" fromCol="RewardItemIsBindList0,RewardItemIsBindList1" value="int"/>
+		<variable name="MissionType" type="int" fromCol="MissionType"/>
+		<variable name="ActiveInfoNpcID" type="int" fromCol="ActiveInfoNpcID"/>
+		<variable name="ActiveInfoMapID" type="int" fromCol="ActiveInfoMapID"/>
+		<variable name="ActiveInfoLeftPos" type="int" fromCol="ActiveInfoLeftPos"/>
+		<variable name="ActiveInfoTopPos" type="int" fromCol="ActiveInfoTopPos"/>
+		<variable name="ActiveInfoRightPos" type="int" fromCol="ActiveInfoRightPos"/>
+		<variable name="ActiveInfoBottomPos" type="int" fromCol="ActiveInfoBottomPos"/>
+		<variable name="ActiveInfoTargetID" type="int" fromCol="ActiveInfoTargetID"/>
+		<variable name="ActiveInfoTargetNum" type="int" fromCol="ActiveInfoTargetNum"/>
+		<variable name="ActiveInfoMiniStep" type="int" fromCol="ActiveInfoMiniStep"/>
+		<variable name="ActiveInfoStepProbability" type="int" fromCol="ActiveInfoStepProbability"/>
+		<variable name="ActiveInfoMaxStep" type="int" fromCol="ActiveInfoMaxStep"/>
+		<variable name="ActiveInfoTeamState" type="int" fromCol="ActiveInfoTeamState"/>
+		<variable name="ActiveInfoTimeLimit" type="int" fromCol="ActiveInfoTimeLimit"/>
+		<variable name="ActiveInfoIsRestartTimer" type="int" fromCol="ActiveInfoIsRestartTimer"/>
+		<variable name="ActiveInfoGiveBackMoney" type="long" fromCol="ActiveInfoGiveBackMoney"/>
+		<variable name="ActiveInfoGiveBackPetID" type="int" fromCol="ActiveInfoGiveBackPetID"/>
+		<variable name="ActiveInfoUseItemID" type="int" fromCol="ActiveInfoUseItemID"/>
+		<variable name="ActiveInfoOtherType" type="int" fromCol="ActiveInfoOtherType"/>
+		<variable name="QuestionInfoCorrectAnswer" type="string" fromCol="QuestionInfoCorrectAnswer"/>
+		<variable name="QuestionInfoWrongAnswerList" type="vector" fromCol="QuestionInfoWrongAnswerList0,QuestionInfoWrongAnswerList1,QuestionInfoWrongAnswerList2,QuestionInfoWrongAnswerList3" value="string"/>
+		<variable name="QuestionInfoNpcID" type="int" fromCol="QuestionInfoNpcID"/>
+		<variable name="QuestionInfoConversion" type="string" fromCol="QuestionInfoConversion"/>
+		<variable name="TaskInfoDescriptionListA" type="string" fromCol="TaskInfoDescriptionListA"/>
+		<variable name="TaskInfoPurposeListA" type="string" fromCol="TaskInfoPurposeListA"/>
+		<variable name="TaskInfoTraceListA" type="string" fromCol="TaskInfoTraceListA"/>
+		<variable name="AIInfoAIID" type="int" fromCol="BattleID"/>
+		<variable name="AIInfoBattleResult" type="int" fromCol="BattleResult"/>
+		<variable name="AIInfoDeathPunish" type="int" fromCol="AIInfoDeathPunish"/>
+		<variable name="AIInfoTeamSteate" type="int" fromCol="AIInfoTeamSteate"/>
+		<variable name="AIInfoBattleLevel" type="string" fromCol="AIInfoBattleLevel"/>
+		<variable name="BattleInfoBattleMapType" type="int" fromCol="BattleInfoBattleMapType"/>
+		<variable name="BattleInfoBattleZoneID" type="int" fromCol="BattleInfoBattleZoneID"/>
+		<variable name="BattleInfoDrop" type="int" fromCol="BattleInfoDrop"/>
+		<variable name="BattleInfoBattleTimes" type="int" fromCol="BattleInfoBattleTimes"/>
+		<variable name="BattleInfoMonsterList" type="vector" fromCol="BattleInfoMonsterList0,BattleInfoMonsterList1,BattleInfoMonsterList2,BattleInfoMonsterList3,BattleInfoMonsterList4,BattleInfoMonsterList5" value="int"/>
+		<variable name="BattleInfoMonsterNum" type="int" fromCol="BattleInfoMonsterNum"/>
+		<variable name="BattleInfoDropItemID" type="int" fromCol="BattleInfoDropItemID"/>
+		<variable name="BattleInfoDropItemNum" type="int" fromCol="BattleInfoDropItemNum"/>
+		<variable name="ScenarioInfoAnimationID" type="int" fromCol="AnimationID"/>
+		<variable name="ScenarioInfoBranchNpcID" type="int" fromCol="ScenarioInfoBranchNpcID"/>
+		<variable name="ScenarioInfoBranchNote" type="string" fromCol="ScenarioInfoBranchNote"/>
+		<variable name="ScenarioInfoNpcConversationList" type="vector" fromCol="ScenarioInfoNpcConversationList0,ScenarioInfoNpcConversationList1,ScenarioInfoNpcConversationList2,ScenarioInfoNpcConversationList3,ScenarioInfoNpcConversationList4,ScenarioInfoNpcConversationList5,ScenarioInfoNpcConversationList6,ScenarioInfoNpcConversationList7,ScenarioInfoNpcConversationList8" value="string"/>
+		<variable name="ScenarioInfoNpcID" type="vector" fromCol="ScenarioInfoNpcID0,ScenarioInfoNpcID1,ScenarioInfoNpcID2,ScenarioInfoNpcID3,ScenarioInfoNpcID4,ScenarioInfoNpcID5,ScenarioInfoNpcID6,ScenarioInfoNpcID7,ScenarioInfoNpcID8" value="int"/>
+		<variable name="ScenarioInfoFinishConversationList" type="vector" fromCol="ScenarioInfoFinishConversationList0,ScenarioInfoFinishConversationList1,ScenarioInfoFinishConversationList2,ScenarioInfoFinishConversationList3,ScenarioInfoFinishConversationList4,ScenarioInfoFinishConversationList5,ScenarioInfoFinishConversationList6,ScenarioInfoFinishConversationList7,ScenarioInfoFinishConversationList8" value="string"/>
+		<variable name="ScenarioInfoFinishNpcID" type="vector" fromCol="ScenarioInfoFinishNpcID0,ScenarioInfoFinishNpcID1,ScenarioInfoFinishNpcID2,ScenarioInfoFinishNpcID3,ScenarioInfoFinishNpcID4,ScenarioInfoFinishNpcID5,ScenarioInfoFinishNpcID6,ScenarioInfoFinishNpcID7,ScenarioInfoFinishNpcID8" value="int"/>
+		<variable name="vTaskShowNpc" type="vector" fromCol="RelevanceNpc1,RelevanceNpc2,RelevanceNpc3,RelevanceNpc4,RelevanceNpc5,RelevanceNpc6,RelevanceNpc7" value="int"/>
+		<variable name="BiaoQingA" type="vector" fromCol="BiaoQingA0,BiaoQingA1,BiaoQingA2,BiaoQingA3,BiaoQingA4,BiaoQingA5,BiaoQingA6,BiaoQingA7,BiaoQingA8" value="string"/>
+		<variable name="BiaoQingB" type="vector" fromCol="BiaoQingB0,BiaoQingB1,BiaoQingB2,BiaoQingB3,BiaoQingB4,BiaoQingB5,BiaoQingB6,BiaoQingB7,BiaoQingB8" value="string"/>
+		<variable name="ProcessBarTeXiao" type="int" fromCol="ProcessBarTeXiao"/>
+		<variable name="UnionSeekHelp" type="int" fromCol="UnionSeekHelp"/>
+		<variable name="WorldSeekHelp" type="int" fromCol="WorldSeekHelp"/>
+		<variable name="nopuitype" type="int" fromCol="openUI"/>
+		<variable name="nuiid" type="int" fromCol="Uiid"/>
+		<variable name="vNpcChatSound" type="vector" fromCol="ConversationAudio0,ConversationAudio1,ConversationAudio2,ConversationAudio3,ConversationAudio4,ConversationAudio5,ConversationAudio6" value="string"/>
+		<variable name="vNpcChatSoundFinish" type="vector" fromCol="FinishConversationAudio0,FinishConversationAudio1,FinishConversationAudio2,FinishConversationAudio3,FinishConversationAudio4,FinishConversationAudio5,FinishConversationAudio6" value="string"/>
+		<variable name="BattlePreString" type="string" fromCol="BattlePreString"/>
+		<variable name="BattleVideo" type="int" fromCol="BattleVideo"/>
+		<variable name="Tipsid" type="int" fromCol="Tipsid"/>
+	</bean>
+
+	<bean name="SMissionData" from="r任务相关/z主任务配置" genxml="server">
+		<variable name="id" type="int" fromCol="MissionID"/>
+		<variable name="Name" type="string" fromCol="MissionName"/>
+		<variable name="TypeStr" type="string" fromCol="MissionTypeString"/>
+		<variable name="LevelMin" type="int" fromCol="MinLevel"/>
+		<variable name="LevelMax" type="int" fromCol="MaxLevel"/>
+		<variable name="CruiseId" type="int" fromCol="CruiseId"/>
+		<variable name="LevelMinTrans" type="int" fromCol="TransMinLevel"/>
+		<variable name="LevelMaxTrans" type="int" fromCol="TransMaxLevel"/>
+		<variable name="NeedMissionList" type="vector" fromCol="RequestMissionList0" value="int"/>
+		<variable name="NeedRoleIDList" type="vector" fromCol="RequestRoleIDList0,RequestRoleIDList1" value="long"/>
+		<variable name="NextMissionList" type="vector" fromCol="PostMissionList0,PostMissionList1,PostMissionList2,PostMissionList3,PostMissionList4,PostMissionList5,PostMissionList6,PostMissionList7,PostMissionList8,PostMissionList9" value="int"/>
+		<variable name="TransformID" type="int" fromCol="TransformID"/>
+		<variable name="FollowID" type="int" fromCol="FollowID"/>
+		<variable name="BuShuaGuaiMaps" type="vector" fromCol="BuShuaGuai0,BuShuaGuai1,BuShuaGuai2" value="int"/>
+		<variable name="Note" type="string" fromCol="NoteInfo"/>
+		<variable name="RewardExp" type="long" fromCol="ExpReward"/>
+		<variable name="RewardMoney" type="long" fromCol="MoneyReward"/>
+		<variable name="RewardPetExp" type="long" fromCol="PetExpReward"/>
+		<variable name="ShengWang" type="int" fromCol="ShengWang"/>
+		<variable name="SMoney" type="long" fromCol="SMoney"/>
+		<variable name="RewardMapJumpType" type="int" fromCol="RewardMapJumpType"/>
+		<variable name="RewardMapID" type="int" fromCol="RewardMapID"/>
+		<variable name="RewardMapXPos" type="int" fromCol="RewardMapXPos"/>
+		<variable name="RewardMapYPos" type="int" fromCol="RewardMapYPos"/>
+		<variable name="ProcessBarTime" type="int" fromCol="ProcessBarTime"/>
+		<variable name="ProcessBarText" type="string" fromCol="ProcessBarText"/>
+		<variable name="ProcessBarColor" type="string" fromCol="ProcessBarColor"/>
+		<variable name="DisplayNpc" type="vector" fromCol="DisPlayNPCID0" value="int"/>
+		<variable name="RewardType" type="int" fromCol="RewardType"/>
+		<variable name="RewardOption" type="int" fromCol="RewardOption"/>
+		<variable name="RewardItemIDList" type="vector" fromCol="RewardItemIDList0,RewardItemIDList1" value="int"/>
+		<variable name="RewardItemNumList" type="vector" fromCol="RewardItemNumList0,RewardItemNumList1" value="int"/>
+		<variable name="RewardItemShapeIDList" type="vector" fromCol="RewardItemShapeIDList0,RewardItemShapeIDList1" value="int"/>
+		<variable name="RewardItemIsBindList" type="vector" fromCol="RewardItemIsBindList0,RewardItemIsBindList1" value="int"/>
+		<variable name="Type" type="int" fromCol="MissionType"/>
+		<variable name="share" type="int" fromCol="share"/>
+		<variable name="ExeNpcID" type="int" fromCol="ActiveInfoNpcID"/>
+		<variable name="ExeMapID" type="int" fromCol="ActiveInfoMapID"/>
+		<variable name="ExeLeftPos" type="int" fromCol="ActiveInfoLeftPos"/>
+		<variable name="ExeTopPos" type="int" fromCol="ActiveInfoTopPos"/>
+		<variable name="ExeRightPos" type="int" fromCol="ActiveInfoRightPos"/>
+		<variable name="ExeBottomPos" type="int" fromCol="ActiveInfoBottomPos"/>
+		<variable name="ExeTargetID" type="int" fromCol="ActiveInfoTargetID"/>
+		<variable name="ExeTargetNum" type="int" fromCol="ActiveInfoTargetNum"/>
+		<variable name="ExeMiniStep" type="int" fromCol="ActiveInfoMiniStep"/>
+		<variable name="ExeStepProbability" type="int" fromCol="ActiveInfoStepProbability"/>
+		<variable name="ExeMaxStep" type="int" fromCol="ActiveInfoMaxStep"/>
+		<variable name="ExeTeamState" type="int" fromCol="ActiveInfoTeamState"/>
+		<variable name="ExeTimeLimit" type="int" fromCol="ActiveInfoTimeLimit"/>
+		<variable name="ExeIsRestartTimer" type="int" fromCol="ActiveInfoIsRestartTimer"/>
+		<variable name="ExeGiveBackMoney" type="long" fromCol="ActiveInfoGiveBackMoney"/>
+		<variable name="ExeGiveBackPetID" type="int" fromCol="ActiveInfoGiveBackPetID"/>
+		<variable name="ExeUseItemID" type="int" fromCol="ActiveInfoUseItemID"/>
+		<variable name="ExeOtherType" type="int" fromCol="ActiveInfoOtherType"/>
+		<variable name="AnswerCorrect" type="string" fromCol="QuestionInfoCorrectAnswer"/>
+		<variable name="AnswerWrongList" type="vector" fromCol="QuestionInfoWrongAnswerList0,QuestionInfoWrongAnswerList1,QuestionInfoWrongAnswerList2,QuestionInfoWrongAnswerList3" value="string"/>
+		<variable name="AnswerNpcID" type="int" fromCol="QuestionInfoNpcID"/>
+		<variable name="AnswerConversion" type="string" fromCol="QuestionInfoConversion"/>
+		<variable name="MissionDescriptionListA" type="string" fromCol="TaskInfoDescriptionListA"/>
+		<variable name="MissionPurposeListA" type="string" fromCol="TaskInfoPurposeListA"/>
+		<variable name="MissionTraceListA" type="string" fromCol="TaskInfoTraceListA"/>
+		<variable name="BattleAIID" type="int" fromCol="BattleID"/>
+		<variable name="BattleAIResult" type="int" fromCol="BattleResult"/>
+		<variable name="BattleAIDeathPunish" type="int" fromCol="AIInfoDeathPunish"/>
+		<variable name="BattleAITeamSteate" type="int" fromCol="AIInfoTeamSteate"/>
+		<variable name="BattleAILevel" type="string" fromCol="AIInfoBattleLevel"/>
+		<variable name="BattleMapType" type="int" fromCol="BattleInfoBattleMapType"/>
+		<variable name="BattleZoneID" type="int" fromCol="BattleInfoBattleZoneID"/>
+		<variable name="BattleDrop" type="int" fromCol="BattleInfoDrop"/>
+		<variable name="BattleTimes" type="int" fromCol="BattleInfoBattleTimes"/>
+		<variable name="BattleMonsterList" type="vector" fromCol="BattleInfoMonsterList0,BattleInfoMonsterList1,BattleInfoMonsterList2,BattleInfoMonsterList3,BattleInfoMonsterList4,BattleInfoMonsterList5" value="int"/>
+		<variable name="BattleMonsterNum" type="int" fromCol="BattleInfoMonsterNum"/>
+		<variable name="BattleDropItemID" type="int" fromCol="BattleInfoDropItemID"/>
+		<variable name="BattleDropItemNum" type="int" fromCol="BattleInfoDropItemNum"/>
+		<variable name="BattleVideo" type="int" fromCol="BattleVideo"/>
+		<variable name="AnimationID" type="int" fromCol="AnimationID"/>
+		<variable name="BranchNpcID" type="int" fromCol="ScenarioInfoBranchNpcID"/>
+		<variable name="BranchNote" type="string" fromCol="ScenarioInfoBranchNote"/>
+		<variable name="BranchOptionList" type="vector" fromCol="ScenarioInfoBranchOptionList0" value="string"/>
+		<variable name="NpcConversationList" type="vector" fromCol="ScenarioInfoNpcConversationList0,ScenarioInfoNpcConversationList1,ScenarioInfoNpcConversationList2,ScenarioInfoNpcConversationList3,ScenarioInfoNpcConversationList4,ScenarioInfoNpcConversationList5,ScenarioInfoNpcConversationList6,ScenarioInfoNpcConversationList7,ScenarioInfoNpcConversationList8" value="string"/>
+		<variable name="NpcID" type="vector" fromCol="ScenarioInfoNpcID0,ScenarioInfoNpcID1,ScenarioInfoNpcID2,ScenarioInfoNpcID3,ScenarioInfoNpcID4,ScenarioInfoNpcID5,ScenarioInfoNpcID6,ScenarioInfoNpcID7,ScenarioInfoNpcID8" value="int"/>
+		<variable name="FinishConversationList" type="vector" fromCol="ScenarioInfoFinishConversationList0,ScenarioInfoFinishConversationList1,ScenarioInfoFinishConversationList2,ScenarioInfoFinishConversationList3,ScenarioInfoFinishConversationList4,ScenarioInfoFinishConversationList5,ScenarioInfoFinishConversationList6,ScenarioInfoFinishConversationList7,ScenarioInfoFinishConversationList8" value="string"/>
+		<variable name="FinishNpcID" type="vector" fromCol="ScenarioInfoFinishNpcID0,ScenarioInfoFinishNpcID1,ScenarioInfoFinishNpcID2,ScenarioInfoFinishNpcID3,ScenarioInfoFinishNpcID4,ScenarioInfoFinishNpcID5,ScenarioInfoFinishNpcID6,ScenarioInfoFinishNpcID7,ScenarioInfoFinishNpcID8" value="int"/>
+		<variable name="UnionSeekHelp" type="int" fromCol="UnionSeekHelp"/>
+		<variable name="WorldSeekHelp" type="int" fromCol="WorldSeekHelp"/>
+		<variable name="HelpBonus" type="int" fromCol="HelpBonus"/>
+	</bean>
+</namespace>

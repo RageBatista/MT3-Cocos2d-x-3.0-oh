@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="triggers">
+
+
+
+
+	<bean name="CTriggerCondition" from="y隐藏剧情配置表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="type" type="int" fromCol="触发类型"/>
+		<variable name="school" type="int" fromCol="需求职业"/>
+		<variable name="level" type="int" fromCol="需求等级"/>
+		<variable name="quest" type="int" fromCol="需求任务"/>
+		<variable name="params" type="vector" fromCol="参数1,参数2,参数3,参数4,参数5" value="int"/>
+		<variable name="spot" type="int" fromCol="点亮名胜"/>
+		<variable name="prgbartime" type="int" fromCol="进度条时间"/>
+		<variable name="prgbartext" type="string" fromCol="进度条文字"/>
+	</bean>
+
+	<bean name="STriggerCondition" from="y隐藏剧情配置表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="school" type="int" fromCol="需求职业"/>
+		<variable name="task" type="int" fromCol="需求任务"/>
+		<variable name="level" type="int" fromCol="需求等级"/>
+		<variable name="type" type="int" fromCol="触发类型"/>
+		<variable name="para" type="vector" fromCol="参数1,参数2,参数3,参数4,参数5" value="string"/>
+		<variable name="msg" type="int" fromCol="提示消息"/>
+		<variable name="spot" type="int" fromCol="点亮名胜"/>
+		<variable name="chengjiu" type="int" fromCol="获得成就"/>
+		<variable name="reward" type="int" fromCol="完成奖励"/>
+		<variable name="missiondel" type="int" fromCol="删除任务"/>
+		<variable name="missionadd" type="int" fromCol="添加任务"/>
+	</bean>
+
+	<bean name="STriggerCondition4D" from="D点卡服表格/y隐藏剧情配置表for点卡服" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="school" type="int" fromCol="需求职业"/>
+		<variable name="task" type="int" fromCol="需求任务"/>
+		<variable name="level" type="int" fromCol="需求等级"/>
+		<variable name="type" type="int" fromCol="触发类型"/>
+		<variable name="para" type="vector" fromCol="参数1,参数2,参数3,参数4,参数5" value="string"/>
+		<variable name="msg" type="int" fromCol="提示消息"/>
+		<variable name="spot" type="int" fromCol="点亮名胜"/>
+		<variable name="chengjiu" type="int" fromCol="获得成就"/>
+		<variable name="reward" type="int" fromCol="完成奖励"/>
+		<variable name="missiondel" type="int" fromCol="删除任务"/>
+		<variable name="missionadd" type="int" fromCol="添加任务"/>
+	</bean>
+
+</namespace>

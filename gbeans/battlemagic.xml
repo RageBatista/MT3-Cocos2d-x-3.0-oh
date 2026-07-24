@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="battle">
+	<bean name="CStageInfo" from="技能相关表/j技能阶段表" genxml="client">
+		<variable name="id" type="int" fromCol="阶段ID"/> <!-- id -->
+		<variable name="stagenum" type="int" fromCol="多结果标示"/>
+		<variable name="stagetype" type="int" fromCol="阶段类型"/>
+		<variable name="executetype" type="int" fromCol="执行方式"/>
+		<variable name="delay" type="int" fromCol="播放延时"/>
+		<variable name="actiontype" type="int" fromCol="动作类型"/>
+		<variable name="actionlimittime" type="int" fromCol="动作最长时间"/>
+		<variable name="movetype" type="int" fromCol="移动类型"/>
+		<variable name="syncprotect" type="int" fromCol="同步保护"/>
+		<variable name="targetx" type="int" fromCol="目的x"/>
+		<variable name="targety" type="int" fromCol="目的y"/>
+		<variable name="phantomid" type="int" fromCol="残影对象编号"/>
+		<variable name="phantomalpha" type="int" fromCol="残影对象透明度"/>
+		<variable name="movetime" type="int" fromCol="移动时间"/>
+		<variable name="effecttype" type="int" fromCol="特效类型"/>
+		<variable name="postype" type="int" fromCol="特效位置类型"/>
+		<variable name="hastrail" type="int" fromCol="有痕迹"/>
+		<variable name="youfangxiang" type="int" fromCol="有方向"/>
+		<variable name="effectname" type="String" fromCol="特效名"/>
+		<variable name="effectlayer" type="int" fromCol="特效图层"/>
+		<variable name="effectsound" type="String" fromCol="音效"/>
+		<variable name="resulttype" type="int" fromCol="结果类型"/>
+		<variable name="resultlimittime" type="int" fromCol="执行结果最长时间"/>
+		<variable name="resultonhittime" type="int" fromCol="结果受击复位时间"/>
+		<variable name="teleporttype" type="int" fromCol="瞬移类型"/>
+		<variable name="teletime" type="int" fromCol="瞬移时间"/>
+		<variable name="blurtime" type="int" fromCol="保留"/>
+		<variable name="teleportlimittime" type="int" fromCol="瞬移最长时间"/>
+	</bean>
+	<bean name="CStageInfo2" from="技能相关表/j技能阶段表_远程" genxml="client">
+		<variable name="id" type="int" fromCol="阶段ID"/> <!-- id -->
+		<variable name="stagenum" type="int" fromCol="多结果标示"/>
+		<variable name="stagetype" type="int" fromCol="阶段类型"/>
+		<variable name="executetype" type="int" fromCol="执行方式"/>
+		<variable name="delay" type="int" fromCol="播放延时"/>
+		<variable name="actiontype" type="int" fromCol="动作类型"/>
+		<variable name="actionlimittime" type="int" fromCol="动作最长时间"/>
+		<variable name="movetype" type="int" fromCol="移动类型"/>
+		<variable name="syncprotect" type="int" fromCol="同步保护"/>
+		<variable name="targetx" type="int" fromCol="目的x"/>
+		<variable name="targety" type="int" fromCol="目的y"/>
+		<variable name="phantomid" type="int" fromCol="残影对象编号"/>
+		<variable name="phantomalpha" type="int" fromCol="残影对象透明度"/>
+		<variable name="movetime" type="int" fromCol="移动时间"/>
+		<variable name="effecttype" type="int" fromCol="特效类型"/>
+		<variable name="postype" type="int" fromCol="特效位置类型"/>
+		<variable name="hastrail" type="int" fromCol="有痕迹"/>
+		<variable name="youfangxiang" type="int" fromCol="有方向"/>
+		<variable name="effectname" type="String" fromCol="特效名"/>
+		<variable name="effectlayer" type="int" fromCol="特效图层"/>
+		<variable name="effectsound" type="String" fromCol="音效"/>
+		<variable name="resulttype" type="int" fromCol="结果类型"/>
+		<variable name="resultlimittime" type="int" fromCol="执行结果最长时间"/>
+		<variable name="resultonhittime" type="int" fromCol="结果受击复位时间"/>
+		<variable name="teleporttype" type="int" fromCol="瞬移类型"/>
+		<variable name="teletime" type="int" fromCol="瞬移时间"/>
+		<variable name="blurtime" type="int" fromCol="保留"/>
+		<variable name="teleportlimittime" type="int" fromCol="瞬移最长时间"/>
+	</bean>
+	<bean name="CSkillInfo" from="技能相关表/j技能阶段串联表" genxml="client">
+		<variable name="id" type="int" fromCol="技能ID"/> <!-- id -->
+		<variable name="stagelist" type="String" fromCol="阶段列表"/>
+		<variable name="stagelist2" type="String" fromCol="阶段列表_远程"/>
+	</bean>
+	<bean name="CBattleBackGround" from="z战斗底图表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="path" type="String" fromCol="战斗底图"/>
+	</bean>
+	<bean name="CBattleBackMusic" from="z战斗背景音乐表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="path" type="String" fromCol="res"/>
+	</bean>
+
+
+	<bean name="CFormationbaseConfig" from="光环表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="编号"/> <!-- id -->
+		<variable name="name" type="String" fromCol="名称"/>
+		<variable name="imagepath" type="String" fromCol="图片路径"/>
+		<variable name="icon" type="int" fromCol="光环图标"/>
+		<variable name="describe" type="String" fromCol="效果"/>
+		<variable name="formation" type="vector" fromCol="己方一,己方二,己方三,己方四,己方五,己方六,己方七,己方八,己方九,己方十,己方十一,己方十二,己方十三,己方十四,敌方十五,敌方十六,敌方十七,敌方十八,敌方十九,敌方二十,敌方二十一,敌方二十二,敌方二十三,敌方二十四,敌方二十五,敌方二十六,敌方二十七,敌方二十八" value="int"/>
+		<variable name="des" type="String" fromCol="描述"/>
+		<variable name="fear1" type="String" fromCol="被克一"/>
+		<variable name="fear2" type="String" fromCol="被克二"/>
+		<variable name="path" type="String" fromCol="光环背景"/>
+		<variable name="bookid" type="int" fromCol="匹配光环卷轴Id"/>
+		<variable name="bookaddexp" type="int" fromCol="匹配光环卷轴增加值"/>
+	</bean>
+
+	<bean name="CFormationRestrain" from="光环表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="编号"/> <!-- id -->
+		<variable name="restrain1" type="String" fromCol="克制一"/>
+		<variable name="restrainArg1" type="String" fromCol="克制一参数"/>
+		<variable name="restrain2" type="String" fromCol="克制二"/>
+		<variable name="restrainArg2" type="String" fromCol="克制2参数"/>
+		<variable name="beRestrained1" type="String" fromCol="被克一"/>
+		<variable name="beRestrainedArg1" type="String" fromCol="被克一参数"/>
+		<variable name="beRestrained2" type="String" fromCol="被克二"/>
+		<variable name="beRestrainedArg2" type="String" fromCol="被克二参数"/>
+	</bean>
+
+	<bean name="SEffectPostions" from="z战斗效果影响站位表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="diffuseposs" type="vector" fromCol="溅射1,溅射2,溅射3,溅射4,溅射5,溅射6,溅射7,溅射8" value="int"/>
+		<variable name="effectposs" type="vector" fromCol="图腾有效站位1,图腾有效站位2,图腾有效站位3,图腾有效站位4,图腾有效站位5,图腾有效站位6,图腾有效站位7,图腾有效站位8" value="int"/>
+	</bean>
+
+	<bean name="SFormationConfig" from="光环表" genxml="server">
+		<variable name="id" type="int" fromCol="编号"/> <!-- id -->
+		<variable name="name" type="String" fromCol="名称"/>
+		<variable name="positions" type="vector" fromCol="己方一,己方二,己方三,己方四,己方五,己方六,己方七,己方八,己方九,己方十,己方十一,己方十二,己方十三,己方十四" value="int"/>
+		<variable name="suppress1" type="String" fromCol="被克一"/>
+		<variable name="suppressparam1" type="String" fromCol="被克一参数"/>
+		<variable name="suppress2" type="String" fromCol="被克二"/>
+		<variable name="suppressparam2" type="String" fromCol="被克二参数"/>
+		<variable name="matchid" type="int" fromCol="匹配光环卷轴Id"/>
+		<variable name="matchidaddexp" type="int" fromCol="匹配光环卷轴增加值"/>
+	</bean>
+
+	<bean name="CBattleAIConfig" from="z战斗AI/AI动作表" genxml="client">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="talkinfo" type="String" fromCol="说话信息"/>
+		<variable name="talkshow" type="int" fromCol="说话信息是否显示到聊天框"/>
+		<variable name="tipsinfo" type="String" fromCol="提示框信息"/>
+		<variable name="appearchange" type="int" fromCol="改变形象"/>
+		<variable name="playeffect" type="String" fromCol="播放战场特效"/>
+		<variable name="playsound" type="int" fromCol="播放音乐"/>
+		<variable name="changeground" type="int" fromCol="改变战场地图"/>
+		<variable name="changegroundeffect" type="int" fromCol="改变场景时的渐变特效"/>
+		<variable name="speak" type="String" fromCol="语音资源名"/>
+		<variable name="speakshow" type="int" fromCol="语音信息是否显示到聊天框"/>
+		<variable name="speaktime" type="String" fromCol="语音信息时长"/>
+	</bean>
+
+
+	<bean name="STargetFilter" from="z战斗AI/对象过滤表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="relation" type="String" fromCol="关系"/>
+		<variable name="unitrelation" type="String" fromCol="单位关系"/>
+		<variable name="unitcamp" type="int" fromCol="单位阵营方"/>
+		<variable name="unittype" type="String" fromCol="战斗单位类型"/>
+		<variable name="unitmonstertype" type="int" fromCol="怪物类型"/>
+		<variable name="specialtype" type="int" fromCol="特殊类型"/>
+		<variable name="includedead" type="String" fromCol="是否包含死亡"/>
+		<variable name="includehide" type="String" fromCol="是否包含隐身"/>
+		<variable name="roundresult" type="String" fromCol="本回合累积结果"/>
+		<variable name="hppercentmin" type="String" fromCol="最小hp百分比"/>
+		<variable name="hppercentmax" type="String" fromCol="最大hp百分比"/>
+		<variable name="mppercentmin" type="String" fromCol="最小mp百分比"/>
+		<variable name="mppercentmax" type="String" fromCol="最大mp百分比"/>
+		<variable name="attributesort" type="String" fromCol="属性排序"/>
+		<variable name="buffs" type="String" fromCol="buff"/>
+		<variable name="gender" type="String" fromCol="性别"/>
+		<variable name="school" type="String" fromCol="职业"/>
+		<variable name="levelmin" type="int" fromCol="等级下限"/>
+		<variable name="levelmax" type="int" fromCol="等级上限"/>
+		<variable name="monsterids" type="String" fromCol="怪物ID"/>
+		<variable name="figherids" type="String" fromCol="战斗ID"/>
+	</bean>
+
+	<bean name="SAIAction" from="z战斗AI/AI动作表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="clientAction" type="bool" fromCol="有无客户端动作"/>
+		<variable name="changeshape" type="String" fromCol="改变形象"/>
+		<variable name="changeground" type="int" fromCol="改变战场地图"/>
+		<variable name="changebgm" type="int" fromCol="播放音乐"/>
+		<variable name="optiontype" type="String" fromCol="动作类型"/>
+		<variable name="optionid" type="String" fromCol="技能ID"/>
+		<variable name="skillsoltid" type="String" fromCol="调用伙伴几号槽里技能"/>
+		<variable name="skillfactor" type="String" fromCol="技能等级系数"/>
+		<variable name="skillconstant" type="String" fromCol="技能等级常数"/>
+		<variable name="escapeodds" type="String" fromCol="逃跑几率"/>
+		<variable name="summons" type="String" fromCol="召唤"/>
+		<variable name="target" type="String" fromCol="目标"/>
+		<variable name="bonustask" type="String" fromCol="触发隐藏剧情"/>
+		<variable name="changeaim" type="int" fromCol="场景AI是否指定主角"/>
+	</bean>
+
+	<bean name="SCondition" from="z战斗AI/条件表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="battleround" type="String" fromCol="战斗回合数"/>
+		<variable name="conditionscript" type="String" fromCol="条件脚本"/>
+		<variable name="bounusnum" type="int" fromCol="奖励次数"/>
+		<variable name="fighterround" type="String" fromCol="AI怪回合数"/>
+		<variable name="odds" type="String" fromCol="触发几率"/>
+		<variable name="targetfilters" type="String" fromCol="对象过滤"/>
+		<variable name="skillids" type="String" fromCol="被使用的技能ID"/>
+	</bean>
+
+	<bean name="SBattleAI" from="z战斗AI/AI总表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="trigger" type="int" fromCol="触发时机"/>
+		<variable name="conditions" type="String" fromCol="条件ID"/>
+		<variable name="actionId" type="String" fromCol="动作ID"/>
+		<variable name="count" type="String" fromCol="执行次数"/>
+		<variable name="enableAI" type="String" fromCol="启用AI"/>
+		<variable name="extraAI" type="String" fromCol="外部AI文件"/>
+	</bean>
+
+	<bean name="SBattleInfo" from="z战斗信息表-复合/z战斗信息表_1xxx,z战斗信息表-复合/z战斗信息表_剧情_8xxx,z战斗信息表-复合/z战斗信息表_练功区特殊_9xxx" genxml="server">
+		<variable name="id" type="int" fromCol="ID"/> <!-- id -->
+		<variable name="fightAItype" type="int" fromCol="战斗AI类型"/>
+		<variable name="scene" type="int" fromCol="底图"/>
+		<variable name="bgm" type="int" fromCol="背景音乐"/>
+		<variable name="cameratype" type="int" fromCol="战斗录像类型"/>
+		<variable name="battlelevel" type="String" fromCol="战斗等级"/>
+		<variable name="environment" type="int" fromCol="战场环境"/>
+		<variable name="battleAI" type="String" fromCol="战场AI"/>
+		<variable name="award" type="int" fromCol="奖励ID"/>
+		<variable name="victorycondition" type="int" fromCol="战斗胜利判定"/>
+		<variable name="isNotDecEndure" type="int" fromCol="战斗失败不掉耐久"/>
+		<variable name="xiezhan" type="int" fromCol="助战"/>
+		<variable name="deathinfo" type="int" fromCol="死亡提醒显示"/>
+		<variable name="monsterNumScript" type="String" fromCol="怪物数量"/>
+		<variable name="positions" type="vector" fromCol="点1,点2,点3,点4,点5,点6,点7,点8,点9,点10,点11,点12,点13,点14,点15,点16,点17,点18,点19,点20,点21,点22,点23,点24,点25,点26,点27,点28" value="String"/>
+		<variable name="randompos" type="String" fromCol="站位随机"/>
+	</bean>
+
+	<bean name="SCatchRate" from="b捕捉几率配置表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="upperlimit" type="int" fromCol="血量上限"/>
+		<variable name="lowerlimit" type="int" fromCol="血量下限"/>
+		<variable name="catchfactor" type="double" fromCol="系数"/>
+		<variable name="catchconst" type="double" fromCol="常数"/>
+	</bean>
+
+	<bean name="SBattleMonsterConfig" from="l练功区普通战斗怪物数量配置" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="teamsize" type="int" fromCol="队伍人数"/>
+		<variable name="怪物数目" type="int" fromCol="怪物数目"/>
+		<variable name="普通怪数目" type="int" fromCol="普通怪数目"/>
+		<variable name="头领数目" type="int" fromCol="头领数目"/>
+		<variable name="出现概率" type="int" fromCol="出现概率"/>
+	</bean>
+
+	<bean name="SRoleFighteAI" from="挂机设置" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="schoolid" type="int" fromCol="职业组"/>
+		<variable name="aiid" type="int" fromCol="AI编号"/>
+		<variable name="effectpoint" type="int" fromCol="连击点数参数"/>
+		<variable name="defaulthave" type="int" fromCol="是否默认勾选"/>
+	</bean>
+
+	<bean name="CRoleFighteAI" from="挂机设置" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="school" type="int" fromCol="职业组"/>
+		<variable name="ai" type="int" fromCol="AI组"/>
+		<variable name="skill" type="int" fromCol="技能ID"/>
+		<variable name="level" type="int" fromCol="技能等级"/>
+		<variable name="param" type="int" fromCol="连击点数参数"/>
+		<variable name="desc" type="String" fromCol="描述"/>
+	</bean>
+</namespace>

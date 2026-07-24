@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模拟支付测试平台</title>
+<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+<style>
+.order-card {
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.badge-large {
+    font-size: 1.1em;
+    padding: 8px 12px;
+}
+</style>
+</head>
+<body>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="mdi mdi-test-tube"></i> 模拟支付测试平台
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h6><i class="mdi mdi-information"></i> 使用说明：</h6>
+                        <ul class="mb-0">
+                            <li>此页面用于开发测试，可以模拟订单支付成功</li>
+                            <li>点击订单卡片可以模拟该订单支付成功</li>
+                            <li>系统会自动分配佣金给相关代理</li>
+                            <li><strong>生产环境请禁用此功能！</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 快速创建订单 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">快速创建测试订单</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>选择玩家</label>
+                                    <select class="form-select" id="userId">
+                                        <option value="">请选择玩家</option>
+                                        {volist name="users" id="user"}
+                                        <option value="{$user.id}">{$user.username} (ID:{$user.id})</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>充值金额</label>
+                                    <input type="number" class="form-control" id="amount" placeholder="请输入金额" value="100">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>&nbsp;</label>
+                                    <button class="btn btn-success w-100" onclick="createOrder()">
+                                        <i class="mdi mdi-plus"></i> 创建订单
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 待支付订单列表 -->
+                    <h5 class="mt-4">待支付订单列表 <span class="badge bg-warning">{$orders|count}</span></h5>
+                    <hr>
+                    
+                    {if count($orders) > 0}
+                    <div class="row" id="orderList">
+                        {volist name="orders" id="order"}
+                        <div class="col-md-4">
+                            <div class="card order-card" onclick="payOrder({$order.id})">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        订单 #{$order.id}
+                                        <span class="badge bg-warning float-end">待支付</span>
+                                    </h6>
+                                    <p class="mb-2">
+                                        <strong>订单号：</strong>{$order.orderid}<br>
+                                        <strong>金额：</strong><span class="text-danger fs-5">{$order.realmoney} 元</span><br>
+                                        <strong>时间：</strong>{$order.date}
+                                    </p>
+                                    <button class="btn btn-sm btn-primary w-100">
+                                        <i class="mdi mdi-credit-card"></i> 模拟支付成功
+                                    </button>
+                                    <button class="btn btn-sm btn-info w-100 mt-1" onclick="event.stopPropagation(); viewCommission({$order.id})">
+                                        <i class="mdi mdi-eye"></i> 查看佣金分配
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {/volist}
+                    </div>
+                    {else}
+                    <div class="alert alert-warning">
+                        <i class="mdi mdi-alert"></i> 暂无待支付订单，请先创建测试订单
+                    </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 佣金分配详情模态框 -->
+<div class="modal fade" id="commissionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">佣金分配详情</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="commissionContent">
+                加载中...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__MB__/js/jquery.min.js"></script>
+<script src="__MB__/js/bootstrap.min.js"></script>
+<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+<script>
+// 创建订单
+function createOrder() {
+    var userId = $('#userId').val();
+    var amount = $('#amount').val();
+    
+    if (!userId) {
+        Swal.fire('错误', '请选择玩家', 'error');
+        return;
+    }
+    
+    if (!amount || amount <= 0) {
+        Swal.fire('错误', '请输入有效金额', 'error');
+        return;
+    }
+    
+    $.post('/index.php?s=/{$app}/testpay/createOrder', {
+        user_id: userId,
+        amount: amount
+    }, function(res) {
+        if (res.code == 1) {
+            Swal.fire({
+                icon: 'success',
+                title: '订单创建成功',
+                html: `订单号：${res.data.order_no}<br>金额：${res.data.amount}元`,
+                confirmButtonText: '刷新页面'
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire('失败', res.msg, 'error');
+        }
+    }, 'json');
+}
+
+// 模拟支付
+function payOrder(orderId) {
+    Swal.fire({
+        title: '确认支付？',
+        text: '将模拟此订单支付成功并分配佣金',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确认支付',
+        cancelButtonText: '取消'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.post('/index.php?s=/{$app}/testpay/callback', {
+                order_id: orderId
+            }, function(res) {
+                if (res.code == 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '支付成功',
+                        text: res.msg,
+                        confirmButtonText: '查看佣金分配'
+                    }).then(() => {
+                        viewCommission(orderId);
+                    });
+                } else {
+                    Swal.fire('失败', res.msg, 'error');
+                }
+            }, 'json').fail(function() {
+                Swal.fire('错误', '网络请求失败', 'error');
+            });
+        }
+    });
+}
+
+// 查看佣金分配
+function viewCommission(orderId) {
+    $.get('/index.php?s=/{$app}/testpay/viewCommission', {
+        order_id: orderId
+    }, function(res) {
+        if (res.code == 1) {
+            var html = `
+                <h6>订单信息</h6>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>订单号</td>
+                        <td>${res.data.order.orderid}</td>
+                    </tr>
+                    <tr>
+                        <td>订单金额</td>
+                        <td class="text-danger fw-bold">${res.data.order.realmoney} 元</td>
+                    </tr>
+                    <tr>
+                        <td>订单状态</td>
+                        <td>${res.data.order.status == 1 ? '<span class="badge bg-success">已支付</span>' : '<span class="badge bg-warning">待支付</span>'}</td>
+                    </tr>
+                </table>
+                
+                <h6 class="mt-3">佣金分配明细</h6>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>代理ID</th>
+                            <th>代理账号</th>
+                            <th>佣金类型</th>
+                            <th>佣金金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            if (res.data.commission.length > 0) {
+                res.data.commission.forEach(function(item) {
+                    html += `
+                        <tr>
+                            <td>${item.agent_id}</td>
+                            <td>${item.agent_name}</td>
+                            <td><span class="badge bg-primary">${item.type}</span></td>
+                            <td class="text-success fw-bold">${item.amount} 元</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                html += `<tr><td colspan="4" class="text-center text-muted">暂无佣金分配</td></tr>`;
+            }
+            
+            html += `
+                    </tbody>
+                </table>
+                
+                <div class="alert alert-success">
+                    <strong>总计：</strong>
+                    ${res.data.commission.reduce((sum, item) => sum + parseFloat(item.amount), 0).toFixed(2)} 元
+                </div>
+            `;
+            
+            $('#commissionContent').html(html);
+            $('#commissionModal').modal('show');
+        } else {
+            Swal.fire('失败', res.msg, 'error');
+        }
+    }, 'json');
+}
+</script>
+</body>
+</html>
+

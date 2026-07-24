@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>支付结果 - CDK发放</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="__MB__/css/bootstrap.min.css">
+  <style>
+    body{background:#f7f8fb;}
+    .container{max-width:720px;}
+    .card{border-radius:16px;box-shadow:0 10px 24px rgba(22,28,45,.08);}
+    .cdk{font-size:20px;font-weight:700;letter-spacing:1px;}
+  </style>
+</head>
+<body>
+<div class="container my-4">
+  <div class="card p-4">
+    <h4 class="mb-2">支付结果</h4>
+    <p class="text-muted mb-2">订单号：{$orderid|default='-'}</p>
+    <p class="text-muted mb-3">支付状态：{$pay_status|default='-'}</p>
+    {if isset($cdk) && $cdk}
+      <div class="alert alert-success">
+        <div>已为本订单生成 CDK：</div>
+        <div class="cdk mt-2" id="cdkText">{$cdk}</div>
+        <button class="btn btn-primary mt-3" id="copyBtn">复制CDK</button>
+      </div>
+      <p class="text-muted">此CDK尚未使用，请前往 <a href="/index.php?s=/login/index/auth" target="_blank" rel="noopener">CDK兑换</a> 页面输入使用。</p>
+    {else/}
+      <!--<div class="alert alert-warning">未获取到CDK，请稍后刷新或联系在线客服。</div-->
+    {/if}
+    <!--div class="mt-3">
+      <a class="btn btn-outline-secondary" href="/index.php?s=/api/game/kefu" target="_blank" rel="noopener">联系客服</a>
+    </div-->
+  </div>
+</div>
+<script>
+document.getElementById('copyBtn')?.addEventListener('click', function(){
+  var cdkEl = document.getElementById('cdkText');
+  var cdk = cdkEl ? (cdkEl.textContent || cdkEl.innerText || '') : '';
+  if (!cdk) return;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(cdk).then(function(){
+      alert('复制成功：' + cdk);
+    }).catch(function(){
+      fallbackCopy(cdk);
+    });
+  } else {
+    fallbackCopy(cdk);
+  }
+});
+
+function fallbackCopy(text){
+  var textarea = document.createElement('textarea');
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    alert('复制成功：' + text);
+  } catch (e) {
+    alert('复制失败，请手动选择文本复制');
+  }
+  document.body.removeChild(textarea);
+}
+</script>
+</body>
+</html>

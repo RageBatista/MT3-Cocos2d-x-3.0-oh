@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>公益西游攻略｜门派全攻略</title>
+  <style>
+    :root{
+      --blue:#2b78ff;
+      --blue2:#1f66e5;
+      --bg:#eaf3ff;
+      --card:#ffffff;
+      --line:#e7eef8;
+      --text:#1f2d3d;
+      --muted:#6b7c93;
+      --shadow: 0 12px 26px rgba(20,60,120,.12);
+      --radius:12px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,
+                   "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 20% 0%, rgba(43,120,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 10%, rgba(43,120,255,.10), transparent 60%),
+        linear-gradient(180deg, #f5fbff 0%, var(--bg) 55%, #dfefff 100%);
+    }
+
+    /* 顶部细条 */
+    .topbar{
+      height:18px;
+      background: linear-gradient(90deg, var(--blue), #36b0ff);
+    }
+
+    .container{max-width:1200px;margin:0 auto;padding:18px 18px 60px;}
+
+    /* 标题行 */
+    .titleRow{
+      display:flex;align-items:center;gap:10px;
+      padding:14px 0 10px;
+      color:var(--blue2);
+      font-weight:800;
+      font-size:22px;
+    }
+    .titleRow .diamond{
+      width:10px;height:10px;background:var(--blue);
+      transform: rotate(45deg);
+      border-radius:2px;
+      box-shadow: 0 0 0 3px rgba(43,120,255,.12);
+    }
+    .titleRow small{
+      font-weight:600;color:var(--muted);margin-left:8px;
+      font-size:13px;
+    }
+
+    /* 门派标签 */
+    .tabs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      padding: 10px 0 14px;
+      border-bottom: 1px solid rgba(43,120,255,.18);
+    }
+    .tab{
+      padding:10px 16px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(43,120,255,.14);
+      color: #2a5cc7;
+      font-weight:800;
+      cursor:pointer;
+      user-select:none;
+      transition:.15s ease;
+    }
+    .tab:hover{transform: translateY(-1px); box-shadow: 0 8px 16px rgba(20,60,120,.08)}
+    .tab.active{
+      background: #ffffff;
+      border-color: rgba(43,120,255,.35);
+      color: var(--blue2);
+      box-shadow: 0 10px 18px rgba(20,60,120,.10);
+    }
+
+    /* 主卡片（模仿截图的大白卡） */
+    .card{
+      margin-top:14px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(20,60,120,.06);
+      overflow:hidden;
+    }
+
+    .cardHead{
+      padding: 14px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .crumb{
+      display:flex;align-items:center;gap:10px;
+      color:var(--blue2);
+      font-weight:900;
+    }
+    .crumb .back{
+      color:var(--blue2);
+      font-weight:800;
+      text-decoration:none;
+      border-bottom: 2px solid rgba(43,120,255,.25);
+      padding-bottom:2px;
+    }
+
+    .cardBody{
+      display:grid;
+      grid-template-columns: 320px 1fr 340px;
+      gap: 16px;
+      padding: 16px;
+      align-items:start;
+    }
+
+    /* 左侧立绘区域 */
+    .portrait{
+      position:relative;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(43,120,255,.06), rgba(43,120,255,.02));
+      border:1px solid rgba(43,120,255,.12);
+      height: 430px;
+      overflow:hidden;
+    }
+    .portrait img{
+      width:100%;height:100%;object-fit:cover;opacity:.95;
+    }
+    .portrait .nameBadge{
+      position:absolute;left:12px;bottom:12px;
+      padding:8px 12px;border-radius:999px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(43,120,255,.18);
+      color: var(--blue2);
+      font-weight:900;
+      box-shadow: 0 10px 18px rgba(20,60,120,.10);
+    }
+
+    /* 中间内容块 */
+    .mid h3{
+      margin: 4px 0 8px;
+      font-size:18px;
+      color: var(--blue2);
+    }
+    .mid .desc{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+      background: rgba(43,120,255,.04);
+      border:1px solid rgba(43,120,255,.12);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .section{
+      margin-top:14px;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+    .sectionTitle{
+      display:flex;align-items:center;gap:8px;
+      color: var(--blue2);
+      font-weight:900;
+      margin: 0 0 8px;
+    }
+    .sectionTitle:before{
+      content:"";
+      width:6px;height:6px;border-radius:50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 3px rgba(43,120,255,.14);
+    }
+
+    /* 技能图标条（圆形 icon） */
+    .iconRow{
+      display:flex;flex-wrap:wrap;gap:10px;
+      padding: 6px 0 10px;
+    }
+    .skillIcon{
+      width:44px;height:44px;border-radius:50%;
+      border:2px solid rgba(43,120,255,.25);
+      background:#fff;
+      display:grid;place-items:center;
+      box-shadow: 0 8px 14px rgba(20,60,120,.08);
+      overflow:hidden;
+    }
+    .skillIcon img{width:100%;height:100%;object-fit:cover}
+
+    .infoBox{
+      background: #f4f8ff;
+      border:1px solid rgba(43,120,255,.14);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color:#2a3a52;
+      line-height:1.85;
+      font-size:14px;
+    }
+    .infoBox strong{color:#1c2c44}
+
+    /* 右侧栏：宝宝推荐 + 攻略列表 */
+    .right h3{
+      margin: 4px 0 8px;
+      font-size:18px;
+      color: var(--blue2);
+    }
+    .petRow{
+      display:flex;gap:14px;flex-wrap:wrap;
+      padding: 8px 0 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .pet{
+      width:70px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+    }
+    .pet .img{
+      width:58px;height:58px;border-radius:14px;
+      background: #fff;
+      border:1px solid rgba(43,120,255,.18);
+      box-shadow: 0 10px 18px rgba(20,60,120,.10);
+      margin:0 auto 6px;
+      overflow:hidden;
+    }
+    .pet img{width:100%;height:100%;object-fit:cover}
+
+    .list{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color:#2a3a52;
+      line-height:1.85;
+      font-size:14px;
+    }
+    .list li{margin:8px 0}
+    .thumbs{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .thumb{
+      border-radius: 12px;
+      overflow:hidden;
+      border: 1px solid rgba(20,60,120,.08);
+      box-shadow: 0 10px 18px rgba(20,60,120,.08);
+      background:#fff;
+      height:110px;
+      display:grid;place-items:center;
+      color:var(--muted);
+      font-weight:800;
+      font-size:13px;
+    }
+
+    /* 下方蓝色模块（模仿截图“武神坛”大蓝块区） */
+    .bluePanel{
+      margin-top: 22px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #2c86ff, #1e66e8);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .bluePanel .ph{
+      padding: 18px 16px;
+      color:#fff;
+      display:flex;align-items:center;justify-content:space-between;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .bluePanel .body{
+      background: rgba(255,255,255,.10);
+      padding: 14px 16px 18px;
+      color: rgba(255,255,255,.92);
+      line-height:1.85;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+    }
+    .bluePanel ul{margin:0;padding-left:18px}
+    .rank{
+      background: rgba(255,255,255,.88);
+      color:#193050;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 10px 18px rgba(0,0,0,.12);
+    }
+    .rank table{width:100%;border-collapse:collapse;font-size:13px}
+    .rank th,.rank td{padding:8px;border-bottom:1px solid rgba(25,48,80,.10);text-align:left}
+    .rank th{color:#2956b8;font-weight:900}
+    .rank tr:last-child td{border-bottom:none}
+
+    @media (max-width: 1100px){
+      .cardBody{grid-template-columns: 260px 1fr}
+      .right{grid-column: 1 / -1}
+    }
+    @media (max-width: 760px){
+      .cardBody{grid-template-columns: 1fr}
+      .portrait{height:280px}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar"></div>
+
+  <div class="container">
+    <div class="titleRow">
+      <span class="diamond"></span>
+      门派全攻略
+      <small>各个门派的资料、加点、玩法、攻略在这里均可找到</small>
+    </div>
+
+    <!-- 门派标签（你可以按需要增删） -->
+    <div class="tabs" role="tablist" aria-label="门派选择">
+      <div class="tab">大唐官府</div>
+      <div class="tab active">普陀山</div>
+      <div class="tab">龙宫</div>
+      <div class="tab">阴曹地府</div>
+      <div class="tab">方寸山</div>
+      <div class="tab">魔王寨</div>
+      <div class="tab">狮驼岭</div>
+      <div class="tab">化生寺</div>
+      <div class="tab">月宫</div>
+      <div class="tab">女儿村</div>
+      <div class="tab">小雷音</div>
+      <div class="tab">花果山</div>
+      <div class="tab">须弥海</div>
+    </div>
+
+    <section class="card">
+      <div class="cardHead">
+        <div class="crumb">
+          <a class="back" href="#top">回帖辅助</a>
+          <span style="color:#86a0c6;font-weight:800;">/</span>
+          <span>公益西游攻略</span>
+        </div>
+        <div style="color:#86a0c6;font-weight:800;">更新：持续维护</div>
+      </div>
+
+      <div class="cardBody">
+        <!-- 左：立绘 -->
+        <aside class="portrait" aria-label="门派立绘">
+          <!-- 换成你的立绘图片 -->
+          <img src="https://via.placeholder.com/600x900.png?text=%E9%97%A8%E6%B4%BE%E7%AB%8B%E7%BB%98" alt="门派立绘占位图">
+          <div class="nameBadge">普陀山</div>
+        </aside>
+
+        <!-- 中：门派定位 / 技能 / 加点 / 攻略正文（这里填你的文档内容） -->
+        <article class="mid">
+          <h3>普陀山门派定位</h3>
+          <p class="desc">
+            辅助治疗核心，队伍中“奶位”稳定。新手组队友好，容错高，适合长期养成。
+          </p>
+
+          <div class="section">
+            <div class="sectionTitle">门派技能</div>
+            <div class="iconRow" aria-label="技能图标">
+              <!-- 换成真实技能图标 -->
+              <div class="skillIcon"><img src="https://via.placeholder.com/88.png?text=1" alt=""></div>
+              <div class="skillIcon"><img src="https://via.placeholder.com/88.png?text=2" alt=""></div>
+              <div class="skillIcon"><img src="https://via.placeholder.com/88.png?text=3" alt=""></div>
+              <div class="skillIcon"><img src="https://via.placeholder.com/88.png?text=4" alt=""></div>
+              <div class="skillIcon"><img src="https://via.placeholder.com/88.png?text=5" alt=""></div>
+              <div class="skillIcon"><img src="https://via.placeholder.com/88.png?text=6" alt=""></div>
+              <div class="skillIcon"><img src="https://via.placeholder.com/88.png?text=7" alt=""></div>
+              <div class="skillIcon"><img src="https://via.placeholder.com/88.png?text=8" alt=""></div>
+            </div>
+
+            <div class="infoBox">
+              <strong>开局流程：</strong>先别管别的，只做主线可直升 65；65 前不建议做师门（文档提示有 bug 风险），剧情做完再加帮派、做日常、点修。<br/>
+              <strong>队伍搭配：</strong>“奶 + 封”基本必带；输出按喜好选。<br/>
+              <strong>封系推荐：</strong>方寸（满经脉可定身 2 个）。<br/>
+              <strong>法系推荐：</strong>魔王（暴击伤害高，地煞术机制强）。<br/>
+              <strong>输出门派：</strong>花果（暴击几率大）、月宫（可封可输出）、狮驼（秒 7 但出手慢）等。
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="sectionTitle">材料与宠物（文档整理）</div>
+            <div class="infoBox">
+              <strong>材料：</strong>日常怪掉千叶碎片/长生锁。千叶碎片可合成千叶莲露，给宝宝吃可降 20 级但属性不降（每只最多 5 次）。长生锁可换孩子技能等。<br/>
+              <strong>宠物：</strong>神兽可过渡（文档提到神鸡过渡性价比高）；后期合宠追 12 技能全红；合之前先把成长/资质与必带技能处理好。<br/>
+              <strong>装备：</strong>可打无级别；停级建议做 100 无级别（只做武器），其他部位按停级做对应等级装备以带物爆/法爆等特效；文档提示无级别与物爆/法爆类特效不可共存。
+            </div>
+          </div>
+        </article>
+
+        <!-- 右：携带法宝推荐 + 攻略列表 + 缩略图 -->
+        <aside class="right">
+          <h3>携带法宝推荐</h3>
+          <div class="petRow" aria-label="推荐列表">
+            <div class="pet">
+              <div class="img"><img src="https://via.placeholder.com/120.png?text=A" alt=""></div>
+              七宝玲珑灯
+            </div>
+            <div class="pet">
+              <div class="img"><img src="https://via.placeholder.com/120.png?text=B" alt=""></div>
+              风袋
+            </div>
+            <div class="pet">
+              <div class="img"><img src="https://via.placeholder.com/120.png?text=C" alt=""></div>
+              降魔斗篷
+            </div>
+            <div class="pet">
+              <div class="img"><img src="https://via.placeholder.com/120.png?text=D" alt=""></div>
+              碧玉葫芦
+            </div>
+          </div>
+
+          <h3 style="margin-top:14px;">普陀山攻略</h3>
+          <ol class="list">
+            <li>开局：主线优先到 65，剧情结束再做师门/加帮派点修。</li>
+            <li>门派定位：辅助治疗核心，适合新手与长期养成。</li>
+            <li>队伍结构：奶封必带；封系优先方寸；法系优先魔王。</li>
+            <li>宠物路线：神兽过渡 → 合宠追 12 技能全红。</li>
+            <li>材料路线：千叶碎片/长生锁/转盘兑换与特卖道具。</li>
+          </ol>
+
+          <div class="thumbs" aria-label="缩略图占位">
+            <div class="thumb">缩略图 1</div>
+            <div class="thumb">缩略图 2</div>
+          </div>
+
+          <div style="margin-top:12px;padding:10px 12px;border-radius:12px;background:#fff7e6;border:1px solid rgba(255,153,0,.25);color:#7a4b00;font-weight:900;line-height:1.7;">
+            重要提醒：本服赞助比例 1:300。切勿相信折扣赞助，不要共享账号密码。
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 下方蓝色模块（可选，用来放“武神坛/赛事/公告”之类） -->
+    <section class="bluePanel" aria-label="拓展模块">
+      <div class="ph">
+        <span>武神坛</span>
+        <span style="opacity:.9;font-weight:800;">查看相关专题 / 战神组 / 群英组</span>
+      </div>
+      <div class="body">
+        <div>
+          <ul>
+            <li>这里可以放：赛事资讯、每周排行、精选视频、热门攻略链接。</li>
+            <li>也可以把你文档里“活动/转盘/兑换”相关内容移到这里。</li>
+            <li>整体配色和布局与参考图下半部分一致：大蓝底 + 白色榜单卡。</li>
+          </ul>
+        </div>
+        <div class="rank">
+          <table>
+            <thead>
+              <tr><th>服务器</th><th>积分</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>再续前缘</td><td>150</td></tr>
+              <tr><td>钓鱼岛</td><td>140</td></tr>
+              <tr><td>紫禁之巅</td><td>130</td></tr>
+              <tr><td>海棠迎风</td><td>120</td></tr>
+              <tr><td>一战倾城</td><td>90</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // 简单的 tabs 交互（可选）：点击高亮
+    document.querySelectorAll('.tab').forEach(t=>{
+      t.addEventListener('click', ()=>{
+        document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+        // 你也可以在这里根据门派切换内容（用数据/JSON渲染）
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="gs.log"/>
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="100MB"/>
+        <param name="MaxBackupIndex" value="100"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="gs: %d{dd MMM yyyy HH:mm:ss,SSS} %5p %c{1}:%L %t- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="GMCOMMAND" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="logs/gm_command.log"/>
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="50MB"/>
+        <param name="MaxBackupIndex" value="30"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %5p %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="GMSECURITY" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="logs/gm_security.log"/>
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="20MB"/>
+        <param name="MaxBackupIndex" value="30"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %5p %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="GMAUDIT" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="logs/gm_audit.log"/>
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="50MB"/>
+        <param name="MaxBackupIndex" value="90"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} | %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="GMCOMMAND" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="GMCOMMAND"/>
+    </logger>
+
+    <logger name="GMSECURITY" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="GMSECURITY"/>
+    </logger>
+
+    <logger name="GMAUDIT" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="GMAUDIT"/>
+    </logger>
+
+    <root>
+        <priority value="debug"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</log4j:configuration>

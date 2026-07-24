@@ -1,0 +1,306 @@
+name: Codex Governance Quality Gate
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - ".gitattributes"
+      - ".codex/**"
+      - ".claude/**"
+      - ".agents/**"
+      - "tools/codex/**"
+      - ".github/workflows/codex-skills-quality-gate.yml"
+      - ".github/workflows/claude-config-audit.yml"
+      - ".github/workflows/claude-evolution-nightly.yml"
+      - ".github/workflows/encoding-check.yml"
+      - "tools/scripts/CI-CD-EncodeCheck.ps1"
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - ".gitattributes"
+      - ".codex/**"
+      - ".claude/**"
+      - ".agents/**"
+      - "tools/codex/**"
+      - ".github/workflows/codex-skills-quality-gate.yml"
+      - ".github/workflows/claude-config-audit.yml"
+      - ".github/workflows/claude-evolution-nightly.yml"
+      - ".github/workflows/encoding-check.yml"
+      - "tools/scripts/CI-CD-EncodeCheck.ps1"
+  workflow_dispatch:
+
+jobs:
+  codex-governance:
+    name: Validate Codex Governance Chain
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      CODEX_HOME: ${{ github.workspace }}/.ci-codex-governance-home
+    steps:
+      - name: Checkout MT3 without full LFS hydration
+        uses: actions/checkout@v7
+        with:
+          lfs: false
+          fetch-depth: 0
+
+      - name: Hydrate required governance XML only
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $requiredLfsFiles = @(
+            "client/android/LocojoyProject/build.xml",
+            "server/server/game_server/build.xml",
+            "server/server/game_server/gnet.xml",
+            "server/server/game_server/protocol.main.xml",
+            "server/server/game_server/gs/build.xml"
+          )
+          git lfs pull -I ($requiredLfsFiles -join ",") --exclude=""
+          if ($LASTEXITCODE -ne 0) {
+            throw "Targeted Git LFS hydration failed with exit code $LASTEXITCODE"
+          }
+          foreach ($path in $requiredLfsFiles) {
+            if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+              throw "Required LFS-backed governance XML is missing: $path"
+            }
+            $bytes = [System.IO.File]::ReadAllBytes($path)
+            $prefixLength = [Math]::Min($bytes.Length, 200)
+            $prefix = [System.Text.Encoding]::ASCII.GetString($bytes, 0, $prefixLength)
+            if ($prefix.StartsWith("version https://git-lfs.github.com/spec/v1")) {
+              throw "Required governance XML remains an LFS pointer: $path"
+            }
+          }
+
+      - name: Checkout pinned OpenAI skills validator
+        uses: actions/checkout@v7
+        with:
+          repository: openai/skills
+          ref: 49f948faa9258a0c61caceaf225e179651397431
+          path: .official-openai-skills
+          sparse-checkout: skills/.system/skill-creator/scripts/quick_validate.py
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install pinned audit tools
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          python -X utf8 -m pip install --disable-pip-version-check PyYAML==6.0.2 jsonschema==4.25.1
+          if ($LASTEXITCODE -ne 0) {
+            throw "Pinned Python audit tool installation failed"
+          }
+          npm ci --prefix tools/codex
+          if ($LASTEXITCODE -ne 0) {
+            throw "Pinned project-local Codex CLI installation failed"
+          }
+          $codexBin = "${{ github.workspace }}/tools/codex/node_modules/.bin"
+          [System.IO.File]::AppendAllText(
+            $env:GITHUB_PATH,
+            $codexBin + [Environment]::NewLine,
+            [System.Text.UTF8Encoding]::new($false)
+          )
+
+      - name: Fail-closed tool and validator probe
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          foreach ($tool in @("git", "git-lfs", "python", "codex", "powershell.exe", "pwsh.exe")) {
+            if ($null -eq (Get-Command $tool -ErrorAction SilentlyContinue)) {
+              throw "Required governance tool is unavailable: $tool"
+            }
+          }
+          $codexPath = Join-Path $PWD "tools/codex/node_modules/.bin/codex.cmd"
+          if (-not (Test-Path -LiteralPath $codexPath -PathType Leaf)) {
+            throw "Project-local Codex CLI is missing: $codexPath"
+          }
+          $codex = (Resolve-Path -LiteralPath $codexPath).Path
+          $resolvedCodex = (Get-Command codex -ErrorAction Stop).Source
+          $expectedCodexBin = (Resolve-Path -LiteralPath (Join-Path $PWD "tools/codex/node_modules/.bin")).Path
+          $resolvedCodexBin = [System.IO.Path]::GetDirectoryName($resolvedCodex)
+          if (-not [string]::Equals($resolvedCodexBin, $expectedCodexBin, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "Codex PATH resolution drift: expected_bin=$expectedCodexBin actual=$resolvedCodex"
+          }
+          $expectedCommit = "49f948faa9258a0c61caceaf225e179651397431"
+          $actualCommit = (git -C .official-openai-skills rev-parse HEAD).Trim()
+          if ($LASTEXITCODE -ne 0 -or $actualCommit -ne $expectedCommit) {
+            throw "OpenAI skills checkout drift: expected=$expectedCommit actual=$actualCommit"
+          }
+          $validator = Join-Path $PWD ".official-openai-skills/skills/.system/skill-creator/scripts/quick_validate.py"
+          if (-not (Test-Path -LiteralPath $validator -PathType Leaf)) {
+            throw "Pinned quick_validate.py is missing: $validator"
+          }
+          python -X utf8 -c "import jsonschema, yaml"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Python audit dependencies are unavailable"
+          }
+          & $codex --version
+          git lfs version
+
+      - name: Validate native Codex config semantics
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $codex = Join-Path $PWD "tools/codex/node_modules/.bin/codex.cmd"
+          $codexHome = $env:CODEX_HOME
+          [System.IO.Directory]::CreateDirectory($codexHome) | Out-Null
+
+          $projectPath = (Resolve-Path -LiteralPath ".").Path
+          $tomlPath = $projectPath.Replace("\", "\\").Replace('"', '\"')
+          $quote = [char]34
+          $trustConfig = "[projects.$quote$tomlPath$quote]" + [Environment]::NewLine +
+            "trust_level = $quote" + "trusted" + "$quote" + [Environment]::NewLine
+          [System.IO.File]::WriteAllText(
+            (Join-Path $codexHome "config.toml"),
+            $trustConfig,
+            [System.Text.UTF8Encoding]::new($false)
+          )
+
+          $env:CODEX_HOME = $codexHome
+          $doctorJsonPath = Join-Path $codexHome "doctor.json"
+          $doctorStderrPath = Join-Path $codexHome "doctor.stderr"
+          & $codex -C . --strict-config doctor --json 1> $doctorJsonPath 2> $doctorStderrPath
+          $doctorExit = $LASTEXITCODE
+          $doctor = Get-Content -Raw -Encoding UTF8 -LiteralPath $doctorJsonPath | ConvertFrom-Json -Depth 100
+
+          if ([string]$doctor.checks.'config.load'.status -ne "ok") {
+            throw "Codex strict config check failed: config.load status=$($doctor.checks.'config.load'.status) doctor_exit=$doctorExit"
+          }
+          $mcpCheck = $doctor.checks.'mcp.config'
+          $mcpStatus = [string]$mcpCheck.status
+          if ($mcpStatus -notin @("ok", "warning")) {
+            throw "Codex strict config check failed: mcp.config status=$mcpStatus doctor_exit=$doctorExit"
+          }
+          if ([string]$mcpCheck.details.'configured servers' -ne "23") {
+            throw "Trusted project config was not isolated: expected 23 declared MCP overrides"
+          }
+          if ([string]$mcpCheck.details.'disabled servers' -ne "23") {
+            throw "Trusted project MCP overrides are not fully disabled"
+          }
+          if ($mcpStatus -eq "warning") {
+            $unexpectedMcpDetails = @(
+              $mcpCheck.details.PSObject.Properties |
+                Where-Object {
+                  $_.Name -ne "optional reachability failed" -and
+                  $_.Name -notmatch '^(configured|disabled|stdio|sse|streamable_http) servers$'
+                } |
+                Select-Object -ExpandProperty Name
+            )
+            if ($mcpCheck.details.PSObject.Properties.Name -notcontains "optional reachability failed" -or $unexpectedMcpDetails.Count -gt 0) {
+              throw "Unexpected MCP config warning details: $($unexpectedMcpDetails -join ', ')"
+            }
+            Write-Warning "Project MCP config parsed correctly; optional endpoint reachability is temporarily unavailable"
+          }
+          Write-Host "Codex strict config semantics PASS (doctor overall exit=$doctorExit; mcp.config=$mcpStatus; non-config checks are advisory in CI)"
+          # doctor may return nonzero for advisory environment checks; prevent that native exit code
+          # from leaking into the GitHub Actions step after config.load/mcp.config passed.
+          $global:LASTEXITCODE = 0
+
+      - name: Validate sidecars schemas and workflow graphs
+        shell: pwsh
+        run: |
+          & "./.claude/scripts/validate_codex_sidecars.ps1" -ProjectRoot "."
+          if ($LASTEXITCODE -ne 0) {
+            throw "validate_codex_sidecars.ps1 failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Audit skills with pinned official validator
+        shell: pwsh
+        env:
+          MT3_OFFICIAL_SKILL_VALIDATOR: ${{ github.workspace }}/.official-openai-skills/skills/.system/skill-creator/scripts/quick_validate.py
+        run: |
+          & "./.claude/scripts/audit_codex_skills.ps1" `
+            -ProjectRoot "." `
+            -OfficialValidatorPath $env:MT3_OFFICIAL_SKILL_VALIDATOR `
+            -RequireOfficialValidator `
+            -SkipIntegration
+          if ($LASTEXITCODE -ne 0) {
+            throw "audit_codex_skills.ps1 failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Run skill script fixtures
+        shell: pwsh
+        env:
+          MT3_OFFICIAL_SKILL_VALIDATOR: ${{ github.workspace }}/.official-openai-skills/skills/.system/skill-creator/scripts/quick_validate.py
+        run: |
+          & "./.claude/tests/test-codex-skill-scripts.ps1"
+          if ($LASTEXITCODE -ne 0) {
+            throw "test-codex-skill-scripts.ps1 failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Refresh Claude compatibility audit report (includes audit_codex_guardrails.ps1)
+        shell: pwsh
+        env:
+          MT3_OFFICIAL_SKILL_VALIDATOR: ${{ github.workspace }}/.official-openai-skills/skills/.system/skill-creator/scripts/quick_validate.py
+        run: |
+          & "./.claude/scripts/audit_claude_config.ps1" -ProjectRoot "."
+          if ($LASTEXITCODE -ne 0) {
+            throw "audit_claude_config.ps1 failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Refresh skill workflow health report
+        shell: pwsh
+        run: |
+          & "./.claude/scripts/analyze_codex_skill_workflows.ps1" -ProjectRoot "."
+          if ($LASTEXITCODE -ne 0) {
+            throw "analyze_codex_skill_workflows.ps1 failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Run governance encoding quality gates
+        shell: pwsh
+        run: |
+          foreach ($target in @(".codex", ".claude", ".agents")) {
+            & "./.claude/scripts/quality_gate.ps1" -TargetPath $target -Strict
+            if ($LASTEXITCODE -ne 0) {
+              throw "quality_gate.ps1 failed for $target with exit code $LASTEXITCODE"
+            }
+          }
+
+      - name: Run governance regression controls
+        shell: pwsh
+        run: |
+          & "./.claude/tests/test-codex-governance-audits.ps1" -ProjectRoot "." -ReuseExistingGuardrailReport
+          if ($LASTEXITCODE -ne 0) {
+            throw "test-codex-governance-audits.ps1 failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Fail closed on governance report status
+        shell: pwsh
+        run: |
+          & "./.claude/scripts/assert_codex_governance_reports.ps1" -ProjectRoot "."
+          if ($LASTEXITCODE -ne 0) {
+            throw "Governance report status gate failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Upload Codex governance reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: codex-governance-reports
+          path: |
+            .claude/reports/codex-sidecars-validation.json
+            .claude/reports/codex-sidecars-validation.md
+            .claude/reports/codex-skills-audit.json
+            .claude/reports/codex-skills-audit.md
+            .claude/reports/codex-skills-workflow-health.json
+            .claude/reports/codex-skills-workflow-health.md
+            .claude/reports/codex-guardrails-audit.json
+            .claude/reports/codex-guardrails-audit.md
+            .claude/reports/claude-config-audit.json
+            .claude/reports/claude-config-audit.md
+            .claude/reports/mcp-runtime-snapshot.json
+            .claude/reports/quality-gate-report.json
+          if-no-files-found: error
+          retention-days: 7

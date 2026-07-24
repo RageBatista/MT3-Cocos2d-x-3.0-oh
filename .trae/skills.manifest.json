@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "updated": "2026-04-11",
+  "description": "MT3 项目 Trae 技能清单与依赖声明",
+  "shared_rules_source": "ai-shared-rules/",
+  "skills": [
+    {
+      "id": "cegui",
+      "file": "skills/cegui/SKILL.md",
+      "category": "client",
+      "priority": "required",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints", "nuclear-integration"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json", "ai-shared-rules/encoding-rules.json"]
+    },
+    {
+      "id": "cocos2dx",
+      "file": "skills/cocos2dx/SKILL.md",
+      "category": "client",
+      "priority": "required",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints", "nuclear-integration"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json", "ai-shared-rules/memory-management.json"]
+    },
+    {
+      "id": "nuclear",
+      "file": "skills/nuclear/SKILL.md",
+      "category": "client",
+      "priority": "required",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/architecture-layers.json", "ai-shared-rules/memory-management.json"]
+    },
+    {
+      "id": "fireclient",
+      "file": "skills/fireclient/SKILL.md",
+      "category": "client",
+      "priority": "required",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/architecture-layers.json", "ai-shared-rules/generated-code-boundaries.json"]
+    },
+    {
+      "id": "tolua",
+      "file": "skills/tolua/SKILL.md",
+      "category": "client",
+      "priority": "required",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/generated-code-boundaries.json", "ai-shared-rules/encoding-rules.json"]
+    },
+    {
+      "id": "audio",
+      "file": "skills/audio/SKILL.md",
+      "category": "client",
+      "priority": "suggested",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json", "ai-shared-rules/memory-management.json"]
+    },
+    {
+      "id": "network",
+      "file": "skills/network/SKILL.md",
+      "category": "client",
+      "priority": "suggested",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json"]
+    },
+    {
+      "id": "packtool",
+      "file": "skills/packtool/SKILL.md",
+      "category": "tools",
+      "priority": "suggested",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json", "ai-shared-rules/generated-code-boundaries.json"]
+    },
+    {
+      "id": "testing",
+      "file": "skills/testing/SKILL.md",
+      "category": "quality",
+      "priority": "suggested",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json", "ai-shared-rules/architecture-layers.json"]
+    },
+    {
+      "id": "platform-win32",
+      "file": "skills/platform-win32/SKILL.md",
+      "category": "platform",
+      "priority": "required",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json", "ai-shared-rules/encoding-rules.json"]
+    },
+    {
+      "id": "platform-android",
+      "file": "skills/platform-android/SKILL.md",
+      "category": "platform",
+      "priority": "suggested",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json"]
+    },
+    {
+      "id": "platform-ios",
+      "file": "skills/platform-ios/SKILL.md",
+      "category": "platform",
+      "priority": "suggested",
+      "version": "2.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["common-constraints"],
+      "shared_rules_refs": ["ai-shared-rules/toolchain-constraints.json"]
+    }
+  ]
+}

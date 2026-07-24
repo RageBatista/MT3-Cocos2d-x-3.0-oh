@@ -1,0 +1,356 @@
+{extend name="layout/base" /}
+
+{block name="title"}授权控制台 - 玩家服务中心{/block}
+{block name="page_title"}授权控制台{/block}
+
+{block name="css"}
+<style>
+    /* ==================== 授权控制台专用样式 ==================== */
+
+    /* 面包屑导航 */
+    .breadcrumb-nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-3) 0;
+        margin-bottom: var(--space-4);
+        font-size: var(--font-sm);
+        color: var(--bs-muted-color);
+    }
+
+    .breadcrumb-nav a {
+        color: var(--bs-muted-color);
+        transition: var(--transition-fast);
+    }
+
+    .breadcrumb-nav a:hover {
+        color: var(--bs-primary);
+    }
+
+    .breadcrumb-nav .separator {
+        color: var(--bs-light-color);
+    }
+
+    .breadcrumb-nav .current {
+        color: var(--bs-body-color);
+        font-weight: 500;
+    }
+
+    /* 快捷操作区域 */
+    .quick-actions {
+        background: #fff;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: var(--space-5);
+        margin-bottom: var(--space-5);
+    }
+
+    .quick-actions-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+        padding-bottom: var(--space-3);
+        border-bottom: 1px solid var(--bs-border-color);
+    }
+
+    .quick-actions-header h3 {
+        margin: 0;
+        font-size: var(--font-md);
+        font-weight: 600;
+        color: var(--bs-heading-color);
+    }
+
+    .quick-actions-header i {
+        color: var(--bs-primary);
+        font-size: 20px;
+    }
+
+    .quick-actions-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-3);
+    }
+
+    @media (max-width: 767px) {
+        .quick-actions-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 575px) {
+        .quick-actions-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .quick-action-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-4) var(--space-3);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--bs-border-color);
+        background: var(--bs-bg-light);
+        color: var(--bs-body-color);
+        text-decoration: none;
+        transition: var(--transition);
+        gap: var(--space-2);
+    }
+
+    .quick-action-btn:hover {
+        border-color: var(--bs-primary);
+        background: rgba(var(--bs-primary-rgb), 0.05);
+        color: var(--bs-primary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-xs);
+    }
+
+    .quick-action-btn i {
+        font-size: 26px;
+    }
+
+    .quick-action-btn span {
+        font-size: var(--font-xs);
+        font-weight: 500;
+    }
+
+    .quick-action-btn.danger {
+        border-color: rgba(244, 66, 54, 0.2);
+    }
+
+    .quick-action-btn.danger:hover {
+        border-color: var(--bs-danger);
+        background: rgba(244, 66, 54, 0.05);
+        color: var(--bs-danger);
+    }
+
+    /* 服务器列表区域 */
+    .server-list-section {
+        background: #fff;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+
+    .server-list-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-4) var(--space-5);
+        border-bottom: 1px solid var(--bs-border-color);
+    }
+
+    .server-list-header h3 {
+        margin: 0;
+        font-size: var(--font-md);
+        font-weight: 600;
+        color: var(--bs-heading-color);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .server-list-header h3 i {
+        color: var(--bs-primary);
+    }
+
+    .server-count {
+        font-size: var(--font-xs);
+        color: var(--bs-muted-color);
+        background: var(--bs-bg-light);
+        padding: 4px 10px;
+        border-radius: var(--radius-pill);
+    }
+
+    .server-list-body {
+        padding: var(--space-4);
+        display: grid;
+        gap: var(--space-3);
+    }
+
+    /* 服务器卡片项 */
+    .server-card-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-4);
+        background: var(--bs-bg-light);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--bs-border-color);
+        transition: var(--transition);
+    }
+
+    .server-card-item:hover {
+        border-color: var(--bs-primary);
+        box-shadow: var(--shadow-xs);
+    }
+
+    .server-info h4 {
+        margin: 0 0 var(--space-2);
+        font-size: var(--font-md);
+        font-weight: 600;
+        color: var(--bs-heading-color);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .server-info h4 i {
+        color: var(--bs-primary);
+    }
+
+    .server-meta {
+        display: flex;
+        gap: var(--space-4);
+        font-size: var(--font-xs);
+        color: var(--bs-muted-color);
+    }
+
+    .server-meta span {
+        display: flex;
+        align-items: center;
+        gap: var(--space-1);
+    }
+
+    .server-meta i {
+        font-size: 14px;
+        opacity: 0.7;
+    }
+
+    /* 空状态 */
+    .player-empty {
+        text-align: center;
+        padding: var(--space-8) var(--space-4);
+        color: var(--bs-muted-color);
+    }
+
+    .player-empty i {
+        font-size: 48px;
+        opacity: 0.5;
+        margin-bottom: var(--space-3);
+        display: block;
+    }
+
+    .player-empty p {
+        margin: 0;
+        font-size: var(--font-md);
+    }
+
+    /* 状态徽章颜色优化 */
+    .badge-success {
+        background: var(--bs-success);
+    }
+
+    .badge-primary {
+        background: var(--bs-primary);
+    }
+
+    .badge-info {
+        background: var(--bs-info);
+    }
+
+    .badge-danger {
+        background: var(--bs-danger);
+    }
+</style>
+{/block}
+
+{block name="content"}
+<!-- 面包屑导航 -->
+<nav class="breadcrumb-nav">
+    <a href="/player/index"><i class="mdi mdi-home"></i> 首页</a>
+    <span class="separator"><i class="mdi mdi-chevron-right"></i></span>
+    <a href="/player/cdk/index">CDK授权</a>
+    <span class="separator"><i class="mdi mdi-chevron-right"></i></span>
+    <span class="current">授权控制台</span>
+</nav>
+
+<!-- 快捷操作区域 -->
+<div class="quick-actions">
+    <div class="quick-actions-header">
+        <i class="mdi mdi-flash"></i>
+        <h3>快捷操作</h3>
+    </div>
+    <div class="quick-actions-grid">
+        <a href="/player/cdk/senditem" class="quick-action-btn">
+            <i class="mdi mdi-gift"></i>
+            <span>GM物品</span>
+        </a>
+        <a href="/player/recharge" class="quick-action-btn">
+            <i class="mdi mdi-cash-multiple"></i>
+            <span>充值仙玉</span>
+        </a>
+        <a href="/player/server" class="quick-action-btn">
+            <i class="mdi mdi-server"></i>
+            <span>切换服务器</span>
+        </a>
+        <a href="/player/role" class="quick-action-btn">
+            <i class="mdi mdi-account-box"></i>
+            <span>角色管理</span>
+        </a>
+        <a href="/player/profile" class="quick-action-btn">
+            <i class="mdi mdi-account-edit"></i>
+            <span>个人资料</span>
+        </a>
+        <a href="/player/transfer" class="quick-action-btn">
+            <i class="mdi mdi-swap-horizontal"></i>
+            <span>转区申请</span>
+        </a>
+        <a href="/player/feedback" class="quick-action-btn">
+            <i class="mdi mdi-message-text"></i>
+            <span>意见反馈</span>
+        </a>
+        <a href="/player/service" class="quick-action-btn">
+            <i class="mdi mdi-headset"></i>
+            <span>客服中心</span>
+        </a>
+        <a href="/player/cdk/logout" class="quick-action-btn danger">
+            <i class="mdi mdi-logout"></i>
+            <span>退出登录</span>
+        </a>
+    </div>
+</div>
+
+<!-- 服务器列表 -->
+<div class="server-list-section">
+    <div class="server-list-header">
+        <h3><i class="mdi mdi-server-network"></i> 可用服务器列表</h3>
+        <span class="server-count">
+            <?php echo count($server_list ?? []); ?> 个服务器
+        </span>
+    </div>
+    <div class="server-list-body">
+        <?php if(!empty($server_list)): ?>
+        <?php foreach($server_list as $server): ?>
+        <div class="server-card-item">
+            <div class="server-info">
+                <h4><i class="mdi mdi-server"></i>
+                    <?php echo htmlspecialchars($server['name'] ?? '-'); ?>
+                </h4>
+                <div class="server-meta">
+                    <span><i class="mdi mdi-identifier"></i> ID:
+                        <?php echo htmlspecialchars($server['serverid'] ?? '-'); ?>
+                    </span>
+                    <span><i class="mdi mdi-folder-outline"></i> 分组:
+                        <?php echo htmlspecialchars($server['groupname'] ?? '-'); ?>
+                    </span>
+                </div>
+            </div>
+            <?php if(($server['status'] ?? 1) == 1): ?>
+            <span class="badge badge-success"><i class="mdi mdi-circle" style="font-size: 8px;"></i> 正常</span>
+            <?php else: ?>
+            <span class="badge badge-danger"><i class="mdi mdi-circle" style="font-size: 8px;"></i> 维护</span>
+            <?php endif; ?>
+        </div>
+        <?php endforeach; ?>
+        <?php else: ?>
+        <div class="player-empty">
+            <i class="mdi mdi-server-off"></i>
+            <p>暂无可用服务器数据</p>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+{/block}

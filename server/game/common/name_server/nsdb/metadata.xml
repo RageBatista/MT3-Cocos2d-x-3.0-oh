@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<mkdb>
+<xbean name="NameState">
+<variable name="state" typeName="int"/>
+<variable name="localid" typeName="int"/>
+<variable capacity="32" name="peerip" typeName="string"/>
+<variable name="time" typeName="long"/>
+</xbean>
+<xbean name="IdState">
+<variable name="nextid" typeName="long"/>
+<variable name="localid" typeName="int"/>
+<variable capacity="32" name="peerip" typeName="string"/>
+<variable name="time" typeName="long"/>
+</xbean>
+<table autoKey="false" capacity="key:32" foreign="" keyName="string" name="role" persistence="DB" valueName="NameState"/>
+<table autoKey="false" capacity="key:32" foreign="" keyName="string" name="clan" persistence="DB" valueName="NameState"/>
+</mkdb>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+	<style>
+		/* 统计卡片 hover 动画 */
+		.card {
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.card:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+		}
+
+		/* 数字高亮 */
+		.scroll-numbers {
+			font-weight: 700;
+			letter-spacing: 0.5px;
+		}
+
+		/* 图标圆圈脉冲 */
+		.avatar-box {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* 充值表格紧凑 */
+		.table-hover tbody tr {
+			transition: background-color 0.15s ease;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid">
+
+		<!-- Row1: 核心统计卡片 2行×4列 -->
+		<div class="row">
+
+			<div class="col-md-6 col-xl-3">
+				<div class="card bg-cyan text-white">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span class="avatar-md rounded-circle bg-white bg-opacity-25 avatar-box">
+								<i class="mdi mdi-currency-cny fs-4"></i>
+							</span>
+							<span class="fs-4 scroll-numbers">{$money}</span>
+						</div>
+						<div class="text-end">总流水</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-xl-3">
+				<div class="card bg-success text-white">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span class="avatar-md rounded-circle bg-white bg-opacity-25 avatar-box">
+								<i class="mdi mdi-trending-up fs-4"></i>
+							</span>
+							<span class="fs-4 scroll-numbers">{$todayMoney}</span>
+						</div>
+						<div class="text-end">今日流水</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-xl-3">
+				<div class="card bg-dark text-white">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span class="avatar-md rounded-circle bg-white bg-opacity-25 avatar-box">
+								<i class="mdi mdi-trending-down fs-4"></i>
+							</span>
+							<span class="fs-4 scroll-numbers">{$lastMoney}</span>
+						</div>
+						<div class="text-end">昨日流水</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-xl-3">
+				<div class="card bg-danger text-white">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span class="avatar-md rounded-circle bg-white bg-opacity-25 avatar-box">
+								<i class="mdi mdi-account-group fs-4"></i>
+							</span>
+							<span class="fs-4 scroll-numbers">{$getUserNum}</span>
+						</div>
+						<div class="text-end">玩家总数</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-6 col-xl-3">
+				<div class="card bg-warning text-white">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span class="avatar-md rounded-circle bg-white bg-opacity-25 avatar-box">
+								<i class="mdi mdi-sword-cross fs-4"></i>
+							</span>
+							<span class="fs-4 scroll-numbers">{$getRoleCount}</span>
+						</div>
+						<div class="text-end">角色总数</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-xl-3">
+				<div class="card bg-primary text-white">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span class="avatar-md rounded-circle bg-white bg-opacity-25 avatar-box">
+								<i class="mdi mdi-account-tie fs-4"></i>
+							</span>
+							<span class="fs-4 scroll-numbers">{$getAgentNum}</span>
+						</div>
+						<div class="text-end">代理总数</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-xl-3">
+				<div class="card bg-brown text-white">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span class="avatar-md rounded-circle bg-white bg-opacity-25 avatar-box">
+								<i class="mdi mdi-link-variant fs-4"></i>
+							</span>
+							<span class="fs-4 scroll-numbers">{$getBindNum}</span>
+						</div>
+						<div class="text-end">绑定角色</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-xl-3">
+				<div class="card bg-secondary text-white">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span class="avatar-md rounded-circle bg-white bg-opacity-25 avatar-box">
+								<i class="mdi mdi-server fs-4"></i>
+							</span>
+							<span class="fs-4 scroll-numbers">{$serverCount}</span>
+						</div>
+						<div class="text-end">服务器数</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Row2: 区服在线图表 + 最近充值 -->
+		<div class="row">
+
+			<div class="col-xl-8 col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">区服在线人数</div>
+					</div>
+					<div class="card-body">
+						<canvas class="js-chartjs-bars"></canvas>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-4 col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">最近充值</div>
+					</div>
+					<div class="card-body" style="padding: 0;">
+						<div class="table-responsive">
+							<table class="table table-hover mb-0">
+								<thead>
+									<tr>
+										<th>订单号</th>
+										<th>金额</th>
+										<th>方式</th>
+										<th>时间</th>
+									</tr>
+								</thead>
+								<tbody>
+									{volist name="recentOrders" id="order"}
+									<tr>
+										<td><small>{$order.orderid|substr=0,12}...</small></td>
+										<td><span class="text-success font-weight-bold">¥{$order.realmoney}</span></td>
+										<td>{$order.paytype}</td>
+										<td><small>{$order.date|substr=5,11}</small></td>
+									</tr>
+									{/volist}
+									{empty name="recentOrders"}
+									<tr>
+										<td colspan="4" class="text-center text-muted">暂无充值记录</td>
+									</tr>
+									{/empty}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Row3: 项目信息 + 代理通告 -->
+		<div class="row">
+
+			<div class="col-xl-4 col-md-12">
+				<div class="card">
+					<header class="card-header">
+						<div class="card-title">项目信息</div>
+					</header>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<tbody>
+									<tr>
+										<td>代理账号</td>
+										<th>{$myAdmin.username}</th>
+									</tr>
+									<tr>
+										<td>代理分成</td>
+										<th>{$myAdmin.fencheng}%</th>
+									</tr>
+									<tr>
+										<td>邀请码</td>
+										<th>{$myAdmin.invite}</th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-8 col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">代理通告</div>
+					</div>
+					<div class="card-body">
+						<div class="alert alert-success mb-0" role="alert">
+							<p>{$config.agent_notice}</p>
+							<hr>
+							<p class="mb-0"><strong>{$config.name}</strong></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/chart.min.js"></script>
+	<!-- 数字动态滚动增加效果 -->
+	<script type="text/javascript" src="__MB__/js/scroll-numbers.js"></script>
+	<!--引入chart插件js-->
+	<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function (e) {
+			var $dashChartBarsCnt = jQuery('.js-chartjs-bars')[0].getContext('2d');
+
+			// 使用后端预处理的 JSON 数据
+			var serverNames = JSON.parse('{$js_server_names|raw}');
+			var serverOnlines = JSON.parse('{$js_server_onlines|raw}');
+
+			var $dashChartBarsData = {
+				labels: serverNames,
+				datasets: [{
+					label: '在线人数',
+					borderWidth: 1,
+					borderColor: 'rgba(0, 0, 0, 0)',
+					backgroundColor: 'rgba(0, 123, 255,0.5)',
+					hoverBackgroundColor: "rgba(0, 123, 255, 0.7)",
+					hoverBorderColor: "rgba(0, 0, 0, 0)",
+					data: serverOnlines
+				}]
+			};
+
+			new Chart($dashChartBarsCnt, {
+				type: 'bar',
+				data: $dashChartBarsData
+			});
+		});
+	</script>
+</body>
+
+</html>

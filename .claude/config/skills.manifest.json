@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.4.0",
+  "updated": "2026-04-11",
+  "parameter_schema": {
+    "target_platform": {
+      "type": "enum",
+      "values": ["windows", "android", "server", "common"],
+      "default": "common"
+    },
+    "configuration": {
+      "type": "enum",
+      "values": ["debug", "release", "both"],
+      "default": "release"
+    },
+    "scope": {
+      "type": "enum",
+      "values": ["module", "subsystem", "project"],
+      "default": "module"
+    },
+    "task_type": {
+      "type": "enum",
+      "values": ["analysis", "implementation", "review", "diagnosis", "documentation"],
+      "default": "analysis"
+    },
+    "module": {
+      "type": "string"
+    },
+    "code_path": {
+      "type": "string"
+    },
+    "log_path": {
+      "type": "string"
+    },
+    "service_name": {
+      "type": "string"
+    },
+    "protocol_file": {
+      "type": "string"
+    },
+    "xbean_file": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "enum",
+      "values": ["critical", "high", "medium", "low"],
+      "default": "medium"
+    },
+    "include_tests": {
+      "type": "boolean",
+      "default": true
+    },
+    "report_format": {
+      "type": "enum",
+      "values": ["markdown", "json", "summary"],
+      "default": "markdown"
+    },
+    "channel": {
+      "type": "string"
+    }
+  },
+  "parameter_help_zh": {
+    "target_platform": "目标平台。可选 windows/android/server/common。",
+    "configuration": "构建配置。可选 debug/release/both。",
+    "scope": "任务作用范围。可选 module/subsystem/project。",
+    "task_type": "任务类型。可选 analysis/implementation/review/diagnosis/documentation。",
+    "module": "模块名或模块路径关键字。",
+    "code_path": "代码路径（文件或目录）。",
+    "log_path": "日志文件路径。",
+    "service_name": "服务名（服务端模块）。",
+    "protocol_file": "协议定义文件路径（如 protocol.xml）。",
+    "xbean_file": "xbean 定义文件路径（如 xbean.xml）。",
+    "severity": "问题严重级别。critical/high/medium/low。",
+    "include_tests": "是否包含测试设计与执行建议。",
+    "report_format": "报告输出格式。markdown/json/summary。",
+    "channel": "渠道标识（Android 多渠道构建时使用）。"
+  },
+  "modules": [
+    {
+      "id": "common-basics",
+      "entry_skill": "project-context",
+      "skills": ["project-context", "git-workflow", "debugging"],
+      "objective": "统一上下文、协作与问题定位基础能力"
+    },
+    {
+      "id": "client-core",
+      "entry_skill": "cpp-development",
+      "depends_on": ["common-basics"],
+      "skills": [
+        "cpp-development",
+        "lua-scripting",
+        "cocos2dx-usage",
+        "cegui-usage",
+        "tolua-binding",
+        "nuclear-engine",
+        "fireclient-framework",
+        "windows-build",
+        "android-build",
+        "android-p0-boot-log"
+      ],
+      "objective": "客户端编码、引擎使用与构建能力"
+    },
+    {
+      "id": "server-core",
+      "entry_skill": "java-development",
+      "depends_on": ["common-basics"],
+      "skills": [
+        "java-development",
+        "ant-build",
+        "gnet-framework",
+        "xbean-system",
+        "distributed-arch"
+      ],
+      "objective": "服务端开发、协议与分布式架构能力"
+    },
+    {
+      "id": "cross-cutting",
+      "entry_skill": "build-troubleshooting",
+      "depends_on": ["common-basics", "client-core", "server-core"],
+      "skills": [
+        "build-troubleshooting",
+        "performance-optimization",
+        "dependency-management",
+        "protocol-design",
+        "engine-tools-build",
+        "search-first",
+        "verification-loop",
+        "claude-config-engineering",
+        "continuous-learning-v2"
+      ],
+      "objective": "构建稳定性、性能与依赖治理能力"
+    }
+  ],
+  "skill_defaults": {
+    "version": "1.0.0",
+    "last_verified": "2026-04-11"
+  },
+  "skills": [
+    {
+      "id": "cpp-development",
+      "file": "../skills/client/cpp-development.md",
+      "category": "client",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "version": "1.0.0",
+      "last_verified": "2026-04-11",
+      "dependencies": ["project-context", "git-workflow"],
+      "accepted_params": ["scope", "task_type", "code_path", "module"],
+      "recommended_agents": ["architecture-analyst", "code-reviewer"],
+      "tags": ["c++", "nuclear", "v120", "client"]
+    },
+    {
+      "id": "lua-scripting",
+      "file": "../skills/client/lua-scripting.md",
+      "category": "client",
+      "priority": "required",
+      "difficulty": "junior",
+      "dependencies": ["project-context"],
+      "accepted_params": ["scope", "task_type", "code_path"],
+      "recommended_agents": ["code-reviewer", "test-engineer"],
+      "tags": ["lua", "script", "tolua"]
+    },
+    {
+      "id": "cocos2dx-usage",
+      "file": "../skills/client/cocos2dx-usage.md",
+      "category": "client",
+      "priority": "important",
+      "difficulty": "intermediate",
+      "dependencies": ["cpp-development"],
+      "accepted_params": ["scope", "task_type", "module", "target_platform"],
+      "recommended_agents": ["performance-analyst", "architecture-analyst"],
+      "tags": ["cocos2d-x", "render", "scene"]
+    },
+    {
+      "id": "cegui-usage",
+      "file": "../skills/client/cegui-usage.md",
+      "category": "client",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["cpp-development"],
+      "accepted_params": ["scope", "task_type", "module"],
+      "recommended_agents": ["build-expert", "architecture-analyst"],
+      "tags": ["cegui", "ui"]
+    },
+    {
+      "id": "tolua-binding",
+      "file": "../skills/client/tolua-binding.md",
+      "category": "client",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["cpp-development", "lua-scripting"],
+      "accepted_params": ["scope", "task_type", "code_path"],
+      "recommended_agents": ["code-reviewer", "test-engineer"],
+      "tags": ["tolua++", "binding"]
+    },
+    {
+      "id": "nuclear-engine",
+      "file": "../skills/client/nuclear-engine.md",
+      "category": "client",
+      "priority": "required",
+      "difficulty": "advanced",
+      "dependencies": ["cpp-development", "cocos2dx-usage"],
+      "accepted_params": ["scope", "task_type", "module", "target_platform"],
+      "recommended_agents": ["architecture-analyst", "performance-analyst"],
+      "tags": ["nuclear", "engine", "render"]
+    },
+    {
+      "id": "fireclient-framework",
+      "file": "../skills/client/fireclient-framework.md",
+      "category": "client",
+      "priority": "required",
+      "difficulty": "advanced",
+      "dependencies": ["cpp-development", "nuclear-engine"],
+      "accepted_params": ["scope", "task_type", "module", "code_path"],
+      "recommended_agents": ["architecture-analyst", "build-expert"],
+      "tags": ["fireclient", "manager", "network"]
+    },
+    {
+      "id": "windows-build",
+      "file": "../skills/client/windows-build.md",
+      "category": "client",
+      "priority": "required",
+      "difficulty": "junior",
+      "dependencies": ["project-context"],
+      "accepted_params": ["target_platform", "configuration", "log_path", "module"],
+      "recommended_agents": ["build-expert", "deploy-specialist"],
+      "tags": ["windows", "msbuild", "v120"]
+    },
+    {
+      "id": "android-build",
+      "file": "../skills/client/android-build.md",
+      "category": "client",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["project-context"],
+      "accepted_params": ["target_platform", "configuration", "channel", "log_path"],
+      "recommended_agents": ["build-expert", "deploy-specialist"],
+      "tags": ["android", "ndk", "ant"]
+    },
+    {
+      "id": "android-p0-boot-log",
+      "file": "../skills/client/android-p0-boot-log.md",
+      "category": "client",
+      "priority": "important",
+      "difficulty": "junior",
+      "dependencies": ["android-build", "debugging"],
+      "accepted_params": ["target_platform", "log_path", "module", "task_type", "report_format"],
+      "recommended_agents": ["test-engineer", "build-error-resolver", "workflow-orchestrator"],
+      "tags": ["android", "mumu", "boot", "logcat", "p0"]
+    },
+    {
+      "id": "java-development",
+      "file": "../skills/server/java-development.md",
+      "category": "server",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["project-context", "git-workflow"],
+      "accepted_params": ["scope", "task_type", "code_path", "service_name"],
+      "recommended_agents": ["code-reviewer", "architecture-analyst"],
+      "tags": ["java", "server"]
+    },
+    {
+      "id": "ant-build",
+      "file": "../skills/server/ant-build.md",
+      "category": "server",
+      "priority": "required",
+      "difficulty": "junior",
+      "dependencies": ["java-development"],
+      "accepted_params": ["target_platform", "configuration", "service_name", "log_path"],
+      "recommended_agents": ["build-expert", "deploy-specialist"],
+      "tags": ["ant", "build", "server"]
+    },
+    {
+      "id": "gnet-framework",
+      "file": "../skills/server/gnet-framework.md",
+      "category": "server",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["java-development", "ant-build"],
+      "accepted_params": ["scope", "task_type", "protocol_file", "service_name"],
+      "recommended_agents": ["architecture-analyst", "test-engineer"],
+      "tags": ["gnet", "rpc", "protocol"]
+    },
+    {
+      "id": "xbean-system",
+      "file": "../skills/server/xbean-system.md",
+      "category": "server",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["java-development", "ant-build"],
+      "accepted_params": ["scope", "task_type", "xbean_file", "service_name"],
+      "recommended_agents": ["architecture-analyst", "test-engineer"],
+      "tags": ["xbean", "xdb", "schema"]
+    },
+    {
+      "id": "distributed-arch",
+      "file": "../skills/server/distributed-arch.md",
+      "category": "server",
+      "priority": "important",
+      "difficulty": "advanced",
+      "dependencies": ["java-development", "gnet-framework", "xbean-system"],
+      "accepted_params": ["scope", "task_type", "module", "service_name"],
+      "recommended_agents": ["architecture-analyst", "performance-analyst"],
+      "tags": ["distributed", "microservice", "server"]
+    },
+    {
+      "id": "git-workflow",
+      "file": "../skills/common/git-workflow.md",
+      "category": "common",
+      "priority": "required",
+      "difficulty": "junior",
+      "dependencies": [],
+      "accepted_params": ["scope", "task_type", "report_format"],
+      "recommended_agents": ["code-reviewer", "doc-writer"],
+      "tags": ["git", "workflow"]
+    },
+    {
+      "id": "debugging",
+      "file": "../skills/common/debugging.md",
+      "category": "common",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["project-context"],
+      "accepted_params": ["scope", "task_type", "target_platform", "log_path"],
+      "recommended_agents": ["test-engineer", "performance-analyst"],
+      "tags": ["debug", "trace", "diagnosis"]
+    },
+    {
+      "id": "performance-optimization",
+      "file": "../skills/common/performance-optimization.md",
+      "category": "common",
+      "priority": "important",
+      "difficulty": "advanced",
+      "dependencies": ["debugging"],
+      "accepted_params": ["scope", "module", "target_platform", "log_path"],
+      "recommended_agents": ["performance-analyst", "architecture-analyst"],
+      "tags": ["performance", "optimization", "profiling"]
+    },
+    {
+      "id": "dependency-management",
+      "file": "../skills/common/dependency-management.md",
+      "category": "common",
+      "priority": "important",
+      "difficulty": "intermediate",
+      "dependencies": ["project-context"],
+      "accepted_params": ["scope", "task_type", "module", "severity"],
+      "recommended_agents": ["build-expert", "security-auditor"],
+      "tags": ["dependency", "version", "abi"]
+    },
+    {
+      "id": "protocol-design",
+      "file": "../skills/common/protocol-design.md",
+      "category": "common",
+      "priority": "important",
+      "difficulty": "intermediate",
+      "dependencies": ["gnet-framework", "xbean-system"],
+      "accepted_params": ["scope", "task_type", "protocol_file", "xbean_file"],
+      "recommended_agents": ["architecture-analyst", "security-auditor"],
+      "tags": ["protocol", "rpc", "contract"]
+    },
+    {
+      "id": "build-troubleshooting",
+      "file": "../skills/common/build-troubleshooting.md",
+      "category": "common",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["project-context", "dependency-management"],
+      "accepted_params": ["target_platform", "configuration", "log_path", "severity"],
+      "recommended_agents": ["build-expert", "test-engineer"],
+      "tags": ["build", "troubleshooting", "linker"]
+    },
+    {
+      "id": "project-context",
+      "file": "../skills/common/project-context.md",
+      "category": "common",
+      "priority": "reference",
+      "difficulty": "junior",
+      "dependencies": [],
+      "accepted_params": ["scope", "task_type"],
+      "recommended_agents": ["architecture-analyst", "doc-writer"],
+      "tags": ["context", "constraints"]
+    },
+    {
+      "id": "engine-tools-build",
+      "file": "../skills/common/engine-tools-build.md",
+      "category": "common",
+      "priority": "important",
+      "difficulty": "intermediate",
+      "dependencies": ["windows-build", "dependency-management"],
+      "accepted_params": ["target_platform", "configuration", "module", "log_path"],
+      "recommended_agents": ["build-expert", "architecture-analyst"],
+      "tags": ["engine-tools", "build", "vs2013"]
+    },
+    {
+      "id": "search-first",
+      "file": "../skills/common/search-first.md",
+      "category": "common",
+      "priority": "important",
+      "difficulty": "junior",
+      "dependencies": ["project-context"],
+      "accepted_params": ["scope", "task_type", "module", "code_path"],
+      "recommended_agents": ["planner", "architecture-analyst", "workflow-orchestrator"],
+      "tags": ["research", "reuse", "search-first"]
+    },
+    {
+      "id": "verification-loop",
+      "file": "../skills/common/verification-loop.md",
+      "category": "common",
+      "priority": "required",
+      "difficulty": "intermediate",
+      "dependencies": ["build-troubleshooting", "debugging"],
+      "accepted_params": ["scope", "task_type", "target_platform", "log_path", "include_tests", "report_format"],
+      "recommended_agents": ["test-engineer", "build-error-resolver", "workflow-orchestrator"],
+      "tags": ["verification", "quality-gate", "regression"]
+    },
+    {
+      "id": "claude-config-engineering",
+      "file": "../skills/common/claude-config-engineering.md",
+      "category": "common",
+      "priority": "important",
+      "difficulty": "advanced",
+      "dependencies": ["project-context", "search-first", "verification-loop"],
+      "accepted_params": ["scope", "task_type", "code_path", "report_format"],
+      "recommended_agents": ["architecture-analyst", "workflow-orchestrator", "doc-writer"],
+      "tags": ["claude", "config", "manifest", "hook", "mcp"]
+    },
+    {
+      "id": "continuous-learning-v2",
+      "file": "../skills/common/continuous-learning-v2.md",
+      "category": "common",
+      "priority": "important",
+      "difficulty": "advanced",
+      "dependencies": ["project-context", "git-workflow", "build-troubleshooting"],
+      "accepted_params": ["scope", "task_type", "log_path", "report_format"],
+      "recommended_agents": ["architecture-analyst", "doc-writer", "test-engineer"],
+      "tags": ["evolution", "instincts", "continuous-learning", "claude-config"]
+    }
+  ]
+}

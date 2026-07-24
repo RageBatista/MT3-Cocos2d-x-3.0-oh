@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="author" content="yinq">
+    <title>用户账号登录 - {$config.name}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="__MB__/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+    <!-- Material Design Icons -->
+    <link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" type="text/css" href="__MB__/css/animate.min.css">
+    <!-- 授权控制台公共样式 -->
+    <link rel="stylesheet" type="text/css" href="/static/auth/css/auth.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+    
+    <style>
+        body {
+            background-image: url({$config.background});
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .auth-login-card {
+            max-width: 440px;
+            margin: 0 auto;
+            padding: var(--auth-space-5);
+        }
+        
+        .auth-login-logo {
+            text-align: center;
+            margin-bottom: var(--auth-space-4);
+        }
+        
+        .auth-login-title {
+            text-align: center;
+            font-size: var(--auth-font-lg);
+            font-weight: 600;
+            margin-bottom: var(--auth-space-1);
+        }
+        
+        .auth-login-subtitle {
+            text-align: center;
+            color: var(--auth-text-muted);
+            margin-bottom: var(--auth-space-4);
+        }
+        
+        .auth-login-form .auth-form-group {
+            position: relative;
+            margin-bottom: var(--auth-space-4);
+        }
+        
+        .auth-login-form .auth-form-control {
+            padding-left: 42px;
+        }
+        
+        .auth-login-form .auth-form-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 42px;
+            height: var(--auth-btn-height);
+            line-height: var(--auth-btn-height);
+            z-index: 4;
+            color: #c0c4cc;
+            text-align: center;
+            pointer-events: none;
+        }
+        
+        .auth-login-tip {
+            color: #6c757d;
+            font-size: var(--auth-font-xs);
+            text-align: center;
+            margin-top: var(--auth-space-3);
+        }
+        
+        #msgBox {
+            display: none;
+            border-radius: var(--auth-border-radius-sm);
+            margin-bottom: var(--auth-space-3);
+        }
+        
+        .center-vh {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body class="center-vh">
+    <div class="auth-card auth-login-card auth-fade-in">
+        <div class="auth-login-logo">
+            <a href="javascript:void(0);"><img alt="logo" src="{$config.logo}"></a>
+        </div>
+        <h4 class="auth-login-title">用户账号登录</h4>
+        <p class="auth-login-subtitle">使用玩家账号密码直接登录</p>
+
+        <div id="msgBox" class="alert alert-danger" role="alert"></div>
+
+        <form id="user-login-form" action="/index.php?s=/login/user/submit" method="post" class="auth-login-form" novalidate>
+            <div class="auth-form-group">
+                <span class="mdi mdi-account auth-form-icon" aria-hidden="true"></span>
+                <input type="text" class="form-control auth-form-control" id="username" name="username" placeholder="请输入账号（6-18位字母数字）" autocomplete="username" required>
+            </div>
+
+            <div class="auth-form-group">
+                <span class="mdi mdi-lock auth-form-icon" aria-hidden="true"></span>
+                <input type="password" class="form-control auth-form-control" id="password" name="password" placeholder="请输入密码（6-18位字母数字）" autocomplete="current-password" required>
+            </div>
+
+            <button id="submit-btn" class="btn auth-btn-primary auth-submit-btn" type="submit">
+                <i class="mdi mdi-login"></i> 立即登录
+            </button>
+        </form>
+
+        <p class="auth-login-tip">登录成功后将自动跳转到用户操作台</p>
+    </div>
+
+    <!-- jQuery -->
+    <script src="__MB__/js/jquery.min.js"></script>
+    <!-- Popper -->
+    <script src="__MB__/js/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="__MB__/js/bootstrap.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="__MB__/alert/sweetalert2.all.min.js"></script>
+    
+    <script>
+    (function() {
+        var ROUTE = {
+            submitUrls: [
+                "/index.php?s=/login/user/submit",
+                "/login/user/submit"
+            ],
+            dashboard: "/index.php?s=/login/auth/dashboard"
+        };
+
+        var form = document.getElementById("user-login-form");
+        var submitBtn = document.getElementById("submit-btn");
+        var msgBox = document.getElementById("msgBox");
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        function showBanner(type, text) {
+            msgBox.className = "alert " + (type === "success" ? "alert-success" : "alert-danger");
+            msgBox.textContent = text || "";
+            msgBox.style.display = "block";
+        }
+
+        function hideBanner() {
+            msgBox.style.display = "none";
+        }
+
+        function showToast(type, text) {
+            if (window.Swal) {
+                Swal.mixin({
+                    toast: true,
+                    position: "top",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true
+                }).fire({ icon: type, title: text || "" });
+                return;
+            }
+            alert(text || "");
+        }
+
+        function postWithFallback(payload) {
+            function tryPost(i) {
+                if (i >= ROUTE.submitUrls.length) {
+                    return Promise.reject(new Error("NO_ENDPOINT"));
+                }
+
+                return fetch(ROUTE.submitUrls[i], {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+                    body: payload
+                })
+                .then(function(res) { return res.text(); })
+                .then(function(text) {
+                    var json;
+                    try {
+                        json = JSON.parse(text);
+                    } catch (e) {
+                        return Promise.reject(new Error(text || "服务返回异常"));
+                    }
+                    return json;
+                })
+                .catch(function() {
+                    return tryPost(i + 1);
+                });
+            }
+
+            return tryPost(0);
+        }
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+            hideBanner();
+
+            var username = (usernameInput.value || "").trim().toLowerCase();
+            var password = (passwordInput.value || "").trim().toLowerCase();
+
+            if (!/^[a-z0-9]{6,18}$/.test(username)) {
+                showBanner("error", "请输入正确账号（6-18位字母数字）");
+                return;
+            }
+            if (!/^[a-z0-9]{6,18}$/.test(password)) {
+                showBanner("error", "请输入正确密码（6-18位字母数字）");
+                return;
+            }
+
+            var oldHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm mr-1"></span>登录中...';
+
+            var body = new URLSearchParams();
+            body.set("username", username);
+            body.set("password", password);
+
+            postWithFallback(body.toString())
+                .then(function(json) {
+                    if (json && json.code === 1) {
+                        showToast("success", json.msg || "登录成功");
+                        setTimeout(function() {
+                            location.href = ROUTE.dashboard;
+                        }, 700);
+                        return;
+                    }
+                    showBanner("error", (json && json.msg) ? json.msg : "登录失败");
+                })
+                .catch(function(err) {
+                    showBanner("error", (err && err.message) ? err.message : "服务异常，请稍后重试");
+                })
+                .finally(function() {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = oldHtml;
+                });
+        });
+    })();
+    </script>
+</body>
+</html>

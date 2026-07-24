@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+	<!--表格插件css-->
+	<link rel="stylesheet" href="__MB__/js/bootstrap-table/bootstrap-table.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+</head>
+
+<body>
+	<div class="container-fluid">
+
+		<div class="row">
+
+			<div class="col-lg-12">
+				<div class="card">
+					<header class="card-header">
+						<div class="card-title">结算列表</div>
+					</header>
+					<div class="card-body">
+						<div class="card-search mb-2-5">
+							<form class="search-form" method="get" action="#!" role="form">
+
+
+
+							</form>
+						</div>
+
+						<table id="table"></table>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+	<!--表格插件js-->
+	<script src="__MB__/js/bootstrap-table/bootstrap-table.js"></script>
+	<script src="__MB__/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<!--通知弹窗-->
+	<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+	<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+
+	<script>
+		/**
+		 * 分页相关的配置
+		 **/
+		var pagination = {
+			// 分页方式：[client] 客户端分页，[server] 服务端分页
+			sidePagination: "server",
+			// 初始化加载第一页，默认第一页
+			pageNumber: 1,
+			// 每页的记录行数
+			pageSize: 10,
+			// 可供选择的每页的行数 - (亲测大于1000存在渲染问题)
+			pageList: [5, 10, 25, 50, 100],
+			// 在上百页的情况下体验较好 - 能够显示首尾页
+			paginationLoop: true,
+			// 展示首尾页的最小页数
+			paginationPagesBySide: 2
+		};
+
+		/**
+		 * 按钮相关配置
+		 **/
+		var button = {
+			// 按钮的类
+			buttonsClass: 'default',
+			// 类名前缀
+			buttonsPrefix: 'btn'
+		}
+
+		/**
+		 * 图标相关配置
+		 **/
+		var icon = {
+			// 图标前缀
+			iconsPrefix: 'mdi',
+			// 图标大小
+			iconSize: 'mini',
+			// 图标的设置
+			icons: {
+				paginationSwitchDown: 'mdi-door-closed',
+				paginationSwitchUp: 'mdi-door-open',
+				refresh: 'mdi-refresh',
+				toggleOff: 'mdi-toggle-switch-off',
+				toggleOn: 'mdi-toggle-switch',
+				columns: 'mdi-table-column-remove',
+				detailOpen: 'mdi-plus',
+				detailClose: 'mdi-minus',
+				fullscreen: 'mdi-monitor-screenshot',
+				search: 'mdi-table-search',
+				clearSearch: 'mdi-trash-can-outline'
+			}
+		};
+
+		/**
+		 * 表格相关的配置
+		 **/
+		var table = {
+			classes: 'table table-bordered table-hover table-striped lyear-table',
+			// 请求地址
+			url: '/index.php?s=/{$app}/agent/list_jiesuan',
+			// 唯一ID字段
+			uniqueId: 'id',
+			// 每行的唯一标识字段
+			idField: 'id',
+			// 是否启用点击选中行
+			clickToSelect: true,
+			// 请求得到的数据类型
+			dataType: 'jsonp',
+			// 请求方法
+			method: 'post',
+			// 工具按钮容器
+			toolbar: '#toolbar',
+			// 是否分页
+			pagination: true,
+			// 是否显示所有的列
+			showColumns: true,
+			// 是否显示刷新按钮
+			showRefresh: true,
+			// 显示图标
+			showButtonIcons: true,
+			// 显示文本
+			showButtonText: false,
+			// 显示全屏
+			showFullscreen: true,
+			// 开关控制分页
+			showPaginationSwitch: true,
+			// 总数字段
+			totalField: 'total',
+			// 当字段为 undefined 显示
+			undefinedText: '-',
+			// 排序方式
+			sortOrder: "asc",
+			...icon,
+			...pagination,
+			...button
+		};
+
+		/**
+		 * 用于演示的列信息
+		 **/
+		var columns = [{
+			field: 'example',
+			checkbox: true,
+			// 列的宽度
+			width: 3,
+			// 宽度单位
+			widthUnit: 'rem'
+		}, {
+			field: 'id',
+			title: 'ID',
+			// 使用[align]，[halign]和[valign]选项来设置列和它们的标题的对齐方式。
+			// h表示横向，v标识垂直
+			align: 'center',
+			// 是否作为排序列
+			sortable: true,
+			// 当列名称与实际名称不一致时可用
+			sortName: 'id',
+			switchable: false,
+			// 列的宽度
+			width: 3,
+			// 宽度单位
+			widthUnit: 'rem'
+		}, {
+			field: 'username',
+			align: 'center',
+			title: '账号'
+		}, {
+			field: 'time',
+			align: 'center',
+			title: '提交时间',
+		}, {
+			field: 'money',
+			align: 'center',
+			title: '提现金额',
+		}, {
+			field: 'zfbname',
+			align: 'center',
+			title: '支付宝名称',
+		}, {
+			field: 'zfbzh',
+			align: 'center',
+			title: '支付宝账号',
+		}, {
+			field: 'usdt',
+			align: 'center',
+			title: 'USDT',
+		}, {
+			field: 'start',
+			align: 'center',
+			title: '提现状态',
+			formatter: function (value, row, index) {
+				var value = "";
+				if (row.start == '0') {
+					value = '<a href="#!" class="btn btn-sm btn-danger quanxian-btn" title="等待审核" data-bs-toggle="tooltip"><span>等待审核</span></a>';
+				} else if (row.start == '1') {
+					value = '<a href="#!" class="btn btn-sm btn-success quanxian-btn" title="完成" data-bs-toggle="tooltip"><span>完成</span></a>';
+				} else {
+					value = '<span class="badge bg-secondary">未知</span>';
+				}
+				return value;
+			},
+			events: {
+				'click .quanxian-btn': function (event, value, row, index) {
+					event.stopPropagation();
+					Tixian(row);
+				}
+			}
+		}];
+
+
+
+		// 操作方法 - 编辑
+		function editUser(row) {
+			var id = row.id;
+			location.href = '/index.php?s=/{$app}/agent/edit&id=' + id;
+		}
+		//操作方法 - 状态
+		function statusUser(row) {
+			var id = row.id;
+			$.post("/index.php?s=/{$app}/agent/status", { id: id, csrf_token: "{$csrf_token}" }, function (res) {
+				if (res.code == 1) {
+					var Toast = Swal.mixin({
+						toast: true,
+						position: "top",
+						showConfirmButton: false,
+						timer: 1500,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer;
+						}
+					});
+					Toast.fire({
+						icon: "success",
+						title: res.msg
+					});
+					setTimeout("self.location.reload();", 1500);
+				} else {
+					var Toast = Swal.mixin({
+						toast: true,
+						position: "top",
+						showConfirmButton: false,
+						timer: 1500,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer;
+						}
+					});
+					Toast.fire({
+						icon: "error",
+						title: res.msg
+					});
+				}
+			}).fail(function () {
+				var Toast = Swal.mixin({
+					toast: true,
+					position: "top",
+					showConfirmButton: false,
+					timer: 1500,
+					timerProgressBar: true,
+					didOpen: (toast) => {
+						toast.onmouseenter = Swal.stopTimer;
+						toast.onmouseleave = Swal.resumeTimer;
+					}
+				});
+				Toast.fire({
+					icon: "question",
+					title: '服务异常'
+				});
+			});
+		}
+		//操作方法 - 权限
+		function Tixian(row) {
+			var id = row.id;
+			$.post("/index.php?s=/{$app}/agent/tixian", { id: id, csrf_token: "{$csrf_token}" }, function (res) {
+				if (res.code == 1) {
+					var Toast = Swal.mixin({
+						toast: true,
+						position: "top",
+						showConfirmButton: false,
+						timer: 1500,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer;
+						}
+					});
+					Toast.fire({
+						icon: "success",
+						title: res.msg
+					});
+					setTimeout("self.location.reload();", 1500);
+				} else {
+					var Toast = Swal.mixin({
+						toast: true,
+						position: "top",
+						showConfirmButton: false,
+						timer: 1500,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer;
+						}
+					});
+					Toast.fire({
+						icon: "error",
+						title: res.msg
+					});
+				}
+			}).fail(function () {
+				var Toast = Swal.mixin({
+					toast: true,
+					position: "top",
+					showConfirmButton: false,
+					timer: 1500,
+					timerProgressBar: true,
+					didOpen: (toast) => {
+						toast.onmouseenter = Swal.stopTimer;
+						toast.onmouseleave = Swal.resumeTimer;
+					}
+				});
+				Toast.fire({
+					icon: "question",
+					title: '服务异常'
+				});
+			});
+		}
+		$(document).ready(function () {
+			$("#example-2").on("click", function () {
+				// 用SweetAlert2的确认框替代layer.confirm
+				Swal.fire({
+					title: '确定要结算全部代理吗？',
+					icon: 'warning', // 警告图标
+					showCancelButton: true, // 显示取消按钮
+					confirmButtonText: '结算', // 确认按钮文本
+					cancelButtonText: '关闭', // 取消按钮文本
+					confirmButtonColor: '#dc3545' // 确认按钮颜色（红色）
+				}).then((result) => {
+					// 点击"结算"按钮后执行
+					if (result.isConfirmed) {
+						$.post("/index.php?s=/{$app}/agent/jiesuan", { csrf_token: "{$csrf_token}" }, function (response) {
+							if (response.code == 1) {
+								// 重新加载表格数据
+								$('table').bootstrapTable('refresh', {
+									silent: true // 静默刷新，不显示加载动画
+								});
+								// 结算成功提示（用SweetAlert2的toast）
+								Swal.fire({
+									icon: 'success',
+									title: response.msg,
+									timer: 1500, // 1.5秒后自动关闭
+									showConfirmButton: false, // 不显示确认按钮
+									toast: true, // 轻量提示样式
+									position: 'top' // 显示在顶部
+								});
+							} else {
+								// 结算失败提示
+								Swal.fire({
+									icon: 'error',
+									title: '结算失败',
+									timer: 1500,
+									showConfirmButton: false,
+									toast: true,
+									position: 'top'
+								});
+							}
+						}, "json").fail(function () {
+							// 请求失败提示（如网络错误）
+							Swal.fire({
+								icon: 'error',
+								title: '服务异常',
+								timer: 1500,
+								showConfirmButton: false,
+								toast: true,
+								position: 'top'
+							});
+						});
+					}
+				});
+			});
+		});
+
+		// 显示昨日应结算弹窗方法
+		function showBalancePopup(row) {
+			// 从行数据中获取 kefu 参数并解析
+			var kefu = row.kefu ? JSON.parse(row.kefu) : {};
+
+			// 构建弹窗内容（展示balance和kefu的所有字段）
+			var popupContent = `
+            <div style="text-align: left;">
+                <p><strong>昨日应结算金额：</strong>${row.balance || '-'}</p>
+                <hr>
+                <p><strong>代理信息：</strong></p>
+                <p>QQ/TG：${kefu.qq || '未设置'}</p>
+                <p>客服群：<a href="${kefu.group || '#'}" target="_blank">${kefu.group || '未设置'}</a></p>
+                <p>备注：${kefu.info || '未设置'}</p>
+				<p>支付宝姓名：${kefu.zfbname || '未设置'}</p>
+                <p>支付宝账户：${kefu.zfbzh || '未设置'}</p>
+                <p>USDT地址：${kefu.usdt || '未设置'}</p>
+            </div>
+        `;
+
+			// 使用SweetAlert2显示弹窗
+			Swal.fire({
+				title: '结算详情',
+				html: popupContent,
+				icon: 'info',
+				confirmButtonText: '确定',
+				confirmButtonColor: '#3085d6'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					// 点击确定后关闭弹窗
+				}
+			});
+		}
+
+		$('table').bootstrapTable({
+			...table,
+			// 自定义的查询参数
+			queryParams: function (params) {
+				return {
+					// 每页数据量
+					limit: params.limit,
+					// sql语句起始索引
+					offset: params.offset,
+					page: (params.offset / params.limit) + 1,
+					// 排序的列名
+					sort: params.sort,
+					// 排序方式 'asc' 'desc'
+					sortOrder: params.order
+				};
+			},
+			columns,
+			onLoadSuccess: function (data) {
+				$("[data-bs-toggle='tooltip']").tooltip();
+			}
+		});
+	</script>
+
+</body>
+
+</html>

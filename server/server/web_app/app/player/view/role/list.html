@@ -1,0 +1,147 @@
+{extend name="layout/base" /}
+
+{block name="title"}角色管理 - 玩家服务中心{/block}
+{block name="page_title"}角色管理{/block}
+
+{block name="css"}
+<style>
+    @media (max-width: 767px) {
+        .attr-item {
+            padding: 10px 8px !important;
+        }
+
+        .attr-item>div:first-child {
+            font-size: 18px !important;
+        }
+    }
+</style>
+{/block}
+
+{block name="content"}
+{notempty name="roles"}
+{volist name="roles" id="role"}
+<!-- 角色卡片 -->
+<div class="card">
+    <div class="card-body">
+        <div class="role-card" style="margin: 0; background: transparent; padding: 0;">
+            <!-- 角色头像和基本信息 -->
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="role-avatar" style="width: 64px; height: 64px; font-size: 28px;">
+                    <i class="mdi mdi-account"></i>
+                </div>
+                <div class="role-info" style="flex: 1;">
+                    <div class="role-name" style="font-size: 18px;">
+                        {$role.playername|default='未知角色'|htmlspecialchars}
+                    </div>
+                    <div class="role-detail">
+                        <i class="mdi mdi-server"></i> 服务器ID: {$role.serverid|default='-'|htmlspecialchars}
+                        {notempty name="role.charge"}
+                        <span style="margin: 0 8px; color: var(--bs-border-color);">|</span>
+                        <span style="color: var(--bs-success); font-weight: 500;">充值:
+                            ¥{$role.charge|htmlspecialchars}</span>
+                        {/notempty}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 角色属性数据 -->
+            {notempty name="role.charge"}
+            <div style="margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                <div class="attr-item"
+                    style="text-align: center; padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                    <div style="font-size: 20px; font-weight: 700; color: var(--bs-primary);">
+                        {$role.playerid|default='--'|htmlspecialchars}
+                    </div>
+                    <div style="font-size: 12px; color: var(--bs-muted-color);">角色ID</div>
+                </div>
+                <div class="attr-item"
+                    style="text-align: center; padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                    <div style="font-size: 20px; font-weight: 700; color: var(--bs-success);">
+                        ¥{$role.charge|default='0'|htmlspecialchars}
+                    </div>
+                    <div style="font-size: 12px; color: var(--bs-muted-color);">充值</div>
+                </div>
+                <div class="attr-item"
+                    style="text-align: center; padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                    {notempty name="role.zhuanqu"}
+                    <div class="zhuanqu-status" style="font-size: 20px; font-weight: 700; color: var(--bs-warning);">
+                        已转区
+                    </div>
+                    {else/}
+                    <div class="zhuanqu-status"
+                        style="font-size: 20px; font-weight: 700; color: var(--bs-muted-color);">
+                        未转区
+                    </div>
+                    {/notempty}
+                    <div style="font-size: 12px; color: var(--bs-muted-color);">转区状态</div>
+                </div>
+            </div>
+            {/notempty}
+
+            <!-- 操作按钮 -->
+            <div
+                style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--bs-border-color); display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 12px; color: var(--bs-muted-color);">
+                    <i class="mdi mdi-identifier"></i> ID: {$role.playerid|htmlspecialchars}
+                </span>
+                <div style="display: flex; gap: 8px;">
+                    <a href="/player/role/detail?id={$role.playerid}" class="btn btn-sm btn-outline-primary">
+                        <i class="mdi mdi-eye"></i> 详情
+                    </a>
+                    <a href="/player/recharge?role_id={$role.playerid}" class="btn btn-sm btn-primary">
+                        <i class="mdi mdi-cash"></i> 充值
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/volist}
+{else/}
+<!-- 空状态 -->
+<div class="card">
+    <div class="card-body">
+        <div class="empty-state">
+            <i class="mdi mdi-account-group"></i>
+            <h4>暂无角色信息</h4>
+            <p>请先登录游戏创建角色</p>
+            <div style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 12px; text-align: left;">
+                <h5 style="margin: 0 0 12px; font-size: 14px; font-weight: 600;">
+                    <i class="mdi mdi-lightbulb" style="color: var(--bs-warning);"></i> 如何创建角色？
+                </h5>
+                <ol
+                    style="margin: 0; padding-left: 20px; font-size: 13px; color: var(--bs-muted-color); line-height: 1.8;">
+                    <li>下载并安装游戏客户端</li>
+                    <li>使用您的账号登录游戏</li>
+                    <li>选择服务器并创建角色</li>
+                    <li>返回此处查看角色信息</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{/notempty}
+
+<!-- 角色统计 -->
+{notempty name="roles"}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-chart-bar"></i> 角色统计</h3>
+    </div>
+    <div class="card-body">
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">角色数量</div>
+                <div class="info-value">{$roles|count}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">总充值额</div>
+                <div class="info-value text-success">
+                    ¥{$totalCharge|default='0'|htmlspecialchars}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/notempty}
+{/block}

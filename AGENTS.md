@@ -1,0 +1,204 @@
+# MT3 仓库事实与协作边界（AGENTS）
+
+> **版本**：4.0.0
+>
+> **更新日期**：2026-07-18
+>
+> **维护者**：技术委员会
+>
+> **定位**：本文件是 MT3 仓库级事实、任务分流和长期边界的主入口。目录专用规则由最近的 `AGENTS.md` 补充；硬约束和已验证命令分别下沉到 `.claude/RULES.md` 与 `.claude/BUILD_GUIDE.md`。
+
+---
+
+## 1. 默认协作方式
+
+- 所有对话、计划、变更说明和提交说明默认使用中文；代码与注释延续所在模块的既有语言和风格。
+- 本仓库是 Win32、Android、iOS、共享 C++、Lua、Java/Ant 服务端、资源生产链和多套历史工具共同存在的混合技术栈，先划分任务域，再加载对应规则和技能。
+- 修复任务先取证、再定根因、再决定改动面。优先证据依次是工程文件、源码、构建脚本、日志、调用链、配置实物、构建输出、产物时间戳和 `git diff`。
+- 不做无关重构、批量格式化、批量转码或隐式工具链升级；生成物、vendor、历史工程和第一方源码必须先分类再处理。
+- 规则中的版本、路径和命令必须能在当前工作树或已验证外部环境中找到证据；历史估算、计划文档和治理 sidecar 只作辅助，不反向覆盖工程事实。
+
+## 2. 权威入口与裁决顺序
+
+| 入口 | 职责 | 使用时机 |
+| --- | --- | --- |
+| [AGENTS.md](AGENTS.md) | 仓库事实、总体架构、任务分流和根级边界 | 每次进入仓库 |
+| 最近的 `AGENTS.md` / `AGENTS.override.md` | 当前目录专有边界和最短验证入口 | 进入具体子树后 |
+| [.claude/RULES.md](.claude/RULES.md) | 工具链、ABI、编码、生成代码硬约束 | 任何可能影响构建正确性的任务 |
+| [.claude/BUILD_GUIDE.md](.claude/BUILD_GUIDE.md) | 当前工作机已验证的构建和产物校验命令 | 构建、重编、打包、发布 |
+| [.codex/config.toml](.codex/config.toml) | 项目级 Codex 原生运行配置和 Agent/MCP 接入 | Codex 运行时治理 |
+| [.agents/skills/mt3-project-guidelines/SKILL.md](.agents/skills/mt3-project-guidelines/SKILL.md) | MT3 任务域分流和最小技能集合 | 选择处理流程 |
+| [docs/02-技术架构/02-项目架构.md](docs/02-技术架构/02-项目架构.md) | 架构背景与调用链说明 | 需要展开架构上下文 |
+
+事实冲突时按以下顺序裁决：
+
+1. 当前工程实物、源码、项目文件、脚本、日志和可复现构建结果；
+2. 根与最近目录的 `AGENTS.md`（局部规则可在本目录内细化，但不得弱化根级硬边界）；
+3. `.claude/RULES.md` 与 `.claude/BUILD_GUIDE.md`；
+4. `.codex/**`、`.agents/skills/**` 和 `.claude` 桥接配置；
+5. 当前基线文档；
+6. `.trae/references/**`、历史报告、计划、生成报告和其他辅助材料。
+
+若文档或 sidecar 与项目文件不一致，先按工程实物工作，再同步修正文档；不得为了让旧文档“成立”而改坏当前构建链。
+
+## 3. 当前实际架构
+
+### 3.1 系统级模块
+
+| 子系统 | 主要路径 | 当前职责 |
+| --- | --- | --- |
+| 平台壳层 | `client/MT3Win32App/`、`client/android/`、`client/FireClient/FireClient/` | 进程/应用入口、生命周期、窗口与输入、JNI/ObjC++、渠道 SDK、CrashDump |
+| 共享客户端业务 | `client/FireClient/Application/`、`client/resource/res/script/`、`client/resource/res/ui/` | `gRunGameApplication()` 后的启动、登录、入世界、网络、UI、Lua、配置和业务逻辑 |
+| Nuclear 引擎 | `engine/` | 场景、世界、精灵、地图、动画、特效、渲染组织和引擎接口 |
+| Cocos 基础层 | `cocos2d-x-2.2.6/` 与仍被特定工程引用的 `cocos2d-2.0-rc2-x-2.0.1/` | 图形、音频、物理、Lua 基础、扩展和平台适配；实际依赖按平台区分，见 3.3 |
+| 公共本地库 | `common/` | `platform`、`ljfm`、`cauthc`、Lua/tolua、更新等跨模块基础库 |
+| 服务端与协议 | `server/`、`gbeans/` | Java/Ant 游戏服务、gnet/RPC、XDB/XBean、策划配置生成和运行分发 |
+| 资源生产与发布 | `client/resource/res/`、`client/res_*`、`client/android/**/assets/res/`、`tools/` | 源资源、平台 staging、APK 资源同步、PFS/热更新、编辑器与离线工具 |
+| 代理与文档治理 | `.codex/`、`.agents/`、`.claude/`、`.trae/`、`docs/` | Codex 原生配置、技能、兼容桥接、Trae 规则和项目文档 |
+
+仓库中的行数、文件数和构建耗时会持续变化，不作为根级架构约束；需要统计时必须由当前工作树重新生成。
+
+### 3.2 客户端逻辑分层
+
+客户端共享运行时采用四层逻辑模型：
+
+```text
+FireClient 业务层
+  C++ 业务 / Lua / CEGUI UI / 协议 / Manager / Battle / SceneObj
+                         ↓
+Nuclear 引擎层
+  IEngine / IWorld / IEnv / IQuery / 场景 / 精灵 / 动画 / 特效
+                         ↓
+Cocos2d-x 基础层
+  渲染 / 音频 / 物理 / Lua 基础 / extensions / 平台适配
+                         ↓
+平台层
+  Win32 / Android / iOS 生命周期、系统能力和渠道桥接
+```
+
+- 平台壳层负责启动共享主链，不承载另一套独立业务核心。
+- CEGUI 0.7.1 运行时源码位于 `dependencies/cegui/`，通过 Cocos2D renderer 与 FireClient/Lua UI 协作；`tools/CEGUI-*` 是工具或并存快照，不得据此替换运行时依赖。
+- `client/resource/res/script/` 与 `client/resource/res/ui/` 是 FireClient 业务/UI 的组成部分，不是可脱离 C++ 主链单独治理的普通静态资源。
+- 跨层公共接口、对象布局、生命周期或资源所有权变更必须评估所有下游，不以“单个工程编译通过”作为完成标准。
+
+### 3.3 Cocos2d-x 物理依赖现状
+
+“逻辑架构使用 Cocos 基础层”不等于所有平台已经物理收敛到同一目录。当前工程实物为：
+
+- **Win32 canonical 主线**：`client/MT3Win32App/*.win32.vcxproj`、`engine/engine.win32.vcxproj` 和 `client/Build-MT3-v120.ps1` 使用 `cocos2d-x-2.2.6/`。
+- **Android Locojoy free 主线**：`client/android/LocojoyProject/jni/Android.mk` 以 `cocos2d-x-2.2.6/` 为导入根，`Application.mk` 当前为 `arm64-v8a + android-21 + c++_shared + clang`。`engine/Android.mk` 仍有一条旧树 `libSpine` 导入，而 `Assert-AndroidArm64Migration.ps1` 会把旧树导入判为错误；在该门禁通过前不得宣称 Android 依赖已完全收敛。
+- **iOS 工程**：`client/FireClient/FireClient.xcodeproj/project.pbxproj` 与 `engine/engine.xcodeproj/project.pbxproj` 当前仍直接引用 `cocos2d-2.0-rc2-x-2.0.1/`。因此旧树对 iOS 仍是现实兼容依赖，不应笼统标为“全仓只读历史目录”。
+- `client/MT3Win32App/mt3.vcxproj`、部分 `.filters`、WinRT/WP8 工程和其他旧项目文件仍可能包含旧树路径；它们不属于 Win32 canonical 入口，也不得用来推翻 canonical 主线事实。
+
+新增 Win32/Android 主线依赖不得继续指向旧树。处理旧树时必须先识别实际引用它的平台和工程，再决定修复、迁移或重编范围；禁止全目录批量替换路径。
+
+### 3.4 服务端与代码生成
+
+- 服务端主入口为 `server/server/game_server/build.xml`，当前核心目标包括 `genrpc`、`genxdb`、`gengbeans`、`genfiles` 和 `dist`。
+- `gbeans/*.xml` 是 `gengbeans` 消费的源定义，不是生成后的 Java 文件。
+- `server/**/xbean/*.java`、`server/**/rpc/*.java` 是生成结果；协议/XDB 变更必须回到 XML、XDB、RPC 定义和 Ant 生成入口。
+- `serverbin/` 是运行分发产物，不作为长期手写源；服务端配置、生成结果和分发目录必须区分。
+- 客户端 `ProtoDef`、Lua 协议脚本与服务端协议定义存在生成关系；协议调整必须同时核对客户端生成链和服务端生成链，避免单边更新。
+
+### 3.5 资源生产链
+
+```text
+client/resource/res/**                         # 业务源资源（可修改）
+  -> LJFilePackOption.xml / LJFilePack_打包*.bat
+  -> client/res_android|res_ios|res_win/**     # 平台 staging（生成）
+  -> Android -SyncRes
+  -> client/android/LocojoyProject/assets/res/** # APK 工程生成输入
+```
+
+- `client/resource/res/**` 是资源业务源；Android 资源问题必须先回到这里定位。
+- `client/resource/tools/**`、`client/res_android/**`、`client/res_ios/**`、`client/res_win/**` 和 `client/android/LocojoyProject/assets/res/**` 在当前仓库策略下可能被忽略且不随干净 checkout 提供；执行前必须检查工作区实物。
+- `client/android/LocojoyProject/assets/res/**` 只允许由资源打包和构建同步链刷新，不接受手工补丁。
+- 修改 layout/scheme/looknfeel/imageset/font 时同时核对 CEGUI 声明链、Lua/C++ 查找路径和资源打包输出，不得只验证单个 XML 能解析。
+
+## 4. 主线工具链与构建入口
+
+| 平台/子系统 | 当前基线 | canonical/源入口 | 关键边界 |
+| --- | --- | --- | --- |
+| Win32 客户端 | VS2013 `v120` + Windows SDK 8.1 + MSBuild 12.0 | `tools/scripts/Build-MT3-Exe-Canonical.ps1` | `client/Build-MT3-v120.ps1` 是内部依赖链；不以 CMake 或新 MSVC 替换 |
+| Android free 渠道 | NDK r16b clang + Ant + JDK 8；旧脚本需要时使用 Python 2.7 | `tools/scripts/Build-Android-Locojoy-WithGate.ps1` | 当前验证对象是 `LocojoyProject` free；其他渠道/月卡配置需单独复验 |
+| iOS | macOS + Xcode/xcodebuild | `client/FireClient/FireClient.xcodeproj` | 仅在 macOS/Xcode 执行器验证；不得在 Windows 上编造构建结论 |
+| 服务端 | JDK 1.7/1.8 + Ant | `server/server/game_server/build.xml` | 不以 Maven/Gradle 或 JDK 9+ 隐式替换 |
+
+- WinRT/WP8、vendor 示例工程和历史项目不属于当前主线交付入口；其配置不得作为升级主线工具链的依据。
+- 编译宏、字符集、警告、链接库和渲染后端以具体项目文件为准，不设虚构的全仓统一值。例如当前 `engine.win32.vcxproj` 的 `CharacterSet` 与 MT3/FireClient 工程不同；最终 Win32 工程同时保留 OpenGL 与 EGL/GLES 相关链接项，禁止按旧规则擅自删除。
+- 构建命令和本机路径以 `.claude/BUILD_GUIDE.md` 与脚本参数为准；规则文件不复制易漂移的机器绝对路径。
+
+## 5. 首轮任务分流
+
+| 任务域 | 最近入口 | 首轮动作 |
+| --- | --- | --- |
+| FireClient 共享业务 | [client/FireClient/Application/AGENTS.md](client/FireClient/Application/AGENTS.md) | 先定位启动、登录、入世界、Manager、协议或 Lua/UI 主链 |
+| Win32 壳层与构建 | [client/MT3Win32App/AGENTS.md](client/MT3Win32App/AGENTS.md) | 区分壳层、链接、运行目录和 ABI，再使用 canonical 脚本 |
+| Android 平台 | [client/android/AGENTS.md](client/android/AGENTS.md) | 固定 free 主线与 JDK8/NDK r16 门禁，先区分 Java/JNI、native、渠道和资源同步 |
+| iOS 平台 | [client/AGENTS.md](client/AGENTS.md) | 核对 Xcode 工程、ObjC++ 生命周期、旧 Cocos 物理依赖和共享 C++ 桥接 |
+| Nuclear/渲染 | [engine/AGENTS.md](engine/AGENTS.md) | 区分引擎 ABI、运行时渲染、CEGUI 声明链与平台输入 |
+| 服务端/协议/生成 | [server/AGENTS.md](server/AGENTS.md) | 区分源定义、生成代码、Ant 构建和运行分发 |
+| 工具/资源/打包 | [tools/AGENTS.md](tools/AGENTS.md) | 区分构建脚本、PFS/热更新、Sprite 打包、CEGUI 工具和资源恢复 |
+| 文档 | [docs/AGENTS.md](docs/AGENTS.md) | 先回工程事实，再更新当前基线；历史资料不覆盖现状 |
+| Codex 原生治理 | `.codex/**`、`.agents/skills/**` | 使用 `codex-runtime-governance`，核对配置、sidecar、Agent 和技能审计 |
+| Claude 兼容治理 | [.claude/AGENTS.md](.claude/AGENTS.md) | 区分硬约束、构建命令、桥接路由和审计脚本 |
+| Trae 规则 | [.trae/rules/project_rules.md](.trae/rules/project_rules.md) | 以本文件和工程实物为主，Trae 文件只维护适配摘要 |
+
+## 6. 源码、生成物、vendor 与产物边界
+
+| 范围 | 分类 | 修改规则 |
+| --- | --- | --- |
+| `client/FireClient/Application/**` | 第一方共享业务源码 | 允许修改；公共头和生成文件例外按下文处理 |
+| `client/MT3Win32App/**`、`client/android/**`、`client/FireClient/FireClient/**` | 第一方平台壳层 | 允许修改；保持平台工具链、生命周期和编码现状 |
+| `engine/**` | 第一方 Nuclear 引擎 | 允许修改；公共头默认按 ABI 高风险处理 |
+| `cocos2d-x-2.2.6/**` | 当前 Win32/Android 主线基础层 | 允许有证据的补丁；必须重编对应库及全部受影响下游 |
+| `cocos2d-2.0-rc2-x-2.0.1/**` | iOS/旧工程仍引用的兼容树 | 不做日常泛化修改；先定位引用工程，按平台专项评估和验证 |
+| `dependencies/**`、第三方快照 | vendor | 日常保持原状；专项补丁保留来源、影响和回滚，不做全仓风格治理 |
+| `client/resource/res/**`、`gbeans/*.xml`、协议/XML/pkg 定义 | 源定义 | 从这里修改，再运行相应生成/打包链 |
+| `.lib/.dll/.exe/.a/.so/.jar/.apk`、`serverbin/**` | 构建或分发产物 | 不手工编辑；回到源码和 canonical 构建入口 |
+
+以下内容默认视为生成结果，不作为长期手写源：
+
+- `server/**/xbean/*.java`、`server/**/rpc/*.java`；
+- `client/FireClient/Application/ProtoDef/**`；
+- `client/resource/res/script/protodef/**`；
+- `client/FireClient/Application/Framework/LuaEngine.cpp`、`LuaFireClient.cpp`；
+- 由 tolua++ 输出的其他绑定 `.cpp`；
+- `client/res_android/**`、`client/res_ios/**`、`client/res_win/**`；
+- `client/android/LocojoyProject/assets/res/**`。
+
+对应源入口包括 `client/FireClient/Application/*.xml`、`genprotocol*.bat/.sh`、`client/tolua++-pkgs/**/*.pkg`、`engine/tolua++-pkgs/engine.pkg`、服务端协议/XDB XML、`gbeans/*.xml` 和资源源目录。修改生成结果前必须先找到真实生成入口。
+
+## 7. ABI、链接与下游重建
+
+- 类成员、继承关系、虚函数、模板实例、内联实现、公共宏分支、对象大小或成员偏移变化均属于 ABI 敏感变更。
+- 修改 `engine/**.h` 的 ABI 后执行 `Rebuild engine -> Rebuild FireClient -> Build MT3`。
+- 修改 `client/FireClient/Application/**.h` 的 ABI 后执行 `Rebuild FireClient -> Build MT3`；若同时影响 engine，从 engine 开始整链重建。
+- 修改 Cocos 公共接口后，重编对应 Cocos 库并继续重编 `engine -> FireClient -> MT3`。
+- `FireClient.win32.vcxproj` 与 `mt3.win32.vcxproj` 共享 `$(SolutionDir)$(Configuration).win32` **输出目录**，但其 `IntDir` 分别带项目名；不要再描述为“共用同一中间目录”。共享输出目录仍要求核对 `.lib/.exe` 时间戳和实际重编顺序。
+- 不使用 `/FORCE`、跨工具集二进制或局部替换来掩盖符号、CRT、对象布局或链接问题；不跨 CRT 边界分配/释放内存。
+
+## 8. 编码、风格与 Shell
+
+- 修改前必须探测原始编码、BOM 和换行，修改后按原编码回读并做字节校验；不按扩展名对全仓一刀切转码。
+- 交给 VS2013 `cl.exe` 的 UTF-8 C/C++ 文件只要含非 ASCII 字符就必须保留 UTF-8 BOM；历史 CP936/ANSI/UTF-16 文件仍按原编码写回。
+- `.rc` 文件保持原编码，禁止把常见 UTF-16 LE/BOM 自动转换成 UTF-8。
+- `.md/.json/.xml/.ps1/.lua/.java` 新文件默认 UTF-8 无 BOM；修改既有文件仍以保持原状和就近 `.gitattributes` 为先。本文件与 `.trae/rules/project_rules.md` 的当前基线为 UTF-8 无 BOM、CRLF。
+- 代码命名、缩进、花括号、预编译头、宏和警告配置遵循最近模块现状；不存在可覆盖所有 C++、Lua、Java 和工具工程的单一格式模板。
+- PowerShell 使用 `$env:NAME`，`cmd.exe`/`.bat` 才使用 `%NAME%`；跨 shell 必须显式写 `cmd /c`、`powershell -File` 或 `bash -lc`。
+
+## 9. 验证与交付
+
+- 业务逻辑改动必须增加测试，或提供能覆盖关键路径的回归步骤；Bug 修复至少保留一个复现与回归证据。
+- 构建影响按最近 `AGENTS.md`、`.claude/BUILD_GUIDE.md` 和 canonical 脚本执行；没有在对应平台运行就明确记录“未执行”和阻塞条件。
+- 仅修改规则/文档时至少执行：严格 UTF-8/BOM/换行检查、本地 Markdown 链接存在性检查、过时关键字检查和 `git diff --check`；文档改动本身不要求无关的全量客户端构建。
+- 交付说明包含：目标与假设、工程证据、变更点、验证命令与结果、未覆盖项、风险与回滚方式。
+- 不覆盖或回退用户已有改动；提交前先用 `git status --short` 和限定路径的 `git diff` 区分本次修改。
+
+## 10. 维护原则
+
+1. 根 `AGENTS.md` 只维护跨域长期事实、架构边界和导航；专题步骤下沉到最近目录规则或技能。
+2. `.claude/RULES.md` 维护硬约束，`.claude/BUILD_GUIDE.md` 维护已验证命令，`.codex/**` 维护 Codex 原生运行配置；职责不互相复制。
+3. `.trae/rules/project_rules.md` 必须引用本文件并保持事实摘要一致；`.trae/references/**` 中未逐篇复核的旧材料不得覆盖本文件。
+4. 新增平台、迁移 Cocos 根、改变工具链、调整资源 staging 或生成链时，必须同步更新本文件、最近目录规则和对应构建文档。
+5. 不在根规则中固化会快速失真的代码行数、耗时、机器绝对路径或单次故障 workaround。

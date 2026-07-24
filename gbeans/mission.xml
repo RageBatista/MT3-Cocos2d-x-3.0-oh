@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="mission">
+	<bean name="CShiGuangZhiXueConfig" from="s时光之穴/精英副本参数" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID"/>
+		<variable name="fubenId" type="int" fromCol="副本ID"/>
+		<variable name="name" type="string" fromCol="副本名称"/>
+		<variable name="ccname" type="string" fromCol="副本名称1"/>
+		<variable name="ccname1" type="string" fromCol="副本名称2"/>
+		<variable name="explain" type="string" fromCol="副本介绍"/>
+		<variable name="playerNum" type="int" fromCol="队伍人数下限"/>
+		<variable name="enterLevel" type="int" fromCol="进入最低等级"/>
+		<variable name="image" type="string" fromCol="主题图名称"/>
+		<variable name="ccimage" type="string" fromCol="奖励标识"/>
+		<variable name="icon" type="int" fromCol="半身像ID"/>
+		<variable name="award1" type="int" fromCol="通关奖励显示ID1"/>
+		<variable name="award2" type="int" fromCol="通关奖励显示ID2"/>
+		<variable name="award3" type="int" fromCol="通关奖励显示ID3"/>
+		<variable name="award4" type="int" fromCol="通关奖励显示ID4"/>
+		<variable name="award5" type="int" fromCol="通关奖励显示ID5"/>
+	</bean>
+
+	<bean name="SAllTaskLine" from="r任务相关/r任务号段职业分组" genxml="server">
+		<variable name="id" type="int" fromCol="任务号段"/>
+		<variable name="职业" type="int" fromCol="职业"/>
+	</bean>
+
+	<bean name="CAcceptableTask" from="r任务相关/k可接任务信息" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="任务ID"/> <!-- 任务id -->
+		<variable name="minilevel" type="int" fromCol="任务等级min"/>
+		<variable name="destnpcid" type="int" fromCol="目的NPC"/> <!-- 领取任务的npc -->
+		<variable name="miniicon" type="string" fromCol="前置小图标"/>
+		<variable name="name" type="string" fromCol="任务名称"/>
+		<variable name="aim" type="string" fromCol="任务追踪"/>
+		<variable name="discribe" type="string" fromCol="任务描述"/>
+		<variable name="rewardtext" type="string" fromCol="奖励文字"/>
+		<variable name="expreward" type="int" fromCol="经验奖励"/>
+		<variable name="moneyreward" type="int" fromCol="金钱奖励"/>
+		<variable name="rmoneyreward" type="int" fromCol="备用奖励"/>
+		<variable name="itemsreward" type="vector" fromCol="物品奖励1,物品奖励2,物品奖励3" value="int"/>
+		<variable name="reputationreward" type="int" fromCol="声望奖励"/>
+	</bean>
+
+	<bean name="CArrowEffect" from="x新手引导/箭头效果" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="step" type="int" fromCol="下一步"/>
+		<variable name="task" type="int" fromCol="触发任务id"/>
+		<variable name="startlevel" type="int" fromCol="触发等级"/>
+		<variable name="level" type="int" fromCol="等级上限"/>
+		<variable name="screen" type="int" fromCol="是否锁屏"/>
+		<variable name="button" type="string" fromCol="按钮名称"/>
+		<variable name="usebutton" type="string" fromCol="响应按钮"/>
+		<variable name="item" type="int" fromCol="道具id"/>
+		<variable name="skill" type="int" fromCol="技能id"/>
+		<variable name="text" type="string" fromCol="箭头内容"/>
+		<variable name="uiposition" type="int" fromCol="界面位置"/>
+		<variable name="textposition" type="int" fromCol="文字位置"/>
+		<variable name="imagename" type="string" fromCol="图片名称"/>
+		<variable name="cleareffect" type="int" fromCol="解锁特效"/>
+		<variable name="functionid" type="int" fromCol="触发功能ID"/>
+		<variable name="battleId" type="int" fromCol="战斗ID触发"/>
+		<variable name="battleRoundId" type="int" fromCol="回合数触发"/>
+		<variable name="battlePos" type="int" fromCol="相应战斗点位"/>
+		<variable name="startAni" type="int" fromCol="是否播放提醒动画"/>
+		<variable name="isAllwaysLock" type="int" fromCol="是否永久锁屏"/>
+		<variable name="conditionItemId" type="int" fromCol="条件道具ID"/>
+		<variable name="onTeam" type="int" fromCol="是否判定组队状态"/>
+		<variable name="guideType" type="int" fromCol="引导特效类别"/>
+		<variable name="guideEffectId" type="int" fromCol="引导特效"/>
+		<variable name="assistEffectId" type="int" fromCol="辅助引导特效"/>
+		<variable name="effectScale" type="int" fromCol="引导特效缩放比例"/>
+		<variable name="teamInfo" type="int" fromCol="队伍列表信息"/>
+		<variable name="guideModel" type="int" fromCol="出现类型"/>
+		<variable name="isEquipGuide" type="int" fromCol="是否为穿装备"/>
+	</bean>
+	<bean name="CArrowEffectSimp" from="x新手引导/箭头效果简化版" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="step" type="int" fromCol="下一步"/>
+		<variable name="task" type="int" fromCol="触发任务id"/>
+		<variable name="startlevel" type="int" fromCol="触发等级"/>
+		<variable name="level" type="int" fromCol="等级上限"/>
+		<variable name="screen" type="int" fromCol="是否锁屏"/>
+		<variable name="button" type="string" fromCol="按钮名称"/>
+		<variable name="usebutton" type="string" fromCol="响应按钮"/>
+		<variable name="item" type="int" fromCol="道具id"/>
+		<variable name="skill" type="int" fromCol="技能id"/>
+		<variable name="text" type="string" fromCol="箭头内容"/>
+		<variable name="uiposition" type="int" fromCol="界面位置"/>
+		<variable name="textposition" type="int" fromCol="文字位置"/>
+		<variable name="imagename" type="string" fromCol="图片名称"/>
+		<variable name="cleareffect" type="int" fromCol="解锁特效"/>
+		<variable name="functionid" type="int" fromCol="触发功能ID"/>
+		<variable name="battleId" type="int" fromCol="战斗ID触发"/>
+		<variable name="battleRoundId" type="int" fromCol="回合数触发"/>
+		<variable name="battlePos" type="int" fromCol="相应战斗点位"/>
+		<variable name="startAni" type="int" fromCol="是否播放提醒动画"/>
+		<variable name="isAllwaysLock" type="int" fromCol="是否永久锁屏"/>
+		<variable name="conditionItemId" type="int" fromCol="条件道具ID"/>
+		<variable name="onTeam" type="int" fromCol="是否判定组队状态"/>
+		<variable name="guideType" type="int" fromCol="引导特效类别"/>
+		<variable name="guideEffectId" type="int" fromCol="引导特效"/>
+		<variable name="assistEffectId" type="int" fromCol="辅助引导特效"/>
+		<variable name="effectScale" type="int" fromCol="引导特效缩放比例"/>
+		<variable name="teamInfo" type="int" fromCol="队伍列表信息"/>
+		<variable name="guideModel" type="int" fromCol="出现类型"/>
+		<variable name="isEquipGuide" type="int" fromCol="是否为穿装备"/>
+	</bean>
+	<bean name="CActiveGiftBox" from="h活跃度奖励表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="needactvalue" type="int" fromCol="需求活跃度"/>
+		<variable name="text" type="string" fromCol="文本"/>
+		<variable name="itemid" type="int" fromCol="道具ID"/>
+	</bean>
+
+	<bean name="CPointCardActiveGiftBox" from="D点卡服表格/DMT3活跃度奖励表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="needactvalue" type="int" fromCol="需求活跃度"/>
+		<variable name="text" type="string" fromCol="文本"/>
+		<variable name="itemid" type="int" fromCol="道具ID"/>
+	</bean>
+
+	<bean name="QuestCanAcceptList">
+		<variable name="id" type="int" fromCol="任务ID"/>
+		<variable name="任务等级min" type="int" fromCol="任务等级min"/>
+		<variable name="任务等级max" type="int" fromCol="任务等级max"/>
+	</bean>
+
+	<bean name="SQuestCanAcceptList" from="r任务相关/k可接任务信息" genxml="server" baseclass="QuestCanAcceptList">
+
+	</bean>
+
+	<bean name="SQuestCanAcceptListDianKa" from="D点卡服表格/k可接任务信息for点卡服" genxml="server" baseclass="QuestCanAcceptList">
+
+	</bean>
+
+	<bean name="SSpecialScenarioQuestConfig" from="r任务相关/r任务附加条件配置" genxml="server">
+		<variable name="id" type="int" fromCol="ID"/>
+		<variable name="params" type="vector" fromCol="值1,值2,值3,值4,值5,值6,值7,值8,值9,值10" value="int"/>
+		<variable name="类型ID" type="int" fromCol="完成类型"/>
+		<variable name="activeparams" type="vector" fromCol="值11,值12,值13,值14,值15,值16,值17,值18,值19,值20" value="int"/>
+		<variable name="类型ID2" type="int" fromCol="检查类型"/>
+		<variable name="emsg" type="int" fromCol="错误提示"/>
+	</bean>
+
+
+
+	<bean name="SLandTaskConfig" from="r任务相关/z组队副本配置/组队副本刷新" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="taskid" type="int" fromCol="任务id"/>
+		<variable name="tasktype" type="int" fromCol="任务类型"/> <!-- 又做副本ID -->
+		<variable name="mapid" type="int" fromCol="mapid"/>
+		<variable name="solonpcid" type="int" fromCol="npcid"/>
+		<variable name="step" type="int" fromCol="step"/>
+		<variable name="steprate" type="int" fromCol="出现几率"/>
+		<variable name="lefttopx" type="int" fromCol="LefttopX"/>
+		<variable name="lefttopy" type="int" fromCol="LefttopY"/>
+		<variable name="end" type="int" fromCol="结束任务"/>
+
+		<variable name="decoratenpc1" type="int" fromCol="装饰npc1"/>
+		<variable name="x1" type="int" fromCol="坐标x1"/>
+		<variable name="y1" type="int" fromCol="坐标y1"/>
+		<variable name="decoratenpc2" type="int" fromCol="装饰npc2"/>
+		<variable name="x2" type="int" fromCol="坐标x2"/>
+		<variable name="y2" type="int" fromCol="坐标y2"/>
+		<variable name="decoratenpc3" type="int" fromCol="装饰npc3"/>
+		<variable name="x3" type="int" fromCol="坐标x3"/>
+		<variable name="y3" type="int" fromCol="坐标y3"/>
+	</bean>
+
+	<bean name="CJingyingConfig" from="r任务相关/z组队副本配置/组队副本刷新" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="taskid" type="int" fromCol="任务id"/>
+		<variable name="tasktype" type="int" fromCol="任务类型"/>
+		<variable name="mapid" type="int" fromCol="mapid"/>
+		<variable name="solonpcid" type="int" fromCol="npcid"/>
+		<variable name="step" type="int" fromCol="step"/>
+
+		<variable name="steprate" type="int" fromCol="出现几率"/>
+
+		<variable name="lefttopx" type="int" fromCol="LefttopX"/>
+		<variable name="lefttopy" type="int" fromCol="LefttopY"/>
+		<variable name="endtask" type="int" fromCol="结束任务"/>
+
+		<variable name="decoratenpc1" type="int" fromCol="装饰npc1"/>
+		<variable name="x1" type="int" fromCol="坐标x1"/>
+		<variable name="y1" type="int" fromCol="坐标y1"/>
+		<variable name="decoratenpc2" type="int" fromCol="装饰npc2"/>
+		<variable name="x2" type="int" fromCol="坐标x2"/>
+		<variable name="y2" type="int" fromCol="坐标y2"/>
+		<variable name="decoratenpc3" type="int" fromCol="装饰npc3"/>
+		<variable name="x3" type="int" fromCol="坐标x3"/>
+		<variable name="y3" type="int" fromCol="坐标y3"/>
+	</bean>
+
+
+	<bean name="SLandFightConfig" from="r任务相关/z组队副本配置/组队副本NPC服务" genxml="server">
+		<variable name="id" type="int" fromCol="服务id"/>
+		<variable name="instancezoneid" type="int" fromCol="副本id"/>
+		<variable name="step" type="int" fromCol="step"/>
+		<variable name="fightid" type="int" fromCol="战斗id"/>
+		<variable name="award" type="int" fromCol="奖励id"/>
+		<variable name="instancetype" type="int" fromCol="类型"/>
+		<variable name="params" type="string" fromCol="参数"/>
+		<variable name="times" type="int" fromCol="数量"/>
+		<variable name="sawardid" type="int" fromCol="高奖奖励id"/>
+		<variable name="sawardtimes" type="int" fromCol="高奖奖励次数"/>
+		<variable name="awardid" type="int" fromCol="普通奖励id"/>
+		<variable name="awardtimes" type="int" fromCol="普通奖励次数"/>
+		<variable name="npcmsgid" type="int" fromCol="NPC语言"/>
+		<variable name="matchtype" type="int" fromCol="匹配奖励方式"/> <!-- 1 表示匹配个人等级 2 表示队伍平均等级 -->
+		<variable name="awardids" type="string" fromCol="分级奖励"/> <!-- 添加根据角色等级匹配不同的奖励id -->
+			<!--<variable name="solofightid" type="int" fromCol="简单战斗id"/>
+		<variable name="soloaward" type="int" fromCol="简单奖励id"/>
+		<variable name="cruelfightid" type="int" fromCol="残酷战斗id"/>
+		<variable name="cruelaward" type="int" fromCol="残酷奖励id"/>
+		<variable name="hellfightid" type="int" fromCol="炼狱战斗id"/>
+		<variable name="hellaward" type="int" fromCol="炼狱奖励id"/> -->
+	</bean>
+	<bean name="CJingyingrenwuTask" from="r任务相关/z组队副本配置/组队副本参数" genxml="client" gencode="mtlua">
+
+		<variable name="id" type="int" fromCol="任务ID"/>
+		<variable name="ntasktypeid" type="int" fromCol="活动ID"/>
+		<variable name="nfubenid" type="int" fromCol="副本ID"/>
+
+		<variable name="taskname" type="string" fromCol="任务名"/>
+		<variable name="tasklevel" type="string" fromCol="适应等级"/>
+		<variable name="tasktext" type="string" fromCol="任务文本"/>
+		<variable name="taskready" type="int" fromCol="是否开放"/>
+		<variable name="nleveltype" type="int" fromCol="等级段"/>
+		<variable name="minlevel" type="int" fromCol="进入最低等级"/>
+		<variable name="maxlevel" type="int" fromCol="进入最高等级"/>
+
+		<variable name="ndifficult" type="int" fromCol="难度"/>
+		<variable name="strkaiqitime" type="string" fromCol="开启时间"/>
+		<variable name="strkaishitime" type="string" fromCol="开始时间"/>
+		<variable name="strjieshutime" type="string" fromCol="结束时间"/>
+
+		<variable name="nlunhuantype" type="int" fromCol="轮换类型"/>
+		<variable name="turngroup" type="int" fromCol="轮换组"/>
+		<variable name="turnid" type="int" fromCol="轮换顺序ID"/>
+		<variable name="awardtype" type="int" fromCol="奖励次数类型"/>
+		<variable name="awardtime" type="int" fromCol="奖励次数"/>
+
+		<variable name="nshowtype" type="int" fromCol="显示方式"/>
+		<variable name="strbgname" type="string" fromCol="主题图名称"/>
+
+
+		<variable name="nbossid" type="int" fromCol="BOSS造型"/>
+		<variable name="strdes" type="string" fromCol="副本说明"/>
+
+	</bean>
+
+	<bean name="SLandTask" from="r任务相关/z组队副本配置/组队副本参数" genxml="server">
+		<variable name="id" type="int" fromCol="任务ID"/>
+		<variable name="taskname" type="string" fromCol="任务名"/>
+		<variable name="taskready" type="int" fromCol="是否开放"/>
+		<variable name="minlevel" type="int" fromCol="进入最低等级"/>
+		<variable name="maxlevel" type="int" fromCol="进入最高等级"/>
+		<variable name="teamnum" type="int" fromCol="队伍人数下限"/>
+		<variable name="activityid" type="int" fromCol="活动ID"/>
+		<variable name="activitytypeid" type="int" fromCol="对应活动类型ID"/>
+		<variable name="instancezoneid" type="int" fromCol="副本ID"/>
+		<variable name="degree" type="int" fromCol="难度"/>
+		<variable name="turntype" type="int" fromCol="轮换类型"/>
+		<variable name="turngroup" type="int" fromCol="轮换组"/>
+		<variable name="turnid" type="int" fromCol="轮换顺序ID"/>
+		<variable name="awardtype" type="int" fromCol="奖励次数类型"/>
+		<variable name="awardtime" type="int" fromCol="奖励次数"/>
+		<variable name="xzuobiao" type="int" fromCol="默认X坐标"/>
+		<variable name="yzuobiao" type="int" fromCol="默认Y坐标"/>
+		<variable name="fanpaiid" type="int" fromCol="翻牌奖励id"/>
+		<variable name="fanpailist" type="vector" fromCol="S级奖励id,A级奖励id,B级奖励id,C级奖励id" value="int"/>
+	</bean>
+
+	<bean name="CJingyingpingji" from="r任务相关/z组队副本配置/组队副本评级" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="level" type="string" fromCol="等级"/>
+		<variable name="minround" type="int" fromCol="最小回合数"/>
+		<variable name="maxround" type="int" fromCol="最大回合数"/>
+		<variable name="exppersent" type="int" fromCol="奖励经验百分比"/>
+		<variable name="tubiaolujing" type="string" fromCol="图标路径"/>
+	</bean>
+
+	<bean name="SLandPingJi" from="r任务相关/z组队副本配置/组队副本评级" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="level" type="string" fromCol="等级"/>
+		<variable name="minround" type="int" fromCol="最小回合数"/>
+		<variable name="maxround" type="int" fromCol="最大回合数"/>
+		<variable name="exppersent" type="int" fromCol="奖励经验百分比"/>
+		<variable name="tubiaolujing" type="string" fromCol="图标路径"/>
+	</bean>
+
+	<bean name="SLineTask" from="s时光之穴/精英副本参数" genxml="server">
+		<variable name="id" type="int" fromCol="副本ID"/>
+		<variable name="taskname" type="string" fromCol="副本名称"/>
+		<variable name="minlevel" type="int" fromCol="进入最低等级"/>
+		<variable name="teamnum" type="int" fromCol="队伍人数下限"/>
+		<variable name="activitytypeid" type="int" fromCol="对应活动类型ID"/>
+		<variable name="afterid" type="int" fromCol="前置副本ID"/>
+		<variable name="awardtype" type="int" fromCol="奖励次数类型"/>
+			<!--<variable name="awardtime" type="int" fromCol="奖励次数"/> -->
+		<variable name="xzuobiao" type="int" fromCol="默认X坐标"/>
+		<variable name="yzuobiao" type="int" fromCol="默认Y坐标"/>
+		<variable name="awardid" type="int" fromCol="通关奖励ID"/>
+		<variable name="stepnum" type="int" fromCol="副本进度数目"/>
+		<variable name="fanpailist" type="vector" fromCol="S级奖励id,A级奖励id,B级奖励id,C级奖励id" value="int"/>
+		<variable name="grade4" type="string" fromCol="C级奖励回合数"/>
+		<variable name="grade3" type="string" fromCol="B级奖励回合数"/>
+		<variable name="grade2" type="string" fromCol="A级奖励回合数"/>
+		<variable name="grade1" type="string" fromCol="S级奖励回合数"/>
+	</bean>
+
+	<bean name="SLineTaskConfig" from="s时光之穴/精英副本刷新" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="taskid" type="int" fromCol="任务id"/>
+		<variable name="tasktype" type="int" fromCol="任务类型"/> <!-- 又做副本ID -->
+		<variable name="mapid" type="int" fromCol="mapid"/>
+		<variable name="solonpcid" type="int" fromCol="npcid"/>
+		<variable name="step" type="int" fromCol="step"/>
+		<variable name="steprate" type="int" fromCol="出现几率"/>
+		<variable name="lefttopx" type="int" fromCol="LefttopX"/>
+		<variable name="lefttopy" type="int" fromCol="LefttopY"/>
+		<variable name="end" type="int" fromCol="结束任务"/>
+
+		<variable name="decoratenpc1" type="int" fromCol="装饰npc1"/>
+		<variable name="x1" type="int" fromCol="坐标x1"/>
+		<variable name="y1" type="int" fromCol="坐标y1"/>
+		<variable name="decoratenpc2" type="int" fromCol="装饰npc2"/>
+		<variable name="x2" type="int" fromCol="坐标x2"/>
+		<variable name="y2" type="int" fromCol="坐标y2"/>
+		<variable name="decoratenpc3" type="int" fromCol="装饰npc3"/>
+		<variable name="x3" type="int" fromCol="坐标x3"/>
+		<variable name="y3" type="int" fromCol="坐标y3"/>
+	</bean>
+
+	<bean name="SLineTaskFight" from="s时光之穴/精英副本NPC服务" genxml="server">
+		<variable name="id" type="int" fromCol="服务id"/>
+		<variable name="instancezoneid" type="int" fromCol="副本id"/>
+		<variable name="step" type="int" fromCol="step"/>
+		<variable name="fightid" type="int" fromCol="战斗id"/>
+		<variable name="award" type="int" fromCol="奖励id"/>
+		<variable name="itemawardid" type="int" fromCol="道具奖励id"/>
+		<variable name="awardtimes" type="int" fromCol="奖励次数"/>
+		<variable name="yuanzhuawardid" type="int" fromCol="援助奖励id"/>
+		<variable name="yuanzhuawardtimes" type="int" fromCol="援助奖励次数"/>
+		<variable name="npcmsgid" type="int" fromCol="NPC语言"/>
+	</bean>
+
+	<bean name="SLinepingji" from="s时光之穴/精英副本评级" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="level" type="string" fromCol="等级"/>
+		<variable name="minround" type="int" fromCol="最小回合数"/>
+		<variable name="maxround" type="int" fromCol="最大回合数"/>
+		<variable name="exppersent" type="int" fromCol="奖励经验百分比"/>
+	</bean>
+
+
+	<bean name="CTasktrackingorder" from="r任务相关/r任务追踪权重配置" genxml="client"  gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="mintaskid" type="int" fromCol="任务最小id"/>
+		<variable name="maxtaskid" type="int" fromCol="任务最大id"/>
+		<variable name="priority" type="int" fromCol="优先级"/>
+	</bean>
+
+
+	<bean name="SActiveChestConfig" from="h活跃度奖励表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="activeness" type="int" fromCol="需求活跃度"/>
+		<variable name="itemid" type="int" fromCol="道具ID"/>
+	</bean>
+
+	<bean name="SActiveChestConfig4D" from="D点卡服表格/DMT3活跃度奖励表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="activeness" type="int" fromCol="需求活跃度"/>
+		<variable name="itemid" type="int" fromCol="道具ID"/>
+	</bean>
+
+	<bean name="CTiku" from="Mt人文探索/Mt人文探索题库配置" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/> <!-- 题目ID -->
+		<variable name="question" type="string" fromCol="题目"/>
+		<variable name="answer1" type="string" fromCol="选项1"/>
+		<variable name="answer2" type="string" fromCol="选项2"/>
+		<variable name="answer3" type="string" fromCol="选项3"/>
+		<variable name="answer4" type="string" fromCol="选项4"/>
+		<variable name="titlestr" type="string" fromCol="标题"/>
+	</bean>
+
+	<bean name="Squestions" from="Mt人文探索/Mt人文探索题库配置" genxml="server">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="questionsid" type="int" fromCol="题库id"/>
+		<variable name="correct" type="int" fromCol="正确答案"/>
+	</bean>
+
+	<bean name="CActivityQuestion" from="D答题" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="序列"/> <!-- 题目ID -->
+		<variable name="questionid" type="int" fromCol="题"/>
+		<variable name="step" type="int" fromCol="步骤"/> <!-- 步骤 -->
+		<variable name="question" type="string" fromCol="题目"/>
+		<variable name="answer1" type="string" fromCol="选项1"/>
+		<variable name="answer2" type="string" fromCol="选项2"/>
+		<variable name="answer3" type="string" fromCol="选项3"/>
+		<variable name="rightrewardid" type="int" fromCol="正确奖励id"/>
+		<variable name="errorrewardid" type="int" fromCol="错误奖励id"/>
+	</bean>
+
+	<bean name="SActivityQuestion" from="D答题" genxml="server">
+		<variable name="id" type="int" fromCol="序列"/> <!-- 题目ID -->
+		<variable name="questionid" type="int" fromCol="题"/>
+		<variable name="step" type="int" fromCol="步骤"/> <!-- 步骤 -->
+		<variable name="question" type="string" fromCol="题目"/>
+		<variable name="answer1" type="string" fromCol="选项1"/>
+		<variable name="answer2" type="string" fromCol="选项2"/>
+		<variable name="answer3" type="string" fromCol="选项3"/>
+		<variable name="rightanswer" type="int" fromCol="正确答案"/>
+		<variable name="rightrewardid" type="int" fromCol="正确奖励id"/>
+		<variable name="errorrewardid" type="int" fromCol="错误奖励id"/>
+	</bean>
+
+	<bean name="CTaskNode" from="r任务相关/r任务号字段分配" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="text" type="string" fromCol="text"/>
+		<variable name="taskID" type="vector" fromCol="taskID1,taskID2,taskID3,taskID4,taskID5,taskID6,taskID7,taskID8,taskID9,taskID10" value="string"/>
+	</bean>
+
+	<bean name="CActivityNew" from="h活动配置表新" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="序号"/>
+		<variable name="type" type="int" fromCol="页签类型"/>
+		<variable name="level" type="int" fromCol="需求等级"/>
+		<variable name="name" type="string" fromCol="活动名"/>
+		<variable name="leveltext" type="string" fromCol="等级文本"/>
+		<variable name="unleveltext" type="string" fromCol="未达等级到文本"/>
+		<variable name="maxlevel" type="int" fromCol="上限等级"/>
+		<variable name="text" type="string" fromCol="活动详情"/>
+		<variable name="times" type="string" fromCol="活动周期"/>
+		<variable name="isshowmaxnum" type="int" fromCol="是否显示最大次数"/>
+		<variable name="maxnum" type="int" fromCol="最大次数"/>
+		<variable name="maxact" type="double" fromCol="最大活跃度"/>
+		<variable name="link" type="int" fromCol="参加类型"/>
+		<variable name="linkid1" type="int" fromCol="对应1"/>
+		<variable name="linkid2" type="int" fromCol="对应2"/>
+		<variable name="sort" type="int" fromCol="排序"/>
+		<variable name="timetext" type="string" fromCol="开启时间"/>
+		<variable name="activitylv" type="string" fromCol="活动要求"/>
+		<variable name="markid" type="string" fromCol="标签图标"/>
+		<variable name="imgid" type="int" fromCol="图片id"/>
+		<variable name="getfoodid1" type="int" fromCol="物品id"/>
+		<variable name="getfoodid2" type="int" fromCol="物品id2"/>
+		<variable name="getfoodid3" type="int" fromCol="物品id3"/>
+		<variable name="getfoodid4" type="int" fromCol="物品id4"/>
+		<variable name="getfoodid5" type="int" fromCol="物品id5"/>
+		<variable name="protext" type="string" fromCol="进行中提示"/>
+		<variable name="actid" type="string" fromCol="限时活动对应id"/>
+		<variable name="starttuijian" type="int" fromCol="推荐度"/>
+		<variable name="actvalue" type="double" fromCol="每次获得活跃"/>
+		<variable name="serversend" type="int" fromCol="服务器发"/>
+		<variable name="infinitenum" type="int" fromCol="无限制计次"/>
+		<variable name="isopen" type="int" fromCol="活动开关"/>
+		<variable name="linkredpackdis" type="int" fromCol="参加一次红点即消失"/>
+		<variable name="serverid" type="string" fromCol="服务器id"/>
+	</bean>
+	<bean name="CActivityNewpay" from="D点卡服表格/h活动配置表for点卡服" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="序号"/>
+		<variable name="type" type="int" fromCol="页签类型"/>
+		<variable name="level" type="int" fromCol="需求等级"/>
+		<variable name="name" type="string" fromCol="活动名"/>
+		<variable name="leveltext" type="string" fromCol="等级文本"/>
+		<variable name="unleveltext" type="string" fromCol="未达等级到文本"/>
+		<variable name="maxlevel" type="int" fromCol="上限等级"/>
+		<variable name="text" type="string" fromCol="活动详情"/>
+		<variable name="times" type="string" fromCol="活动周期"/>
+		<variable name="isshowmaxnum" type="int" fromCol="是否显示最大次数"/>
+		<variable name="maxnum" type="int" fromCol="最大次数"/>
+		<variable name="maxact" type="double" fromCol="最大活跃度"/>
+		<variable name="link" type="int" fromCol="参加类型"/>
+		<variable name="linkid1" type="int" fromCol="对应1"/>
+		<variable name="linkid2" type="int" fromCol="对应2"/>
+		<variable name="sort" type="int" fromCol="排序"/>
+		<variable name="timetext" type="string" fromCol="开启时间"/>
+		<variable name="activitylv" type="string" fromCol="活动要求"/>
+		<variable name="markid" type="string" fromCol="标签图标"/>
+		<variable name="imgid" type="int" fromCol="图片id"/>
+		<variable name="getfoodid1" type="int" fromCol="物品id"/>
+		<variable name="getfoodid2" type="int" fromCol="物品id2"/>
+		<variable name="getfoodid3" type="int" fromCol="物品id3"/>
+		<variable name="getfoodid4" type="int" fromCol="物品id4"/>
+		<variable name="getfoodid5" type="int" fromCol="物品id5"/>
+		<variable name="protext" type="string" fromCol="进行中提示"/>
+		<variable name="actid" type="string" fromCol="限时活动对应id"/>
+		<variable name="starttuijian" type="int" fromCol="推荐度"/>
+		<variable name="actvalue" type="double" fromCol="每次获得活跃"/>
+		<variable name="serversend" type="int" fromCol="服务器发"/>
+		<variable name="infinitenum" type="int" fromCol="无限制计次"/>
+		<variable name="isopen" type="int" fromCol="活动开关"/>
+		<variable name="linkredpackdis" type="int" fromCol="参加一次红点即消失"/>
+		<variable name="serverid" type="string" fromCol="服务器id"/>
+
+	</bean>
+	<bean name="CActivityMapList" from="h活动地图对应表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="序列"/>
+		<variable name="levelmin" type="int" fromCol="等级下限"/>
+		<variable name="levelmax" type="int" fromCol="等级上限"/>
+		<variable name="mapid" type="int" fromCol="地图"/>
+	</bean>
+	<bean name="CWeekList" from="z周历表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="序号"/>
+		<variable name="week" type="int" fromCol="星期几"/>
+		<variable name="text1" type="string" fromCol="时间文本1"/>
+		<variable name="time1" type="string" fromCol="活动时间1"/>
+		<variable name="text2" type="string" fromCol="时间文本2"/>
+		<variable name="time2" type="string" fromCol="活动时间2"/>
+		<variable name="text3" type="string" fromCol="时间文本3"/>
+		<variable name="time3" type="string" fromCol="活动时间3"/>
+		<variable name="text4" type="string" fromCol="时间文本4"/>
+		<variable name="time4" type="string" fromCol="活动时间4"/>
+		<variable name="text5" type="string" fromCol="时间文本5"/>
+		<variable name="time5" type="string" fromCol="活动时间5"/>
+		<variable name="text6" type="string" fromCol="时间文本6"/>
+		<variable name="time6" type="string" fromCol="活动时间6"/>
+	</bean>
+
+	<bean name="Sbukefangqirenwu" from="r任务相关/b不可放弃任务" genxml="server">
+		<variable name="id" type="int" fromCol="任务ID"/> <!-- 不可放弃的任务的id -->
+	</bean>
+
+	<bean name="SNewFunctionOpen" from="x新功能开启" genxml="server">
+		<variable name="id" type="int" fromCol="ID"/>
+		<variable name="lvtrig" type="int" fromCol="等级触发"/>
+		<variable name="taskfinish" type="string" fromCol="任务完成触发"/>
+		<variable name="triggertask" type="int" fromCol="开启任务ID"/>
+	</bean>
+
+	<bean name="CNewFunctionOpen" from="x新功能开启" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID"/>
+		<variable name="functionname" type="string" fromCol="功能"/>
+		<variable name="needlevel" type="int" fromCol="等级触发"/>
+		<variable name="taskfinish" type="string" fromCol="任务完成触发"/>
+		<variable name="icon" type="string" fromCol="图标"/>
+		<variable name="iseffect" type="int" fromCol="是否播发特效"/>
+		<variable name="site" type="int" fromCol="位置"/>
+		<variable name="index" type="int" fromCol="顺序"/>
+		<variable name="btn" type="string" fromCol="控件名"/>
+	</bean>
+
+	<bean name="CUICongig" from="j界面顺序表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID"/>
+		<variable name="name" type="string" fromCol="名称"/>
+		<variable name="layoutname" type="string" fromCol="layout"/>
+		<variable name="ngongnengid" type="int" fromCol="功能id"/>
+	</bean>
+
+	<bean name="GuideCourse">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="finish" type="int" fromCol="完成逻辑"/>
+		<variable name="ref1" type="string" fromCol="完成逻辑参数1"/>
+		<variable name="ref2" type="string" fromCol="完成逻辑参数2"/>
+		<variable name="itemid" type="int" fromCol="道具1"/>
+		<variable name="itemnum" type="int" fromCol="道具数量1"/>
+		<variable name="awardid" type="int" fromCol="奖励ID"/>
+		<variable name="petid1" type="int" fromCol="宠物1"/>
+		<variable name="petnum1" type="int" fromCol="宠物数量1"/>
+	</bean>
+
+	<bean name="SGuideCourse" from="z指引历程表" genxml="server" baseclass="GuideCourse">
+
+	</bean>
+
+	<bean name="SGuideCourseDianKa" from="D点卡服表格/z指引历程表for点卡服" genxml="server" baseclass="GuideCourse">
+
+	</bean>
+
+	<bean name="CGuideCourse" from="z指引历程表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="group" type="int" fromCol="组id"/>
+		<variable name="style" type="int" fromCol="是否为人物头像"/>
+		<variable name="image" type="string" fromCol="显示图标"/>
+		<variable name="name" type="string" fromCol="名字"/>
+		<variable name="sort" type="int" fromCol="排序"/>
+		<variable name="info" type="string" fromCol="描述"/>
+		<variable name="enterlevel" type="int" fromCol="前往等级"/>
+		<variable name="enter" type="int" fromCol="前往逻辑"/>
+		<variable name="enterlink" type="int" fromCol="前往逻辑对应"/>
+		<variable name="finish" type="int" fromCol="完成逻辑"/>
+		<variable name="ref1" type="string" fromCol="完成逻辑参数1"/>
+		<variable name="ref2" type="string" fromCol="完成逻辑参数2"/>
+		<variable name="item" type="int" fromCol="道具1"/>
+		<variable name="itemnum" type="int" fromCol="道具数量1"/>
+		<variable name="itemicons" type="vector" fromCol="道具1图标,宠物1图标,职业贡献奖励图标,节日积分奖励图标,公会贡献奖励图标,公会任务贡献资金图标,公会任务个人分红图标,经验奖励图标,宠物经验奖励图标,游戏币奖励图标,金币奖励图标,声望图标" value="int"/>
+		<variable name="itemtexts" type="vector" fromCol="道具1名称,宠物1名称,职业贡献奖励文本,节日积分奖励文本,公会贡献奖励文本,公会任务贡献资金文本,公会任务个人分红文本,经验奖励文本,宠物经验奖励文本,游戏币奖励文本,金币奖励文本,声望文本" value="string"/>
+	</bean>
+	<bean name="CGuideCoursePay" from="D点卡服表格/z指引历程表for点卡服" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="group" type="int" fromCol="组id"/>
+		<variable name="style" type="int" fromCol="是否为人物头像"/>
+		<variable name="image" type="string" fromCol="显示图标"/>
+		<variable name="name" type="string" fromCol="名字"/>
+		<variable name="sort" type="int" fromCol="排序"/>
+		<variable name="info" type="string" fromCol="描述"/>
+		<variable name="enterlevel" type="int" fromCol="前往等级"/>
+		<variable name="enter" type="int" fromCol="前往逻辑"/>
+		<variable name="enterlink" type="int" fromCol="前往逻辑对应"/>
+		<variable name="finish" type="int" fromCol="完成逻辑"/>
+		<variable name="ref1" type="string" fromCol="完成逻辑参数1"/>
+		<variable name="ref2" type="string" fromCol="完成逻辑参数2"/>
+		<variable name="item" type="int" fromCol="道具1"/>
+		<variable name="itemnum" type="int" fromCol="道具数量1"/>
+		<variable name="itemicons" type="vector" fromCol="道具1图标,宠物1图标,职业贡献奖励图标,节日积分奖励图标,公会贡献奖励图标,公会任务贡献资金图标,公会任务个人分红图标,经验奖励图标,宠物经验奖励图标,游戏币奖励图标,金币奖励图标,声望图标" value="int"/>
+		<variable name="itemtexts" type="vector" fromCol="道具1名称,宠物1名称,职业贡献奖励文本,节日积分奖励文本,公会贡献奖励文本,公会任务贡献资金文本,公会任务个人分红文本,经验奖励文本,宠物经验奖励文本,游戏币奖励文本,金币奖励文本,声望文本" value="string"/>
+	</bean>
+
+	<bean name="CGuideCourseLabel" from="z指引历程页签表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id"/>
+		<variable name="name" type="string" fromCol="页签名"/>
+		<variable name="level" type="int" fromCol="等级"/>
+	</bean>
+	<bean name="AnswerQuestion" from="D答题" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="序列"/>
+		<variable name="topic" type="int" fromCol="题"/>
+		<variable name="step" type="int" fromCol="步骤"/>
+		<variable name="title" type="string" fromCol="题目"/>
+		<variable name="object1" type="string" fromCol="选项1"/>
+		<variable name="image1" type="int" fromCol="选项1图"/>
+		<variable name="icon1" type="int" fromCol="选项1小图"/>
+		<variable name="object2" type="string" fromCol="选项2"/>
+		<variable name="image2" type="int" fromCol="选项2图"/>
+		<variable name="icon2" type="int" fromCol="选项2小图"/>
+		<variable name="object3" type="string" fromCol="选项3"/>
+		<variable name="image3" type="int" fromCol="选项3图"/>
+		<variable name="icon3" type="int" fromCol="选项3小图"/>
+		<variable name="trueanswer" type="int" fromCol="正确答案"/>
+		<variable name="truereward" type="int" fromCol="正确奖励id"/>
+		<variable name="falsereward" type="int" fromCol="错误奖励id"/>
+	</bean>
+</namespace>

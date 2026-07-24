@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="gsxdb_source" default="dist">
+
+    <property name="srcdir" value="src"/>
+    <property name="beansdir" value="beans"/>
+    <property name="confsrcdir" value="confsrc"/>
+    <property name="builddir" value="build"/>
+    <property name="distdir" value="dist"/>
+
+    <target name="init" depends="clean">
+        <mkdir dir="${builddir}"/>
+        <mkdir dir="${distdir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <path id="classpath">
+            <fileset dir="${distdir}/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+            <fileset dir="${distdir}/libsys">
+                <include name="**/*.jar"/>
+            </fileset>
+        </path>
+        <javac encoding="UTF-8" destdir="${builddir}" debug="true" debuglevel="lines,source,vars" includeAntRuntime="false">
+            <classpath refid="classpath"/>
+            <src path="${beansdir}"/>
+            <src path="${srcdir}"/>
+            <src path="${confsrcdir}"/>
+        </javac>
+        <jar jarfile="${distdir}/gsxdb.jar" basedir="${builddir}" manifest="${srcdir}/MANIFEST.MF"/>
+    </target>
+
+    <target name="dist" depends="compile">
+        <!-- libs, properties, gamedata, and configs are expected to be present under ${distdir} -->
+    </target>
+
+    <target name="clean">
+        <delete dir="${builddir}"/>
+    </target>
+
+</project>
+

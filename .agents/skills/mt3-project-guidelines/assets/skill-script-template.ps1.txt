@@ -1,0 +1,51 @@
+[CmdletBinding()]
+param(
+    [string]$RepoRoot = "",
+    [switch]$Json
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+$skillHelperPath = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "..\\..\\mt3-project-guidelines\\scripts\\skill-script-helpers.ps1"))
+. $skillHelperPath
+$script:SkillScriptName = "__skill_name__"
+
+$RepoRoot = Resolve-RepoRootPath -InputPath $RepoRoot
+$details = New-Object System.Collections.Generic.List[string]
+$failures = New-Object System.Collections.Generic.List[string]
+$warnings = New-Object System.Collections.Generic.List[string]
+
+# TODO: collect facts here
+# [void]$details.Add("anchor=...")
+# [void]$warnings.Add("...")
+# [void]$failures.Add("...")
+[void]$failures.Add("template_not_implemented=Replace every __placeholder__ and remove this fail-closed guard only after evidence collection is implemented.")
+
+$status = "FAIL"
+$summary = "__summary__"
+$next = "__next_step__"
+
+if ($failures.Count -gt 0) {
+    $status = "FAIL"
+    $summary = "__failure_summary__"
+    $next = "__failure_next__"
+} elseif ($warnings.Count -gt 0) {
+    $status = "WARN"
+    $summary = "__warning_summary__"
+    $next = "__warning_next__"
+}
+
+foreach ($item in $failures) {
+    [void]$details.Add("failure=" + $item)
+}
+foreach ($item in $warnings) {
+    [void]$details.Add("warning=" + $item)
+}
+
+$payload = [pscustomobject][ordered]@{
+    repo_root = $RepoRoot
+    example = "__payload__"
+}
+
+Write-Result -Status $status -Summary $summary -Next $next -Details $details -Payload $payload

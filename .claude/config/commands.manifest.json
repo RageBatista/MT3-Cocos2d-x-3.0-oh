@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0.0",
+  "updated": "2026-03-06",
+  "defaults": {
+    "risk_control": "standard",
+    "execution_profile": "safe"
+  },
+  "commands": [
+    {
+      "id": "status",
+      "file": "../commands/status.md",
+      "category": "project",
+      "linked_agent": "architecture-analyst",
+      "linked_skills": ["project-context"],
+      "intents": ["documentation"]
+    },
+    {
+      "id": "plan",
+      "file": "../commands/plan.md",
+      "category": "planning",
+      "linked_agent": "planner",
+      "linked_skills": ["project-context", "search-first", "dependency-management"],
+      "intents": ["planning", "architecture_design"],
+      "requires_user_confirmation": true
+    },
+    {
+      "id": "orchestrate",
+      "file": "../commands/orchestrate.md",
+      "category": "multi-agent",
+      "linked_agent": "workflow-orchestrator",
+      "linked_skills": ["verification-loop", "git-workflow", "search-first"],
+      "intents": ["orchestration", "code_review", "testing"]
+    },
+    {
+      "id": "verify",
+      "file": "../commands/verify.md",
+      "category": "quality",
+      "linked_agent": "test-engineer",
+      "linked_skills": ["verification-loop", "build-troubleshooting", "debugging"],
+      "intents": ["verification", "testing", "build_failure"]
+    },
+    {
+      "id": "mcp-status",
+      "file": "../commands/mcp-status.md",
+      "category": "mcp",
+      "linked_agent": "doc-writer",
+      "linked_skills": ["project-context"],
+      "intents": ["mcp_management", "documentation"]
+    },
+    {
+      "id": "audit-config",
+      "file": "../commands/audit-config.md",
+      "category": "governance",
+      "linked_agent": "architecture-analyst",
+      "linked_skills": ["claude-config-engineering", "verification-loop"],
+      "intents": ["claude_config_governance", "mcp_management", "documentation"]
+    },
+    {
+      "id": "quality-gate",
+      "file": "../commands/quality-gate.md",
+      "category": "quality",
+      "linked_agent": "test-engineer",
+      "linked_skills": ["verification-loop", "claude-config-engineering"],
+      "intents": ["verification", "code_review", "claude_config_governance"]
+    },
+    {
+      "id": "build-win",
+      "file": "../commands/build-win.md",
+      "category": "build",
+      "linked_agent": "build-expert",
+      "linked_skills": ["windows-build", "build-troubleshooting"],
+      "intents": ["build_windows", "build_compile"]
+    },
+    {
+      "id": "build-android",
+      "file": "../commands/build-android.md",
+      "category": "build",
+      "linked_agent": "build-expert",
+      "linked_skills": ["android-build", "build-troubleshooting"],
+      "intents": ["build_android", "build_compile"]
+    },
+    {
+      "id": "build-server",
+      "file": "../commands/build-server.md",
+      "category": "build",
+      "linked_agent": "build-expert",
+      "linked_skills": ["ant-build", "java-development"],
+      "intents": ["build_server", "build_compile"]
+    },
+    {
+      "id": "build-cegui",
+      "file": "../commands/build-cegui.md",
+      "category": "build",
+      "linked_agent": "build-expert",
+      "linked_skills": ["cegui-usage", "windows-build"],
+      "intents": ["build_windows", "build_failure"]
+    },
+    {
+      "id": "fix-cegui",
+      "file": "../commands/fix-cegui.md",
+      "category": "repair",
+      "linked_agent": "build-error-resolver",
+      "linked_skills": ["cegui-usage", "build-troubleshooting"],
+      "intents": ["build_failure"]
+    },
+    {
+      "id": "diagnose-build",
+      "file": "../commands/diagnose-build.md",
+      "category": "diagnosis",
+      "linked_agent": "build-error-resolver",
+      "linked_skills": ["build-troubleshooting", "verification-loop"],
+      "intents": ["build_failure", "build_compile"]
+    },
+    {
+      "id": "codegen",
+      "file": "../commands/codegen.md",
+      "category": "generation",
+      "linked_agent": "build-expert",
+      "linked_skills": ["gnet-framework", "xbean-system"],
+      "intents": ["build_server", "protocol_data"]
+    },
+    {
+      "id": "clean",
+      "file": "../commands/clean.md",
+      "category": "maintenance",
+      "linked_agent": "build-expert",
+      "linked_skills": ["build-troubleshooting"],
+      "intents": ["build_compile", "build_failure"]
+    }
+  ]
+}

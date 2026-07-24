@@ -1,0 +1,265 @@
+{extend name="layout/auth" /}
+
+{block name="content"}
+<section class="auth-card">
+    <div class="auth-card-head">
+        <i class="mdi mdi-shield-check-outline"></i>
+        玩家授权
+    </div>
+
+    <div class="auth-card-body">
+        <div id="msgBox" class="alert" role="alert"></div>
+
+        <div class="auth-segmented" id="modeSwitch">
+            <button type="button" id="mode-new" class="auth-seg-btn active">新授权登录</button>
+            <button type="button" id="mode-existing" class="auth-seg-btn">已有授权登录</button>
+        </div>
+
+        <form id="auth-form" action="/login/auth/authSubmit" method="post" novalidate>
+            <div class="auth-form-group">
+                <label class="auth-form-label" for="uid">玩家 UID</label>
+                <input type="text" id="uid" name="uid" class="form-control auth-form-control" placeholder="请输入玩家 UID" inputmode="numeric" pattern="^[0-9]{1,20}$" required>
+            </div>
+
+            <div id="cdk-row" class="auth-form-group">
+                <label class="auth-form-label" for="cdk">授权 CDK</label>
+                <input type="text" id="cdk" name="cdk" class="form-control auth-form-control" placeholder="请输入授权 CDK" pattern="^(?:[A-Za-z0-9]{16}|[A-Za-z0-9]{20}|(?:[A-Za-z0-9]{4}-){3}[A-Za-z0-9]{4}|(?:[A-Za-z0-9]{5}-){3}[A-Za-z0-9]{5})$" required>
+                <p class="auth-field-help">支持 16 位/20 位，允许短横线分组格式。</p>
+            </div>
+
+            <div class="auth-form-group auth-server-row">
+                <div>
+                    <label class="auth-form-label" for="serverid">目标大区</label>
+                    <select id="serverid" name="serverid" class="form-select auth-form-select" required>
+                        <option value="">请选择大区</option>
+                    </select>
+                </div>
+                <button type="button" id="reload-server" class="btn btn-light auth-reload-btn">
+                    <i class="mdi mdi-refresh"></i>刷新
+                </button>
+            </div>
+
+            <div class="auth-form-group">
+                <label class="auth-form-label" for="authpass">授权密码</label>
+                <input type="password" id="authpass" name="authpass" class="form-control auth-form-control" placeholder="请输入授权密码" required>
+            </div>
+
+            <button id="submit-btn" type="submit" class="btn auth-btn-primary auth-submit-btn">
+                <i class="mdi mdi-login"></i>授权登录
+            </button>
+
+            <p id="mode-tip" class="auth-tip-text">新授权：使用 UID + CDK + 授权密码完成首次绑定。</p>
+        </form>
+
+        <div class="auth-foot-link">登录成功后将自动跳转到控制台：<code>/login/auth/dashboard</code></div>
+    </div>
+</section>
+{/block}
+
+{block name="script"}
+<script>
+(function() {
+    var ROUTE = {
+        authSubmit: "/login/auth/authSubmit",
+        authExisting: "/login/auth/authExisting",
+        dashboard: "/login/auth/dashboard",
+        serverUrls: [
+            "/login/auth/getServers",
+            "/index.php?s=/login/index/getServers",
+            "/index.php?s=/player/getServers"
+        ]
+    };
+
+    var form = document.getElementById("auth-form");
+    var submitBtn = document.getElementById("submit-btn");
+    var modeNewBtn = document.getElementById("mode-new");
+    var modeExistingBtn = document.getElementById("mode-existing");
+    var modeTip = document.getElementById("mode-tip");
+    var msgBox = document.getElementById("msgBox");
+
+    var cdkRow = document.getElementById("cdk-row");
+    var cdkInput = document.getElementById("cdk");
+    var uidInput = document.getElementById("uid");
+    var serverSelect = document.getElementById("serverid");
+    var authpassInput = document.getElementById("authpass");
+
+    var mode = "new";
+
+    function showToast(type, text) {
+        if (window.Swal) {
+            Swal.mixin({ toast: true, position: "top", showConfirmButton: false, timer: 1600, timerProgressBar: true })
+                .fire({ icon: type, title: text || "" });
+            return;
+        }
+        alert(text || "提示");
+    }
+
+    function showBanner(type, text) {
+        msgBox.className = "alert " + (type === "success" ? "alert-success" : "alert-danger");
+        msgBox.textContent = text;
+        msgBox.style.display = "block";
+    }
+
+    function hideBanner() {
+        msgBox.style.display = "none";
+    }
+
+    function setMode(nextMode) {
+        mode = nextMode === "existing" ? "existing" : "new";
+
+        modeNewBtn.classList.toggle("active", mode === "new");
+        modeExistingBtn.classList.toggle("active", mode === "existing");
+
+        if (mode === "existing") {
+            cdkRow.classList.add("auth-hide");
+            cdkInput.required = false;
+            serverSelect.required = false;
+            submitBtn.classList.remove("auth-btn-primary");
+            submitBtn.classList.add("auth-btn-success");
+            submitBtn.innerHTML = '<i class="mdi mdi-login"></i>已有授权登录';
+            modeTip.textContent = "已有授权：使用 UID + 授权密码快速登录，无需再次输入 CDK。";
+        } else {
+            cdkRow.classList.remove("auth-hide");
+            cdkInput.required = true;
+            serverSelect.required = true;
+            submitBtn.classList.remove("auth-btn-success");
+            submitBtn.classList.add("auth-btn-primary");
+            submitBtn.innerHTML = '<i class="mdi mdi-login"></i>授权登录';
+            modeTip.textContent = "新授权：使用 UID + CDK + 授权密码完成首次绑定。";
+        }
+    }
+
+    modeNewBtn.addEventListener("click", function() { setMode("new"); });
+    modeExistingBtn.addEventListener("click", function() { setMode("existing"); });
+
+    cdkInput.addEventListener("input", function() {
+        this.value = (this.value || "").toUpperCase().trim();
+    });
+
+    function fillServerOptions(data) {
+        serverSelect.innerHTML = '<option value="">请选择大区</option>';
+        data.forEach(function(s) {
+            var opt = document.createElement("option");
+            opt.value = s.serverid;
+            var label = (s.groupname ? (s.groupname + " - ") : "") + s.name + " (" + s.serverid + ")";
+            opt.textContent = label;
+            serverSelect.appendChild(opt);
+        });
+    }
+
+    function loadServers() {
+        var lastMsg = "获取大区失败，请检查大区配置";
+
+        function tryFetch(i) {
+            if (i >= ROUTE.serverUrls.length) {
+                showToast("error", lastMsg);
+                return;
+            }
+
+            fetch(ROUTE.serverUrls[i], { method: "GET" })
+                .then(function(res) { return res.text(); })
+                .then(function(text) {
+                    var json;
+                    try {
+                        json = JSON.parse(text);
+                    } catch (e) {
+                        throw new Error("NON_JSON");
+                    }
+
+                    if (json && json.code === 1 && Array.isArray(json.data)) {
+                        fillServerOptions(json.data);
+                        showToast("success", "大区列表已更新");
+                        return;
+                    }
+
+                    lastMsg = (json && json.msg) ? json.msg : lastMsg;
+                    throw new Error("BAD_RESP");
+                })
+                .catch(function() {
+                    tryFetch(i + 1);
+                });
+        }
+
+        tryFetch(0);
+    }
+
+    document.getElementById("reload-server").addEventListener("click", loadServers);
+    loadServers();
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        hideBanner();
+
+        var uid = (uidInput.value || "").trim();
+        var authpass = (authpassInput.value || "").trim();
+        var serverid = (serverSelect.value || "").trim();
+        var cdk = (cdkInput.value || "").trim();
+
+        if (!/^[0-9]{1,20}$/.test(uid)) {
+            showBanner("error", "请输入正确的 UID（仅数字）");
+            return;
+        }
+        if (!authpass) {
+            showBanner("error", "请输入授权密码");
+            return;
+        }
+
+        if (mode === "new") {
+            if (!serverid) {
+                showBanner("error", "请选择目标大区");
+                return;
+            }
+            var cdkReg = /^(?:[A-Za-z0-9]{16}|[A-Za-z0-9]{20}|(?:[A-Za-z0-9]{4}-){3}[A-Za-z0-9]{4}|(?:[A-Za-z0-9]{5}-){3}[A-Za-z0-9]{5})$/;
+            if (!cdkReg.test(cdk)) {
+                showBanner("error", "CDK 格式不正确");
+                return;
+            }
+        }
+
+        var oldHtml = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm mr-1"></span>提交中...';
+
+        var body = new URLSearchParams();
+        body.set("uid", uid);
+        body.set("authpass", authpass);
+        if (serverid) body.set("serverid", serverid);
+        if (mode === "new") body.set("cdk", cdk);
+
+        var targetUrl = mode === "new" ? ROUTE.authSubmit : ROUTE.authExisting;
+
+        fetch(targetUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+            body: body.toString()
+        })
+        .then(function(res) { return res.text(); })
+        .then(function(text) {
+            var json;
+            try {
+                json = JSON.parse(text);
+            } catch (e) {
+                throw new Error("NON_JSON");
+            }
+
+            if (json && json.code === 1) {
+                showToast("success", json.msg || "登录成功");
+                setTimeout(function() {
+                    location.href = ROUTE.dashboard;
+                }, 700);
+                return;
+            }
+
+            showBanner("error", (json && json.msg) ? json.msg : "登录失败");
+        })
+        .catch(function() {
+            showBanner("error", "服务异常，请稍后重试");
+        })
+        .finally(function() {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = oldHtml;
+        });
+    });
+})();
+</script>
+{/block}

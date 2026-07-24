@@ -1,0 +1,91 @@
+{
+  "schema_version": "2.0.0",
+  "updated": "2026-07-12",
+  "entry_order": [
+    "AGENTS.md",
+    ".claude/RULES.md",
+    ".claude/BUILD_GUIDE.md",
+    ".codex/config.toml",
+    ".claude/CODEX_BRIDGE.md",
+    ".claude/config/router.json",
+    ".agents/skills/mt3-project-guidelines/SKILL.md"
+  ],
+  "workflow_authority": {
+    "codex_catalog": ".codex/workflows/workflow-engine.json",
+    "catalog_kind": "governance-sidecar",
+    "runtime_effect": "none",
+    "claude_manifest": ".claude/config/workflows.manifest.json",
+    "claude_docs_root": ".claude/workflows",
+    "authority_rule": "The Codex workflow catalog is the machine-readable declarative fact source, not a Codex runtime workflow engine. Claude workflow documents are compatibility/manual views and never override catalog nodes, evidence, rollback, or availability."
+  },
+  "agents": {
+    "skills_root": ".agents/skills",
+    "entry_skill": ".agents/skills/mt3-project-guidelines/SKILL.md",
+    "governance_skill": ".agents/skills/claude-config-governance/SKILL.md",
+    "codex_governance_skill": ".agents/skills/codex-runtime-governance/SKILL.md"
+  },
+  "agent_aliases": [
+    {"compat_id": "architecture-analyst", "compat_file": ".claude/agents/architecture-analyst.md", "native_id": "mt3_architecture_analyst", "native_config": ".codex/agents/mt3_architecture_analyst.toml", "status": "available"},
+    {"compat_id": "build-expert", "compat_file": ".claude/agents/build-expert.md", "native_id": "mt3_build_expert", "native_config": ".codex/agents/mt3_build_expert.toml", "status": "available"},
+    {"compat_id": "test-engineer", "compat_file": ".claude/agents/test-engineer.md", "native_id": "mt3_test_engineer", "native_config": ".codex/agents/mt3_test_engineer.toml", "status": "available"},
+    {"compat_id": "code-reviewer", "compat_file": ".claude/agents/code-reviewer.md", "native_id": "mt3_reviewer", "native_config": ".codex/agents/mt3_reviewer.toml", "status": "available"},
+    {"compat_id": "performance-analyst", "compat_file": ".claude/agents/performance-analyst.md", "native_id": "mt3_performance_analyst", "native_config": ".codex/agents/mt3_performance_analyst.toml", "status": "available"},
+    {"compat_id": "security-auditor", "compat_file": ".claude/agents/security-auditor.md", "native_id": "mt3_security_auditor", "native_config": ".codex/agents/mt3_security_auditor.toml", "status": "available"},
+    {"compat_id": "runtime-troubleshooter", "compat_fallback_id": "test-engineer", "native_id": "mt3_runtime_troubleshooter", "native_config": ".codex/agents/mt3_runtime_troubleshooter.toml", "status": "native-with-compat-fallback"},
+    {"compat_id": "codex-governor", "compat_fallback_id": "architecture-analyst", "native_id": "mt3_codex_governor", "native_config": ".codex/agents/mt3_codex_governor.toml", "status": "native-with-compat-fallback"}
+  ],
+  "skill_aliases": [
+    {"compat_id": "windows-build", "compat_file": ".claude/skills/client/windows-build.md", "native_id": "windows-v120-build", "native_file": ".agents/skills/windows-v120-build/SKILL.md", "status": "available"},
+    {"compat_id": "android-build", "compat_file": ".claude/skills/client/android-build.md", "native_id": "android-r10e-build", "native_file": ".agents/skills/android-r10e-build/SKILL.md", "status": "available"},
+    {"compat_id": "ant-build", "compat_file": ".claude/skills/server/ant-build.md", "native_id": "server-ant-build", "native_file": ".agents/skills/server-ant-build/SKILL.md", "status": "available"},
+    {"compat_id": "cegui-usage", "compat_file": ".claude/skills/client/cegui-usage.md", "native_id": "cegui-layout-integration", "native_file": ".agents/skills/cegui-layout-integration/SKILL.md", "status": "available"},
+    {"compat_id": "claude-config-engineering", "compat_file": ".claude/skills/common/claude-config-engineering.md", "native_id": "claude-config-governance", "native_file": ".agents/skills/claude-config-governance/SKILL.md", "status": "available"},
+    {"compat_id": "codex-config-governance", "compat_fallback_id": "claude-config-engineering", "compat_file": ".claude/skills/common/claude-config-engineering.md", "native_id": "codex-runtime-governance", "native_file": ".agents/skills/codex-runtime-governance/SKILL.md", "status": "native-with-compat-fallback"},
+    {"compat_id": "debugging", "compat_file": ".claude/skills/common/debugging.md", "native_id": "mt3-project-guidelines", "native_file": ".agents/skills/mt3-project-guidelines/SKILL.md", "status": "router-entry-only"}
+  ],
+  "workflow_aliases": [
+    {"catalog_id": "win32-build", "compat_ids": ["windows-build-workflow"], "status": "manual-compatibility"},
+    {"catalog_id": "android-build", "compat_ids": ["android-build-workflow"], "status": "manual-compatibility"},
+    {"catalog_id": "server-ant-build", "compat_ids": ["server-build-workflow"], "status": "manual-compatibility"},
+    {"catalog_id": "lua-ui-integration", "compat_ids": [], "status": "catalog-only"},
+    {"catalog_id": "cegui-layout-integration", "compat_ids": ["cegui-build-workflow"], "status": "manual-resource-view"},
+    {"catalog_id": "resource-packaging", "compat_ids": [], "status": "catalog-only"},
+    {"catalog_id": "sprite-pack-algorithm", "compat_ids": [], "status": "catalog-only"},
+    {"catalog_id": "codex-governance", "compat_ids": ["codex-governance-workflow"], "legacy_ids": ["claude-config-workflow"], "status": "manual-compatibility"},
+    {"catalog_id": "cocos-cegui-shadow-migration", "compat_ids": ["cegui-build-workflow"], "status": "manual-external-source"},
+    {"catalog_id": "application-core-flow", "compat_ids": [], "status": "catalog-only"},
+    {"catalog_id": "runtime-crash", "compat_ids": ["runtime-crash-workflow"], "legacy_ids": ["error-diagnosis-workflow"], "status": "manual-compatibility"},
+    {"catalog_id": "ios-platform", "compat_ids": [], "status": "external-platform"},
+    {"catalog_id": "resource-name-path-recovery", "compat_ids": [], "status": "catalog-only"}
+  ],
+  "win32_build": {
+    "canonical_entry": "tools/scripts/Build-MT3-Exe-Canonical.ps1",
+    "internal_chain_entry": "client/Build-MT3-v120.ps1",
+    "toolchain_required": "v120"
+  },
+  "android_build": {
+    "canonical_entry": "tools/scripts/Build-Android-Locojoy-WithGate.ps1",
+    "toolchain_required": "NDK r16 clang + Ant + JDK 8",
+    "status": "manual-external-toolchain"
+  },
+  "config_audit": {
+    "codex_sidecar_validator": ".claude/scripts/validate_codex_sidecars.ps1",
+    "codex_guardrail_audit": ".claude/scripts/audit_codex_guardrails.ps1",
+    "codex_skills_audit": ".claude/scripts/audit_codex_skills.ps1",
+    "claude_audit_script": ".claude/scripts/audit_claude_config.ps1",
+    "quality_gate_script": ".claude/scripts/quality_gate.ps1"
+  },
+  "authority_boundary": {
+    "authority_map": ".claude/config/source-authority.json",
+    "entry_order_role": "compact_bridge_sidecar",
+    "note": "Codex 原生运行事实由 config/rules/hooks、工程实物和已验证脚本决定；workflow catalog 仅提供声明式治理事实，Claude router/manifest/workflow 文档只提供兼容路由和人工执行视图。"
+  },
+  "native_enforcement": {
+    "config_toml": ".codex/config.toml",
+    "managed_requirements": "active higher-level managed/system requirements source when present",
+    "requirements_toml": ".codex/requirements.toml",
+    "rules_dir": ".codex/rules",
+    "hooks": ".codex/hooks.json",
+    "note": "Codex 项目内原生入口以 config.toml、rules 与 hooks 为主；requirements/mcp/permissions/project-map/workflow catalog 是治理或导出 sidecar，不能由 Claude 兼容层提升为运行时入口。"
+  }
+}

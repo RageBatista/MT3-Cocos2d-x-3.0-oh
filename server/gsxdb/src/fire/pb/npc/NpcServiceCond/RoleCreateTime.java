@@ -1,0 +1,24 @@
+//
+// 由 IntelliJ IDEA 根据 .class 文件还原的源代码
+// （由 FernFlower 反编译器生成）
+//
+
+package fire.pb.npc.NpcServiceCond;
+
+import xtable.Properties;
+
+public class RoleCreateTime implements Condition {
+    public boolean CheckCond(long roleid, int args1, int args2) {
+        Long t = Properties.selectCreatetime(roleid);
+        if (t != null) {
+            long createTime = t;
+            long beginTime = (long)args1 * 1000L;
+            long endTime = (long)args2 * 1000L;
+            if (createTime >= beginTime && createTime <= endTime) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}

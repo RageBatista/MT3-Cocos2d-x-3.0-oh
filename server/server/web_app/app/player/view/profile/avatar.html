@@ -1,0 +1,108 @@
+{extend name="layout/base" /}
+
+{block name="title"}上传头像 - 玩家服务中心{/block}
+{block name="page_title"}上传头像{/block}
+
+{block name="content"}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-camera"></i> 上传头像</h3>
+        <a href="/player/profile" class="btn btn-sm btn-outline-primary" style="margin-left: auto;">
+            <i class="mdi mdi-arrow-left"></i> 返回个人中心
+        </a>
+    </div>
+    <div class="card-body" style="text-align: center;">
+        <div class="avatar-preview">
+            {if condition="!empty($player['profile']['avatar'])"}
+            <img src="{$player.profile.avatar}" alt="当前头像">
+            {else/}
+            <i class="mdi mdi-account-circle avatar-placeholder"></i>
+            {/if}
+        </div>
+
+        <form id="avatarForm" method="post" action="/player/profile/uploadAvatar" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{$csrf_token}">
+
+            <div class="form-group" style="max-width: 400px; margin: 0 auto;">
+                <label class="form-label"><i class="mdi mdi-image"></i> 选择头像图片</label>
+                <input type="file" class="form-control" name="avatar" accept="image/jpeg,image/png,image/gif,image/webp"
+                    required>
+                <small class="text-muted">支持 JPG、PNG、GIF、WEBP 格式，大小不超过 2MB</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 16px;">
+                <i class="mdi mdi-cloud-upload"></i> 上传头像
+            </button>
+        </form>
+    </div>
+</div>
+{/block}
+
+{block name="css"}
+<style>
+    .avatar-preview {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: var(--bs-bg-light);
+        margin: 0 auto 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: 3px solid var(--bs-primary);
+        transition: var(--transition-base);
+    }
+
+    .avatar-preview:hover {
+        border-color: var(--bs-primary-hover);
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+    }
+
+    .avatar-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .avatar-placeholder {
+        color: var(--bs-muted-color);
+        font-size: 48px;
+    }
+</style>
+{/block}
+
+{block name="script"}
+<script>
+    $('#avatarForm').on('submit', function (e) {
+        e.preventDefault();
+        var $form = $(this);
+        var $btn = $form.find('button[type="submit"]');
+        var originalText = $btn.html();
+        $btn.prop('disabled', true).html('<i class="mdi mdi-loading mdi-spin"></i> 上传中...');
+
+        var formData = new FormData(this);
+        $.ajax({
+            url: $form.attr('action'),
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code === 1) {
+                    showToast(res.msg || '头像上传成功', 'success');
+                    setTimeout(function () { location.reload(); }, 800);
+                } else {
+                    showToast(res.msg || '上传失败', 'error');
+                    $btn.prop('disabled', false).html(originalText);
+                }
+            },
+            error: function () {
+                showToast('网络请求失败，请重试', 'error');
+                $btn.prop('disabled', false).html(originalText);
+            }
+        });
+    });
+</script>
+{/block}

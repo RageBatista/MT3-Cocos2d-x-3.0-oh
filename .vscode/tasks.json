@@ -1,0 +1,344 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "win32:verify-env",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\.agents\\skills\\windows-v120-build\\scripts\\verify-build-env.ps1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Win32 v120 / VS2013 / MSBuild 12.0 environment check.",
+            "problemMatcher": []
+        },
+        {
+            "label": "win32:check-v120-toolset",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\tools\\scripts\\Check-v120Toolset.ps1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Check the Win32 mainline projects for v120 toolset drift.",
+            "problemMatcher": []
+        },
+        {
+            "label": "win32:build-debug-fastlocal",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\tools\\scripts\\Build-MT3-Exe-Canonical.ps1",
+                "-Configuration",
+                "Debug",
+                "-Platform",
+                "Win32",
+                "-FastLocal",
+                "-MaxParallelJobs",
+                "8"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Daily Win32 Debug build through the canonical v120 script.",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "win32:build-release-incremental",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\tools\\scripts\\Build-MT3-Exe-Canonical.ps1",
+                "-Configuration",
+                "Release",
+                "-Platform",
+                "Win32",
+                "-BuildMode",
+                "Incremental",
+                "-MaxParallelJobs",
+                "8"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Daily Win32 Release incremental validation.",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "win32:build-release-safechain",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\tools\\scripts\\Build-MT3-Exe-Canonical.ps1",
+                "-Configuration",
+                "Release",
+                "-Platform",
+                "Win32",
+                "-BuildMode",
+                "SafeChain",
+                "-MaxParallelJobs",
+                "8",
+                "-StrictRuntimeAudit"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Release SafeChain build for ABI-sensitive changes and release checks.",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "win32:full-validation",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\tools\\scripts\\Build-MT3-FullValidation.ps1",
+                "-Configuration",
+                "Both",
+                "-MaxParallelJobs",
+                "8",
+                "-StrictRuntimeAudit"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Milestone Win32 Debug + Release validation.",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "android:verify-env",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\.agents\\skills\\android-r10e-build\\scripts\\verify-android-r10e-env.ps1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Android JDK8 / Ant / old SDK / NDK environment check.",
+            "problemMatcher": []
+        },
+        {
+            "label": "android:build-locojoy-free",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\tools\\scripts\\Build-Android-Locojoy-WithGate.ps1",
+                "-ProjectDir",
+                "client/android/LocojoyProject",
+                "-Channel",
+                "free",
+                "-Jobs",
+                "4",
+                "-CleanIntermediates",
+                "-SyncRes",
+                "-ResSourceDir",
+                "client/res_android/res",
+                "-JdkHome",
+                "C:\\Program Files\\Java\\jdk1.8.0_144",
+                "-AndroidSdkRoot",
+                "D:\\android-sdk_r24.1.2-windows\\android-sdk-windows"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Locojoy free APK through the current gated Ant/NDK script. Signing secrets must come from MT3_ANDROID_* env vars.",
+            "problemMatcher": []
+        },
+        {
+            "label": "android:assert-arm64-migration",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\tools\\scripts\\Assert-AndroidArm64Migration.ps1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Preflight gate for Android arm64 migration assumptions.",
+            "problemMatcher": []
+        },
+        {
+            "label": "android:build-locojoy-arm64",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\tools\\scripts\\Build-Android-Locojoy-WithGate.ps1",
+                "-ProjectDir",
+                "client/android/LocojoyProject",
+                "-Channel",
+                "free",
+                "-Jobs",
+                "4",
+                "-SyncRes",
+                "-ResSourceDir",
+                "client/res_android/res",
+                "-NdkBuildPath",
+                "D:\\Android\\android-sdk-64\\ndk\\16.1.4479499\\ndk-build.cmd",
+                "-JdkHome",
+                "C:\\Program Files\\Java\\jdk1.8.0_144",
+                "-AndroidSdkRoot",
+                "D:\\android-sdk_r24.1.2-windows\\android-sdk-windows",
+                "-RequireArm64InApk"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Locojoy arm64 APK validation path using the verified NDK r16 arm64 toolchain.",
+            "problemMatcher": []
+        },
+        {
+            "label": "server:verify-ant-chain",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                ".\\.agents\\skills\\server-ant-build\\scripts\\verify-server-ant-chain.ps1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Server Ant entry and code-generation target check.",
+            "problemMatcher": []
+        },
+        {
+            "label": "server:genfiles",
+            "type": "shell",
+            "command": "ant",
+            "args": [
+                "-f",
+                "server/server/game_server/build.xml",
+                "genfiles"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Server generated-code refresh entry.",
+            "problemMatcher": []
+        },
+        {
+            "label": "server:dist",
+            "type": "shell",
+            "command": "ant",
+            "args": [
+                "-f",
+                "server/server/game_server/build.xml",
+                "dist"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "detail": "Server full Ant build entry.",
+            "problemMatcher": []
+        }
+    ]
+}

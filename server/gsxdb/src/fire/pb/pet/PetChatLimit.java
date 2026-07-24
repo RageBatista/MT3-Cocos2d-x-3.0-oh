@@ -1,0 +1,58 @@
+//
+// 由 IntelliJ IDEA 根据 .class 文件还原的源代码
+// （由 FernFlower 反编译器生成）
+//
+
+package fire.pb.pet;
+
+import com.locojoy.base.Marshal.Marshal;
+import com.locojoy.base.Marshal.MarshalException;
+import com.locojoy.base.Marshal.OctetsStream;
+
+public class PetChatLimit implements Marshal, Comparable<PetChatLimit> {
+    public static final int Self20percentBegin = 0;
+    public static final int Self20percentEnd = 1;
+    public static final int Master20percentBegin = 2;
+    public static final int Master20percentEnd = 3;
+
+    public final boolean _validator_() {
+        return true;
+    }
+
+    public OctetsStream marshal(OctetsStream _os_) {
+        return _os_;
+    }
+
+    public OctetsStream unmarshal(OctetsStream _os_) throws MarshalException {
+        return _os_;
+    }
+
+    public boolean equals(Object _o1_) {
+        if (_o1_ == this) {
+            return true;
+        } else {
+            return _o1_ instanceof PetChatLimit;
+        }
+    }
+
+    public int hashCode() {
+        int _h_ = 0;
+        return _h_;
+    }
+
+    public String toString() {
+        StringBuilder _sb_ = new StringBuilder();
+        _sb_.append("(");
+        _sb_.append(")");
+        return _sb_.toString();
+    }
+
+    public int compareTo(PetChatLimit _o_) {
+        if (_o_ == this) {
+            return 0;
+        } else {
+            int _c_ = 0;
+            return _c_;
+        }
+    }
+}

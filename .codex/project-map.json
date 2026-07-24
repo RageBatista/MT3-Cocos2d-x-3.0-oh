@@ -1,0 +1,938 @@
+{
+  "$schema": "schemas/project-map.schema.json",
+  "kind": "project-map",
+  "version": "2.0.0",
+  "updated": "2026-07-12",
+  "status": "governance-sidecar",
+  "project": {
+    "name": "MT3",
+    "type": "2D MMORPG 商业游戏",
+    "primary_clients": [
+      "Win32",
+      "Android",
+      "iOS"
+    ],
+    "server": "Java + Ant + gnet/xbean",
+    "rendering_stack": [
+      "Cocos2d-x 2.2.6",
+      "Nuclear",
+      "CEGUI"
+    ],
+    "scale_notes": {
+      "cpp_lines_estimate": 66000,
+      "lua_lines_estimate": 355000,
+      "java_lines_estimate": 1845000,
+      "tools_lines_estimate": 2841000
+    }
+  },
+  "authority_order": [
+    "工程实际文件、日志、调用链、构建输出、已验证脚本与产物状态",
+    "AGENTS.md",
+    "就近 AGENTS.md / AGENTS.override.md",
+    ".claude/RULES.md",
+    ".claude/BUILD_GUIDE.md",
+    ".codex/config.toml 与 .codex/agents/*.toml",
+    ".agents/skills/mt3-project-guidelines/SKILL.md 及命中的最小技能集合",
+    "本 project-map.json 与 workflow-engine.json sidecar"
+  ],
+  "runtime_architecture": [
+    {
+      "layer": "platform",
+      "name": "平台层",
+      "paths": [
+        "client/MT3Win32App",
+        "client/android",
+        "client/FireClient/FireClient.xcodeproj",
+        "client/FireClient/FireClient/iPhone",
+        "client/FireClient/FireClient/main.m",
+        "client/FireClient/FireClient/FireClientAppDelegate.mm",
+        "client/FireClient/Application/platform/ios"
+      ],
+      "responsibilities": [
+        "进程入口",
+        "平台生命周期",
+        "JNI/ObjC++/Win32 桥接",
+        "SDK 与渠道接入"
+      ]
+    },
+    {
+      "layer": "cocos2d_x",
+      "name": "Cocos2d-x 2.2.6 层",
+      "paths": [
+        "cocos2d-x-2.2.6"
+      ],
+      "responsibilities": [
+        "图形基础",
+        "音频",
+        "平台抽象",
+        "资源访问底座"
+      ]
+    },
+    {
+      "layer": "nuclear_engine",
+      "name": "Nuclear 引擎层",
+      "paths": [
+        "engine"
+      ],
+      "responsibilities": [
+        "场景",
+        "精灵",
+        "动画",
+        "特效",
+        "渲染组织"
+      ]
+    },
+    {
+      "layer": "fireclient",
+      "name": "FireClient 业务层",
+      "paths": [
+        "client/FireClient",
+        "client/resource/res/script",
+        "client/resource/res/ui"
+      ],
+      "responsibilities": [
+        "网络",
+        "登录与入世界",
+        "UI",
+        "Lua 脚本",
+        "配置与核心业务逻辑"
+      ]
+    }
+  ],
+  "task_domains": [
+    {
+      "id": "application-core-flow",
+      "name": "应用核心层",
+      "primary_paths": [
+        "client/FireClient/Application"
+      ],
+      "skill": "application-core-flow",
+      "agent": "mt3_runtime_troubleshooter",
+      "boundary": "gRunGameApplication() 之后的共享 C++ 应用主链",
+      "workflow_ids": [
+        "application-core-flow",
+        "runtime-crash"
+      ]
+    },
+    {
+      "id": "platform-bridge",
+      "name": "平台抽象层",
+      "primary_paths": [
+        "client/MT3Win32App",
+        "client/android",
+        "client/FireClient/FireClient.xcodeproj",
+        "client/FireClient/FireClient/iPhone",
+        "client/FireClient/FireClient/main.m",
+        "client/FireClient/FireClient/FireClientAppDelegate.mm",
+        "client/FireClient/Application/platform/ios"
+      ],
+      "skill": "platform-bridge",
+      "agent": "mt3_runtime_troubleshooter",
+      "boundary": "平台入口、生命周期、JNI/ObjC++/Win32 壳层与渠道桥接",
+      "workflow_ids": [
+        "win32-build",
+        "android-build",
+        "ios-platform"
+      ]
+    },
+    {
+      "id": "rendering-pipeline",
+      "name": "渲染处理层",
+      "primary_paths": [
+        "engine",
+        "cocos2d-x-2.2.6",
+        "client/resource/res/ui"
+      ],
+      "skill": "rendering-pipeline",
+      "agent": "mt3_runtime_troubleshooter",
+      "supporting_agents": [
+        "mt3_performance_analyst"
+      ],
+      "boundary": "CEGUI、Cocos2d-x、Nuclear、特效与显示异常",
+      "workflow_ids": [
+        "cegui-layout-integration",
+        "cocos-cegui-shadow-migration",
+        "runtime-crash"
+      ]
+    },
+    {
+      "id": "resource-packaging-pipeline",
+      "name": "资源打包层",
+      "primary_paths": [
+        "client/resource",
+        "tools"
+      ],
+      "skill": "resource-packaging-pipeline",
+      "agent": "mt3_resource_pipeline_expert",
+      "boundary": "PFS、热更新、版本索引、补丁发布与下载校验",
+      "workflow_ids": [
+        "resource-packaging"
+      ]
+    },
+    {
+      "id": "resource-name-path-recovery",
+      "name": "资源名称与路径恢复层",
+      "primary_paths": [
+        "dependencies/SuperLJFilePackUnpack",
+        "client/resource"
+      ],
+      "skill": "resource-name-path-recovery",
+      "agent": "mt3_resource_pipeline_expert",
+      "boundary": "解包后数字残留、扩展修正、候选分级、review/unresolved 收敛与受控回流",
+      "workflow_ids": [
+        "resource-name-path-recovery"
+      ]
+    },
+    {
+      "id": "sprite-pack-algorithm",
+      "name": "打包算法层",
+      "primary_paths": [
+        "tools",
+        "client/resource"
+      ],
+      "skill": "sprite-pack-algorithm",
+      "agent": "mt3_resource_pipeline_expert",
+      "boundary": "SpriteEditor、pack.ini、矩形打包、ANI/XAP 输出",
+      "workflow_ids": [
+        "sprite-pack-algorithm"
+      ]
+    },
+    {
+      "id": "server-protocol",
+      "name": "服务端与协议层",
+      "primary_paths": [
+        "server",
+        "common"
+      ],
+      "skill": "server-ant-build",
+      "agent": "mt3_server_protocol_expert",
+      "boundary": "Java Ant、gnet、xbean、rpc、生成代码与客户端协议同步",
+      "workflow_ids": [
+        "server-ant-build"
+      ]
+    },
+    {
+      "id": "codex-governance",
+      "name": "代理配置治理层",
+      "primary_paths": [
+        ".codex",
+        ".agents",
+        ".claude"
+      ],
+      "skill": "codex-runtime-governance",
+      "agent": "mt3_codex_governor",
+      "boundary": "Codex runtime config、MCP、rules、requirements sidecar、subagent 与 repo-local skills",
+      "workflow_ids": [
+        "codex-governance"
+      ]
+    },
+    {
+      "id": "lua-ui",
+      "name": "Lua UI 集成层",
+      "primary_paths": [
+        "client/resource/res/script",
+        "client/resource/res/ui"
+      ],
+      "skill": "lua-dialog-integration",
+      "agent": "mt3_lua_ui_integrator",
+      "workflow_ids": [
+        "lua-ui-integration"
+      ],
+      "boundary": "Lua Dialog 生命周期、事件绑定、窗口路径与 CEGUI 布局协同"
+    }
+  ],
+  "directories": [
+    {
+      "path": "client/MT3Win32App",
+      "role": "Win32 启动层/壳层",
+      "modifiable": true,
+      "encoding_note": "历史混合编码，修改前必须探测 BOM/换行",
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "client/FireClient/Application",
+      "role": "第一方 C++ 业务主链",
+      "modifiable": true,
+      "build_impact": "通常至少重编 FireClient -> MT3",
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "client/resource/res/script",
+      "role": "Lua UI 与业务脚本",
+      "modifiable": true,
+      "skill": "lua-dialog-integration",
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "client/resource/res/ui",
+      "role": "CEGUI layout/scheme/imageset/looknfeel",
+      "modifiable": true,
+      "skill": "cegui-layout-integration",
+      "modification_policy": "first-party-editable",
+      "availability": "runtime_workspace_local"
+    },
+    {
+      "path": "client/android",
+      "role": "Android 壳层与渠道工程",
+      "modifiable": true,
+      "toolchain": "NDK r16 clang + Ant + JDK8",
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "client/FireClient/FireClient",
+      "role": "iOS 壳层、UIApplication 入口与 ObjC++ 平台桥接",
+      "modifiable": true,
+      "project": "client/FireClient/FireClient.xcodeproj",
+      "entrypoints": [
+        "client/FireClient/FireClient/main.m",
+        "client/FireClient/FireClient/FireClientAppDelegate.mm"
+      ],
+      "bridge_paths": [
+        "client/FireClient/FireClient/iPhone",
+        "client/FireClient/Application/platform/ios"
+      ],
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "engine",
+      "role": "第一方 Nuclear 引擎源码",
+      "modifiable": true,
+      "build_impact": "engine -> 下游",
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "cocos2d-x-2.2.6",
+      "role": "当前 Cocos2d-x 2.2.6 基础层",
+      "modifiable": true,
+      "modification_policy": "first-party-high-risk",
+      "encoding_note": "保持原编码，禁止批量转码",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "cocos2d-2.0-rc2-x-2.0.1",
+      "role": "历史/回滚/差异分析基线",
+      "modifiable": false,
+      "modification_policy": "historical-read-only",
+      "boundary": "不得作为当前构建、渲染或 Android 依赖入口",
+      "encoding_note": "保持原编码，禁止批量转码",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "dependencies",
+      "role": "第三方 / vendor",
+      "modifiable": false,
+      "modification_policy": "vendor-read-only",
+      "boundary": "不套用全仓统一风格",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "server",
+      "role": "Java 服务端、协议与生成链",
+      "modifiable": true,
+      "toolchain": "JDK 1.7/1.8 + Ant",
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "tools",
+      "role": "工具链、打包、编辑器与发布辅助",
+      "modifiable": true,
+      "validation": "按子项目现有工程验证",
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": "docs",
+      "role": "项目文档",
+      "modifiable": true,
+      "rule": "先回源码和已验证命令，再回写文档",
+      "modification_policy": "first-party-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": ".codex",
+      "role": "Codex 项目级运行配置与治理 sidecar",
+      "modifiable": true,
+      "validation": "validate/audit/quality_gate",
+      "modification_policy": "governance-editable",
+      "availability": "tracked_required"
+    },
+    {
+      "path": ".agents/skills",
+      "role": "repo-local Codex skills",
+      "modifiable": true,
+      "validation": "audit_codex_skills + analyze_codex_skill_workflows",
+      "modification_policy": "governance-editable",
+      "availability": "tracked_required"
+    }
+  ],
+  "toolchains": {
+    "win32": {
+      "required": [
+        "Visual Studio 2013",
+        "v120",
+        "Windows SDK 8.1"
+      ],
+      "forbidden_defaults": [
+        "newer MSVC as implicit replacement",
+        "CMake replacement workflow"
+      ],
+      "executor_availability": "environment_required"
+    },
+    "android": {
+      "required": [
+        "NDK r16 clang",
+        "Ant",
+        "JDK 8",
+        "Python 2.7 where legacy scripts require it"
+      ],
+      "forbidden_defaults": [
+        "Gradle",
+        "non-r16 NDK as implicit replacement"
+      ],
+      "executor_availability": "environment_required"
+    },
+    "server": {
+      "required": [
+        "JDK 1.7/1.8",
+        "Ant"
+      ],
+      "forbidden_defaults": [
+        "Maven",
+        "Gradle",
+        "newer JDK as implicit replacement"
+      ],
+      "executor_availability": "environment_required"
+    },
+    "ios": {
+      "required": [
+        "macOS",
+        "Xcode",
+        "xcodebuild"
+      ],
+      "forbidden_defaults": [
+        "Windows-only build claim",
+        "hand-editing project.pbxproj without Xcode validation"
+      ],
+      "executor_availability": "external_platform"
+    }
+  },
+  "core_dependencies": [
+    {
+      "name": "Cocos2d-x",
+      "version_or_line": "2.2.6",
+      "paths": [
+        "cocos2d-x-2.2.6"
+      ]
+    },
+    {
+      "name": "Nuclear",
+      "version_or_line": "MT3 first-party engine",
+      "paths": [
+        "engine"
+      ]
+    },
+    {
+      "name": "CEGUI",
+      "version_or_line": "0.7.1 lineage",
+      "paths": [
+        "client/resource/res/ui",
+        "tools/CEGUI-0.7.1",
+        "dependencies"
+      ]
+    },
+    {
+      "name": "Lua / LuaJIT",
+      "version_or_line": "Lua 5.1 / LuaJIT 2.0.3 lineage",
+      "paths": [
+        "client/resource/res/script",
+        "dependencies"
+      ]
+    },
+    {
+      "name": "tolua++",
+      "version_or_line": "1.0.93 lineage",
+      "paths": [
+        "client",
+        "tools"
+      ]
+    },
+    {
+      "name": "FMOD",
+      "version_or_line": "legacy audio dependency",
+      "paths": [
+        "dependencies",
+        "client"
+      ]
+    },
+    {
+      "name": "gnet/xbean",
+      "version_or_line": "server protocol/data framework",
+      "paths": [
+        "server",
+        "common"
+      ]
+    }
+  ],
+  "generated_code_boundaries": [
+    {
+      "pattern": "server/**/xbean/*.java",
+      "classification": "generated-read-only",
+      "availability": "tracked_required",
+      "source_roots": [
+        "server"
+      ],
+      "source_action": "回到 xdb/xbean 定义并运行 genxdb。",
+      "workflow_id": "server-ant-build"
+    },
+    {
+      "pattern": "server/**/rpc/*.java",
+      "classification": "generated-read-only",
+      "availability": "tracked_required",
+      "source_roots": [
+        "server"
+      ],
+      "source_action": "回到 rpc 定义并运行 genrpc。",
+      "workflow_id": "server-ant-build"
+    },
+    {
+      "pattern": "client/**/tolua++/*.cpp",
+      "classification": "generated-read-only",
+      "availability": "tracked_required",
+      "source_roots": [
+        "client",
+        "tools"
+      ],
+      "source_action": "回到 tolua 绑定定义和生成入口。",
+      "workflow_id": "application-core-flow"
+    },
+    {
+      "pattern": "client/FireClient/Application/ProtoDef/**",
+      "classification": "generated-read-only",
+      "availability": "tracked_required",
+      "source_roots": [
+        "server",
+        "common"
+      ],
+      "source_action": "回到协议定义和客户端协议生成链。",
+      "workflow_id": "server-ant-build"
+    },
+    {
+      "pattern": "client/android/LocojoyProject/assets/res/**",
+      "classification": "generated-read-only",
+      "availability": "generated_may_be_absent",
+      "source_roots": [
+        "client/resource/res"
+      ],
+      "source_action": "从源资源打包到 staging，再通过 Android canonical -SyncRes 同步；禁止手工修改。",
+      "workflow_id": "resource-packaging",
+      "generator_entrypoint_id": "android-resource-pack",
+      "staging_outputs": [
+        "client/res_android/res"
+      ]
+    },
+    {
+      "pattern": "client/res_ios/**",
+      "classification": "generated-read-only",
+      "availability": "generated_may_be_absent",
+      "source_roots": [
+        "client/resource/res"
+      ],
+      "source_action": "从源资源运行 iOS runtime-local 打包入口；干净 checkout 可无生成目录。",
+      "workflow_id": "resource-packaging",
+      "generator_entrypoint_id": "ios-resource-pack",
+      "staging_outputs": [
+        "client/res_ios"
+      ]
+    }
+  ],
+  "path_availability": [
+    {
+      "locator": "client/resource/res/ui",
+      "locator_kind": "repository_path",
+      "classification": "runtime_workspace_local",
+      "validation": "干净 checkout 可缺席；Lua/CEGUI 校验前检查工作区实物。",
+      "required_by_workflow_ids": [
+        "lua-ui-integration",
+        "cegui-layout-integration"
+      ]
+    },
+    {
+      "locator": "client/resource/tools/LJFilePack_打包安卓.bat",
+      "locator_kind": "repository_path",
+      "classification": "runtime_workspace_local",
+      "validation": "资源发布前检查工作区实物；不得假设 tracked。",
+      "required_by_workflow_ids": [
+        "resource-packaging",
+        "android-build"
+      ]
+    },
+    {
+      "locator": "client/resource/tools/LJFilePack_打包苹果.bat",
+      "locator_kind": "repository_path",
+      "classification": "runtime_workspace_local",
+      "validation": "iOS 资源发布前检查工作区实物。",
+      "required_by_workflow_ids": [
+        "resource-packaging",
+        "ios-platform"
+      ]
+    },
+    {
+      "locator": "client/res_android/res",
+      "locator_kind": "repository_path",
+      "classification": "generated_may_be_absent",
+      "validation": "仅在资源打包后作为 Android -SyncRes staging 输入。",
+      "required_by_workflow_ids": [
+        "resource-packaging",
+        "android-build"
+      ]
+    },
+    {
+      "locator": "client/android/LocojoyProject/assets/res",
+      "locator_kind": "repository_path",
+      "classification": "generated_may_be_absent",
+      "validation": "生成输出，业务改动必须回到 client/resource/res。",
+      "required_by_workflow_ids": [
+        "resource-packaging",
+        "android-build"
+      ]
+    },
+    {
+      "locator": "client/res_ios",
+      "locator_kind": "repository_path",
+      "classification": "generated_may_be_absent",
+      "validation": "iOS 资源生成目录，干净 checkout 可缺席。",
+      "required_by_workflow_ids": [
+        "resource-packaging",
+        "ios-platform"
+      ]
+    },
+    {
+      "locator": "tools/CEGUI-0.7.1",
+      "locator_kind": "repository_path",
+      "classification": "runtime_workspace_local",
+      "validation": "shadow migration 前检查源码实物、sparse 与属性状态。",
+      "required_by_workflow_ids": [
+        "cocos-cegui-shadow-migration"
+      ]
+    },
+    {
+      "locator": "xcodebuild",
+      "locator_kind": "external_command",
+      "classification": "external_platform",
+      "validation": "仅在安装 Xcode 的 macOS 执行器上验证。",
+      "required_by_workflow_ids": [
+        "ios-platform"
+      ]
+    },
+    {
+      "locator": "ant",
+      "locator_kind": "external_command",
+      "classification": "environment_required",
+      "validation": "Win32/CI 环境需显式提供与 JDK7/8 兼容的 Ant。",
+      "required_by_workflow_ids": [
+        "android-build",
+        "server-ant-build"
+      ]
+    }
+  ],
+  "build_entrypoints": [
+    {
+      "id": "win32-canonical",
+      "workflow_id": "win32-build",
+      "platform": "win32",
+      "runner": "powershell",
+      "entry_kind": "repo_script",
+      "entry": "tools/scripts/Build-MT3-Exe-Canonical.ps1",
+      "arguments": [
+        "-Configuration",
+        "Release",
+        "-Platform",
+        "Win32"
+      ],
+      "working_directory": ".",
+      "role": "canonical_build",
+      "availability": "tracked_required",
+      "executor_availability": "environment_required",
+      "verified": true,
+      "notes": "唯一对外 Win32 canonical 入口；内部按依赖顺序重建。"
+    },
+    {
+      "id": "win32-internal-chain",
+      "workflow_id": "win32-build",
+      "platform": "win32",
+      "runner": "powershell",
+      "entry_kind": "repo_script",
+      "entry": "client/Build-MT3-v120.ps1",
+      "arguments": [],
+      "working_directory": ".",
+      "role": "internal_dependency",
+      "availability": "tracked_required",
+      "executor_availability": "environment_required",
+      "verified": true,
+      "notes": "canonical 入口使用的内部依赖链，不替代对外入口。"
+    },
+    {
+      "id": "android-jdk8-gate",
+      "workflow_id": "android-build",
+      "platform": "android",
+      "runner": "powershell",
+      "entry_kind": "repo_script",
+      "entry": "tools/scripts/Assert-AndroidJdk8Gate.ps1",
+      "arguments": [],
+      "working_directory": ".",
+      "role": "preflight",
+      "availability": "tracked_required",
+      "executor_availability": "environment_required",
+      "verified": true,
+      "notes": "Android 构建前强制 JDK8。"
+    },
+    {
+      "id": "android-arm64-gate",
+      "workflow_id": "android-build",
+      "platform": "android",
+      "runner": "powershell",
+      "entry_kind": "repo_script",
+      "entry": "tools/scripts/Assert-AndroidArm64Migration.ps1",
+      "arguments": [],
+      "working_directory": ".",
+      "role": "preflight",
+      "availability": "tracked_required",
+      "executor_availability": "environment_required",
+      "verified": true,
+      "notes": "验证 NDK r16 clang/arm64 主线。"
+    },
+    {
+      "id": "android-canonical",
+      "workflow_id": "android-build",
+      "platform": "android",
+      "runner": "powershell",
+      "entry_kind": "repo_script",
+      "entry": "tools/scripts/Build-Android-Locojoy-WithGate.ps1",
+      "arguments": [
+        "-Channel",
+        "free",
+        "-BuildType",
+        "Release"
+      ],
+      "working_directory": ".",
+      "role": "canonical_build",
+      "availability": "tracked_required",
+      "executor_availability": "environment_required",
+      "verified": true,
+      "notes": "当前只验证 free 渠道；monthpayment 不得隐式放行。"
+    },
+    {
+      "id": "android-ant-project",
+      "workflow_id": "android-build",
+      "platform": "android",
+      "runner": "ant",
+      "entry_kind": "repo_build_file",
+      "entry": "client/android/LocojoyProject/build.xml",
+      "arguments": [],
+      "working_directory": ".",
+      "role": "internal_dependency",
+      "availability": "tracked_required",
+      "executor_availability": "environment_required",
+      "verified": true,
+      "notes": "canonical wrapper 使用的历史 Ant 工程。"
+    },
+    {
+      "id": "android-resource-pack",
+      "workflow_id": "resource-packaging",
+      "platform": "resource",
+      "runner": "manual",
+      "entry_kind": "runtime_local_script",
+      "entry": "client/resource/tools/LJFilePack_打包安卓.bat",
+      "arguments": [],
+      "working_directory": ".",
+      "role": "resource_pack",
+      "availability": "runtime_workspace_local",
+      "executor_availability": "runtime_workspace_local",
+      "verified": false,
+      "notes": "干净 checkout 可缺席，执行前按实际工作区校验。"
+    },
+    {
+      "id": "ios-xcodebuild",
+      "workflow_id": "ios-platform",
+      "platform": "ios",
+      "runner": "xcodebuild",
+      "entry_kind": "external_command",
+      "entry": "xcodebuild",
+      "arguments": [
+        "-project",
+        "client/FireClient/FireClient.xcodeproj",
+        "-list"
+      ],
+      "working_directory": ".",
+      "role": "external_build",
+      "availability": "external_platform",
+      "executor_availability": "external_platform",
+      "verified": true,
+      "notes": "工程文件 tracked；构建器仅 macOS/Xcode 可用。",
+      "build_file": "client/FireClient/FireClient.xcodeproj/project.pbxproj"
+    },
+    {
+      "id": "ios-resource-pack",
+      "workflow_id": "resource-packaging",
+      "platform": "resource",
+      "runner": "manual",
+      "entry_kind": "runtime_local_script",
+      "entry": "client/resource/tools/LJFilePack_打包苹果.bat",
+      "arguments": [],
+      "working_directory": ".",
+      "role": "resource_pack",
+      "availability": "runtime_workspace_local",
+      "executor_availability": "runtime_workspace_local",
+      "verified": false,
+      "notes": "干净 checkout 可缺席，执行前按实际工作区校验。"
+    },
+    {
+      "id": "server-ant",
+      "workflow_id": "server-ant-build",
+      "platform": "server",
+      "runner": "ant",
+      "entry_kind": "external_command",
+      "entry": "ant",
+      "arguments": [
+        "-f",
+        "server/server/game_server/build.xml",
+        "dist"
+      ],
+      "working_directory": ".",
+      "role": "external_build",
+      "availability": "environment_required",
+      "executor_availability": "environment_required",
+      "verified": true,
+      "notes": "先经 LFS/生成链 verifier；需要 JDK7/8 + Ant。",
+      "build_file": "server/server/game_server/build.xml",
+      "targets": [
+        "genrpc",
+        "genxdb",
+        "gengbeans",
+        "dist"
+      ]
+    },
+    {
+      "id": "cegui-shadow-manual",
+      "workflow_id": "cocos-cegui-shadow-migration",
+      "platform": "win32",
+      "runner": "manual",
+      "entry_kind": "manual_tool",
+      "entry": "tools/CEGUI-0.7.1",
+      "arguments": [],
+      "working_directory": ".",
+      "role": "manual_build",
+      "availability": "runtime_workspace_local",
+      "executor_availability": "runtime_workspace_local",
+      "verified": false,
+      "notes": "无 tracked canonical wrapper；只在源码实物与 VS2013 工程存在时手工 shadow build。"
+    }
+  ],
+  "verification_entrypoints": [
+    {
+      "id": "validate-sidecars",
+      "runner": "powershell",
+      "entry": ".claude/scripts/validate_codex_sidecars.ps1",
+      "arguments": [],
+      "availability": "tracked_required",
+      "mutates_reports": true
+    },
+    {
+      "id": "audit-guardrails",
+      "runner": "powershell",
+      "entry": ".claude/scripts/audit_codex_guardrails.ps1",
+      "arguments": [],
+      "availability": "tracked_required",
+      "mutates_reports": true
+    },
+    {
+      "id": "audit-skills",
+      "runner": "powershell",
+      "entry": ".claude/scripts/audit_codex_skills.ps1",
+      "arguments": [],
+      "availability": "tracked_required",
+      "mutates_reports": true
+    },
+    {
+      "id": "analyze-skill-workflows",
+      "runner": "powershell",
+      "entry": ".claude/scripts/analyze_codex_skill_workflows.ps1",
+      "arguments": [],
+      "availability": "tracked_required",
+      "mutates_reports": true
+    },
+    {
+      "id": "audit-claude-config",
+      "runner": "powershell",
+      "entry": ".claude/scripts/audit_claude_config.ps1",
+      "arguments": [],
+      "availability": "tracked_required",
+      "mutates_reports": true
+    },
+    {
+      "id": "quality-gate",
+      "runner": "powershell",
+      "entry": ".claude/scripts/quality_gate.ps1",
+      "arguments": [
+        "-TargetPath",
+        ".codex"
+      ],
+      "availability": "tracked_required",
+      "mutates_reports": true
+    }
+  ],
+  "recent_retrospective_findings": [
+    {
+      "id": "worktree-identity-first",
+      "lesson": "迁移任务常同时存在 E:/MT3 与 E:/MT3-c226-shadow；任何 git/文档/入库动作前必须输出 root、branch、status。",
+      "minimum_probe": [
+        "git rev-parse --show-toplevel",
+        "git branch --show-current",
+        "git status --short --branch"
+      ]
+    },
+    {
+      "id": "cegui-vendor-not-build-output",
+      "lesson": "tools/CEGUI-0.7.1 同时包含 vendor 源码、预编译依赖、历史 lib 输出和 shadow-build 产物；不能用 /tools/ 一刀切忽略或放开。",
+      "minimum_probe": [
+        "git ls-files --others --exclude-standard -- tools/CEGUI-0.7.1",
+        "git ls-files --others -i --exclude-standard -- tools/CEGUI-0.7.1",
+        "git add -n -- tools/CEGUI-0.7.1"
+      ]
+    },
+    {
+      "id": "sparse-checkout-index-boundary",
+      "lesson": "sparse-checkout 会让存在于磁盘的路径无法更新索引；dry-run 出现 outside sparse warning 时必须先治理 sparse 定义。",
+      "minimum_probe": [
+        "git sparse-checkout list",
+        "git config --get core.sparseCheckout",
+        "git config --get core.sparseCheckoutCone"
+      ]
+    },
+    {
+      "id": "line-ending-attributes-before-add",
+      "lesson": "core.autocrlf=true 下，真实 git add 才会暴露 LF/CRLF 风险；vendor snapshot 和文档应先设置 .gitattributes 再入索引。",
+      "minimum_probe": [
+        "git check-attr -a -- <path>",
+        "git add -n -- <path>",
+        "git diff --cached --check -- <governed-docs>"
+      ]
+    },
+    {
+      "id": "parallel-tool-race",
+      "lesson": "重置、暂存和 diff --cached 验证不能并行；涉及索引状态的命令必须顺序执行。",
+      "minimum_probe": [
+        "先 git add",
+        "再 git diff --cached --check",
+        "最后 git diff --cached --name-only"
+      ]
+    }
+  ]
+}

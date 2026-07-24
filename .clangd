@@ -1,0 +1,140 @@
+CompileFlags:
+  Add:
+    - -IE:/MT3/client/FireClient/Application
+    - -IE:/MT3/client/FireClient/Application/Framework
+    - -IE:/MT3/client/FireClient/Application/Common
+    - -IE:/MT3/client/FireClient/Application/GameTable
+    - -IE:/MT3/client/FireClient/Application/GameUI
+    - -IE:/MT3/client/FireClient/Application/Manager
+    - -IE:/MT3/client/FireClient/Application/Battle
+    - -IE:/MT3/client/FireClient/Application/SceneObj
+    - -IE:/MT3/client/FireClient/Application/Utils
+    - -IE:/MT3/client/FireClient/Application/ProtoDef
+    - -IE:/MT3/client/FireClient/Application/ProtoDef/rpcgen
+    - -IE:/MT3/client/FireClient/Application/oggenc
+    - -IE:/MT3/client/FireClient/Application/oggenc/include
+    - -IE:/MT3/engine
+    - -IE:/MT3/engine/common
+    - -IE:/MT3/common/platform
+    - -IE:/MT3/common/platform/log
+    - -IE:/MT3/common/platform/utils
+    - -IE:/MT3/common/cauthc
+    - -IE:/MT3/common/cauthc/include
+    - -IE:/MT3/common/cauthc/authc
+    - -IE:/MT3/common/cauthc/authc/os/windows
+    - -IE:/MT3/common/ljfm/code/include
+    - -IE:/MT3/common/tolua++-1.0.93/include
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/include
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/kazmath/include
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/kazmath/include/GL
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/win32
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/OGLES
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/zlib
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libwebp
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/pthread
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libtiff
+    - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/freetype/include
+    - -IE:/MT3/cocos2d-x-2.2.6/scripting/lua/lua
+    - -IE:/MT3/cocos2d-x-2.2.6/scripting/lua/tolua
+    - -IE:/MT3/cocos2d-x-2.2.6/scripting/lua/cocos2dx_support
+    - -IE:/MT3/cocos2d-x-2.2.6/extensions
+    - -IE:/MT3/cocos2d-x-2.2.6/extensions/spine
+    - -IE:/MT3/cocos2d-x-2.2.6/CocosDenshion/include
+    - -IE:/MT3/cocos2d-x-2.2.6/external
+    - -IE:/MT3/dependencies/cegui/CEGUI/include
+    - -IE:/MT3/dependencies/cegui/CEGUI/include/RendererModules/Cocos2D
+    - -IE:/MT3/dependencies/cegui/CEGUI/include/WindowRendererSets/Falagard
+    - -IE:/MT3/dependencies/cegui/CEGUI/include/ImageCodecModules/SILLYImageCodec
+    - -IE:/MT3/dependencies/cegui/CEGUI/include/XMLParserModules/XMLIOParser
+    - -IE:/MT3/dependencies/cegui/CEGUI/include/ScriptingModules/LuaScriptModule
+    - -IE:/MT3/dependencies/SILLY-0.1.0/include
+    - -IE:/MT3/dependencies/jpeg/win32/include
+    - -IE:/MT3/dependencies/png/win32/include
+    - -IE:/MT3/dependencies/glew-1.7.0/include
+    - -IE:/MT3/dependencies/freetype-2.4.12/include
+    - -IE:/MT3/dependencies/FreeType/Win32/Include
+    - -IE:/MT3/dependencies/speex-1.2rc2/include
+    - -IE:/MT3/dependencies/speexdsp-1.2rc3/include
+    - -IE:/MT3/dependencies/libvorbis-1.3.5/include
+    - -IE:/MT3/dependencies/libogg-1.3.2/include
+    - -IE:/MT3/dependencies/third-party-rebuild/pthreads-w32/Pre-built.2/include
+    - -ID:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include
+    - -ID:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/atlmfc/include
+    - -ID:/Program Files (x86)/Windows Kits/8.1/Include/um
+    - -ID:/Program Files (x86)/Windows Kits/8.1/Include/shared
+    - -D_WIN32
+    - -DWIN32
+    - -DWIN7_32
+    - -D_WINDOWS
+    - -DUNICODE
+    - -D_UNICODE
+    - -D_CRT_SECURE_NO_WARNINGS
+    - -D_SCL_SECURE_NO_WARNINGS
+    - -DCEGUI_STATIC
+    - -DGLEW_STATIC
+    - -DCOCOS2D_DEBUG=1
+    - -DXPP_WIN
+    - -DCC_SUPPORT_PVRTC
+    - -DPUBLISHED_VERSION
+    - -DXP_PERFORMANCE
+    - -D_MSC_VER=1800
+    - -D_WIN32_WINNT=0x0601
+    - -include
+    - E:/MT3/client/FireClient/Application/stdafx.h
+    - -std=c++11
+    - -target
+    - i686-pc-windows-msvc
+
+Diagnostics:
+  Suppress:
+    - unused-includes
+  ClangTidy:
+    Remove:
+      - readability-misleading-indentation
+
+---
+# dependencies 目录：第三方代码，仅抑制无法修复的编译错误
+If:
+  PathMatch: dependencies/RapidXml/.*
+Diagnostics:
+  Suppress:
+    - "*"
+---
+If:
+  PathMatch: dependencies/LJXML/.*
+Diagnostics:
+  Suppress:
+    - "*"
+---
+If:
+  PathMatch: engine/soundarea/.*
+Diagnostics:
+  Suppress:
+    - "*"
+---
+If:
+  PathMatch: engine/common/nuxml\.h
+Diagnostics:
+  Suppress:
+    - "*"
+---
+If:
+  PathMatch: engine/engine/nuenginebase\.h
+Diagnostics:
+  Suppress:
+    - "*"
+---
+If:
+  PathMatch: engine/world/nuworld\.h
+Diagnostics:
+  Suppress:
+    - "*"
+---
+If:
+  PathMatch: engine/engine/nuengine\.h
+Diagnostics:
+  Suppress:
+    - "*"

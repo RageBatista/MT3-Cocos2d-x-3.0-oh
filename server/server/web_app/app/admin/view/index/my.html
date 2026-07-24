@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+<!--tags插件css-->
+<link type="text/css" rel="stylesheet" href="__MB__/js/jquery-tagsinput/jquery.tagsinput.min.css">
+<!--上传插件css-->
+<link type="text/css" rel="stylesheet" href="__MB__/js/webuploader/webuploader.css">
+<!--灯箱效果插件css-->
+<link type="text/css" rel="stylesheet" href="__MB__/js/magnific-popup/magnific-popup.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/animate.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+<!-- 加载 Select2 -->
+<script src="__MB__/select/jquery-3.2.1.min.js"></script>
+<link href="__MB__/select/select2.min.css" rel="stylesheet" />
+<script src="__MB__/select/select2.min.js"></script>
+</head>
+  
+<body>
+<div class="container-fluid">
+  
+  <div class="row">
+    
+    <div class="col-lg-12">
+      <div class="card">
+        <header class="card-header"><div class="card-title">修改信息</div></header>
+        <div class="card-body">
+          
+          {if $isSuperAdmin}
+          <!-- ===== 超级管理员：禁止修改信息 ===== -->
+          <div style="padding: 40px; text-align: center;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; padding: 40px; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 600px; margin: 0 auto;">
+              <i class="mdi mdi-shield-crown" style="font-size: 80px; margin-bottom: 20px; display: block;"></i>
+              <h2 style="margin: 20px 0; font-weight: bold;">🛡️ 超级管理员账号</h2>
+              <p style="font-size: 18px; line-height: 1.8; margin: 20px 0;">
+                您当前登录的是<strong>超级管理员账号</strong>，拥有系统最高权限。<br/>
+                为保障系统安全，该账号信息<strong style="color: #ffd700;">不允许通过网页修改</strong>。
+              </p>
+              <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px; margin: 30px 0; backdrop-filter: blur(10px);">
+                <h4 style="margin-bottom: 15px; color: #ffd700;">📋 当前账号信息</h4>
+                <div style="text-align: left; display: inline-block;">
+                  <p style="margin: 10px 0; font-size: 16px;">
+                    <i class="mdi mdi-account"></i> <strong>账号：</strong>{$myAdmin.username}
+                  </p>
+                  <p style="margin: 10px 0; font-size: 16px;">
+                    <i class="mdi mdi-tag"></i> <strong>邀请码：</strong>{$myAdmin.invite}
+                  </p>
+                  <p style="margin: 10px 0; font-size: 16px;">
+                    <i class="mdi mdi-shield-check"></i> <strong>账号ID：</strong>{$myAdmin.id}
+                  </p>
+                </div>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.15); padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #ffd700;">
+                <p style="margin: 0; font-size: 14px; text-align: left;">
+                  <i class="mdi mdi-information"></i> <strong>如需修改超级管理员信息，请：</strong>
+                </p>
+                <ul style="text-align: left; margin: 10px 0 0 20px; font-size: 14px;">
+                  <li>通过数据库直接修改 <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px;">admin_account</code> 表</li>
+                  <li>联系系统开发人员进行修改</li>
+                  <li>使用命令行工具修改（如有提供）</li>
+                </ul>
+              </div>
+              <div style="margin-top: 30px;">
+                <button type="button" class="btn btn-light btn-lg" onclick="javascript:history.back(-1);" style="padding: 12px 40px; font-size: 16px; font-weight: bold;">
+                  <i class="mdi mdi-arrow-left"></i> 返回
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- ===== 超级管理员提示结束 ===== -->
+          {else}
+          <!-- ===== 普通管理员：允许修改信息 ===== -->
+          <form action="/index.php?s=/{$app}/index/editMy" method="post" class="edit-form">
+		  
+            <input class="form-control" type="text" name="id" value="{$myAdmin.id}" style="display:none" readonly/>
+            <div class="mb-3 col-md-12">
+              <label class="form-label">代理账号(8-16位字母+数字，不区分大小写)</label>
+              <div class="form-controls">
+                <input class="form-control" type="text" name="username" value="{$myAdmin.username}" />
+              </div>
+            </div>
+            <div class="mb-3 col-md-12">
+              <label class="form-label">代理密码(8-16位字母+数字，不区分大小写)</label>
+              <div class="form-controls">
+                <input class="form-control" type="text" name="password" value="" placeholder="不修改请留空"/>
+              </div>
+            </div>
+            <div class="mb-3 col-md-12">
+              <label class="form-label">邀请码(4-8位字母+数字，不区分大小写)</label>
+              <div class="form-controls">
+                <input class="form-control" type="text" name="invite" value="{$myAdmin.invite}"/>
+              </div>
+            </div>
+
+            <div class="mb-3 col-md-12">
+              <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">确 定</button>
+              <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
+            </div>
+          </form>
+          {/if}
+          <!-- ===== 普通管理员表单结束 ===== -->
+          
+        </div>
+      </div>
+    </div>
+        
+  </div>
+  
+</div>
+<script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+<script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+<script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+<!--tags插件-->
+<script type="text/javascript" src="__MB__/js/jquery-tagsinput/jquery.tagsinput.min.js"></script>
+<!--上传插件-->
+<script type="text/javascript" src="__MB__/js/webuploader/webuploader.js"></script>
+<!--灯箱效果插件-->
+<script type="text/javascript" src="__MB__/js/magnific-popup/magnific-popup.min.js"></script>
+<!--通知消息插件-->
+<script type="text/javascript" src="__MB__/js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+<!--通知弹窗-->
+<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+<script  src="__MB__/alert/sweetalert2.all.min.js"></script>
+<!-- 加载 下拉图片 -->
+<link rel="stylesheet" type="text/css" href="__MB__/image-picker/image-picker.css">
+<script type="text/javascript" src="__MB__/image-picker/image-picker.js"></script>
+
+{if !$isSuperAdmin}
+<!-- ===== 普通管理员：表单提交脚本 ===== -->
+<script>
+$('.edit-form').on('submit', function(event) {
+    var $data  = $(this).serialize();
+	
+    $.post($(this).attr('action'), $data, function(res) {
+		if(res.code==1){
+			var Toast = Swal.mixin({
+			  toast: true,
+			  position: "top",
+			  showConfirmButton: false,
+			  timer: 1500,
+			  timerProgressBar: true,
+			  didOpen: (toast) => {
+				toast.onmouseenter = Swal.stopTimer;
+				toast.onmouseleave = Swal.resumeTimer;
+			  }
+			});
+			Toast.fire({
+			  icon: "success",
+			  title: res.msg
+			});
+			setTimeout("self.location.reload();",1500);
+		}else {
+			var Toast = Swal.mixin({
+			  toast: true,
+			  position: "top",
+			  showConfirmButton: false,
+			  timer: 1500,
+			  timerProgressBar: true,
+			  didOpen: (toast) => {
+				toast.onmouseenter = Swal.stopTimer;
+				toast.onmouseleave = Swal.resumeTimer;
+			  }
+			});
+			Toast.fire({
+			  icon: "error",
+			  title: res.msg
+			});
+			//setTimeout("self.location.reload();",1500);
+		}
+	}).fail(function () {
+		var Toast = Swal.mixin({
+		  toast: true,
+		  position: "top",
+		  showConfirmButton: false,
+		  timer: 1500,
+		  timerProgressBar: true,
+		  didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		  }
+		});
+		Toast.fire({
+		  icon: "question",
+		  title: '服务异常'
+		});
+		//setTimeout("self.location.reload();",1500);
+	});
+
+    return false;
+});
+</script>
+{/if}
+<!-- ===== 普通管理员脚本结束 ===== -->
+
+</body>
+</html>

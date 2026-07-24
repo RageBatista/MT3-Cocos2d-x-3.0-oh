@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="author" content="yinq">
+    <title>清理数据 - {$config.name}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{$config.icon}">
+    <link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+    <!--通知弹窗-->
+    <link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+    <script src="__MB__/alert/sweetalert2.all.min.js"></script>
+    <style>
+        .alert-custom {
+            border-radius: 6px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+        }
+
+        .alert-warning-custom {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+        }
+
+        .alert-danger-custom {
+            background-color: #f8d7da;
+            border: 1px solid #dc3545;
+            color: #721c24;
+        }
+
+        .alert-custom .alert-heading {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .alert-custom hr {
+            margin: 8px 0;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-custom ul {
+            padding-left: 20px;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .alert-custom ul li {
+            margin-bottom: 2px;
+        }
+
+        .result-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+
+        .result-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .result-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .result-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-title">清理玩家数据</div>
+                    </header>
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="cleanTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="query-tab" data-bs-toggle="tab"
+                                    data-bs-target="#query" type="button" role="tab">按账号/角色清理</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="cleanAll-tab" data-bs-toggle="tab"
+                                    data-bs-target="#cleanAll" type="button" role="tab">一键清除全部</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content pt-3">
+                            <div class="tab-pane fade show active" id="query" role="tabpanel"
+                                aria-labelledby="query-tab">
+                                <!-- 警告区域 -->
+                                <div class="alert alert-warning-custom alert-custom">
+                                    <h5 class="alert-heading"><i class="mdi mdi-alert"></i> 危险操作警告</h5>
+                                    <hr>
+                                    <p class="mb-1" style="font-size: 13px;">
+                                        此操作将<strong>永久删除</strong>玩家数据：user_account、user_bind、user_order、user_log、user_voice、user_fankui
+                                    </p>
+                                </div>
+
+                                <!-- 查询和操作区域 -->
+                                <hr>
+                                <form id="cleanDataForm">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">玩家账号ID</label>
+                                            <input type="number" class="form-control" id="userId"
+                                                placeholder="输入user_account表的ID" min="1">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">角色ID</label>
+                                            <input type="number" class="form-control" id="playerId"
+                                                placeholder="输入user_bind表的playerid" min="1">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">操作</label>
+                                            <div>
+                                                <button type="button" class="btn btn-info me-2" onclick="queryData()">
+                                                    <i class="mdi mdi-magnify"></i> 查询数据
+                                                </button>
+                                                <button type="button" class="btn btn-warning"
+                                                    onclick="confirmCleanByUser()">
+                                                    <i class="mdi mdi-delete"></i> 按账号清理
+                                                </button>
+                                            </div>
+                                        </div>
+                                </form>
+
+                                <!-- 查询结果显示区域 -->
+                                <div id="queryResult" style="display: none;">
+                                    <hr>
+                                    <h5>查询结果</h5>
+                                    <div id="queryResultBody">
+                                        <!-- 查询结果将显示在这里 -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="cleanAll" role="tabpanel" aria-labelledby="cleanAll-tab">
+                                <!-- 一键清除全部区域 -->
+                                <div class="alert alert-danger-custom alert-custom">
+                                    <h5 class="alert-heading"><i class="mdi mdi-alert-circle"></i> 一键清除全部玩家数据</h5>
+                                    <hr>
+                                    <p class="mb-2" style="font-size: 13px;">
+                                        此操作将清空所有玩家数据表，不可恢复！user_account、user_bind、user_order、user_log、user_voice、user_fankui
+                                    </p>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="resetAutoIncrement" checked>
+                                        <label class="form-check-label" for="resetAutoIncrement"
+                                            style="font-size: 13px;">
+                                            清理后重置AUTO_INCREMENT为1
+                                        </label>
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmCleanAll()">
+                                        <i class="mdi mdi-delete-forever"></i> 一键清除全部玩家数据
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 操作结果显示区域 -->
+                        <div id="operationResult" style="display: none;">
+                            <hr>
+                            <h5>操作结果</h5>
+                            <div id="operationResultBody">
+                                <!-- 操作结果将显示在这里 -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+    <script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__MB__/js/bootstrap-notify.min.js"></script>
+    <script type="text/javascript">
+        var csrf_token = "{$csrf_token}";
+        $(document).ajaxStart(function () {
+            $("button:submit").attr("disabled", true);
+        }).ajaxStop(function () {
+            $("button:submit").attr("disabled", false);
+        });
+
+        // 查询数据
+        function queryData() {
+            var userId = $('#userId').val();
+            var playerId = $('#playerId').val();
+
+            if (!userId && !playerId) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '请输入查询条件',
+                    text: '请输入玩家账号ID或角色ID进行查询'
+                });
+                return;
+            }
+
+            $.post('/index.php?s=/{$app}/gm/queryCleanData', {
+                userId: userId,
+                playerId: playerId,
+                csrf_token: csrf_token
+            }, function (res) {
+                if (res.code == 1) {
+                    displayQueryResult(res.data);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '查询失败',
+                        text: res.msg || '未找到相关数据'
+                    });
+                    $('#queryResult').hide();
+                }
+            }).fail(function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: '查询失败',
+                    text: '网络请求失败，请稍后重试'
+                });
+            });
+        }
+
+        // 显示查询结果
+        function displayQueryResult(data) {
+            var html = '<div class="table-responsive">';
+            html += '<table class="table table-striped">';
+            html += '<thead><tr><th>数据类型</th><th>ID</th><th>详细信息</th></tr></thead>';
+            html += '<tbody>';
+
+            // 玩家账号信息
+            if (data.userAccount) {
+                html += '<tr class="table-warning">';
+                html += '<td>玩家账号</td>';
+                html += '<td>' + data.userAccount.id + '</td>';
+                html += '<td>用户名: ' + data.userAccount.username + ', 状态: ' + (data.userAccount.status == 1 ? '正常' : '禁用') + '</td>';
+                html += '</tr>';
+            }
+
+            // 角色绑定信息
+            if (data.userBinds && data.userBinds.length > 0) {
+                $.each(data.userBinds, function (i, bind) {
+                    html += '<tr>';
+                    html += '<td>角色绑定</td>';
+                    html += '<td>' + bind.playerid + '</td>';
+                    html += '<td>角色名: ' + bind.playername + ', 服务器ID: ' + bind.serverid + ', 充值: ' + bind.charge + '</td>';
+                    html += '</tr>';
+                });
+            }
+
+            // 订单数量
+            if (data.orderCount !== undefined) {
+                html += '<tr>';
+                html += '<td>订单记录</td>';
+                html += '<td>-</td>';
+                html += '<td>共 ' + data.orderCount + ' 条订单记录</td>';
+                html += '</tr>';
+            }
+
+            // 日志数量
+            if (data.logCount !== undefined) {
+                html += '<tr>';
+                html += '<td>日志记录</td>';
+                html += '<td>-</td>';
+                html += '<td>共 ' + data.logCount + ' 条日志记录</td>';
+                html += '</tr>';
+            }
+
+            html += '</tbody></table></div>';
+            html += '<p style="color: #ff6b6b;">⚠️ 请确认以上信息无误后，点击"按账号清理"按钮执行删除操作</p>';
+
+            $('#queryResultBody').html(html);
+            $('#queryResult').show();
+        }
+
+        // 确认清理（按账号/角色）
+        function confirmCleanByUser() {
+            var userId = $('#userId').val();
+            var playerId = $('#playerId').val();
+            var resetAutoIncrement = $('#resetAutoIncrement').is(':checked') ? 1 : 0;
+
+            if (!userId && !playerId) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '请输入清理条件',
+                    text: '请输入玩家账号ID或角色ID'
+                });
+                return;
+            }
+
+            // 二次确认弹窗
+            Swal.fire({
+                title: '⚠️ 确认清理数据？',
+                html: '<p style="color: #ff6b6b;">此操作将<strong>永久删除</strong>以下数据：</p>' +
+                    '<ul style="text-align: left; margin-left: 20px;">' +
+                    '<li>玩家账号信息</li>' +
+                    '<li>角色绑定信息</li>' +
+                    '<li>相关订单记录</li>' +
+                    '<li>相关日志记录</li>' +
+                    '<li>语音记录</li>' +
+                    '<li>反馈记录</li>' +
+                    '</ul>' +
+                    '<p style="color: #ff6b6b;">此操作不可恢复！</p>' +
+                    '<p>请输入 <strong>DELETE</strong> 确认操作：</p>',
+                icon: 'warning',
+                input: 'text',
+                inputPlaceholder: '请输入 DELETE 确认',
+                showCancelButton: true,
+                confirmButtonText: '确认清理',
+                cancelButtonText: '取消',
+                confirmButtonColor: '#ff6b6b',
+                preConfirm: function (input) {
+                    if (input !== 'DELETE') {
+                        Swal.showValidationMessage('请输入 DELETE 确认操作');
+                        return false;
+                    }
+                    return true;
+                }
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    performClean(userId, playerId, resetAutoIncrement);
+                }
+            });
+        }
+
+        // 执行清理（按用户/角色）
+        function performClean(userId, playerId, resetAutoIncrement) {
+            Swal.fire({
+                title: '正在清理数据...',
+                html: '请稍候',
+                allowOutsideClick: false,
+                didOpen: function () {
+                    Swal.showLoading();
+                }
+            });
+
+            $.post('/index.php?s=/{$app}/gm/doCleanData', {
+                userId: userId,
+                playerId: playerId,
+                resetAutoIncrement: resetAutoIncrement,
+                csrf_token: csrf_token
+            }, function (res) {
+                Swal.close();
+                if (res.code == 1) {
+                    displayOperationResult(res.data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '清理成功',
+                        text: '数据已成功清理'
+                    });
+                    // 清空输入框
+                    $('#userId').val('');
+                    $('#playerId').val('');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '清理失败',
+                        text: res.msg || '清理操作失败'
+                    });
+                }
+            }).fail(function () {
+                Swal.close();
+                Swal.fire({
+                    icon: 'error',
+                    title: '清理失败',
+                    text: '网络请求失败，请稍后重试'
+                });
+            });
+        }
+
+        // 一键清除全部数据
+        function confirmCleanAll() {
+            console.log('confirmCleanAll 被调用'); // 调试日志
+
+            var resetAutoIncrement = 0;
+            try {
+                resetAutoIncrement = $('#resetAutoIncrement').is(':checked') ? 1 : 0;
+            } catch (e) {
+                console.log('checkbox错误:', e);
+            }
+
+            // 获取当前各表的数据统计
+            $.ajax({
+                url: '/index.php?s=/{$app}/gm/getDataStatistics',
+                type: 'POST',
+                dataType: 'json',
+                data: { csrf_token: csrf_token },
+                timeout: 10000,
+                success: function (res) {
+                    console.log('统计返回:', res); // 调试日志
+                    if (res.code == 1) {
+                        var stats = res.data;
+                        var statsHtml = '<div style="text-align: left; background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0;">';
+                        statsHtml += '<strong>当前数据统计：</strong><br>';
+                        statsHtml += '• 玩家账号：' + stats.userAccountCount + ' 条<br>';
+                        statsHtml += '• 角色绑定：' + stats.userBindCount + ' 条<br>';
+                        statsHtml += '• 订单记录：' + stats.userOrderCount + ' 条<br>';
+                        statsHtml += '• 日志记录：' + stats.userLogCount + ' 条<br>';
+                        statsHtml += '• 语音记录：' + stats.userVoiceCount + ' 条<br>';
+                        statsHtml += '• 反馈记录：' + stats.userFankuiCount + ' 条';
+                        statsHtml += '</div>';
+
+                        // 三次确认弹窗
+                        Swal.fire({
+                            title: '⚠️⚠️⚠️ 危险操作确认 ⚠️⚠️⚠️',
+                            html: statsHtml +
+                                '<p style="color: #dc3545; font-size: 18px; font-weight: bold;">此操作将<strong>清空所有玩家数据</strong>！</p>' +
+                                '<p style="color: #dc3545;">清空以下所有表：</p>' +
+                                '<ul style="text-align: left; margin-left: 20px; color: #666;">' +
+                                '<li>user_account（玩家账号）</li>' +
+                                '<li>user_bind（角色绑定）</li>' +
+                                '<li>user_order（订单记录）</li>' +
+                                '<li>user_log（日志记录）</li>' +
+                                '<li>user_voice（语音记录）</li>' +
+                                '<li>user_fankui（反馈记录）</li>' +
+                                '</ul>' +
+                                '<p style="color: #dc3545; font-weight: bold;">此操作不可恢复！</p>' +
+                                '<p>请输入 <strong>DELETE_ALL</strong> 确认操作：</p>',
+                            icon: 'warning',
+                            input: 'text',
+                            inputPlaceholder: '请输入 DELETE_ALL 确认',
+                            showCancelButton: true,
+                            confirmButtonText: '确认清空全部',
+                            cancelButtonText: '取消',
+                            confirmButtonColor: '#dc3545',
+                            preConfirm: function (input) {
+                                if (input !== 'DELETE_ALL') {
+                                    Swal.showValidationMessage('请输入 DELETE_ALL 确认操作');
+                                    return false;
+                                }
+                                return true;
+                            }
+                        }).then(function (result) {
+                            console.log('用户确认:', result); // 调试日志
+                            if (result.isConfirmed) {
+                                performCleanAll(resetAutoIncrement);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '获取统计失败',
+                            text: res.msg || '无法获取数据统计'
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('统计请求失败:', status, error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '请求失败',
+                        text: '无法获取数据统计，请检查网络连接'
+                    });
+                }
+            });
+        }
+
+        // 执行清除全部
+        function performCleanAll(resetAutoIncrement) {
+            console.log('performCleanAll 被调用, resetAutoIncrement=', resetAutoIncrement); // 调试日志
+
+            Swal.fire({
+                title: '正在清空所有玩家数据...',
+                html: '请稍候，这可能需要一些时间',
+                allowOutsideClick: false,
+                didOpen: function () {
+                    Swal.showLoading();
+                }
+            });
+
+            $.post('/index.php?s=/{$app}/gm/doCleanAll', {
+                resetAutoIncrement: resetAutoIncrement,
+                csrf_token: csrf_token
+            }, function (res) {
+                console.log('清空返回:', res); // 调试日志
+                Swal.close();
+                if (res.code == 1) {
+                    displayOperationResult(res.data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '清空成功',
+                        text: '所有玩家数据已清空'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '清空失败',
+                        text: res.msg || '清空操作失败'
+                    });
+                }
+            }).fail(function () {
+                console.log('清空请求失败'); // 调试日志
+                Swal.close();
+                Swal.fire({
+                    icon: 'error',
+                    title: '清空失败',
+                    text: '网络请求失败，请检查网络连接'
+                });
+            });
+        }
+
+        // 显示操作结果
+        function displayOperationResult(data) {
+            console.log('displayOperationResult 被调用, data=', data); // 调试日志
+
+            var html = '';
+
+            // 处理全部清空的结果
+            if (data.clearedAll) {
+                html += '<div class="result-item result-success" style="font-size: 16px; font-weight: bold;">✓ 已清空所有玩家数据表</div>';
+            }
+
+            if (data.clearedTables && data.clearedTables.length > 0) {
+                $.each(data.clearedTables, function (i, table) {
+                    html += '<div class="result-item result-success">✓ 已清空 ' + table.table + ' 表，删除 ' + table.count + ' 条记录</div>';
+                });
+            }
+
+            if (data.deletedUserAccount) {
+                html += '<div class="result-item result-success">✓ 已删除玩家账号: ' + data.deletedUserAccount.username + ' (ID: ' + data.deletedUserAccount.id + ')</div>';
+            }
+
+            if (data.deletedBinds && data.deletedBinds.length > 0) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedBinds.length + ' 个角色绑定记录</div>';
+                $.each(data.deletedBinds, function (i, bind) {
+                    html += '<div class="result-item result-info">  - 角色: ' + bind.playername + ' (ID: ' + bind.playerid + ')</div>';
+                });
+            }
+
+            if (data.deletedOrders !== undefined) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedOrders + ' 条订单记录</div>';
+            }
+
+            if (data.deletedLogs !== undefined) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedLogs + ' 条日志记录</div>';
+            }
+
+            if (data.deletedVoices !== undefined) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedVoices + ' 条语音记录</div>';
+            }
+
+            if (data.deletedFeedbacks !== undefined) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedFeedbacks + ' 条反馈记录</div>';
+            }
+
+            if (data.resetTables && data.resetTables.length > 0) {
+                html += '<div class="result-item result-info">✓ 已重置以下表的AUTO_INCREMENT为1: ' + data.resetTables.join(', ') + '</div>';
+            }
+
+            if (data.errors && data.errors.length > 0) {
+                html += '<div class="result-item result-error">✗ 操作过程中发生错误：</div>';
+                $.each(data.errors, function (i, error) {
+                    html += '<div class="result-item result-error">  - ' + error + '</div>';
+                });
+            }
+
+            $('#operationResultBody').html(html);
+            $('#operationResult').show();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+# Forbid the legacy external Win32 entry so callers use the canonical wrapper;
+# direct msbuild remains a prompt-only fallback below.
+prefix_rule(
+    pattern = [["./client/Build-MT3-v120.ps1", ".\\client\\Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1"]],
+    decision = "forbidden",
+    justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。",
+    match = [
+        "./client/Build-MT3-v120.ps1 -Configuration Release",
+    ],
+)
+
+prefix_rule(
+    pattern = [["powershell", "powershell.exe", "pwsh", "pwsh.exe"], "-File", ["./client/Build-MT3-v120.ps1", ".\\client\\Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1"]],
+    decision = "forbidden",
+    justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。",
+    match = [
+        "powershell -File ./client/Build-MT3-v120.ps1 -Configuration Release",
+    ],
+)
+
+prefix_rule(
+    pattern = [["powershell", "powershell.exe", "pwsh", "pwsh.exe"], "-NoProfile", "-File", ["./client/Build-MT3-v120.ps1", ".\\client\\Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1"]],
+    decision = "forbidden",
+    justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。",
+    match = [
+        "pwsh -NoProfile -File ./client/Build-MT3-v120.ps1",
+    ],
+)
+
+prefix_rule(
+    pattern = [["powershell", "powershell.exe", "pwsh", "pwsh.exe"], "-ExecutionPolicy", ["Bypass", "Unrestricted"], "-File", ["./client/Build-MT3-v120.ps1", ".\\client\\Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1"]],
+    decision = "forbidden",
+    justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。",
+    match = [
+        "powershell.exe -ExecutionPolicy Bypass -File ./client/Build-MT3-v120.ps1",
+    ],
+)
+
+prefix_rule(
+    pattern = [["powershell", "powershell.exe", "pwsh", "pwsh.exe"], "-NoProfile", "-ExecutionPolicy", ["Bypass", "Unrestricted"], "-File", ["./client/Build-MT3-v120.ps1", ".\\client\\Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1"]],
+    decision = "forbidden",
+    justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。",
+    match = [
+        "pwsh -NoProfile -ExecutionPolicy Bypass -File ./client/Build-MT3-v120.ps1",
+    ],
+)
+
+prefix_rule(
+    pattern = [["cmd", "cmd.exe"], ["/c", "/C", "/k", "/K"], ["./client/Build-MT3-v120.ps1", ".\\client\\Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1"]],
+    decision = "forbidden",
+    justification = "cmd 包装不能绕过 Win32 canonical build 入口。",
+    match = [
+        "cmd.exe /c ./client/Build-MT3-v120.ps1 -Configuration Release",
+    ],
+)
+
+prefix_rule(
+    pattern = [["gradle", "gradle.bat", "gradlew", "gradlew.bat", "./gradlew", "./gradlew.bat", ".\\gradlew", ".\\gradlew.bat"]],
+    decision = "forbidden",
+    justification = "Android 主线构建必须保持 NDK r16 clang + Ant + JDK8；不要切到 Gradle。",
+    match = [
+        "gradle assembleDebug",
+        "gradlew assembleDebug",
+    ],
+)
+
+prefix_rule(
+    pattern = [["cmd", "cmd.exe"], ["/c", "/C", "/k", "/K"], ["gradle", "gradle.bat", "gradlew", "gradlew.bat", "./gradlew", "./gradlew.bat", ".\\gradlew", ".\\gradlew.bat"]],
+    decision = "forbidden",
+    justification = "Android 主线构建必须保持 NDK r16 clang + Ant + JDK8；cmd 包装不能切到 Gradle。",
+    match = [
+        "cmd /c gradlew.bat assembleDebug",
+    ],
+)
+
+prefix_rule(
+    pattern = [["cmd", "cmd.exe"], ["/c", "/C", "/k", "/K"], ["call", "CALL"], ["gradle", "gradle.bat", "gradlew", "gradlew.bat", "./gradlew", "./gradlew.bat", ".\\gradlew", ".\\gradlew.bat"]],
+    decision = "forbidden",
+    justification = "Android 主线构建必须保持 NDK r16 clang + Ant + JDK8；cmd call 包装不能切到 Gradle。",
+    match = [
+        "cmd /c call gradlew.bat assembleDebug",
+    ],
+)
+
+prefix_rule(
+    pattern = [["mvn", "mvn.cmd", "maven", "mvnw", "mvnw.cmd", "./mvnw", "./mvnw.cmd", ".\\mvnw", ".\\mvnw.cmd"]],
+    decision = "forbidden",
+    justification = "服务端主线构建必须保持 JDK 1.7/1.8 + Ant；不要切到 Maven。",
+    match = [
+        "mvn package",
+        "mvn.cmd package",
+        "maven package",
+    ],
+)
+
+prefix_rule(
+    pattern = [["cmd", "cmd.exe"], ["/c", "/C", "/k", "/K"], ["mvn", "mvn.cmd", "maven", "mvnw", "mvnw.cmd", "./mvnw", "./mvnw.cmd", ".\\mvnw", ".\\mvnw.cmd"]],
+    decision = "forbidden",
+    justification = "服务端主线构建必须保持 JDK 1.7/1.8 + Ant；cmd 包装不能切到 Maven。",
+    match = [
+        "cmd.exe /c mvnw.cmd package",
+    ],
+)
+
+prefix_rule(
+    pattern = [["cmd", "cmd.exe"], ["/c", "/C", "/k", "/K"], ["call", "CALL"], ["mvn", "mvn.cmd", "maven", "mvnw", "mvnw.cmd", "./mvnw", "./mvnw.cmd", ".\\mvnw", ".\\mvnw.cmd"]],
+    decision = "forbidden",
+    justification = "服务端主线构建必须保持 JDK 1.7/1.8 + Ant；cmd call 包装不能切到 Maven。",
+    match = [
+        "cmd.exe /c call mvnw.cmd package",
+    ],
+)
+
+prefix_rule(
+    pattern = [["msbuild", "msbuild.exe"]],
+    decision = "prompt",
+    justification = "Win32 手动重编前请确认 .claude/BUILD_GUIDE.md 中的顺序，并显式声明 /p:PlatformToolset=v120。",
+    match = [
+        "msbuild client\\MT3Win32App\\mt3.win32.vcxproj /p:PlatformToolset=v120",
+    ],
+    not_match = [
+        "ant -f server\\build.xml",
+    ],
+)
+
+# Prompt on text rewrite commands because MT3 contains legacy Chinese sources
+# and mixed line-ending / encoding requirements.
+prefix_rule(
+    pattern = [["Set-Content", "set-content"]],
+    decision = "prompt",
+    justification = "修改 MT3 文本文件时必须显式指定编码，或改用保持原编码的 .NET 写回方式。",
+    match = [
+        "Set-Content path.txt value",
+    ],
+)
+
+prefix_rule(
+    pattern = [["Add-Content", "add-content"]],
+    decision = "prompt",
+    justification = "修改 MT3 文本文件时必须显式指定编码，或改用保持原编码的 .NET 写回方式。",
+    match = [
+        "Add-Content path.txt value",
+    ],
+)
+
+prefix_rule(
+    pattern = [["Out-File", "out-file"]],
+    decision = "prompt",
+    justification = "修改 MT3 文本文件时必须显式指定编码，或改用保持原编码的 .NET 写回方式。",
+    match = [
+        "Out-File path.txt",
+    ],
+)
+
+
+# Prompt on broad staging because this repo often has parallel migration, resource,
+# and governance changes in the same worktree.
+prefix_rule(
+    pattern = ["git", "add", ["-A", "--all", "."]],
+    decision = "prompt",
+    justification = "批量暂存前必须确认当前 worktree、目标路径、dry-run 结果和无关改动边界。",
+    match = [
+        "git add -A",
+        "git add --all",
+        "git add .",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "-C", [".", "./", ".\\"], "add", ["-A", "--all", "."]],
+    decision = "prompt",
+    justification = "git -C 包装不能绕过批量暂存门禁；执行前必须确认目标工作树、dry-run 结果和无关改动边界。",
+    match = [
+        "git -C . add -A",
+    ],
+)
+
+# CEGUI 0.7.1 is a vendor/tool snapshot, not a normal build output. Its
+# source snapshot may be versioned only after ignore/sparse/attributes gates.
+prefix_rule(
+    pattern = ["git", "add", ["tools/CEGUI-0.7.1", ".\tools\CEGUI-0.7.1", "tools/CEGUI-0.7.1/"]],
+    decision = "prompt",
+    justification = "CEGUI vendor snapshot 入库前必须完成 ignore/sparse/.gitattributes/dry-run 门禁，确认 shadow-build、lib 输出和 AppleDouble 元数据未进入索引。",
+    match = [
+        "git add tools/CEGUI-0.7.1",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "add", "--", ["tools/CEGUI-0.7.1", ".\tools\CEGUI-0.7.1", "tools/CEGUI-0.7.1/"]],
+    decision = "prompt",
+    justification = "CEGUI vendor snapshot 入库前必须完成 ignore/sparse/.gitattributes/dry-run 门禁，确认 shadow-build、lib 输出和 AppleDouble 元数据未进入索引。",
+    match = [
+        "git add -- tools/CEGUI-0.7.1",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "sparse-checkout"],
+    decision = "prompt",
+    justification = "修改 sparse-checkout 会改变可见索引边界；必须先记录当前模式、列表和目标工作树，再执行 add/reapply。",
+    match = [
+        "git sparse-checkout add tools/CEGUI-0.7.1/**",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "clean"],
+    decision = "prompt",
+    justification = "git clean 可能删除未跟踪 vendor、资源和审计产物；执行前必须先盘点路径并确认保留策略。",
+    match = [
+        "git clean -fdx",
+    ],
+)

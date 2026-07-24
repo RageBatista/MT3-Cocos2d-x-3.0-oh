@@ -1,0 +1,92 @@
+{extend name="layout/base" /}
+
+{block name="title"}订单详情 - 玩家服务中心{/block}
+{block name="page_title"}订单详情{/block}
+
+{block name="content"}
+<!-- 状态指示器 -->
+<div class="card">
+    <div class="card-body" style="text-align: center; padding: 24px 16px;">
+        {if condition="$order['status'] == 1"}
+        <div
+            style="width: 56px; height: 56px; border-radius: 50%; background: rgba(21, 195, 119, 0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+            <i class="mdi mdi-check-circle" style="font-size: 32px; color: var(--bs-success);"></i>
+        </div>
+        <h3 style="margin: 0 0 4px; font-size: 18px; color: var(--bs-success);">支付成功</h3>
+        <p class="text-muted" style="font-size: 13px; margin: 0;">订单已完成支付</p>
+        {elseif condition="$order['status'] == 0"}
+        <div
+            style="width: 56px; height: 56px; border-radius: 50%; background: rgba(250, 166, 75, 0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+            <i class="mdi mdi-clock" style="font-size: 32px; color: var(--bs-warning);"></i>
+        </div>
+        <h3 style="margin: 0 0 4px; font-size: 18px; color: var(--bs-warning);">等待支付</h3>
+        <p class="text-muted" style="font-size: 13px; margin: 0;">请尽快完成支付</p>
+        {else/}
+        <div
+            style="width: 56px; height: 56px; border-radius: 50%; background: rgba(244, 66, 54, 0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+            <i class="mdi mdi-close-circle" style="font-size: 32px; color: var(--bs-danger);"></i>
+        </div>
+        <h3 style="margin: 0 0 4px; font-size: 18px; color: var(--bs-danger);">已取消</h3>
+        <p class="text-muted" style="font-size: 13px; margin: 0;">该订单已取消</p>
+        {/if}
+    </div>
+</div>
+
+<!-- 订单金额 -->
+<div class="card">
+    <div class="card-body" style="text-align: center; padding: 20px;">
+        <div style="font-size: 32px; font-weight: 700; color: var(--bs-primary);">¥{$order.amount}</div>
+        <div style="font-size: 14px; color: var(--bs-muted-color); margin-top: 4px;">{$order.item_name}</div>
+    </div>
+</div>
+
+<!-- 订单信息 -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-information"></i> 订单信息</h3>
+    </div>
+    <div class="card-body" style="padding: 0;">
+        <ul class="settings-list">
+            <li class="settings-item">
+                <div class="settings-left"><i class="mdi mdi-receipt"></i> <span>订单号</span></div>
+                <div class="settings-right"
+                    style="font-family: 'Consolas', monospace; font-size: 12px; word-break: break-all;">
+                    {$order.order_no}</div>
+            </li>
+            <li class="settings-item">
+                <div class="settings-left"><i class="mdi mdi-server"></i> <span>服务器</span></div>
+                <div class="settings-right">{$order.servername|default='未知'}</div>
+            </li>
+            <li class="settings-item">
+                <div class="settings-left"><i class="mdi mdi-account"></i> <span>角色</span></div>
+                <div class="settings-right">{$order.rolename|default='未知'}</div>
+            </li>
+            <li class="settings-item">
+                <div class="settings-left"><i class="mdi mdi-credit-card"></i> <span>支付方式</span></div>
+                <div class="settings-right">{$order.pay_channel|default='未知'}</div>
+            </li>
+            <li class="settings-item">
+                <div class="settings-left"><i class="mdi mdi-calendar-plus"></i> <span>创建时间</span></div>
+                <div class="settings-right">{$order.created_at}</div>
+            </li>
+            <li class="settings-item">
+                <div class="settings-left"><i class="mdi mdi-calendar-check"></i> <span>支付时间</span></div>
+                <div class="settings-right">{$order.pay_time|default='未支付'}</div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- 操作按钮 -->
+<div style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px;">
+    {if condition="$order['status'] == 0"}
+    <button type="button" class="btn btn-secondary btn-lg btn-block" disabled
+        style="cursor: not-allowed; opacity: 0.7;">
+        <i class="mdi mdi-headset"></i> 请联系客服完成支付
+    </button>
+    {/if}
+    <a href="/player/order" class="btn btn-outline-primary btn-block">
+        <i class="mdi mdi-arrow-left"></i> 返回订单列表
+    </a>
+</div>
+{/block}

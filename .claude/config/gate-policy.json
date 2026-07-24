@@ -1,0 +1,208 @@
+{
+  "schema_version": "1.0.0",
+  "updated": "2026-04-20",
+  "description": "MT3 治理决策门策略。定义如何将证据状态转换为显式决策（allow/review-required/block）。",
+  "decisions": {
+    "allow": {
+      "value": "allow",
+      "name": "允许继续",
+      "description": "满足最低治理要求，可以继续推进任务",
+      "color": "green"
+    },
+    "review_required": {
+      "value": "review_required",
+      "name": "需人工审查",
+      "description": "存在需要人工确认的风险项，但可以继续推进",
+      "color": "yellow"
+    },
+    "block": {
+      "value": "block",
+      "name": "阻断",
+      "description": "存在严重问题，必须修复后才能继续",
+      "color": "red"
+    }
+  },
+  "severity_levels": {
+    "critical": {
+      "value": "critical",
+      "name": "严重",
+      "description": "主事实源缺失或结构性漂移，必须立即修复"
+    },
+    "high": {
+      "value": "high",
+      "name": "高风险",
+      "description": "关键运行证据缺失，需人工确认后继续"
+    },
+    "medium": {
+      "value": "medium",
+      "name": "中等风险",
+      "description": "部分证据缺失，但不影响核心功能"
+    },
+    "low": {
+      "value": "low",
+      "name": "观察缺口",
+      "description": "证据缺失但属观察项，可后续补充"
+    }
+  },
+  "decision_rules": {
+    "static_consistency": {
+      "description": "静态一致性决策规则",
+      "rules": [
+        {
+          "condition": "static_compliance < 100",
+          "severity": "critical",
+          "decision": "block",
+          "reason": "静态一致性未达到100%，存在结构性问题"
+        },
+        {
+          "condition": "entry_files.state == 'missing'",
+          "severity": "critical",
+          "decision": "block",
+          "reason": "入口文件缺失，无法启动治理链"
+        },
+        {
+          "condition": "config_files.state == 'missing' AND missing_files contains 'router.json'",
+          "severity": "critical",
+          "decision": "block",
+          "reason": "核心路由配置缺失"
+        },
+        {
+          "condition": "authority_boundary.state == 'missing'",
+          "severity": "critical",
+          "decision": "block",
+          "reason": "权威来源映射缺失，无法进行校验"
+        },
+        {
+          "condition": "manifest_references.broken_references.length > 0",
+          "severity": "critical",
+          "decision": "block",
+          "reason": "存在断链的 manifest 引用"
+        },
+        {
+          "condition": "codex_native.state == 'missing'",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "Codex 原生配置缺失，需确认是否为预期状态"
+        }
+      ]
+    },
+    "runtime_evidence": {
+      "description": "运行证据决策规则",
+      "rules": [
+        {
+          "condition": "quality_gate_status.state == 'missing'",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "质量门报告缺失，需确认最近是否运行过质量门"
+        },
+        {
+          "condition": "quality_gate_status.state == 'stale'",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "质量门报告已过期，不能继续按旧结论放行"
+        },
+        {
+          "condition": "quality_gate_status.status == 'fail'",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "最近一次质量门未通过，需确认是否已修复"
+        },
+        {
+          "condition": "mcp_runtime.state == 'missing'",
+          "severity": "medium",
+          "decision": "review_required",
+          "reason": "MCP 运行时快照缺失，需手动执行 codex mcp list"
+        },
+        {
+          "condition": "mcp_runtime.state == 'stale'",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "MCP 运行时快照已过期，运行面可能已漂移"
+        },
+        {
+          "condition": "audit_reports.state == 'missing'",
+          "severity": "medium",
+          "decision": "review_required",
+          "reason": "审计报告缺失，需运行审计脚本"
+        },
+        {
+          "condition": "audit_reports.state == 'stale'",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "审计报告已过期，不能继续依据旧证据放行"
+        },
+        {
+          "condition": "runtime_dependency_audit.state == 'missing'",
+          "severity": "medium",
+          "decision": "review_required",
+          "reason": "运行时依赖审计缺失，无法判断工具链二进制风险"
+        },
+        {
+          "condition": "runtime_dependency_audit.state == 'stale'",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "运行时依赖审计已过期，工具运行面可能已漂移"
+        },
+        {
+          "condition": "runtime_dependency_audit.state == 'partial'",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "运行时依赖审计仍存在高风险 DLL 漂移或缺依赖"
+        },
+        {
+          "condition": "runtime_compliance < 50",
+          "severity": "high",
+          "decision": "review_required",
+          "reason": "运行证据低于最低基线，需先补齐证据或重新审计"
+        },
+        {
+          "condition": "session_trace.state == 'unproven'",
+          "severity": "low",
+          "decision": "allow",
+          "reason": "会话命中链证据未证明（当前阶段属观察项）"
+        }
+      ]
+    },
+    "unproven_tolerance": {
+      "description": "未证明项容忍度决策规则",
+      "rules": [
+        {
+          "condition": "unproven_count > max_allowed",
+          "severity": "medium",
+          "decision": "review_required",
+          "reason": "未证明项数量超过容忍度，需确认是否需要补充证据"
+        }
+      ]
+    }
+  },
+  "controlled_exceptions": {
+    "description": "受控例外列表，这些情况即使触发规则也不会升级决策",
+    "exceptions": [
+      {
+        "id": "session_trace_phase1",
+        "description": "第一阶段会话命中链证据未证明",
+        "applies_to": ["session_trace"],
+        "override_decision": "allow",
+        "reason": "第一阶段暂不自动采集会话命中链证据"
+      },
+      {
+        "id": "mcp_manual_only",
+        "description": "MCP 运行时快照仅手动采集",
+        "applies_to": ["mcp_runtime"],
+        "override_decision": "review_required",
+        "reason": "MCP 快照需手动执行 codex mcp list，不自动阻断"
+      }
+    ]
+  },
+  "decision_evaluation": {
+    "description": "决策评估逻辑",
+    "priority_order": ["block", "review_required", "allow"],
+    "evaluation_strategy": "highest_severity_wins",
+    "strategies": {
+      "highest_severity_wins": {
+        "description": "取最高严重性对应的决策",
+        "severity_priority": ["critical", "high", "medium", "low"]
+      }
+    }
+  }
+}

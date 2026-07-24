@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+  <link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+  <!--表格插件css-->
+  <link rel="stylesheet" href="__MB__/js/bootstrap-table/bootstrap-table.min.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <header class="card-header">
+            <div class="card-title">转区申请管理</div>
+          </header>
+          <div class="card-body">
+            <div class="card-search mb-2-5">
+              <form class="search-form" method="get" action="#!" role="form">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="row">
+                      <label class="col-sm-3 col-form-label">关键字</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" name="keyword" value="" placeholder="用户名/联系方式" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label">状态</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="status">
+                          <option value="">全部</option>
+                          <option value="0">待审核</option>
+                          <option value="1">审核通过</option>
+                          <option value="2">审核拒绝</option>
+                          <option value="3">处理中</option>
+                          <option value="4">已完成</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label">源服务器</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="source_server_id">
+                          <option value="">全部</option>
+                          {volist name="servers" id="server"}
+                          <option value="{$server.serverid}">{$server.name}</option>
+                          {/volist}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="row">
+                      <label class="col-sm-4 col-form-label">目标服务器</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="target_server_id">
+                          <option value="">全部</option>
+                          {volist name="servers" id="server"}
+                          <option value="{$server.serverid}">{$server.name}</option>
+                          {/volist}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary me-1">搜索</button>
+                    <button type="reset" class="btn btn-default">重置</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div id="toolbar" class="toolbar-btn-action">
+            </div>
+            <table id="table"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+  <script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+  <script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="__MB__/js/main.min.js"></script>
+  <!--表格插件js-->
+  <script src="__MB__/js/bootstrap-table/bootstrap-table.js"></script>
+  <script src="__MB__/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+  <!--通知弹窗-->
+  <link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+  <script src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+  <script>
+    // 构建服务器名称映射
+    var serverMap = {};
+    {volist name = "servers" id = "server" }
+    serverMap['{$server.serverid}'] = '{$server.name}';
+    {/volist }
+
+    var pagination = {
+      sidePagination: "server",
+      pageNumber: 1,
+      pageSize: 10,
+      pageList: [5, 10, 25, 50, 100],
+      paginationLoop: true,
+      paginationPagesBySide: 2
+    };
+
+    var button = {
+      buttonsClass: 'default',
+      buttonsPrefix: 'btn'
+    };
+
+    var icon = {
+      iconsPrefix: 'mdi',
+      iconSize: 'mini',
+      icons: {
+        paginationSwitchDown: 'mdi-door-closed',
+        paginationSwitchUp: 'mdi-door-open',
+        refresh: 'mdi-refresh',
+        toggleOff: 'mdi-toggle-switch-off',
+        toggleOn: 'mdi-toggle-switch',
+        columns: 'mdi-table-column-remove',
+        detailOpen: 'mdi-plus',
+        detailClose: 'mdi-minus',
+        fullscreen: 'mdi-monitor-screenshot',
+        search: 'mdi-table-search',
+        clearSearch: 'mdi-trash-can-outline'
+      }
+    };
+
+    var table = {
+      classes: 'table table-bordered table-hover table-striped lyear-table',
+      url: '/index.php?s=/{$app}/transfer/table',
+      uniqueId: 'id',
+      idField: 'id',
+      clickToSelect: true,
+      dataType: 'jsonp',
+      method: 'post',
+      toolbar: '#toolbar',
+      pagination: true,
+      showColumns: true,
+      showRefresh: true,
+      showButtonIcons: true,
+      showButtonText: false,
+      showFullscreen: true,
+      showPaginationSwitch: true,
+      totalField: 'total',
+      undefinedText: '-',
+      sortOrder: "desc",
+      ...icon,
+      ...pagination,
+      ...button
+    };
+
+    var columns = [{
+      field: 'example',
+      checkbox: true,
+      width: 3,
+      widthUnit: 'rem'
+    }, {
+      field: 'id',
+      title: 'ID',
+      align: 'center',
+      sortable: true,
+      sortName: 'id',
+      switchable: false,
+      width: 3,
+      widthUnit: 'rem'
+    }, {
+      field: 'username',
+      align: 'center',
+      title: '用户名'
+    }, {
+      field: 'source_server_id',
+      align: 'center',
+      title: '源服务器',
+      formatter: function (value) {
+        return serverMap[value] || value;
+      }
+    }, {
+      field: 'target_server_id',
+      align: 'center',
+      title: '目标服务器',
+      formatter: function (value) {
+        return serverMap[value] || value;
+      }
+    }, {
+      field: 'role',
+      align: 'center',
+      title: '角色ID'
+    }, {
+      field: 'contact',
+      align: 'center',
+      title: '联系方式'
+    }, {
+      field: 'created_at',
+      align: 'center',
+      title: '申请时间'
+    }, {
+      field: 'status',
+      title: '状态',
+      align: 'center',
+      formatter: function (value, row, index) {
+        if (row.status == 0) {
+          return '<span class="badge bg-secondary">待审核</span>';
+        } else if (row.status == 1) {
+          return '<span class="badge bg-success">审核通过</span>';
+        } else if (row.status == 2) {
+          return '<span class="badge bg-danger">审核拒绝</span>';
+        } else if (row.status == 3) {
+          return '<span class="badge bg-warning">处理中</span>';
+        } else if (row.status == 4) {
+          return '<span class="badge bg-primary">已完成</span>';
+        } else {
+          return '<span class="badge bg-secondary">未知</span>';
+        }
+      }
+    }, {
+      field: '操作',
+      align: 'center',
+      title: '操作',
+      formatter: function (value, row, index) {
+        var html = '<a href="/index.php?s=/{$app}/transfer/detail&id=' + row.id + '" class="btn btn-sm btn-info">详情</a>';
+        return html;
+      }
+    }];
+
+    $('table').bootstrapTable({
+      ...table,
+      queryParams: function (params) {
+        return {
+          limit: params.limit,
+          offset: params.offset,
+          page: (params.offset / params.limit) + 1,
+          sort: params.sort,
+          sortOrder: params.order
+        };
+      },
+      columns,
+      onLoadSuccess: function (data) {
+        $("[data-bs-toggle='tooltip']").tooltip();
+      }
+    });
+  </script>
+
+</body>
+
+</html>

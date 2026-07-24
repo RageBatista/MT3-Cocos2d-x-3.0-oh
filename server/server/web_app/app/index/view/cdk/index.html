@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <title>CDK兑换</title>
+  <link rel="stylesheet" href="__MB__/css/bootstrap.min.css">
+  <link rel="stylesheet" href="__MB__/alert/sweetalert2.min.css">
+  <style>
+    body { padding: 24px; }
+    .card { max-width: 680px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <header class="card-header"><div class="card-title">CDK兑换</div></header>
+    <div class="card-body">
+      <form id="redeemForm" action="/index/cdk/redeem" method="post">
+        <div class="mb-3">
+          <label class="form-label">CDK码</label>
+          <input type="text" name="cdk" class="form-control" placeholder="例如：XXXX-XXXX-XXXX-XXXX" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">角色ID(uid)</label>
+          <input type="number" name="uid" class="form-control" placeholder="请输入角色UID" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">区服ID(qid)</label>
+          <input type="number" name="qid" class="form-control" placeholder="请输入区服QID" required>
+        </div>
+        <button type="submit" class="btn btn-primary">立即兑换</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="__MB__/js/jquery.min.js"></script>
+  <script src="__MB__/alert/sweetalert2.all.min.js"></script>
+  <script>
+    function toast(icon, title) {
+      var Toast = Swal.mixin({ toast:true, position:"top", showConfirmButton:false, timer:1800, timerProgressBar:true });
+      Toast.fire({ icon, title });
+    }
+
+    $('#redeemForm').on('submit', function (e) {
+      e.preventDefault();
+      var $form = $(this);
+      var data = $form.serialize();
+
+      $.post($form.attr('action'), data, function (res) {
+        if (res.code === 1) {
+          toast('success', res.msg || '兑换成功');
+          Swal.fire({
+            title: '兑换成功',
+            html: `
+              <div style="text-align:left">
+                <div><b>CDK：</b>${res.data.cdk}</div>
+                <div><b>等级：</b>${res.data.lv ?? ''}</div>
+                <div><b>UID：</b>${res.data.uid}</div>
+                <div><b>QID：</b>${res.data.qid}</div>
+                <div><b>使用时间：</b>${res.data.used_at}</div>
+              </div>
+            `,
+            icon: 'success',
+            confirmButtonText: '好的'
+          });
+          $form[0].reset();
+        } else {
+          toast('error', res.msg || '兑换失败');
+        }
+      }).fail(function () {
+        toast('error', '服务异常');
+      });
+    });
+  </script>
+</body>
+</html>

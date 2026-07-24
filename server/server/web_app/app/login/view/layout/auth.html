@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>{$title|default='授权登录'}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="__MB__/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+    <!-- Material Design Icons -->
+    <link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+    <!-- 授权控制台公共样式 -->
+    <link rel="stylesheet" type="text/css" href="/static/auth/css/auth.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+    
+    {/* 页面特定样式 */}
+    {block name="style"}{/block}
+</head>
+<body>
+    <div class="auth-page-wrap auth-fade-in">
+        {/* 标题卡片 */}
+        <section class="auth-hero-card">
+            <h1 class="auth-hero-title">{$page_title|default='梦幻授权登录'}</h1>
+            <p class="auth-hero-subtitle">{$page_subtitle|default='移动端优先布局，统一后台风格，支持新授权与已有授权两种模式。'}</p>
+        </section>
+        
+        {/* 内容区域 */}
+        {block name="content"}{/block}
+    </div>
+    
+    <!-- jQuery -->
+    <script src="__MB__/js/jquery.min.js"></script>
+    <!-- Popper -->
+    <script src="__MB__/js/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="__MB__/js/bootstrap.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="__MB__/alert/sweetalert2.all.min.js"></script>
+    
+    {/* 页面特定脚本 */}
+    {block name="script"}{/block}
+</body>
+</html>

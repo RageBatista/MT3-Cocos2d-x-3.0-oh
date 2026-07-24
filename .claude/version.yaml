@@ -1,0 +1,271 @@
+# MT3 项目 Claude AI 配置版本管理
+# 单一真实来源 (Single Source of Truth)
+# 所有配置文件应引用此文件获取版本信息
+
+project:
+  name: MT3
+  description: 梦幻西游 MG 版本 - AI 辅助开发智能配置
+  version: 2.5.0
+  updated: 2026-03-06
+  status: production-ready
+
+config:
+  claude:
+    version: 2.3.0
+    file: CLAUDE.md
+    description: AI 配置总入口
+  rules:
+    version: 4.2.0
+    file: RULES.md
+    description: 强制性规则
+  knowledge_base:
+    version: 1.1.0
+    file: KNOWLEDGE_BASE.md
+    description: 技术知识库 (AI专用)
+  index:
+    version: 2.5.0
+    file: INDEX.md
+    description: 目录索引
+  build_guide:
+    version: 1.0.0
+    file: BUILD_GUIDE.md
+    description: 构建入口索引
+  codex_bridge:
+    version: 1.0.0
+    file: CODEX_BRIDGE.md
+    description: Codex 与 Claude 配置桥接入口
+  router:
+    version: 1.0.0
+    file: config/router.json
+    description: 意图路由配置
+  agents_manifest:
+    version: 1.0.0
+    file: config/agents.manifest.json
+    description: Agent 机器可读清单
+  skills_manifest:
+    version: 1.2.0
+    file: config/skills.manifest.json
+    description: Skill 机器可读清单
+  commands_manifest:
+    version: 1.0.0
+    file: config/commands.manifest.json
+    description: Command 机器可读清单
+  hooks_manifest:
+    version: 1.0.0
+    file: config/hooks.manifest.json
+    description: Hook 机器可读清单
+  mcp_manifest:
+    version: 1.0.0
+    file: config/mcp.manifest.json
+    description: MCP 机器可读清单
+  audit_script:
+    version: 1.0.0
+    file: scripts/audit_claude_config.ps1
+    description: 配置一致性审计脚本
+  quality_gate_script:
+    version: 1.0.0
+    file: scripts/quality_gate.ps1
+    description: 改动集质量门禁脚本
+
+agents:
+  version: 1.0.0
+  directory: agents/
+  count: 11
+  items:
+    - name: architecture-analyst
+      version: 1.0.0
+      model: claude-3.5-sonnet
+      priority: medium
+    - name: build-expert
+      version: 1.0.0
+      model: claude-3.5-sonnet
+      priority: high
+    - name: code-reviewer
+      version: 1.0.0
+      model: claude-3-haiku
+      priority: high
+    - name: test-engineer
+      version: 1.0.0
+      model: claude-3.5-sonnet
+      priority: medium
+    - name: deploy-specialist
+      version: 1.0.0
+      model: claude-3.5-sonnet
+      priority: medium
+    - name: doc-writer
+      version: 1.0.0
+      model: claude-3-haiku
+      priority: low
+    - name: security-auditor
+      version: 1.0.0
+      model: claude-sonnet-4-5
+      priority: high
+    - name: performance-analyst
+      version: 1.0.0
+      model: claude-sonnet-4-5
+      priority: medium
+    - name: planner
+      version: 1.0.0
+      model: claude-3.5-sonnet
+      priority: high
+    - name: build-error-resolver
+      version: 1.0.0
+      model: claude-3.5-sonnet
+      priority: high
+    - name: workflow-orchestrator
+      version: 1.0.0
+      model: claude-3.5-sonnet
+      priority: medium
+
+skills:
+  version: 2.7.0
+  directory: skills/
+  count: 27
+  categories:
+    - name: client
+      count: 10
+      skills:
+        - cpp-development
+        - lua-scripting
+        - cocos2dx-usage
+        - cegui-usage
+        - tolua-binding
+        - nuclear-engine
+        - fireclient-framework
+        - windows-build
+        - android-build
+        - android-p0-boot-log
+    - name: server
+      count: 5
+      skills:
+        - java-development
+        - ant-build
+        - gnet-framework
+        - xbean-system
+        - distributed-arch
+    - name: common
+      count: 12
+      skills:
+        - git-workflow
+        - debugging
+        - performance-optimization
+        - dependency-management
+        - protocol-design
+        - build-troubleshooting
+        - project-context
+        - engine-tools-build
+        - search-first
+        - verification-loop
+        - claude-config-engineering
+        - continuous-learning-v2
+
+rules:
+  version: 1.3.0
+  directory: rules/
+  count: 9
+  items:
+    - 01-toolchain
+    - 02-code-style
+    - 03-security
+    - 04-generated-code
+    - 05-document-naming
+    - 06-project-organization
+    - 07-agent-orchestration
+    - 08-verification-gates
+    - 09-claude-config-governance
+
+commands:
+  version: 1.2.0
+  directory: commands/
+  count: 15
+  items:
+    - status
+    - plan
+    - orchestrate
+    - verify
+    - mcp-status
+    - audit-config
+    - quality-gate
+    - build-win
+    - build-android
+    - build-server
+    - build-cegui
+    - fix-cegui
+    - diagnose-build
+    - codegen
+    - clean
+
+hooks:
+  version: 1.1.0
+  directory: hooks/
+  count: 7
+  items:
+    - session-start-profile
+    - pre-msbuild-toolset-guard
+    - pre-git-commit-secret-guard
+    - post-edit-generated-code-guard
+    - post-edit-encoding-reminder
+    - stop-config-audit
+    - stop-quality-gate
+
+proxies:
+  version: 1.1.0
+  directory: config/
+  count: 6
+  items:
+    - architecture-proxy
+    - build-proxy
+    - quality-proxy
+    - release-proxy
+    - evolution-proxy
+    - config-governance-proxy
+
+workflows:
+  version: 1.2.0
+  directory: workflows/
+  count: 9
+  items:
+    - windows-build-workflow
+    - android-build-workflow
+    - server-build-workflow
+    - cegui-build-workflow
+    - error-diagnosis-workflow
+    - skill-evolution-workflow
+    - verification-workflow
+    - orchestrate-workflow
+    - claude-config-workflow
+
+errors:
+  version: 1.0.0
+  directory: errors/
+  count: 5
+  items:
+    - compiler-errors
+    - linker-errors
+    - msbuild-errors
+    - cegui-specific-errors
+
+templates:
+  version: 1.0.0
+  directory: templates/
+  count: 4
+  items:
+    - skill-template
+    - command-template
+    - workflow-template
+
+changelog:
+  file: CHANGELOG.md
+  version: 2.5.0
+
+# 版本号格式说明:
+# 主版本.次版本.修订版本
+# - 主版本: 重大架构变更，不兼容更新
+# - 次版本: 新增功能，向后兼容
+# - 修订版本: Bug修复，向后兼容
+
+# 更新日志:
+# 2.5.0 (2026-03-06)
+#   - 新增 Claude 配置治理技能、工作流、规则与命令
+#   - 增加 SessionStart/Stop 生命周期 Hook 与质量门禁脚本
+#   - 将 .claude 配置治理纳入独立 proxy / route / MCP 绑定

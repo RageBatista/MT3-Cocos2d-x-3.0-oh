@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="effect"> 
+
+	  <bean name="SAttrEffectID2Name" from="技能相关表/s属性效果id表.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="属性id" /> 属性id
+			  <variable name="classname" type="string" fromCol="属性名"   />  属性名		  
+			  <variable name="attrname" type="string" fromCol="变量名"   /> 属性名
+			  <variable name="initValue" type="double" fromCol="初值"   /> 
+			  <variable name="ablEffctId" type="int" fromCol="数值型效果id" /> 数值型效果id
+			  <variable name="ablEffctName" type="string" fromCol="数值型变量名"   /> 数值型变量名
+			  <variable name="ablLimit" type="double" fromCol="数值型值上限"   /> 
+			  <variable name="pctEffctId" type="int" fromCol="百分比型效果id" /> 百分比型效果id
+			  <variable name="pctEffctName" type="string" fromCol="百分比型变量名"   /> 百分比型变量名		
+		      <variable name="pctLimit" type="double" fromCol="百分比型值上限"   /> 			  
+		</bean>
+		
+		
+	</namespace>	

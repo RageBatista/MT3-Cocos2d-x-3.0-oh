@@ -1,0 +1,332 @@
+{extend name="layout/base" /}
+
+{block name="title"}转区申请 - 玩家服务中心{/block}
+{block name="page_title"}转区申请{/block}
+
+{block name="content"}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-swap-horizontal"></i> 提交转区申请</h3>
+    </div>
+    <div class="card-body">
+        <form id="transferForm" method="post" action="/player/transfer/submit">
+            <input type="hidden" name="csrf_token" value="{$csrf_token}">
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-server"></i> 源服务器</label>
+                <select class="form-control" name="source_server_id" id="sourceServerId" required>
+                    <option value="">请选择源服务器</option>
+                    {volist name="servers" id="server"}
+                    <option value="{$server.serverid}">{$server.name}</option>
+                    {/volist}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-account"></i> 选择角色</label>
+                <select class="form-control" name="role_id" id="roleId" required>
+                    <option value="">请先选择源服务器</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-server-network"></i> 目标服务器</label>
+                <select class="form-control" name="target_server_id" id="targetServerId" required>
+                    <option value="">请选择目标服务器</option>
+                    {volist name="servers" id="server"}
+                    <option value="{$server.serverid}">{$server.name}</option>
+                    {/volist}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-phone"></i> 联系方式 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="contact" placeholder="手机号或邮箱，方便我们联系您" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-text"></i> 转区原因 <span class="text-danger">*</span></label>
+                <textarea class="form-control" name="reason" rows="5" placeholder="请详细说明转区原因（至少10个字符）"
+                    required></textarea>
+            </div>
+
+            <div class="alert alert-info">
+                <i class="mdi mdi-information"></i> 转区说明：
+                <ul class="mb-0 mt-2">
+                    <li>转区前请确保角色不在游戏中</li>
+                    <li>转区后角色数据将迁移到目标服务器</li>
+                    <li>转区需要一定时间处理，请耐心等待</li>
+                    <li>如有问题请联系客服</li>
+                </ul>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="mdi mdi-send"></i> 提交转区申请
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-history"></i> 我的转区申请记录</h3>
+    </div>
+    <div class="card-body" style="padding: 0;">
+        {if !empty($transfers)}
+        {volist name="transfers" id="vo"}
+        <div class="transfer-item">
+            <div class="transfer-header">
+                <h4 class="transfer-title">
+                    <i class="mdi mdi-server"></i> {$vo.source_server_name|htmlspecialchars} →
+                    {$vo.target_server_name|htmlspecialchars}
+                </h4>
+                {if $vo.status == 0}
+                <span class="badge badge-secondary"><i class="mdi mdi-clock"></i> 待审核</span>
+                {elseif $vo.status == 1}
+                <span class="badge badge-success"><i class="mdi mdi-check"></i> 审核通过</span>
+                {elseif $vo.status == 2}
+                <span class="badge badge-danger"><i class="mdi mdi-close"></i> 审核拒绝</span>
+                {elseif $vo.status == 3}
+                <span class="badge badge-warning"><i class="mdi mdi-cog"></i> 处理中</span>
+                {elseif $vo.status == 4}
+                <span class="badge badge-primary"><i class="mdi mdi-check-circle"></i> 已完成</span>
+                {else/}
+                <span class="badge badge-secondary">未知</span>
+                {/if}
+            </div>
+            <div class="transfer-info">
+                <p class="mb-1"><i class="mdi mdi-account"></i> 角色ID：{$vo.role|htmlspecialchars}</p>
+                <p class="mb-1"><i class="mdi mdi-text"></i> 转区原因：{$vo.reason|default=$vo.info|default='-'|htmlspecialchars}</p>
+                <p class="mb-0 text-muted" style="font-size: 12px;">
+                    <i class="mdi mdi-calendar"></i> 申请时间：{$vo.time|default=$vo.created_at|default='-'}
+                </p>
+            </div>
+
+            {if !empty($vo.reply)}
+            <div class="transfer-reply">
+                <strong style="color: var(--bs-primary); font-size: 13px;">
+                    <i class="mdi mdi-reply"></i> 客服回复：
+                </strong>
+                <p style="margin: 6px 0 0; font-size: 13px;">{$vo.reply|htmlspecialchars}</p>
+            </div>
+            {/if}
+        </div>
+        {/volist}
+
+        {if $pages > 1}
+        <div style="padding: 16px; text-align: center;">
+            <div class="pagination">
+                {if $page > 1}
+                <a href="?page=1" class="page-link">首页</a>
+                <a href="?page={$page-1}" class="page-link">上一页</a>
+                {/if}
+                <span class="page-current">第 {$page} / {$pages} 页</span>
+                {if $page < $pages} <a href="?page={$page+1}" class="page-link">下一页</a>
+                    <a href="?page={$pages}" class="page-link">末页</a>
+                    {/if}
+            </div>
+        </div>
+        {/if}
+        {else/}
+        <div class="player-empty">
+            <i class="mdi mdi-swap-horizontal"></i>
+            <p>暂无转区申请记录</p>
+        </div>
+        {/if}
+    </div>
+</div>
+
+<style>
+    .transfer-item {
+        padding: 16px;
+        border-bottom: 1px solid var(--bs-border-color, #dee2e6);
+    }
+
+    .transfer-item:last-child {
+        border-bottom: none;
+    }
+
+    .transfer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .transfer-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        color: var(--bs-body-color, #333);
+    }
+
+    .transfer-info p {
+        margin-bottom: 4px;
+        color: var(--bs-secondary-color, #6c757d);
+    }
+
+    .transfer-reply {
+        margin-top: 12px;
+        padding: 12px;
+        background: var(--bs-light, #f8f9fa);
+        border-radius: 8px;
+    }
+
+    .player-empty {
+        padding: 40px 20px;
+        text-align: center;
+        color: var(--bs-secondary-color, #6c757d);
+    }
+
+    .player-empty i {
+        font-size: 48px;
+        margin-bottom: 12px;
+        opacity: 0.5;
+    }
+
+    .player-empty p {
+        margin: 0;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .page-link {
+        padding: 6px 12px;
+        border: 1px solid var(--bs-border-color, #dee2e6);
+        border-radius: 4px;
+        color: var(--bs-primary, #007bff);
+        text-decoration: none;
+    }
+
+    .page-link:hover {
+        background: var(--bs-light, #f8f9fa);
+    }
+
+    .page-current {
+        padding: 6px 12px;
+        color: var(--bs-secondary-color, #6c757d);
+    }
+</style>
+{/block}
+
+{block name="script"}
+<script id="transferRolesData" type="application/json">{:json_encode($roles)}</script>
+<script>
+    var rolesData = [];
+    (function initRolesData() {
+        var dataNode = document.getElementById('transferRolesData');
+        if (!dataNode) {
+            rolesData = [];
+            return;
+        }
+        try {
+            rolesData = JSON.parse(dataNode.textContent || '[]');
+        } catch (e) {
+            rolesData = [];
+        }
+    })();
+
+    function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
+    function renderRoles($roleSelect, roles) {
+        $roleSelect.empty().append('<option value="">请选择角色</option>');
+
+        if (Array.isArray(roles)) {
+            roles.forEach(function (role) {
+                var roleId = String(role.playerid || '');
+                if (!roleId) {
+                    return;
+                }
+
+                var roleName = role.playername || role.rolename || ('角色' + roleId);
+                var level = parseInt(role.level || 0, 10);
+                if (isNaN(level) || level < 0) {
+                    level = 0;
+                }
+
+                $roleSelect.append(
+                    '<option value="' + escapeHtml(roleId) + '">' +
+                    escapeHtml(roleName) + ' (Lv.' + level + ')</option>'
+                );
+            });
+        }
+
+        if ($roleSelect.find('option').length <= 1) {
+            $roleSelect.append('<option value="" disabled>该服务器暂无角色</option>');
+        }
+    }
+
+    function loadRolesByServer(serverId) {
+        var $roleSelect = $('#roleId');
+        $roleSelect.empty().append('<option value="">正在加载角色...</option>');
+
+        if (!serverId) {
+            $roleSelect.empty().append('<option value="">请先选择源服务器</option>');
+            return;
+        }
+
+        $.get('/player/transfer/getRoles', { server_id: serverId }, function (res) {
+            if (res && parseInt(res.code || 0, 10) === 1 && Array.isArray(res.data)) {
+                renderRoles($roleSelect, res.data);
+                return;
+            }
+
+            var localRoles = [];
+            if (Array.isArray(rolesData)) {
+                localRoles = rolesData.filter(function (role) {
+                    return String(role.serverid || '') === String(serverId);
+                });
+            }
+            renderRoles($roleSelect, localRoles);
+        }, 'json').fail(function () {
+            var localRoles = [];
+            if (Array.isArray(rolesData)) {
+                localRoles = rolesData.filter(function (role) {
+                    return String(role.serverid || '') === String(serverId);
+                });
+            }
+            renderRoles($roleSelect, localRoles);
+        });
+    }
+
+    $('#sourceServerId').change(function () {
+        loadRolesByServer($(this).val());
+    });
+
+    $('#targetServerId').change(function () {
+        var sourceServerId = $('#sourceServerId').val();
+        var targetServerId = $(this).val();
+
+        if (sourceServerId && targetServerId && sourceServerId == targetServerId) {
+            showToast('源服务器和目标服务器不能相同', 'error');
+            $(this).val('');
+        }
+    });
+
+    ajaxSubmit('#transferForm', {
+        onSuccess: function (res) {
+            setTimeout(function () { location.reload(); }, 800);
+        }
+    });
+
+    (function initTransferRoleSelect() {
+        var $source = $('#sourceServerId');
+        if (!$source.val()) {
+            var $availableOptions = $source.find('option[value!=""]');
+            if ($availableOptions.length === 1) {
+                $source.val($availableOptions.first().val());
+            }
+        }
+        loadRolesByServer($source.val());
+    })();
+</script>
+{/block}

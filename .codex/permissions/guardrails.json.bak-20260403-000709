@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "updated": "2026-03-31",
+  "runtime_status": {
+    "mode": "audit-sidecar",
+    "native_enforcement": [
+      ".codex/requirements.toml",
+      ".codex/rules/mt3-guardrails.rules"
+    ],
+    "note": "本文件保留为项目治理与审计说明层；Codex 原生执行约束以 requirements.toml 与 .rules 文件为准。"
+  },
+  "rules": [
+    {
+      "id": "win32-build-canonical-entry",
+      "severity": "block",
+      "native_enforcement": "requirements",
+      "scope": "command",
+      "match": {
+        "any": [
+          "client/Build-MT3-v120.ps1 -Configuration"
+        ]
+      },
+      "message": "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1；不要直接把 client/Build-MT3-v120.ps1 当外部入口。"
+    },
+    {
+      "id": "win32-manual-rebuild-sequence",
+      "severity": "warn",
+      "native_enforcement": "rules",
+      "scope": "command",
+      "match": {
+        "any": [
+          "msbuild engine\\engine.win32.vcxproj",
+          "msbuild client\\MT3Win32App\\FireClient.win32.vcxproj",
+          "msbuild client\\MT3Win32App\\mt3.win32.vcxproj"
+        ]
+      },
+      "message": "检测到 Win32 手动重编命令。该链路允许用于官方排障/重编，但请按 .claude/BUILD_GUIDE.md 的 engine -> FireClient -> MT3 顺序执行，并显式声明 /p:PlatformToolset=v120。"
+    },
+    {
+      "id": "win32-toolset-v120-required",
+      "severity": "block",
+      "native_enforcement": "sidecar-only",
+      "scope": "command",
+      "match": {
+        "all": [
+          "msbuild"
+        ],
+        "none": [
+          "/p:PlatformToolset=v120"
+        ]
+      },
+      "message": "检测到 msbuild 命令未显式声明 v120。"
+    },
+    {
+      "id": "generated-code-protected",
+      "severity": "warn",
+      "native_enforcement": "sidecar-only",
+      "scope": "path",
+      "paths": [
+        "server/**/xbean/*.java",
+        "server/**/rpc/*.java",
+        "client/**/tolua++/*.cpp",
+        "client/FireClient/Application/ProtoDef/**"
+      ],
+      "message": "命中生成代码路径，优先回源定义再生成。"
+    },
+    {
+      "id": "android-gradle-disallowed",
+      "severity": "block",
+      "native_enforcement": "requirements",
+      "scope": "command",
+      "match": {
+        "any": [
+          "gradlew",
+          "gradle "
+        ]
+      },
+      "message": "Android 主线构建禁止切到 Gradle；请使用 NDK r10e + Ant 或 tools/scripts/Build-Android-Locojoy-WithGate.ps1。"
+    },
+    {
+      "id": "server-non-ant-build-disallowed",
+      "severity": "block",
+      "native_enforcement": "requirements",
+      "scope": "command",
+      "match": {
+        "all": [
+          "server"
+        ],
+        "any": [
+          "mvn ",
+          "mvn.cmd",
+          "maven ",
+          "gradlew",
+          "gradle "
+        ]
+      },
+      "message": "服务端主线构建必须保持 JDK 1.7/1.8 + Ant，不要切到 Maven 或 Gradle。"
+    },
+    {
+      "id": "unsafe-text-write-without-encoding",
+      "severity": "block",
+      "native_enforcement": "rules",
+      "scope": "command",
+      "match": {
+        "any": [
+          "Set-Content ",
+          "Add-Content ",
+          "Out-File "
+        ],
+        "none": [
+          "-Encoding "
+        ]
+      },
+      "message": "检测到未显式声明编码的文本写入命令。修改中文文件或历史源码时必须显式指定编码，或改用保持原编码的 .NET 写回方式。"
+    },
+    {
+      "id": "dependencies-vendor-protected",
+      "severity": "warn",
+      "native_enforcement": "sidecar-only",
+      "scope": "path",
+      "paths": [
+        "dependencies/**"
+      ],
+      "message": "命中 vendor/第三方目录。默认不要做批量格式化、批量转码或统一风格治理，只处理经过确认的专项补丁。"
+    }
+  ]
+}

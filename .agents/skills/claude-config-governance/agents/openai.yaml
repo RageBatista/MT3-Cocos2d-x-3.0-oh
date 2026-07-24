@@ -1,0 +1,13 @@
+interface:
+  display_name: "Claude 桥接治理"
+  short_description: "治理 MT3 的 .claude 桥接与跨工具兼容；不处理 .codex 或 .agents 原生配置。"
+  default_prompt: "使用 $claude-config-governance 审查当前 .claude 桥接或兼容层改动，并给出最小验证步骤。"
+policy:
+  allow_implicit_invocation: false
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "openaiDeveloperDocs"
+      description: "OpenAI developer documentation MCP server"
+      transport: "streamable_http"
+      url: "https://developers.openai.com/mcp"

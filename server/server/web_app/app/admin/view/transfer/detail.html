@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{$config.name}</title>
+  <link rel="shortcut icon" type="image/x-icon" href="{$config.icon}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+  <link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+  <script src="__MB__/select/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <header class="card-header">
+            <div class="card-title">转区申请详情</div>
+          </header>
+          <div class="card-body">
+            <!-- 申请信息 -->
+            <div class="mb-4">
+              <h5 class="mb-3"><i class="mdi mdi-information"></i> 申请信息</h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>申请ID：</strong>{$transfer.id}</p>
+                  <p><strong>用户名：</strong>{$transfer.username}</p>
+                  <p><strong>源服务器：</strong>{$sourceServer.name|default='未知'}</p>
+                  <p><strong>目标服务器：</strong>{$targetServer.name|default='未知'}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>角色ID：</strong>{$transfer.role}</p>
+                  <p><strong>角色名：</strong>{$role.playername|default='未知'}</p>
+                  <p><strong>联系方式：</strong>{$transfer.contact}</p>
+                  <p><strong>申请时间：</strong>{$transfer.created_at|default=$transfer.time}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 转区原因 -->
+            <div class="mb-4">
+              <h5 class="mb-3"><i class="mdi mdi-text"></i> 转区原因</h5>
+              <div class="alert alert-info">
+                {$transfer.info}
+              </div>
+            </div>
+
+            <!-- 当前状态 -->
+            <div class="mb-4">
+              <h5 class="mb-3"><i class="mdi mdi-flag"></i> 当前状态</h5>
+              {if $transfer.status == 0}
+              <span class="badge bg-secondary fs-6">待审核</span>
+              {elseif $transfer.status == 1}
+              <span class="badge bg-success fs-6">审核通过</span>
+              {elseif $transfer.status == 2}
+              <span class="badge bg-danger fs-6">审核拒绝</span>
+              {elseif $transfer.status == 3}
+              <span class="badge bg-warning fs-6">处理中</span>
+              {elseif $transfer.status == 4}
+              <span class="badge bg-primary fs-6">已完成</span>
+              {/if}
+
+              {if !empty($transfer.reply)}
+              <div class="alert alert-warning mt-3">
+                <strong>回复：</strong>{$transfer.reply}
+              </div>
+              {/if}
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="mb-4">
+              <h5 class="mb-3"><i class="mdi mdi-cog"></i> 操作</h5>
+
+              {if $transfer.status == 0}
+              <!-- 待审核状态 -->
+              <button type="button" class="btn btn-success me-2" onclick="showApproveModal()">
+                <i class="mdi mdi-check"></i> 审核通过
+              </button>
+              <button type="button" class="btn btn-danger" onclick="showRejectModal()">
+                <i class="mdi mdi-close"></i> 审核拒绝
+              </button>
+
+              {elseif $transfer.status == 1}
+              <!-- 审核通过状态 -->
+              <button type="button" class="btn btn-warning me-2" onclick="processTransfer()">
+                <i class="mdi mdi-cog"></i> 开始处理
+              </button>
+
+              {elseif $transfer.status == 3}
+              <!-- 处理中状态 -->
+              <button type="button" class="btn btn-primary me-2" onclick="autoExecuteTransfer()">
+                <i class="mdi mdi-auto-fix"></i> 自动执行转区
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="showCompleteModal()">
+                <i class="mdi mdi-check-circle"></i> 手动完成转区
+              </button>
+
+              {/if}
+            </div>
+
+            <!-- 返回按钮 -->
+            <div>
+              <a href="/index.php?s=/{$app}/transfer/list" class="btn btn-secondary">
+                <i class="mdi mdi-arrow-left"></i> 返回列表
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 审核通过模态框 -->
+  <div class="modal fade" id="approveModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">审核通过</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">回复内容（选填）</label>
+            <textarea class="form-control" id="approveReply" rows="3">审核通过，正在准备转区</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-success" onclick="approveTransfer()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 审核拒绝模态框 -->
+  <div class="modal fade" id="rejectModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">审核拒绝</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">拒绝原因 <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="rejectReason" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-danger" onclick="rejectTransfer()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 完成转区模态框 -->
+  <div class="modal fade" id="completeModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">完成转区</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">目标角色ID <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="targetRoleId" placeholder="请输入转区后的角色ID" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" onclick="completeTransfer()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+  <script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+  <script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+  <!--通知弹窗-->
+  <link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+  <script src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+  <script>
+    var transferId = { $transfer.id };
+    var csrf_token = "{$csrf_token}";
+
+    function showApproveModal() {
+      $('#approveModal').modal('show');
+    }
+
+    function showRejectModal() {
+      $('#rejectModal').modal('show');
+    }
+
+    function showCompleteModal() {
+      $('#completeModal').modal('show');
+    }
+
+    function approveTransfer() {
+      var reply = $('#approveReply').val();
+
+      $.post('/index.php?s=/{$app}/transfer/approve', {
+        id: transferId,
+        reply: reply,
+        csrf_token: csrf_token
+      }, function (res) {
+        if (res.code == 1) {
+          Swal.fire({
+            icon: 'success',
+            title: res.msg,
+            timer: 1500
+          }).then(function () {
+            location.reload();
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: res.msg
+          });
+        }
+      });
+    }
+
+    function rejectTransfer() {
+      var reason = $('#rejectReason').val();
+
+      if (!reason) {
+        Swal.fire({
+          icon: 'warning',
+          title: '请填写拒绝原因'
+        });
+        return;
+      }
+
+      $.post('/index.php?s=/{$app}/transfer/reject', {
+        id: transferId,
+        reply: reason,
+        csrf_token: csrf_token
+      }, function (res) {
+        if (res.code == 1) {
+          Swal.fire({
+            icon: 'success',
+            title: res.msg,
+            timer: 1500
+          }).then(function () {
+            location.reload();
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: res.msg
+          });
+        }
+      });
+    }
+
+    function processTransfer() {
+      $.post('/index.php?s=/{$app}/transfer/process', {
+        id: transferId,
+        csrf_token: csrf_token
+      }, function (res) {
+        if (res.code == 1) {
+          Swal.fire({
+            icon: 'success',
+            title: res.msg,
+            timer: 1500
+          }).then(function () {
+            location.reload();
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: res.msg
+          });
+        }
+      });
+    }
+
+    function completeTransfer() {
+      var targetRoleId = $('#targetRoleId').val();
+
+      if (!targetRoleId) {
+        Swal.fire({
+          icon: 'warning',
+          title: '请输入目标角色ID'
+        });
+        return;
+      }
+
+      $.post('/index.php?s=/{$app}/transfer/complete', {
+        id: transferId,
+        target_role_id: targetRoleId,
+        csrf_token: csrf_token
+      }, function (res) {
+        if (res.code == 1) {
+          Swal.fire({
+            icon: 'success',
+            title: res.msg,
+            timer: 1500
+          }).then(function () {
+            location.reload();
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: res.msg
+          });
+        }
+      });
+    }
+
+    function autoExecuteTransfer() {
+      Swal.fire({
+        title: '确认执行转区？',
+        text: '此操作将自动执行角色数据迁移，请确认角色已下线',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确定执行',
+        cancelButtonText: '取消'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: '正在执行转区...',
+            text: '请稍候，这可能需要几分钟时间',
+            icon: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false
+          });
+
+          $.post('/index.php?s=/{$app}/transfer/autoExecute', {
+            id: transferId,
+            csrf_token: csrf_token
+          }, function (res) {
+            if (res.code == 1) {
+              Swal.fire({
+                icon: 'success',
+                title: '转区成功',
+                text: '目标角色ID：' + res.data.target_role_id
+              }).then(function () {
+                location.reload();
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: '转区失败',
+                text: res.msg
+              });
+            }
+          });
+        }
+      });
+    }
+  </script>
+
+</body>
+
+</html>

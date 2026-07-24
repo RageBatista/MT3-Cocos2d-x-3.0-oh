@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>玩家登录日志</title>
+<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+<link rel="stylesheet" href="__MB__/js/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+<style>
+.badge-online { background-color: #28a745; }
+.badge-offline { background-color: #6c757d; }
+</style>
+</head>
+
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <header class="card-header">
+          <div class="card-title">玩家登录日志</div>
+        </header>
+        <div class="card-body">
+          <!-- 搜索表单 -->
+          <div class="card-search mb-2-5">
+            <form class="search-form" method="get" action="/index.php?s=/{$app}/log/playerLogin" role="form">
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="col-form-label">角色ID</label>
+                  <input type="text" class="form-control" name="role_id" value="{$filter.role_id|default=''}" placeholder="角色ID" />
+                </div>
+                <div class="col-md-2">
+                  <label class="col-form-label">角色名称</label>
+                  <input type="text" class="form-control" name="role_name" value="{$filter.role_name|default=''}" placeholder="角色名称" />
+                </div>
+                <div class="col-md-2">
+                  <label class="col-form-label">账号</label>
+                  <input type="text" class="form-control" name="account" value="{$filter.account|default=''}" placeholder="账号" />
+                </div>
+                <div class="col-md-2">
+                  <label class="col-form-label">IP地址</label>
+                  <input type="text" class="form-control" name="ip" value="{$filter.ip|default=''}" placeholder="IP地址" />
+                </div>
+                <div class="col-md-2">
+                  <label class="col-form-label">开始日期</label>
+                  <input type="date" class="form-control" name="start_date" value="{$filter.start_date|default=''}" />
+                </div>
+                <div class="col-md-2">
+                  <label class="col-form-label">结束日期</label>
+                  <input type="date" class="form-control" name="end_date" value="{$filter.end_date|default=''}" />
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary me-1">搜索</button>
+                  <button type="reset" class="btn btn-default" onclick="location.href='/index.php?s=/{$app}/log/playerLogin'">重置</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- 数据表格 -->
+          <table id="loginLogTable"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+<script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+<script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+<script src="__MB__/js/bootstrap-table/bootstrap-table.js"></script>
+<script src="__MB__/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+<script>
+var pagination = {
+    sidePagination: "server",
+    pageNumber: 1,
+    pageSize: 10,
+    pageList: [10, 25, 50, 100],
+    paginationLoop: true,
+    paginationPagesBySide: 2
+};
+
+var button = {
+    buttonsClass: 'default',
+    buttonsPrefix: 'btn'
+};
+
+var icon = {
+    iconsPrefix: 'mdi',
+    iconSize: 'mini',
+    icons: {
+        paginationSwitchDown: 'mdi-door-closed',
+        paginationSwitchUp: 'mdi-door-open',
+        refresh: 'mdi-refresh',
+        toggleOff: 'mdi-toggle-switch-off',
+        toggleOn: 'mdi-toggle-switch',
+        columns: 'mdi-table-column-remove',
+        detailOpen: 'mdi-plus',
+        detailClose: 'mdi-minus',
+        fullscreen: 'mdi-monitor-screenshot',
+        search: 'mdi-table-search',
+        clearSearch: 'mdi-trash-can-outline'
+    }
+};
+
+var table = {
+    classes: 'table table-bordered table-hover table-striped lyear-table',
+    url: '/index.php?s=/{$app}/log/playerLoginList',
+    uniqueId: 'role_id',
+    idField: 'role_id',
+    clickToSelect: true,
+    dataType: 'jsonp',
+    method: 'post',
+    toolbar: '#toolbar',
+    pagination: true,
+    showColumns: true,
+    showRefresh: true,
+    showButtonIcons: true,
+    showButtonText: false,
+    showFullscreen: true,
+    showPaginationSwitch: true,
+    totalField: 'total',
+    undefinedText: '-',
+    sortOrder: "desc",
+    sortName: 'login_time',
+    ...icon,
+    ...pagination,
+    ...button
+};
+
+var columns = [{
+    field: 'role_id',
+    title: '角色ID',
+    align: 'center',
+    sortable: true,
+    width: '80px'
+}, {
+    field: 'role_name',
+    title: '角色名称',
+    align: 'center',
+    width: '120px'
+}, {
+    field: 'account',
+    title: '账号',
+    align: 'center',
+    width: '120px'
+}, {
+    field: 'login_time',
+    title: '登录时间',
+    align: 'center',
+    sortable: true,
+    width: '160px',
+    formatter: function(value) {
+        return value || '-';
+    }
+}, {
+    field: 'logout_time',
+    title: '退出时间',
+    align: 'center',
+    width: '160px',
+    formatter: function(value) {
+        return value || '<span style="color:#999">在线中</span>';
+    }
+}, {
+    field: 'ip',
+    title: 'IP地址',
+    align: 'center',
+    width: '120px'
+}, {
+    field: 'device_info',
+    title: '设备信息',
+    align: 'center',
+    width: '200px',
+    formatter: function(value) {
+        if (!value || value.trim() === '') {
+            return '-';
+        }
+        return '<span title="' + value + '">' + value + '</span>';
+    }
+}, {
+    field: 'status',
+    title: '状态',
+    align: 'center',
+    width: '80px',
+    formatter: function(value) {
+        if (value === 'online') {
+            return '<span class="badge badge-online">在线</span>';
+        } else {
+            return '<span class="badge badge-offline">离线</span>';
+        }
+    }
+}, {
+    field: 'level',
+    title: '等级',
+    align: 'center',
+    width: '60px',
+    formatter: function(value) {
+        return value || '-';
+    }
+}, {
+    field: 'vip_level',
+    title: 'VIP',
+    align: 'center',
+    width: '60px',
+    formatter: function(value) {
+        return value || '-';
+    }
+}];
+
+$('#loginLogTable').bootstrapTable({
+    ...table,
+    queryParams: function(params) {
+        return {
+            limit: params.limit,
+            offset: params.offset,
+            page: (params.offset / params.limit) + 1,
+            sort: params.sort,
+            sortOrder: params.order
+        };
+    },
+    columns: columns,
+    onLoadSuccess: function(data) {
+        $("[data-bs-toggle='tooltip']").tooltip();
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- 控制台输出 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5level %logger{1}.%M(%L) - %msg%n"/>
+        </Console>
+        <!-- 文件输出，带滚动和备份 -->
+        <RollingFile name="File" fileName="gs.log"
+                     filePattern="gs-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5level %logger{1}.%M(%L) - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+
+        <!-- ============================================ -->
+        <!-- GM命令专用日志 - 2025-02-01 新增             -->
+        <!-- ============================================ -->
+        <!-- GM命令操作日志（INFO级别：命令执行记录） -->
+        <RollingFile name="GMCommandLog" fileName="logs/gm_command.log"
+                     filePattern="logs/gm_command-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5level %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- GM命令安全日志（WARN级别：认证失败、拒绝等） -->
+        <RollingFile name="GMSecurityLog" fileName="logs/gm_security.log"
+                     filePattern="logs/gm_security-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5level %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- GM命令审计日志（包含用户、IP、命令内容等完整信息） -->
+        <RollingFile name="GMAuditLog" fileName="logs/gm_audit.log"
+                     filePattern="logs/gm_audit-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} | %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="90"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!-- ============================================ -->
+        <!-- GM命令专用日志器                                   -->
+        <!-- ============================================ -->
+        <!-- GM命令日志器 - 记录所有GM命令相关操作 -->
+        <Logger name="GMCOMMAND" level="info" additivity="false">
+            <AppenderRef ref="GMCommandLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- GM命令安全日志器 - 专门记录安全相关事件 -->
+        <Logger name="GMSECURITY" level="warn" additivity="false">
+            <AppenderRef ref="GMSecurityLog"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- GM命令审计日志器 - 完整的审计追踪 -->
+        <Logger name="GMAUDIT" level="info" additivity="false">
+            <AppenderRef ref="GMAuditLog"/>
+        </Logger>
+
+        <!-- 根日志器，debug级别，输出到控制台和文件 -->
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>购买CDK - {$siteName|default='CDK授权'}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/x-icon" href="__MB__/favicon.ico">
+  <link rel="stylesheet" href="__MB__/css/bootstrap.min.css">
+  <link rel="stylesheet" href="__MB__/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="__MB__/alert/sweetalert2.min.css">
+  <style>
+    body{background:#f7f8fb;}
+    .container{max-width:680px;}
+    .card{border-radius:16px;box-shadow:0 10px 24px rgba(22,28,45,.08);}
+    .price-item{display:inline-block;margin:6px;}
+    .price-item input{margin-right:6px;}
+  </style>
+</head>
+<body>
+<div class="container my-4">
+  <div class="card p-4">
+    <h4 class="mb-2">购买CDK</h4>
+    <small class="text-muted">支付成功后，点击我已支付查看CDK。</small>
+    <hr>
+
+    <div class="mb-3">
+      <label class="form-label">选择金额档位</label>
+      <div>
+        {volist name="prices" id="p"}
+          <label class="price-item">
+            <input type="radio" name="money" value="{$p}" {if $i==1}checked{/if}>
+            <span class="badge bg-secondary">￥{$p}</span>
+          </label>
+        {/volist}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">支付方式</label>
+      <div>
+        <label class="me-3"><input type="radio" name="paytype" value="alipay" checked> 支付宝</label>
+        <!--<label><input type="radio" name="paytype" value="wxpay"> 微信支付</label>
+      </div-->
+    </div>
+
+    <div class="d-grid">
+      <button id="buyBtn" class="btn btn-success">
+        <span class="mdi mdi-credit-card"></span> 前往支付
+      </button>
+      <!-- 新增：我已支付，查看CDK -->
+      <button id="viewCdkBtn" class="btn btn-primary mt-2" disabled>
+        我已支付，查看CDK
+      </button>
+    </div>
+
+    <!-- 新增：显示订单号 -->
+    <div id="orderInfo" class="mt-3 text-muted" style="display:none;">
+      当前订单号：<span id="orderIdText"></span>
+    </div>
+
+    <!--<div class="mt-3 text-center">
+      <a class="btn btn-outline-primary btn-sm" href="/index.php?s=/api/game/kefu" target="_blank" rel="noopener">
+        <span class="mdi mdi-face-agent"></span> 联系客服（发码/售后）
+      </a>
+    </div-->
+  </div>
+</div>
+
+<script src="__MB__/js/jquery.min.js"></script>
+<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+<script>
+  var currentOrderId = '';
+
+  // 页面加载：尝试恢复最近订单
+  (function restoreLastOrder() {
+    try {
+      var last = localStorage.getItem('last_orderid') || '';
+      if (last) {
+        currentOrderId = last;
+        var orderIdTextEl = document.getElementById('orderIdText');
+        var orderInfoEl   = document.getElementById('orderInfo');
+        var viewBtnEl     = document.getElementById('viewCdkBtn');
+        if (orderIdTextEl) orderIdTextEl.innerText = currentOrderId;
+        if (orderInfoEl) orderInfoEl.style.display = 'block';
+        if (viewBtnEl) viewBtnEl.disabled = false;
+      }
+    } catch(e) {}
+  })();
+
+  // 发起下单
+  document.getElementById('buyBtn').addEventListener('click', function () {
+    var money = document.querySelector('input[name="money"]:checked')?.value || '';
+    var paytype = document.querySelector('input[name="paytype"]:checked')?.value || 'alipay';
+    if (!money) {
+      Swal.fire({icon:'error', title:'请选择金额'});
+      return;
+    }
+    fetch('/index.php?s=/index/cdk/pay', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+      body: 'money=' + encodeURIComponent(money) + '&paytype=' + encodeURIComponent(paytype)
+    })
+    .then(r=>r.json())
+    .then(res=>{
+      if (res.code === 1 && res.url) {
+        var payUrl = atob(res.url);
+        currentOrderId = res.orderid || '';
+        if (currentOrderId) {
+          // 显示并持久化订单号（增加空值保护）
+          var orderIdTextEl = document.getElementById('orderIdText');
+          var orderInfoEl   = document.getElementById('orderInfo');
+          var viewBtnEl     = document.getElementById('viewCdkBtn');
+          if (orderIdTextEl) orderIdTextEl.innerText = currentOrderId;
+          if (orderInfoEl) orderInfoEl.style.display = 'block';
+          if (viewBtnEl) viewBtnEl.disabled = false;
+          try { localStorage.setItem('last_orderid', currentOrderId); } catch(e) {}
+        }
+        window.open(payUrl, '_blank');
+      } else {
+        Swal.fire({icon:'error', title: res.msg || '下单失败'});
+      }
+    })
+    .catch(()=>Swal.fire({icon:'question', title:'服务异常'}));
+  });
+
+  // 主动查看CDK（打开我们自己的成功页）
+  var viewBtnEl = document.getElementById('viewCdkBtn');
+  if (viewBtnEl) {
+    viewBtnEl.addEventListener('click', function () {
+      if (!currentOrderId) {
+        Swal.fire({icon:'info', title:'请先下单并打开支付'});
+        return;
+      }
+      var url = '/index.php?s=/api/notify/epayCdk&out_trade_no=' + encodeURIComponent(currentOrderId);
+      window.open(url, '_blank');
+    });
+  }
+</script>
+</body>
+</html>

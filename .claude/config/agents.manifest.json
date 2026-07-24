@@ -1,0 +1,320 @@
+{
+  "schema_version": "1.3.0",
+  "updated": "2026-04-11",
+  "default_language": "zh-CN",
+  "defaults": {
+    "fallback_agent": "architecture-analyst",
+    "timeout_seconds": 120,
+    "retry_policy": {
+      "max_retries": 2,
+      "backoff_seconds": 5,
+      "retry_on_timeout": true,
+      "retry_on_error": false
+    },
+    "output_sections": [
+      "结论",
+      "依据",
+      "执行步骤",
+      "验证方式",
+      "风险提示"
+    ]
+  },
+  "agents": [
+    {
+      "id": "architecture-analyst",
+      "file": "../agents/architecture-analyst.md",
+      "role": "架构分析与技术决策",
+      "priority": "medium",
+      "model": "claude-3.5-sonnet",
+      "tools": ["Read", "Grep", "Glob", "Bash", "Write"],
+      "intents": ["architecture", "refactor-plan", "dependency-analysis"],
+      "trigger_keywords": ["架构", "重构", "技术债", "依赖分析", "模块边界", "演进方案"],
+      "input_params": ["scope", "module", "task_type"],
+      "output_contract": {
+        "required_sections": ["现状诊断", "问题分级", "改造路径", "验证计划"],
+        "max_actions": 6
+      },
+      "linked_skills": [
+        "project-context",
+        "dependency-management",
+        "distributed-arch",
+        "nuclear-engine",
+        "fireclient-framework",
+        "continuous-learning-v2"
+      ],
+      "prompt_directives": [
+        "先建模现状，再给最小可行改造",
+        "方案必须包含回滚路径",
+        "高风险改动必须先定义验证门槛"
+      ]
+    },
+    {
+      "id": "build-expert",
+      "file": "../agents/build-expert.md",
+      "role": "构建诊断与工具链修复",
+      "priority": "high",
+      "model": "claude-3.5-sonnet",
+      "tools": ["Bash", "Read", "Grep", "Glob", "Write"],
+      "intents": ["build", "compile", "linker", "toolchain"],
+      "trigger_keywords": ["编译", "构建", "链接", "工具链", "LNK", "MSB", "v120", "NDK", "Ant"],
+      "input_params": ["target_platform", "configuration", "log_path", "module"],
+      "output_contract": {
+        "required_sections": ["根因", "修复命令", "验证步骤", "后续预防"],
+        "max_actions": 8
+      },
+      "linked_skills": [
+        "build-troubleshooting",
+        "windows-build",
+        "android-build",
+        "ant-build",
+        "dependency-management",
+        "engine-tools-build"
+      ],
+      "prompt_directives": [
+        "优先做工具链与依赖预检",
+        "输出必须包含可复制命令",
+        "失败时给 A/B 修复路径"
+      ]
+    },
+    {
+      "id": "code-reviewer",
+      "file": "../agents/code-reviewer.md",
+      "role": "代码审查与质量门禁",
+      "priority": "high",
+      "model": "claude-3-haiku",
+      "tools": ["Read", "Grep", "Glob", "Write", "Bash"],
+      "intents": ["code-review", "pre-merge-check", "quality-gate"],
+      "trigger_keywords": ["代码审查", "代码评审", "review", "PR", "合并请求", "提交前检查", "质量门禁"],
+      "input_params": ["code_path", "scope", "severity", "include_tests"],
+      "output_contract": {
+        "required_sections": ["严重问题", "一般问题", "测试缺口", "结论"],
+        "max_actions": 12
+      },
+      "linked_skills": [
+        "cpp-development",
+        "lua-scripting",
+        "java-development",
+        "git-workflow",
+        "debugging",
+        "cegui-usage",
+        "tolua-binding"
+      ],
+      "prompt_directives": [
+        "按严重级别排序输出问题",
+        "必须定位到文件和行",
+        "优先指出行为回归风险"
+      ]
+    },
+    {
+      "id": "test-engineer",
+      "file": "../agents/test-engineer.md",
+      "role": "测试设计与回归验证",
+      "priority": "medium",
+      "model": "claude-3.5-sonnet",
+      "tools": ["Bash", "Read", "Grep", "Edit", "Write"],
+      "intents": ["test-plan", "regression-test", "coverage"],
+      "trigger_keywords": ["测试", "回归", "覆盖率", "测试用例", "自动化测试", "质量保障"],
+      "input_params": ["scope", "module", "include_tests", "report_format"],
+      "output_contract": {
+        "required_sections": ["测试范围", "用例清单", "执行结果", "风险残留"],
+        "max_actions": 10
+      },
+      "linked_skills": [
+        "debugging",
+        "performance-optimization",
+        "build-troubleshooting",
+        "protocol-design",
+        "continuous-learning-v2"
+      ],
+      "prompt_directives": [
+        "修复 bug 必须有回归用例",
+        "区分必须测与建议测",
+        "输出可执行测试命令"
+      ]
+    },
+    {
+      "id": "deploy-specialist",
+      "file": "../agents/deploy-specialist.md",
+      "role": "发布部署与回滚控制",
+      "priority": "medium",
+      "model": "claude-3.5-sonnet",
+      "tools": ["Bash", "Read", "Grep", "Glob"],
+      "intents": ["deploy", "release", "packaging"],
+      "trigger_keywords": ["部署", "发布", "打包", "回滚", "上线", "发布上线"],
+      "input_params": ["target_platform", "configuration", "channel", "service_name"],
+      "output_contract": {
+        "required_sections": ["前置检查", "发布步骤", "回滚方案", "验收检查"],
+        "max_actions": 8
+      },
+      "linked_skills": [
+        "windows-build",
+        "android-build",
+        "ant-build",
+        "dependency-management"
+      ],
+      "prompt_directives": [
+        "发布动作必须有回滚策略",
+        "默认先校验构建与产物一致性",
+        "严格区分生产与测试环境"
+      ]
+    },
+    {
+      "id": "doc-writer",
+      "file": "../agents/doc-writer.md",
+      "role": "技术文档生产与维护",
+      "priority": "low",
+      "model": "claude-3-haiku",
+      "tools": ["Read", "Write"],
+      "intents": ["documentation", "changelog", "guide"],
+      "trigger_keywords": ["文档", "说明", "手册", "使用手册", "变更日志", "changelog", "常见问题", "FAQ"],
+      "input_params": ["scope", "task_type", "report_format"],
+      "output_contract": {
+        "required_sections": ["背景", "操作步骤", "验证", "常见问题"],
+        "max_actions": 6
+      },
+      "linked_skills": [
+        "project-context",
+        "protocol-design",
+        "git-workflow",
+        "continuous-learning-v2"
+      ],
+      "prompt_directives": [
+        "文档必须可执行、可复现",
+        "行为变化必须记录影响范围",
+        "避免与代码现状冲突"
+      ]
+    },
+    {
+      "id": "security-auditor",
+      "file": "../agents/security-auditor.md",
+      "role": "安全审计与风险缓解",
+      "priority": "high",
+      "model": "claude-sonnet-4-5",
+      "tools": ["Read", "Grep", "Glob", "Bash"],
+      "intents": ["security-audit", "vulnerability-scan", "compliance"],
+      "trigger_keywords": ["安全", "漏洞", "审计", "凭证", "注入", "越权"],
+      "input_params": ["scope", "severity", "code_path"],
+      "output_contract": {
+        "required_sections": ["风险清单", "等级评估", "修复建议", "复验标准"],
+        "max_actions": 10
+      },
+      "linked_skills": [
+        "dependency-management",
+        "protocol-design",
+        "java-development",
+        "cpp-development"
+      ],
+      "prompt_directives": [
+        "优先识别高危与可利用路径",
+        "建议必须与项目约束兼容",
+        "禁止泄露敏感信息"
+      ]
+    },
+    {
+      "id": "performance-analyst",
+      "file": "../agents/performance-analyst.md",
+      "role": "性能瓶颈定位与优化",
+      "priority": "medium",
+      "model": "claude-sonnet-4-5",
+      "tools": ["Read", "Grep", "Glob", "Bash", "Write"],
+      "intents": ["performance", "profiling", "optimization"],
+      "trigger_keywords": ["性能", "瓶颈", "帧率", "FPS", "CPU", "内存", "延迟", "吞吐"],
+      "input_params": ["scope", "module", "target_platform", "log_path"],
+      "output_contract": {
+        "required_sections": ["瓶颈定位", "优化措施", "收益评估", "回归风险"],
+        "max_actions": 10
+      },
+      "linked_skills": [
+        "performance-optimization",
+        "debugging",
+        "cocos2dx-usage",
+        "distributed-arch",
+        "nuclear-engine"
+      ],
+      "prompt_directives": [
+        "先量化基线再提优化",
+        "每条优化建议必须有验证指标",
+        "避免破坏稳定性"
+      ]
+    },
+    {
+      "id": "planner",
+      "file": "../agents/planner.md",
+      "role": "复杂任务规划与阶段拆解",
+      "priority": "high",
+      "model": "claude-3.5-sonnet",
+      "tools": ["Read", "Grep", "Glob"],
+      "intents": ["planning", "architecture", "refactor-plan"],
+      "trigger_keywords": ["规划", "计划", "plan", "实施方案", "分阶段", "里程碑"],
+      "input_params": ["scope", "module", "task_type"],
+      "output_contract": {
+        "required_sections": ["需求重述", "风险清单", "实施阶段", "验证策略", "确认点"],
+        "max_actions": 8
+      },
+      "linked_skills": [
+        "project-context",
+        "search-first",
+        "dependency-management",
+        "verification-loop"
+      ],
+      "prompt_directives": [
+        "改动前先输出最小可行计划",
+        "高风险动作必须包含回滚方案",
+        "计划需要明确可执行命令或路径"
+      ]
+    },
+    {
+      "id": "build-error-resolver",
+      "file": "../agents/build-error-resolver.md",
+      "role": "构建错误最小改动修复",
+      "priority": "high",
+      "model": "claude-3.5-sonnet",
+      "tools": ["Read", "Grep", "Glob", "Bash", "Write"],
+      "intents": ["build-fix", "build-failure", "type-fix"],
+      "trigger_keywords": ["构建失败", "编译失败", "链接错误", "LNK", "MSB", "最小修复"],
+      "input_params": ["target_platform", "configuration", "log_path", "severity"],
+      "output_contract": {
+        "required_sections": ["错误聚类", "最小修复", "验证结果", "残留风险"],
+        "max_actions": 8
+      },
+      "linked_skills": [
+        "build-troubleshooting",
+        "windows-build",
+        "android-build",
+        "ant-build",
+        "verification-loop"
+      ],
+      "prompt_directives": [
+        "优先恢复可构建状态",
+        "禁止无关重构",
+        "每次改动后立即验证"
+      ]
+    },
+    {
+      "id": "workflow-orchestrator",
+      "file": "../agents/workflow-orchestrator.md",
+      "role": "多代理任务编排与交接控制",
+      "priority": "medium",
+      "model": "claude-3.5-sonnet",
+      "tools": ["Read", "Grep", "Glob", "Write"],
+      "intents": ["orchestration", "workflow", "handoff"],
+      "trigger_keywords": ["编排", "orchestrate", "多代理", "协同执行", "handoff"],
+      "input_params": ["scope", "task_type", "report_format"],
+      "output_contract": {
+        "required_sections": ["阶段链路", "交接内容", "阻断项", "完成条件"],
+        "max_actions": 10
+      },
+      "linked_skills": [
+        "verification-loop",
+        "git-workflow",
+        "search-first",
+        "project-context"
+      ],
+      "prompt_directives": [
+        "交接格式统一",
+        "每阶段必须包含验证要求",
+        "最终结论必须可追溯到阶段输出"
+      ]
+    }
+  ]
+}

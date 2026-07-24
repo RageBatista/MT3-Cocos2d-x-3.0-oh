@@ -1,0 +1,50 @@
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := updateengine_static
+
+LOCAL_MODULE_FILENAME := libupdateengine
+
+LOCAL_SRC_FILES := \
+	UpdateEngine.cpp \
+	UpdateManagerEx.cpp \
+	android/AsyncFileDownloader.cpp \
+	android/FileDownloader.cpp \
+	android/GlobalFunction.cpp \
+	android/GlobalNotification.cpp \
+	android/UpdateEngineJni.cpp \
+
+
+LOCAL_C_INCLUDES := \
+	$(LOCAL_PATH) \
+ 	$(LOCAL_PATH)/android \
+	$(LOCAL_PATH)/../platform \
+	$(LOCAL_PATH)/../platform/android \
+	$(LOCAL_PATH)/../ljfm/code/include \
+	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/extensions \
+	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx/platform \
+
+
+LOCAL_WHOLE_STATIC_LIBRARIES := \
+	platform_static \
+ 	ljfm_static \
+
+ifneq ($(TARGET_ARCH_ABI),arm64-v8a)
+LOCAL_WHOLE_STATIC_LIBRARIES += xmlio_static
+endif
+
+# define the macro to compile through support/zip_support/ioapi.c                
+LOCAL_CFLAGS := \
+	-DUSE_FILE32API \
+	-DXPP_IOS \
+	-D_OS_IOS \
+	-D_OS_ANDROID \
+	-DANDROID
+
+LOCAL_LDLIBS := -llog \
+
+LOCAL_CPPFLAGS := -fexceptions
+
+include $(BUILD_STATIC_LIBRARY)
+

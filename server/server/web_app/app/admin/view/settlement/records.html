@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>结算记录</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="stylesheet" href="__MB__/js/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+<style>
+/* 统计卡片容器 - 使用Flexbox横向布局 */
+.stats-container {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.stat-card-wrapper {
+  flex: 1;
+  min-width: 200px;
+}
+.stat-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.stat-card:hover::before {
+  opacity: 1;
+}
+.stat-label {
+  font-size: 13px;
+  opacity: 0.95;
+  margin-bottom: 8px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.stat-value {
+  font-size: 26px;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* 美化按钮样式 */
+.btn-xs {
+  padding: 4px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.btn-xs:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.btn-info.btn-xs {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+.btn-info.btn-xs:hover {
+  background: linear-gradient(135deg, #3d9cf0 0%, #00e2f0 100%);
+}
+#toolbar .btn,
+.form-inline .btn {
+  margin-right: 10px;
+  padding: 8px 20px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+#toolbar .btn:hover,
+.form-inline .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+#toolbar .btn-success,
+.form-inline .btn-success {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  border: none;
+}
+#toolbar .btn-primary,
+.form-inline .btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+#toolbar .btn-secondary,
+.form-inline .btn-secondary {
+  background: linear-gradient(135deg, #b7bdc8 0%, #8b95a5 100%);
+  border: none;
+  color: white;
+}
+/* 美化搜索表单 */
+.form-inline {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.form-inline .form-control {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 8px 15px;
+  transition: all 0.3s ease;
+}
+.form-inline .form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+.form-inline label {
+  font-weight: 500;
+  color: #495057;
+}
+/* 美化卡片标题 */
+.card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 10px 10px 0 0 !important;
+}
+.card-header h4 {
+  color: white;
+  margin: 0;
+  font-weight: 600;
+}
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border: none;
+}
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .stat-card-wrapper {
+    flex: 1 1 calc(50% - 15px);
+  }
+}
+@media (max-width: 768px) {
+  .stats-container {
+    flex-direction: column;
+  }
+  .stat-card-wrapper {
+    flex: 1 1 100%;
+  }
+}
+</style>
+</head>
+  
+<body>
+<div class="container-fluid">
+  
+  <div class="row">
+    
+    <div class="col-lg-12">
+      <div class="card">
+        <header class="card-header">
+          <div class="card-title">
+            <h4>📊 结算记录查询</h4>
+          </div>
+        </header>
+        <div class="card-body">
+          
+          <!-- 统计卡片 -->
+          <div class="stats-container" style="margin-bottom: 20px;">
+            <div class="stat-card-wrapper">
+              <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="stat-label">总结算笔数</div>
+                <div class="stat-value" id="total-count">-</div>
+              </div>
+            </div>
+            <div class="stat-card-wrapper">
+              <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="stat-label">总结算金额</div>
+                <div class="stat-value" id="total-amount">-</div>
+              </div>
+            </div>
+            <div class="stat-card-wrapper">
+              <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="stat-label">今日结算笔数</div>
+                <div class="stat-value" id="today-count">-</div>
+              </div>
+            </div>
+            <div class="stat-card-wrapper">
+              <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <div class="stat-label">今日结算金额</div>
+                <div class="stat-value" id="today-amount">-</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 搜索表单 -->
+          <form class="form-inline mb-3" id="search-form">
+            <div class="form-group mr-2">
+              <label class="mr-2">代理账号：</label>
+              <input type="text" class="form-control" name="agent_username" placeholder="请输入代理账号">
+            </div>
+            <div class="form-group mr-2">
+              <label class="mr-2">开始日期：</label>
+              <input type="date" class="form-control" name="start_date">
+            </div>
+            <div class="form-group mr-2">
+              <label class="mr-2">结束日期：</label>
+              <input type="date" class="form-control" name="end_date">
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">
+              <i class="mdi mdi-magnify"></i> 搜索
+            </button>
+            <button type="reset" class="btn btn-secondary">
+              <i class="mdi mdi-refresh"></i> 重置
+            </button>
+          </form>
+          
+          <!-- 工具栏 -->
+          <div id="toolbar" class="mb-3">
+            <a href="{:url('settlement/index')}" class="btn btn-success">
+              <i class="mdi mdi-arrow-left"></i> 返回审核列表
+            </a>
+            <button type="button" class="btn btn-primary" onclick="refreshTable()">
+              <i class="mdi mdi-refresh"></i> 刷新
+            </button>
+          </div>
+
+          <!-- 数据表格 -->
+          <table id="table"></table>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+<script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+<script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__MB__/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+<script type="text/javascript" src="__MB__/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="__MB__/js/bootstrap-table/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+<script type="text/javascript" src="__MB__/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+<script type="text/javascript">
+var $table = $('#table');
+
+// 初始化表格
+$(function() {
+  $table.bootstrapTable({
+    url: '{:url("settlement/records_table")}',
+    method: 'post',
+    toolbar: '#toolbar',
+    search: false,
+    showRefresh: false,
+    showToggle: false,
+    showColumns: false,
+    showExport: false,
+    pagination: true,
+    sidePagination: 'server',
+    pageSize: 15,
+    pageList: [15, 30, 50, 100],
+    queryParams: function(params) {
+      var formData = $('#search-form').serializeArray();
+      var queryParams = {
+        page: params.offset / params.limit + 1,
+        limit: params.limit
+      };
+      
+      $.each(formData, function(i, field) {
+        queryParams[field.name] = field.value;
+      });
+      
+      return queryParams;
+    },
+    columns: [
+      {
+        field: 'id',
+        title: 'ID',
+        align: 'center',
+        width: 80
+      },
+      {
+        field: 'agent_username',
+        title: '代理账号',
+        align: 'center',
+        width: 150
+      },
+      {
+        field: 'withdrawal_amount',
+        title: '提现金额',
+        align: 'center',
+        width: 150,
+        formatter: function(value, row, index) {
+          return '<span style="color: #ff5722; font-weight: bold;">' + value + ' 元</span>';
+        }
+      },
+      {
+        field: 'direct_commission',
+        title: '直属分成',
+        align: 'center',
+        width: 120,
+        formatter: function(value, row, index) {
+          return '<span style="color: #009688;">' + value + '</span>';
+        }
+      },
+      {
+        field: 'sub_commission',
+        title: '下级分成',
+        align: 'center',
+        width: 120,
+        formatter: function(value, row, index) {
+          return '<span style="color: #5fb878;">' + value + '</span>';
+        }
+      },
+      {
+        field: 'payment_method',
+        title: '收款方式',
+        align: 'center',
+        width: 250
+      },
+      {
+        field: 'settlement_time',
+        title: '结算时间',
+        align: 'center',
+        width: 180
+      },
+      {
+        field: 'settlement_admin',
+        title: '结算人',
+        align: 'center',
+        width: 120
+      },
+      {
+        field: 'remark',
+        title: '备注',
+        align: 'center',
+        width: 150
+      },
+      {
+        field: 'status',
+        title: '状态',
+        align: 'center',
+        width: 100
+      },
+      {
+        title: '操作',
+        align: 'center',
+        width: 120,
+        formatter: function(value, row, index) {
+          return [
+            '<button class="btn btn-info btn-xs" onclick="viewDetail(' + row.id + ')">',
+            '<i class="mdi mdi-information"></i> 详情',
+            '</button>'
+          ].join('');
+        }
+      }
+    ],
+    onLoadSuccess: function(data) {
+      console.log('数据加载成功:', data);
+      console.log('加载了 ' + data.total + ' 条记录');
+    },
+    onLoadError: function(status) {
+      console.error('数据加载失败', status);
+      Swal.fire({
+        icon: 'error',
+        title: '数据加载失败',
+        text: '请刷新页面重试或联系管理员'
+      });
+    }
+  });
+  
+  // 加载统计数据
+  loadStatistics();
+});
+
+// 刷新表格
+function refreshTable() {
+  $table.bootstrapTable('refresh');
+  loadStatistics();
+  Swal.fire({
+    icon: 'success',
+    title: '已刷新',
+    timer: 1000,
+    showConfirmButton: false
+  });
+}
+
+// 搜索表单提交
+$('#search-form').submit(function(e) {
+  e.preventDefault();
+  $table.bootstrapTable('refresh');
+});
+
+// 重置表单
+$('#search-form').on('reset', function() {
+  setTimeout(function() {
+    $table.bootstrapTable('refresh');
+  }, 100);
+});
+
+// 加载统计数据
+function loadStatistics() {
+  $.get('{:url("settlement/statistics")}', function(res){
+    if(res.code == 0){
+      $('#total-count').text(res.data.total_count || 0);
+      $('#total-amount').text((res.data.total_amount || '0.00') + ' 元');
+      $('#today-count').text(res.data.today_count || 0);
+      $('#today-amount').text((res.data.today_amount || '0.00') + ' 元');
+    }
+  }, 'json');
+}
+
+// 查看详情
+function viewDetail(recordId) {
+  // 从表格中获取该行数据
+  var data = $table.bootstrapTable('getData');
+  var record = data.find(item => item.id == recordId);
+  
+  if(!record) {
+    Swal.fire({icon: 'error', title: '数据错误'});
+    return;
+  }
+  
+  Swal.fire({
+    title: '结算详情 - ' + record.agent_username,
+    html: `
+      <div style="text-align: left; padding: 20px;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold; width: 150px;">记录ID</td>
+            <td style="padding: 10px;">` + record.id + `</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold;">代理账号</td>
+            <td style="padding: 10px;">` + record.agent_username + `</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold;">提现金额</td>
+            <td style="padding: 10px;"><span style="color: #ff5722; font-size: 18px; font-weight: bold;">` + record.withdrawal_amount + ` 元</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold;">直属分成</td>
+            <td style="padding: 10px;"><span style="color: #009688;">` + record.direct_commission + ` 元</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold;">下级分成</td>
+            <td style="padding: 10px;"><span style="color: #5fb878;">` + record.sub_commission + ` 元</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold;">收款方式</td>
+            <td style="padding: 10px;">` + (record.payment_method || '-') + `</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold;">结算时间</td>
+            <td style="padding: 10px;">` + record.settlement_time + `</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold;">结算管理员</td>
+            <td style="padding: 10px;">` + record.settlement_admin + `</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px; font-weight: bold;">备注说明</td>
+            <td style="padding: 10px;">` + (record.remark || '-') + `</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; font-weight: bold;">状态</td>
+            <td style="padding: 10px;">` + record.status + `</td>
+          </tr>
+        </table>
+      </div>
+    `,
+    width: '650px',
+    confirmButtonText: '关闭'
+  });
+}
+</script>
+
+</body>
+</html>

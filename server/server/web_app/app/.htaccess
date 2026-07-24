@@ -1,0 +1,19 @@
+# 禁止通过网络直接访问app目录下的所有文件
+# Deny all web access to application directory
+
+<Files "*">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# 防止源码泄露
+<FilesMatch "\.(php|php3|php4|php5|phtml|inc)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# 防止备份文件泄露
+<FilesMatch "\.(bak|backup|old|save|sql|log|txt)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>

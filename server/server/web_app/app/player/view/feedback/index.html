@@ -1,0 +1,77 @@
+{extend name="layout/base" /}
+
+{block name="title"}意见反馈 - 玩家服务中心{/block}
+{block name="page_title"}意见反馈{/block}
+
+{block name="content"}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-message-text"></i> 提交反馈</h3>
+    </div>
+    <div class="card-body">
+        <form id="feedbackForm" method="post" action="/player/feedback/submit">
+            <input type="hidden" name="csrf_token" value="{$csrf_token}">
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-account-box"></i> 选择角色</label>
+                <select class="form-control" name="role" required>
+                    <option value="">请选择角色</option>
+                    {volist name="roles" id="r"}
+                    <option value="{$r.playerid}">{$r.playername} (服务器:{$r.serverid})</option>
+                    {/volist}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-text"></i> 详细描述</label>
+                <textarea class="form-control" name="content" rows="5" placeholder="请详细描述您的问题或建议（至少10个字符）"
+                    required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="mdi mdi-send"></i> 提交反馈
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- 历史反馈 -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-history"></i> 我的反馈记录</h3>
+    </div>
+    <div class="card-body" style="padding: 0;">
+        {if !empty($feedbacks)}
+        {volist name="feedbacks" id="vo"}
+        <div class="feedback-item">
+            <div class="feedback-header">
+                <h4 class="feedback-title">角色 {$vo.role|htmlspecialchars}</h4>
+                {if $vo.status == 1}
+                <span class="badge badge-success"><i class="mdi mdi-check"></i> 已处理</span>
+                {else/}
+                <span class="badge badge-secondary"><i class="mdi mdi-dots-horizontal"></i> 待处理</span>
+                {/if}
+            </div>
+            <p class="feedback-content">{$vo.info|htmlspecialchars}</p>
+            <div class="text-muted" style="font-size: 12px;">{$vo.time}</div>
+        </div>
+        {/volist}
+        {else/}
+        <div class="player-empty">
+            <i class="mdi mdi-message-text"></i>
+            <p>暂无反馈记录</p>
+        </div>
+        {/if}
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    ajaxSubmit('#feedbackForm', {
+        onSuccess: function (res) {
+            setTimeout(function () { location.reload(); }, 800);
+        }
+    });
+</script>
+{/block}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.1.0",
+  "updated": "2026-03-05",
+  "enabled": true,
+  "observation_sources": {
+    "git": {
+      "since_days": 30,
+      "max_commits": 400,
+      "paths": [".claude", "client", "server", "tools"]
+    },
+    "logs": {
+      "max_files": 60,
+      "paths": ["build_logs", "tools/engine/build_logs", ".claude/reports"],
+      "patterns": ["error ", "LNK", "MSB", "Exception", "failed", "错误", "失败", "异常"]
+    }
+  },
+  "storage": {
+    "root": "../evolution",
+    "observations_file": "../evolution/projects/mt3-default/observations.jsonl",
+    "instincts_file": "../evolution/instincts/mt3-instincts.json",
+    "report_file": "../evolution/reports/evolution-latest.md",
+    "skill_suggestions_file": "../evolution/evolved/skills/continuous-learning-v2.suggestions.md",
+    "backfill_proposals_file": "../evolution/evolved/skills/backfill-proposals.json",
+    "backfill_summary_file": "../evolution/evolved/skills/backfill-proposals.md",
+    "backfill_apply_log_file": "../evolution/reports/backfill-apply-latest.md"
+  },
+  "scoring": {
+    "min_samples": 3,
+    "min_confidence": 0.6,
+    "max_rules_per_run": 20
+  },
+  "automation": {
+    "collector_script": "../scripts/evolution_collect.ps1",
+    "evolver_script": "../scripts/evolution_evolve.ps1",
+    "backfill_script": "../scripts/evolution_backfill.ps1",
+    "pipeline_script": "../scripts/evolution_run.ps1"
+  }
+}

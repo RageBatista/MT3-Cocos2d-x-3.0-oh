@@ -1,0 +1,268 @@
+{extend name="layout/base" /}
+
+{block name="title"}充值中心 - 玩家服务中心{/block}
+{block name="page_title"}充值中心{/block}
+
+{block name="content"}
+<!-- 选择充值金额 -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-cash-multiple"></i> 选择充值金额</h3>
+    </div>
+    <div class="card-body">
+        <div class="recharge-amounts">
+            <?php if(!empty($pay_items)): ?>
+            <?php foreach($pay_items as $vo): ?>
+            <div class="recharge-amount-item" data-id="<?php echo (int)$vo['id']; ?>"
+                data-amount="<?php echo (int)$vo['amount']; ?>"
+                data-name="<?php echo htmlspecialchars($vo['name']); ?>">
+                <div class="amount">¥
+                    <?php echo (int)$vo['amount']; ?>
+                </div>
+                <div class="name">
+                    <?php echo htmlspecialchars($vo['name']); ?>
+                </div>
+                <?php if(!empty($vo['bonus'])): ?>
+                <div class="bonus">赠送
+                    <?php echo htmlspecialchars($vo['bonus']); ?>
+                </div>
+                <?php endif; ?>
+            </div>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <div class="recharge-amount-item" data-id="1" data-amount="6" data-name="6元宝">
+                <div class="amount">¥6</div>
+                <div class="name">6元宝</div>
+            </div>
+            <div class="recharge-amount-item" data-id="2" data-amount="30" data-name="30元宝">
+                <div class="amount">¥30</div>
+                <div class="name">30元宝</div>
+                <div class="bonus">赠送5元宝</div>
+            </div>
+            <div class="recharge-amount-item" data-id="3" data-amount="68" data-name="68元宝">
+                <div class="amount">¥68</div>
+                <div class="name">68元宝</div>
+                <div class="bonus">赠送15元宝</div>
+            </div>
+            <div class="recharge-amount-item" data-id="4" data-amount="128" data-name="128元宝">
+                <div class="amount">¥128</div>
+                <div class="name">128元宝</div>
+                <div class="bonus">赠送30元宝</div>
+            </div>
+            <div class="recharge-amount-item" data-id="5" data-amount="328" data-name="328元宝">
+                <div class="amount">¥328</div>
+                <div class="name">328元宝</div>
+                <div class="bonus">赠送80元宝</div>
+            </div>
+            <div class="recharge-amount-item" data-id="6" data-amount="648" data-name="648元宝">
+                <div class="amount">¥648</div>
+                <div class="name">648元宝</div>
+                <div class="bonus">赠送200元宝</div>
+            </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- 充值表单 -->
+        <div id="rechargeForm"
+            style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--bs-border-color);">
+            <h4 style="margin-bottom: 16px; font-size: 15px; font-weight: 600;">
+                <i class="mdi mdi-clipboard-check"></i> 确认充值信息
+            </h4>
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-server"></i> 选择服务器</label>
+                <select class="form-control" name="server_id" id="serverSelect">
+                    <option value="">请选择服务器</option>
+                    <?php if(!empty($servers)): ?>
+                    <?php foreach($servers as $s): ?>
+                    <option value="<?php echo (int)($s['serverid'] ?? 0); ?>">
+                        <?php echo htmlspecialchars($s['name']); ?>
+                    </option>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-account-box"></i> 选择角色</label>
+                <select class="form-control" name="role_id" id="roleSelect">
+                    <option value="">请先选择服务器</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="form-label">充值金额</label>
+                        <input type="text" class="form-control" id="selectedAmount" readonly>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="form-label">商品名称</label>
+                        <input type="text" class="form-control" id="selectedName" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 支付方式 -->
+            <div class="form-group">
+                <label class="form-label"><i class="mdi mdi-credit-card"></i> 支付方式</label>
+                <div class="payment-methods">
+                    <div class="payment-method-item wechat active" data-method="wechat">
+                        <i class="mdi mdi-wechat"></i>
+                        <span class="name">微信支付</span>
+                    </div>
+                    <div class="payment-method-item alipay" data-method="alipay">
+                        <i class="mdi mdi-alpha-a-circle"></i>
+                        <span class="name">支付宝</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block btn-lg" id="submitRecharge">
+                <i class="mdi mdi-check"></i> 确认充值
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 充值记录 -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-history"></i> 充值记录</h3>
+        <a href="/player/order" style="font-size: 13px; color: var(--bs-primary);">查看全部</a>
+    </div>
+    <div class="card-body" style="padding: 0;">
+        <?php if(!empty($orders)): ?>
+        <div class="order-list">
+            <?php foreach($orders as $order): ?>
+            <div class="order-item">
+                <div class="order-info">
+                    <div class="order-no">
+                        <?php echo htmlspecialchars($order['order_no']); ?>
+                    </div>
+                    <div class="order-amount">¥
+                        <?php echo htmlspecialchars($order['amount']); ?>
+                    </div>
+                    <div class="order-time">
+                        <?php echo htmlspecialchars($order['create_time']); ?>
+                    </div>
+                </div>
+                <?php if($order['status'] == 1): ?>
+                <span class="order-status paid">已支付</span>
+                <?php else: ?>
+                <span class="order-status pending">待支付</span>
+                <?php endif; ?>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php else: ?>
+        <div class="empty-state">
+            <i class="mdi mdi-receipt"></i>
+            <h4>暂无充值记录</h4>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    // HTML 转义函数
+    function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
+    var selectedItem = null;
+    var selectedPayMethod = 'wechat';
+    var csrfToken = $('meta[name="csrf-token"]').attr('content') || '';
+
+    $('.recharge-amount-item').on('click', function () {
+        $('.recharge-amount-item').removeClass('active');
+        $(this).addClass('active');
+
+        selectedItem = {
+            id: $(this).data('id'),
+            amount: $(this).data('amount'),
+            name: $(this).data('name')
+        };
+
+        $('#selectedAmount').val('¥' + selectedItem.amount);
+        $('#selectedName').val(selectedItem.name);
+        $('#rechargeForm').slideDown(200);
+
+        if (window.innerWidth <= 768) {
+            setTimeout(function () {
+                $('html, body').animate({ scrollTop: $('#rechargeForm').offset().top - 70 }, 300);
+            }, 250);
+        }
+    });
+
+    $('.payment-method-item').on('click', function () {
+        $('.payment-method-item').removeClass('active');
+        $(this).addClass('active');
+        selectedPayMethod = $(this).data('method');
+    });
+
+    $('#serverSelect').on('change', function () {
+        var serverId = $(this).val();
+        if (!serverId) {
+            $('#roleSelect').html('<option value="">请先选择服务器</option>');
+            return;
+        }
+
+        $.get('/player/role/getByServer', { server_id: serverId }, function (res) {
+            if (res.code === 1) {
+                var options = '<option value="">请选择角色</option>';
+                $.each(res.data, function (i, role) {
+                    options += '<option value="' + escapeHtml(String(role.roleid)) + '">' + escapeHtml(role.name) + '</option>';
+                });
+                $('#roleSelect').html(options);
+            } else {
+                showToast(res.msg || '获取角色失败', 'error');
+            }
+        }, 'json');
+    });
+
+    $('#submitRecharge').on('click', function () {
+        if (!selectedItem) { showToast('请选择充值商品', 'warning'); return; }
+        var serverId = $('#serverSelect').val();
+        var roleId = $('#roleSelect').val();
+        if (!serverId) { showToast('请选择服务器', 'warning'); return; }
+        if (!roleId) { showToast('请选择角色', 'warning'); return; }
+
+        var $btn = $(this);
+        $btn.prop('disabled', true).html('<i class="mdi mdi-loading mdi-spin"></i> 提交中...');
+
+        $.post('/player/recharge/createOrder', {
+            item_id: selectedItem.id,
+            server_id: serverId,
+            role_id: roleId,
+            pay_channel: selectedPayMethod,
+            csrf_token: csrfToken
+        }, function (res) {
+            if (res.code === 1) {
+                showToast(res.msg || '订单创建成功', 'success');
+                if (res.data && res.data.pay_url) {
+                    setTimeout(function () { window.location.href = res.data.pay_url; }, 600);
+                } else if (res.data && res.data.order_id) {
+                    setTimeout(function () {
+                        window.location.href = '/player/order/detail?id=' + encodeURIComponent(String(res.data.order_id));
+                    }, 600);
+                } else {
+                    $btn.prop('disabled', false).html('<i class="mdi mdi-check"></i> 确认充值');
+                }
+            } else {
+                showToast(res.msg || '操作失败', 'error');
+                $btn.prop('disabled', false).html('<i class="mdi mdi-check"></i> 确认充值');
+            }
+        }, 'json').fail(function () {
+            showToast('网络请求失败，请重试', 'error');
+            $btn.prop('disabled', false).html('<i class="mdi mdi-check"></i> 确认充值');
+        });
+    });
+</script>
+{/block}

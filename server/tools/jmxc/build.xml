@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================ -->
+<!-- jmxc 项目 Ant 构建文件                       -->
+<!-- 用途: 清理、编译、打包 jmxc.jar              -->
+<!-- 使用: ant 或 ant build                       -->
+<!-- ============================================ -->
+<project name="jmxc" default="build" basedir=".">
+
+    <!-- 项目属性 -->
+    <property name="src.dir" value="src"/>
+    <property name="bin.dir" value="bin"/>
+    <property name="jar.name" value="jmxc-new.jar"/>
+    <property name="main.class" value="jmxc"/>
+
+    <!-- 清理任务 -->
+    <target name="clean" description="清理编译文件">
+        <echo message="[1/4] 清理旧的编译文件..."/>
+        <delete dir="${bin.dir}"/>
+        <delete file="${jar.name}"/>
+    </target>
+
+    <!-- 初始化任务 -->
+    <target name="init" depends="clean" description="初始化构建环境">
+        <echo message="[2/4] 初始化构建环境..."/>
+        <mkdir dir="${bin.dir}"/>
+    </target>
+
+    <!-- 编译任务 -->
+    <target name="compile" depends="init" description="编译 Java 源代码">
+        <echo message="[3/4] 编译 Java 源代码..."/>
+        <javac srcdir="${src.dir}"
+               destdir="${bin.dir}"
+               encoding="UTF-8"
+               includeantruntime="false"
+               debug="on"
+               debuglevel="lines,vars,source">
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+    <!-- 打包任务 -->
+    <target name="jar" depends="compile" description="打包 JAR 文件">
+        <echo message="[4/4] 打包 JAR 文件..."/>
+        <jar destfile="${jar.name}" basedir="${bin.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+        </jar>
+        <echo message="============================================"/>
+        <echo message="构建成功！"/>
+        <echo message="新的 jar 文件: ${jar.name}"/>
+        <echo message="============================================"/>
+    </target>
+
+    <!-- 默认构建任务 -->
+    <target name="build" depends="jar" description="完整构建流程">
+        <echo message=""/>
+        <echo message="[可选] 测试新的 jar 包..."/>
+        <echo message="运行命令: java -jar ${jar.name}"/>
+    </target>
+
+    <!-- 运行任务 -->
+    <target name="run" depends="build" description="构建并运行">
+        <echo message=""/>
+        <echo message="运行 jmxc (需要提供参数)..."/>
+        <java jar="${jar.name}" fork="true">
+            <!-- 添加你的参数，例如: -->
+            <!-- <arg value=""/> -->
+        </java>
+    </target>
+
+    <!-- 测试任务 -->
+    <target name="test" depends="build" description="测试 jar 包">
+        <echo message=""/>
+        <echo message="测试 jar 包是否正确打包..."/>
+        <exec executable="jar">
+            <arg value="-tf"/>
+            <arg value="${jar.name}"/>
+        </exec>
+    </target>
+
+</project>

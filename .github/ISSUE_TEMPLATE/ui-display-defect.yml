@@ -1,0 +1,204 @@
+name: UI显示缺陷
+description: 提交 Android 客户端、Windows 客户端或双端共享 UI 的显示与交互类问题
+title: "[UI][平台][模块] 简述问题现象"
+labels:
+  - ui
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请尽量一次补齐平台环境、复现步骤和截图/录屏。  
+        只在 Android 出现的问题，请重点描述机型、输入法、导航方式。  
+        只在 Windows 出现的问题，请重点描述系统缩放、显示器分辨率和窗口大小。  
+        双端都出现的问题，请尽量附同界面的 Android/Windows 对比图。
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: 平台
+      description: 请选择问题出现的平台范围
+      options:
+        - Android
+        - Windows
+        - 双端
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: 模块
+      options:
+        - 登录
+        - 选服
+        - 主界面HUD
+        - 背包
+        - 商店
+        - 聊天
+        - 任务
+        - 战斗UI
+        - 其他
+    validations:
+      required: true
+
+  - type: dropdown
+    id: problem_type
+    attributes:
+      label: 问题类型
+      options:
+        - 布局
+        - 比例
+        - 清晰度
+        - 字体
+        - 输入
+        - 动画
+        - 交互反馈
+        - Tooltip
+        - 其他
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重级别
+      options:
+        - 阻塞
+        - 高
+        - 中
+        - 低
+    validations:
+      required: true
+
+  - type: dropdown
+    id: repro_rate
+    attributes:
+      label: 复现概率
+      options:
+        - 必现
+        - 高概率
+        - 偶现
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 问题版本
+      placeholder: 例如 3.4.0
+    validations:
+      required: true
+
+  - type: input
+    id: branch
+    attributes:
+      label: 包体或分支
+      placeholder: 例如 android_locojoy_release / mt3.win32
+    validations:
+      required: true
+
+  - type: input
+    id: resource_version
+    attributes:
+      label: 资源版本或热更版本
+      placeholder: 例如 2026-04-07_01
+
+  - type: dropdown
+    id: regression
+    attributes:
+      label: 是否回归问题
+      options:
+        - 是
+        - 否
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_result
+    attributes:
+      label: 实际现象
+      description: 请尽量具体描述“哪里异常、怎么异常”
+      placeholder: 例如 键盘弹出后输入框上移，但发送按钮仍停留在原位置，底部被遮挡
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_result
+    attributes:
+      label: 期望现象
+      placeholder: 例如 键盘弹出后输入框与发送按钮整体上移，且不被遮挡
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce_steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 进入某界面
+        2. 执行某操作
+        3. 观察某区域
+    validations:
+      required: true
+
+  - type: textarea
+    id: android_env
+    attributes:
+      label: Android 环境
+      description: 平台不是 Android 时可留空
+      placeholder: |
+        机型：
+        Android 版本：
+        屏幕分辨率：
+        屏幕刷新率（如已知）：
+        系统字体缩放：
+        导航方式：手势 / 三键
+        输入法：
+        是否全面屏沉浸式：
+
+  - type: textarea
+    id: windows_env
+    attributes:
+      label: Windows 环境
+      description: 平台不是 Windows 时可留空
+      placeholder: |
+        电脑型号/显卡：
+        Windows 版本：
+        显示器分辨率：
+        系统缩放：100% / 125% / 150% / 200%
+        窗口模式：默认 / 改过 frameSize.txt / 改过 frameResolutionSize.txt
+        当前窗口大小：
+        多显示器：是 / 否
+
+  - type: checkboxes
+    id: signals
+    attributes:
+      label: 定位辅助信息
+      options:
+        - label: 只在 Android 出现
+        - label: 只在 Windows 出现
+        - label: 双端都能复现，疑似共享 UI 问题
+        - label: 涉及输入框或键盘弹出
+        - label: 涉及 hover、tooltip 或双击
+        - label: 涉及字体缺字或字体风格变化
+        - label: 涉及动画发硬但 FPS 看起来正常
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 截图、录屏和日志
+      description: 请粘贴附件链接，或说明已上传到哪里
+      placeholder: |
+        截图：
+        录屏：
+        Android 日志 / Windows 日志：
+        正常 vs 异常对比图：
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 备注
+      placeholder: |
+        最近是否改过布局 / 字体 / 图集 / 分辨率配置：
+        其他补充：

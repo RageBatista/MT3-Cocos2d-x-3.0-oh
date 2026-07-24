@@ -1,0 +1,119 @@
+//
+// 由 IntelliJ IDEA 根据 .class 文件还原的源代码
+// （由 FernFlower 反编译器生成）
+//
+
+package fire.pb.pet;
+
+import com.locojoy.base.Marshal.MarshalException;
+import com.locojoy.base.Marshal.OctetsStream;
+
+public class SPetAptitudeCultivate extends __SPetAptitudeCultivate__ {
+    public static final int PROTOCOL_TYPE = 788522;
+    public int petkey;
+    public int aptid;
+    public int aptvalue;
+
+    protected void process() {
+    }
+
+    public int getType() {
+        return 788522;
+    }
+
+    public SPetAptitudeCultivate() {
+    }
+
+    public SPetAptitudeCultivate(int _petkey_, int _aptid_, int _aptvalue_) {
+        this.petkey = _petkey_;
+        this.aptid = _aptid_;
+        this.aptvalue = _aptvalue_;
+    }
+
+    public final boolean _validator_() {
+        if (this.petkey < 1) {
+            return false;
+        } else if (this.aptid < 0) {
+            return false;
+        } else {
+            return this.aptvalue >= 0;
+        }
+    }
+
+    public OctetsStream marshal(OctetsStream _os_) {
+        if (!this._validator_()) {
+            throw new VerifyError("validator failed");
+        } else {
+            _os_.marshal(this.petkey);
+            _os_.marshal(this.aptid);
+            _os_.marshal(this.aptvalue);
+            return _os_;
+        }
+    }
+
+    public OctetsStream unmarshal(OctetsStream _os_) throws MarshalException {
+        this.petkey = _os_.unmarshal_int();
+        this.aptid = _os_.unmarshal_int();
+        this.aptvalue = _os_.unmarshal_int();
+        if (!this._validator_()) {
+            throw new VerifyError("validator failed");
+        } else {
+            return _os_;
+        }
+    }
+
+    public boolean equals(Object _o1_) {
+        if (_o1_ == this) {
+            return true;
+        } else if (_o1_ instanceof SPetAptitudeCultivate) {
+            SPetAptitudeCultivate _o_ = (SPetAptitudeCultivate)_o1_;
+            if (this.petkey != _o_.petkey) {
+                return false;
+            } else if (this.aptid != _o_.aptid) {
+                return false;
+            } else {
+                return this.aptvalue == _o_.aptvalue;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public int hashCode() {
+        int _h_ = 0;
+        _h_ += this.petkey;
+        _h_ += this.aptid;
+        _h_ += this.aptvalue;
+        return _h_;
+    }
+
+    public String toString() {
+        StringBuilder _sb_ = new StringBuilder();
+        _sb_.append("(");
+        _sb_.append(this.petkey).append(",");
+        _sb_.append(this.aptid).append(",");
+        _sb_.append(this.aptvalue).append(",");
+        _sb_.append(")");
+        return _sb_.toString();
+    }
+
+    public int compareTo(SPetAptitudeCultivate _o_) {
+        if (_o_ == this) {
+            return 0;
+        } else {
+            int _c_ = 0;
+            _c_ = this.petkey - _o_.petkey;
+            if (0 != _c_) {
+                return _c_;
+            } else {
+                _c_ = this.aptid - _o_.aptid;
+                if (0 != _c_) {
+                    return _c_;
+                } else {
+                    _c_ = this.aptvalue - _o_.aptvalue;
+                    return 0 != _c_ ? _c_ : _c_;
+                }
+            }
+        }
+    }
+}

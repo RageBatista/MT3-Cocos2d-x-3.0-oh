@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.1.0",
+  "updated": "2026-03-31",
+  "source_of_truth": [
+    ".codex/config.toml",
+    ".codex/requirements.toml",
+    "trusted global Codex config merge"
+  ],
+  "note": "本文件是 MCP 审计侧车，不是 Codex 官方运行时配置入口。",
+  "profiles": [
+    {
+      "id": "default",
+      "required_servers": [
+        "openaiDeveloperDocs"
+      ],
+      "optional_inherited_servers": [
+        "chrome-devtools",
+        "context7",
+        "exa",
+        "notion",
+        "open-websearch",
+        "playwright",
+        "sequential-thinking"
+      ]
+    },
+    {
+      "id": "config-governance",
+      "required_servers": [
+        "openaiDeveloperDocs"
+      ],
+      "optional_inherited_servers": [
+        "chrome-devtools",
+        "context7",
+        "exa",
+        "notion",
+        "open-websearch",
+        "playwright",
+        "sequential-thinking"
+      ],
+      "disabled_by_default": [
+        "atlassian",
+        "github",
+        "linear"
+      ]
+    }
+  ]
+}

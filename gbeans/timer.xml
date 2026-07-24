@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="timer">
+	<bean name="ScheculedActivity">
+		<variable name="id" type="int" fromCol="序号"/>
+		<variable name="activityid" type="int" fromCol="活动ID"/>
+		<variable name="zoneid" type="string" fromCol="服务器id"/>
+		<variable name="startTime" type="string" fromCol="开启时间"/>
+		<variable name="endTime" type="string" fromCol="结束时间"/>
+		<variable name="remind" type="int" fromCol="是否提醒"/>
+		<variable name="latetime" type="int" fromCol="活动实际推迟时间"/>
+		<variable name="advanceremind" type="int" fromCol="提前提醒时间"/>
+		<variable name="weekrepeat" type="int" fromCol="周循环活动"/>
+	</bean>
+
+	<bean name="SScheculedActivity" from="d定时活动配置表" genxml="server" baseclass="ScheculedActivity">
+
+	</bean>
+
+	<bean name="SScheculedActivityDianKa" from="D点卡服表格/d定时活动配置表for点卡服" genxml="server" baseclass="ScheculedActivity">
+
+	</bean>
+
+	<bean name="CScheculedActivity" from="d定时活动配置表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="序号"/>
+		<variable name="strserverid" type="string" fromCol="服务器id"/>
+		<variable name="startTime" type="string" fromCol="开启时间"/>
+		<variable name="endTime" type="string" fromCol="结束时间"/>
+		<variable name="startTime2" type="string" fromCol="开启时间2"/>
+		<variable name="activityid" type="int" fromCol="活动ID"/>
+		<variable name="weekrepeat" type="int" fromCol="周循环活动"/>
+	</bean>
+	<bean name="CScheculedActivitypay" from="D点卡服表格/d定时活动配置表for点卡服" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="序号"/>
+		<variable name="startTime" type="string" fromCol="开启时间"/>
+		<variable name="endTime" type="string" fromCol="结束时间"/>
+		<variable name="startTime2" type="string" fromCol="开启时间2"/>
+		<variable name="activityid" type="int" fromCol="活动ID"/>
+		<variable name="weekrepeat" type="int" fromCol="周循环活动"/>
+	</bean>
+
+	<bean name="CcheculedActivity" from="d定时活动配置表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="开始时间显示"/>
+		<variable name="startTime" type="string" fromCol="开启时间2"/>
+	</bean>
+
+
+
+
+</namespace>

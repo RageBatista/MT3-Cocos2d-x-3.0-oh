@@ -1,0 +1,210 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+
+# MT3 project-scoped Codex runtime configuration.
+# Keep provider/auth/profile/telemetry settings in the user/global Codex layer;
+# project-local config is for repo behavior, permissions, MCP, rules, and agents.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
+personality = "pragmatic"
+project_doc_max_bytes = 65536
+
+# Native Windows sandbox. Use "unelevated" only if elevated setup fails locally.
+[windows]
+sandbox = "elevated"
+
+[features]
+multi_agent = true
+
+[agents]
+max_threads = 4
+max_depth = 1
+
+[agents.mt3_architecture_analyst]
+description = "MT3 architecture analyst for directory architecture, dependency graph, runtime layering, and module boundary decisions."
+config_file = "agents/mt3_architecture_analyst.toml"
+
+[agents.mt3_build_expert]
+description = "MT3 build specialist for Win32 v120, Android r16/Ant, server Ant, CEGUI shadow gates, CRT and encoding failures."
+config_file = "agents/mt3_build_expert.toml"
+
+[agents.mt3_codex_governor]
+description = "MT3 Codex governance agent for .codex, .agents, MCP, rules, requirements sidecars, official Codex alignment, and migration-retrospective hardening."
+config_file = "agents/mt3_codex_governor.toml"
+
+[agents.mt3_docs_researcher]
+description = "Read-only documentation researcher that uses OpenAI Docs MCP for Codex, MCP, AGENTS.md, and OpenAI API questions."
+config_file = "agents/mt3_docs_researcher.toml"
+
+[agents.mt3_lua_ui_integrator]
+description = "MT3 Lua UI integrator for Dialog lifecycle, CEGUI layout bindings, events, Window paths, and Lua/C++ UI bridge."
+config_file = "agents/mt3_lua_ui_integrator.toml"
+
+[agents.mt3_performance_analyst]
+description = "Read-only performance analyst for FPS, memory, DrawCall, CPU/GPU profiling, and optimization recommendations in MT3."
+config_file = "agents/mt3_performance_analyst.toml"
+
+[agents.mt3_planner]
+description = "Planning specialist for complex MT3 tasks that need scoping, risk control, rollback points, and verification gates."
+config_file = "agents/mt3_planner.toml"
+
+[agents.mt3_resource_pipeline_expert]
+description = "MT3 resource pipeline expert for PFS, hot update, version indexes, patch layout, LJFilePack, SpriteEditor boundaries, and vendor-resource snapshot decisions."
+config_file = "agents/mt3_resource_pipeline_expert.toml"
+
+[agents.mt3_reviewer]
+description = "Read-only reviewer for correctness, ABI risk, generated-code boundaries, encoding drift, ignore-rule drift, staging scope, and missing validation in MT3."
+config_file = "agents/mt3_reviewer.toml"
+
+[agents.mt3_runtime_troubleshooter]
+description = "MT3 runtime troubleshooter for crash, startup, login, scene, UI, rendering, CEGUI, resource, and platform handoff triage."
+config_file = "agents/mt3_runtime_troubleshooter.toml"
+
+[agents.mt3_security_auditor]
+description = "Read-only security auditor for vulnerability scanning, credential exposure, injection risks, and compliance checks in MT3."
+config_file = "agents/mt3_security_auditor.toml"
+
+[agents.mt3_server_protocol_expert]
+description = "MT3 server/protocol expert for Ant, gnet, xbean, rpc, genrpc, genxdb, gengbeans, and generated-code boundaries."
+config_file = "agents/mt3_server_protocol_expert.toml"
+
+[agents.mt3_test_engineer]
+description = "Test design and regression verification specialist for MT3, covering unit tests, integration tests, platform compatibility, build gates, and release checklists."
+config_file = "agents/mt3_test_engineer.toml"
+
+
+# Close every known inherited MCP by default. Five profile-capable servers keep
+# pinned, secret-free transports; the remaining names use a disabled no-op.
+[mcp_servers.apktool]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.atlassian]
+url = "http://127.0.0.1:9/mcp"
+enabled = false
+required = false
+
+[mcp_servers.chrome-devtools]
+command = "npx"
+args = ["-y", "chrome-devtools-mcp@1.6.0", "--headless", "--isolated", "--no-usage-statistics"]
+enabled = false
+required = false
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@3.2.3"]
+enabled = false
+required = false
+
+[mcp_servers.docker-gateway]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.exa]
+url = "http://127.0.0.1:9/mcp"
+enabled = false
+required = false
+
+[mcp_servers.fetch]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.filesystem]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.git]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.github]
+url = "http://127.0.0.1:9/mcp"
+enabled = false
+required = false
+
+[mcp_servers.linear]
+url = "http://127.0.0.1:9/mcp"
+enabled = false
+required = false
+
+[mcp_servers.memory]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.node_repl]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.notion]
+url = "http://127.0.0.1:9/mcp"
+enabled = false
+required = false
+
+[mcp_servers.open-websearch]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+enabled = false
+required = false
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@0.0.78", "--headless"]
+enabled = false
+required = false
+
+[mcp_servers.postgres]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.puppeteer]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.sequential-thinking]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.sqlite]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false
+
+[mcp_servers.tavily-search]
+command = "npx"
+args = ["-y", "tavily-mcp@0.2.21"]
+env_vars = ["TAVILY_API_KEY"]
+enabled = false
+required = false
+
+[mcp_servers.time]
+command = "cmd.exe"
+args = ["/d", "/c", "exit", "0"]
+enabled = false
+required = false

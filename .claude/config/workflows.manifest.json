@@ -1,0 +1,125 @@
+{
+  "schema_version": "2.0.0",
+  "updated": "2026-07-12",
+  "default_workflow": "verification-workflow",
+  "codex_catalog": {
+    "kind": "governance-sidecar",
+    "status": "declarative",
+    "runtime_effect": "none",
+    "repo_path": ".codex/workflows/workflow-engine.json",
+    "file": "../../.codex/workflows/workflow-engine.json",
+    "authority": "machine-readable workflow facts, graph transitions, evidence, rollback, and availability"
+  },
+  "status_definitions": {
+    "declarative": "Machine-readable governance facts only; not a Codex runtime workflow engine.",
+    "manual": "Compatibility document only; a human or agent follows the documented gates and commands.",
+    "compatibility": "Claude-facing view backed by one or more native catalog workflows.",
+    "legacy": "Claude-only historical/manual workflow without an exact native catalog workflow.",
+    "external": "Requires a platform, tool, source tree, or credential outside the clean checkout."
+  },
+  "workflows": [
+    {
+      "id": "windows-build-workflow",
+      "file": "../workflows/windows-build-workflow.md",
+      "kind": "compatibility",
+      "status": "manual",
+      "catalog_workflow_ids": ["win32-build"],
+      "intents": ["build_windows", "build_compile", "deployment_release"]
+    },
+    {
+      "id": "android-build-workflow",
+      "file": "../workflows/android-build-workflow.md",
+      "kind": "compatibility",
+      "status": "manual",
+      "catalog_workflow_ids": ["android-build"],
+      "intents": ["build_android", "deployment_release"]
+    },
+    {
+      "id": "server-build-workflow",
+      "file": "../workflows/server-build-workflow.md",
+      "kind": "compatibility",
+      "status": "manual",
+      "catalog_workflow_ids": ["server-ant-build"],
+      "intents": ["build_server", "deployment_release"]
+    },
+    {
+      "id": "cegui-build-workflow",
+      "file": "../workflows/cegui-build-workflow.md",
+      "kind": "compatibility",
+      "status": "manual",
+      "catalog_workflow_ids": ["cegui-layout-integration", "cocos-cegui-shadow-migration"],
+      "intents": []
+    },
+    {
+      "id": "runtime-crash-workflow",
+      "file": "../workflows/error-diagnosis-workflow.md",
+      "kind": "compatibility",
+      "status": "manual",
+      "catalog_workflow_ids": ["runtime-crash"],
+      "intents": ["runtime_crash"]
+    },
+    {
+      "id": "codex-governance-workflow",
+      "file": "../workflows/claude-config-workflow.md",
+      "kind": "compatibility",
+      "status": "manual",
+      "catalog_workflow_ids": ["codex-governance"],
+      "intents": ["codex_config_governance", "mcp_management"]
+    },
+    {
+      "id": "error-diagnosis-workflow",
+      "file": "../workflows/error-diagnosis-workflow.md",
+      "kind": "legacy",
+      "status": "manual",
+      "catalog_workflow_ids": [],
+      "intents": ["build_failure"]
+    },
+    {
+      "id": "skill-evolution-workflow",
+      "file": "../workflows/skill-evolution-workflow.md",
+      "kind": "legacy",
+      "status": "manual",
+      "catalog_workflow_ids": [],
+      "intents": ["skill_evolution"]
+    },
+    {
+      "id": "verification-workflow",
+      "file": "../workflows/verification-workflow.md",
+      "kind": "legacy",
+      "status": "manual",
+      "catalog_workflow_ids": [],
+      "intents": ["verification", "testing", "deployment_release", "android_boot_log_capture"]
+    },
+    {
+      "id": "orchestrate-workflow",
+      "file": "../workflows/orchestrate-workflow.md",
+      "kind": "legacy",
+      "status": "manual",
+      "catalog_workflow_ids": [],
+      "intents": ["orchestration", "planning"]
+    },
+    {
+      "id": "claude-config-workflow",
+      "file": "../workflows/claude-config-workflow.md",
+      "kind": "legacy",
+      "status": "manual",
+      "catalog_workflow_ids": [],
+      "intents": ["claude_config_governance"]
+    }
+  ],
+  "catalog_aliases": [
+    {"catalog_id": "win32-build", "catalog_status": "active", "execution_mode": "assisted", "claude_workflow_ids": ["windows-build-workflow"], "compatibility_status": "manual"},
+    {"catalog_id": "android-build", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": ["android-build-workflow"], "compatibility_status": "manual"},
+    {"catalog_id": "server-ant-build", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": ["server-build-workflow"], "compatibility_status": "manual"},
+    {"catalog_id": "lua-ui-integration", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": [], "compatibility_status": "catalog-only"},
+    {"catalog_id": "cegui-layout-integration", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": ["cegui-build-workflow"], "compatibility_status": "manual-resource-view"},
+    {"catalog_id": "resource-packaging", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": [], "compatibility_status": "catalog-only"},
+    {"catalog_id": "sprite-pack-algorithm", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": [], "compatibility_status": "catalog-only"},
+    {"catalog_id": "codex-governance", "catalog_status": "active", "execution_mode": "assisted", "claude_workflow_ids": ["codex-governance-workflow"], "legacy_ids": ["claude-config-workflow"], "compatibility_status": "manual"},
+    {"catalog_id": "cocos-cegui-shadow-migration", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": ["cegui-build-workflow"], "compatibility_status": "manual-external-source"},
+    {"catalog_id": "application-core-flow", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": [], "compatibility_status": "catalog-only"},
+    {"catalog_id": "runtime-crash", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": ["runtime-crash-workflow"], "legacy_ids": ["error-diagnosis-workflow"], "compatibility_status": "manual"},
+    {"catalog_id": "ios-platform", "catalog_status": "active", "execution_mode": "external-platform", "claude_workflow_ids": [], "compatibility_status": "external"},
+    {"catalog_id": "resource-name-path-recovery", "catalog_status": "active", "execution_mode": "manual-assisted", "claude_workflow_ids": [], "compatibility_status": "catalog-only"}
+  ]
+}

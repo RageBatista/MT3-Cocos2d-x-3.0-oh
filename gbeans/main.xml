@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="fire" xmlns:xi="http://www.w3.org/2001/XInclude">
+<namespace name="pb">
+<namespace name="main">
+	<bean name="ModuleInfo" from="f服务器模块列表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="name" type="string" fromCol="name"/>
+		<variable name="classname" type="string" fromCol="类名"/>
+		<variable name="dep" type="vector" fromCol="依赖1,依赖2,依赖3,依赖4" value="string"/>
+	</bean>
+	<bean name="HotfixConfig" from="f服务器热加载配置" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="type" type="int" fromCol="类型"/>
+		<variable name="name" type="string" fromCol="名称"/>
+	</bean>
+	<bean name="HotfixXml2ModuleConfig" from="f服务器热加载文件模块对应表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="filename" type="string" fromCol="文件名"/>
+		<variable name="canreload" type="bool" fromCol="是否支持"/>
+		<variable name="module" type="string" fromCol="对应模块1"/>
+	</bean>
+	<bean name="LoginLimit" from="f服务器登录限制表" genxml="server">
+		<variable name="id" type="int" fromCol="id"/> <!-- id -->
+		<variable name="serverid" type="int" fromCol="服务器id"/>
+		<variable name="loginlimittype" type="int" fromCol="登录限制模式"/>
+		<variable name="whitelist" type="string" fromCol="白名单"/>
+		<variable name="blacklist" type="string" fromCol="黑名单"/>
+		<variable name="msgid" type="int" fromCol="提示信息id"/>
+	</bean>
+	<bean name="JumpQueueUser" from="f服务器登录排队白名单" genxml="server">
+		<variable name="id" type="int" fromCol="userid"/> <!-- id -->
+	</bean>
+	<bean name="LoginQueueUp" from="f服务器登录排队配置" genxml="server">
+		<variable name="id" type="int" fromCol="编号"/> <!-- id -->
+		<variable name="connectusernum" type="int" fromCol="服务器人数"/> <!-- 连接人数 -->
+		<variable name="time" type="int" fromCol="时间"/> <!-- 时间 -->
+		<variable name="enterusernum" type="int" fromCol="放入人数"/> <!-- 放入人数 -->
+	</bean>
+
+</namespace>
+
+	<!-- 每个模块一个子文件 -->
+	<xi:include href="map.xml" />
+	<xi:include href="item.xml" />
+	<xi:include href="effect.xml" />
+	<xi:include href="npc.xml" />
+	<xi:include href="role.xml" />
+	<xi:include href="pet.xml"/>
+	<xi:include href="battlemagic.xml"/>
+	<xi:include href="login.xml"/>
+	<xi:include href="sysconfig.xml" />
+	<xi:include href="title.xml" />
+	<xi:include href="game.xml" />
+	<xi:include href="buff.xml" />
+	<xi:include href="message.xml" />
+	<xi:include href="skill.xml" />
+	<xi:include href="mission.xml" />
+	<xi:include href="team.xml" />
+	<xi:include href="timer.xml" />
+	<xi:include href="circletask.xml" />
+	<xi:include href="chat.xml" />
+	<xi:include href="mainmissioninfo.xml" />
+	<xi:include href="clan.xml" />
+	<xi:include href="EffectPath.xml"/>
+	<xi:include href="gm.xml"/>
+	<xi:include href="fushi.xml"/>
+	<xi:include href="instance.xml"/>
+	<xi:include href="triggers.xml"/>
+	<xi:include href="common.xml"/>
+	<xi:include href="shop.xml"/>
+	<xi:include href="activity.xml"/>
+	<xi:include href="treasuremap.xml"/>
+	<xi:include href="move.xml"/>
+	<xi:include href="friends.xml"/>
+</namespace>
+</namespace>

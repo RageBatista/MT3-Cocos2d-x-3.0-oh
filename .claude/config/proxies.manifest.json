@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "updated": "2026-03-06",
+  "defaults": {
+    "fallback_proxy": "architecture-proxy",
+    "mode": "standard"
+  },
+  "proxies": [
+    {
+      "id": "architecture-proxy",
+      "description": "通用方案代理：负责需求澄清、架构分解、最小可行改造路径设计",
+      "primary_agent": "architecture-analyst",
+      "fallback_agents": ["doc-writer", "build-expert"],
+      "linked_skills": ["project-context", "dependency-management", "distributed-arch"],
+      "linked_commands": ["plan", "status"],
+      "workflow_candidates": ["error-diagnosis-workflow"],
+      "activation_intents": ["architecture_design", "documentation"]
+    },
+    {
+      "id": "build-proxy",
+      "description": "构建代理：统一 Windows/Android/Server 的构建、排障与回归验证",
+      "primary_agent": "build-expert",
+      "fallback_agents": ["build-error-resolver", "test-engineer"],
+      "linked_skills": [
+        "build-troubleshooting",
+        "windows-build",
+        "android-build",
+        "ant-build",
+        "verification-loop"
+      ],
+      "linked_commands": [
+        "build-win",
+        "build-android",
+        "build-server",
+        "diagnose-build",
+        "verify",
+        "codegen"
+      ],
+      "workflow_candidates": [
+        "windows-build-workflow",
+        "android-build-workflow",
+        "server-build-workflow",
+        "error-diagnosis-workflow"
+      ],
+      "activation_intents": [
+        "build_windows",
+        "build_android",
+        "build_server",
+        "build_compile",
+        "build_failure"
+      ]
+    },
+    {
+      "id": "quality-proxy",
+      "description": "质量代理：把代码审查、安全审查与验证门禁组合成统一交付路径",
+      "primary_agent": "code-reviewer",
+      "fallback_agents": ["security-auditor", "test-engineer"],
+      "linked_skills": ["search-first", "debugging", "verification-loop", "git-workflow"],
+      "linked_commands": ["orchestrate", "verify", "quality-gate"],
+      "workflow_candidates": ["verification-workflow", "orchestrate-workflow"],
+      "activation_intents": ["code_review", "testing", "security_audit", "verification"]
+    },
+    {
+      "id": "release-proxy",
+      "description": "发布代理：在打包、验收、回滚方案之间建立固定流程",
+      "primary_agent": "deploy-specialist",
+      "fallback_agents": ["build-expert", "doc-writer"],
+      "linked_skills": ["windows-build", "android-build", "ant-build", "verification-loop"],
+      "linked_commands": ["build-win", "build-android", "build-server", "verify"],
+      "workflow_candidates": [
+        "windows-build-workflow",
+        "android-build-workflow",
+        "server-build-workflow",
+        "verification-workflow"
+      ],
+      "activation_intents": ["deployment_release"]
+    },
+    {
+      "id": "evolution-proxy",
+      "description": "进化代理：负责经验采集、提案生成与受控回灌",
+      "primary_agent": "architecture-analyst",
+      "fallback_agents": ["doc-writer", "test-engineer"],
+      "linked_skills": ["continuous-learning-v2", "verification-loop", "git-workflow"],
+      "linked_commands": ["status", "verify"],
+      "workflow_candidates": ["skill-evolution-workflow"],
+      "activation_intents": ["skill_evolution"]
+    },
+    {
+      "id": "config-governance-proxy",
+      "description": "配置治理代理：负责 .claude / MCP / Hook / Command / Workflow 的一致性设计、落地与审计闭环",
+      "primary_agent": "architecture-analyst",
+      "fallback_agents": ["workflow-orchestrator", "doc-writer"],
+      "linked_skills": [
+        "claude-config-engineering",
+        "search-first",
+        "project-context",
+        "verification-loop",
+        "continuous-learning-v2"
+      ],
+      "linked_commands": ["audit-config", "quality-gate", "mcp-status", "plan"],
+      "workflow_candidates": ["claude-config-workflow", "verification-workflow"],
+      "activation_intents": ["mcp_management", "claude_config_governance"]
+    }
+  ]
+}

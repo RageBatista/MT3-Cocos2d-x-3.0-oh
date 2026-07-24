@@ -1,0 +1,13 @@
+interface:
+  display_name: "Codex 运行时治理"
+  short_description: "治理 MT3 的 .codex 原生配置与 .agents 技能元数据；不处理 .claude 桥接或业务代码。"
+  default_prompt: "使用 $codex-runtime-governance 审查或更新当前 MT3 Codex 运行时治理配置，并给出必须执行的验证命令。"
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "openaiDeveloperDocs"
+      description: "OpenAI developer documentation MCP server for Codex, MCP, rules, skills, and subagent semantics"
+      transport: "streamable_http"
+      url: "https://developers.openai.com/mcp"

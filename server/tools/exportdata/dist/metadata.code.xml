@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xdb>
+<xbean name="UserInfo">
+<variable name="plat" typeName="string"/>
+<variable name="uid" typeName="string"/>
+</xbean>
+<xbean name="LocojoyPlatOrderInfo">
+<variable name="createtime" typeName="long"/>
+<variable name="orderserialplat" typeName="string"/>
+<variable name="orderserialgame" typeName="string"/>
+<variable name="username" typeName="string"/>
+<variable name="vars" typeName="binary"/>
+</xbean>
+<xbean name="LocojoyPlatUserInfo">
+<variable name="userid" typeName="int"/>
+<variable name="userinfoid" typeName="long"/>
+</xbean>
+<table autoKey="false" capacity="" foreign="" keyName="string" name="locojoyplatusers" persistence="DB" valueName="LocojoyPlatUserInfo"/>
+<table autoKey="false" capacity="" foreign="" keyName="string" name="locojoyplatordergametoplat" persistence="DB" valueName="string"/>
+<table autoKey="false" capacity="" foreign="" keyName="string" name="locojoyplatorderinfos" persistence="DB" valueName="LocojoyPlatOrderInfo"/>
+<table autoKey="true" capacity="" foreign="" keyName="long" name="users" persistence="DB" valueName="UserInfo"/>
+</xdb>

@@ -1,0 +1,91 @@
+{extend name="layout/base" /}
+
+{block name="title"}客服中心 - 玩家服务中心{/block}
+{block name="page_title"}客服中心{/block}
+
+{block name="content"}
+<!-- 联系方式 -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-headset"></i> 联系客服</h3>
+        <span class="text-muted" style="font-size: 13px;">我们随时为您提供帮助</span>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="mdi mdi-qqchat contact-icon" style="color: #12b7f5;"></i>
+                    <h4>QQ客服</h4>
+                    <p>{$service_config.qq|default='暂未配置'}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="mdi mdi-wechat contact-icon" style="color: #07c160;"></i>
+                    <h4>微信客服</h4>
+                    <p>{$service_config.wechat|default='暂未配置'}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="mdi mdi-phone contact-icon" style="color: var(--bs-danger);"></i>
+                    <h4>客服电话</h4>
+                    <p>{$service_config.phone|default='暂未配置'}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常见问题 -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-frequently-asked-questions"></i> 常见问题</h3>
+    </div>
+    <div class="card-body">
+        {if condition="!empty($faqs)"}
+        {volist name="faqs" id="vo"}
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+            <div class="faq-question">
+                <span><i class="mdi mdi-help-circle"
+                        style="color: var(--bs-primary); margin-right: 8px;"></i>{$vo.question}</span>
+                <i class="mdi mdi-chevron-down faq-toggle"></i>
+            </div>
+            <div class="faq-answer">{$vo.answer}</div>
+        </div>
+        {/volist}
+        {else/}
+        <div class="player-empty">
+            <i class="mdi mdi-help-circle-outline"></i>
+            <p>暂无常见问题</p>
+        </div>
+        {/if}
+    </div>
+</div>
+
+<!-- 快速入口 -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-lightning-bolt"></i> 快速入口</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4" style="margin-bottom: 12px;">
+                <a href="/player/feedback" class="quick-link">
+                    <i class="mdi mdi-message-text"></i> 提交反馈
+                </a>
+            </div>
+            <div class="col-md-4" style="margin-bottom: 12px;">
+                <a href="/player/order" class="quick-link">
+                    <i class="mdi mdi-receipt"></i> 订单查询
+                </a>
+            </div>
+            <div class="col-md-4" style="margin-bottom: 12px;">
+                <a href="/player/profile" class="quick-link">
+                    <i class="mdi mdi-account-cog"></i> 账户管理
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

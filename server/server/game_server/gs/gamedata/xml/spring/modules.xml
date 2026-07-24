@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="itemmodule" class="fire.gsp.item.Module" init-method="init" />
+	<bean id="petmodule" class="fire.gsp.pet.Module" init-method="init" />
+	<bean id="scenemodule" class="fire.gsp.scene.Module"	init-method="init" />
+	<bean id="battlemodule" class="fire.gsp.battle.Module" 	init-method="init" />
+	<bean id="npcmodule" class="fire.gsp.npc.Module" 	init-method="init" />
+
+	<bean id="ModuleManager" class="fire.gsp.main.ModuleManager">
+		<property name="modules">		
+			<map>
+				<entry key="item" value-ref="itemmodule"></entry>
+				<entry key="pet" value-ref="petmodule"></entry>
+				<entry key="scene" value-ref="scenemodule"></entry>
+				<entry key="battle" value-ref="battlemodule"></entry>
+				<entry key="npc" value-ref="npcmodule"></entry>
+			</map>
+		</property>
+	</bean>
+</beans>           

@@ -1,0 +1,88 @@
+{extend name="layout/base" /}
+
+{block name="title"}服务器详情 - 玩家服务中心{/block}
+{block name="page_title"}服务器详情{/block}
+
+{block name="content"}
+<div class="card">
+    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 class="card-title" style="margin: 0;"><i class="mdi mdi-server"></i> {$server.name|default='未知服务器'}</h3>
+        {if condition="$is_bound"}
+        <span class="badge badge-success"><i class="mdi mdi-check-circle"></i> 已绑定</span>
+        {else/}
+        <span class="badge badge-secondary"><i class="mdi mdi-link-variant-off"></i> 未绑定</span>
+        {/if}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>服务器ID：</strong>{$server.serverid|default='-'}</p>
+                <p><strong>分组：</strong>{$server.groupname|default='默认'}</p>
+                <p><strong>开服时间：</strong>{$server.opentime|default='-'}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>状态：</strong>
+                    {if condition="$server['status'] == 1"}
+                    <span class="badge badge-success">正常</span>
+                    {else/}
+                    <span class="badge badge-danger">维护</span>
+                    {/if}
+                </p>
+                <p><strong>IP：</strong>{$server.serverip|default='-'}</p>
+                <p><strong>端口：</strong>{$server.serverport|default='-'}</p>
+            </div>
+        </div>
+        <div style="margin-top: 16px;">
+            <a href="/player/server" class="btn btn-default">
+                <i class="mdi mdi-arrow-left"></i> 返回服务器列表
+            </a>
+        </div>
+    </div>
+</div>
+
+{if condition="!empty($server.notice) && $server.notice != '0'"}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-bullhorn"></i> 服务器公告</h3>
+    </div>
+    <div class="card-body">
+        <div style="line-height: 1.8; color: var(--bs-muted-color);">{$server.notice|htmlspecialchars|nl2br}</div>
+    </div>
+</div>
+{/if}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-account-group"></i> 本服角色</h3>
+    </div>
+    <div class="card-body" style="padding: 0;">
+        {if condition="!empty($roles)"}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" style="margin-bottom: 0;">
+                <thead>
+                    <tr>
+                        <th>角色ID</th>
+                        <th>角色名</th>
+                        <th>等级</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {volist name="roles" id="role"}
+                    <tr>
+                        <td>{$role.playerid}</td>
+                        <td>{$role.playername|default='未命名角色'}</td>
+                        <td>{$role.level|default='0'}</td>
+                    </tr>
+                    {/volist}
+                </tbody>
+            </table>
+        </div>
+        {else/}
+        <div class="player-empty" style="padding: 32px 16px;">
+            <i class="mdi mdi-account-off"></i>
+            <p>当前账号在该服务器暂无角色</p>
+        </div>
+        {/if}
+    </div>
+</div>
+{/block}

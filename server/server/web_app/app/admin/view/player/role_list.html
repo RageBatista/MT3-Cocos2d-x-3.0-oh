@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+    <!--表格插件css-->
+    <link rel="stylesheet" href="__MB__/js/bootstrap-table/bootstrap-table.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-title">角色管理</div>
+                    </header>
+                    <div class="card-body">
+                        <div class="card-search mb-2-5">
+                            <form class="search-form" method="get" action="#!" role="form">
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <label class="col-sm-4 col-form-label">角色ID</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control pull-left" name="roleid" value=""
+                                                    placeholder="角色ID" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <label class="col-sm-4 col-form-label">角色名称</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control pull-left" name="name" value=""
+                                                    placeholder="角色名称" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <label class="col-sm-4 col-form-label">所属账号</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control pull-left" name="username"
+                                                    value="" placeholder="所属账号" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-10">
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="searchRole()">搜索</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    onclick="resetSearch()">重置</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <table id="roleTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+    <script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+    <!--表格插件-->
+    <script src="__MB__/js/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="__MB__/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!--通知弹窗-->
+    <link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+    <script src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+    <script type="text/javascript">
+        // HTML 转义函数，防止 XSS
+        function htmlEncode(str) {
+            return String(str).replace(/[&<>"'\/]/g, function (s) {
+                return {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;",
+                    "/": "&#x2F;"
+                }[s];
+            });
+        }
+
+        // 职业映射
+        var professionMap = {
+            0: '未知',
+            1: '大唐官府',
+            2: '方寸山',
+            3: '狮驼岭',
+            4: '化生寺',
+            5: '龙宫',
+            6: '普陀山',
+            7: '魔王寨',
+            8: '阴曹地府',
+            9: '女儿村',
+            10: '天宫',
+            11: '五庄观',
+            12: '盘丝洞',
+            13: '神木林',
+            14: '无底洞',
+            15: '月宫',
+            16: '花果山',
+            17: '女魃墓',
+            18: '凌波城',
+            19: '天机城'
+        };
+
+        // 格式化时间戳
+        function formatTimestamp(ts) {
+            if (!ts || ts == 0) return '-';
+            var d = new Date(ts * 1000);
+            var Y = d.getFullYear();
+            var M = ('0' + (d.getMonth() + 1)).slice(-2);
+            var D = ('0' + d.getDate()).slice(-2);
+            var h = ('0' + d.getHours()).slice(-2);
+            var m = ('0' + d.getMinutes()).slice(-2);
+            var s = ('0' + d.getSeconds()).slice(-2);
+            return Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s;
+        }
+
+        $('#roleTable').bootstrapTable({
+            url: '/index.php?s=/{$app}/player/role_table',
+            method: 'get',
+            toolbar: '#toolbar',
+            striped: true,
+            cache: false,
+            pagination: true,
+            sortable: false,
+            sortOrder: 'desc',
+            sidePagination: 'server',
+            pageNumber: 1,
+            pageSize: 20,
+            pageList: [10, 20, 50, 100],
+            showRefresh: true,
+            showColumns: true,
+            clickToSelect: true,
+            uniqueId: 'roleid',
+            showToggle: true,
+            cardView: false,
+            smartDisplay: false,
+            locale: 'zh-CN',
+            formatShowingRows: function (pageFrom, pageTo, totalRows) {
+                return '显示第 ' + pageFrom + ' 到第 ' + pageTo + ' 条记录，共 ' + totalRows + ' 条';
+            },
+            formatRecordsPerPage: function (pageNumber) {
+                return '每页显示 ' + pageNumber + ' 条';
+            },
+            formatNoMatches: function () {
+                return '没有找到匹配的记录';
+            },
+            formatRefresh: function () {
+                return '刷新';
+            },
+            formatColumns: function () {
+                return '列';
+            },
+            formatToggleOn: function () {
+                return '显示卡片视图';
+            },
+            formatToggleOff: function () {
+                return '隐藏卡片视图';
+            },
+            queryParams: function (params) {
+                return {
+                    limit: params.limit,
+                    offset: params.offset,
+                    roleid: $('input[name="roleid"]').val(),
+                    name: $('input[name="name"]').val(),
+                    username: $('input[name="username"]').val()
+                };
+            },
+            columns: [
+                {
+                    field: 'roleid',
+                    title: '角色ID',
+                    align: 'center',
+                    formatter: function (value) {
+                        return htmlEncode(String(value));
+                    }
+                },
+                {
+                    field: 'name',
+                    title: '角色名称',
+                    align: 'center',
+                    formatter: function (value) {
+                        return htmlEncode(value || '');
+                    }
+                },
+                {
+                    field: 'level',
+                    title: '等级',
+                    align: 'center',
+                    formatter: function (value) {
+                        if (!value) return '<span class="badge badge-secondary">0</span>';
+                        var color = 'secondary';
+                        if (value >= 100) color = 'danger';
+                        else if (value >= 69) color = 'warning';
+                        else if (value >= 40) color = 'primary';
+                        else if (value >= 20) color = 'info';
+                        return '<span class="badge badge-' + color + '">' + value + '</span>';
+                    }
+                },
+                {
+                    field: 'profession',
+                    title: '职业',
+                    align: 'center',
+                    formatter: function (value) {
+                        return htmlEncode(professionMap[value] || '未知(' + value + ')');
+                    }
+                },
+                {
+                    field: 'username',
+                    title: '所属账号',
+                    align: 'center',
+                    formatter: function (value, row) {
+                        if (!value) return '<span class="text-muted">无绑定</span>';
+                        return '<a href="/index.php?s=/{$app}/player/list&username=' + encodeURIComponent(value) + '&lastagent=0#!"><span class="btn btn-sm btn-primary">' + htmlEncode(value) + '</span></a>';
+                    }
+                },
+                {
+                    field: 'createtime',
+                    title: '创建时间',
+                    align: 'center',
+                    formatter: function (value) {
+                        return formatTimestamp(value);
+                    }
+                },
+                {
+                    field: 'lastlogintime',
+                    title: '最后登录',
+                    align: 'center',
+                    formatter: function (value) {
+                        return formatTimestamp(value);
+                    }
+                }
+            ]
+        });
+
+        function searchRole() {
+            $('#roleTable').bootstrapTable('refresh', { pageNumber: 1 });
+        }
+
+        function resetSearch() {
+            $('input[name="roleid"]').val('');
+            $('input[name="name"]').val('');
+            $('input[name="username"]').val('');
+            $('#roleTable').bootstrapTable('refresh', { pageNumber: 1 });
+        }
+    </script>
+</body>
+
+</html>

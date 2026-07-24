@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.2.0",
+  "updated": "2026-07-14",
+  "mode": "governance-sidecar",
+  "runtime_sources": [
+    ".codex/config.toml",
+    "trusted global Codex config merge",
+    "active managed/system requirements source when present"
+  ],
+  "runtime_verification": "codex -C E:\\MT3 mcp list --json",
+  "policy": {
+    "scope": "project_manifest_enabled_by_default_only",
+    "runtime_merged_set": "observe_only",
+    "inherited_runtime_drift_severity": "warning",
+    "project_closure": "User, system, and managed MCP inheritance cannot be disabled or proven project-owned by this manifest.",
+    "max_enabled_servers": 5,
+    "recommended_enabled_servers": 0,
+    "prefer_local_first": true,
+    "require_explicit_env_binding": true
+  },
+  "servers": [
+    {
+      "id": "apktool",
+      "provider": "apktool-mcp-server",
+      "transport": "stdio",
+      "category": "reverse-engineering",
+      "enabled_by_default": false,
+      "description": "用于 APK 静态分析治理；项目默认关闭。"
+    },
+    {
+      "id": "atlassian",
+      "provider": "https://mcp.atlassian.com/v1/mcp",
+      "transport": "http",
+      "category": "optional",
+      "enabled_by_default": false,
+      "description": "用于 Jira / Confluence 等 Atlassian 资料访问。"
+    },
+    {
+      "id": "chrome-devtools",
+      "provider": "chrome-devtools-mcp",
+      "transport": "stdio",
+      "category": "automation",
+      "enabled_by_default": false,
+      "description": "用于 Chrome DevTools 页面诊断与性能检查。"
+    },
+    {
+      "id": "context7",
+      "provider": "@upstash/context7-mcp",
+      "transport": "stdio",
+      "category": "research",
+      "enabled_by_default": false,
+      "description": "查询第三方库和框架的官方文档片段。"
+    },
+    {
+      "id": "docker-gateway",
+      "provider": "docker-mcp-gateway",
+      "transport": "stdio",
+      "category": "infrastructure",
+      "enabled_by_default": false,
+      "description": "用于 Docker MCP Gateway 集成治理；项目默认关闭。"
+    },
+    {
+      "id": "exa",
+      "provider": "https://mcp.exa.ai/mcp",
+      "transport": "http",
+      "category": "research",
+      "enabled_by_default": false,
+      "description": "用于联网搜索与外部资料检索。"
+    },
+    {
+      "id": "fetch",
+      "provider": "mcp-server-fetch",
+      "transport": "stdio",
+      "category": "research",
+      "enabled_by_default": false,
+      "description": "用于通用 HTTP 内容获取；项目默认关闭。"
+    },
+    {
+      "id": "filesystem",
+      "provider": "@modelcontextprotocol/server-filesystem",
+      "transport": "stdio",
+      "category": "local",
+      "enabled_by_default": false,
+      "description": "用于受限文件系统访问；项目默认关闭。"
+    },
+    {
+      "id": "git",
+      "provider": "mcp-server-git",
+      "transport": "stdio",
+      "category": "development",
+      "enabled_by_default": false,
+      "description": "用于 Git 仓库操作；项目默认关闭。"
+    },
+    {
+      "id": "github",
+      "provider": "https://api.githubcopilot.com/mcp/",
+      "transport": "http",
+      "category": "optional",
+      "enabled_by_default": false,
+      "description": "用于 PR / Issue / 仓库检索与变更联动。"
+    },
+    {
+      "id": "linear",
+      "provider": "https://mcp.linear.app/mcp",
+      "transport": "http",
+      "category": "optional",
+      "enabled_by_default": false,
+      "description": "用于 Linear 任务检索与同步。"
+    },
+    {
+      "id": "memory",
+      "provider": "@modelcontextprotocol/server-memory",
+      "transport": "stdio",
+      "category": "core",
+      "enabled_by_default": false,
+      "description": "用于 MCP 记忆存储；项目默认关闭。"
+    },
+    {
+      "id": "node_repl",
+      "provider": "codex-bundled-node-repl",
+      "transport": "stdio",
+      "category": "core",
+      "enabled_by_default": false,
+      "description": "用于 Codex 内置 Node.js REPL；项目默认关闭。"
+    },
+    {
+      "id": "notion",
+      "provider": "https://mcp.notion.com/mcp",
+      "transport": "http",
+      "category": "productivity",
+      "enabled_by_default": false,
+      "description": "用于读取与更新 Notion 工作区资料；项目默认关闭。"
+    },
+    {
+      "id": "open-websearch",
+      "provider": "open-websearch",
+      "transport": "stdio",
+      "category": "research",
+      "enabled_by_default": false,
+      "description": "用于通用 Web 搜索与网页抓取；项目默认关闭。"
+    },
+    {
+      "id": "openaiDeveloperDocs",
+      "provider": "https://developers.openai.com/mcp",
+      "transport": "http",
+      "category": "core",
+      "enabled_by_default": false,
+      "description": "查询 OpenAI/Codex 官方文档与配置规范；按 Profile 启用。"
+    },
+    {
+      "id": "playwright",
+      "provider": "@playwright/mcp",
+      "transport": "stdio",
+      "category": "automation",
+      "enabled_by_default": false,
+      "description": "用于浏览器自动化、表单交互与页面检查。"
+    },
+    {
+      "id": "postgres",
+      "provider": "@modelcontextprotocol/server-postgres",
+      "transport": "stdio",
+      "category": "data",
+      "enabled_by_default": false,
+      "description": "用于 PostgreSQL 数据访问；项目默认关闭。"
+    },
+    {
+      "id": "puppeteer",
+      "provider": "@modelcontextprotocol/server-puppeteer",
+      "transport": "stdio",
+      "category": "automation",
+      "enabled_by_default": false,
+      "description": "用于 Puppeteer 浏览器自动化；项目默认关闭。"
+    },
+    {
+      "id": "sequential-thinking",
+      "provider": "modelcontextprotocol/server-sequential-thinking",
+      "transport": "stdio",
+      "category": "core",
+      "enabled_by_default": false,
+      "description": "用于复杂任务分解与推理链路管理。"
+    },
+    {
+      "id": "sqlite",
+      "provider": "@modelcontextprotocol/server-sqlite",
+      "transport": "stdio",
+      "category": "data",
+      "enabled_by_default": false,
+      "description": "用于 SQLite 数据访问；项目默认关闭。"
+    },
+    {
+      "id": "tavily-search",
+      "provider": "tavily-mcp",
+      "transport": "stdio",
+      "category": "research",
+      "enabled_by_default": false,
+      "description": "用于 Tavily 搜索；凭据只从运行时环境透传。"
+    },
+    {
+      "id": "time",
+      "provider": "mcp-server-time",
+      "transport": "stdio",
+      "category": "core",
+      "enabled_by_default": false,
+      "description": "用于时间查询；项目默认关闭。"
+    }
+  ],
+  "intent_bindings": [
+    {
+      "intent": "architecture_design",
+      "preferred_servers": ["sequential-thinking", "openaiDeveloperDocs"],
+      "optional_servers": ["context7", "exa"]
+    },
+    {
+      "intent": "build_failure",
+      "preferred_servers": ["sequential-thinking", "chrome-devtools"],
+      "optional_servers": ["playwright", "context7"]
+    },
+    {
+      "intent": "documentation",
+      "preferred_servers": ["openaiDeveloperDocs"],
+      "optional_servers": ["context7", "exa"]
+    },
+    {
+      "intent": "mcp_management",
+      "preferred_servers": ["openaiDeveloperDocs", "sequential-thinking"],
+      "optional_servers": ["context7", "exa"]
+    },
+    {
+      "intent": "claude_config_governance",
+      "preferred_servers": ["openaiDeveloperDocs", "sequential-thinking"],
+      "optional_servers": ["context7", "exa"]
+    },
+    {
+      "intent": "verification",
+      "preferred_servers": ["playwright", "chrome-devtools"],
+      "optional_servers": ["context7", "openaiDeveloperDocs"]
+    },
+    {
+      "intent": "code_review",
+      "preferred_servers": ["sequential-thinking"],
+      "optional_servers": ["context7", "exa"]
+    },
+    {
+      "intent": "protocol_data",
+      "preferred_servers": ["sequential-thinking"],
+      "optional_servers": ["context7"]
+    },
+    {
+      "intent": "skill_evolution",
+      "preferred_servers": ["sequential-thinking"],
+      "optional_servers": ["context7"]
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+{
+  "schema_version": "1.1.0",
+  "updated": "2026-07-12",
+  "description": "MT3 治理层权威来源映射。用于区分主事实源、派生视图、桥接/sidecar、运行时真值校验点与报告产物，并声明 route/manifest/skill 校验使用的 canonical registry。",
+  "artifact_classes": {
+    "primary_fact_source": {
+      "name": "主事实源",
+      "description": "直接承载事实、规则或可执行配置真值的源文件。出现冲突时，优先以此类文件裁决。"
+    },
+    "derived_view": {
+      "name": "派生视图",
+      "description": "基于主事实源整理出的导航、索引或解释性视图，用于阅读和定位，不单独充当真值。"
+    },
+    "bridge_sidecar": {
+      "name": "桥接/sidecar",
+      "description": "为兼容、审计、导出或跨工具桥接而保留的辅助文件，不替代原生运行时入口。"
+    },
+    "runtime_truth_checkpoint": {
+      "name": "运行时真值校验点",
+      "description": "只能通过运行态命令、快照或最新状态文件验证的真值校验点。"
+    },
+    "report_artifact": {
+      "name": "报告产物",
+      "description": "由审计、验证或质量门脚本生成的报告文件，用于留痕和回归比较，不反向定义主事实。"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "AGENTS.md",
+      "class": "primary_fact_source",
+      "owner": "repository",
+      "note": "跨工具统一事实入口。"
+    },
+    {
+      "path": ".claude/RULES.md",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "硬约束真值。"
+    },
+    {
+      "path": ".claude/BUILD_GUIDE.md",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "已验证命令基线。"
+    },
+    {
+      "path": ".codex/config.toml",
+      "class": "primary_fact_source",
+      "owner": "codex-native-runtime",
+      "note": "Codex 项目级原生运行时入口。"
+    },
+    {
+      "path": ".claude/config/router.json",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "路由意图与 load_order 真值。"
+    },
+    {
+      "path": ".claude/config/agents.manifest.json",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "route.primary_agent 的 canonical registry。"
+    },
+    {
+      "path": ".claude/config/skills.manifest.json",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "route.skills 的 canonical registry；单技能引用必须走 skills 集合，不走 modules 聚合视图。"
+    },
+    {
+      "path": ".claude/config/workflows.manifest.json",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "route.workflow_id 与 workflow_candidates 的 canonical registry。"
+    },
+    {
+      "path": ".claude/config/proxies.manifest.json",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "route.default_proxy 的 canonical registry。"
+    },
+    {
+      "path": ".claude/config/quality-gates.json",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "结构阈值与入口契约真值。"
+    },
+    {
+      "path": ".claude/config/evidence-contract.json",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "证据模型、状态口径与 baseline 要求真值。"
+    },
+    {
+      "path": ".claude/config/source-authority.json",
+      "class": "primary_fact_source",
+      "owner": "claude-governance",
+      "note": "本阶段新增的权威来源分类与 canonical registry 映射。"
+    },
+    {
+      "path": ".agents/skills/mt3-project-guidelines/SKILL.md",
+      "class": "primary_fact_source",
+      "owner": "codex-native-skills",
+      "note": "Codex 原生技能入口真值。"
+    },
+    {
+      "path": ".agents/skills/mt3-project-guidelines/references/legacy-skill-routing.md",
+      "class": "derived_view",
+      "owner": "codex-native-skills",
+      "note": "历史 .claude 技能名到当前 .agents 技能的路由映射视图。"
+    },
+    {
+      "path": "tools/AGENTS.md",
+      "class": "primary_fact_source",
+      "owner": "tools-governance",
+      "note": "tools 子树治理边界与技能路由入口。"
+    },
+    {
+      "path": "tools/scripts/Build-MT3-Exe-Canonical.ps1",
+      "class": "primary_fact_source",
+      "owner": "tools-build",
+      "note": "Win32 MT3 构建固定入口脚本。"
+    },
+    {
+      "path": "tools/scripts/Build-Android-Locojoy-WithGate.ps1",
+      "class": "primary_fact_source",
+      "owner": "tools-build",
+      "note": "Android Locojoy 构建与门禁入口脚本。"
+    },
+    {
+      "path": "tools/scripts/Audit-RuntimeDependencies.ps1",
+      "class": "primary_fact_source",
+      "owner": "tools-governance",
+      "note": "工具运行时依赖漂移审计入口。"
+    },
+    {
+      "path": ".claude/CODEX_BRIDGE.md",
+      "class": "derived_view",
+      "owner": "claude-governance",
+      "note": "桥接流程说明，必须回指主事实源，不单独定义 registry 真值。"
+    },
+    {
+      "path": ".claude/config/INDEX.md",
+      "class": "derived_view",
+      "owner": "claude-governance",
+      "note": "配置索引与导航视图。"
+    },
+    {
+      "path": ".codex/requirements.toml",
+      "class": "bridge_sidecar",
+      "owner": "codex-compat",
+      "note": "schema-compatible sidecar；用于审计与导出，不是项目级原生运行时入口。"
+    },
+    {
+      "path": ".codex/compat/claude-bridge.json",
+      "class": "bridge_sidecar",
+      "owner": "codex-compat",
+      "note": "兼容桥接摘要；不替代 router.json 与 manifests 的完整真值。"
+    },
+    {
+      "path": ".claude/reports/mcp-runtime-snapshot.json",
+      "class": "runtime_truth_checkpoint",
+      "owner": "runtime-evidence",
+      "note": "Codex MCP 运行面快照，由 codex mcp list 留痕。"
+    },
+    {
+      "path": ".claude/reports/quality-gate-report.json",
+      "class": "runtime_truth_checkpoint",
+      "owner": "runtime-evidence",
+      "note": "最近一次质量门状态快照。"
+    },
+    {
+      "path": ".claude/reports/claude-config-audit.json",
+      "class": "report_artifact",
+      "owner": "audit-output",
+      "note": "Claude 配置审计报告。"
+    },
+    {
+      "path": ".claude/reports/codex-sidecars-validation.json",
+      "class": "report_artifact",
+      "owner": "audit-output",
+      "note": "Codex sidecar 校验报告。"
+    },
+    {
+      "path": ".claude/reports/codex-guardrails-audit.json",
+      "class": "report_artifact",
+      "owner": "audit-output",
+      "note": "Codex guardrails 审计报告。"
+    },
+    {
+      "path": ".claude/reports/codex-skills-audit.json",
+      "class": "report_artifact",
+      "owner": "audit-output",
+      "note": "Codex skills 审计报告。"
+    },
+    {
+      "path": ".claude/reports/codex-skills-workflow-health.json",
+      "class": "report_artifact",
+      "owner": "audit-output",
+      "note": "Codex skills 工作流健康分析报告。"
+    },
+    {
+      "path": "tools/reports/runtime-dependency-audit.json",
+      "class": "report_artifact",
+      "owner": "audit-output",
+      "note": "tools 目录运行时依赖审计报告。"
+    },
+    {
+      "path": ".codex/project-map.json",
+      "class": "primary_fact_source",
+      "owner": "codex-governance",
+      "note": "项目事实、路径可用性与构建/验证入口 sidecar。"
+    },
+    {
+      "path": ".codex/workflows/workflow-engine.json",
+      "class": "primary_fact_source",
+      "owner": "codex-governance",
+      "note": "13 个声明式工作流图的目录真值；不是自动执行引擎。"
+    },
+    {
+      "path": ".codex/schemas/project-map.schema.json",
+      "class": "primary_fact_source",
+      "owner": "codex-governance",
+      "note": "project-map 结构契约。"
+    },
+    {
+      "path": ".codex/schemas/workflow-catalog.schema.json",
+      "class": "primary_fact_source",
+      "owner": "codex-governance",
+      "note": "workflow catalog 结构契约。"
+    },
+    {
+      "path": ".codex/agents/",
+      "class": "primary_fact_source",
+      "owner": "codex-native-runtime",
+      "note": "13 个项目级 Agent 的职责、推理强度与 sandbox 配置。"
+    },
+    {
+      "path": ".codex/hooks.json",
+      "class": "primary_fact_source",
+      "owner": "codex-native-runtime",
+      "note": "项目 PreToolUse hook 原生声明。"
+    },
+    {
+      "path": ".codex/hooks/mt3-pretool-guard.ps1",
+      "class": "primary_fact_source",
+      "owner": "codex-native-runtime",
+      "note": "命令包装、编码写入、生成物和 Git 操作的可执行补充守卫。"
+    },
+    {
+      "path": ".codex/rules/mt3-guardrails.rules",
+      "class": "primary_fact_source",
+      "owner": "codex-native-runtime",
+      "note": "Codex execpolicy 原生规则。"
+    },
+    {
+      "path": ".codex/permissions/guardrails.json",
+      "class": "bridge_sidecar",
+      "owner": "codex-compat",
+      "note": "原生 rules/hook 与审计矩阵的权限映射 sidecar。"
+    },
+    {
+      "path": ".codex/mcp/mcp-profiles.json",
+      "class": "bridge_sidecar",
+      "owner": "codex-compat",
+      "note": "项目声明与继承 MCP 的审计目录，不直接改变运行时。"
+    }
+  ],
+  "canonical_registries": {
+    "route_agents": {
+      "path": ".claude/config/agents.manifest.json",
+      "collection": "agents",
+      "id_field": "id",
+      "class": "primary_fact_source"
+    },
+    "route_skills": {
+      "path": ".claude/config/skills.manifest.json",
+      "collection": "skills",
+      "id_field": "id",
+      "class": "primary_fact_source"
+    },
+    "route_workflows": {
+      "path": ".claude/config/workflows.manifest.json",
+      "collection": "workflows",
+      "id_field": "id",
+      "class": "primary_fact_source"
+    },
+    "route_proxies": {
+      "path": ".claude/config/proxies.manifest.json",
+      "collection": "proxies",
+      "id_field": "id",
+      "class": "primary_fact_source"
+    },
+    "skills_module_index": {
+      "path": ".claude/config/skills.manifest.json",
+      "collection": "modules",
+      "id_field": "id",
+      "class": "derived_view",
+      "note": "技能模块聚合视图；可用于分组导航，但不能替代 route_skills 做单技能引用校验。"
+    },
+    "codex_workflows": {
+      "path": ".codex/workflows/workflow-engine.json",
+      "collection": "workflows",
+      "id_field": "id",
+      "class": "primary_fact_source"
+    },
+    "codex_agents": {
+      "path": ".codex/agents/",
+      "collection": "*.toml",
+      "id_field": "name",
+      "class": "primary_fact_source"
+    },
+    "codex_skills": {
+      "path": ".agents/skills/",
+      "collection": "*/SKILL.md",
+      "id_field": "name",
+      "class": "primary_fact_source"
+    }
+  },
+  "controlled_exceptions": [
+    {
+      "id": "compat_entry_order_is_compact",
+      "path": ".codex/compat/claude-bridge.json",
+      "status": "accepted",
+      "scope": "entry_order",
+      "reason": "兼容桥接文件只保留最小入口顺序，不与 .claude/config/router.json 的完整 load_order 强绑定；完整顺序以 router.json + quality-gates.json + evidence-contract.json + source-authority.json 为准。"
+    }
+  ],
+  "governance_scope": {
+    "roots": [
+      ".codex/**",
+      ".agents/skills/**",
+      ".claude/config/**",
+      ".claude/scripts/**"
+    ],
+    "description": ".codex 全子树均须分类为原生运行入口、主事实 sidecar、审计桥接或运行证据，不允许无权威归属的配置孤岛。"
+  }
+}

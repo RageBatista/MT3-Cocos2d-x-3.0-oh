@@ -1,0 +1,85 @@
+//
+// 由 IntelliJ IDEA 根据 .class 文件还原的源代码
+// （由 FernFlower 反编译器生成）
+//
+
+package fire.pb.game;
+
+import java.util.Map;
+import mytools.ConvMain;
+
+public class FirstPayGiftData implements ConvMain.Checkable {
+    public int itemid = 0;
+    public int itemnum = 0;
+    public int isbind = 0;
+    public int petid = 0;
+    public int petnum = 0;
+    public int petisbind = 0;
+
+    public FirstPayGiftData() {
+    }
+
+    public FirstPayGiftData(FirstPayGiftData arg) {
+        this.itemid = arg.itemid;
+        this.itemnum = arg.itemnum;
+        this.isbind = arg.isbind;
+        this.petid = arg.petid;
+        this.petnum = arg.petnum;
+        this.petisbind = arg.petisbind;
+    }
+
+    public void checkValid(Map<String, Map<Integer, ? extends Object>> objs) {
+    }
+
+    public int getItemid() {
+        return this.itemid;
+    }
+
+    public void setItemid(int v) {
+        this.itemid = v;
+    }
+
+    public int getItemnum() {
+        return this.itemnum;
+    }
+
+    public void setItemnum(int v) {
+        this.itemnum = v;
+    }
+
+    public int getIsbind() {
+        return this.isbind;
+    }
+
+    public void setIsbind(int v) {
+        this.isbind = v;
+    }
+
+    public int getPetid() {
+        return this.petid;
+    }
+
+    public void setPetid(int v) {
+        this.petid = v;
+    }
+
+    public int getPetnum() {
+        return this.petnum;
+    }
+
+    public void setPetnum(int v) {
+        this.petnum = v;
+    }
+
+    public int getPetisbind() {
+        return this.petisbind;
+    }
+
+    public void setPetisbind(int v) {
+        this.petisbind = v;
+    }
+
+    static class NeedId extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+    }
+}

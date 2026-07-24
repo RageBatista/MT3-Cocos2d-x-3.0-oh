@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$config.name}</title>
+<link rel="shortcut icon" type="image/x-icon" href="{$config.icon}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+<!--tags插件css-->
+<link rel="stylesheet" type="text/css" href="__MB__/js/jquery-tagsinput/jquery.tagsinput.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+<!-- 加载 Select2 -->
+<script src="__MB__/select/jquery-3.2.1.min.js"></script>
+<link href="__MB__/select/select2.min.css" rel="stylesheet" />
+<script src="__MB__/select/select2.min.js"></script>
+</head>
+  
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <header class="card-header"><div class="card-title">转区页面</div></header>
+        <div class="card-body">
+		<form action="/index.php?s=/{$app}/game/zhuanquSub"  method="post" class="edit-form">
+			  <div class="alert alert-success" role="alert">
+				<h5 class="alert-heading">转区方案</h5>
+				<p class="alert-heading">实际充值1000元以上金额角色，可参加转区</p>
+				<p class="alert-heading">比如老区充值1000元</p>
+				<p class="alert-heading">新区的角色需要充值被转区角色累计金额50%额度才可进行转区，例如，被专区角色累计充值2000元，新区角色需要充值1000元以上才可将老区角色充值转移到新区角色上</p>
+				<p class="alert-heading">所有转区累计今日按照仙玉1元=600仙玉计算，赠送的仙玉不再计算，游戏内累计按照充值额度1元=3累计（VIP经验）发放。</p>
+				<p class="alert-heading">转区前，请确保新区角色在线，建议操作前先登陆角色查看，转区成功后，仙玉及累计额度（VIP经验）到账游戏内邮件，请注意查收！！！</p>
+				<p class="alert-heading">被转区角色，转区成功后，该角色将会被封禁</p>
+				<p class="alert-heading">新区角色只能进行一次转区，请妥善操作</p>
+				<p class="alert-heading">转区所有订单金额，按3倍到账，请注意查收！</p>
+			  </div>
+			  <div class="tab-content">
+				<div class="form-group">
+				<label>选择被转区角色</label>
+				<select name="oldrole" class="form-control" style="width:100%;height:40px;border-radius:10px">
+					{foreach $getAllBindListUID as $key=>$val}
+						<option value="{$val.id}">大区：{$val.servername}，角色ID：{$val.playerid}，累计充值金额：{$val.chargemoney}元</option>
+					{/foreach}
+				</select>
+				</div>
+				<br>
+				<div class="form-group">
+				<label>新区角色</label>
+				<select name="newrole" class="form-control" style="width:100%;height:40px;border-radius:10px">
+					{foreach $getAllBindListUID as $key=>$val}
+						<option value="{$val.id}">大区：{$val.servername}，角色ID：{$val.playerid}，累计充值金额：{$val.chargemoney}元</option>
+					{/foreach}
+				</select>
+				</div>
+			  </div>
+			<br>
+			<div class="mb-3">
+			  <button type="submit" class="btn btn-primary me-1">确 定</button>
+			</div>
+		</form>
+        </div>
+      </div>
+    </div>
+        
+  </div>
+  
+</div>
+
+<script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+<script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+<script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+<!--tags插件-->
+<script type="text/javascript" src="__MB__/js/jquery-tagsinput/jquery.tagsinput.min.js"></script>
+<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+<!--通知弹窗-->
+<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+<script  src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+<script>
+$('.edit-form').on('submit', function(event) {
+    var $data  = $(this).serialize();
+	
+    $.post($(this).attr('action'), $data, function(res) {
+		if(res.code==1){
+			var Toast = Swal.mixin({
+			  toast: true,
+			  position: "top",
+			  showConfirmButton: false,
+			  timer: 1500,
+			  timerProgressBar: true,
+			  didOpen: (toast) => {
+				toast.onmouseenter = Swal.stopTimer;
+				toast.onmouseleave = Swal.resumeTimer;
+			  }
+			});
+			Toast.fire({
+			  icon: "success",
+			  title: res.msg
+			});
+			//setTimeout("self.location.reload();",1500);
+		}else {
+			var Toast = Swal.mixin({
+			  toast: true,
+			  position: "top",
+			  showConfirmButton: false,
+			  timer: 1500,
+			  timerProgressBar: true,
+			  didOpen: (toast) => {
+				toast.onmouseenter = Swal.stopTimer;
+				toast.onmouseleave = Swal.resumeTimer;
+			  }
+			});
+			Toast.fire({
+			  icon: "error",
+			  title: res.msg
+			});
+			//setTimeout("self.location.reload();",1500);
+		}
+	}).fail(function () {
+		var Toast = Swal.mixin({
+		  toast: true,
+		  position: "top",
+		  showConfirmButton: false,
+		  timer: 1500,
+		  timerProgressBar: true,
+		  didOpen: (toast) => {
+			toast.onmouseenter = Swal.stopTimer;
+			toast.onmouseleave = Swal.resumeTimer;
+		  }
+		});
+		Toast.fire({
+		  icon: "question",
+		  title: '服务异常'
+		});
+		//setTimeout("self.location.reload();",1500);
+	});
+
+    return false;
+});
+</script>
+</body>
+</html>

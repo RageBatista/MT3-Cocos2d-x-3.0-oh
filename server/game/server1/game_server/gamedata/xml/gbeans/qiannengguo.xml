@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="qiannengguo"> 
+		
+		<bean name="CQiannengguo" from="q潜能果/潜能果配置表" genxml="client" gencode="mtlua">
+			  <variable name="id" type="int" fromCol="ID" /> 
+			  <variable name="name" type="string" fromCol="名称" /> 
+			  <variable name="proptype" type="int" fromCol="属性类型" /> 
+			  <variable name="propvalue"  type="int" fromCol="属性值" /> 			
+			  <variable name="image" type="string" fromCol="珠子图片" /> 
+		</bean>	
+		<bean name="SQiannengguo" from="q潜能果/潜能果配置表"  genxml="server">
+			  <variable name="id" type="int" fromCol="ID" /> 
+			  <variable name="proptype" type="int" fromCol="属性类型" /> 
+			  <variable name="propvalue"  type="int" fromCol="属性值" /> 			
+			  <variable name="image" type="string" fromCol="珠子图片" /> 
+			  <variable name="rate" type="int" fromCol="获得几率" /> 
+		</bean>	
+		
+		<bean name="CQiannengguoProp" from="q潜能果/潜能果属性表" genxml="client" gencode="mtlua">
+			  <variable name="id" type="int" fromCol="属性ID" /> 
+			  <variable name="minvalue" type="int" fromCol="增加最小值" /> 
+			  <variable name="maxvalue"  type="int" fromCol="增加最大值" /> 			
+		</bean>	
+		<bean name="SQiannengguoProp" from="q潜能果/潜能果属性表" genxml="server">
+			  <variable name="id" type="int" fromCol="属性ID" /> 
+			  <variable name="minvalue" type="int" fromCol="增加最小值" /> 
+			  <variable name="maxvalue"  type="int" fromCol="增加最大值" /> 			
+		</bean>	
+		
+		<bean name="CQiannengguoLevelUp" from="q潜能果/潜能果升级经验表" genxml="client" gencode="mtlua">
+			  <variable name="id" type="int" fromCol="ID" /> 
+			  <variable name="levelupvalue" type="int" fromCol="升级消耗经验" /> 
+			  <variable name="returnvalue"  type="int" fromCol="返还经验" /> 			
+			  <variable name="openlevel"  type="int" fromCol="开启等级" /> 	
+	  		<variable name="resetmoney"  type="int" fromCol="重置金额" /> 		
+		</bean>	
+		<bean name="SQiannengguoLevelUp" from="q潜能果/潜能果升级经验表" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" /> 
+			  <variable name="levelupvalue" type="int" fromCol="升级消耗经验" /> 
+			  <variable name="returnvalue"  type="int" fromCol="返还经验" /> 			
+			  <variable name="openlevel"  type="int" fromCol="开启等级" /> 	
+	  		<variable name="resetmoney"  type="int" fromCol="重置金额" /> 
+		</bean>	
+		
+		<bean name="CQiannengguoextra" from="q潜能果/潜能果额外属性配置表" genxml="client" gencode="mtlua">
+			  <variable name="id" type="int" fromCol="ID" /> 
+			  <variable name="needcount" type="int" fromCol="潜能果数量" /> 
+			  <variable name="proppool"  type="string" fromCol="属性池" /> 			
+			  <variable name="mincountvalue"  type="int" fromCol="属性数量最小值" /> 			
+			  <variable name="maxcountvalue"  type="int" fromCol="属性数量最大值" /> 			
+			  <variable name="doublerate"  type="double" fromCol="属性增加倍率" /> 			
+			  <variable name="costmoney"  type="int" fromCol="重置消耗金币" /> 			
+		</bean>	
+		
+		<bean name="SQiannengguoextra" from="q潜能果/潜能果额外属性配置表" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" /> 
+			  <variable name="needcount" type="int" fromCol="潜能果数量" /> 
+			  <variable name="proppool"   type="string" fromCol="属性池" /> 			
+			  <variable name="mincountvalue"  type="int" fromCol="属性数量最小值" /> 			
+			  <variable name="maxcountvalue"  type="int" fromCol="属性数量最大值" /> 			
+			  <variable name="doublerate"  type="double" fromCol="属性增加倍率" /> 			
+			  <variable name="costmoney"  type="int" fromCol="重置消耗金币" /> 		
+		</bean>	
+	 
+	</namespace>	

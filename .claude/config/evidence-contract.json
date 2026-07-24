@@ -1,0 +1,229 @@
+{
+  "schema_version": "1.3.0",
+  "updated": "2026-07-12",
+  "description": "MT3 治理证据契约定义。定义静态一致性与运行证据完备性的证据类型、状态口径与基线要求。",
+  "evidence_types": {
+    "static_consistency": {
+      "name": "静态一致性",
+      "description": "配置文件、manifest、文档等静态资源的结构完整性与引用一致性",
+      "categories": [
+        {
+          "id": "entry_files",
+          "name": "入口文件存在性",
+          "description": "AGENTS.md、RULES.md、CODEX_BRIDGE.md 等根入口文件",
+          "required_files": [
+            "AGENTS.md",
+            ".claude/RULES.md",
+            ".claude/BUILD_GUIDE.md",
+            ".claude/CODEX_BRIDGE.md",
+            ".claude/CLAUDE.md",
+            "tools/AGENTS.md"
+          ],
+          "evidence_source": "file_exists_check"
+        },
+        {
+          "id": "config_files",
+          "name": "配置文件完整性",
+          "description": ".claude/config/ 下的关键配置文件",
+          "required_files": [
+            ".claude/config/router.json",
+            ".claude/config/agents.manifest.json",
+            ".claude/config/skills.manifest.json",
+            ".claude/config/commands.manifest.json",
+            ".claude/config/workflows.manifest.json",
+            ".claude/config/hooks.manifest.json",
+            ".claude/config/mcp.manifest.json",
+            ".claude/config/quality-gates.json",
+            ".claude/config/evidence-contract.json",
+            ".claude/config/source-authority.json",
+            ".claude/config/evolution.config.json"
+          ],
+          "evidence_source": "file_exists_check"
+        },
+        {
+          "id": "authority_boundary",
+          "name": "权威来源边界",
+          "description": "source-authority.json 是否显式区分主事实源、派生视图、bridge/sidecar、运行时真值校验点与报告产物，并声明 route/manifest/skill 的 canonical registry 与受控例外",
+          "required_files": [
+            ".claude/config/source-authority.json"
+          ],
+          "evidence_source": "source_authority_check"
+        },
+        {
+          "id": "codex_native",
+          "name": "Codex 原生配置",
+          "description": "Codex 原生配置、Agent、rules/hooks 以及 project-map/workflow/schema sidecar 的完整性。",
+          "required_files": [
+            ".codex/config.toml",
+            ".codex/requirements.toml",
+            ".codex/project-map.json",
+            ".codex/workflows/workflow-engine.json",
+            ".codex/schemas/project-map.schema.json",
+            ".codex/schemas/workflow-catalog.schema.json",
+            ".codex/compat/claude-bridge.json",
+            ".codex/mcp/mcp-profiles.json",
+            ".codex/permissions/guardrails.json",
+            ".codex/rules/mt3-guardrails.rules",
+            ".codex/hooks.json",
+            ".codex/hooks/mt3-pretool-guard.ps1"
+          ],
+          "evidence_source": "codex_sidecar_schema_graph_cross_reference_path_lfs_check"
+        },
+        {
+          "id": "manifest_references",
+          "name": "Manifest 引用一致性",
+          "description": "route / manifest / skill 引用是否按 canonical registry 一致解析",
+          "evidence_source": "manifest_reference_check"
+        },
+        {
+          "id": "router_intents",
+          "name": "路由意图完整性",
+          "description": "router.json 中的意图是否映射到有效的 agent/skill/workflow",
+          "evidence_source": "router_intent_check"
+        },
+        {
+          "id": "codex_workflow_graphs",
+          "name": "Codex 工作流图闭环",
+          "description": "13 个工作流 ID 唯一，入口、边、可达性、终态、Agent/技能、input default 与路径可用性跨文件一致。",
+          "required_files": [
+            ".codex/workflows/workflow-engine.json",
+            ".codex/schemas/workflow-catalog.schema.json",
+            ".codex/project-map.json",
+            ".codex/schemas/project-map.schema.json"
+          ],
+          "evidence_source": "validate_codex_sidecars"
+        }
+      ]
+    },
+    "runtime_evidence": {
+      "name": "运行证据完备性",
+      "description": "会话命中链、MCP 运行面、审计报告等运行时证据的可用性",
+      "categories": [
+        {
+          "id": "audit_reports",
+          "name": "审计报告新鲜度",
+          "description": ".claude/reports/ 下的治理审计报告与工作流健康报告是否最新",
+          "required_reports": [
+            "claude-config-audit.json",
+            "claude-config-audit.md",
+            "codex-sidecars-validation.json",
+            "codex-sidecars-validation.md",
+            "codex-guardrails-audit.json",
+            "codex-guardrails-audit.md",
+            "codex-skills-audit.json",
+            "codex-skills-audit.md",
+            "codex-skills-workflow-health.json",
+            "codex-skills-workflow-health.md",
+            "tools/reports/runtime-dependency-audit.json"
+          ],
+          "evidence_source": "report_freshness_check"
+        },
+        {
+          "id": "runtime_dependency_audit",
+          "name": "运行时依赖风险",
+          "description": "tools/reports/runtime-dependency-audit.json 是否存在高风险 DLL 漂移、缺依赖或家族一致性问题",
+          "evidence_source": "runtime_dependency_check"
+        },
+        {
+          "id": "session_trace",
+          "name": "会话命中链证据",
+          "description": "是否有会话真实命中链日志（当前阶段：未证明）",
+          "evidence_source": "session_trace_check",
+          "note": "第一阶段仅标记状态，暂不自动采集"
+        },
+        {
+          "id": "mcp_runtime",
+          "name": "MCP 运行面快照",
+          "description": "Codex 运行时 MCP 状态快照（当前阶段：需手动执行 codex mcp list）",
+          "evidence_source": "mcp_runtime_check",
+          "note": "第一阶段依赖手动执行，后续可自动化"
+        },
+        {
+          "id": "quality_gate_status",
+          "name": "质量门状态",
+          "description": "最近一次质量门检查的通过状态",
+          "evidence_source": "quality_gate_status_check"
+        },
+        {
+          "id": "codex_guardrail_matrices",
+          "name": "Codex 可执行守卫矩阵",
+          "description": "execpolicy 与 PreToolUse hook 矩阵必须实际执行且用例数大于零。",
+          "evidence_source": "audit_codex_guardrails"
+        }
+      ]
+    }
+  },
+  "evidence_states": {
+    "verified": {
+      "value": "verified",
+      "name": "已验证",
+      "description": "证据完整且通过验证",
+      "color": "green"
+    },
+    "stale": {
+      "value": "stale",
+      "name": "已过期",
+      "description": "证据存在但已超过有效期限",
+      "color": "yellow"
+    },
+    "partial": {
+      "value": "partial",
+      "name": "部分缺失",
+      "description": "部分证据缺失或不完整",
+      "color": "orange"
+    },
+    "missing": {
+      "value": "missing",
+      "name": "缺失",
+      "description": "证据完全缺失",
+      "color": "red"
+    },
+    "unproven": {
+      "value": "unproven",
+      "name": "未证明",
+      "description": "当前阶段无法自动采集，需手动验证",
+      "color": "gray"
+    }
+  },
+  "baseline_requirements": {
+    "static_consistency": {
+      "minimum_state": "verified",
+      "description": "所有静态一致性证据必须达到 verified 状态"
+    },
+    "runtime_evidence": {
+      "minimum_state": "stale",
+      "description": "运行证据至少达到 stale 状态（存在但可能过期）"
+    },
+    "unproven_tolerance": {
+      "max_unproven_count": 3,
+      "description": "允许最多 3 个未证明证据项（第一阶段）"
+    }
+  },
+  "audit_triggers": {
+    "config_change": [
+      ".claude/config/*.json",
+      ".claude/scripts/*.ps1",
+      ".codex/config.toml",
+      ".codex/requirements.toml",
+      ".codex/compat/*.json",
+      "tools/AGENTS.md",
+      "tools/scripts/*.ps1",
+      "tools/reports/*.json",
+      ".codex/**",
+      ".agents/skills/**",
+      ".claude/tests/test-codex-*.ps1",
+      ".github/workflows/codex-skills-quality-gate.yml"
+    ],
+    "report_freshness_hours": 24
+  },
+  "governance_scope": {
+    "roots": [
+      ".codex/**",
+      ".agents/skills/**",
+      ".claude/config/**",
+      ".claude/scripts/**",
+      ".claude/tests/**"
+    ],
+    "description": "任何 .codex 变更必须由 schema/图/交叉引用/路径可用性/LFS、技能官方校验、guardrail 矩阵和编码质量门形成证据闭环。"
+  }
+}

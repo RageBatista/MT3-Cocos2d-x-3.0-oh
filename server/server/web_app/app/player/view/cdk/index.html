@@ -1,0 +1,149 @@
+{extend name="layout/login" /}
+
+{block name="title"}CDK授权 - 玩家服务中心{/block}
+
+{block name="header"}
+<div class="lyear-panel-header" style="background: linear-gradient(135deg, #926dde 0%, #6610f2 100%);">
+    <h3><i class="mdi mdi-key"></i> CDK授权</h3>
+    <p>请输入您的游戏角色ID和CDK进行授权</p>
+</div>
+{/block}
+
+{block name="content"}
+<form id="authForm" method="post" action="/player/cdk/auth">
+    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?? ''; ?>">
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-identifier"></i> 游戏角色ID（UID）
+        </label>
+        <input type="number" name="uid" class="form-control" placeholder="请输入游戏角色ID，例如：4097" required>
+        <div class="form-hint">UID是游戏内的角色ID，不是账号ID</div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-key"></i> CDK授权码
+        </label>
+        <input type="text" name="cdk" class="form-control" placeholder="请输入CDK授权码" required>
+        <div class="form-hint">CDK格式：16位或20位字母数字组合</div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-server"></i> 选择区组
+        </label>
+        <select name="serverid" class="form-control">
+            <option value="">请选择区组</option>
+            <?php if(!empty($server_list)): ?>
+            <?php foreach($server_list as $server): ?>
+            <option value="<?php echo $server['serverid']; ?>">
+                <?php echo htmlspecialchars($server['name']); ?>
+                <?php if(!empty($server['groupname'])): ?>
+                (
+                <?php echo htmlspecialchars($server['groupname']); ?>)
+                <?php endif; ?>
+            </option>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-lock"></i> 授权密码（可选）
+        </label>
+        <input type="password" name="authpass" class="form-control" placeholder="设置授权密码，方便下次登录">
+        <div class="form-hint">设置后下次可使用授权密码直接登录</div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+            <i class="mdi mdi-check-circle"></i> 立即授权
+        </button>
+    </div>
+</form>
+
+<div class="divider">
+    <span>已有授权登录</span>
+</div>
+
+<form id="existingForm" method="post" action="/player/cdk/existing">
+    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token ?? ''; ?>">
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-identifier"></i> 已授权角色ID（UID）
+        </label>
+        <input type="number" name="uid" class="form-control" placeholder="请输入已授权的角色ID" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-lock"></i> 授权密码
+        </label>
+        <input type="password" name="authpass" class="form-control" placeholder="请输入授权密码" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-server"></i> 选择区组（可选）
+        </label>
+        <select name="serverid" class="form-control">
+            <option value="">默认使用当前授权区组</option>
+            <?php if(!empty($server_list)): ?>
+            <?php foreach($server_list as $server): ?>
+            <option value="<?php echo $server['serverid']; ?>">
+                <?php echo htmlspecialchars($server['name']); ?>
+                <?php if(!empty($server['groupname'])): ?>
+                (
+                <?php echo htmlspecialchars($server['groupname']); ?>)
+                <?php endif; ?>
+            </option>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-outline-primary btn-block btn-lg">
+            <i class="mdi mdi-login"></i> 使用已有授权登录
+        </button>
+    </div>
+</form>
+
+<div class="divider">
+    <span>其他选项</span>
+</div>
+
+<div class="other-links" style="border-top: none; padding-top: 0;">
+    <p>
+        <a href="/player/auth/login" style="margin-right: 15px;">
+            <i class="mdi mdi-login"></i> 账号密码登录
+        </a>
+        <a href="/player/auth/register">
+            <i class="mdi mdi-account-plus"></i> 注册账号
+        </a>
+    </p>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="lyear-panel-footer">
+    <small style="color: #6c757d;">
+        <i class="mdi mdi-information"></i> 授权成功后可在控制台管理您的游戏角色
+    </small>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    ajaxSubmit('#authForm', {
+        redirect: '/player/cdk/dashboard'
+    });
+
+    ajaxSubmit('#existingForm', {
+        redirect: '/player/cdk/dashboard'
+    });
+</script>
+{/block}

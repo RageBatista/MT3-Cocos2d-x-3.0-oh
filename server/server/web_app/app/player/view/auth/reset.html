@@ -1,0 +1,52 @@
+{extend name="layout/login" /}
+
+{block name="title"}重置密码 - 玩家服务中心{/block}
+
+{block name="header"}
+<div class="lyear-panel-header" style="background: linear-gradient(135deg, #57c7d4 0%, #33cabb 100%);">
+    <h3><i class="mdi mdi-lock-reset"></i> 重置密码</h3>
+    <p>请设置您的新密码</p>
+</div>
+{/block}
+
+{block name="content"}
+<form id="resetForm" method="post" action="/player/auth/doResetPassword">
+    <input type="hidden" name="csrf_token" value="{$csrf_token|default=''}">
+    <input type="hidden" name="token" value="{$token|default=''}">
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-lock"></i> 新密码
+        </label>
+        <input type="password" class="form-control" name="password" placeholder="请输入新密码" required>
+        <div class="form-hint">密码为6-18位字母和数字组合</div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-lock-check"></i> 确认密码
+        </label>
+        <input type="password" class="form-control" name="confirm_password" placeholder="请再次输入新密码" required>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+            <i class="mdi mdi-check-circle"></i> 确认重置
+        </button>
+    </div>
+</form>
+{/block}
+
+{block name="footer"}
+<div class="lyear-panel-footer">
+    <a href="/player/auth/login"><i class="mdi mdi-arrow-left"></i> 返回登录</a>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    ajaxSubmit('#resetForm', {
+        redirect: '/player/auth/login'
+    });
+</script>
+{/block}

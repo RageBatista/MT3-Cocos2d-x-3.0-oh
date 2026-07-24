@@ -1,0 +1,85 @@
+{extend name="layout/login" /}
+
+{block name="header_title"}后台管理{/block}
+{block name="header_subtitle"}管理员登录入口{/block}
+
+{block name="content"}
+<form id="loginForm" method="post" action="/player/admin/doLogin">
+    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+    <input type="hidden" name="verify_step" id="verifyStep" value="1">
+    
+    <div class="form-group">
+        <label class="form-label">管理员账号</label>
+        <input type="text" name="username" class="form-control" placeholder="请输入管理员账号" required>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label">密码</label>
+        <input type="password" name="password" class="form-control" placeholder="请输入密码" required>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label">验证码</label>
+        <div class="d-flex gap-2">
+            <input type="text" name="captcha" class="form-control" placeholder="请输入验证码" required style="flex: 1;">
+            <img src="/player/admin/captcha" id="captchaImg" alt="验证码" style="height: 44px; cursor: pointer; border-radius: var(--border-radius-xs);" onclick="this.src='/player/admin/captcha?t='+Math.random()">
+        </div>
+    </div>
+    
+    <div id="superAdminSection" style="display: none;">
+        <div class="alert alert-warning">
+            检测到超级管理员登录，需要进行二次验证
+        </div>
+        <div class="form-group">
+            <label class="form-label">超级管理员密钥</label>
+            <input type="password" name="super_admin_key" id="superAdminKey" class="form-control" placeholder="请输入超级管理员密钥">
+        </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary btn-block btn-lg">登录</button>
+</form>
+{/block}
+
+{block name="footer_content"}
+<div class="text-center">
+    <small class="text-muted">
+        <a href="/player/auth/login">玩家登录</a>
+        <span class="mx-2">|</span>
+        <a href="/player/cdk/index">CDK授权</a>
+    </small>
+</div>
+{/block}
+
+{block name="extra_js"}
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    var form = this;
+    var formData = new FormData(form);
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 99) {
+            document.getElementById('superAdminSection').style.display = 'block';
+            document.getElementById('verifyStep').value = '2';
+            document.getElementById('superAdminKey').focus();
+        } else if (data.code === 1 || data.code === 2) {
+            alert(data.msg);
+            window.location.href = '/admin/index';
+        } else {
+            alert(data.msg);
+            document.getElementById('captchaImg').click();
+        }
+    })
+    .catch(error => {
+        alert('请求失败，请重试');
+        document.getElementById('captchaImg').click();
+    });
+});
+</script>
+{/block}

@@ -1,0 +1,143 @@
+name: Claude Evolution Nightly
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    # UTC 18:30 = 北京时间次日 02:30
+    - cron: "30 18 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - ".gitattributes"
+      - "AGENTS.md"
+      - ".claude/**"
+      - ".codex/**"
+      - ".agents/**"
+      - ".github/workflows/claude-evolution-nightly.yml"
+
+jobs:
+  evolution:
+    name: Audit And Evolve
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          lfs: false
+          fetch-depth: 0
+
+      - name: Hydrate required governance XML only
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $requiredLfsFiles = @(
+            "client/android/LocojoyProject/build.xml",
+            "server/server/game_server/build.xml",
+            "server/server/game_server/gnet.xml",
+            "server/server/game_server/protocol.main.xml",
+            "server/server/game_server/gs/build.xml"
+          )
+          git lfs pull -I ($requiredLfsFiles -join ",") --exclude=""
+          if ($LASTEXITCODE -ne 0) {
+            throw "Targeted Git LFS hydration failed with exit code $LASTEXITCODE"
+          }
+          foreach ($path in $requiredLfsFiles) {
+            if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+              throw "Required LFS-backed governance XML is missing: $path"
+            }
+            $bytes = [System.IO.File]::ReadAllBytes($path)
+            $prefixLength = [Math]::Min($bytes.Length, 200)
+            $prefix = [System.Text.Encoding]::ASCII.GetString($bytes, 0, $prefixLength)
+            if ($prefix.StartsWith("version https://git-lfs.github.com/spec/v1")) {
+              throw "Required governance XML remains an LFS pointer: $path"
+            }
+          }
+
+      - name: Checkout pinned OpenAI skills validator
+        uses: actions/checkout@v7
+        with:
+          repository: openai/skills
+          ref: 49f948faa9258a0c61caceaf225e179651397431
+          path: .official-openai-skills
+          sparse-checkout: skills/.system/skill-creator/scripts/quick_validate.py
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install pinned audit tools
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          python -X utf8 -m pip install --disable-pip-version-check PyYAML==6.0.2 jsonschema==4.25.1
+          if ($LASTEXITCODE -ne 0) {
+            throw "Pinned Python audit tool installation failed"
+          }
+          npm install --global @openai/codex@0.144.1
+          if ($LASTEXITCODE -ne 0) {
+            throw "Pinned Codex CLI installation failed"
+          }
+
+      - name: Run Claude Config Audit (LegacyStrict)
+        shell: pwsh
+        env:
+          MT3_OFFICIAL_SKILL_VALIDATOR: ${{ github.workspace }}/.official-openai-skills/skills/.system/skill-creator/scripts/quick_validate.py
+        run: |
+          $ErrorActionPreference = "Stop"
+          $codexHome = Join-Path $PWD ".ci-claude-evolution-codex-home"
+          [System.IO.Directory]::CreateDirectory($codexHome) | Out-Null
+          $projectPath = (Resolve-Path -LiteralPath ".").Path
+          $tomlPath = $projectPath.Replace("\", "\\").Replace('"', '\"')
+          $quote = [char]34
+          $trustConfig = "[projects.$quote$tomlPath$quote]" + [Environment]::NewLine +
+            "trust_level = $quote" + "trusted" + "$quote" + [Environment]::NewLine
+          [System.IO.File]::WriteAllText(
+            (Join-Path $codexHome "config.toml"),
+            $trustConfig,
+            [System.Text.UTF8Encoding]::new($false)
+          )
+          $env:CODEX_HOME = $codexHome
+
+          & ".\.claude\scripts\audit_claude_config.ps1" -ProjectRoot "." -LegacyStrict
+          if ($LASTEXITCODE -ne 0) {
+            throw "Claude config audit failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Run Evolution Pipeline
+        shell: pwsh
+        run: |
+          & ".\.claude\scripts\evolution_run.ps1" -ProjectRoot "."
+          if ($LASTEXITCODE -ne 0) {
+            throw "Evolution pipeline failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Upload Evolution Artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: claude-evolution-artifacts
+          path: |
+            .claude/reports/claude-config-audit.json
+            .claude/reports/claude-config-audit.md
+            .claude/reports/codex-sidecars-validation.json
+            .claude/reports/codex-sidecars-validation.md
+            .claude/reports/codex-guardrails-audit.json
+            .claude/reports/codex-guardrails-audit.md
+            .claude/reports/codex-skills-audit.json
+            .claude/reports/codex-skills-audit.md
+            .claude/reports/mcp-runtime-snapshot.json
+            .claude/evolution/instincts/mt3-instincts.json
+            .claude/evolution/reports/evolution-latest.md
+            .claude/evolution/evolved/skills/continuous-learning-v2.suggestions.md
+          if-no-files-found: warn
+          retention-days: 14

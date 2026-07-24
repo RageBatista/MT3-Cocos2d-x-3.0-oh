@@ -1,0 +1,171 @@
+# MT3 Codex requirements sidecar
+# schema_version: 1.0.0
+# updated: 2026-07-15
+# --------------------------------
+# Official Codex docs define requirements.toml as an admin-enforced policy
+# format used by cloud-managed requirements, macOS managed preferences, or
+# system-level requirements layers.
+# In this repository, this file is maintained as a schema-compatible sidecar
+# for audit, review, and policy export. Do not assume that placing this file
+# under .codex/ makes it an officially documented project-scoped runtime
+# requirements layer by itself.
+# When MT3 needs actual enforcement, mirror the relevant rules into the active
+# managed/system requirements source for your Codex deployment.
+
+# Restrict approval, sandbox, and web-search choices to MT3-safe values.
+# "granular" is the supported requirements enum for structured approval policy.
+allowed_approval_policies = ["untrusted", "on-request", "granular"]
+allowed_sandbox_modes = ["read-only", "workspace-write"]
+allowed_web_search_modes = ["cached"]
+
+# Pin only the feature flags MT3 depends on. Omitted keys remain unconstrained.
+[features]
+multi_agent = true
+
+# Allowed MCP identity set for policy export or managed requirements mirroring.
+# The repository runtime declares 23 transport-complete MCP overrides and keeps
+# every server disabled by default. This sidecar permits only the OpenAI docs
+# identity when exported to managed requirements. The advisory profile catalog
+# lives in .codex/mcp/mcp-profiles.json and has no automatic runtime effect;
+# deployments that allow research or browser profiles must explicitly extend
+# their real managed/system requirements layer.
+[mcp_servers.openaiDeveloperDocs.identity]
+url = "https://developers.openai.com/mcp"
+
+# Restrictive command rules only. This sidecar mirrors common argv blockers;
+# project-local wrapper/encoding/generated-path checks remain in .rules/hooks
+# unless an administrator explicitly exports equivalent managed requirements.
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。"
+pattern = [
+  { any_of = [".\\client\\Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1", "./client/Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1"] }
+]
+
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。"
+pattern = [
+  { any_of = ["powershell", "powershell.exe", "pwsh", "pwsh.exe"] },
+  { token = "-File" },
+  { any_of = [".\\client\\Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1", "./client/Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1"] }
+]
+
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。"
+pattern = [
+  { any_of = ["powershell", "powershell.exe", "pwsh", "pwsh.exe"] },
+  { token = "-ExecutionPolicy" },
+  { any_of = ["Bypass", "Unrestricted"] },
+  { token = "-File" },
+  { any_of = [".\\client\\Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1", "./client/Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1"] }
+]
+
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "Win32 MT3.exe 的统一外部入口必须走 tools/scripts/Build-MT3-Exe-Canonical.ps1。"
+pattern = [
+  { any_of = ["powershell", "powershell.exe", "pwsh", "pwsh.exe"] },
+  { token = "-NoProfile" },
+  { token = "-ExecutionPolicy" },
+  { any_of = ["Bypass", "Unrestricted"] },
+  { token = "-File" },
+  { any_of = [".\\client\\Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1", "./client/Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1"] }
+]
+
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "cmd 包装不能绕过 Win32 canonical build 入口。"
+pattern = [
+  { any_of = ["cmd", "cmd.exe"] },
+  { any_of = ["/c", "/C", "/k", "/K"] },
+  { any_of = [".\\client\\Build-MT3-v120.ps1", "client\\Build-MT3-v120.ps1", "./client/Build-MT3-v120.ps1", "client/Build-MT3-v120.ps1"] }
+]
+
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "Android 主线构建必须保持 NDK r16 clang + Ant + JDK8；不要切到 Gradle。"
+pattern = [{ any_of = ["gradle", "gradle.bat", "gradlew", "gradlew.bat", "./gradlew", "./gradlew.bat", ".\\gradlew", ".\\gradlew.bat"] }]
+
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "Android 主线构建必须保持 NDK r16 clang + Ant + JDK8；cmd 包装不能切到 Gradle。"
+pattern = [
+  { any_of = ["cmd", "cmd.exe"] },
+  { any_of = ["/c", "/C", "/k", "/K"] },
+  { any_of = ["gradle", "gradle.bat", "gradlew", "gradlew.bat", "./gradlew", "./gradlew.bat", ".\\gradlew", ".\\gradlew.bat"] }
+]
+
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "服务端主线构建必须保持 JDK 1.7/1.8 + Ant；不要切到 Maven 或 Gradle。"
+pattern = [{ any_of = ["mvn", "mvn.cmd", "maven", "mvnw", "mvnw.cmd", "./mvnw", "./mvnw.cmd", ".\\mvnw", ".\\mvnw.cmd"] }]
+
+[[rules.prefix_rules]]
+decision = "forbidden"
+justification = "服务端主线构建必须保持 JDK 1.7/1.8 + Ant；cmd 包装不能切到 Maven。"
+pattern = [
+  { any_of = ["cmd", "cmd.exe"] },
+  { any_of = ["/c", "/C", "/k", "/K"] },
+  { any_of = ["mvn", "mvn.cmd", "maven", "mvnw", "mvnw.cmd", "./mvnw", "./mvnw.cmd", ".\\mvnw", ".\\mvnw.cmd"] }
+]
+
+[[rules.prefix_rules]]
+decision = "prompt"
+justification = "修改 MT3 文本文件时必须显式指定编码，或改用保持原编码的 .NET 写回方式。"
+pattern = [{ any_of = ["Set-Content", "set-content"] }]
+
+[[rules.prefix_rules]]
+decision = "prompt"
+justification = "修改 MT3 文本文件时必须显式指定编码，或改用保持原编码的 .NET 写回方式。"
+pattern = [{ any_of = ["Add-Content", "add-content"] }]
+
+[[rules.prefix_rules]]
+decision = "prompt"
+justification = "修改 MT3 文本文件时必须显式指定编码，或改用保持原编码的 .NET 写回方式。"
+pattern = [{ any_of = ["Out-File", "out-file"] }]
+
+[[rules.prefix_rules]]
+decision = "prompt"
+justification = "批量暂存前必须确认当前 worktree、目标路径、dry-run 结果和无关改动边界，避免把 shadow 迁移外的文件一并入库。"
+pattern = [
+  { token = "git" },
+  { token = "add" },
+  { any_of = ["-A", "--all", "."] }
+]
+
+[[rules.prefix_rules]]
+decision = "prompt"
+justification = "CEGUI vendor snapshot 入库前必须完成 ignore/sparse/.gitattributes/dry-run 门禁，确认 shadow-build、lib 输出和 AppleDouble 元数据未进入索引。"
+pattern = [
+  { token = "git" },
+  { token = "add" },
+  { any_of = ["tools/CEGUI-0.7.1", ".\\tools\\CEGUI-0.7.1", "tools/CEGUI-0.7.1/"] }
+]
+
+[[rules.prefix_rules]]
+decision = "prompt"
+justification = "CEGUI vendor snapshot 入库前必须完成 ignore/sparse/.gitattributes/dry-run 门禁，确认 shadow-build、lib 输出和 AppleDouble 元数据未进入索引。"
+pattern = [
+  { token = "git" },
+  { token = "add" },
+  { token = "--" },
+  { any_of = ["tools/CEGUI-0.7.1", ".\\tools\\CEGUI-0.7.1", "tools/CEGUI-0.7.1/"] }
+]
+
+[[rules.prefix_rules]]
+decision = "prompt"
+justification = "修改 sparse-checkout 会改变可见索引边界；必须先记录当前模式、列表和目标工作树，再执行 add/reapply。"
+pattern = [
+  { token = "git" },
+  { token = "sparse-checkout" }
+]
+
+[[rules.prefix_rules]]
+decision = "prompt"
+justification = "git clean 可能删除未跟踪 vendor、资源和审计产物；执行前必须先盘点路径并确认保留策略。"
+pattern = [
+  { token = "git" },
+  { token = "clean" }
+]

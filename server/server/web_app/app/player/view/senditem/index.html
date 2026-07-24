@@ -1,0 +1,764 @@
+{extend name="layout/base" /}
+
+{block name="title"}GM物品发送 - 玩家服务中心{/block}
+{block name="page_title"}GM物品发送{/block}
+
+{block name="css"}
+<style>
+    #itemModal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        z-index: 3000;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 12px;
+    }
+
+    #itemModal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #itemModal .modal-dialog {
+        width: 100%;
+        max-width: 980px;
+        margin: auto;
+        pointer-events: none;
+    }
+
+    #itemModal .modal-content {
+        pointer-events: auto;
+        border: 0;
+        border-radius: 12px;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+        background-color: #fff;
+        /* Ensure solid background */
+    }
+
+    #itemModal .modal-header {
+        border-bottom: 1px solid #eceff4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    #itemModal .modal-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #334155;
+        margin: 0;
+    }
+
+    #itemModal .btn-close {
+        position: absolute;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        border: 0;
+        border-radius: 50%;
+        background: #f1f5f9;
+        color: #64748b;
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
+
+    #itemModal .btn-close:hover {
+        background: #e2e8f0;
+    }
+
+    #itemModal .modal-body {
+        max-height: min(75vh, 680px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    #itemModal .item-table-wrap {
+        flex: 1;
+        overflow-y: auto;
+        border: 1px solid #eef2f7;
+        border-radius: 8px;
+        background-color: #fff;
+    }
+
+    #itemModal table {
+        background-color: #fff;
+        margin-bottom: 0;
+    }
+
+    #itemModal th,
+    #itemModal td {
+        background-color: #fff;
+        vertical-align: middle;
+    }
+
+    #itemModal th:last-child,
+    #itemModal td:last-child {
+        text-align: right;
+        width: 80px;
+        padding-right: 12px;
+    }
+
+    #itemModal .btn-select-item {
+        border-radius: 6px;
+        padding: 4px 16px;
+    }
+
+    body.modal-open {
+        overflow: hidden;
+    }
+</style>
+{/block}
+
+{block name="content"}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="mdi mdi-package-variant"></i> 当前区组</h3>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-3">
+                    <select id="serverSelect" class="form-select" style="max-width: 300px;">
+                        <option value="">请选择区组</option>
+                        <?php if(!empty($server_list)): ?>
+                        <?php foreach($server_list as $server): ?>
+                        <option value="<?php echo htmlspecialchars($server['serverid'] ?? ''); ?>" <?php echo
+                            ($current_server_id==($server['serverid'] ?? '' )) ? 'selected' : '' ; ?>>
+                            <?php echo htmlspecialchars(($server['name'] ?? '服务器') . ' (ID:' . ($server['serverid'] ?? '') . ')'); ?>
+                        </option>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                    <span class="text-muted" id="currentServerName">
+                        <?php echo htmlspecialchars($current_server_name ?: '未选择区组'); ?>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert" id="msgBox" style="display: none;"></div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="mdi mdi-gift"></i> 发送物品</h3>
+            </div>
+            <div class="card-body">
+                <form id="formSendItem">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+
+                    <div class="mb-3">
+                        <label class="form-label">选择物品</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="itemName" readonly placeholder="点击选择物品"
+                                style="cursor: pointer;">
+                            <input type="hidden" name="item_token" id="itemToken">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">物品数量</label>
+                        <input type="number" class="form-control" id="itemNum" name="number" min="1" max="9999"
+                            placeholder="1-9999">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="btnSendItem">
+                        <i class="mdi mdi-send"></i> 发送物品
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="mdi mdi-diamond-stone"></i> 仙玉充值</h3>
+            </div>
+            <div class="card-body">
+                <form id="formRechargeXianyu">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+
+                    <div class="mb-3">
+                        <label class="form-label">仙玉数量</label>
+                        <input type="number" class="form-control" id="xianyuNum" name="number" min="1" max="99999999"
+                            placeholder="1-99999999">
+                        <div class="form-text">充值仙玉将直接到账到游戏角色</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-sm quick-amount"
+                                data-amount="100">100</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm quick-amount"
+                                data-amount="500">500</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm quick-amount"
+                                data-amount="1000">1000</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm quick-amount"
+                                data-amount="5000">5000</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm quick-amount"
+                                data-amount="10000">10000</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" id="btnRechargeXianyu">
+                        <i class="mdi mdi-diamond"></i> 充值仙玉
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="mdi mdi-information"></i> 使用说明</h3>
+            </div>
+            <div class="card-body">
+                <ul class="auth-note-list">
+                    <li>请先选择区组，然后选择要发送的物品</li>
+                    <li>物品发送后直接到账到当前登录角色背包</li>
+                    <li>如果发送失败，系统会自动通过邮件补发</li>
+                    <li>仙玉充值直接到账，请确认角色在线</li>
+                    <li>每个操作都需要验证签名，请不要频繁操作</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="itemModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">选择物品</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="itemSearch" placeholder="搜索物品名称或ID...">
+                </div>
+                <div class="item-table-wrap">
+                    <table class="table table-hover table-sm">
+                        <thead>
+                            <tr style="background:#f8fafc;">
+                                <th style="border-bottom: 2px solid #e2e8f0; font-weight: 600; color: #475569;">物品名称
+                                </th>
+                                <th
+                                    style="border-bottom: 2px solid #e2e8f0; font-weight: 600; color: #475569; text-align: right;">
+                                    操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemListTable">
+                            <tr>
+                                <td colspan="2" class="text-center text-muted">请先选择区组</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    var ROUTE = {
+        prepareOp: "/player/cdk/senditem/prepareOp",
+        sendItem: "/player/cdk/senditem/sendItem",
+        rechargeXianyu: "/player/cdk/senditem/rechargeXianyu",
+        getItemList: "/player/cdk/senditem/getItemList",
+        switchServer: "/player/cdk/senditem/switchServer"
+    };
+
+    var csrfToken = (document.querySelector('input[name="csrf_token"]') || {}).value || '';
+    var currentItems = [];
+    var itemModalEl = document.getElementById("itemModal");
+    var itemNameInputEl = document.getElementById("itemName");
+
+    function buildAjaxHeaders(extraHeaders) {
+        var headers = {
+            "Accept": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        };
+
+        if (csrfToken) {
+            headers["X-CSRF-TOKEN"] = csrfToken;
+        }
+
+        Object.keys(extraHeaders || {}).forEach(function (k) {
+            headers[k] = extraHeaders[k];
+        });
+
+        return headers;
+    }
+    function showFloatModal() {
+        if (!itemModalEl) return;
+        itemModalEl.classList.add("show");
+        itemModalEl.setAttribute("aria-modal", "true");
+        itemModalEl.removeAttribute("aria-hidden");
+        document.body.classList.add("modal-open");
+    }
+
+    function hideFloatModal() {
+        if (!itemModalEl) return;
+        itemModalEl.classList.remove("show");
+        itemModalEl.setAttribute("aria-hidden", "true");
+        itemModalEl.removeAttribute("aria-modal");
+        document.body.classList.remove("modal-open");
+    }
+
+    function openItemModal() {
+        var currentServer = document.getElementById("serverSelect").value;
+        if (!currentServer) {
+            showMessage("error", "操作提示：请先在上方选择您所在的区组");
+            // Add a visual highlight animation to the server select
+            var selectEl = document.getElementById("serverSelect");
+            selectEl.style.transition = "box-shadow 0.3s";
+            selectEl.style.boxShadow = "0 0 0 0.25rem rgba(220, 53, 69, 0.5)";
+            setTimeout(function () {
+                selectEl.style.boxShadow = "";
+            }, 1500);
+            return;
+        }
+
+        if (currentItems.length === 0) {
+            loadItemList();
+        }
+
+        showFloatModal();
+    }
+
+    function updateItemInputState() {
+        var serverId = document.getElementById("serverSelect").value;
+        var itemNameInput = document.getElementById("itemName");
+        if (!itemNameInput) return;
+
+        if (serverId) {
+            itemNameInput.placeholder = "点击选择物品";
+            itemNameInput.style.cursor = "pointer";
+            itemNameInput.style.backgroundColor = "#fff";
+        } else {
+            itemNameInput.placeholder = "未选择区组，请先在上方选择区组";
+            itemNameInput.style.cursor = "not-allowed";
+            itemNameInput.style.backgroundColor = "#f8f9fa";
+            itemNameInput.value = "";
+            var tokenInput = document.getElementById("itemToken");
+            if (tokenInput) tokenInput.value = "";
+        }
+    }
+
+    function closeItemModal() {
+        hideFloatModal();
+    }
+
+    function showMessage(type, message) {
+        var box = document.getElementById("msgBox");
+        box.className = "alert " + (type === "success" ? "alert-success" : "alert-danger");
+        box.textContent = message || (type === "success" ? "操作成功" : "操作失败");
+        box.style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(function () {
+            box.style.display = "none";
+        }, 5000);
+    }
+
+    function clearOldSig(formEl) {
+        var oldTs = formEl.querySelector('input[name="op_ts"]');
+        var oldSig = formEl.querySelector('input[name="op_sig"]');
+        if (oldTs) oldTs.remove();
+        if (oldSig) oldSig.remove();
+    }
+
+    async function getOpSig(action, params) {
+        var fd = new FormData();
+        fd.append("action", action);
+        if (csrfToken) {
+            fd.append("csrf_token", csrfToken);
+        }
+        Object.keys(params || {}).forEach(function (k) {
+            fd.append(k, String(params[k]));
+        });
+
+        var response = await fetch(ROUTE.prepareOp, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: buildAjaxHeaders(),
+            body: fd
+        });
+        var text = await response.text();
+        var json;
+        try {
+            json = JSON.parse(text);
+        } catch (e) {
+            throw new Error((text || "").trim() || "签名服务异常");
+        }
+        if (json.code !== 1 || !json.data || !json.data.ts || !json.data.sig) {
+            throw new Error((json && json.msg) ? String(json.msg) : "签名服务异常");
+        }
+        return { op_ts: json.data.ts, op_sig: json.data.sig };
+    }
+
+    function parseResult(response) {
+        var ct = (response.headers.get("content-type") || "").toLowerCase();
+        if (ct.indexOf("application/json") >= 0) {
+            return response.json().catch(function () { return { code: 0, msg: "JSON 解析失败" }; });
+        }
+        return response.text().then(function (text) {
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                return { code: 0, msg: text || "服务返回异常" };
+            }
+        });
+    }
+
+    function setBtnLoading(btn, isLoading, loadingText) {
+        if (!btn) return;
+        if (!btn.dataset.originHtml) {
+            btn.dataset.originHtml = btn.innerHTML;
+        }
+        btn.disabled = !!isLoading;
+        btn.innerHTML = isLoading
+            ? '<i class="mdi mdi-loading mdi-spin"></i>' + (loadingText || "处理中...")
+            : btn.dataset.originHtml;
+    }
+
+    function submitForm(url, formEl, submitBtn, successText, clearFn) {
+        setBtnLoading(submitBtn, true, "提交中...");
+        var body = new URLSearchParams(new FormData(formEl));
+
+        return fetch(url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: buildAjaxHeaders({ "Content-Type": "application/x-www-form-urlencoded" }),
+            body: body.toString()
+        })
+            .then(parseResult)
+            .then(function (data) {
+                if (data.code === 1) {
+                    if (typeof clearFn === "function") clearFn();
+                    showMessage("success", data.msg || successText || "操作成功");
+                    return;
+                }
+                showMessage("error", data.msg || "操作失败");
+            })
+            .catch(function () {
+                showMessage("error", "网络异常，请稍后重试");
+            })
+            .finally(function () {
+                setBtnLoading(submitBtn, false);
+            });
+    }
+
+    document.getElementById("serverSelect").addEventListener("change", async function () {
+        var serverId = this.value;
+
+        updateItemInputState();
+
+        if (!serverId) {
+            document.getElementById("currentServerName").textContent = "未选择区组";
+            var tbody = document.getElementById("itemListTable");
+            if (tbody) tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">请先选择区组</td></tr>';
+            currentItems = [];
+            return;
+        }
+
+        var fd = new FormData();
+        fd.append("server_id", serverId);
+        if (csrfToken) {
+            fd.append("csrf_token", csrfToken);
+        }
+
+        try {
+            var response = await fetch(ROUTE.switchServer, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: buildAjaxHeaders(),
+                body: fd
+            });
+            var data = await response.json();
+
+            if (data.code === 1) {
+                document.getElementById("currentServerName").textContent = data.data.servername;
+                loadItemList();
+            } else {
+                showMessage("error", data.msg || "切换区组失败");
+            }
+        } catch (e) {
+            showMessage("error", "网络异常");
+        }
+    });
+
+    async function loadItemList() {
+        var tbody = document.getElementById("itemListTable");
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">加载中...</td></tr>';
+
+        try {
+            var fd = new FormData();
+            if (csrfToken) {
+                fd.append("csrf_token", csrfToken);
+            }
+
+            var response = await fetch(ROUTE.getItemList, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: buildAjaxHeaders(),
+                body: fd
+            });
+            var data = await response.json();
+
+            if (data.code === 1 && data.data) {
+                currentItems = data.data;
+                renderItemList(currentItems);
+            } else {
+                tbody.innerHTML = '<tr><td colspan="2" class="text-center text-danger">' + (data.msg || '加载失败') + '</td></tr>';
+            }
+        } catch (e) {
+            tbody.innerHTML = '<tr><td colspan="2" class="text-center text-danger">加载失败</td></tr>';
+        }
+    }
+
+    function renderItemList(items) {
+        var tbody = document.getElementById("itemListTable");
+        if (!items || items.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">暂无可用物品</td></tr>';
+            return;
+        }
+
+        var html = '';
+        items.forEach(function (item) {
+            html += '<tr>';
+            html += '<td>' + (item.name || '未知物品') + '</td>';
+            html += '<td><button type="button" class="btn btn-sm btn-primary btn-select-item" data-id="' + item.id + '" data-name="' + (item.name || '物品' + item.id) + '">选择</button></td>';
+            html += '</tr>';
+        });
+        tbody.innerHTML = html;
+
+        document.querySelectorAll(".btn-select-item").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var id = this.getAttribute("data-id");
+                var name = this.getAttribute("data-name");
+                selectItem(id, name);
+            });
+        });
+    }
+
+    async function selectItem(itemId, itemName) {
+        document.getElementById("itemName").value = itemName;
+        closeItemModal(); // 立即关闭弹窗，优化体验
+
+        var fd = new FormData();
+        fd.append("action", "sendItem");
+        fd.append("item_token", itemId);
+        fd.append("number", "1");
+        if (csrfToken) {
+            fd.append("csrf_token", csrfToken);
+        }
+
+        try {
+            var response = await fetch(ROUTE.prepareOp, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: buildAjaxHeaders(),
+                body: fd
+            });
+
+            var text = await response.text();
+
+            if (!response.ok) {
+                var errMsg = response.statusText;
+                try {
+                    var errJson = JSON.parse(text);
+                    if (errJson.msg) errMsg = errJson.msg;
+                } catch (e) { }
+
+                // if it's returning HTML like a login page, we show that
+                if (text.indexOf('<!DOCTYPE') !== -1 || text.indexOf('<html') !== -1) {
+                    throw new Error("登录状态可能已失效，请刷新页面重新登录");
+                }
+
+                throw new Error("HTTP " + response.status + ": " + errMsg);
+            }
+
+            var data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                if (text.indexOf('<!DOCTYPE') !== -1 || text.indexOf('<html') !== -1) {
+                    throw new Error("请求被拦截(可能是未登录或权限不足)，请刷新页面");
+                }
+                throw new Error("服务器返回了非法的JSON格式响应");
+            }
+
+            if (data.code === 1 && data.data) {
+                document.getElementById("itemToken").value = data.data.item_token || itemId;
+            } else {
+                showMessage("error", data.msg || "获取物品Token失败");
+                document.getElementById("itemName").value = "";
+            }
+        } catch (e) {
+            showMessage("error", (e && e.message) ? e.message : "网络异常或会话已过期");
+            document.getElementById("itemName").value = "";
+            console.error("selectItem fetch error:", e);
+        }
+    }
+
+    document.getElementById("itemSearch").addEventListener("input", function () {
+        var keyword = this.value.toLowerCase().trim();
+        if (!keyword) {
+            renderItemList(currentItems);
+            return;
+        }
+
+        var filtered = currentItems.filter(function (item) {
+            return String(item.id).indexOf(keyword) >= 0 ||
+                (item.name && item.name.toLowerCase().indexOf(keyword) >= 0);
+        });
+        renderItemList(filtered);
+    });
+
+    document.getElementById("formSendItem").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        var currentServer = document.getElementById("serverSelect").value;
+        if (!currentServer) {
+            showMessage("error", "请先选择区组");
+            return;
+        }
+
+        var formEl = this;
+        var submitBtn = document.getElementById("btnSendItem");
+        var token = document.getElementById("itemToken").value;
+        var number = parseInt(document.getElementById("itemNum").value, 10);
+
+        if (!number || number < 1 || number > 9999) {
+            showMessage("error", "物品数量不合法（1-9999）");
+            return;
+        }
+
+        if (!token) {
+            showMessage("error", "请选择物品");
+            return;
+        }
+
+        clearOldSig(formEl);
+
+        try {
+            var sig = await getOpSig("sendItem", { item_token: token, number: number });
+            var tsEl = document.createElement("input");
+            var sigEl = document.createElement("input");
+            tsEl.type = "hidden";
+            sigEl.type = "hidden";
+            tsEl.name = "op_ts";
+            sigEl.name = "op_sig";
+            tsEl.value = String(sig.op_ts);
+            sigEl.value = String(sig.op_sig);
+            formEl.appendChild(tsEl);
+            formEl.appendChild(sigEl);
+        } catch (err) {
+            showMessage("error", (err && err.message) ? err.message : "签名服务异常");
+            return;
+        }
+
+        submitForm(ROUTE.sendItem, formEl, submitBtn, "物品发送成功", function () {
+            document.getElementById("itemNum").value = "";
+            document.getElementById("itemName").value = "";
+            document.getElementById("itemToken").value = "";
+        });
+    });
+
+    document.querySelectorAll(".quick-amount").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var amount = this.getAttribute("data-amount");
+            document.getElementById("xianyuNum").value = amount;
+        });
+    });
+
+    document.getElementById("formRechargeXianyu").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        var currentServer = document.getElementById("serverSelect").value;
+        if (!currentServer) {
+            showMessage("error", "请先选择区组");
+            return;
+        }
+
+        var formEl = this;
+        var submitBtn = document.getElementById("btnRechargeXianyu");
+        var number = parseInt(document.getElementById("xianyuNum").value, 10);
+
+        if (!number || number < 1 || number > 99999999) {
+            showMessage("error", "仙玉数量不合法（1-99999999）");
+            return;
+        }
+
+        clearOldSig(formEl);
+
+        try {
+            var sig = await getOpSig("rechargeXianyu", { number: number });
+            var tsEl = document.createElement("input");
+            var sigEl = document.createElement("input");
+            tsEl.type = "hidden";
+            sigEl.type = "hidden";
+            tsEl.name = "op_ts";
+            sigEl.name = "op_sig";
+            tsEl.value = String(sig.op_ts);
+            sigEl.value = String(sig.op_sig);
+            formEl.appendChild(tsEl);
+            formEl.appendChild(sigEl);
+        } catch (err) {
+            showMessage("error", (err && err.message) ? err.message : "签名服务异常");
+            return;
+        }
+
+        submitForm(ROUTE.rechargeXianyu, formEl, submitBtn, "仙玉充值成功", function () {
+            document.getElementById("xianyuNum").value = "";
+        });
+    });
+
+    if (itemNameInputEl) {
+        itemNameInputEl.addEventListener("click", openItemModal);
+    }
+
+    if (itemModalEl) {
+        itemModalEl.addEventListener("click", function (event) {
+            var dismissTarget = event.target.closest('[data-bs-dismiss="modal"]');
+            if (dismissTarget || event.target === itemModalEl) {
+                closeItemModal();
+            }
+        });
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && itemModalEl && itemModalEl.classList.contains("show")) {
+            closeItemModal();
+        }
+    });
+
+    var preSelectedServer = document.getElementById("serverSelect").value;
+    updateItemInputState();
+    if (preSelectedServer) {
+        loadItemList();
+    }
+</script>
+{/block}

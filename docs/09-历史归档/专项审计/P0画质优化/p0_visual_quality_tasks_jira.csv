@@ -1,0 +1,25 @@
+Issue Id,Summary,Issue Type,Description,Priority,Labels,Assignee,Assignee Role,Original Estimate,Start Date,Due Date,Depends On,Acceptance Criteria,Phase,Platform,Rollback Switches
+P0-001,建立画质P0分支与日志基线,Task,创建画质优化专用分支并补充启动参数和特效链路日志点,High,"p0,visual-quality,renderer",,RD-Renderer,6h,2026-03-05,2026-03-05,,"启动日志可看到multiSampleType,bEnableMipMap,effect状态",开发,Win32+iOS,QualityP0Enable
+P0-002,搭建三场景复现与对比脚本,Task,固化白天外景夜晚外景地下宫殿三套回归场景和执行脚本,High,"p0,visual-quality,integration",,INT,4h,2026-03-05,2026-03-05,P0-001,可一键复现三场景并产出截图,联调,Win32+iOS,QualityP0Enable
+P0-003,基线截图与FPS采样,Task,采集未改造版本的视觉截图和FPS数据作为对照,High,"p0,qa,baseline",,QA-Func,6h,2026-03-05,2026-03-05,P0-002,基线报告完整且可追溯,QA,Win32+iOS,QualityP0Enable
+P0-004,打通EngineParameter赋值链路,Story,在gRunGameApplication中显式设置ep.multiSampleType和ep.bEnableMipMap并统一渲染标志,Highest,"p0,engine,param-chain",,RD-Engine,7h,2026-03-06,2026-03-06,P0-001,"配置变更后运行值同步生效",开发,Win32+iOS+Android,QualityP0Enable
+P0-005,参数链路三端联调,Task,验证Win32 iOS Android启动参数日志一致性和稳定性,High,"p0,integration,param-chain",,INT,3h,2026-03-06,2026-03-06,P0-004,三端启动无崩溃并显示正确参数,联调,Win32+iOS+Android,QualityP0Enable
+P0-006,参数开关冒烟测试,Task,验证参数开关对画质行为的开启关闭效果,High,"p0,qa,smoke",,QA-Func,4h,2026-03-06,2026-03-06,P0-005,关键开关行为与预期一致,QA,Win32+iOS+Android,QualityP0Enable
+P0-007,实现StateManager特效状态存储,Story,补齐SelEffect和SetShaderParam使其保存当前特效与参数,Highest,"p0,renderer,state-manager",,RD-Renderer,8h,2026-03-09,2026-03-09,P0-004,DrawPicture可读取到当前effect和参数,开发,Win32+iOS,NightShaderEnable
+P0-008,StateManager回归验证,Task,回归已有特效路径确保无行为退化,High,"p0,qa,regression",,QA-Func,3h,2026-03-09,2026-03-09,P0-007,已有渲染路径无新增阻断缺陷,QA,Win32+iOS,NightShaderEnable
+P0-009,DrawPicture消费全局effect,Story,在DrawPicture中接入全局effect分支并保持iShaderType优先级,Highest,"p0,renderer,draw-picture",,RD-Renderer,8h,2026-03-10,2026-03-10,P0-007,夜景effect生效且HSV灰度不回退,开发,Win32+iOS,NightShaderEnable
+P0-010,世界层夜景调用链联调,Task,验证World到Renderer到Shader参数传递每帧一致,High,"p0,integration,night-effect",,INT,4h,2026-03-10,2026-03-10,P0-009,抓日志确认每帧SelectRenderEffect和SetShaderParam一致,联调,Win32+iOS,NightShaderEnable
+P0-011,三场景视觉差分V1,Task,输出改造后第一轮A/B截图并记录差异,High,"p0,qa,visual-diff",,QA-Func,4h,2026-03-10,2026-03-10,P0-010,三场景差分截图齐全且可读,QA,Win32+iOS,NightShaderEnable
+P0-012,动态注册ColorBalance Shader,Story,在渲染初始化阶段动态注册ColorBalance与ColorBalance2程序,Highest,"p0,renderer,shader",,RD-Renderer,8h,2026-03-11,2026-03-11,P0-009,普通地图与地下宫殿效果可区分,开发,Win32+iOS,NightShaderEnable
+P0-013,ColorBalance参数公式对齐,Story,将ColorBalance参数与历史公式行为对齐并完成调优,Highest,"p0,renderer,shader-tuning",,RD-Renderer,8h,2026-03-12,2026-03-12,P0-012,夜景过渡平滑且中心区逻辑正确,开发,Win32+iOS,NightShaderEnable
+P0-014,夜景全链路联调V2,Task,完成世界层渲染层shader层完整联调并清问题,High,"p0,integration,night-effect",,INT,4h,2026-03-12,2026-03-12,P0-013,全链路无断点且日志一致,联调,Win32+iOS,NightShaderEnable
+P0-015,视觉评审轮次1,Task,组织美术与策划完成夜景效果评审并回收修改意见,High,"p0,qa,review",,QA-Func,4h,2026-03-12,2026-03-12,P0-014,评审结论为可接受或给出明确修改项,QA,Win32+iOS,NightShaderEnable
+P0-016,修复World::SetNightEffect一致性,Task,确保每帧参数更新与effect切换一致避免空转,High,"p0,engine,world",,RD-Engine,6h,2026-03-13,2026-03-13,P0-013,不再出现只切effect不更新参数,开发,Win32+iOS,NightShaderEnable
+P0-017,地图覆盖联调,Task,覆盖重点地图批量验证夜景与特效兼容,High,"p0,integration,map-regression",,INT,4h,2026-03-13,2026-03-13,P0-016,重点地图通过率100%,联调,Win32+iOS,NightShaderEnable
+P0-018,地图专项回归,Task,执行地图专项功能回归并归档缺陷,High,"p0,qa,map",,QA-Func,4h,2026-03-13,2026-03-13,P0-017,无阻断级缺陷遗留,QA,Win32+iOS,NightShaderEnable
+P0-019,iOS MSAA配置化与降级,Story,实现iOS端MSAA 0 2 4可配置和失败自动降级到0,Highest,"p0,ios,msaa",,RD-iOS,7h,2026-03-16,2026-03-16,P0-004,真机可切换且失败自动回退,开发,iOS,MSAAEnable
+P0-020,iOS真机分档联调,Task,覆盖低中高机型验证MSAA开关与稳定性,High,"p0,integration,ios",,INT,4h,2026-03-16,2026-03-16,P0-019,关键机型稳定运行无黑屏,联调,iOS,MSAAEnable
+P0-021,iOS性能专项测试,Task,采集FPS温升和耗电变化并对比基线,High,"p0,qa,performance",,QA-Perf,5h,2026-03-16,2026-03-16,P0-020,iOS平均FPS回退小于10%,QA,iOS,MSAAEnable
+P0-022,全量联调与问题收敛,Task,汇总功能性能问题并完成优先级收敛,Highest,"p0,integration,stabilization",,INT,8h,2026-03-17,2026-03-17,P0-021,阻断缺陷清零或有可执行规避方案,联调,Win32+iOS,QualityP0Enable
+P0-023,全回归与性能复测,Task,执行发布前全回归并复测Win32和iOS性能指标,Highest,"p0,qa,release-gate",,QA-Func,6h,2026-03-17,2026-03-17,P0-022,Win32回退小于8% iOS回退小于10%,QA,Win32+iOS,QualityP0Enable
+P0-024,RC打包与回滚演练,Task,制作RC包并验证开关关闭后回到基线行为,Highest,"p0,release,rollback",,Release,3h,2026-03-18,2026-03-18,P0-023,发布与回滚手册可执行,发布,Win32+iOS,QualityP0Enable|NightShaderEnable|MSAAEnable

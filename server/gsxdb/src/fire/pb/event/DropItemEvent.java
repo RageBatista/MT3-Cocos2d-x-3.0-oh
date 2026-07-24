@@ -1,0 +1,39 @@
+
+package fire.pb.event;
+
+/**
+ * 删除物品事件
+ */
+public class DropItemEvent implements Event {
+	private long roleId;
+	private int itemId;
+	private int removeNum;
+
+	public static void init() {
+	}
+
+	public DropItemEvent(long roleId, int itemId,int itemNum) {
+		this.roleId = roleId;
+		this.itemId = itemId;
+		this.removeNum=itemNum;
+	}
+
+	/**
+	 * @返回itemId
+	 */
+	public int getItemId() {
+		return itemId;
+	}
+
+	@Override
+	public long getRoleid() {
+		return roleId;
+	}
+
+	/**
+	 * @返回removeNum
+	 */
+	public int getRemoveNum() {
+		return removeNum;
+	}
+}

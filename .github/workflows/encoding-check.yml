@@ -1,0 +1,71 @@
+# GitHub Actions Workflow for MT3 Project - Encoding Check
+# 仅校验当前 PR 或 push 增量，历史混合编码通过 Git 基线保持策略处理。
+
+name: Encoding Check
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+  workflow_dispatch:
+
+env:
+  ENCODING_REPORT: "encoding-check-report.txt"
+
+jobs:
+  encoding-check-changed:
+    name: Encoding Check (Changed Files)
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Resolve Git baseline and run encoding check
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $eventName = "${{ github.event_name }}"
+          if ($eventName -eq "pull_request") {
+            $targetBranch = "origin/${{ github.base_ref }}"
+          }
+          elseif ($eventName -eq "push") {
+            $targetBranch = "${{ github.event.before }}"
+            if ([string]::IsNullOrWhiteSpace($targetBranch) -or $targetBranch -match '^0+$') {
+              $targetBranch = "HEAD^"
+            }
+          }
+          else {
+            $targetBranch = "origin/main"
+          }
+
+          Write-Host "Encoding baseline: $targetBranch" -ForegroundColor Cyan
+          & "./tools/scripts/CI-CD-EncodeCheck.ps1" `
+            -Mode Changed `
+            -TargetBranch $targetBranch `
+            -OutputPath $env:ENCODING_REPORT `
+            -LogLevel Normal
+          if ($LASTEXITCODE -ne 0) {
+            throw "Encoding check failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: encoding-check-report
+          path: ${{ env.ENCODING_REPORT }}
+          if-no-files-found: error
+          retention-days: 7

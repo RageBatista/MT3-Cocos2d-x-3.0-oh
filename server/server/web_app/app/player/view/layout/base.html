@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="<?php echo $csrf_token ?? ''; ?>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>{block name="title"}玩家服务中心{/block}</title>
+    <link rel="stylesheet" href="/static/player/css/think-style.css">
+    <link rel="stylesheet" href="/static/template/css/materialdesignicons.min.css">
+    {block name="css"}{/block}
+</head>
+
+<body>
+    <!-- 侧滑遮罩 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- 侧滑抽屉导航 -->
+    <div class="sidebar-drawer" id="sidebarDrawer">
+        <div class="sidebar-user">
+            <div class="sidebar-avatar">
+                {if condition="!empty($player)"}
+                <i class="mdi mdi-account"></i>
+                {else/}
+                <i class="mdi mdi-account-outline"></i>
+                {/if}
+            </div>
+            {if condition="!empty($player)"}
+            <div class="sidebar-username">
+                <?php echo htmlspecialchars($player['username'] ?? '玩家'); ?>
+            </div>
+            <div class="sidebar-uid">UID:
+                <?php echo $player['display_uid'] ?? '-'; ?>
+            </div>
+            {else/}
+            <div class="sidebar-username">未登录</div>
+            <div class="sidebar-uid">请先登录账号</div>
+            {/if}
+        </div>
+
+        <ul class="sidebar-nav">
+            <li><a href="/player/index" class="{if $controller == 'Index'}active{/if}"><i class="mdi mdi-home"></i>
+                    首页</a></li>
+            {if condition="empty($player)"}
+            <li><a href="/player/auth/login" class="{if $controller == 'Auth'}active{/if}"><i class="mdi mdi-login"></i>
+                    登录</a></li>
+            <li><a href="/player/auth/register"><i class="mdi mdi-account-plus"></i> 注册</a></li>
+            {else/}
+            <li><a href="/player/recharge" class="{if $controller == 'Recharge'}active{/if}"><i
+                        class="mdi mdi-cash"></i> 充值中心</a></li>
+            <li><a href="/player/order" class="{if $controller == 'Order'}active{/if}"><i
+                        class="mdi mdi-file-document"></i> 我的订单</a></li>
+            <li><a href="/player/role" class="{if $controller == 'Role'}active{/if}"><i class="mdi mdi-account-box"></i>
+                    角色管理</a></li>
+            <li><a href="/player/server" class="{if $controller == 'Server'}active{/if}"><i class="mdi mdi-server"></i>
+                    服务器</a></li>
+            <li class="nav-divider"></li>
+            <li><a href="/player/profile" class="{if $controller == 'Profile'}active{/if}"><i
+                        class="mdi mdi-account-edit"></i> 个人资料</a></li>
+            <li><a href="/player/transfer" class="{if $controller == 'Transfer'}active{/if}"><i
+                        class="mdi mdi-swap-horizontal"></i> 转区申请</a></li>
+            <li><a href="/player/feedback" class="{if $controller == 'Feedback'}active{/if}"><i
+                        class="mdi mdi-message-text"></i> 意见反馈</a></li>
+            <li><a href="/player/service" class="{if $controller == 'Service'}active{/if}"><i
+                        class="mdi mdi-headset"></i> 客服中心</a></li>
+            {/if}
+            <li class="nav-divider"></li>
+            <li><a href="/player/cdk/index" class="{if $controller == 'Cdk'}active{/if}"><i class="mdi mdi-key"></i>
+                    CDK授权</a></li>
+        </ul>
+
+        {if condition="!empty($player)"}
+        <div class="sidebar-footer">
+            <a href="/player/auth/logout"><i class="mdi mdi-logout"></i> 退出登录</a>
+        </div>
+        {/if}
+    </div>
+
+    <div class="lyear-layout">
+        <!-- 桌面端顶部导航 -->
+        <nav class="lyear-navbar" id="mainNavbar">
+            <div class="lyear-navbar-brand">
+                <i class="mdi mdi-gamepad-variant"></i>
+                玩家服务中心
+            </div>
+            <ul class="lyear-navbar-nav">
+                <li><a href="/player/index" class="{if $controller == 'Index'}active{/if}"><i class="mdi mdi-home"></i>
+                        首页</a></li>
+                {if condition="empty($player)"}
+                <li><a href="/player/auth/login" class="{if $controller == 'Auth'}active{/if}"><i
+                            class="mdi mdi-login"></i> 登录</a></li>
+                <li><a href="/player/auth/register"><i class="mdi mdi-account-plus"></i> 注册</a></li>
+                {else/}
+                <li><a href="/player/recharge" class="{if $controller == 'Recharge'}active{/if}"><i
+                            class="mdi mdi-cash"></i> 充值</a></li>
+                <li><a href="/player/order" class="{if $controller == 'Order'}active{/if}"><i
+                            class="mdi mdi-file-document"></i> 订单</a></li>
+                <li><a href="/player/role" class="{if $controller == 'Role'}active{/if}"><i
+                            class="mdi mdi-account-box"></i> 角色</a></li>
+                <li><a href="/player/transfer" class="{if $controller == 'Transfer'}active{/if}"><i
+                            class="mdi mdi-swap-horizontal"></i> 转区</a></li>
+                <li><a href="/player/profile" class="{if $controller == 'Profile'}active{/if}"><i
+                            class="mdi mdi-account-edit"></i> 资料</a></li>
+                <li><a href="/player/auth/logout"><i class="mdi mdi-logout"></i> 退出</a></li>
+                {/if}
+                <li><a href="/player/cdk/index" class="{if $controller == 'Cdk'}active{/if}"><i class="mdi mdi-key"></i>
+                        CDK</a></li>
+            </ul>
+        </nav>
+
+        <!-- 移动端 Header -->
+        <header class="mobile-header" id="mobileHeader">
+            <button class="mobile-header-btn" id="menuOpenBtn" aria-label="打开菜单">
+                <i class="mdi mdi-menu"></i>
+            </button>
+            <span class="mobile-header-title">{block name="page_title"}玩家服务中心{/block}</span>
+            <button class="mobile-header-btn" style="visibility: hidden;">
+                <i class="mdi mdi-dots-vertical"></i>
+            </button>
+        </header>
+
+        <!-- 主内容区 -->
+        <div class="lyear-content">
+            <?php if(session('error')): ?>
+            <div class="alert alert-danger">
+                <i class="mdi mdi-alert-circle"></i>
+                <?php echo htmlspecialchars(session('error')); ?>
+            </div>
+            <?php endif; ?>
+
+            <?php if(session('success')): ?>
+            <div class="alert alert-success">
+                <i class="mdi mdi-check-circle"></i>
+                <?php echo htmlspecialchars(session('success')); ?>
+            </div>
+            <?php endif; ?>
+
+            {block name="content"}{/block}
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="lyear-footer">
+            &copy; {$Think.date.Y} 玩家服务中心 · All rights reserved
+        </footer>
+    </div>
+
+    <!-- Toast 容器 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="/static/template/js/popper.min.js"></script>
+    <script src="/static/template/js/bootstrap.min.js"></script>
+    <script>
+        // ========== 侧滑导航 ==========
+        var drawer = document.getElementById('sidebarDrawer');
+        var overlay = document.getElementById('sidebarOverlay');
+        var menuBtn = document.getElementById('menuOpenBtn');
+
+        function openSidebar() {
+            drawer.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (menuBtn) menuBtn.addEventListener('click', openSidebar);
+        if (overlay) overlay.addEventListener('click', closeSidebar);
+
+        // 滑动关闭
+        var touchStartX = 0;
+        if (drawer) {
+            drawer.addEventListener('touchstart', function (e) {
+                touchStartX = e.touches[0].clientX;
+            }, { passive: true });
+            drawer.addEventListener('touchend', function (e) {
+                var dx = e.changedTouches[0].clientX - touchStartX;
+                if (dx < -60) closeSidebar();
+            }, { passive: true });
+        }
+
+        // ========== 导航栏滚动效果 ==========
+        window.addEventListener('scroll', function () {
+            var navbar = document.getElementById('mainNavbar');
+            if (navbar) {
+                if (window.scrollY > 10) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+        });
+
+        // ========== Toast 通知函数 ==========
+        function showToast(message, type) {
+            type = type || 'info';
+            var container = document.getElementById('toastContainer');
+            var toast = document.createElement('div');
+            toast.className = 'toast toast-' + type;
+            var iconMap = {
+                'success': 'mdi-check-circle',
+                'error': 'mdi-alert-circle',
+                'warning': 'mdi-alert',
+                'info': 'mdi-information'
+            };
+            toast.innerHTML = '<i class="mdi ' + (iconMap[type] || 'mdi-information') + '"></i> ' + message;
+            container.appendChild(toast);
+
+            toast.addEventListener('click', function () {
+                toast.classList.add('toast-out');
+                setTimeout(function () { toast.remove(); }, 250);
+            });
+
+            setTimeout(function () {
+                if (toast.parentNode) {
+                    toast.classList.add('toast-out');
+                    setTimeout(function () { toast.remove(); }, 250);
+                }
+            }, 3500);
+        }
+
+        // ========== 通用 AJAX 表单提交 ==========
+        function ajaxSubmit(formSelector, options) {
+            options = options || {};
+            $(formSelector).on('submit', function (e) {
+                e.preventDefault();
+                var $form = $(this);
+                var $btn = $form.find('button[type="submit"]');
+                var originalText = $btn.html();
+                $btn.prop('disabled', true).html('<i class="mdi mdi-loading mdi-spin"></i> 处理中...');
+
+                $.post($form.attr('action'), $form.serialize(), function (res) {
+                    if (res.code === 1) {
+                        showToast(res.msg || '操作成功', 'success');
+                        if (options.onSuccess) {
+                            options.onSuccess(res);
+                        } else if (options.redirect) {
+                            setTimeout(function () {
+                                window.location.href = options.redirect;
+                            }, 600);
+                        } else {
+                            $btn.html('<i class="mdi mdi-check"></i> 成功');
+                            setTimeout(function () {
+                                $btn.prop('disabled', false).html(originalText);
+                            }, 1500);
+                        }
+                    } else {
+                        showToast(res.msg || '操作失败', 'error');
+                        $btn.prop('disabled', false).html(originalText);
+                    }
+                }, 'json').fail(function () {
+                    showToast('网络请求失败，请重试', 'error');
+                    $btn.prop('disabled', false).html(originalText);
+                });
+            });
+        }
+    </script>
+    {block name="script"}{/block}
+</body>
+
+</html>

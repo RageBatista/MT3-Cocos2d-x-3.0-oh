@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+	<!--tags插件css-->
+	<link rel="stylesheet" type="text/css" href="__MB__/js/jquery-tagsinput/jquery.tagsinput.min.css">
+	<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+	<!--通知弹窗-->
+	<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+	<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<header class="card-header">
+						<div class="card-title">系统配置</div>
+					</header>
+					<div class="card-body">
+						<form action="/index.php?s=/{$app}/configure/upSys" method="post" class="edit-form">
+							<input type="hidden" name="csrf_token" value="{$csrf_token}" />
+							<div class="mb-3">
+								<label class="form-label">后台名称</label>
+								<input class="form-control" type="text" name="name" value="{$config.name}"
+									placeholder="请输入后台名称">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">后台登陆背景地址</label>
+								<input class="form-control" type="text" name="background" value="{$config.background}"
+									placeholder="请输入后台登陆背景地址">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">后台LOGO地址</label>
+								<input class="form-control" type="text" name="logo" value="{$config.logo}"
+									placeholder="请输入后台LOGO地址">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">后台小图标地址</label>
+								<input class="form-control" type="text" name="icon" value="{$config.icon}"
+									placeholder="请输入后台图标地址">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">代理通告</label>
+								<textarea class="form-control" rows="3" name="agent_notice"
+									placeholder="">{$config.agent_notice}</textarea>
+							</div>
+							<br>
+							<div class="mb-3">
+								<button type="submit" class="btn btn-primary me-1">确 定</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/popper.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+	<!--tags插件-->
+	<script type="text/javascript" src="__MB__/js/jquery-tagsinput/jquery.tagsinput.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/main.min.js"></script>
+	<script type="text/javascript" src="__MB__/js/bootstrap-notify.min.js"></script>
+	<script>
+		$('.edit-form').on('submit', function (event) {
+			var $data = $(this).serialize();
+
+			$.post($(this).attr('action'), $data, function (res) {
+				if (res.code == 1) {
+					var Toast = Swal.mixin({
+						toast: true,
+						position: "top",
+						showConfirmButton: false,
+						timer: 1500,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer;
+						}
+					});
+					Toast.fire({
+						icon: "success",
+						title: res.msg
+					});
+					setTimeout("self.location.reload();", 1500);
+				} else {
+					var Toast = Swal.mixin({
+						toast: true,
+						position: "top",
+						showConfirmButton: false,
+						timer: 1500,
+						timerProgressBar: true,
+						didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer;
+						}
+					});
+					Toast.fire({
+						icon: "error",
+						title: res.msg
+					});
+					setTimeout("self.location.reload();", 1500);
+				}
+			}).fail(function () {
+				var Toast = Swal.mixin({
+					toast: true,
+					position: "top",
+					showConfirmButton: false,
+					timer: 1500,
+					timerProgressBar: true,
+					didOpen: (toast) => {
+						toast.onmouseenter = Swal.stopTimer;
+						toast.onmouseleave = Swal.resumeTimer;
+					}
+				});
+				Toast.fire({
+					icon: "question",
+					title: '服务异常'
+				});
+				setTimeout("self.location.reload();", 1500);
+			});
+
+			return false;
+		});
+	</script>
+</body>
+
+</html>

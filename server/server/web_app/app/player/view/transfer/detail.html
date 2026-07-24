@@ -1,0 +1,115 @@
+{extend name="layout/base" /}
+
+{block name="title"}转区申请详情 - 玩家服务中心{/block}
+{block name="page_title"}转区申请详情{/block}
+
+{block name="content"}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-file-document"></i> 转区申请详情</h3>
+    </div>
+    <div class="card-body">
+        <div class="detail-section">
+            <h5 class="detail-title"><i class="mdi mdi-information"></i> 申请信息</h5>
+            <div class="detail-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>申请ID：</strong>{$transfer.id}</p>
+                        <p class="mb-1">
+                            <strong>源服务器：</strong>{$transfer.source_server_name|default=$transfer.source_server_id}</p>
+                        <p class="mb-1">
+                            <strong>目标服务器：</strong>{$transfer.target_server_name|default=$transfer.target_server_id}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>角色ID：</strong>{$transfer.role}</p>
+                        <p class="mb-1"><strong>联系方式：</strong>{$transfer.contact}</p>
+                        <p class="mb-1"><strong>申请时间：</strong>{$transfer.time|default=$transfer.created_at|default='-'}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h5 class="detail-title"><i class="mdi mdi-text"></i> 转区原因</h5>
+            <div class="detail-content">
+                <div class="alert alert-info">
+                    {$transfer.reason|default=$transfer.info|default='无'}
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h5 class="detail-title"><i class="mdi mdi-flag"></i> 当前状态</h5>
+            <div class="detail-content">
+                {if $transfer.status == 0}
+                <span class="badge badge-secondary" style="font-size: 14px;"><i class="mdi mdi-clock"></i> 待审核</span>
+                {elseif $transfer.status == 1}
+                <span class="badge badge-success" style="font-size: 14px;"><i class="mdi mdi-check"></i> 审核通过</span>
+                {elseif $transfer.status == 2}
+                <span class="badge badge-danger" style="font-size: 14px;"><i class="mdi mdi-close"></i> 审核拒绝</span>
+                {elseif $transfer.status == 3}
+                <span class="badge badge-warning" style="font-size: 14px;"><i class="mdi mdi-cog"></i> 处理中</span>
+                {elseif $transfer.status == 4}
+                <span class="badge badge-primary" style="font-size: 14px;"><i class="mdi mdi-check-circle"></i>
+                    已完成</span>
+                {else/}
+                <span class="badge badge-secondary" style="font-size: 14px;">未知</span>
+                {/if}
+
+                {if !empty($transfer.reply)}
+                <div class="alert alert-warning mt-3">
+                    <strong><i class="mdi mdi-reply"></i> 客服回复：</strong>
+                    <p style="margin-top: 8px;">{$transfer.reply}</p>
+                </div>
+                {/if}
+
+                {if $transfer.status == 4 && !empty($transfer.target_role_id)}
+                <p class="mt-2 text-muted">转区操作已完成，目标角色ID：{$transfer.target_role_id}</p>
+                {/if}
+            </div>
+        </div>
+
+        {if !empty($transfer.processed_at)}
+        <div class="detail-section">
+            <h5 class="detail-title"><i class="mdi mdi-clock"></i> 处理时间</h5>
+            <div class="detail-content">
+                <p>{$transfer.processed_at}</p>
+            </div>
+        </div>
+        {/if}
+
+        <div class="text-center mt-4">
+            <a href="/player/transfer" class="btn btn-secondary">
+                <i class="mdi mdi-arrow-left"></i> 返回列表
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .detail-section {
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--bs-border-color, #dee2e6);
+    }
+
+    .detail-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .detail-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--bs-body-color, #495057);
+    }
+
+    .detail-content p {
+        margin-bottom: 8px;
+        color: var(--bs-secondary-color, #6c757d);
+    }
+</style>
+{/block}

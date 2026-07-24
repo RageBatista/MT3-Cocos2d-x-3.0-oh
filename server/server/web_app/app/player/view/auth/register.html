@@ -1,0 +1,70 @@
+{extend name="layout/login" /}
+
+{block name="title"}注册账号 - 玩家服务中心{/block}
+
+{block name="header"}
+<div class="lyear-panel-header" style="background: #fff; padding: 24px; border-bottom: 1px solid #f0f0f0;">
+    <img src="<?php echo htmlspecialchars($config['logo'] ?? '/static/updata/logo.png'); ?>" alt="站点Logo"
+        style="max-width: 180px; width: auto; height: auto;">
+    <h3 style="margin-top: 14px; margin-bottom: 6px; color: #333;">
+        <i class="mdi mdi-account-plus"></i> 注册账号
+    </h3>
+    <p style="color: #666;">创建您的玩家账号</p>
+</div>
+{/block}
+
+{block name="content"}
+<form id="registerForm" method="post" action="/player/auth/doRegister">
+    <input type="hidden" name="csrf_token" value="{$csrf_token|default=''}">
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-account"></i> 账号
+        </label>
+        <input type="text" class="form-control" name="username" placeholder="请输入账号（6-18位字母+数字）" required>
+        <div class="form-hint">账号为6-18位字母和数字组合</div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-lock"></i> 密码
+        </label>
+        <input type="password" class="form-control" name="password" placeholder="请输入密码" required>
+        <div class="form-hint">密码为6-18位字母和数字组合</div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-lock-check"></i> 确认密码
+        </label>
+        <input type="password" class="form-control" name="confirm_password" placeholder="请再次输入密码" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            <i class="mdi mdi-ticket-percent"></i> 邀请码（可选）
+        </label>
+        <input type="text" class="form-control" name="invite_code" placeholder="请输入邀请码（选填）">
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-success btn-block btn-lg">
+            <i class="mdi mdi-account-plus"></i> 注册
+        </button>
+    </div>
+</form>
+{/block}
+
+{block name="footer"}
+<div class="lyear-panel-footer">
+    <a href="/player/auth/login"><i class="mdi mdi-login"></i> 已有账号？立即登录</a>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    ajaxSubmit('#registerForm', {
+        redirect: '/player/auth/login'
+    });
+</script>
+{/block}

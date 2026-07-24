@@ -1,0 +1,320 @@
+{
+  "schema_version": "2.0.0",
+  "updated": "2026-07-12",
+  "default_language": "zh-CN",
+  "keyword_policy": "中文优先，英文技术词并列保留",
+  "routing_strategy": {
+    "mode": "two_stage",
+    "stage_order": ["domain", "intent"],
+    "domain_field": "domain",
+    "notes": "先按任务域收敛，再在域内按 intent 关键词细分；同词跨域允许，共域内冲突仍视为缺陷。"
+  },
+  "load_order": [
+    "AGENTS.md",
+    ".claude/RULES.md",
+    ".claude/BUILD_GUIDE.md",
+    ".claude/CODEX_BRIDGE.md",
+    ".claude/config/router.json",
+    ".claude/config/proxies.manifest.json",
+    ".claude/config/agents.manifest.json",
+    ".claude/config/skills.manifest.json",
+    ".claude/config/commands.manifest.json",
+    ".claude/config/workflows.manifest.json",
+    ".claude/config/hooks.manifest.json",
+    ".claude/config/mcp.manifest.json",
+    ".claude/config/quality-gates.json",
+    ".claude/config/evidence-contract.json",
+    ".claude/config/source-authority.json",
+    ".claude/config/evolution.config.json",
+    ".agents/skills/mt3-project-guidelines/SKILL.md",
+    ".claude/CLAUDE.md"
+  ],
+  "intent_routes": [
+    {
+      "intent": "build_windows",
+      "domain": "build",
+      "priority": 10,
+      "keywords": ["Windows", "Win32", "VS2013", "v120", "MSBuild", "vcxproj", "sln", "Windows构建", "Win32构建", "工具集", "FireClient.lib", "DYNAMICBASE", "C2059", "C2065", "C2143", "C4996"],
+      "negative_keywords": ["SIGSEGV", "Access Violation", "0xC0000005", "崩溃", "闪退"],
+      "default_proxy": "build-proxy",
+      "primary_agent": "build-expert",
+      "skills": ["build-troubleshooting", "windows-build", "dependency-management"],
+      "mode": "standard",
+      "workflow_id": "windows-build-workflow"
+    },
+    {
+      "intent": "build_android",
+      "domain": "build",
+      "priority": 10,
+      "keywords": ["Android", "安卓", "NDK", "APK", "渠道包", "打包安卓", "jarsigner", "locojoy", "Android构建", "安卓构建", "ndk-build", "ant release"],
+      "negative_keywords": ["SIGSEGV", "Access Violation", "0xC0000005", "FATAL EXCEPTION", "崩溃", "闪退"],
+      "default_proxy": "build-proxy",
+      "primary_agent": "build-expert",
+      "skills": ["build-troubleshooting", "android-build", "dependency-management"],
+      "mode": "standard",
+      "workflow_id": "android-build-workflow"
+    },
+    {
+      "intent": "android_boot_log_capture",
+      "domain": "quality",
+      "priority": 8,
+      "keywords": ["MuMu", "[P0][BOOT]", "P0 BOOT", "BOOT日志", "启动日志", "logcat", "adb日志", "Android启动日志", "采集日志"],
+      "default_proxy": "quality-proxy",
+      "primary_agent": "test-engineer",
+      "skills": ["android-p0-boot-log", "debugging", "android-build", "verification-loop"],
+      "mode": "standard",
+      "workflow_id": "verification-workflow"
+    },
+    {
+      "intent": "build_server",
+      "domain": "build",
+      "priority": 10,
+      "keywords": ["服务端构建", "服务端编译", "server build", "Ant构建", "ant dist", "service jar", "build.xml", "game_server"],
+      "negative_keywords": ["协议", "schema", "序列化", "跨服"],
+      "default_proxy": "build-proxy",
+      "primary_agent": "build-expert",
+      "skills": ["build-troubleshooting", "ant-build", "java-development"],
+      "mode": "standard",
+      "workflow_id": "server-build-workflow"
+    },
+    {
+      "intent": "build_compile",
+      "domain": "build",
+      "priority": 9,
+      "keywords": ["编译", "构建", "build", "compile", "make", "rebuild", "重编"],
+      "negative_keywords": ["SIGSEGV", "Access Violation", "0xC0000005", "FATAL EXCEPTION", "崩溃", "闪退"],
+      "default_proxy": "build-proxy",
+      "primary_agent": "build-expert",
+      "skills": ["build-troubleshooting", "windows-build", "dependency-management"],
+      "mode": "standard",
+      "workflow_id": "windows-build-workflow"
+    },
+    {
+      "intent": "build_failure",
+      "domain": "build",
+      "priority": 10,
+      "keywords": ["LNK", "MSB", "构建错误码", "编译失败", "链接失败", "工具链失败", "toolchain", "ABI", "CRT", "LNK2001", "LNK2019", "C1083", "C2011"],
+      "negative_keywords": ["SIGSEGV", "Access Violation", "0xC0000005", "FATAL EXCEPTION", "UnsatisfiedLinkError", "异常终止", "崩溃", "闪退"],
+      "default_proxy": "build-proxy",
+      "primary_agent": "build-expert",
+      "skills": ["build-troubleshooting", "dependency-management", "verification-loop"],
+      "mode": "deep",
+      "workflow_id": "error-diagnosis-workflow"
+    },
+    {
+      "intent": "runtime_crash",
+      "domain": "runtime",
+      "priority": 11,
+      "keywords": ["SIGSEGV", "Access Violation", "0xC0000005", "FATAL EXCEPTION", "UnsatisfiedLinkError", "crash", "minidump", "异常终止", "崩溃", "闪退", "启动崩溃", "登录崩溃", "入世界崩溃"],
+      "negative_keywords": ["LNK", "MSB", "编译失败", "链接失败", "toolchain"],
+      "default_proxy": "quality-proxy",
+      "primary_agent": "test-engineer",
+      "native_agent_alias": "mt3_runtime_troubleshooter",
+      "skills": ["debugging", "project-context", "verification-loop", "cegui-usage"],
+      "native_skill_aliases": ["mt3-project-guidelines", "application-core-flow", "platform-bridge", "cegui-layout-integration", "rendering-pipeline"],
+      "mode": "deep",
+      "workflow_id": "runtime-crash-workflow",
+      "catalog_workflow_id": "runtime-crash"
+    },
+    {
+      "intent": "planning",
+      "domain": "architecture",
+      "priority": 5,
+      "keywords": ["规划", "计划", "plan", "实施方案", "分阶段", "里程碑", "风险评估"],
+      "default_proxy": "architecture-proxy",
+      "primary_agent": "planner",
+      "skills": ["project-context", "search-first", "dependency-management"],
+      "mode": "standard",
+      "workflow_id": "orchestrate-workflow"
+    },
+    {
+      "intent": "code_review",
+      "domain": "quality",
+      "priority": 7,
+      "keywords": ["代码审查", "代码评审", "审查", "review", "PR", "合并请求", "提交前检查", "注入风险", "硬编码", "敏感信息泄露"],
+      "negative_keywords": ["漏洞", "凭证", "安全审计"],
+      "default_proxy": "quality-proxy",
+      "primary_agent": "code-reviewer",
+      "skills": ["cpp-development", "lua-scripting", "java-development", "git-workflow"],
+      "mode": "standard"
+    },
+    {
+      "intent": "architecture_design",
+      "domain": "architecture",
+      "priority": 4,
+      "keywords": ["架构", "重构", "模块边界", "设计方案", "技术债"],
+      "default_proxy": "architecture-proxy",
+      "primary_agent": "architecture-analyst",
+      "skills": ["project-context", "dependency-management", "distributed-arch", "search-first"],
+      "mode": "deep"
+    },
+    {
+      "intent": "security_audit",
+      "domain": "security",
+      "priority": 8,
+      "keywords": ["安全", "漏洞", "审计", "凭证", "注入", "越权"],
+      "default_proxy": "quality-proxy",
+      "primary_agent": "security-auditor",
+      "skills": ["dependency-management", "protocol-design", "java-development"],
+      "mode": "deep"
+    },
+    {
+      "intent": "performance",
+      "domain": "performance",
+      "priority": 7,
+      "keywords": ["性能", "FPS", "卡顿", "延迟", "吞吐", "profiling", "DrawCall", "内存泄漏", "帧率", "hotspot", "优化", "OOM", "内存溢出", "CPU占用", "GPU占用", "纹理内存"],
+      "default_proxy": "architecture-proxy",
+      "primary_agent": "performance-analyst",
+      "skills": ["performance-optimization", "debugging", "cocos2dx-usage"],
+      "mode": "deep"
+    },
+    {
+      "intent": "testing",
+      "domain": "quality",
+      "priority": 6,
+      "keywords": ["测试", "回归", "覆盖率", "测试用例", "质量保障", "QA", "Android测试", "iOS测试", "兼容性测试", "回归测试"],
+      "default_proxy": "quality-proxy",
+      "primary_agent": "test-engineer",
+      "skills": ["debugging", "build-troubleshooting", "protocol-design", "verification-loop"],
+      "mode": "standard",
+      "workflow_id": "verification-workflow"
+    },
+    {
+      "intent": "verification",
+      "domain": "quality",
+      "priority": 7,
+      "keywords": ["验收", "验证", "verify", "质量门禁", "pre-pr", "pre-commit", "回归验证", "pre-merge", "post-merge", "CI/CD", "持续集成"],
+      "default_proxy": "quality-proxy",
+      "primary_agent": "test-engineer",
+      "skills": ["verification-loop", "build-troubleshooting", "debugging"],
+      "mode": "standard",
+      "workflow_id": "verification-workflow"
+    },
+    {
+      "intent": "orchestration",
+      "domain": "orchestration",
+      "priority": 5,
+      "keywords": ["编排", "多代理", "orchestrate", "串联流程", "协同执行", "handoff"],
+      "default_proxy": "quality-proxy",
+      "primary_agent": "workflow-orchestrator",
+      "skills": ["verification-loop", "git-workflow", "search-first"],
+      "mode": "standard",
+      "workflow_id": "orchestrate-workflow"
+    },
+    {
+      "intent": "deployment_release",
+      "domain": "release",
+      "priority": 8,
+      "keywords": ["部署", "发布", "上线", "打包", "回滚", "release"],
+      "default_proxy": "release-proxy",
+      "primary_agent": "deploy-specialist",
+      "skills": ["windows-build", "android-build", "ant-build", "verification-loop"],
+      "mode": "deep",
+      "workflow_candidates": ["windows-build-workflow", "android-build-workflow", "server-build-workflow", "verification-workflow"]
+    },
+    {
+      "intent": "documentation",
+      "domain": "documentation",
+      "priority": 2,
+      "keywords": ["文档", "说明", "手册", "使用手册", "变更日志", "changelog", "知识库", "FAQ"],
+      "default_proxy": "architecture-proxy",
+      "primary_agent": "doc-writer",
+      "skills": ["project-context", "git-workflow"],
+      "mode": "light"
+    },
+    {
+      "intent": "mcp_management",
+      "domain": "governance",
+      "priority": 5,
+      "keywords": ["mcp", "mcp配置", "Codex MCP", "mcp_servers", ".codex/mcp", "model context protocol", "mcp服务器", "上下文协议"],
+      "negative_keywords": ["mcp.manifest", ".claude", "Claude MCP"],
+      "default_proxy": "config-governance-proxy",
+      "primary_agent": "architecture-analyst",
+      "native_agent_alias": "mt3_codex_governor",
+      "skills": ["claude-config-engineering", "project-context", "search-first", "verification-loop"],
+      "native_skill_aliases": ["codex-runtime-governance"],
+      "mode": "standard",
+      "workflow_id": "codex-governance-workflow",
+      "catalog_workflow_id": "codex-governance"
+    },
+    {
+      "intent": "codex_config_governance",
+      "domain": "governance",
+      "priority": 5,
+      "keywords": [".codex", "Codex配置", "Codex运行时", "Codex配置治理", "requirements.toml", "Codex rules", "subagent", "project-map", "workflow catalog", ".agents/skills", "Codex技能"],
+      "negative_keywords": [".claude", "Claude配置", "Claude Code配置"],
+      "default_proxy": "config-governance-proxy",
+      "primary_agent": "architecture-analyst",
+      "native_agent_alias": "mt3_codex_governor",
+      "skills": ["claude-config-engineering", "search-first", "project-context", "verification-loop"],
+      "native_skill_aliases": ["codex-runtime-governance"],
+      "mode": "deep",
+      "workflow_id": "codex-governance-workflow",
+      "catalog_workflow_id": "codex-governance"
+    },
+    {
+      "intent": "claude_config_governance",
+      "domain": "governance",
+      "priority": 4,
+      "keywords": [".claude", "Claude配置", "Claude Code配置", "Claude配置治理", "Claude manifest", "mcp.manifest", "Claude路由", "Claude代理", "Claude hooks", "Claude commands", "Claude skills", "Claude workflow", "Claude MCP"],
+      "negative_keywords": [".codex", "Codex配置", "Codex运行时"],
+      "default_proxy": "config-governance-proxy",
+      "primary_agent": "architecture-analyst",
+      "skills": ["claude-config-engineering", "search-first", "project-context", "verification-loop"],
+      "native_skill_aliases": ["claude-config-governance"],
+      "mode": "deep",
+      "workflow_id": "claude-config-workflow"
+    },
+    {
+      "intent": "skill_evolution",
+      "domain": "governance",
+      "priority": 3,
+      "keywords": ["技能进化", "进化", "持续学习", "自动学习", "经验沉淀", "instinct", "skill evolution"],
+      "default_proxy": "evolution-proxy",
+      "primary_agent": "architecture-analyst",
+      "skills": ["continuous-learning-v2", "build-troubleshooting", "git-workflow"],
+      "mode": "standard",
+      "workflow_id": "skill-evolution-workflow"
+    },
+    {
+      "intent": "protocol_data",
+      "domain": "protocol",
+      "priority": 5,
+      "keywords": ["gnet", "xbean", "协议", "rpc", "schema", "genrpc", "genxdb", "gengbeans", "序列化", "跨服"],
+      "default_proxy": "architecture-proxy",
+      "primary_agent": "architecture-analyst",
+      "skills": ["gnet-framework", "xbean-system", "protocol-design"],
+      "mode": "standard"
+    }
+  ],
+  "resource_policy": {
+    "light": {
+      "max_agents": 1,
+      "max_skills": 2,
+      "max_reference_docs": 3
+    },
+    "standard": {
+      "max_agents": 1,
+      "max_skills": 4,
+      "max_reference_docs": 6
+    },
+    "deep": {
+      "max_agents": 2,
+      "max_skills": 8,
+      "max_reference_docs": 12
+    }
+  },
+  "conflict_resolution": [
+    "优先匹配关键词命中数最高的意图",
+    "同命中数按代理优先级排序（high > medium > low）",
+    "仍冲突时优先选择资源开销更小的模式（light -> standard -> deep）",
+    "仍冲突时优先选择关键词更具体（关键词平均长度更长）的意图",
+    "安全/性能关键词出现时强制使用 deep"
+  ],
+  "fallback": {
+    "proxy": "architecture-proxy",
+    "agent": "architecture-analyst",
+    "skills": ["project-context"],
+    "mode": "light"
+  }
+}

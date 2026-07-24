@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<title>授权成功</title>
+<link rel="shortcut icon" type="image/x-icon" href="__MB__/favicon.ico">
+<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/css/style.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+<style>
+  :root {
+    --tk-bg: #f3f6fb;
+    --tk-card: #ffffff;
+    --tk-border: #e6ebf2;
+    --tk-text: #1f2937;
+    --tk-subtext: #667085;
+    --tk-primary: #1677ff;
+    --tk-primary-soft: #eaf3ff;
+    --tk-success: #16a34a;
+    --tk-danger: #e11d48;
+    --tk-warning: #f59e0b;
+    --tk-radius-card: 14px;
+    --tk-radius-control: 10px;
+    --tk-space-1: 6px;
+    --tk-space-2: 8px;
+    --tk-space-3: 10px;
+    --tk-space-4: 12px;
+    --tk-space-5: 16px;
+    --tk-space-6: 20px;
+    --tk-space-8: 28px;
+    --tk-btn-h: 44px;
+    --tk-font-xs: 12px;
+    --tk-font-sm: 13px;
+    --tk-font-md: 15px;
+    --tk-font-lg: 18px;
+    --tk-font-xl: 22px;
+    --tk-line-tight: 1.25;
+    --tk-line-normal: 1.5;
+    --tk-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  }
+
+  html, body {
+    min-height: 100%;
+    margin: 0;
+    background: var(--tk-bg);
+    color: var(--tk-text);
+  }
+
+  .page-wrap {
+    max-width: 580px;
+    margin: 0 auto;
+    padding: var(--tk-space-5);
+    padding-bottom: var(--tk-space-8);
+  }
+
+  .hero,
+  .panel {
+    background: var(--tk-card);
+    border: 1px solid var(--tk-border);
+    border-radius: var(--tk-radius-card);
+    box-shadow: var(--tk-shadow);
+  }
+
+  .hero {
+    padding: var(--tk-space-5);
+    margin-bottom: var(--tk-space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--tk-space-3);
+  }
+
+  .hero-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(22, 163, 74, 0.14);
+    color: var(--tk-success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    margin: 0;
+    font-size: var(--tk-font-xl);
+    font-weight: 700;
+    line-height: var(--tk-line-tight);
+  }
+
+  .hero-subtitle {
+    margin: var(--tk-space-1) 0 0;
+    font-size: var(--tk-font-xs);
+    color: var(--tk-subtext);
+    line-height: var(--tk-line-normal);
+  }
+
+  .panel {
+    margin-bottom: var(--tk-space-4);
+    overflow: hidden;
+  }
+
+  .panel-head {
+    border-bottom: 1px solid var(--tk-border);
+    padding: var(--tk-space-4) var(--tk-space-5);
+    font-size: var(--tk-font-sm);
+    font-weight: 600;
+    background: #fbfcff;
+    display: flex;
+    align-items: center;
+    gap: var(--tk-space-1);
+  }
+
+  .panel-body {
+    padding: var(--tk-space-5);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--tk-space-3);
+  }
+
+  .info-item {
+    border: 1px solid var(--tk-border);
+    border-radius: var(--tk-radius-control);
+    padding: var(--tk-space-3);
+    background: #ffffff;
+  }
+
+  .info-label {
+    font-size: var(--tk-font-xs);
+    color: var(--tk-subtext);
+    margin-bottom: var(--tk-space-1);
+  }
+
+  .info-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--tk-space-2);
+    align-items: center;
+  }
+
+  .info-value {
+    font-size: var(--tk-font-md);
+    font-weight: 600;
+    color: var(--tk-text);
+    line-height: 1.35;
+    word-break: break-all;
+  }
+
+  .copy-btn {
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: var(--tk-font-xs);
+    white-space: nowrap;
+  }
+
+  .tip {
+    margin: var(--tk-space-2) 0 0;
+    font-size: var(--tk-font-xs);
+    color: var(--tk-subtext);
+    line-height: var(--tk-line-normal);
+  }
+
+  .action-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--tk-space-2);
+  }
+
+  .action-btn {
+    min-height: var(--tk-btn-h);
+    border-radius: var(--tk-radius-control);
+    font-size: var(--tk-font-md);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--tk-space-1);
+  }
+
+  @media (min-width: 576px) {
+    .action-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .action-grid .full {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="page-wrap">
+    <section class="hero">
+      <div class="hero-icon"><i class="mdi mdi-check"></i></div>
+      <div>
+        <h1 class="hero-title">授权成功</h1>
+        <p class="hero-subtitle">账号校验通过，可继续进入授权控制台。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <i class="mdi mdi-card-account-details-outline"></i>
+        授权信息
+      </div>
+      <div class="panel-body">
+        <div class="info-grid">
+          <article class="info-item">
+            <div class="info-label">UID</div>
+            <div class="info-row">
+              <div id="uidVal" class="info-value">{$uid|default=''}</div>
+              <button type="button" class="btn btn-outline-success btn-sm copy-btn" onclick="copyText('#uidVal')">复制</button>
+            </div>
+          </article>
+
+          <article class="info-item">
+            <div class="info-label">授权 CDK</div>
+            <div class="info-row">
+              <div id="cdkVal" class="info-value">{$cdk|default=''}</div>
+              <button type="button" class="btn btn-outline-success btn-sm copy-btn" onclick="copyText('#cdkVal')">复制</button>
+            </div>
+          </article>
+
+          <article class="info-item">
+            <div class="info-label">授权等级</div>
+            <div class="info-value">{$lv|default=''}</div>
+          </article>
+
+          <article class="info-item">
+            <div class="info-label">大区信息</div>
+            <div class="info-value">{if isset($groupname) && $groupname!=''}{$groupname} - {/if}{$servername|default=''} ({$serverid|default=''})</div>
+          </article>
+        </div>
+
+        <p class="tip">建议先复制 UID 与 CDK，再进入控制台进行后续操作。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <i class="mdi mdi-navigation-variant-outline"></i>
+        下一步
+      </div>
+      <div class="panel-body">
+        <div class="action-grid">
+          <a class="btn btn-primary action-btn" href="/login/auth/dashboard">
+            <i class="mdi mdi-view-dashboard-outline"></i>进入控制台
+          </a>
+          <a class="btn btn-outline-primary action-btn" href="/login/auth">
+            <i class="mdi mdi-shield-check-outline"></i>返回授权页
+          </a>
+          <button type="button" class="btn btn-light action-btn full" onclick="location.reload()">
+            <i class="mdi mdi-refresh"></i>刷新当前页
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function copyText(selector) {
+      var el = document.querySelector(selector);
+      if (!el) return;
+      var text = (el.textContent || el.innerText || "").trim();
+      if (!text) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showCopiedToast).catch(function() { fallbackCopy(text); });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      var textarea = document.createElement("textarea");
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        showCopiedToast();
+      } catch (e) {}
+      document.body.removeChild(textarea);
+    }
+
+    function showCopiedToast() {
+      if (window.Swal) {
+        Swal.fire({
+          toast: true,
+          position: "top",
+          icon: "success",
+          title: "已复制到剪贴板",
+          showConfirmButton: false,
+          timer: 1200
+        });
+      }
+    }
+  </script>
+</body>
+</html>

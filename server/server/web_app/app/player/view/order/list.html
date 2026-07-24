@@ -1,0 +1,102 @@
+{extend name="layout/base" /}
+
+{block name="title"}我的订单 - 玩家服务中心{/block}
+{block name="page_title"}我的订单{/block}
+
+{block name="content"}
+<!-- 状态筛选标签 -->
+<div class="card" style="margin-bottom: 12px;">
+    <div class="card-body" style="padding: 0;">
+        <div class="tabs" id="statusTabs">
+            <a href="/player/order" class="tab-item {eq name='status' value=''}active{/eq}">全部</a>
+            <a href="/player/order?status=0"
+                class="tab-item {php}echo ($status ?? '') === '0' ? 'active' : '';{/php}">待支付</a>
+            <a href="/player/order?status=1"
+                class="tab-item {php}echo ($status ?? '') === '1' ? 'active' : '';{/php}">已支付</a>
+            <a href="/player/order?status=2"
+                class="tab-item {php}echo ($status ?? '') === '2' ? 'active' : '';{/php}">已取消</a>
+        </div>
+    </div>
+</div>
+
+<!-- 搜索框 -->
+<div class="card" style="margin-bottom: 12px;">
+    <div class="card-body" style="padding: 12px;">
+        <div style="display: flex; gap: 8px;">
+            <input type="text" class="form-control" id="filterOrderNo" placeholder="搜索订单号..."
+                value="{$order_no|default=''|htmlspecialchars}" style="flex: 1;">
+            <button class="btn btn-primary" id="searchBtn" style="white-space: nowrap;">
+                <i class="mdi mdi-magnify"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 订单列表 -->
+<div class="card">
+    <div class="card-body" style="padding: 0;">
+        {notempty name="orders"}
+        <div class="order-list">
+            {volist name="orders" id="order"}
+            <div class="order-item" style="cursor: pointer;"
+                onclick="window.location.href='/player/order/detail?id={$order.id}'">
+                <div class="order-info">
+                    <div class="order-no">
+                        <i class="mdi mdi-receipt" style="color: var(--bs-muted-color);"></i>
+                        {$order.order_no|htmlspecialchars}
+                    </div>
+                    <div class="order-amount">¥{$order.amount|htmlspecialchars}</div>
+                    <div class="order-time">
+                        <i class="mdi mdi-server"></i> {$order.server_name|default='-'|htmlspecialchars}
+                        <span style="margin: 0 8px;">|</span>
+                        <i class="mdi mdi-clock-outline"></i> {$order.create_time|htmlspecialchars}
+                    </div>
+                </div>
+                {if condition="$order['status'] == 1"}
+                <span class="order-status paid"><i class="mdi mdi-check-circle"></i> 已支付</span>
+                {elseif condition="$order['status'] == 2" /}
+                <span class="order-status cancelled"><i class="mdi mdi-close-circle"></i> 已取消</span>
+                {else /}
+                <span class="order-status pending"><i class="mdi mdi-clock"></i> 待支付</span>
+                {/if}
+            </div>
+            {/volist}
+        </div>
+
+        {notempty name="page"}
+        <div style="padding: 16px; text-align: center; border-top: 1px solid var(--bs-border-color);">
+            {$page}
+        </div>
+        {/notempty}
+        {else/}
+        <div class="empty-state">
+            <i class="mdi mdi-receipt"></i>
+            <h4>暂无订单记录</h4>
+            <p>您还没有任何订单</p>
+            <a href="/player/recharge" class="btn btn-primary" style="margin-top: 16px;">
+                <i class="mdi mdi-cash"></i> 立即充值
+            </a>
+        </div>
+        {/notempty}
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    $('#searchBtn').on('click', function () {
+        var orderNo = $('#filterOrderNo').val().trim();
+        var currentUrl = new URL(window.location.href);
+        if (orderNo) {
+            currentUrl.searchParams.set('order_no', orderNo);
+        } else {
+            currentUrl.searchParams.delete('order_no');
+        }
+        window.location.href = currentUrl.toString();
+    });
+
+    $('#filterOrderNo').on('keypress', function (e) {
+        if (e.which === 13) $('#searchBtn').click();
+    });
+</script>
+{/block}

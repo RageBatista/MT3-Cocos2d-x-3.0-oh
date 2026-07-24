@@ -1,0 +1,71 @@
+{extend name="layout/base" /}
+
+{block name="title"}服务器列表 - 玩家服务中心{/block}
+{block name="page_title"}服务器列表{/block}
+
+{block name="content"}
+<!-- 已绑定服务器 -->
+{if condition="!empty($bound_servers)"}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-star"></i> 已绑定服务器</h3>
+    </div>
+    <div class="card-body">
+        {volist name="bound_servers" id="vo"}
+        <div class="server-card-item">
+            <div class="server-info">
+                <h4><i class="mdi mdi-server" style="color: var(--bs-primary);"></i> {$vo.name}</h4>
+                <div class="server-meta">
+                    <span><i class="mdi mdi-identifier"></i> ID: {$vo.serverid}</span>
+                    <span><i class="mdi mdi-folder-outline"></i> 分组: {$vo.groupname|default='默认'}</span>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <a href="/player/server/detail?id={$vo.serverid}" class="btn btn-sm btn-primary">
+                    <i class="mdi mdi-eye"></i> 查看详情
+                </a>
+                <span class="badge badge-success"><i class="mdi mdi-check-circle"></i> 已绑定</span>
+            </div>
+        </div>
+        {/volist}
+    </div>
+</div>
+{/if}
+
+<!-- 所有服务器 -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><i class="mdi mdi-server-network"></i> 所有服务器</h3>
+    </div>
+    <div class="card-body">
+        {volist name="servers" id="vo"}
+        <div class="server-card-item">
+            <div class="server-info">
+                <h4><i class="mdi mdi-server" style="color: var(--bs-primary);"></i> {$vo.name}</h4>
+                <div class="server-meta">
+                    <span><i class="mdi mdi-identifier"></i> ID: {$vo.serverid}</span>
+                    <span><i class="mdi mdi-folder-outline"></i> 分组: {$vo.groupname|default='默认'}</span>
+                    <span>
+                        {if condition="$vo['status'] == 1"}
+                        <i class="mdi mdi-circle" style="color: var(--bs-success); font-size: 10px;"></i> 正常
+                        {else/}
+                        <i class="mdi mdi-circle" style="color: var(--bs-danger); font-size: 10px;"></i> 维护
+                        {/if}
+                    </span>
+                </div>
+            </div>
+            <a href="/player/server/detail?id={$vo.serverid}" class="btn btn-sm btn-primary">
+                <i class="mdi mdi-eye"></i> 查看详情
+            </a>
+        </div>
+        {/volist}
+
+        {if condition="empty($servers)"}
+        <div class="player-empty">
+            <i class="mdi mdi-server-off"></i>
+            <p>暂无可用服务器</p>
+        </div>
+        {/if}
+    </div>
+</div>
+{/block}

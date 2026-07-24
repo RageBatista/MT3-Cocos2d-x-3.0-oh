@@ -1,0 +1,113 @@
+{extend name="layout/auth" /}
+
+{block name="content"}
+<section class="auth-hero-card with-icon">
+    <div class="auth-hero-icon">
+        <i class="mdi mdi-check"></i>
+    </div>
+    <div>
+        <h1 class="auth-hero-title">授权成功</h1>
+        <p class="auth-hero-subtitle">账号校验通过，可继续进入授权控制台。</p>
+    </div>
+</section>
+
+<section class="auth-card">
+    <div class="auth-card-head">
+        <i class="mdi mdi-card-account-details-outline"></i>
+        授权信息
+    </div>
+    <div class="auth-card-body">
+        <div class="auth-info-grid">
+            <article class="auth-info-item">
+                <div class="auth-info-label">UID</div>
+                <div class="auth-info-row">
+                    <div id="uidVal" class="auth-info-value">{$uid|default=''}</div>
+                    <button type="button" class="btn btn-outline-success btn-sm auth-copy-btn" onclick="copyText('#uidVal')">复制</button>
+                </div>
+            </article>
+
+            <article class="auth-info-item">
+                <div class="auth-info-label">授权 CDK</div>
+                <div class="auth-info-row">
+                    <div id="cdkVal" class="auth-info-value">{$cdk|default=''}</div>
+                    <button type="button" class="btn btn-outline-success btn-sm auth-copy-btn" onclick="copyText('#cdkVal')">复制</button>
+                </div>
+            </article>
+
+            <article class="auth-info-item">
+                <div class="auth-info-label">授权等级</div>
+                <div class="auth-info-value">{$lv|default=''}</div>
+            </article>
+
+            <article class="auth-info-item">
+                <div class="auth-info-label">大区信息</div>
+                <div class="auth-info-value">{if isset($groupname) && $groupname!=''}{$groupname} - {/if}{$servername|default=''} ({$serverid|default=''})</div>
+            </article>
+        </div>
+
+        <p class="auth-tip-text">建议先复制 UID 与 CDK，再进入控制台进行后续操作。</p>
+    </div>
+</section>
+
+<section class="auth-card">
+    <div class="auth-card-head">
+        <i class="mdi mdi-navigation-variant-outline"></i>
+        下一步
+    </div>
+    <div class="auth-card-body">
+        <div class="auth-action-grid">
+            <a class="btn auth-btn-primary auth-action-btn" href="/login/auth/dashboard">
+                <i class="mdi mdi-view-dashboard-outline"></i>进入控制台
+            </a>
+            <a class="btn btn-outline-primary auth-action-btn" href="/login/auth">
+                <i class="mdi mdi-shield-check-outline"></i>返回授权页
+            </a>
+            <button type="button" class="btn btn-light auth-action-btn full" onclick="location.reload()">
+                <i class="mdi mdi-refresh"></i>刷新当前页
+            </button>
+        </div>
+    </div>
+</section>
+{/block}
+
+{block name="script"}
+<script>
+function copyText(selector) {
+    var el = document.querySelector(selector);
+    if (!el) return;
+    var text = (el.textContent || el.innerText || "").trim();
+    if (!text) return;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showCopiedToast).catch(function() { fallbackCopy(text); });
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    var textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand("copy");
+        showCopiedToast();
+    } catch (e) {}
+    document.body.removeChild(textarea);
+}
+
+function showCopiedToast() {
+    if (window.Swal) {
+        Swal.fire({
+            toast: true,
+            position: "top",
+            icon: "success",
+            title: "已复制到剪贴板",
+            showConfirmButton: false,
+            timer: 1200
+        });
+    }
+}
+</script>
+{/block}

@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="skill">
+
+	<bean name="CFriendSkill" from ="技能相关表/j技能显示表-复合/伙伴技能显示表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="name" type="string" fromCol="技能名"/>
+		<variable name="imageID" type="int" fromCol="图标编号"/>
+		<variable name="desc" type="string" fromCol="技能升级描述"/>
+	</bean>
+
+	<bean name="CEquipSkill" from="技能相关表/t特技特效显示表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="name" type="string" fromCol="技能名称"/>
+		<variable name="icon" type="int" fromCol="图标编号"/>
+		<variable name="skilltype" type="int" fromCol="主动被动"/>
+		<variable name="cost" type="string" fromCol="消耗显示"/>
+		<variable name="costnum" type="int" fromCol="消耗数量"/>
+		<variable name="costType" type="int" fromCol="消耗属性编号"/>
+		<variable name="describe" type="string" fromCol="技能描述"/>
+		<variable name="targettype" type="int" fromCol="目标类型"/>
+		<variable name="effectid" type="int" fromCol="魔法入口"/>
+		<variable name="isvisible" type="int" fromCol="是否付魔大法显示"/>
+		<variable name="needitem" type="int" fromCol="附魔大法需求道具id"/>
+		<variable name="neednum" type="int" fromCol="附魔大法需求道具数量"/>
+		<variable name="jingmaizhi" type="double" fromCol="经脉值"/>
+	</bean>
+
+	<bean name="CEquipSkillInfo" from="技能相关表/j技能表-复合/特技特效表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="name" type="string" fromCol="技能名称"/>
+	</bean>
+
+	<bean name="CSchoolSkillitem" from="技能相关表/j技能显示表-复合/j技能显示表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="skillname" type="string" fromCol="技能名"/>
+		<variable name="skillabbrname" type="string" fromCol="技能定位"/>
+		<variable name="skillsort" type="int" fromCol="排序"/>
+		<variable name="sType" type="string" fromCol="技能类型"/>
+		<variable name="paramA" type="double" fromCol="消耗系数a1"/>
+		<variable name="paramB" type="double" fromCol="消耗系数b1"/>
+		<variable name="costA" type="string" fromCol="显示消耗1"/>
+		<variable name="paramC" type="double" fromCol="消耗系数a2"/>
+		<variable name="paramD" type="double" fromCol="消耗系数b2"/>
+		<variable name="costB" type="string" fromCol="显示消耗2"/>
+		<variable name="costTypeA" type="int" fromCol="消耗1属性编号"/>
+		<variable name="costTypeB" type="int" fromCol="消耗2属性编号"/>
+		<variable name="normalIcon" type="int" fromCol="图标编号"/>
+		<variable name="levellimit" type="vector" fromCol="技能等级1,技能等级2,技能等级3,技能等级4,技能等级5,技能等级6,技能等级7" value="int"/>
+		<variable name="leveldescribezero" type="string" fromCol="技能升级描述"/>
+		<variable name="leveldescribe" type="vector" fromCol="技能升级描述1,技能升级描述2,技能升级描述3,技能升级描述4,技能升级描述5,技能升级描述6,技能升级描述7" value="string"/>
+		<variable name="skilldescribe" type="string" fromCol="技能描述"/>
+		<variable name="skilldescribelist" type="vector" fromCol="技能描述1,技能描述2,技能描述3,技能描述4,技能描述5,技能描述6,技能描述7" value="string"/>
+		<variable name="targettype" type="int" fromCol="目标类型"/>
+		<variable name="bCanUseInBattle" type="int" fromCol="战斗内外使用"/>
+		<variable name="effectid" type="int" fromCol="魔法入口"/>
+		<variable name="skillScript" type="string" fromCol="技能剧情描述"/>
+	</bean>
+
+	<bean name="SSchoolSkillitem" from="技能相关表/j技能显示表-复合/j技能显示表" genxml="server">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="effectid" type="int" fromCol="魔法入口"/>
+	</bean>
+
+	<bean name="SPetSkillitem" from="技能相关表/c宠物技能显示表" genxml="server">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="effectid" type="int" fromCol="魔法入口"/>
+		<variable name="score" type="int" fromCol="评分"/>
+		<variable name="color" type="int" fromCol="品质"/>
+	</bean>
+
+	<bean name="SPetSkillupgrade" from="技能相关表/j技能表-复合/宠物技能" genxml="server">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="nextid" type="int" fromCol="下一技能id"/>
+		<variable name="book" type="int" fromCol="对应书籍"/>
+		<variable name="needexp" type="int" fromCol="升级所需经验"/>
+		<variable name="offerbaseexp" type="int" fromCol="提供基础经验"/>
+		<variable name="skilllevel" type="int" fromCol="技能等级"/>
+		<variable name="sign" type="int" fromCol="技能标示"/>
+		<variable name="iscanremovable" type="int" fromCol="能否被摘除"/>
+		<variable name="range" type="int" fromCol="适用范围"/>
+		<variable name="iscancertification" type="int" fromCol="能否法术认证"/>
+		<variable name="iscertificationappend" type="int" fromCol="法术认证附加技能"/> <!-- 是否可以作为法术认证后的附加技能 -->
+	</bean>
+
+	<bean name="SPetSkilllw" from="技能相关表/j技能表-复合/技能领悟遗忘道具显示表" genxml="server">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="skillid" type="int" fromCol="技能ID"/>
+		<variable name="skillname" type="string" fromCol="技能名称"/>
+		<variable name="addneeditem" type="int" fromCol="领悟需求道具"/>
+		<variable name="addneeditemnum" type="int" fromCol="领悟需求道具数量"/>
+		<variable name="addneedmoney" type="int" fromCol="领悟需求银币"/>
+		<variable name="removeneeditem" type="int" fromCol="遗忘需求道具"/>
+		<variable name="removeneeditemnum" type="int" fromCol="遗忘需求道具数量"/>
+		<variable name="removeneedmoney" type="int" fromCol="遗忘需求银币"/>
+	</bean>
+
+	<bean name="CPetSkilllw" from="技能相关表/j技能表-复合/技能领悟遗忘表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id" min="1"/>
+		<variable name="skillid" type="int" fromCol="技能ID"/>
+		<variable name="skillname" type="string" fromCol="技能名称"/>
+		<variable name="addneeditem" type="int" fromCol="领悟需求道具"/>
+		<variable name="addneeditemnum" type="int" fromCol="领悟需求道具数量"/>
+		<variable name="addneedmoney" type="int" fromCol="领悟需求银币"/>
+		<variable name="removeneeditem" type="int" fromCol="遗忘需求道具"/>
+		<variable name="removeneeditemnum" type="int" fromCol="遗忘需求道具数量"/>
+		<variable name="removeneedmoney" type="int" fromCol="遗忘需求银币"/>
+		<variable name="skilldoc" type="string" fromCol="描述"/>
+		<variable name="skilldoc1" type="string" fromCol="所需数量"/>
+		<variable name="skilldoc2" type="string" fromCol="遗弃数量"/>
+	</bean>
+
+
+	<bean name="CPetSkilllwxianshi" from="技能相关表/j技能表-复合/技能领悟遗忘道具显示表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="skillname" type="string" fromCol="技能名称"/>
+		<variable name="addneeditem" type="int" fromCol="领悟需求道具"/>
+		<variable name="addneeditemnum" type="int" fromCol="领悟需求道具数量"/>
+		<variable name="addneedmoney" type="int" fromCol="领悟需求银币"/>
+		<variable name="removeneeditem" type="int" fromCol="遗忘需求道具"/>
+		<variable name="removeneeditemnum" type="int" fromCol="遗忘需求道具数量"/>
+		<variable name="removeneedmoney" type="int" fromCol="遗忘需求银币"/>
+		<variable name="skilldoc" type="string" fromCol="描述"/>
+		<variable name="skilldoc1" type="string" fromCol="所需数量"/>
+		<variable name="skilldoc2" type="string" fromCol="遗弃数量"/>
+	</bean>
+
+
+	<bean name="CPetSkillupgrade" from="技能相关表/j技能表-复合/宠物技能" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="nextid" type="int" fromCol="下一技能id"/>
+		<variable name="book" type="int" fromCol="对应书籍"/>
+		<variable name="needexp" type="int" fromCol="升级所需经验"/>
+		<variable name="offerbaseexp" type="int" fromCol="提供基础经验"/>
+		<variable name="skilllevel" type="int" fromCol="技能等级"/>
+		<variable name="sign" type="int" fromCol="技能标示"/>
+		<variable name="iscanremovable" type="int" fromCol="能否被摘除"/>
+		<variable name="range" type="int" fromCol="适用范围"/>
+		<variable name="iscancertification" type="int" fromCol="能否法术认证"/>
+		<variable name="iscertificationappend" type="int" fromCol="法术认证附加技能"/> <!-- 是否可以作为法术认证后的附加技能 -->
+	</bean>
+
+	<bean name="CPetSkillEffect" from="技能相关表/c宠物加点附加表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="attrs" type="vector" fromCol="影响属性1,影响属性2" value="int"/>
+		<variable name="formulas" type="vector" fromCol="公式1,公式2" value="string"/>
+	</bean>
+
+	<bean name="SActionTime" from="技能相关表/z战斗中动作时间配置" genxml="server">
+		<variable name="id" type="int" fromCol="动作id" min="1"/>
+		<variable name="actiontime" type="int" fromCol="动作时间"/>
+	</bean>
+
+
+	<bean name="CSkillitem" from="技能相关表/j技能显示表-复合/j技能显示表,技能相关表/j技能显示表-复合/夫妻技能显示表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="skillname" type="string" fromCol="技能名"/>
+		<variable name="sType" type="string" fromCol="技能类型"/>
+		<variable name="paramA" type="double" fromCol="消耗系数a1"/>
+		<variable name="paramB" type="double" fromCol="消耗系数b1"/>
+		<variable name="costA" type="string" fromCol="显示消耗1"/>
+		<variable name="paramC" type="double" fromCol="消耗系数a2"/>
+		<variable name="paramD" type="double" fromCol="消耗系数b2"/>
+		<variable name="costB" type="string" fromCol="显示消耗2"/>
+		<variable name="costTypeA" type="int" fromCol="消耗1属性编号"/>
+		<variable name="costTypeB" type="int" fromCol="消耗2属性编号"/>
+		<variable name="normalIcon" type="int" fromCol="图标编号"/>
+		<variable name="skilldescribe" type="string" fromCol="技能描述"/>
+		<variable name="targettype" type="int" fromCol="目标类型"/>
+		<variable name="bCanUseInBattle" type="int" fromCol="战斗内外使用"/>
+		<variable name="effectid" type="int" fromCol="魔法入口"/>
+	</bean>
+
+	<bean name="CSchoolSkill" from="技能相关表/j技能显示表-复合/j技能显示表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="skillname" type="string" fromCol="技能名"/>
+	</bean>
+
+
+
+	<bean name="CPetSkillConfig" from="技能相关表/c宠物技能显示表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="skillname" type="string" fromCol="技能名称"/>
+		<variable name="param" type="string" fromCol="技能消耗"/>
+		<variable name="costnum" type="int" fromCol="消耗数量"/>
+		<variable name="costType" type="int" fromCol="消耗属性编号"/>
+		<variable name="icon" type="int" fromCol="图标编号"/>
+		<variable name="skilltype" type="int" fromCol="主动被动"/>
+		<variable name="littledes" type="string" fromCol="短描述"/>
+		<variable name="skilldescribe" type="string" fromCol="技能描述"/>
+		<variable name="targettype" type="int" fromCol="目标类型"/>
+		<variable name="effectid" type="int" fromCol="魔法入口"/>
+		<variable name="score" type="int" fromCol="评分"/>
+		<variable name="color" type="int" fromCol="品质"/>
+		<variable name="skillname1" type="string" fromCol="低级名称"/>
+		<variable name="skillname2" type="string" fromCol="高级名称"/>
+		<variable name="skillname3" type="string" fromCol="超级名称"/>
+		<variable name="skillname4" type="string" fromCol="特殊名称"/>
+		<variable name="skillname5" type="string" fromCol="特殊名称1"/>
+		<variable name="isshow" type="int" fromCol="摆摊是否显示"/>
+	</bean>
+
+	<bean name="CSBLevelLimit" from="s升级经验限制表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="等级" min="1"/>
+		<variable name="levelLimit" type="int" fromCol="可达到技能等级上限"/>
+	</bean>
+
+	<bean name="CSkillTypeConfig" from="技能相关表/j技能表-复合/技能总表,技能相关表/j技能表-复合/伙伴技能表,技能相关表/j技能表-复合/宠物技能,技能相关表/j技能表-复合/特技特效表,技能相关表/j技能表-复合/夫妻技能表,技能相关表/j技能表-复合/战场环境技能表" genxml="client">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="skilltype" type="int" fromCol="技能归类"/>
+		<variable name="skillname" type="string" fromCol="技能名称"/>
+		<variable name="showskillname" type="int" fromCol="是否显示技能名冒字"/>
+	</bean>
+
+	<bean name="SSubSkillConfig" from="技能相关表/j技能表-复合/子技能表" genxml="server">
+		<variable name="id" type="int" fromCol="子技能ID" min="1"/>
+		<variable name="name" type="string" fromCol="子技能名称"/>
+		<variable name="confilictStates" type="string" fromCol="属性状态需求"/>
+		<variable name="confilictStatesnotify" type="int" fromCol="属性状态不符提示"/>
+		<variable name="requiredBuffs" type="string" fromCol="需求状态"/>
+		<variable name="confilictBuffs" type="string" fromCol="过滤状态"/>
+		<variable name="relevanceSkillID" type="int" fromCol="关联技能"/>
+		<variable name="actionCondition" type="string" fromCol="何种情况下不能执行本技能"/>
+		<variable name="aimCampType" type="int" fromCol="选择目标方"/>
+		<variable name="aimRaceType" type="string" fromCol="选择目标单位类型"/>
+		<variable name="aimRelationType" type="string" fromCol="选择目标单位关系"/>
+		<variable name="jobid" type="string" fromCol="生效精准职业编号"/>
+		<variable name="monsterid" type="string" fromCol="生效精确怪物，伙伴ID号"/>
+		<variable name="targetType" type="string" fromCol="索敌类型"/>
+		<variable name="targetNum" type="string" fromCol="索敌个数"/>
+		<variable name="sortArg" type="string" fromCol="索敌多个.排序变量"/>
+		<variable name="targetRate" type="string" fromCol="子技能触发几率"/>
+		<variable name="minmagicdamage" type="string" fromCol="法术技能最小伤害"/>
+		<variable name="mainbuffId" type="int" fromCol="主BUFF序号"/>
+		<variable name="buff0_id" type="string" fromCol="BUFF0.BUFFID"/>
+		<variable name="buff0_rate" type="string" fromCol="BUFF0.命中"/>
+		<variable name="buff0_round" type="string" fromCol="BUFF0.持续回合"/>
+		<variable name="buff0_values" type="string" fromCol="BUFF0.效果"/>
+		<variable name="buff0_confilictStates" type="string" fromCol="buff0属性状态需求"/>
+		<variable name="buff0_requiredBuffs" type="string" fromCol="buff0.buff状态需求"/>
+		<variable name="buff0_confilictBuffs" type="string" fromCol="buff0.buff状态过滤"/>
+		<variable name="buff0_odds" type="string" fromCol="buff0触发几率"/>
+		<variable name="buff1_id" type="string" fromCol="BUFF1.BUFFID"/>
+		<variable name="buff1_rate" type="string" fromCol="BUFF1.命中"/>
+		<variable name="buff1_round" type="string" fromCol="BUFF1.持续回合"/>
+		<variable name="buff1_values" type="string" fromCol="BUFF1.效果"/>
+		<variable name="buff1_confilictStates" type="string" fromCol="buff1属性状态需求"/>
+		<variable name="buff1_requiredBuffs" type="string" fromCol="buff1.buff状态需求"/>
+		<variable name="buff1_confilictBuffs" type="string" fromCol="buff1.buff状态过滤"/>
+		<variable name="buff1_odds" type="string" fromCol="buff1触发几率"/>
+		<variable name="buff2_id" type="string" fromCol="BUFF2.BUFFID"/>
+		<variable name="buff2_rate" type="string" fromCol="BUFF2.命中"/>
+		<variable name="buff2_round" type="string" fromCol="BUFF2.持续回合"/>
+		<variable name="buff2_values" type="string" fromCol="BUFF2.效果"/>
+		<variable name="buff2_confilictStates" type="string" fromCol="buff2属性状态需求"/>
+		<variable name="buff2_requiredBuffs" type="string" fromCol="buff2.buff状态需求"/>
+		<variable name="buff2_confilictBuffs" type="string" fromCol="buff2.buff状态过滤"/>
+		<variable name="buff2_odds" type="string" fromCol="buff2触发几率"/>
+		<variable name="buff3_id" type="string" fromCol="BUFF3.BUFFID"/>
+		<variable name="buff3_rate" type="string" fromCol="BUFF3.命中"/>
+		<variable name="buff3_round" type="string" fromCol="BUFF3.持续回合"/>
+		<variable name="buff3_values" type="string" fromCol="BUFF3.效果"/>
+		<variable name="buff3_confilictStates" type="string" fromCol="buff3属性状态需求"/>
+		<variable name="buff3_requiredBuffs" type="string" fromCol="buff3.buff状态需求"/>
+		<variable name="buff3_confilictBuffs" type="string" fromCol="buff3.buff状态过滤"/>
+		<variable name="buff3_odds" type="string" fromCol="buff3触发几率"/>
+		<variable name="scriptName" type="string" fromCol="脚本配置文件"/>
+	</bean>
+
+	<bean name="SSkillConfig" from="技能相关表/j技能表-复合/技能总表,技能相关表/j技能表-复合/伙伴技能表,技能相关表/j技能表-复合/宠物技能,技能相关表/j技能表-复合/特技特效表,技能相关表/j技能表-复合/夫妻技能表,技能相关表/j技能表-复合/战场环境技能表" genxml="server">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="name" type="string" fromCol="技能名称"/>
+		<variable name="isActive" type="bool" fromCol="是否主动"/>
+		<variable name="isprecountaim" type="bool" fromCol="是否预先统计目标数"/>
+		<variable name="canDouble" type="bool" fromCol="能否连击"/>
+		<variable name="forbiddendefprt" type="int" fromCol="是否禁止防御和保护"/>
+		<variable name="ignorehide" type="int" fromCol="是否忽略隐身"/>
+		<variable name="addautoskill" type="int" fromCol="是否默认自动技能"/>
+		<variable name="canAtackBack" type="bool" fromCol="能否被反击"/>
+		<variable name="inOutBattle" type="bool" fromCol="战斗内外使用"/>
+		<variable name="typeinserver" type="int" fromCol="服务器分类"/>
+		<variable name="type" type="int" fromCol="技能归类"/>
+		<variable name="targetType" type="int" fromCol="选择目标类型"/>
+		<variable name="initSpeedBonus" type="string" fromCol="先发速度"/>
+		<variable name="hpConsume" type="string" fromCol="消耗Hp"/>
+		<variable name="mpConsume" type="string" fromCol="消耗Mp"/>
+		<variable name="spConsume" type="string" fromCol="消耗Sp"/>
+		<variable name="epConsume" type="string" fromCol="消耗Ep"/>
+		<variable name="subskillIDs" type="string" fromCol="串联子技能ID"/>
+		<variable name="subskillstarttimes" type="string" fromCol="子技能ID播放时间调控"/>
+		<variable name="scriptName" type="string" fromCol="脚本配置文件"/>
+		<variable name="caneffectbyhate" type="int" fromCol="是否被嘲讽影响"/>
+		<variable name="skillspecialtime" type="int" fromCol="技能特殊延长时间"/>
+		<variable name="isonlypve" type="int" fromCol="是否PVP不能使用"/>
+	</bean>
+
+	<bean name="CSkillConfig" from="技能相关表/j技能表-复合/技能总表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="name" type="string" fromCol="技能名称"/>
+		<variable name="isonlypve" type="int" fromCol="是否PVP不能使用"/>
+		<variable name="isfilterbuff" type="int" fromCol="状态过滤是否能使用"/>
+
+	</bean>
+
+	<bean name="SSceneSkillConfig" from="技能相关表/c场景技能表" genxml="server">
+		<variable name="id" type="int" fromCol="技能编号" min="1"/>
+		<variable name="name" type="string" fromCol="技能名称"/>
+		<variable name="type" type="int" fromCol="技能归类"/>
+		<variable name="targetType" type="int" fromCol="选择目标类型"/>
+		<variable name="hpConsume" type="string" fromCol="消耗Hp"/>
+		<variable name="mpConsume" type="string" fromCol="消耗Mp"/>
+		<variable name="spConsume" type="string" fromCol="消耗Sp"/>
+		<variable name="epConsume" type="string" fromCol="消耗Ep"/>
+		<variable name="subskillIDs" type="string" fromCol="串联子技能ID"/>
+		<variable name="subskillstarttimes" type="string" fromCol="子技能ID播放时间调控"/>
+	</bean>
+
+
+	<bean name="CLifeSkill" from="技能相关表/s生活技能表" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能编号" min="1"/>
+		<variable name="name" type="string" fromCol="技能名称"/>
+		<variable name="paixuID" type="int" fromCol="排序编号"/>
+		<variable name="icon" type="int" fromCol="图标编号"/>
+		<variable name="skillType" type="int" fromCol="技能类型"/>
+		<variable name="fumoItemID" type="int" fromCol="附魔产出道具"/>
+		<variable name="needGuild" type="int" fromCol="是否需要公会"/>
+		<variable name="skillLevelMax" type="int" fromCol="技能最高上限"/>
+		<variable name="studyLevelRule" type="int" fromCol="学习需求等级规则"/>
+		<variable name="studyCostRule" type="int" fromCol="学习消耗规则"/>
+		<variable name="strengthCostRule" type="int" fromCol="活力消耗规则"/>
+		<variable name="upgradeDesc" type="string" fromCol="提升属性说明1"/>
+		<variable name="upgradeVariable" type="int" fromCol="提升属性系数1"/>
+		<variable name="upgradeDesc2" type="string" fromCol="提升属性说明2"/>
+		<variable name="upgradeVariable2" type="int" fromCol="提升属性系数2"/>
+		<variable name="upgradeDesc3" type="string" fromCol="提升属性说明3"/>
+		<variable name="upgradeVariable3" type="int" fromCol="提升属性系数3"/>
+		<variable name="upgradeDesc4" type="string" fromCol="提升属性说明4"/>
+		<variable name="upgradeVariable4" type="int" fromCol="提升属性系数4"/>
+
+		<variable name="skillId" type="int" fromCol="关联被动技能"/>
+		<variable name="bCanStudy" type="int" fromCol="是否在技能学习人处显示"/>
+		<variable name="guidetips" type="string" fromCol="生产引导提示"/>
+		<variable name="description" type="string" fromCol="描述"/>
+
+		<variable name="brief" type="string" fromCol="技能简介"/>
+		<variable name="effect" type="string" fromCol="下一级效果"/>
+		<variable name="effectnow" type="string" fromCol="当前级别效果"/>
+		<variable name="ParaNum" type="int" fromCol="参数个数"/>
+		<variable name="ParaIndexList" type="vector" fromCol="参数1对应列,参数2对应列,参数3对应列" value="int"/>
+		<variable name="bNeedSkilled" type="int" fromCol="是否需要熟练度2"/>
+		<variable name="gangdescription" type="string" fromCol="公会界面描述"/>
+		<variable name="cureffect1" type="string" fromCol="专精当前效果1"/>
+		<variable name="cureffect2" type="string" fromCol="专精当前效果2"/>
+		<variable name="cureffect3" type="string" fromCol="专精当前效果3"/>
+		<variable name="cureffect4" type="string" fromCol="专精当前效果4"/>
+		<variable name="curid1" type="string" fromCol="属性id1"/>
+		<variable name="curid2" type="string" fromCol="属性id2"/>
+		<variable name="curid3" type="string" fromCol="属性id3"/>
+		<variable name="curid4" type="string" fromCol="属性id4"/>
+
+	</bean>
+
+	<bean name="CLifeSkillCost" from="技能相关表/s生活技能学习消耗" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能等级" min="1"/>
+		<variable name="needLevelList" type="vector" fromCol="需求等级1,需求等级2,需求等级3,需求等级4,需求等级5" value="int"/>
+		<variable name="silverCostList" type="vector" fromCol="消耗银币1,消耗银币2,消耗银币3,消耗银币4,消耗银币5,消耗银币6,消耗银币7,消耗银币8,消耗银币9,消耗银币10" value="int"/>
+		<variable name="guildContributeCostList" type="vector" fromCol="消耗公会贡献1,消耗公会贡献2,消耗公会贡献3,消耗公会贡献4,消耗公会贡献5,消耗公会贡献6,消耗公会贡献7,消耗公会贡献8,消耗公会贡献9,消耗公会贡献10" value="int"/>
+		<variable name="strengthCostList" type="vector" fromCol="消耗活力1,消耗活力2,消耗活力3,消耗活力4,消耗活力5,消耗活力6,消耗活力7,消耗活力8,消耗活力9,消耗活力10" value="int"/>
+		<variable name="silverCostListType" type="vector" fromCol="消耗类型1,消耗类型2,消耗类型3,消耗类型4,消耗类型5,消耗类型6,消耗类型7,消耗类型8,消耗类型9,消耗类型10" value="int"/>
+	</bean>
+	<bean name="CLifeSkillCostPay" from="D点卡服表格/D点卡服生活技能学习消耗" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="技能等级" min="1"/>
+		<variable name="needLevelList" type="vector" fromCol="需求等级1,需求等级2,需求等级3,需求等级4,需求等级5" value="int"/>
+		<variable name="silverCostList" type="vector" fromCol="消耗银币1,消耗银币2,消耗银币3,消耗银币4,消耗银币5,消耗银币6,消耗银币7,消耗银币8,消耗银币9,消耗银币10" value="int"/>
+		<variable name="guildContributeCostList" type="vector" fromCol="消耗公会贡献1,消耗公会贡献2,消耗公会贡献3,消耗公会贡献4,消耗公会贡献5,消耗公会贡献6,消耗公会贡献7,消耗公会贡献8,消耗公会贡献9,消耗公会贡献10" value="int"/>
+		<variable name="strengthCostList" type="vector" fromCol="消耗活力1,消耗活力2,消耗活力3,消耗活力4,消耗活力5,消耗活力6,消耗活力7,消耗活力8,消耗活力9,消耗活力10" value="int"/>
+		<variable name="silverCostListType" type="vector" fromCol="消耗类型1,消耗类型2,消耗类型3,消耗类型4,消耗类型5,消耗类型6,消耗类型7,消耗类型8,消耗类型9,消耗类型10" value="int"/>
+	</bean>
+	<bean name="SLifeSkill" from="技能相关表/s生活技能表" genxml="server">
+		<variable name="id" type="int" fromCol="技能编号" min="1"/>
+		<variable name="name" type="string" fromCol="技能名称"/>
+		<variable name="icon" type="int" fromCol="图标编号"/>
+		<variable name="skillType" type="int" fromCol="技能类型"/>
+		<variable name="needGuild" type="int" fromCol="是否需要公会"/>
+		<variable name="skillLevelMax" type="int" fromCol="技能最高上限"/>
+		<variable name="studyLevelRule" type="int" fromCol="学习需求等级规则"/>
+		<variable name="studyCostRule" type="int" fromCol="学习消耗规则"/>
+		<variable name="strengthCostRule" type="int" fromCol="活力消耗规则"/>
+		<variable name="skillId" type="int" fromCol="关联被动技能"/>
+		<variable name="isShow" type="int" fromCol="是否在技能学习人处显示"/>
+		<variable name="guidetips" type="string" fromCol="生产引导提示"/>
+		<variable name="description" type="string" fromCol="描述"/>
+		<variable name="brief" type="string" fromCol="技能简介"/>
+		<variable name="effect" type="string" fromCol="下一级效果"/>
+		<variable name="effectnow" type="string" fromCol="当前级别效果"/>
+		<variable name="ParaNum" type="int" fromCol="参数个数"/>
+		<variable name="ParamIndexList" type="vector" fromCol="参数1对应列,参数2对应列,参数3对应列" value="int"/>
+		<variable name="needSkilled" type="int" fromCol="是否需要熟练度2"/>
+		<variable name="guildDscription" type="string" fromCol="公会界面描述"/>
+		<variable name="enhanceitemid" type="int" fromCol="附魔产出道具"/>
+
+	</bean>
+
+	<bean name="SLifeSkillCost" from="技能相关表/s生活技能学习消耗" genxml="server">
+		<variable name="id" type="int" fromCol="技能等级" min="1"/>
+		<variable name="needLevelList" type="vector" fromCol="需求等级1,需求等级2,需求等级3,需求等级4,需求等级5" value="int"/>
+		<variable name="silverCostList" type="vector" fromCol="消耗银币1,消耗银币2,消耗银币3,消耗银币4,消耗银币5,消耗银币6,消耗银币7,消耗银币8,消耗银币9,消耗银币10" value="int"/>
+		<variable name="guildContributeCostList" type="vector" fromCol="消耗公会贡献1,消耗公会贡献2,消耗公会贡献3,消耗公会贡献4,消耗公会贡献5,消耗公会贡献6,消耗公会贡献7,消耗公会贡献8,消耗公会贡献9,消耗公会贡献10" value="int"/>
+		<variable name="strengthCostList" type="vector" fromCol="消耗活力1,消耗活力2,消耗活力3,消耗活力4,消耗活力5,消耗活力6,消耗活力7,消耗活力8,消耗活力9,消耗活力10" value="int"/>
+	</bean>
+
+	<bean name="SAssistSkill"  from="技能相关表/s生活技能表" genxml="server">
+		<variable name="id" type="int" fromCol="技能编号" min="1"/>
+		<variable name="isNeedExp" type="bool" fromCol="是否需要熟练度"/>
+		<variable name="skillName" type="string" fromCol="技能名称"/>
+		<variable name="levelTotal" type="int" fromCol="公会内技能能达到上限"/>
+		<variable name="是否在技能学习人处显示" type="int" fromCol="是否在技能学习人处显示"/>
+	</bean>
+
+	<bean name="SInbornInfo" from="j技能格系统/技能格信息表" genxml="server">
+		<variable name="id" type="int" fromCol="技能格ID" min="1"/>
+		<variable name="skillname" type="string" fromCol="技能格名称"/>
+		<variable name="school" type="int" fromCol="所属职业ID"/>
+		<variable name="isMain" type="bool" fromCol="是否主技能格"/>
+		<variable name="isnbskill" type="bool" fromCol="是否绝技"/>
+		<variable name="maxLevel" type="int" fromCol="可学等级上限"/>
+		<variable name="dependInborn" type="string" fromCol="依赖技能格ID"/>
+		<variable name="dependLevel" type="int" fromCol="依赖技能格等级要求"/>
+		<variable name="nbskilldependLevel" type="string" fromCol="绝技依赖技能格等级要求"/>
+		<variable name="consumerule" type="int" fromCol="技能格学习消耗规则"/>
+		<variable name="pointToSkillList" type="vector" fromCol="影响技能ID1,影响技能ID2,影响技能ID3,影响技能ID4,影响技能ID5" value="int"/>
+	</bean>
+
+	<bean name="SInbornMaxLevel" from="j技能格系统/人物技能格等级上限表" genxml="server">
+		<variable name="id" type="int" fromCol="人物等级" min="1"/>
+		<variable name="inbornMaxLevel" type="vector" fromCol="技能格1,技能格2,技能格3,技能格4,技能格5,技能格6,技能格7,技能格8,技能格9,技能格10,技能格11,技能格12,技能格13,技能格14,技能格15,技能格16,技能格17,技能格18,技能格19,技能格20,技能格21,技能格22,技能格23,技能格24,技能格25,技能格26,技能格27,技能格28,技能格29,技能格30,技能格31,技能格32,技能格33,技能格34,技能格35,技能格36,技能格37,技能格38,技能格39,技能格40,技能格41,技能格42,技能格43" value="int"/>
+	</bean>
+
+	<bean name="SInbornConsume" from="j技能格系统/技能格消耗表" genxml="server">
+		<variable name="id" type="int" fromCol="技能格等级" min="1"/>
+		<variable name="consumes" type="vector" value="InbornConsume"/>
+	</bean>
+
+	<bean name="InbornConsume">
+		<variable name="exp" type="int" fromCol="经验消耗规则1,经验消耗规则2,经验消耗规则3"/>
+		<variable name="money" type="int" fromCol="金钱消耗规则1,金钱消耗规则2,金钱消耗规则3"/>
+	</bean>
+
+	<bean name="SInbornEffectSkill" from="j技能格系统/技能熟练配置表" genxml="server">
+		<variable name="id" type="int" fromCol="技能ID" min="1"/>
+		<variable name="initEffect" type="int" fromCol="初始熟练度"/>
+		<variable name="inborns" type="vector" value="InbornEffect"/>
+	</bean>
+
+	<bean name="InbornEffect">
+		<variable name="inbornId" type="int" fromCol="影响技能格1ID,影响技能格2ID,影响技能格3ID,影响技能格4ID,影响技能格5ID,影响技能格6ID,影响技能格7ID,影响技能格8ID,影响技能格9ID,影响技能格10ID,影响技能格11ID,影响技能格12ID,影响技能格13ID,影响技能格14ID,影响技能格15ID,影响技能格16ID,影响技能格17ID,影响技能格18ID,影响技能格19ID,影响技能格20ID,影响技能格21ID" min="1"/>
+		<variable name="effect" type="double" fromCol="影响技能格1权值,影响技能格2权值,影响技能格3权值,影响技能格4权值,影响技能格5权值,影响技能格6权值,影响技能格7权值,影响技能格8权值,影响技能格9权值,影响技能格10权值,影响技能格11权值,影响技能格12权值,影响技能格13权值,影响技能格14权值,影响技能格15权值,影响技能格16权值,影响技能格17权值,影响技能格18权值,影响技能格19权值,影响技能格20权值,影响技能格21权值"/>
+	</bean>
+
+	<bean name="SSkillInfoConfig" from="j技能格系统/技能信息表" genxml="server">
+		<variable name="id" type="int" fromCol="技能id" min="1"/>
+		<variable name="SkillLevelRequireList" type="vector" fromCol="技能等级1所需熟练度,技能等级2所需熟练度,技能等级3所需熟练度,技能等级4所需熟练度,技能等级5所需熟练度,技能等级6所需熟练度,技能等级7所需熟练度,技能等级8所需熟练度,技能等级9所需熟练度,技能等级10所需熟练度,技能等级11所需熟练度,技能等级12所需熟练度,技能等级13所需熟练度,技能等级14所需熟练度,技能等级15所需熟练度,技能等级16所需熟练度" value="int"/>
+	</bean>
+	<bean name="SNuqiget" from="技能相关表/n怒气技能/怒气获得表" genxml="server" >
+		<variable name="id" type="int" fromCol="id" min="1"/>
+		<variable name="hurtmin" type="int" fromCol="伤害比例min"/>
+		<variable name="hurtmax" type="int" fromCol="伤害比例max"/>
+		<variable name="nuqiget" type="int" fromCol="获得怒气"/>
+	</bean>
+
+	<bean name="SParticeSkillLevelup" from="X修炼技能升级" genxml="server" >
+		<variable name="id" type="int" fromCol="id" min="1"/>
+		<variable name="vecskillexp" type="vector" fromCol="修炼技能1,修炼技能2,修炼技能3,修炼技能4,修炼技能5,修炼技能6,修炼技能7,修炼技能8" value="int"/>
+		<variable name="playerlevel" type="int" fromCol="需求人物等级"/>
+		<variable name="factionlevel" type="int" fromCol="需求工会等级"/>
+		<variable name="maxcon" type="int" fromCol="需求历史帮贡"/>
+	</bean>
+
+	<bean name="SPointCardParticeSkillLevelup" from="D点卡服表格/D点卡服修炼技能升级" genxml="server" >
+		<variable name="id" type="int" fromCol="id" min="1"/>
+		<variable name="vecskillexp" type="vector" fromCol="修炼技能1,修炼技能2,修炼技能3,修炼技能4,修炼技能5,修炼技能6,修炼技能7,修炼技能8" value="int"/>
+		<variable name="playerlevel" type="int" fromCol="需求人物等级"/>
+		<variable name="factionlevel" type="int" fromCol="需求工会等级"/>
+		<variable name="maxcon" type="int" fromCol="需求历史帮贡"/>
+	</bean>
+
+	<bean name="CParticeSkillLevelup" from="X修炼技能升级" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id" min="1"/>
+		<variable name="vecskillexp" type="vector" fromCol="修炼技能1,修炼技能2,修炼技能3,修炼技能4,修炼技能5,修炼技能6,修炼技能7,修炼技能8" value="int"/>
+		<variable name="playerlevel" type="int" fromCol="需求人物等级"/>
+		<variable name="factionlevel" type="int" fromCol="需求工会等级"/>
+		<variable name="maxcon" type="int" fromCol="需求历史帮贡"/>
+	</bean>
+
+	<bean name="CPointCardParticeSkillLevelup" from="D点卡服表格/D点卡服修炼技能升级" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="id" min="1"/>
+		<variable name="vecskillexp" type="vector" fromCol="修炼技能1,修炼技能2,修炼技能3,修炼技能4,修炼技能5,修炼技能6,修炼技能7,修炼技能8" value="int"/>
+		<variable name="playerlevel" type="int" fromCol="需求人物等级"/>
+		<variable name="factionlevel" type="int" fromCol="需求工会等级"/>
+		<variable name="maxcon" type="int" fromCol="需求历史帮贡"/>
+	</bean>
+
+	<bean name="SPracticeItemExp" from="x修炼道具增加经验" genxml="server" >
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="exp" type="int" fromCol="增加经验"/>
+	</bean>
+
+	<bean name="CPracticeItemExp" from="x修炼道具增加经验" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="exp" type="int" fromCol="增加经验"/>
+	</bean>
+	<bean name="CJingMaiZhanShi" from="技能相关表/经脉/经脉展示" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="names" type="vector" fromCol="名字1,名字2,名字3,名字4" value="string"/>
+		<variable name="zhanshis" type="vector" fromCol="展示1,展示2,展示3,展示4" value="string"/>
+		<variable name="miaoshus" type="vector" fromCol="描述1,描述2,描述3,描述4" value="string"/>
+	</bean>
+
+	<bean name="CJingMaixiaoguo" from="技能相关表/经脉/经脉效果" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="zhiye" type="int" fromCol="职业"/>
+		<variable name="jingmaiid" type="int" fromCol="经脉ID"/>
+		<variable name="jingmais" type="vector" fromCol="经脉技能1,经脉技能2,经脉技能3,经脉技能4,经脉技能5,经脉技能6,经脉技能7,经脉技能8,经脉技能9,经脉技能10,经脉技能11,经脉技能12,经脉技能13,经脉技能14,经脉技能15,经脉技能16" value="int"/>
+		<variable name="xingchens" type="vector" fromCol="星辰技能1,星辰技能2,星辰技能3,星辰技能4,星辰技能5,星辰技能6,星辰技能7,星辰技能8,星辰技能9,星辰技能10,星辰技能11,星辰技能12,星辰技能13,星辰技能14,星辰技能15,星辰技能16" value="int"/>
+	</bean>
+
+	<bean name="SJingMaixiaoguo" from="技能相关表/经脉/经脉效果" genxml="server" >
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="zhiye" type="int" fromCol="职业"/>
+		<variable name="jingmaiid" type="int" fromCol="经脉ID"/>
+		<variable name="jingmais" type="vector" fromCol="经脉技能1,经脉技能2,经脉技能3,经脉技能4,经脉技能5,经脉技能6,经脉技能7,经脉技能8,经脉技能9,经脉技能10,经脉技能11,经脉技能12,经脉技能13,经脉技能14,经脉技能15,经脉技能16" value="int"/>
+		<variable name="xingchens" type="vector" fromCol="星辰技能1,星辰技能2,星辰技能3,星辰技能4,星辰技能5,星辰技能6,星辰技能7,星辰技能8,星辰技能9,星辰技能10,星辰技能11,星辰技能12,星辰技能13,星辰技能14,星辰技能15,星辰技能16" value="int"/>
+	</bean>
+
+	<bean name="Cjingmaiqianyuandan" from="技能相关表/经脉/乾元丹" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="huoli" type="int" fromCol="活力"/>
+		<variable name="exp" type="int" fromCol="经验"/>
+	</bean>
+
+	<bean name="Sjingmaiqianyuandan" from="技能相关表/经脉/乾元丹" genxml="server" >
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="huoli" type="int" fromCol="活力"/>
+		<variable name="exp" type="int" fromCol="经验"/>
+	</bean>
+
+	<bean name="Cjingmaiqiankundan" from="技能相关表/经脉/乾坤丹" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="huoli" type="int" fromCol="活力"/>
+		<variable name="exp" type="int" fromCol="经验"/>
+	</bean>
+
+	<bean name="Sjingmaiqiankundan" from="技能相关表/经脉/乾坤丹" genxml="server" >
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="huoli" type="int" fromCol="活力"/>
+		<variable name="exp" type="int" fromCol="经验"/>
+	</bean>
+
+
+	<bean name="Cjingmaijihuoitem" from="技能相关表/经脉/激活条件" genxml="client" gencode="mtlua">
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="item1" type="int" fromCol="道具1"/>
+		<variable name="item1num" type="int" fromCol="道具数量1"/>
+		<variable name="item2" type="int" fromCol="道具2"/>
+		<variable name="item2num" type="int" fromCol="道具数量2"/>
+	</bean>
+
+	<bean name="Sjingmaijihuoitem" from="技能相关表/经脉/激活条件" genxml="server" >
+		<variable name="id" type="int" fromCol="ID" min="1"/>
+		<variable name="item1" type="int" fromCol="道具1"/>
+		<variable name="item1num" type="int" fromCol="道具数量1"/>
+		<variable name="item2" type="int" fromCol="道具2"/>
+		<variable name="item2num" type="int" fromCol="道具数量2"/>
+	</bean>
+</namespace>

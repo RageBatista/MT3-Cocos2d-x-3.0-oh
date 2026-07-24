@@ -1,0 +1,708 @@
+/**
+ * 授权控制台公共样式
+ * 与player模块共享CSS变量，保持视觉风格一致性
+ * 版本: 1.0
+ * 更新日期: 2026-02-15
+ */
+
+/* ==================== 导入玩家模块CSS变量 ==================== */
+/* 
+ * 本文件与 /static/player/css/player.css 共享设计变量
+ * 主色调、功能色、间距等变量保持一致
+ */
+
+:root {
+    /* 主色调 - 与player模块一致 */
+    --auth-primary: #667eea;
+    --auth-secondary: #764ba2;
+    --auth-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* 功能色 */
+    --auth-success: #28a745;
+    --auth-warning: #ffc107;
+    --auth-danger: #dc3545;
+    --auth-info: #17a2b8;
+    
+    /* 文字颜色 */
+    --auth-text: #1f2937;
+    --auth-text-muted: #667085;
+    --auth-text-light: #9ca3af;
+    
+    /* 背景色 */
+    --auth-bg: #f3f6fb;
+    --auth-card-bg: #ffffff;
+    --auth-hover-bg: #f8f9fa;
+    
+    /* 边框和阴影 */
+    --auth-border: #e6ebf2;
+    --auth-border-radius: 14px;
+    --auth-border-radius-sm: 10px;
+    --auth-border-radius-xs: 6px;
+    --auth-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    --auth-shadow-hover: 0 12px 32px rgba(15, 23, 42, 0.12);
+    
+    /* 间距 */
+    --auth-space-1: 6px;
+    --auth-space-2: 8px;
+    --auth-space-3: 10px;
+    --auth-space-4: 12px;
+    --auth-space-5: 16px;
+    --auth-space-6: 20px;
+    --auth-space-8: 28px;
+    
+    /* 按钮高度 */
+    --auth-btn-height: 44px;
+    
+    /* 字体大小 */
+    --auth-font-xs: 12px;
+    --auth-font-sm: 13px;
+    --auth-font-md: 15px;
+    --auth-font-lg: 18px;
+    --auth-font-xl: 22px;
+    
+    /* 行高 */
+    --auth-line-tight: 1.25;
+    --auth-line-normal: 1.5;
+    
+    /* 过渡动画 */
+    --auth-transition: all 0.2s ease;
+}
+
+/* ==================== 基础布局 ==================== */
+
+/**
+ * 页面基础样式
+ */
+html, body {
+    min-height: 100%;
+    margin: 0;
+    background: var(--auth-bg);
+    color: var(--auth-text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Microsoft YaHei', sans-serif;
+}
+
+/**
+ * 页面容器
+ */
+.auth-page-wrap {
+    max-width: 580px;
+    margin: 0 auto;
+    padding: var(--auth-space-5);
+    padding-bottom: var(--auth-space-8);
+}
+
+/**
+ * 大容器（控制台页面）
+ */
+.auth-dashboard-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: var(--auth-space-4);
+    padding-bottom: 84px;
+}
+
+/* ==================== 卡片组件 ==================== */
+
+/**
+ * 基础卡片
+ */
+.auth-card {
+    background: var(--auth-card-bg);
+    border: 1px solid var(--auth-border);
+    border-radius: var(--auth-border-radius);
+    box-shadow: var(--auth-shadow);
+    margin-bottom: var(--auth-space-4);
+}
+
+/**
+ * 英雄卡片（标题卡片）
+ */
+.auth-hero-card {
+    background: var(--auth-card-bg);
+    border: 1px solid var(--auth-border);
+    border-radius: var(--auth-border-radius);
+    box-shadow: var(--auth-shadow);
+    padding: var(--auth-space-5);
+    margin-bottom: var(--auth-space-4);
+}
+
+.auth-hero-card.with-icon {
+    display: flex;
+    align-items: center;
+    gap: var(--auth-space-3);
+}
+
+/**
+ * 英雄图标
+ */
+.auth-hero-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(40, 167, 69, 0.14);
+    color: var(--auth-success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.auth-hero-icon.primary {
+    background: rgba(102, 126, 234, 0.14);
+    color: var(--auth-primary);
+}
+
+.auth-hero-icon.danger {
+    background: rgba(220, 53, 69, 0.14);
+    color: var(--auth-danger);
+}
+
+/**
+ * 卡片标题
+ */
+.auth-hero-title {
+    margin: 0;
+    font-size: var(--auth-font-xl);
+    font-weight: 700;
+    line-height: var(--auth-line-tight);
+    color: var(--auth-text);
+}
+
+/**
+ * 卡片副标题
+ */
+.auth-hero-subtitle {
+    margin: var(--auth-space-1) 0 0;
+    font-size: var(--auth-font-xs);
+    color: var(--auth-text-muted);
+    line-height: var(--auth-line-normal);
+}
+
+/**
+ * 卡片头部
+ */
+.auth-card-head {
+    border-bottom: 1px solid var(--auth-border);
+    padding: var(--auth-space-4) var(--auth-space-5);
+    background: #fbfcff;
+    font-size: var(--auth-font-sm);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: var(--auth-space-1);
+}
+
+/**
+ * 卡片内容
+ */
+.auth-card-body {
+    padding: var(--auth-space-5);
+}
+
+/* ==================== 状态卡片 ==================== */
+
+/**
+ * 状态网格
+ */
+.auth-status-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--auth-space-3);
+    margin-bottom: var(--auth-space-4);
+}
+
+/**
+ * 状态卡片
+ */
+.auth-status-card {
+    background: var(--auth-card-bg);
+    border: 1px solid var(--auth-border);
+    border-radius: var(--auth-border-radius);
+    box-shadow: var(--auth-shadow);
+    padding: var(--auth-space-4);
+}
+
+.auth-status-label {
+    font-size: var(--auth-font-xs);
+    color: var(--auth-text-muted);
+    margin-bottom: var(--auth-space-1);
+}
+
+.auth-status-value {
+    font-size: var(--auth-font-md);
+    font-weight: 700;
+    line-height: 1.35;
+    word-break: break-all;
+    color: var(--auth-text);
+}
+
+.auth-status-value.primary {
+    color: var(--auth-primary);
+}
+
+.auth-status-value.success {
+    color: var(--auth-success);
+}
+
+/* ==================== 表单组件 ==================== */
+
+/**
+ * 表单标签
+ */
+.auth-form-label {
+    font-size: var(--auth-font-sm);
+    font-weight: 600;
+    margin-bottom: var(--auth-space-1);
+    color: var(--auth-text);
+}
+
+/**
+ * 表单控件
+ */
+.auth-form-control,
+.auth-form-select {
+    min-height: var(--auth-btn-height);
+    border-radius: var(--auth-border-radius-sm);
+    font-size: 16px;
+    border: 1px solid var(--auth-border);
+    padding: 10px 15px;
+    transition: var(--auth-transition);
+}
+
+.auth-form-control:focus,
+.auth-form-select:focus {
+    border-color: var(--auth-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    outline: none;
+}
+
+/**
+ * 表单帮助文本
+ */
+.auth-field-help {
+    margin-top: var(--auth-space-1);
+    margin-bottom: 0;
+    font-size: var(--auth-font-xs);
+    color: var(--auth-text-muted);
+    line-height: var(--auth-line-normal);
+}
+
+/**
+ * 表单组
+ */
+.auth-form-group {
+    margin-bottom: var(--auth-space-4);
+}
+
+/* ==================== 按钮组件 ==================== */
+
+/**
+ * 主按钮
+ */
+.auth-btn-primary {
+    background: var(--auth-gradient);
+    border: none;
+    color: #ffffff;
+    min-height: var(--auth-btn-height);
+    border-radius: var(--auth-border-radius-sm);
+    font-size: var(--auth-font-md);
+    font-weight: 600;
+    transition: var(--auth-transition);
+}
+
+.auth-btn-primary:hover {
+    opacity: 0.9;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/**
+ * 成功按钮
+ */
+.auth-btn-success {
+    background: var(--auth-success);
+    border: none;
+    color: #ffffff;
+    min-height: var(--auth-btn-height);
+    border-radius: var(--auth-border-radius-sm);
+    font-size: var(--auth-font-md);
+    font-weight: 600;
+    transition: var(--auth-transition);
+}
+
+.auth-btn-success:hover {
+    background: #218838;
+    color: #ffffff;
+}
+
+/**
+ * 提交按钮
+ */
+.auth-submit-btn {
+    width: 100%;
+    min-height: var(--auth-btn-height);
+    border-radius: var(--auth-border-radius-sm);
+    font-size: var(--auth-font-md);
+    font-weight: 600;
+}
+
+/**
+ * 操作按钮
+ */
+.auth-action-btn {
+    min-height: var(--auth-btn-height);
+    border-radius: var(--auth-border-radius-sm);
+    font-size: var(--auth-font-md);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--auth-space-1);
+}
+
+/* ==================== 分段控件 ==================== */
+
+/**
+ * 分段容器
+ */
+.auth-segmented {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--auth-space-2);
+    margin-bottom: var(--auth-space-4);
+}
+
+/**
+ * 分段按钮
+ */
+.auth-seg-btn {
+    border: 1px solid var(--auth-border);
+    background: #ffffff;
+    color: var(--auth-text);
+    border-radius: var(--auth-border-radius-sm);
+    min-height: calc(var(--auth-btn-height) - 2px);
+    font-size: var(--auth-font-sm);
+    font-weight: 600;
+    transition: var(--auth-transition);
+    cursor: pointer;
+}
+
+.auth-seg-btn:hover {
+    border-color: var(--auth-primary);
+}
+
+.auth-seg-btn.active {
+    border-color: var(--auth-primary);
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--auth-primary);
+}
+
+/* ==================== 信息展示 ==================== */
+
+/**
+ * 信息网格
+ */
+.auth-info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--auth-space-3);
+}
+
+/**
+ * 信息项
+ */
+.auth-info-item {
+    border: 1px solid var(--auth-border);
+    border-radius: var(--auth-border-radius-sm);
+    padding: var(--auth-space-3);
+    background: #ffffff;
+}
+
+.auth-info-label {
+    font-size: var(--auth-font-xs);
+    color: var(--auth-text-muted);
+    margin-bottom: var(--auth-space-1);
+}
+
+.auth-info-value {
+    font-size: var(--auth-font-md);
+    font-weight: 600;
+    color: var(--auth-text);
+    line-height: 1.35;
+    word-break: break-all;
+}
+
+/**
+ * 信息行（带复制按钮）
+ */
+.auth-info-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--auth-space-2);
+    align-items: center;
+}
+
+/**
+ * 复制按钮
+ */
+.auth-copy-btn {
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: var(--auth-font-xs);
+    white-space: nowrap;
+}
+
+/* ==================== 快捷按钮 ==================== */
+
+/**
+ * 快捷行
+ */
+.auth-quick-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--auth-space-1);
+    margin-top: var(--auth-space-2);
+}
+
+/**
+ * 快捷按钮
+ */
+.auth-quick-btn {
+    border: 1px solid var(--auth-border);
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: var(--auth-font-xs);
+    line-height: 1;
+    color: #344054;
+    cursor: pointer;
+    transition: var(--auth-transition);
+}
+
+.auth-quick-btn:hover,
+.auth-quick-btn.active {
+    border-color: var(--auth-primary);
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--auth-primary);
+}
+
+/* ==================== 操作网格 ==================== */
+
+/**
+ * 操作网格
+ */
+.auth-action-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--auth-space-2);
+}
+
+.auth-action-grid .full {
+    grid-column: 1 / -1;
+}
+
+/* ==================== 提示信息 ==================== */
+
+/**
+ * 提示文本
+ */
+.auth-tip-text {
+    margin-top: var(--auth-space-2);
+    margin-bottom: 0;
+    font-size: var(--auth-font-xs);
+    color: var(--auth-text-muted);
+    line-height: var(--auth-line-normal);
+}
+
+/**
+ * 底部链接
+ */
+.auth-foot-link {
+    margin-top: var(--auth-space-3);
+    text-align: center;
+    font-size: var(--auth-font-xs);
+    color: var(--auth-text-muted);
+    line-height: var(--auth-line-normal);
+}
+
+/* ==================== 消息框 ==================== */
+
+#msgBox {
+    display: none;
+    border-radius: var(--auth-border-radius-sm);
+    margin-bottom: var(--auth-space-3);
+}
+
+/* ==================== 隐藏类 ==================== */
+
+.auth-hide {
+    display: none !important;
+}
+
+/* ==================== 服务器选择行 ==================== */
+
+.auth-server-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--auth-space-2);
+    align-items: end;
+}
+
+.auth-reload-btn {
+    min-height: var(--auth-btn-height);
+    border-radius: var(--auth-border-radius-sm);
+    white-space: nowrap;
+}
+
+/* ==================== 固定操作栏 ==================== */
+
+.auth-fixed-action {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    background: rgba(255, 255, 255, 0.94);
+    border-top: 1px solid var(--auth-border);
+    backdrop-filter: blur(8px);
+    padding: var(--auth-space-2) var(--auth-space-4);
+}
+
+.auth-fixed-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--auth-space-2);
+}
+
+.auth-fixed-btn {
+    min-height: 40px;
+    border-radius: var(--auth-border-radius-sm);
+    font-size: var(--auth-font-sm);
+    font-weight: 600;
+}
+
+/* ==================== 头部导航 ==================== */
+
+.auth-app-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(243, 246, 251, 0.92);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--auth-border);
+    border-radius: var(--auth-border-radius);
+    padding: var(--auth-space-4);
+    margin-bottom: var(--auth-space-4);
+    box-shadow: var(--auth-shadow);
+}
+
+.auth-app-title {
+    margin: 0;
+    font-size: var(--auth-font-lg);
+    font-weight: 700;
+    line-height: var(--auth-line-tight);
+}
+
+.auth-app-subtitle {
+    margin: var(--auth-space-1) 0 0;
+    font-size: var(--auth-font-xs);
+    color: var(--auth-text-muted);
+    line-height: var(--auth-line-normal);
+}
+
+.auth-logout-btn {
+    white-space: nowrap;
+    border-radius: var(--auth-border-radius-sm);
+    min-height: 36px;
+}
+
+/* ==================== 面板切换 ==================== */
+
+.auth-pane {
+    display: none;
+}
+
+.auth-pane.active {
+    display: block;
+}
+
+/* ==================== 响应式适配 ==================== */
+
+@media (min-width: 576px) {
+    .auth-action-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 768px) {
+    .auth-dashboard-wrap {
+        padding: var(--auth-space-5);
+        padding-bottom: var(--auth-space-5);
+    }
+
+    .auth-status-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .auth-fixed-action {
+        display: none;
+    }
+}
+
+@media (max-width: 380px) {
+    .auth-page-wrap {
+        padding: var(--auth-space-3);
+    }
+
+    .auth-dashboard-wrap {
+        padding: var(--auth-space-3);
+    }
+
+    .auth-card-body {
+        padding: var(--auth-space-4);
+    }
+
+    .auth-server-row {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-reload-btn {
+        width: 100%;
+    }
+}
+
+/* ==================== 动画效果 ==================== */
+
+@keyframes authFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-fade-in {
+    animation: authFadeIn 0.3s ease;
+}
+
+/* ==================== 工具类 ==================== */
+
+/**
+ * 文字颜色
+ */
+.text-auth-primary { color: var(--auth-primary); }
+.text-auth-success { color: var(--auth-success); }
+.text-auth-danger { color: var(--auth-danger); }
+.text-auth-muted { color: var(--auth-text-muted); }
+
+/**
+ * 背景颜色
+ */
+.bg-auth-primary { background: var(--auth-primary); }
+.bg-auth-gradient { background: var(--auth-gradient); }

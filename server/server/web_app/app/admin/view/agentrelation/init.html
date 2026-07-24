@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>代理关系数据迁移</title>
+<link rel="stylesheet" type="text/css" href="__MB__/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__MB__/alert/sweetalert2.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">新代理系统 - 数据迁移</h4>
+                </div>
+                <div class="card-body">
+                    <h5>当前状态</h5>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>代理总数</td>
+                            <td><strong>{$agentCount}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>已迁移关系记录</td>
+                            <td><strong>{$relationCount}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>可创建下级的代理</td>
+                            <td><strong>{$canCreateCount}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>迁移状态</td>
+                            <td>
+                                {if $agentCount == $relationCount}
+                                    <span class="badge bg-success">已完成</span>
+                                {else}
+                                    <span class="badge bg-warning">未完成</span>
+                                {/if}
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <div class="alert alert-info">
+                        <h6>新规则说明：</h6>
+                        <ul>
+                            <li>所有代理分成固定为 <strong>70%</strong></li>
+                            <li>创建下级代理条件：直属玩家累计流水 ≥ <strong>5000元</strong></li>
+                            <li>佣金构成：
+                                <ul>
+                                    <li>直属玩家：订单金额的 70%</li>
+                                    <li>一级下级：流水的 5%</li>
+                                    <li>二级下级：流水的 5%</li>
+                                    <li>三级及以下：不统计</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button class="btn btn-primary btn-lg" id="btnMigrate">
+                            {if $agentCount == $relationCount}
+                                重新迁移数据
+                            {else}
+                                开始迁移数据
+                            {/if}
+                        </button>
+                        
+                        <button class="btn btn-success btn-lg ms-2" id="btnRecalculate">
+                            重新计算流水
+                        </button>
+                        
+                        <a href="/index.php?s=/{$app}/agent/list" class="btn btn-secondary btn-lg ms-2">
+                            返回代理列表
+                        </a>
+                    </div>
+                    
+                    <div class="mt-4" id="logArea" style="display:none;">
+                        <h6>迁移日志：</h6>
+                        <div class="alert alert-secondary">
+                            <pre id="logContent" style="max-height: 300px; overflow-y: auto;"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__MB__/js/jquery.min.js"></script>
+<script src="__MB__/js/bootstrap.min.js"></script>
+<script src="__MB__/alert/sweetalert2.all.min.js"></script>
+
+<script>
+$(function() {
+    // 迁移数据
+    $('#btnMigrate').click(function() {
+        var btn = $(this);
+        var originalText = btn.text();
+        
+        Swal.fire({
+            title: '确认迁移？',
+            text: '这将初始化所有代理的关系数据',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '确认迁移',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                btn.prop('disabled', true).text('迁移中...');
+                $('#logArea').show();
+                $('#logContent').text('开始迁移...\n');
+                
+                $.post('/index.php?s=/{$app}/agentrelation/initRelation', {}, function(res) {
+                    btn.prop('disabled', false).text(originalText);
+                    
+                    if (res.code == 1) {
+                        $('#logContent').append('迁移完成！\n');
+                        $('#logContent').append('成功：' + res.data.success + ' 个\n');
+                        $('#logContent').append('失败：' + res.data.error + ' 个\n');
+                        $('#logContent').append('总计：' + res.data.total + ' 个\n');
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: '迁移成功',
+                            text: res.msg
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '迁移失败',
+                            text: res.msg
+                        });
+                    }
+                }, 'json').fail(function() {
+                    btn.prop('disabled', false).text(originalText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '请求失败',
+                        text: '请检查网络连接'
+                    });
+                });
+            }
+        });
+    });
+    
+    // 重新计算流水
+    $('#btnRecalculate').click(function() {
+        var btn = $(this);
+        var originalText = btn.text();
+        
+        Swal.fire({
+            title: '确认重新计算？',
+            text: '这将重新计算所有代理的直属玩家流水',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                btn.prop('disabled', true).text('计算中...');
+                
+                $.post('/index.php?s=/{$app}/agentrelation/recalculateAll', {}, function(res) {
+                    btn.prop('disabled', false).text(originalText);
+                    
+                    if (res.code == 1) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '计算完成',
+                            text: '已处理 ' + res.data.count + ' 个代理'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '计算失败',
+                            text: res.msg
+                        });
+                    }
+                }, 'json').fail(function() {
+                    btn.prop('disabled', false).text(originalText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '请求失败',
+                        text: '请检查网络连接'
+                    });
+                });
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
+

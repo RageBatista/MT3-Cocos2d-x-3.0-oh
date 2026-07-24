@@ -1,0 +1,362 @@
+{extend name="layout/base" /}
+
+{block name="content"}
+<section class="auth-status-grid">
+    <article class="auth-status-card">
+        <div class="auth-status-label">当前 UID</div>
+        <div class="auth-status-value primary">{$uid}</div>
+    </article>
+    <article class="auth-status-card">
+        <div class="auth-status-label">当前大区</div>
+        <div class="auth-status-value">{$servername}</div>
+    </article>
+    <article class="auth-status-card">
+        <div class="auth-status-label">ServerID / 分组</div>
+        <div class="auth-status-value">{$serverid} {$groupname}</div>
+    </article>
+</section>
+
+<div id="msgBox" class="alert" role="alert"></div>
+
+<section class="auth-card">
+    <div class="auth-card-head">
+        <i class="mdi mdi-lightning-bolt-outline"></i>
+        快捷操作
+    </div>
+    <div class="auth-card-body">
+        <div class="auth-segmented" id="opTabs">
+            <button type="button" class="auth-seg-btn active" data-pane="paneItem">物品发放</button>
+            <button type="button" class="auth-seg-btn" data-pane="paneXy">仙玉充值</button>
+        </div>
+
+        <div class="auth-pane active" id="paneItem">
+            <form id="formSendItem" novalidate>
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="itemToken">物品名称</label>
+                    <select id="itemToken" name="item_token" class="form-control auth-form-control" required>
+                        <option value="">请选择物品</option>
+                    </select>
+                </div>
+
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="itemNum">发放数量</label>
+                    <input id="itemNum" name="number" type="number" min="1" max="9999" inputmode="numeric" pattern="[0-9]*" class="form-control auth-form-control" placeholder="1 - 9999" required>
+                    <div class="auth-quick-row" data-target="itemNum">
+                        <button type="button" class="auth-quick-btn" data-val="1">1</button>
+                        <button type="button" class="auth-quick-btn" data-val="10">10</button>
+                        <button type="button" class="auth-quick-btn" data-val="99">99</button>
+                        <button type="button" class="auth-quick-btn" data-val="999">999</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn auth-btn-primary auth-submit-btn" id="btnSendItem">
+                    <i class="mdi mdi-send"></i>发送物品
+                </button>
+                <p class="auth-tip-text">优先直发背包，失败将按后端策略回退为系统邮件补发。</p>
+            </form>
+        </div>
+
+        <div class="auth-pane" id="paneXy">
+            <form id="formRechargeXy" novalidate>
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="xyNum">仙玉数量</label>
+                    <input id="xyNum" name="number" type="number" min="1" max="99999999" inputmode="numeric" pattern="[0-9]*" class="form-control auth-form-control" placeholder="1 - 99999999" required>
+                    <div class="auth-quick-row" data-target="xyNum">
+                        <button type="button" class="auth-quick-btn" data-val="100">100</button>
+                        <button type="button" class="auth-quick-btn" data-val="1000">1000</button>
+                        <button type="button" class="auth-quick-btn" data-val="10000">10000</button>
+                        <button type="button" class="auth-quick-btn" data-val="50000">50000</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn auth-btn-success auth-submit-btn" id="btnRechargeXy">
+                    <i class="mdi mdi-cash-plus"></i>充值仙玉
+                </button>
+                <p class="auth-tip-text">仙玉范围 1 - 99999999，请确认角色后再提交。</p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="auth-card">
+    <div class="auth-card-head">
+        <i class="mdi mdi-information-outline"></i>
+        操作说明
+    </div>
+    <div class="auth-card-body">
+        <ul class="auth-note-list">
+            <li>所有敏感操作都通过签名校验，防止重放请求。</li>
+            <li>物品数量范围 1 - 9999，仙玉数量范围 1 - 99999999。</li>
+            <li>请选择物品名称进行发放，前端不再展示或提交物品ID。</li>
+        </ul>
+    </div>
+</section>
+
+<div class="auth-fixed-action">
+    <div class="auth-fixed-inner">
+        <button type="button" class="btn btn-outline-primary auth-fixed-btn" data-pane-switch="paneItem">物品发放</button>
+        <button type="button" class="btn btn-outline-success auth-fixed-btn" data-pane-switch="paneXy">仙玉充值</button>
+    </div>
+</div>
+{/block}
+
+{block name="style"}
+<style>
+.auth-note-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: var(--auth-font-sm);
+    color: #475467;
+}
+
+.auth-note-list li {
+    margin-bottom: var(--auth-space-1);
+    line-height: var(--auth-line-normal);
+}
+</style>
+{/block}
+
+{block name="script"}
+<script>
+(function() {
+    var ROUTE = {
+        prepareOp: "/login/auth/prepareOp",
+        sendItem: "/login/auth/sendItem",
+        rechargeXianyu: "/login/auth/rechargeXianyu",
+        getItemList: "/login/auth/getItemList"
+    };
+
+    function showMessage(type, message) {
+        var box = document.getElementById("msgBox");
+        box.className = "alert " + (type === "success" ? "alert-success" : "alert-danger");
+        box.textContent = message || (type === "success" ? "操作成功" : "操作失败");
+        box.style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function clearOldSig(formEl) {
+        var oldTs = formEl.querySelector('input[name="op_ts"]');
+        var oldSig = formEl.querySelector('input[name="op_sig"]');
+        if (oldTs) oldTs.remove();
+        if (oldSig) oldSig.remove();
+    }
+
+    async function getOpSig(action, params) {
+        var fd = new FormData();
+        fd.append("action", action);
+        Object.keys(params || {}).forEach(function(k) {
+            fd.append(k, String(params[k]));
+        });
+
+        var response = await fetch(ROUTE.prepareOp, { method: "POST", body: fd });
+        var text = await response.text();
+        var json;
+        try {
+            json = JSON.parse(text);
+        } catch (e) {
+            throw new Error((text || "").trim() || "签名服务异常");
+        }
+        if (json.code !== 1 || !json.data || !json.data.ts || !json.data.sig) {
+            throw new Error((json && json.msg) ? String(json.msg) : "签名服务异常");
+        }
+        return { op_ts: json.data.ts, op_sig: json.data.sig };
+    }
+
+    function parseResult(response) {
+        var ct = (response.headers.get("content-type") || "").toLowerCase();
+        if (ct.indexOf("application/json") >= 0) {
+            return response.json().catch(function() { return { code: 0, msg: "JSON 解析失败" }; });
+        }
+        return response.text().then(function(text) {
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                return { code: 0, msg: text || "服务返回异常" };
+            }
+        });
+    }
+
+    function setBtnLoading(btn, isLoading, loadingText) {
+        if (!btn) return;
+        if (!btn.dataset.originHtml) {
+            btn.dataset.originHtml = btn.innerHTML;
+        }
+        btn.disabled = !!isLoading;
+        btn.innerHTML = isLoading
+            ? '<i class="mdi mdi-loading mdi-spin"></i>' + (loadingText || "处理中...")
+            : btn.dataset.originHtml;
+    }
+
+    function submitForm(url, formEl, submitBtn, successText, clearFn) {
+        setBtnLoading(submitBtn, true, "提交中...");
+        var body = new URLSearchParams(new FormData(formEl));
+
+        return fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: body.toString()
+        })
+        .then(parseResult)
+        .then(function(data) {
+            if (data.code === 1) {
+                if (typeof clearFn === "function") clearFn();
+                showMessage("success", data.msg || successText || "操作成功");
+                return;
+            }
+            showMessage("error", data.msg || "操作失败");
+        })
+        .catch(function() {
+            showMessage("error", "网络异常，请稍后重试");
+        })
+        .finally(function() {
+            setBtnLoading(submitBtn, false);
+        });
+    }
+
+    function switchPane(targetId) {
+        document.querySelectorAll(".auth-pane").forEach(function(pane) {
+            pane.classList.remove("active");
+        });
+        document.querySelectorAll(".auth-seg-btn").forEach(function(btn) {
+            btn.classList.remove("active");
+        });
+
+        var pane = document.getElementById(targetId);
+        if (pane) pane.classList.add("active");
+
+        var tabBtn = document.querySelector('.auth-seg-btn[data-pane="' + targetId + '"]');
+        if (tabBtn) tabBtn.classList.add("active");
+    }
+
+    document.getElementById("opTabs").addEventListener("click", function(e) {
+        var btn = e.target.closest(".auth-seg-btn");
+        if (!btn) return;
+        switchPane(btn.getAttribute("data-pane"));
+    });
+
+    document.querySelectorAll("[data-pane-switch]").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            switchPane(btn.getAttribute("data-pane-switch"));
+        });
+    });
+
+    document.querySelectorAll(".auth-quick-row").forEach(function(row) {
+        row.addEventListener("click", function(e) {
+            var btn = e.target.closest(".auth-quick-btn");
+            if (!btn) return;
+
+            var targetId = row.getAttribute("data-target");
+            var input = document.getElementById(targetId);
+            if (!input) return;
+
+            input.value = btn.getAttribute("data-val") || "";
+            input.focus();
+
+            row.querySelectorAll(".auth-quick-btn").forEach(function(x) { x.classList.remove("active"); });
+            btn.classList.add("active");
+        });
+    });
+
+    document.getElementById("formSendItem").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        var formEl = this;
+        var submitBtn = document.getElementById("btnSendItem");
+        var token = (document.getElementById("itemToken").value || "").trim();
+        var number = parseInt(document.getElementById("itemNum").value, 10);
+
+        if (!number || number < 1 || number > 9999) {
+            showMessage("error", "物品数量不合法（1-9999）");
+            return;
+        }
+
+        if (!token) {
+            showMessage("error", "请选择物品名称");
+            return;
+        }
+
+        clearOldSig(formEl);
+
+        try {
+            var sig = await getOpSig("sendItem", { item_token: token, number: number });
+            var tsEl = document.createElement("input");
+            var sigEl = document.createElement("input");
+            tsEl.type = "hidden";
+            sigEl.type = "hidden";
+            tsEl.name = "op_ts";
+            sigEl.name = "op_sig";
+            tsEl.value = String(sig.op_ts);
+            sigEl.value = String(sig.op_sig);
+            formEl.appendChild(tsEl);
+            formEl.appendChild(sigEl);
+        } catch (err) {
+            showMessage("error", (err && err.message) ? err.message : "签名服务异常");
+            return;
+        }
+
+        submitForm(ROUTE.sendItem, formEl, submitBtn, "物品发送成功", function() {
+            document.getElementById("itemNum").value = "";
+        });
+    });
+
+    document.getElementById("formRechargeXy").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        var formEl = this;
+        var submitBtn = document.getElementById("btnRechargeXy");
+        var number = parseInt(document.getElementById("xyNum").value, 10);
+
+        if (!number || number < 1 || number > 99999999) {
+            showMessage("error", "仙玉数量不合法（1-99999999）");
+            return;
+        }
+
+        clearOldSig(formEl);
+        try {
+            var sig = await getOpSig("rechargeXianyu", { number: number });
+            var tsEl = document.createElement("input");
+            var sigEl = document.createElement("input");
+            tsEl.type = "hidden";
+            sigEl.type = "hidden";
+            tsEl.name = "op_ts";
+            sigEl.name = "op_sig";
+            tsEl.value = String(sig.op_ts);
+            sigEl.value = String(sig.op_sig);
+            formEl.appendChild(tsEl);
+            formEl.appendChild(sigEl);
+        } catch (err) {
+            showMessage("error", (err && err.message) ? err.message : "签名服务异常");
+            return;
+        }
+
+        submitForm(ROUTE.rechargeXianyu, formEl, submitBtn, "仙玉充值成功", function() {
+            document.getElementById("xyNum").value = "";
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", async function() {
+        try {
+            var itemResp = await fetch(ROUTE.getItemList);
+            var itemJson = await itemResp.json().catch(function() { return { code: 0 }; });
+            if (itemJson.code === 1 && Array.isArray(itemJson.data)) {
+                window.__ITEMS = itemJson.data.filter(function(x) {
+                    return x && x.name && x.token;
+                });
+                var select = document.getElementById("itemToken");
+                select.innerHTML = '<option value="">请选择物品</option>';
+                window.__ITEMS.forEach(function(x) {
+                    var opt = document.createElement("option");
+                    opt.value = x.token;
+                    opt.textContent = x.name;
+                    select.appendChild(opt);
+                });
+            } else {
+                showMessage("error", (itemJson && itemJson.msg) ? itemJson.msg : "物品列表加载失败");
+            }
+        } catch (err) {
+            showMessage("error", "物品列表加载失败，请稍后重试");
+        }
+    });
+})();
+</script>
+{/block}

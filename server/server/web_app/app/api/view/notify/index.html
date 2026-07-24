@@ -1,0 +1,69 @@
+
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="12">
+  <title>支付通知 - {$config.name}</title>
+  <link rel="shortcut icon" type="image/x-icon" href="{$config.icon}">
+  <link rel="stylesheet" href="__MB__/pay/css/nucleo.css" type="text/css">
+  <link rel="stylesheet" href="__MB__/pay/css/fortawesome.css" type="text/css">
+  <link rel="stylesheet" href="__MB__/pay/css/opao.min.css" type="text/css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+</head>
+<body class="bg-default">
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header bg-gradient-py-7 py-lg-8 pt-lg-9">
+      <div class="container">
+        <div class="header-body text-center mb-7">
+          <div class="row justify-content-center">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card bg-secondary border-0 mb-0">
+            <div class="card-body px-lg-5 py-lg-5">
+              <form method="post" action="epayapi.php" role="form"> 
+				  <div class="text-center text-muted mb-4">
+					<small>您的支付操作已经完成，请到游戏内邮件查看是否到账，如充值未到账，请截图保存，并联系客服！</small><br/>
+				  </div>
+					<div class="form-group mb-2">
+					  <div class="input-group input-group-merge input-group-alternative">
+						<div class="input-group-prepend">
+						  <span class="input-group-text">支付订单</span>
+						</div>
+						<input class="form-control" value="  {$findOrder.orderid}" type="text" readonly="readonly">
+					  </div>
+					</div>
+					<div class="form-group mb-2">
+					  <div class="input-group input-group-merge input-group-alternative">
+						<div class="input-group-prepend">
+						  <span class="input-group-text">支付金额</span>
+						</div>
+						<input class="form-control" value="  {$findOrder.realmoney}" type="text" readonly="readonly">
+					  </div>
+					</div>
+					<div class="form-group mb-2">
+					  <div class="input-group input-group-merge input-group-alternative">
+						<div class="input-group-prepend">
+						  <span class="input-group-text">充值结果</span>
+						</div>
+						<input class="form-control" value="  {$findOrder.pay_status}" type="text" readonly="readonly">
+					  </div>
+					</div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="__MB__/pay/js/jquery.min.js"></script>
+<script src="__MB__/pay/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
