@@ -1,0 +1,25 @@
+1.瀹夎jdk-6u43-windows-x64.
+2.瀹夎apache-ant-1.8.1.
+3.閰嶇疆glink,gdeliverd,gs涔嬮棿鐨勭鍙?.
+	閰嶇疆conf.m4鏂囦欢閲岀殑鏈嶅姟鍣ㄥ湴鍧?鍜孲TARTPORT.
+	glink: 鏄痝deliver鐨勫鎴风锛屾槸gs鍜屾墍鏈夊鎴风鐨勬湇鍔″櫒銆傞厤缃枃浠秅link.conf涓殑DeliveryClient鏄繛鎺deliver鏈嶅姟鍣ㄧ殑閰嶇疆; ProviderServer 鏄痝s杩炴帴glink鐨勫湴鍧?鍜岀鍙?; LinkServer 鏄鎴风杩炴帴glink鐨勫湴鍧?鍜岀鍙ｃ??
+	gdeliver: 鏄痝link鍜実s鐨勬湇鍔″櫒绔紝閰嶇疆鏂囦欢gdeliverd.conf涓殑DeliverServer鏄痝link杩炴帴鐨勫湴鍧?鍜岀鍙?; GameDBServer鏄痝s杩炴帴鐨勫湴鍧?鍜岀鍙ｃ??
+	淇敼gsx.xdb.xml鏂囦欢鐨刄niqNameConf閰嶇疆.
+4.鍦∕T_G\mtg_serv\server 鐩綍涓嬫墽琛? ant dist.
+5.鏁翠釜鐗堟湰灏卞湪\MT_G\mtg_serv\serverbin 鐩綍涓嬬殑 gs鐩綍閲?.
+
+瀹夎java鐜鍜宎nt
+1.server涓嬬紪璇戯紝閰嶇疆conf.m4.sample鏂囦欢閲岀殑鏈嶅姟鍣ㄥ湴鍧?鍜孲TARTPORT锛屽湪璇ョ洰褰曟墽琛宎nt.dist锛岀敓鎴愭枃浠跺湪serverbin
+2.serverbin/gs涓嬮厤缃甮s.xio.xml鍜実sx.xdb.xml鏂囦欢涓璱p鍜岀鍙ｏ紝鍚姩start.bat鍗冲彲
+3.linux涓嬫嫹璐濇柊link鍜宒eliverd鏈嶅姟鍣紝閰嶇疆绔彛
+
+
+
+鏈嶅姟鍣ㄩ摼鎺ヤ笌绔彛瀵瑰簲鍏崇郴
+gs --锛坓s.xio:provider/providerserver锛?--- glink --锛坉eliveryclient/deliverserver锛?--- gdeliver  
+c -- 锛坰erverconfig.bin閰嶇疆/linkserver锛?---glink 
+gs--锛坓s.xio:GdeliverClient/gamedbserver锛?--gdeliver
+gs--(gs.xdb:uniqname)--uniqname
+
+
+	

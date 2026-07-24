@@ -1,0 +1,418 @@
+
+---------------------------------------------------------
+
+
+璁捐鎬濊矾
+
+
+鐜╁绛夌骇鍙樺寲鏃?, 娓告垙鏈嶅姟鍣ㄤ富鍔ㄦ帹閫佸苟淇敼鎴戜滑鐨勮鑹蹭俊鎭〃, 鏆傚畾涓虹┖闂寸殑瑙掕壊琛?(role)
+鎺ㄩ?佷俊鎭负绛夌骇,鍏呭?奸噾棰?
+
+
+---------------------------------------------------------
+
+
+鎺ュ彛1,鑾峰彇鏌愭湇鍔″櫒鏌愯鑹蹭俊鎭?
+
+
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/get_role?serverid=1101011002&roleid=795626
+
+鍙傛暟
+serverid 鏈嶅姟鍣╥d
+roleid 瑙掕壊id
+
+杩斿洖鍊?
+{
+
+    "errno": "",
+    "message": "",
+    "data": {
+        "roleid": "160515054",	//瑙掕壊id
+        "name": "椹伴獘",	//瑙掕壊鍚?
+        "avatar": "1",		//瑙掕壊鑱屼笟
+        "level": "68",		//瑙掕壊绛夌骇	
+        "recharge": "0.00",	//瑙掕壊鎬诲厖鍊?
+        "serverkey": "1101011002",//鏈嶅姟鍣?
+        "servername": "S2娉板潶绉╁簭",//鏈嶅姟鍣ㄥ悕绉?
+        "serverid": "1101011002",
+        "code": "1101011002",//鎷涘嫙鐮?
+        "desc": "",		//鎷涘嫙瀹ｈ█
+        "enlist_count": "0",	//鎬绘嫑鍕熶汉鏁?
+	"is_enlist": "0",	//鏄惁琚嫑鍕?
+        "enlist_code": "",	//鑻ヤ负琚嫑鍕?,鎷涘嫙浜烘嫑鍕熺爜
+        "enlist_time": "0"	//鑻ヤ负琚嫑鍕?, 鎷涘嫙鏃堕棿
+    }
+
+}
+
+杩斿洖鍊?, 閿欒鐨勬儏鍐?
+{
+
+    "errno": "role_notexist",
+    "message": "鎷涘嫙浜轰笉瀛樺湪",
+    "data": null
+}
+
+
+鎺ュ彛2,鏇存柊瑙掕壊鎷涘嫙瀹ｈ█
+
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/update_role?serverid=1101011002&roleid=795626&desc=鎷涘嫙鏂板皬浼欎即,閫?10000G!!!
+
+
+鍙傛暟
+serverid 鏈嶅姟鍣╥d
+roleid 瑙掕壊id
+desc 鎷涘嫙瀹ｈ█
+
+
+杩斿洖鍊?, 鍚屾帴鍙?1
+
+杩斿洖鍊?, 閿欒鐨勬儏鍐?
+{
+
+    "errno": "role_notexist",
+    "message": "鎷涘嫙浜轰笉瀛樺湪",
+    "data": null
+}
+
+
+鎺ュ彛3.鏍￠獙鎷涘嫙鐮佹槸瀛樺湪, 涓嶆牎楠岃鎷涘嫙浜?
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/check_code?code=7956261002
+
+鍙傛暟
+code 鎷涘嫙鐮?
+
+杩斿洖鍊?, 姝ｇ‘鐨勬儏鍐?
+{
+
+    "errno": "",
+    "message": "",
+    "data": true
+
+}
+
+杩斿洖鍊?, 閿欒鐨勬儏鍐?
+{
+
+    "errno": "role_notexist",
+    "message": "鎷涘嫙浜轰笉瀛樺湪",
+    "data": null
+}
+
+
+
+鎺ュ彛4.鏍￠獙鎷涘嫙鐮?, 鍚屾椂鏍￠獙琚嫑鍕熶汉
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/check?code=7956261002&new_serverid=1101011002&new_roleid=795626
+
+
+鍙傛暟
+code 鎷涘嫙鐮?
+new_serverid 琚嫑鍕熶汉鏈嶅姟鍣╥d
+new_roleid 琚嫑鍕熶汉瑙掕壊id
+
+杩斿洖鍊?, 姝ｇ‘鐨勬儏鍐?
+{
+
+    "errno": "",
+    "message": "",
+    "data": true
+
+}
+
+杩斿洖鍊?, 閿欒鐨勬儏鍐?
+{
+
+    "errno": "role_notexist",
+    "message": "鎷涘嫙浜轰笉瀛樺湪",
+    "data": null
+}
+{
+
+    "errno": "role1_notexist",
+    "message": "琚嫑鍕熶汉涓嶅瓨鍦?",
+    "data": null
+}
+{
+
+    "errno": "level_lessthan30",
+    "message": "鎺ㄨ崘浜虹瓑绾?<30绾?",
+    "data": null
+
+}
+{
+
+    "errno": "level_greaterthan30",
+    "message": "琚帹鑽愪汉绛夌骇>=30绾?",
+    "data": null
+
+}
+{
+
+    "errno": "has_enlisted",
+    "message": "琚帹鑽愪汉宸茬粡濉啓杩囨帹鑽愮爜",
+    "data": null
+
+}
+
+
+鎺ュ彛5.鎷涘嫙浜烘彁浜ゆ嫑鍕熺爜
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/submit_code?code=7956261002&new_serverid=1101011002&new_roleid=795626
+
+
+鍙傛暟鍜岃繑鍥炲?煎畬鍏ㄥ悓鎺ュ彛4
+
+
+鎺ュ彛6,鑾峰彇鎷涘嫙浜烘嫑鍕熶汉鏁?,鍜屽凡棰嗗彇鐨勬鏁板鍔?
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/get_times_prize?serverid=1101011002&roleid=795626&level=60
+
+
+杩斿洖鍊?, 姝ｇ‘鐨勬儏鍐?
+{
+
+    "errno": "",
+    "message": "",
+    "data": [ 
+	"total" : 30,
+	"times_item" : "1,3"
+    ]
+
+}
+
+杩斿洖鍊?, 閿欒鐨勬儏鍐?
+{
+    "errno": "role_notexist",
+    "message": "瑙掕壊涓嶅瓨鍦?",
+    "data": null
+}
+
+
+鎺ュ彛7.棰嗗彇鎷涘嫙娆℃暟濂栧姳
+
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/set_times_prize?serverid=1101011002&roleid=795626&times=2&level=60
+
+
+鍙傛暟
+serverid 琚嫑鍕熶汉鏈嶅姟鍣╥d
+roleid 琚嫑鍕熶汉瑙掕壊id
+times 鎷涘嫙娆℃暟
+
+杩斿洖鍊?, 姝ｇ‘鐨勬儏鍐?
+{
+
+    "errno": "",
+    "message": "",
+    "data": true
+
+}
+
+杩斿洖鍊?, 閿欒鐨勬儏鍐?
+{
+    "errno": "role_notexist",
+    "message": "瑙掕壊涓嶅瓨鍦?",
+    "data": null
+}
+{
+    "errno": "times_error",
+    "message": "涓嶇鍚堟鏁拌姹?",
+    "data": null
+}
+{
+
+    "errno": "has_fetched",
+    "message": "宸茬粡棰嗗彇濂栧姳",
+    "data": null
+}
+
+鎺ュ彛8.鎷涘嫙浜鸿幏鍙栬鎷涘嫙浜哄垪琛?
+
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/get_enlist_list?serverid=1101011002&roleid=795626&prize_total=10
+
+
+鍙傛暟
+serverid 琚嫑鍕熶汉鏈嶅姟鍣╥d
+roleid 琚嫑鍕熶汉瑙掕壊id
+level 杈惧埌澶氬皯绾?
+prize_total 鎴戠殑濂栧姳鎬绘暟锛? 澶т簬姝ゆ暟锛屽皢涓嶆樉绀?
+
+杩斿洖鍊?
+{
+
+    "errno": "",
+    "message": "",
+    "data": [ 
+    ["roleid": "795626",
+	    "name": "椹伴獘",
+	    "avatar": "1",
+	    "level": "68",
+	    "recharge": "0.00",
+	    "serverkey": "1101011002",
+	    "servername": "S2娉板潶绉╁簭",
+	    "serverid": "1101011002",
+	    "code": "7956261002",
+	    "desc": "鎷涘嫙鏂板皬浼欎即,閫?10000G!!!",
+	    "enlist_count": "0",
+	    "effective_count": "0",
+	    "is_enlist": "0",
+	    "enlist_code": "",
+	    "enlist_time": "0",
+	    
+    ]
+    ]
+
+}
+
+
+
+鎺ュ彛9.鑾峰彇鏌愯鎷涘嫙浜虹殑濂栧姳杩涘害鐘舵??
+
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/get_prize_list?serverid=1101011002&roleid=795626&new_serverid=123&new_roleid=123&level=60
+
+
+鍙傛暟
+serverid 琚嫑鍕熶汉鏈嶅姟鍣╥d
+roleid 琚嫑鍕熶汉瑙掕壊id
+new_serverid 琚嫑鍕熶汉鏈嶅姟鍣╥d
+new_roleid 琚嫑鍕熶汉瑙掕壊id
+level 杈惧埌澶氬皯绾?
+
+
+杩斿洖鍊?
+{
+
+    "errno": "",
+    "message": "",
+    "data": [ 
+    [
+	    "serverid":"1101011002",
+	    "roleid": "795626",
+	    "new_serverid": "123",
+	    "roleid": "123",
+	    "prize_type": "0",	//濂栧姳绫诲瀷,0绛夌骇,1鍏呭??
+	    "amount": "30",	//绛夌骇鎴栧厖鍊肩殑鏁板??
+    ],
+        [
+		"serverid":"1101011002",
+		"roleid": "795626",
+		"new_serverid": "123",
+		"roleid": "123",
+		"prize_type": "1",	//濂栧姳绫诲瀷,0绛夌骇,1鍏呭??
+		"amount": "30",	//绛夌骇鎴栧厖鍊肩殑鏁板??
+	]
+    ]
+
+}
+
+
+鎺ュ彛10.棰嗗彇绛夌骇鎴栧厖鍊肩殑杩涘害濂栧姳
+
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/set_prize_status?serverid=1101011002&roleid=795626&new_serverid=123&new_roleid=123&prize_type=0&amount=1
+
+
+
+鍙傛暟
+serverid 琚嫑鍕熶汉鏈嶅姟鍣╥d
+roleid 琚嫑鍕熶汉瑙掕壊id
+new_serverid 琚嫑鍕熶汉鏈嶅姟鍣╥d
+new_roleid 琚嫑鍕熶汉瑙掕壊id
+prize_type 濂栧姳绫诲瀷0绛夌骇1鍏呭??
+amount 绛夌骇鎴栧厖鍊肩殑鏁板??
+
+杩斿洖鍊?, 姝ｇ‘鐨勬儏鍐?
+{
+
+    "errno": "",
+    "message": "",
+    "data": true
+
+}
+
+杩斿洖鍊?, 閿欒鐨勬儏鍐?
+
+{
+
+    "errno": "role_notexist",
+    "message": "鎷涘嫙浜轰笉瀛樺湪",
+    "data": null
+}
+{
+
+    "errno": "role1_notexist",
+    "message": "琚嫑鍕熶汉涓嶅瓨鍦?",
+    "data": null
+}
+{
+    "errno": "hasnot_enlist",
+    "message": "涓嶅瓨鍦ㄦ嫑鍕熷叧绯?",
+    "data": null
+}
+{
+    "errno": "level_lessthan30",
+    "message": "鎷涘嫙浜虹瓑绾т笉鍒?30",
+    "data": null
+}
+{
+    "errno": "level_error",//
+    "message": "琚嫑鍕熶汉绛夌骇涓嶇鍚堣姹?",
+    "data": null
+}
+{
+    "errno": "recharge_error",
+    "message": "琚嫑鍕熶汉鍏呭?间笉绗﹀悎瑕佹眰",
+    "data": null
+}
+{
+    "errno": "prize_type_error",//
+    "message": "濂栧姳绫诲瀷閿欒,蹇呴』鏄?0鎴?1",
+    "data": null
+}
+{
+    "errno": "has_fetched",
+    "message": "宸茬粡棰嗗彇濂栧姳",
+    "data": null
+}
+
+
+
+-------------------------------------------------------------------
+
+
+http://mt3.pengyouquan001.locojoy.com:8810/role/get_by_zhaomu?serverkey=1101011006&roleid=160515054
+
+
+
+http://mt3.pengyouquan001.locojoy.com:8830/enlist/get_role?serverid=1201011501&roleid=160515054
+
+
+
+GRANT USAGE ON *.* TO 'mt3_jl_write'@'%' IDENTIFIED BY PASSWORD '*925FD9A3EB1FE87D37A0C7CBB8874FE7B372B666'
+GRANT SELECT, INSERT, UPDATE, DELETE ON `mt3_jingling`.* TO 'mt3_jl_write'@'%'  
+
+
+
+CREATE USER 'mt3_zhaomu'@'%' IDENTIFIED BY 'MnjWW45p';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `mt3_zhaomu`.* TO 'mt3_zhaomu'@'%';
+
+ALTER TABLE `prize_record_1` ADD INDEX `srsr` (`serverid`,`roleid`,`new_serverid`,`new_roleid`);
+ALTER TABLE `prize_record_2` ADD INDEX `srsr` (`serverid`,`roleid`,`new_serverid`,`new_roleid`);
+ALTER TABLE `prize_record_3` ADD INDEX `srsr` (`serverid`,`roleid`,`new_serverid`,`new_roleid`);
+ALTER TABLE `prize_record_4` ADD INDEX `srsr` (`serverid`,`roleid`,`new_serverid`,`new_roleid`);
+ALTER TABLE `prize_record_5` ADD INDEX `srsr` (`serverid`,`roleid`,`new_serverid`,`new_roleid`);
+ALTER TABLE `prize_record_6` ADD INDEX `srsr` (`serverid`,`roleid`,`new_serverid`,`new_roleid`);
+ALTER TABLE `prize_record_7` ADD INDEX `srsr` (`serverid`,`roleid`,`new_serverid`,`new_roleid`);
+ALTER TABLE `prize_record_8` ADD INDEX `srsr` (`serverid`,`roleid`,`new_serverid`,`new_roleid`);
+
+
+
+
+ALTER TABLE `enlist_1` ADD INDEX `sr` (`serverid`,`roleid`);
+ALTER TABLE `enlist_2` ADD INDEX `sr` (`serverid`,`roleid`);
+ALTER TABLE `enlist_3` ADD INDEX `sr` (`serverid`,`roleid`);
+ALTER TABLE `enlist_4` ADD INDEX `sr` (`serverid`,`roleid`);
+
+
+
+
+alter table role add `recharge` decimal(11,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '鍏呭??';
+
+
+
