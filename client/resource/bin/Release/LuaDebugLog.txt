@@ -1,0 +1,812 @@
+﻿2026-7-23 13:53
+[debugrequire]../../res/script/logic/mapchose/mapchosedlg.lua
+[debugrequire]../../res/script/logic/mapchose/smallmapdlg.lua
+[debugrequire]../../res/script/logic/team/teaminvitecell.lua
+[debugrequire]../../res/script/logic/leitai/leitaicell.lua
+[debugrequire]../../res/script/logic/leitai/leitaicell1.lua
+[debugrequire]../../res/script/logic/leitai/leitaiguanzhan.lua
+[debugrequire]../../res/script/logic/leitai/leitaishaixuan.lua
+[debugrequire]../../res/script/logic/leitai/leitaiunder.lua
+[debugrequire]../../res/script/logic/leitai/leitaidengji.lua
+[debugrequire]../../res/script/logic/leitai/leitaiunder1.lua
+[debugrequire]../../res/script/logic/yincang.lua
+[debugrequire]../../res/script/logic/leitai/leitaidatamanager.lua
+[debugrequire]../../res/script/logic/skill/lifeskilltipdlg.lua
+[debugrequire]../../res/script/logic/accountlistdlg.lua
+[debugrequire]../../res/script/logic/family/familyjiarudiacell.lua
+[debugrequire]../../res/script/logic/family/familychuangjiandialog.lua
+[debugrequire]../../res/script/logic/family/familyhuodongdiacell.lua
+[debugrequire]../../res/script/logic/family/familyhuodongdiacell.lua
+ add a dialog
+ add a dialog
+SwitchAccountDialog show
+ add a dialog
+[SwitchAccountDialog][RememberPasswordLoaded] accountLen=6 passwordLen=6
+[SwitchAccountDialog][FocusLoginInput] wnd=switchaccount/accountbox target=switchaccount/accountbox canEdit=true focus=true visible=true disabled=false parentPass=true textLen=6
+[SwitchAccountDialog][FocusLoginInput] wnd=switchaccount/accountbox target=switchaccount/accountbox canEdit=true focus=true visible=true disabled=false parentPass=true textLen=6
+remove dialog
+[SwitchAccountDialog][KeyboardTargetWndChanged] wnd=nil target=nil canEdit=false focus=false visible=false disabled=false parentPass=false textLen=-1
+[SwitchAccountDialog][HandleLoginBtnClick] accountLen=6 passwordLen=6
+[SwitchAccountDialog][RememberPasswordSaved] accountLen=6 passwordLen=6
+[SwitchAccountDialog][LoginGame] accountLen=6 passwordLen=6
+remove dialog
+[LoginFlow][SelectServerEntryDiag] getInstanceAndShow autoArg=true currentAuto=false loadServerSuccess=false hasInstance=false
+enter instance show
+ add a dialog
+[LoginFlow][SelectServerEntryDiag] connetGetServerInfo serverCount=0 loadServerSuccess=false autoOpen=true
+result = 1
+[LoginFlow][SelectServerEntryDiag] SetGetServerResult result=1 autoOpen=true hasInstance=true
+ add a dialog
+[SelectServerDiag] OnInit begin serverCount=3
+[SelectServerDiag] OnInit server index=0 area=测试专区 name=技术测试 serverid=1000000001 groupKey=1000000001 ip=193.112.65.157 port=42001 flag=3 status=0
+[SelectServerDiag] OnInit server index=1 area=畅玩2026 name=苍穹01区 serverid=1000000002 groupKey=1000000002 ip=193.112.65.157 port=42002 flag=2 status=0
+[SelectServerDiag] OnInit server index=2 area=畅玩2026 name=苍穹02区 serverid=1101961002 groupKey=1101961002 ip=193.112.65.157 port=42003 flag=2 status=0
+[SelectServerDiag] OnInit end areaMapCount=3 recommendArea=推荐 recommendCount=2
+[LoginFlow][SelectServerEntryDiag] checkLoad host=193.112.65.157 port=42001 key=1000000001
+[LoginFlow][SelectServerEntryDiag] OpenSelectServersDialog begin loadServerSuccess=true autoOpen=true hasServer=true selectArea=测试专区 selectServer=技术测试
+remove dialog
+[LoginFlow][SelectServerEntryDiag] OpenSelectServersDialog before ToServerChoose
+[LoginFlow][SelectServerEntryDiag] OpenSelectServersDialog after ToServerChoose selectArea=测试专区 selectServer=技术测试
+[LoginFlow][SelectServerEntryDiag] OpenSelectServersDialog before SelectServersDialog.getInstanceAndShow
+[SelectServerDiag] OnCreate begin
+ add a dialog
+[SelectServerDiag] OnCreate windows ok okBtn=true returnBtn=true serverPane=true areaPane=true
+[SelectServerDiag] OnInit begin serverCount=3
+[SelectServerDiag] OnInit server index=0 area=测试专区 name=技术测试 serverid=1000000001 groupKey=1000000001 ip=193.112.65.157 port=42001 flag=3 status=0
+[SelectServerDiag] OnInit server index=1 area=畅玩2026 name=苍穹01区 serverid=1000000002 groupKey=1000000002 ip=193.112.65.157 port=42002 flag=2 status=0
+[SelectServerDiag] OnInit server index=2 area=畅玩2026 name=苍穹02区 serverid=1101961002 groupKey=1101961002 ip=193.112.65.157 port=42003 flag=2 status=0
+[SelectServerDiag] OnInit end areaMapCount=3 recommendArea=推荐 recommendCount=2
+[SelectServerDiag] OnCreate after OnInit areaMapCount=3 selectArea=nil
+[SelectServerDiag] InitAreaList begin areaMapCount=3 currentSelect=nil
+[SelectServerDiag] InitAreaList sorted area id=0 name=推荐 serverCount=2
+[SelectServerDiag] InitAreaList sorted area id=1 name=测试专区 serverCount=1
+[SelectServerDiag] InitAreaList sorted area id=2 name=畅玩2026 serverCount=2
+[SelectServerDiag] GetDefaultSelectAreaName begin selfSelect=nil areaSortCount=3
+[SelectServerDiag] GetDefaultSelectAreaName loginManagerSelect=测试专区
+[SelectServerDiag] GetDefaultSelectAreaName keep selectArea=测试专区 serverCount=1
+[SelectServerDiag] InitAreaList selectedArea=测试专区
+[SelectServerDiag] InitAreaList create areaCell index=1 id=0 name=推荐 selected=测试专区 serverCount=2
+enter SelectServersAreaCell.CreateNewDlg
+enter SelectServersAreaCell oncreate
+exit SelectServersAreaCell OnCreate
+[SelectServerDiag] InitAreaList create areaCell index=2 id=1 name=测试专区 selected=测试专区 serverCount=1
+enter SelectServersAreaCell.CreateNewDlg
+enter SelectServersAreaCell oncreate
+exit SelectServersAreaCell OnCreate
+[SelectServerDiag] InitAreaList create areaCell index=3 id=2 name=畅玩2026 selected=测试专区 serverCount=2
+enter SelectServersAreaCell.CreateNewDlg
+enter SelectServersAreaCell oncreate
+exit SelectServersAreaCell OnCreate
+[SelectServerDiag] InitAreaList end createdAreaCells=3 selected=测试专区
+[SelectServerDiag] OnCreate after InitAreaList areaCells=3 selectArea=测试专区
+[SelectServerDiag] ClearAllServerCells count=0
+[SelectServerDiag] RefreshServerCells begin selectedArg=测试专区 selfSelect=测试专区 areaMapCount=3
+[SelectServerDiag] RefreshServerCells selectedAreaFound=true selectedAreaName=测试专区 serverCount=1 lastSelectID=-1
+[SelectServerDiag] RefreshServerCells before sort serverTableCount=1 selectedLast=-1
+[SelectServerDiag] RefreshServerCells create serverCell index=1 serverid=1000000001 name=技术测试 orgid=1000000001 sort=999999
+[SelectServerDiag] RefreshServerCells created serverCells=1 finalSelected=1000000001
+[SelectServerDiag] DeselectOtherServerBtn selectArea=测试专区 serverCells=1
+[SelectServerDiag] DeselectOtherServerBtn selectArea=测试专区 serverCells=1
+[SelectServerDiag] OnCreate after RefreshServerCells serverCells=1 selectArea=测试专区
+[SelectServerDiag] SelectCurrentAreaBtn selectArea=测试专区 areaCells=3
+[SelectServerDiag] DeselectOtherServerBtn selectArea=测试专区 serverCells=1
+[LoginFlow][SelectServerEntryDiag] OpenSelectServersDialog after SelectServersDialog.getInstanceAndShow
+remove dialog
+[SelectServerDiag] ClearAllServerCells count=1
+[SelectServerDiag] ClearAllAreaCells count=3
+remove dialog
+[LoginFlow][SelectServerEntryDiag] getInstanceAndShow autoArg=nil currentAuto=false loadServerSuccess=false hasInstance=false
+enter instance show
+ add a dialog
+[LoginFlow][SelectServerEntryDiag] connetGetServerInfo serverCount=3 loadServerSuccess=false autoOpen=false
+[SelectServerDiag] OnInit begin serverCount=3
+[SelectServerDiag] OnInit server index=0 area=测试专区 name=技术测试 serverid=1000000001 groupKey=1000000001 ip=193.112.65.157 port=42001 flag=3 status=0
+[SelectServerDiag] OnInit server index=1 area=畅玩2026 name=苍穹01区 serverid=1000000002 groupKey=1000000002 ip=193.112.65.157 port=42002 flag=2 status=0
+[SelectServerDiag] OnInit server index=2 area=畅玩2026 name=苍穹02区 serverid=1101961002 groupKey=1101961002 ip=193.112.65.157 port=42003 flag=2 status=0
+[SelectServerDiag] OnInit end areaMapCount=3 recommendArea=推荐 recommendCount=2
+[LoginFlow][SelectServerEntryDiag] checkLoad host=193.112.65.157 port=42001 key=1000000001
+[LoginFlow][SelectServerEntryDiag] SetServerLoad serverKey=1000000001 serverLoad=1
+[LoginFlow][SelectServerEntryDiag] setServerStatus matched serverid=1000000001 serverLoad=1
+[LoginFlow][SelectServerEntryDiag] setServerStatus matched serverid=1000000001 serverLoad=1
+[LoginFlow][SelectServerEntryDiag] HandleLoginBtnClick serverLoad=1 serverid=1000000001 status=0 loadHead=true loadKey=1000000001 loadState=1
+[LoginFlow][SelectServerEntryDiag] DoEnterGame serverid=1000000001 couldEntry=true
+[LoginFlow][SelectServerEntryDiag] LoginGame begin accountLen=6 keyLen=6 channelLen=0
+[LoginFlow][SelectServerEntryDiag] LoginGame CreateConnection before serverid=1000000001 servername=技术测试 area=测试专区 host=193.112.65.157 port=42001 connectAccountLen=6 hasComma=false
+[LoginFlow][SelectServerEntryDiag] LoginGame CreateConnection returned
+[LoginFlow][SelectServerEntryDiag] LoginGame security type set
+remove dialog
+ add a dialog
+[LoginFlow][SelectServerEntryDiag] LoginGame waiting dialog shown
+dispatch enter
+protocolrun enter type 8902
+enter GNetServerIDResponse create
+dispatch enter
+protocolrun enter type 786516
+enter SNotifyShieldState create
+dispatch enter
+protocolrun enter type 786434
+enter SRoleList create
+[Lua Send Protocol] 807452
+remove dialog
+dispatch enter
+protocolrun enter type 786515
+enter SNotifyDeviceInfo create
+dispatch enter
+protocolrun enter type 786438
+enter SEnterWorld create
+remove dialog
+enter CLogPushToken create
+[Lua Send Protocol] 810374
+>>>>��ɫid: 8193 >>����id: 1010101
+>>>>MainRoleDataManager setData end<<<<<<
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+dispatch enter
+protocolrun enter type 786439
+enter SGameTime create
+dispatch enter
+protocolrun enter type 786529
+enter SServerIDResponse create
+[debugrequire]../../res/script/logic/team/huobanzhuzhaninfo.lua
+[debugrequire]../../res/script/logic/team/huobanzhuzhaninfo.lua
+dispatch enter
+protocolrun enter type 805445
+enter SAcceptMission create
+dispatch enter
+protocolrun enter type 805445
+enter SAcceptMission create
+dispatch enter
+protocolrun enter type 805445
+enter SAcceptMission create
+dispatch enter
+protocolrun enter type 805445
+enter SAcceptMission create
+dispatch enter
+protocolrun enter type 805445
+enter SAcceptMission create
+dispatch enter
+protocolrun enter type 805445
+enter SAcceptMission create
+dispatch enter
+protocolrun enter type 805445
+enter SAcceptMission create
+dispatch enter
+protocolrun enter type 805445
+enter SAcceptMission create
+dispatch enter
+protocolrun enter type 805461
+enter STrackedMissions create
+ add a dialog
+Renwulistdialog:showOnly(wnd)
+dispatch enter
+protocolrun enter type 799432
+enter SRefreshRoleData create
+dispatch enter
+protocolrun enter type 796442
+enter SBuffChangeResult create
+dispatch enter
+protocolrun enter type 812442
+enter SReqFushiNum create
+dispatch enter
+protocolrun enter type 812688
+enter SMonthCard create
+dispatch enter
+protocolrun enter type 790441
+enter SRoleEnterScene create
+ add a dialog
+ add a dialog
+ add a dialog
+enter CRequestVipInfo create
+[Lua Send Protocol] 812487
+enter CQQExchangeCodeStatus create
+[Lua Send Protocol] 819196
+enter CReqChargeRefundsInfo create
+[Lua Send Protocol] 812483
+[Lua Send Protocol] 808518
+[Lua Send Protocol] 786558
+ add a dialog
+[Lua Send Protocol] 808454
+MainControl:PlaySwitchFoldBtnOpenClose playState == 1
+[Lua Send Protocol] 805484
+ add a dialog
+ add a dialog
+ add a dialog
+[Lua Send Protocol] 810637
+[Lua Send Protocol] 810637
+enter CGetArchiveInfo create
+[Lua Send Protocol] 805540
+enter CGetSysConfig create
+[Lua Send Protocol] 786526
+enter CReqChargeRefundsInfo create
+[Lua Send Protocol] 812483
+enter CQueryImpExamState create
+[Lua Send Protocol] 795469
+[Lua Send Protocol] 810532
+[Lua Send Protocol] 808476
+dispatch enter
+protocolrun enter type 812461
+enter SRefreshChargeState create
+enter CRequestVipInfo create
+[Lua Send Protocol] 812487
+dispatch enter
+protocolrun enter type 790437
+enter SAddUserScreen create
+dispatch enter
+protocolrun enter type 786504
+enter SSendLoginIp create
+dispatch enter
+protocolrun enter type 790437
+enter SAddUserScreen create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 805457
+enter SReqMissionCanAccept create
+dispatch enter
+protocolrun enter type 807432
+enter SRefreshSpecialQuest create
+dispatch enter
+protocolrun enter type 807454
+enter SRefreshAnYeData create
+dispatch enter
+protocolrun enter type 786461
+enter SShowedBeginnerTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 786521
+enter SServerLevel create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 792437
+enter STransChatMessageNotify2Client create
+dispatch enter
+protocolrun enter type 817982
+enter SOnTitle1 create
+dispatch enter
+protocolrun enter type 808517
+enter SClanRedTip create
+dispatch enter
+protocolrun enter type 807432
+enter SRefreshSpecialQuest create
+dispatch enter
+protocolrun enter type 807433
+enter SRefreshSpecialQuestState create
+dispatch enter
+protocolrun enter type 805457
+enter SReqMissionCanAccept create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 819144
+enter SBlackRoles create
+enter get BanListManager instance
+enter get BanListManager instance
+dispatch enter
+protocolrun enter type 787507
+enter SGetTimeAward create
+dispatch enter
+protocolrun enter type 787731
+enter SMulDayLogin create
+dispatch enter
+protocolrun enter type 786531
+enter SAddPointAttrData create
+dispatch enter
+protocolrun enter type 799436
+enter SRefreshRoleScore create
+dispatch enter
+protocolrun enter type 799436
+enter SRefreshRoleScore create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 794475
+enter SSetMyFormation create
+dispatch enter
+protocolrun enter type 818839
+enter SChangeZhenrong create
+dispatch enter
+protocolrun enter type 805457
+enter SReqMissionCanAccept create
+dispatch enter
+protocolrun enter type 795458
+enter SAttendImpExam create
+dispatch enter
+protocolrun enter type 805486
+enter SActivityOpen create
+dispatch enter
+protocolrun enter type 805486
+enter SActivityOpen create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 806433
+enter SFriendsInfoInit create
+dispatch enter
+protocolrun enter type 818836
+enter SZhenrongInfo create
+dispatch enter
+protocolrun enter type 818833
+enter SHuobanList create
+dispatch enter
+protocolrun enter type 800447
+enter SSendInborns create
+dispatch enter
+protocolrun enter type 800489
+enter SUpdateExtSkill create
+dispatch enter
+protocolrun enter type 799437
+enter SRefreshRoleCurrency create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 800443
+enter SSendSpecialSkills create
+dispatch enter
+protocolrun enter type 812646
+enter STradingOpenState create
+dispatch enter
+protocolrun enter type 792437
+enter STransChatMessageNotify2Client create
+dispatch enter
+protocolrun enter type 810339
+enter SRefreshRoleHookBattleData create
+enter srefreshrolehookbattledata process
+dispatch enter
+protocolrun enter type 792437
+enter STransChatMessageNotify2Client create
+dispatch enter
+protocolrun enter type 792447
+enter SExpMessageTips create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 786445
+enter SRefreshUserExp create
+currexp=>1852497
+dispatch enter
+protocolrun enter type 806555
+enter SSendSystemMessageToRole create
+dispatch enter
+protocolrun enter type 810340
+enter SRefreshRoleHookExpData create
+enter srefreshrolehookexpdata process
+dispatch enter
+protocolrun enter type 807453
+enter SQueryCircleTaskState create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+dispatch enter
+protocolrun enter type 812489
+enter SSendVipInfo create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 819197
+enter SQQExchangeCodeStatus create
+dispatch enter
+protocolrun enter type 808519
+enter SRefreshRoleClan create
+dispatch enter
+protocolrun enter type 786559
+enter SGetBindTel create
+dispatch enter
+protocolrun enter type 805485
+enter SRefreshActivityListFinishTimes create
+[Lua Send Protocol] 805536
+[Lua Send Protocol] 805536
+dispatch enter
+protocolrun enter type 810638
+enter SQueryLimit create
+dispatch enter
+protocolrun enter type 812484
+enter SReqChargeRefundsInfo create
+MainControl:UpdateFoldState
+dispatch enter
+protocolrun enter type 810638
+enter SQueryLimit create
+dispatch enter
+protocolrun enter type 805541
+enter SGetArchiveInfo create
+dispatch enter
+protocolrun enter type 795470
+enter SQueryImpExamState create
+dispatch enter
+protocolrun enter type 810533
+enter SQueryRegData create
+dispatch enter
+protocolrun enter type 786527
+enter SGetSysConfig create
+dispatch enter
+protocolrun enter type 812489
+enter SSendVipInfo create
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState564
+dispatch enter
+protocolrun enter type 812484
+enter SReqChargeRefundsInfo create
+dispatch enter
+protocolrun enter type 805537
+enter SGetActivityInfo create
+dispatch enter
+protocolrun enter type 805537
+enter SGetActivityInfo create
+ add a dialog
+ add a dialog
+[WARNNING] table CMessageTip can't find ID:160061111
+ add a dialog
+remove dialog
+remove dialog
+remove dialog
+ add a dialog
+ add a dialog
+tree item selected
+[Lua Send Protocol] 810635
+dispatch enter
+protocolrun enter type 810636
+enter SResponseShopPrice create
+ add a dialog
+[Lua Send Protocol] 810660
+[Lua Send Protocol] 810660
+remove dialog
+remove dialog
+ add a dialog
+ add a dialog
+tree item selected
+[Lua Send Protocol] 810635
+remove dialog
+dispatch enter
+protocolrun enter type 810636
+enter SResponseShopPrice create
+ add a dialog
+[Lua Send Protocol] 810660
+[Lua Send Protocol] 810660
+remove dialog
+remove dialog
+ add a dialog
+ add a dialog
+remove dialog
+enter instance show
+ add a dialog
+enter CRequestPost create
+[Lua Send Protocol] 800300
+enter CReqCharge create
+[Lua Send Protocol] 812454
+dispatch enter
+protocolrun enter type 812455
+enter SReqCharge create
+enter sreqcharge process 
+dispatch enter
+protocolrun enter type 800301
+enter SResponsePost create
+ add a dialog
+[Lua Send Protocol] 810660
+[Lua Send Protocol] 810660
+remove dialog
+remove dialog
+remove dialog
+ add a dialog
+ add a dialog
+tree item selected
+[Lua Send Protocol] 810635
+remove dialog
+dispatch enter
+protocolrun enter type 810636
+enter SResponseShopPrice create
+ add a dialog
+[Lua Send Protocol] 810660
+[Lua Send Protocol] 810660
+remove dialog
+remove dialog
+ add a dialog
+ add a dialog
+remove dialog
+enter instance show
+ add a dialog
+enter CRequestPost create
+[Lua Send Protocol] 800300
+enter CReqCharge create
+[Lua Send Protocol] 812454
+dispatch enter
+protocolrun enter type 812455
+enter SReqCharge create
+enter sreqcharge process 
+dispatch enter
+protocolrun enter type 800301
+enter SResponsePost create
+remove dialog
+remove dialog
+remove dialog
+MainControl:HandleSwitchFoldBtnClick-----------------Click
+fold state 
+MainControl:PlaySwitchFoldBtnOpenClose playState == 2
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+MainControl:UpdateFoldState
+ add a dialog
+ add a dialog
+[Lua Send Protocol] 787655
+enter CListPack create
+[Lua Send Protocol] 787444
+dispatch enter
+protocolrun enter type 787443
+enter SGetPackInfo create
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+GameItemTable.HandleShowToolTips
+ add a dialog
+409.03125
+ add a dialog
+337.20314025879
+enter CPutOnEquip create
+[Lua Send Protocol] 787445
+remove dialog
+remove dialog
+dispatch enter
+protocolrun enter type 787435
+enter SDelItem create
+dispatch enter
+protocolrun enter type 787435
+enter SDelItem create
+dispatch enter
+protocolrun enter type 787436
+enter SAddItem create
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+dispatch enter
+protocolrun enter type 787436
+enter SAddItem create
+enter CGetItemTips create
+[Lua Send Protocol] 787453
+dispatch enter
+protocolrun enter type 787435
+enter SDelItem create
+dispatch enter
+protocolrun enter type 787450
+enter SRefreshCurrency create
+dispatch enter
+protocolrun enter type 792437
+enter STransChatMessageNotify2Client create
+dispatch enter
+protocolrun enter type 792437
+enter STransChatMessageNotify2Client create
+dispatch enter
+protocolrun enter type 787505
+enter SAllEquipScore create
+dispatch enter
+protocolrun enter type 800443
+enter SSendSpecialSkills create
+dispatch enter
+protocolrun enter type 799432
+enter SRefreshRoleData create
+dispatch enter
+protocolrun enter type 807454
+enter SRefreshAnYeData create
+dispatch enter
+protocolrun enter type 790476
+enter SRoleComponentsChange create
+dispatch enter
+protocolrun enter type 790476
+enter SRoleComponentsChange create
+dispatch enter
+protocolrun enter type 807454
+enter SRefreshAnYeData create
+dispatch enter
+protocolrun enter type 799436
+enter SRefreshRoleScore create
+dispatch enter
+protocolrun enter type 807454
+enter SRefreshAnYeData create
+dispatch enter
+protocolrun enter type 807454
+enter SRefreshAnYeData create
+dispatch enter
+protocolrun enter type 787454
+enter SGetItemTips create
+GameItemTable.HandleShowToolTips
+ add a dialog
+326.85939025879
+enter CListPack create
+[Lua Send Protocol] 787444
+remove dialog
+dispatch enter
+protocolrun enter type 787443
+enter SGetPackInfo create
+remove dialog
+remove dialog
+dispatch enter
+protocolrun enter type 790441
+enter SRoleEnterScene create
+dispatch enter
+protocolrun enter type 790438
+enter SRemoveUserScreen create
+dispatch enter
+protocolrun enter type 790437
+enter SAddUserScreen create
+dispatch enter
+protocolrun enter type 790463
+enter SAddActivityNpc create
+dispatch enter
+protocolrun enter type 790438
+enter SRemoveUserScreen create
+dispatch enter
+protocolrun enter type 790437
+enter SAddUserScreen create
+dispatch enter
+protocolrun enter type 795434
+enter SVisitNpc create
+ add a dialog
+select npcPetShop goods, goodsid:
+enter CBuyNpcShop create
+ add a dialog
+remove dialog
+ add a dialog
+enter instance show
+ add a dialog
+enter CRequestPost create
+[Lua Send Protocol] 800300
+enter CReqCharge create
+[Lua Send Protocol] 812454
+dispatch enter
+protocolrun enter type 812455
+enter SReqCharge create
+enter sreqcharge process 
+dispatch enter
+protocolrun enter type 800301
+enter SResponsePost create
+ add a dialog
+ add a dialog
+[Lua Send Protocol] 810660
+[Lua Send Protocol] 810660
+remove dialog
+remove dialog
+remove dialog
+ add a dialog
+ add a dialog
+tree item selected
+[Lua Send Protocol] 810635
+remove dialog
+dispatch enter
+protocolrun enter type 810636
+enter SResponseShopPrice create
+ add a dialog
+[Lua Send Protocol] 810660
+[Lua Send Protocol] 810660
+remove dialog
+remove dialog
+ add a dialog
+ add a dialog
+remove dialog
+remove dialog
+dispatch enter
+protocolrun enter type 795434
+enter SVisitNpc create
+ add a dialog
+select npcPetShop goods, goodsid:
+enter CBuyNpcShop create
+ add a dialog
+remove dialog
+remove dialog
+[Lua Send Protocol] 807452
+ add a dialog
+[Lua Send Protocol] 804557
+[Lua Send Protocol] 805484
+dispatch enter
+protocolrun enter type 807453
+enter SQueryCircleTaskState create
+dispatch enter
+protocolrun enter type 804562
+enter SCanEnterBingFeng create
+dispatch enter
+protocolrun enter type 805485
+enter SRefreshActivityListFinishTimes create
+[Lua Send Protocol] 805536
+[Lua Send Protocol] 805536
+dispatch enter
+protocolrun enter type 805537
+enter SGetActivityInfo create
+dispatch enter
+protocolrun enter type 805537
+enter SGetActivityInfo create
+dispatch enter
+protocolrun enter type 786439
+enter SGameTime create
+remove dialog
+remove dialog
+remove dialog
+remove dialog
+remove dialog
+remove dialog
+remove dialog
+remove dialog
+remove dialog
+remove dialog
+FamilyFightManager:ResetData() =========finsh fight============100
+enter CSetMaxScreenShowNum create
