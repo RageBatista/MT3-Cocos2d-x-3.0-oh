@@ -1,0 +1,20 @@
+./obj/local/arm64-v8a/objs/silly_static/src/SILLYDataSource.o: \
+  jni/../../../../dependencies//SILLY-0.1.0/src/SILLYDataSource.cpp \
+  jni/../../../../dependencies//SILLY-0.1.0/include\SILLYDataSource.h \
+  jni/../../../../dependencies//SILLY-0.1.0/include/SILLYBase.h \
+  D:/Android/android-sdk-64/ndk/16.1.4479499/build//../sources/cxx-stl/llvm-libc++/include\cassert \
+  D:/Android/android-sdk-64/ndk/16.1.4479499/build//../sources/cxx-stl/llvm-libc++/include\__config \
+  D:/Android/android-sdk-64/ndk/16.1.4479499/build//../sources/cxx-stl/llvm-libc++/include\cstddef \
+  jni/../../../../dependencies//SILLY-0.1.0/include\SILLYDataSource.icpp
+
+jni/../../../../dependencies//SILLY-0.1.0/include\SILLYDataSource.h:
+
+jni/../../../../dependencies//SILLY-0.1.0/include/SILLYBase.h:
+
+D:/Android/android-sdk-64/ndk/16.1.4479499/build//../sources/cxx-stl/llvm-libc++/include\cassert:
+
+D:/Android/android-sdk-64/ndk/16.1.4479499/build//../sources/cxx-stl/llvm-libc++/include\__config:
+
+D:/Android/android-sdk-64/ndk/16.1.4479499/build//../sources/cxx-stl/llvm-libc++/include\cstddef:
+
+jni/../../../../dependencies//SILLY-0.1.0/include\SILLYDataSource.icpp:

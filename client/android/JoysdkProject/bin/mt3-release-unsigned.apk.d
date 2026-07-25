@@ -1,0 +1,20 @@
+e:\MT3\client\android\JoysdkProject\bin\mt3-release-unsigned.apk : \
+e:\MT3\client\android\JoysdkProject\bin\mt3.ap_ \
+e:\MT3\client\android\JoysdkProject\bin\classes.dex \
+e:\MT3\client\android\JoysdkProject\libs\android-async-http.jar \
+e:\MT3\client\android\JoysdkProject\libs\androidtools.jar \
+e:\MT3\client\android\JoysdkProject\libs\android-support-multidex.jar \
+e:\MT3\client\android\JoysdkProject\libs\volley.jar \
+e:\MT3\client\android\JoysdkProject\libs\android-support-v4.jar \
+e:\MT3\client\android\JoysdkProject\libs\okhttp-2.7.0.jar \
+e:\MT3\client\android\JoysdkProject\libs\BaiduLBS_Android.jar \
+e:\MT3\client\android\JoysdkProject\libs\okio-1.6.0.jar \
+e:\MT3\client\android\JoysdkProject\libs\commons-net-3.4.jar \
+e:\MT3\client\android\JoysdkProject\libs\httpcore-4.3.2.jar \
+e:\MT3\client\android\JoysdkProject\libs\ljsdk_sample.jar \
+e:\MT3\client\android\JoysdkProject\libs\du.jar \
+e:\MT3\client\android\JoysdkProject\libs\commons-io-2.4.jar \
+e:\MT3\client\android\JoysdkProject\libs\httpmime-4.3.3.jar \
+e:\MT3\client\android\JoysdkProject\libs\armeabi-v7a\libdu.so \
+e:\MT3\client\android\JoysdkProject\libs\armeabi-v7a\libgame.so \
+e:\MT3\client\android\JoysdkProject\libs\armeabi-v7a\liblocSDK6a.so \

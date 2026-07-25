@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+	<RelativeLayout
+	    android:id="@+id/layout_input"
+	    android:layout_width="550dp"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="49dp"
+	    android:layout_centerHorizontal="true" >
+	    
+    	<Button
+	        android:id="@+id/btn_confirm"
+	        android:layout_width="80dp"
+	        android:layout_height="49dp"
+	        android:layout_alignParentTop="true"
+	        android:layout_alignParentRight="true"
+	        android:text="确认" />
+	
+	    <Button
+	        android:id="@+id/btn_cancel"
+	        android:layout_width="80dp"
+	        android:layout_height="49dp"
+	        android:layout_alignParentTop="true"
+	        android:layout_toLeftOf="@+id/btn_confirm"
+	        android:layout_marginRight="5dp"
+	        android:text="取消" />
+	    
+	    <org.cocos2dx.lib.Cocos2dxEditText
+	        android:id="@+id/edittext_input"
+	        android:layout_width="380dp"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginRight="5dp"
+	        android:layout_toLeftOf="@+id/btn_cancel"
+	        android:imeOptions="flagNoExtractUi" />
+    	    	    
+	</RelativeLayout>  
+	  
+</RelativeLayout>

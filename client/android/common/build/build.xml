@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project
+    name="mt3"
+    default="release" >
+    
+    <!-- tools dir -->
+    <property
+        name="sdk-folder"
+        value="D:\android-sdk_r24.1.2-windows\android-sdk-windows" />
+    <property
+        name="platform-folder"
+        value="${sdk-folder}\platforms\android-22" />
+    <property
+        name="platform-tools-folder"
+        value="${sdk-folder}\build-tools\22.0.1" />
+    <property
+        name="jdk-folder"
+        value="C:\Program Files\Java\jdk1.8.0_144" />
+    <property
+        name="android-jar"
+        value="${platform-folder}\android.jar" />
+    <property
+        name="tools.aapt"
+        value="${platform-tools-folder}\aapt.exe" />
+    <property
+        name="tools.javac"
+        value="${jdk-folder}\bin\javac.exe" />
+    <property
+        name="tools.dx"
+        value="${platform-tools-folder}\dx.bat" />
+    <property
+        name="tools.apkbuilder"
+        value="${sdk-folder}\tools\apkbuilder.bat" />
+    <property
+        name="tools.jarsigner"
+        value="${jdk-folder}\bin\jarsigner.exe" />
+
+    <!-- project dir -->
+    <property
+        name="local-dir"
+        value="." />
+    <property
+        name="project-dir"
+        value="${local-dir}\.." />
+    <property
+        name="res"
+        value="${project-dir}\res" />
+    <property
+        name="gen"
+        value="${project-dir}\gen" />
+    <property
+        name="src"
+        value="${project-dir}\src" />
+    <property
+        name="bin"
+        value="${local-dir}\bin" />
+    <property
+        name="assets"
+        value="${project-dir}\assets" />
+    <property
+        name="libs"
+        value="${project-dir}\libs" />
+    <property
+        name="dexedLibs"
+        value="${bin}\dexedLibs" />
+    <property
+        name="compiledClasses"
+        value="${bin}\classes" />
+    
+	<!-- file lists -->
+    <property
+        name="manifest"
+        value="${project-dir}\AndroidManifest.xml" />
+    <property
+        name="dex-name"
+        value="${bin}\classes.dex" />
+    <property
+        name="pakcage-temp-name"
+        value="${local-dir}\${ant.project.name}" />
+    <property
+        name="unsigned-apk-name"
+        value="${ant.project.name}_unsigned.apk" />
+    <property
+        name="unsigned-apk-path"
+        value="${local-dir}\${unsigned-apk-name}" />
+    <property
+        name="signed-apk-name"
+        value="${ant.project.name}.apk" />
+    <property
+        name="signed-apk-path"
+        value="${local-dir}\${signed-apk-name}" />
+    <property
+        name="keystore-name"
+        value="${local-dir}\mt3.keystore" />
+    <property
+        name="keystore-alias"
+        value="mt3" />
+    <property
+        name="main-dex-rule"
+        value="${local-dir}\main-dex-rule.txt" />
+    
+    <!-- about library dir -->
+    <property
+        name="ShareSDK_project"
+        value="${project-dir}\..\..\3rdplatform\ShareSDK" />
+	<property
+        name="ShareSDK_packages"
+        value="cn.sharesdk.socialization.sample" />
+    <property
+        name="MeiqiaSdk_project"
+        value="${project-dir}\..\..\3rdplatform\MeiqiaSdk" />
+    <property
+        name="MeiqiaSdk_packages"
+        value="com.meiqia.meiqiasdk" />
+    
+    <taskdef resource="net/sf/antcontrib/antlib.xml" />
+    
+    
+    <!-- task -->
+    <target name="init" >
+        <echo> Initialize... </echo>
+        <delete dir="${bin}" />
+        <delete dir="${gen}" />
+        <mkdir dir="${bin}" />
+        <mkdir dir="${compiledClasses}" />
+        <mkdir dir="${dexedLibs}" />
+        <mkdir dir="${gen}" />
+    </target>
+    
+    <target name="copy_libs"
+        	depends="init">
+        <echo> message="copy libs..." </echo>
+        <copy todir="${dexedLibs}">
+			<fileset dir="${ShareSDK_project}/libs" >
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+        <copy todir="${dexedLibs}">
+			<fileset dir="${MeiqiaSdk_project}/libs" >
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+        <copy todir="${dexedLibs}">
+			<fileset dir="${libs}" >
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+    </target>
+
+    <target
+        name="gen-R"
+        depends="copy_libs" >
+        <echo> Generating R.java from the resources... </echo>
+        <exec
+            executable="${tools.aapt}"
+            failonerror="true" >
+            <arg value="package" />
+            <arg value="-f" />
+            <arg value="-m" />
+            <arg value="--auto-add-overlay" />
+            <arg value="-J" />
+            <arg value="${gen}" />
+            <arg value="-M" />
+            <arg value="${manifest}" />
+            <arg value="-S" />
+            <arg value="${res}" />
+            <arg value="-S" />
+            <arg value="${ShareSDK_project}/res" />
+            <arg value="-S" />
+            <arg value="${MeiqiaSdk_project}/res" />
+            <arg value="--extra-packages" />
+            <arg value="${ShareSDK_packages}:${MeiqiaSdk_packages}" />
+            <arg value="-A" />
+            <arg value="${assets}" />
+            <arg value="-I" />
+            <arg value="${android-jar}" />
+        </exec>
+        
+    </target>
+
+    <target
+        name="compile"
+        depends="gen-R" >
+        <echo> Compile... </echo>
+        <javac
+            bootclasspath="${android-jar}"
+            compiler="javac1.7"
+            target="1.7"
+            source="1.7"
+            destdir="${bin}/classes"
+            encoding="utf-8"
+            includeAntRuntime="true"
+            listfiles="true">
+            <src path="${project-dir}/src"/> 
+            <src path="${project-dir}/gen"/> 
+            <src path="${ShareSDK_project}/src"/> 
+            <src path="${MeiqiaSdk_project}/src"/> 
+            <classpath>
+                 <fileset dir="${dexedLibs}" includes="*.jar" />
+            </classpath>
+        </javac>
+        
+    </target>
+    
+    <target 
+        name="dex"
+        depends="compile">
+        <echo> Generate multi-dex... </echo>
+        <exec
+            executable="${tools.dx}"
+            failonerror="true">
+            <arg value="--dex" />
+            <arg value="--multi-dex" />
+            <arg value="--set-max-idx-number=48000" />
+            <arg value="--main-dex-list" />
+            <arg value="${main-dex-rule}" />
+            <arg value="--minimal-main-dex" />
+            <arg value="--output=${bin}" />
+            <arg value="--no-strict" />
+            <arg value="${bin}" />	
+        </exec>
+    </target>
+
+    <target
+        name="package"
+        depends="dex" >
+        <echo> Package resource and assets... </echo>
+        <exec
+            executable="${tools.aapt}"
+            failonerror="true" >
+            <arg value="package" />
+            <arg value="-f" />
+            <arg value="-M" />
+            <arg value="${manifest}" />
+            <arg value="-A" />
+            <arg value="${assets}" />
+            <arg value="-S" />
+            <arg value="${res}" />
+            <arg value="-S" />
+            <arg value="${ShareSDK_project}/res" />
+            <arg value="-S" />
+            <arg value="${MeiqiaSdk_project}/res" />
+            <arg value="-I" />
+            <arg value="${android-jar}" />
+            <arg value="-F" />
+            <arg value="${pakcage-temp-name}" />
+            <arg value="--auto-add-overlay" />
+        </exec>
+    </target>
+
+    <target
+        name="build-unsigned-apk"
+        depends="package" >
+        <echo> Build unsigned apk </echo>
+        <!--
+        <exec
+            executable="${tools.apkbuilder}"
+            failonerror="true" >
+            <arg value="${unsigned-apk-path}" />
+            <arg value="-v" />
+            <arg value="-u" />
+            <arg value="-z" />
+            <arg value="${pakcage-temp-name}" />
+            <arg value="-f" />
+            <arg value="${dex-name}" />
+            <arg value="-rf" />
+            <arg value="${src}" />
+        </exec>
+        -->
+        
+        <java classpath="${sdk-folder}/tools/lib/sdklib.jar" classname="com.android.sdklib.build.ApkBuilderMain">  
+            <arg value="${unsigned-apk-path}" />  
+            <arg value="-u" />  
+            <arg value="-z" />  
+            <arg value="${pakcage-temp-name}" />  
+            <arg value="-f" />  
+            <arg value="${dex-name}" />  
+            <arg value="-rf" />    
+            <arg value="${src}" />   
+            <arg value="-nf"/>  
+            <arg value="${libs}"/>   
+        </java> 
+        
+    </target>
+    
+    <target name="copy_dex"
+        	depends="build-unsigned-apk">
+        <echo> message="copy dex..." </echo>
+        <copy todir="${local-dir}">
+			<fileset dir="${bin}" >
+				<include name="classes*.dex" />
+			</fileset>
+		</copy>
+    </target>
+    
+	<target name="aapt-add-dex"> 
+	    <echo> message="${dir.name}" </echo>
+	    <propertyregex 
+	        property="dexfile"  
+            input="${dir.name}"  
+            regexp="classes(.*).dex" 
+            select="\0"  
+            casesensitive="false" />  
+        <if>  
+	        <equals arg1="${dexfile}" arg2="classes.dex"/>  
+	        <then>  
+	           <echo> ${dir.name} is not handle </echo>  
+	        </then>  
+		        <else>  
+		            <echo> ${dir.name} is handle </echo>
+		             <exec
+			            executable="${tools.aapt}"
+			            failonerror="true" >
+			            <arg value="add" />
+			            <arg value="${unsigned-apk-path}" />
+			            <arg value="${dexfile}" />
+        			 </exec>
+		        </else>  
+    	</if> 
+    	<delete file="${local-dir}\${dexfile}" /> 
+	</target>  
+	<target name="add-subdex-toapk" depends="copy_dex">
+	    <echo message="Add Subdex to Apk ..." />
+	    <foreach target="aapt-add-dex" param="dir.name"> 
+		   <path> 
+		      <fileset dir="${local-dir}" includes="classes*.dex"/> 
+		   </path> 
+		</foreach> 
+	</target> 
+    
+    <target
+        name="sign-apk"
+        depends="add-subdex-toapk" >
+        <echo> Sign apk </echo>
+        <exec
+            executable="${tools.jarsigner}"
+            failonerror="true" >
+            <arg value="-keystore" />
+            <arg value="${keystore-name}" />
+            <arg value="-storepass" />
+            <arg value="locojoy123456" />
+            <arg value="-keypass" />
+            <arg value="locojoy123456" />
+            <arg value="-signedjar" />
+            <arg value="${signed-apk-path}" />
+            <arg value="${unsigned-apk-path}" />
+            <arg value="${keystore-alias}" />
+        </exec>
+    </target>
+
+    <target
+        name="release"
+        depends="sign-apk" >
+        <delete file="${pakcage-temp-name}" />
+        <delete file="${unsigned-apk-path}" />
+        <copy todir="${bin}">
+			<fileset dir="${local-dir}" >
+				<include name="${signed-apk-name}" />
+			</fileset>
+		</copy>
+		<delete file="${signed-apk-path}" />
+        <echo> APK is released. path: ${bin}\${signed-apk-name} </echo>
+    </target>
+
+</project>
