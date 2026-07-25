@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/StaticImage" Name="npcjinbiqueren_mtg">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Image" Value="set:LoginBack2 image:CommonBack"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="ExchangeGold"/>
+		<Property Name="AlwaysOnTop" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,50},{1,50}}"/>
+		<Property Name="AllowModalStateClick" Value="True"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/FrameWindow5" Name="npcjinbiqueren_mtg/framewindow">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="ModalState" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="frameWindow"/>
+			<Property Name="RollUpEnabled" Value="True"/>
+			<Property Name="SizingEnabled" Value="False"/>
+			<Property Name="TitlebarEnabled" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.5,-264},{0.5,-154},{0.5,264},{0.5,154}}"/>
+			<Property Name="DragMovingEnabled" Value="False"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+			<Window Type="TaharezLook/StaticText" Name="npcjinbiqueren_mtg/textyinbi">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="金币不足，还差"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="182.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF6A482D tr:FF6A482D bl:FF6A482D br:FF6A482D"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,32.0242},{0,40.096},{0,224.024},{0,70.096}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="npcjinbiqueren_mtg/textduihuan">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="使用仙玉兑换"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="156.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF6A482D tr:FF6A482D bl:FF6A482D br:FF6A482D"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,183},{0,108},{0,357},{0,138}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/dangebutton" Name="npcjinbiqueren_mtg/btnfushi">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="0"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="useStoneBtn"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,166},{0,153},{0,362},{0,206}}"/>
+				<Property Name="LuaEventOnClicked" Value="handleUseStoneClicked"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="npcjinbiqueren_mtg/btnfushi/image1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:fushi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,11},{0,5},{0,52},{0,46}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="npcjinbiqueren_mtg/textewai">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="额外兑换的金币会自动返还"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="312.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF6A482D tr:FF6A482D bl:FF6A482D br:FF6A482D"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,128},{0,235.214},{0,443},{0,265.214}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="npcjinbiqueren_mtg/imagetu">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:renwuui image:tanhao"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,84},{0,233},{0,118},{0,267}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="npcjinbiqueren_mtg/framewindow/biaoti">
+				<Property Name="Font" Value="hycyj-20"/>
+				<Property Name="Text" Value="消费确认"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="HorzExtent" Value="132.0"/>
+				<Property Name="VertExtent" Value="32.9678"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,234},{0,11},{0,393},{0,51}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/common_textbg" Name="npcjinbiqueren_mtg/framewindow/di">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,240},{0,32},{0,459},{0,80}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Window Type="TaharezLook/StaticText" Name="npcjinbiqueren_mtg/textqian">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="0000000"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="91.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF6A482D tr:FF6A482D bl:FF6A482D br:FF6A482D"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="needNumText"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,13},{0,2},{0,224},{0,48}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+					<Window Type="TaharezLook/StaticImage" Name="npcjinbiqueren_mtg/textqian/image">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Image" Value="set:lifeskillui image:jinbi"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ClippedByParent" Value="False"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,-26},{0,-9},{0,36},{0,53}}"/>
+						<Property Name="AllowModalStateClick" Value="True"/>
+					</Window>
+				</Window>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

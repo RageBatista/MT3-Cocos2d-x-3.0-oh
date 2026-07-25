@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow3" Name="shoujijiechu">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Text" Value="手机关联"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="ShouJiJieChu"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-330},{0.5,-274},{0.5,332},{0.5,274}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="AllowModalStateClick" Value="True"/>
+		<Property Name="AllowShowWithModalState" Value="True"/>
+		<Window Type="TaharezLook/Button" Name="shoujijiechu/btn">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="解除关联"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_btn"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,217},{0,317},{0,448},{0,380}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/common_shurukuang" Name="shoujijiechu/shurukuang">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,154},{0,190},{0,511},{0,230}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+			<Window Type="TaharezLook/RichEditbox" Name="shoujijiechu/shurukuang/dangqian">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="ReadOnly" Value="True"/>
+				<Property Name="LineSpace" Value="1.0"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="ModalState" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="m_text"/>
+				<Property Name="MaxTextLength" Value="2147483647"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,10},{0,-1},{0,350},{0,39}}"/>
+				<Property Name="BlinkCaretTimeout" Value="0.5"/>
+				<Property Name="VerticalAlignment" Value="Centre"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="AllowShowWithModalState" Value="True"/>
+				<Property Name="MousePassThroughEnabled" Value="True"/>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow3" Name="renwuwupinshangjiaocw_mtg" >
+        <Property Name="Font" Value="hycyj-20" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,69},{0.5,-258},{0.5,475},{0.5,257}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="AllowModalStateClick" Value="True" />
+        <Window Type="TaharezLook/common_f3biaoshi" Name="renwuwupinshangjiaocw_mtg/bg/f3biaoshi" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,251.2},{0,1.2},{0,530.45},{0,55.45}}" />
+            <Property Name="HorizontalAlignment" Value="Centre" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/bg/f3biaoshi/wzdc" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Text" Value="宠物选择" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="104" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,49.3},{0,3.3},{0,228.55},{0,51.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="renwuwupinshangjiaocw_mtg/textbg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,17},{0,75},{0,388},{0,427}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/ScrollablePane" Name="renwuwupinshangjiaocw_mtg/textbg/list" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,3},{0,8},{0,366},{0,343}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/buttoncchsay" Name="renwuwupinshangjiaocw_mtg/btnshangjiao" >
+            <Property Name="Font" Value="simhei-13" />
+            <Property Name="Text" Value="上 交" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,106.4},{0,443.4},{0,298.65},{0,496.65}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Property Name="ButtonDefaultColourEnable" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/common_goodstips" Name="renwuwupinshangjiaocw_mtg/textbg1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-370},{0,74},{0,-1},{0,313}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/ItemCell" Name="renwuwupinshangjiaocw_mtg/textbg1/item" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,16},{0,11},{0,92},{0,85}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/name" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="名字最多七个字" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="154" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,101},{0,13},{0,264},{0,46}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/jishu" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="名字" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,101},{0,47},{0,264},{0,80}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/gongji" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="攻击资质：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,17},{0,93},{0,129},{0,126}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/fangyu" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="防御资质：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,185},{0,93},{0,297},{0,126}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/tili" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="体力资质：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,17},{0,135},{0,129},{0,168}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/fali" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="法力资质：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,185},{0,135},{0,297},{0,168}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/sudu" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="速度资质：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,17},{0,178},{0,129},{0,211}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/shouming" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="宠物寿命：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,17},{0,247},{0,129},{0,280}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/chengzhang" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="宠物成长：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,185},{0,178},{0,297},{0,211}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/jineng" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="技能数量：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,17},{0,307},{0,129},{0,340}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1111" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="24.5" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,119},{0,92},{0,243},{0,125}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="444" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="22" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,287},{0,92},{0,411},{0,125}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/3" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1111111" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="41" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,119},{0,134},{0,243},{0,167}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/4" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="444" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="22" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,287},{0,134},{0,411},{0,167}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/5" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="555" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="22" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,119},{0,179},{0,243},{0,212}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/6" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="666" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="HorzExtent" Value="21" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,132},{0,247},{0,256},{0,280}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/7" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="777" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="22" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,287},{0,177},{0,411},{0,210}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="renwuwupinshangjiaocw_mtg/textbg1/8" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="888" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="HorzExtent" Value="22" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,132},{0,307},{0,256},{0,340}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_hengxian" Name="renwuwupinshangjiaocw_mtg/textbg1/cc1112" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,98.5},{0,81.5},{0,354.75},{0,82.75}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

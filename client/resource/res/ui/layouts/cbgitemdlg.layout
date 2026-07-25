@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Image" Value="set:cbg image:bg" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="CBGItemDlg" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.2,-261},{0.2,-130},{0.45,675},{0.45,403}}" />
+        <Property Name="AllowModalStateClick" Value="True" />
+        <Property Name="AllowShowWithModalState" Value="True" />
+        <Window Type="TaharezLook/ImageButton" Name="cbgitemdlg/close" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="HoverImage" Value="set:cbg image:close" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:cbg image:close" />
+            <Property Name="PushedImage" Value="set:cbg image:close" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="closeBtn" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,949.624},{0,22.0536},{0,1028.87},{0,98.3036}}" />
+            <Property Name="LuaEventOnClicked" Value="HandleCloseButtonClick" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/CBG_TOPDI" Name="cbgitemdlg/topdi" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,494.098},{0,87},{0,691.348},{0,116.25}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/topdi/wenzi" >
+                <Property Name="Font" Value="mhsy-10-normal" />
+                <Property Name="Text" Value="物品交易" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="72" />
+                <Property Name="VertExtent" Value="18.3282" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFFEEE tr:FFFFFEEE bl:FFFFFEEE br:FFFFFEEE" />
+                <Property Name="BorderColour" Value="FFB06118" />
+                <Property Name="BorderEnable" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,10.3},{0,2.3},{0,186.55},{0,25.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/buy" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,224.098},{0,155},{0,960.348},{0,557.25}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/common_text2bg" Name="cbgitemdlg/list" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-19.902},{0.05,32},{0.05,694.348},{0.05,333.25}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/list/scorllableitem" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="LuaMemberName" Value="buyscorllable" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,6.3},{0,3.3},{0,708.55},{0,295.55}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                    </AutoWindow>
+                </Window>
+                <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/list/scorllableequip" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="LuaMemberName" Value="buyscorllable" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-29.7},{0.05,-9.7},{0.05,672.55},{0.05,282.55}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                    </AutoWindow>
+                </Window>
+                <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/list/scorllablepet" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="LuaMemberName" Value="buyscorllable" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.15,-99.7},{0.15,-38.7},{0.15,602.55},{0.15,253.55}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                    </AutoWindow>
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/buy/total" >
+                <Property Name="Font" Value="simhei-10" />
+                <Property Name="Text" Value="总计：0 条记录" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="117" />
+                <Property Name="VertExtent" Value="18.3282" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFA77B58 tr:FFA77B58 bl:FFA77B58 br:FFA77B58" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,17.2},{0,350.2},{0,735.45},{0,396.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/buy/buyinfo/have" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="拥有:" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="38" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF6E330B tr:FF6E330B bl:FF6E330B br:FF6E330B" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,127.3},{0.05,9.3},{0.05,178.55},{0.05,34.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/buy/buyinfo/haveinfo" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,174.3},{0.05,3.3},{0.05,302.55},{0.05,35.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Window Type="TaharezLook/common_wenzidibai" Name="cbgitemdlg/top/unit1/di3" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,4.3},{0.05,4.3},{0.05,115.55},{0.05,32.55}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                        <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/top/unit1/di/text3" >
+                            <Property Name="Font" Value="mhsy-9-normal" />
+                            <Property Name="Text" Value="0" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="HorzExtent" Value="8.5" />
+                            <Property Name="VertExtent" Value="16.5" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="TextColours" Value="tl:FFB06118 tr:FFB06118 bl:FFB06118 br:FFB06118" />
+                            <Property Name="BorderColour" Value="FF003454" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="LuaMemberName" Value="haveDJQ" />
+                            <Property Name="HorzFormatting" Value="HorzCentred" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,20.3},{0,2.3},{0,110.55},{0,27.55}}" />
+                            <Property Name="AllowModalStateClick" Value="True" />
+                        </Window>
+                    </Window>
+                    <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/buy/buyinfo/haveinfo/img" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Image" Value="set:cbg image:djq" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,2.3},{0,1.3},{0,33.55},{0,33.55}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/buy/buyinfo/have1" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="消耗:" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="38" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF6E330B tr:FF6E330B bl:FF6E330B br:FF6E330B" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.1,263.3},{0.1,6.3},{0.1,316.55},{0.1,31.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/buy/buyinfo/haveinfo1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.1,311.3},{0.1,6.3},{0.1,444.55},{0.1,38.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Window Type="TaharezLook/common_wenzidibai" Name="cbgitemdlg/top/unit1/di31" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,4.3},{0.05,-1.7},{0.05,121.55},{0.05,26.55}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                        <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/top/unit1/di/text31" >
+                            <Property Name="Font" Value="mhsy-9-normal" />
+                            <Property Name="Text" Value="0" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="HorzExtent" Value="8.5" />
+                            <Property Name="VertExtent" Value="16.5" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="TextColours" Value="tl:FFB06118 tr:FFB06118 bl:FFB06118 br:FFB06118" />
+                            <Property Name="BorderColour" Value="FF003454" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="LuaMemberName" Value="needDJQ" />
+                            <Property Name="HorzFormatting" Value="HorzCentred" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,20.3},{0,1.3},{0,116.55},{0,26.55}}" />
+                            <Property Name="AllowModalStateClick" Value="True" />
+                        </Window>
+                    </Window>
+                    <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/buy/buyinfo/haveinfo/img1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Image" Value="set:cbg image:djq" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,2.3},{0,-4.7},{0,33.55},{0,27.55}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/Button" Name="cbgitemdlg/buy/buyinfo/buybutton" >
+                    <Property Name="Font" Value="simhei-10" />
+                    <Property Name="Text" Value="购    买" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="BuyItemButton" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,493.2},{0.05,7.2},{0.05,595.45},{0.05,41.45}}" />
+                    <Property Name="LuaEventOnClicked" Value="BuyItemButtonClick" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_diban" Name="cbgitemdlg/list/scorllable/tips" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,259.5},{0.05,162.5},{0.05,416.75},{0.05,198.75}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/list/scorllable/tips/text" >
+                    <Property Name="Font" Value="mhsy-9-normal" />
+                    <Property Name="Text" Value="加载中..." />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="76.5" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,8.3},{0,3.3},{0,155.55},{0,30.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/GroupButtonpaihang" Name="cbgitemdlg/buy/item" >
+                <Property Name="Font" Value="mhsy-10-normal" />
+                <Property Name="Text" Value="物品" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Selected" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="ItemTab" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,205.5},{0,14.5},{0,313.75},{0,46.75}}" />
+                <Property Name="LuaEventOnClicked" Value="HandleSelectTab" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtonpaihang" Name="cbgitemdlg/buy/equip" >
+                <Property Name="Font" Value="mhsy-10-normal" />
+                <Property Name="Text" Value="装备" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="EquipTab" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,271.5},{0.05,-4.5},{0.05,379.75},{0.05,27.75}}" />
+                <Property Name="LuaEventOnClicked" Value="HandleSelectTab" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtonpaihang" Name="cbgitemdlg/buy/pet" >
+                <Property Name="Font" Value="mhsy-10-normal" />
+                <Property Name="Text" Value="宠物" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="PetTab" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,337.5},{0.1,-24.5},{0.1,445.75},{0.1,7.75}}" />
+                <Property Name="LuaEventOnClicked" Value="HandleSelectTab" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_hengxian" Name="cbgitemdlg/buy/hengxian" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,16.4},{0,47.4},{0,731.65},{0,50.65}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_wenzidibai" Name="cbgitemdlg/top/unit1/di312" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,463.3},{0.1,-24.7},{0.1,611.55},{0.1,3.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/Editbox" Name="cbgitemdlg/top/unit1/di/text312" >
+                    <Property Name="Font" Value="mhsy-9-normal" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="BlinkCaret" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="MaxTextLength" Value="2147483647" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,4.3},{0,3.3},{0,144.55},{0,25.55}}" />
+                    <Property Name="TextParsingEnabled" Value="False" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/Button" Name="cbgitemdlg/top/searchbtn" >
+                <Property Name="Font" Value="mhsy-8-normal" />
+                <Property Name="Text" Value="搜" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="SearchButton" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,649.4},{0.05,-7.6},{0.05,693.65},{0.05,25.65}}" />
+                <Property Name="LuaEventOnClicked" Value="OnSearchButtonClick" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/groupbtn" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,223.098},{0,117},{0,959.348},{0,159.25}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/GroupButton9" Name="cbgitemdlg/groupbtn/buybtn" >
+                <Property Name="Font" Value="simhei-9" />
+                <Property Name="Text" Value="我要购买" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Selected" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="BuyTab" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,9.29999},{0,3.3},{0,110.55},{0,38.55}}" />
+                <Property Name="LuaEventOnClicked" Value="OnTableSelected" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButton9" Name="cbgitemdlg/groupbtn/buybtn1" >
+                <Property Name="Font" Value="simhei-9" />
+                <Property Name="Text" Value="我要出售" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="SellTab" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,75.3},{0,3.3},{0.05,176.55},{0,38.55}}" />
+                <Property Name="LuaEventOnClicked" Value="OnTableSelected" />
+                <Property Name="ButtonBorderEnable" Value="False" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButton9" Name="cbgitemdlg/groupbtn/buybtn3" >
+                <Property Name="Font" Value="simhei-9" />
+                <Property Name="Text" Value="交易记录" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="RecordTab" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.15,520.3},{0,4.3},{0.15,621.55},{0,39.55}}" />
+                <Property Name="LuaEventOnClicked" Value="OnTableSelected" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/sell" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,228.098},{0,159},{0,961.348},{0,556.25}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/common_text2bg" Name="cbgitemdlg/sell/sellbg" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,4.3},{0,2.3},{0,518.55},{0,381.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/sell/sellbg/selllist" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="LuaMemberName" Value="ItemScorllable" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,9.3},{0,6.3},{0,509.55},{0,374.55}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                    </AutoWindow>
+                </Window>
+                <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/sell/sellbg/selllist1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="LuaMemberName" Value="PetScorllable" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-17.7},{0.05,-13.7},{0.05,482.55},{0.05,354.55}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                    </AutoWindow>
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/sell/sellinfo" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,523.3},{0,2.3},{0,742.55},{0,385.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/common_text2bg" Name="cbgitemdlg/sell/sellinfo/di" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-1.7},{0,1.3},{0,210.55},{0,380.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/sell/sellinfo/di/scrollable" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:200 b:320" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="HorzStepSize" Value="0.1" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="VertStepSize" Value="0.1" />
+                        <Property Name="HorzOverlapSize" Value="0.01" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,3.3},{0,4.3},{0,208.55},{0,332.55}}" />
+                        <Property Name="VertOverlapSize" Value="0.01" />
+                        <Property Name="HorzScrollPosition" Value="0" />
+                        <Property Name="VertScrollPosition" Value="0" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                        <AutoWindow NameSuffix="__auto_container__" >
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="ContentArea" Value="l:0 t:0 r:200 b:320" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="ChildExtentsArea" Value="l:0 t:0 r:200 b:320" />
+                            <Window Type="TaharezLook/ItemTable" Name="cbgitemdlg/sell/sellinfo/di/scrollable/itemtable" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="SpaceX" Value="5" />
+                                <Property Name="SpaceY" Value="5" />
+                                <Property Name="StartX" Value="5" />
+                                <Property Name="StartY" Value="2" />
+                                <Property Name="ColCount" Value="3" />
+                                <Property Name="CellWidth" Value="60" />
+                                <Property Name="CellHeight" Value="60" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="LuaMemberName" Value="ItemItemTable" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,4},{0,0},{0,200},{0,320}}" />
+                                <Property Name="AllowModalStateClick" Value="True" />
+                            </Window>
+                        </AutoWindow>
+                    </Window>
+                    <Window Type="TaharezLook/GroupButton" Name="cbgitemdlg/sell/sellinfo/di/itembutton" >
+                        <Property Name="Font" Value="mhsy-9-normal" />
+                        <Property Name="Text" Value="物品" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="Selected" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="LuaMemberName" Value="SwitchItemButton" />
+                        <Property Name="EnableClickAni" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,12.3},{0.05,319.3},{0,106.55},{0.05,350.55}}" />
+                        <Property Name="LuaEventOnClicked" Value="HandleSwitchClicked" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/GroupButton" Name="cbgitemdlg/sell/sellinfo/di/petbutton" >
+                        <Property Name="Font" Value="mhsy-9-normal" />
+                        <Property Name="Text" Value="宠物" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="LuaMemberName" Value="SwitchPetButton" />
+                        <Property Name="EnableClickAni" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,98.3},{0.05,319.3},{0.05,192.55},{0.05,350.55}}" />
+                        <Property Name="LuaEventOnClicked" Value="HandleSwitchClicked" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/sell/sellinfo/di/scrollable/pettable" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="Visible" Value="False" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="HorzStepSize" Value="0.1" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="VertStepSize" Value="0.1" />
+                        <Property Name="HorzOverlapSize" Value="0.01" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,-5.5},{0.05,-14.5},{0.05,191.75},{0.05,310.75}}" />
+                        <Property Name="VertOverlapSize" Value="0.01" />
+                        <Property Name="HorzScrollPosition" Value="0" />
+                        <Property Name="VertScrollPosition" Value="0" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                        <AutoWindow NameSuffix="__auto_container__" >
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                        </AutoWindow>
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/sell/sellinfo/di/notip" >
+                        <Property Name="Font" Value="mhsy-10-normal" />
+                        <Property Name="Text" Value="暂无可上架道具" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="126" />
+                        <Property Name="VertExtent" Value="18.3282" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FFB58E6B tr:FFB58E6B bl:FFB58E6B br:FFB58E6B" />
+                        <Property Name="BorderColour" Value="FF003454" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,16.5},{0,140.5},{0,183.75},{0,165.75}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="cbgitemdlg/record" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,225.098},{0,163},{0,963.348},{0,557.25}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/common_tittle1" Name="cbgitemdlg/record/lb" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,25.3},{0,2.3},{0,345.55},{0,37.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/record/lb/t" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="出售记录" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="68" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF604630 tr:FF604630 bl:FF604630 br:FF604630" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,104.3},{0,3.3},{0,215.55},{0,31.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_tittle1" Name="cbgitemdlg/record/lb1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,344.3},{0.05,-17.7},{0.05,664.55},{0.05,17.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/record/lb/t1" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="购买记录" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="68" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF604630 tr:FF604630 bl:FF604630 br:FF604630" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,110.3},{0,3.3},{0,221.55},{0,31.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="cbgitemdlg/b3/baibg" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-30},{0.05,24},{0.05,321},{0.05,356}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/b3/baibg/riqi" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="日期" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="34" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C6D55 tr:FF8C6D55 bl:FF8C6D55 br:FF8C6D55" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,10},{0,1},{0,65},{0,41}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/b3/baibg/zhuangtai" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="物品名称" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="68" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C6D55 tr:FF8C6D55 bl:FF8C6D55 br:FF8C6D55" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,105},{0,1},{0,184},{0,41}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/b3/baibg/list" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="LuaMemberName" Value="SellList" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,9},{0,46},{0,341},{0,325}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                    </AutoWindow>
+                </Window>
+                <Window Type="TaharezLook/common_hengxian" Name="cbgitemdlg/b3/baibg/hengxian" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,41},{0,336},{0,44}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/b3/baibg/zhuangtai1" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="价格" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="34" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C6D55 tr:FF8C6D55 bl:FF8C6D55 br:FF8C6D55" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,196},{0,1},{0.05,240},{0,41}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/b3/baibg/zhuangtai11" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="买家" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="34" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C6D55 tr:FF8C6D55 bl:FF8C6D55 br:FF8C6D55" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.1,260},{0,1},{0.1,304},{0,41}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="cbgitemdlg/b4/baibg1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,336},{0.05,24},{0.05,695},{0.05,357}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/b4/baibg/xuhao1" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="花费" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="34" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C6D55 tr:FF8C6D55 bl:FF8C6D55 br:FF8C6D55" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,104},{0,2},{0,164},{0,42}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/b4/baibg/zhuangtai1" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="物品名称" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="68" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C6D55 tr:FF8C6D55 bl:FF8C6D55 br:FF8C6D55" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,180},{0,1},{0,255},{0,41}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/b4/baibg/zhuangtai11" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="卖家" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="34" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C6D55 tr:FF8C6D55 bl:FF8C6D55 br:FF8C6D55" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,300},{0,1},{0,343},{0,41}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/ScrollablePane" Name="cbgitemdlg/b3/baibg/list1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="LuaMemberName" Value="BuyList" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,10},{0,45},{0,350},{0,326}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                    </AutoWindow>
+                </Window>
+                <Window Type="TaharezLook/common_hengxian" Name="cbgitemdlg/b3/baibg/hengxian1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,8},{0,42},{0,340},{0,44}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="cbgitemdlg/b4/baibg/xuhao11" >
+                    <Property Name="Font" Value="simhei-9" />
+                    <Property Name="Text" Value="日期" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="34" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C6D55 tr:FF8C6D55 bl:FF8C6D55 br:FF8C6D55" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-5},{0,1},{0.05,55},{0,41}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/CBGTab" Name="cbgitemdlg/button1" >
+            <Property Name="Font" Value="mhsy-11-normal" />
+            <Property Name="Text" Value="金\n币" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,994.099},{0,143},{0,1031.35},{0,248.25}}" />
+            <Property Name="NormalTextColour" Value="ff66452c" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/CBGTab" Name="cbgitemdlg/button2" >
+            <Property Name="Font" Value="mhsy-11-normal" />
+            <Property Name="Text" Value="物\n品" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,994.099},{0.05,203},{0,1031.35},{0.05,308.25}}" />
+            <Property Name="NormalTextColour" Value="ff66452c" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/CBGTab" Name="cbgitemdlg/button3" >
+            <Property Name="Font" Value="mhsy-11-normal" />
+            <Property Name="Text" Value="角\n色" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,994.099},{0.1,264},{0,1031.35},{0.1,369.25}}" />
+            <Property Name="NormalTextColour" Value="ff66452c" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+    </Window>
+</GUILayout>

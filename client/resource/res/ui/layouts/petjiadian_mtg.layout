@@ -1,0 +1,990 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="petjiadian_mtg" >
+        <Property Name="Font" Value="hycyj-20" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="PetAddPointDlg" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="SoundResource" Value="dlgopen.ogg" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-530},{0.5,-331},{0.5,530},{0.5,342}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="CloseSoundResource" Value="dlgopen.ogg" />
+        <Window Type="TaharezLook/AntiqueCase1" Name="petjiadian_mtg/fenge" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,383},{0,59},{0,412},{0,655}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="petjiadian_mtg/ccziti" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,238},{0.05,-26},{0.05,709},{0.05,20}}" />
+            <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/ccziti/" >
+                <Property Name="Font" Value="simhei-18" />
+                <Property Name="Text" Value="宠物加点" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="112" />
+                <Property Name="VertExtent" Value="37.8674" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,3},{0,5},{0,469},{0,43}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_line" Name="petjiadian_mtg/line" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,465},{0.066123,14},{0.333333,681},{0.066123,622}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+        </Window>
+        <Window Type="DefaultWindow" Name="petjiadian_mtg/left" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,57},{0,60},{0,394},{0,662}}" />
+            <Window Type="TaharezLook/common_text2bg" Name="petjiadian_mtg/left/textbg" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,35},{0,143},{0,299},{0,483}}" />
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/qixue" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="气      血" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="65" />
+                    <Property Name="VertExtent" Value="30.2941" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,15},{0,127},{0,50}}" />
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/1" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="55" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,116},{0.05,-1},{0.05,195},{0.05,34}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/add1" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="+99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="66" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,176},{0.05,-1},{0.05,275},{0.05,34}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/mofa" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="魔      法" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="65" />
+                    <Property Name="VertExtent" Value="30.2941" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,60},{0,127},{0,95}}" />
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/2" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="55" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,116},{0.05,-1},{0.05,195},{0.05,34}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/add2" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="+99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="66" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,176},{0.05,-1},{0.05,275},{0.05,34}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/wulishanghai" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="物理伤害" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="88" />
+                    <Property Name="VertExtent" Value="30.2941" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,105},{0,127},{0,140}}" />
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/3" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="55" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,116},{0.05,-1},{0.05,195},{0.05,34}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/add3" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="+99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="66" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,176},{0.05,-1},{0.05,275},{0.05,34}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/fashushanghai" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="法术伤害" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="88" />
+                    <Property Name="VertExtent" Value="30.2941" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,150},{0,127},{0,185}}" />
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/4" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="55" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,116},{0.05,-1},{0.05,195},{0.05,34}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/add4" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="+99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="66" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,176},{0.05,-1},{0.05,275},{0.05,34}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/wulifangyu" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="物理防御" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="88" />
+                    <Property Name="VertExtent" Value="30.2941" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,195},{0,127},{0,230}}" />
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/5" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="55" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,116},{0.05,-1},{0.05,195},{0.05,34}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/add5" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="+99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="66" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,176},{0.05,-1},{0.05,275},{0.05,34}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/fashufangyu" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="法术防御" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="88" />
+                    <Property Name="VertExtent" Value="30.2941" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,240},{0,127},{0,275}}" />
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/6" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="55" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,116},{0.05,-1},{0.05,195},{0.05,34}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/add6" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="+99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="66" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,176},{0.05,-1},{0.05,275},{0.05,34}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/sudu" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="速      度" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="65" />
+                    <Property Name="VertExtent" Value="30.2941" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,285},{0,127},{0,320}}" />
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/7" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="55" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,116},{0.05,-1},{0.05,195},{0.05,34}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/textbg/add7" >
+                        <Property Name="Font" Value="hycyj-12" />
+                        <Property Name="Text" Value="+99999" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="66" />
+                        <Property Name="VertExtent" Value="21.9893" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,176},{0.05,-1},{0.05,275},{0.05,34}}" />
+                    </Window>
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_zhenfatext" Name="petjiadian_mtg/left/ccdizi" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,35.5},{0,30.5},{0,297.75},{0,126.75}}" />
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/titlename/name" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,87},{0.05,5},{0.05,243},{0.05,40}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/left/titlename/leve" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.1,74},{0.1,38},{0.1,224},{0.1,73}}" />
+                </Window>
+                <Window Type="TaharezLook/ItemCell" Name="petjiadian_mtg/left/titlename/iconcell" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,8.5},{0,7.5},{0,89.75},{0,86.75}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/RichEditbox" Name="petjiadian_mtg/left/tishicc1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ReadOnly" Value="True" />
+                <Property Name="LineSpace" Value="1" />
+                <Property Name="BlinkCaret" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="MaxTextLength" Value="2147483647" />
+                <Property Name="UnifiedAreaRect" Value="{{0,39.4},{0,501.4},{0,291.65},{0,573.65}}" />
+                <Property Name="BlinkCaretTimeout" Value="0.5" />
+                <Property Name="TextParsingEnabled" Value="False" />
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="petjiadian_mtg/right" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.349638,27},{0,43},{0.550725,415},{0.355978,404}}" />
+            <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/shengyuqianli" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="剩余潜力" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="96" />
+                <Property Name="VertExtent" Value="32.8112" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,22},{0,48},{0,149},{0,86}}" />
+            </Window>
+            <Window Type="TaharezLook/Buttonccdg" Name="petjiadian_mtg/right/xidianbutton" >
+                <Property Name="Font" Value="hkyt-15" />
+                <Property Name="Text" Value="重置属性" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.050725,-6},{0.050725,499},{0.050725,189},{0.050725,557}}" />
+                <Property Name="ButtonBorderColour" Value="ff743a0f" />
+                <Property Name="DisabledTextColour" Value="ffffffff" />
+            </Window>
+            <Window Type="TaharezLook/Buttonccdg" Name="petjiadian_mtg/right/querenjiadian" >
+                <Property Name="Font" Value="hkyt-15" />
+                <Property Name="Text" Value="确认加点" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.050725,344},{0.050725,499},{0.050725,539},{0.050725,557}}" />
+                <Property Name="ButtonBorderColour" Value="ff743a0f" />
+                <Property Name="DisabledTextColour" Value="ffffffff" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/0" >
+                <Property Name="Font" Value="num-lvse" />
+                <Property Name="Text" Value="0" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="18" />
+                <Property Name="VertExtent" Value="26" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.196875,21},{0,47},{0.196875,206},{0,85}}" />
+            </Window>
+            <Window Type="TaharezLook/renwutiaodi" Name="petjiadian_mtg/right/tiaodi1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,77},{0,111},{0,599},{0,184}}" />
+                <Window Type="TaharezLook/common_jianhao" Name="petjiadian_mtg/right/jianhao1" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,4},{0,1},{0,65},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/common_jiahao" Name="petjiadian_mtg/right/jiahao1" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,361},{0,1},{0,422},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/bar1" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="CurrentProgress" Value="0" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,77},{0,18},{0,348},{0,46}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                    <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/blue1" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/ProgressBar_yellow" Name="petjiadian_mtg/right/yellow1" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="DefaultWindow" Name="petjiadian_mtg/right/thumbparent" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                        <Window Type="TaharezLook/HorizontalScrollbarThumb" Name="petjiadian_mtg/right/thumb1" >
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="SizeType" Value="Auto" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="EnableClickAni" Value="True" />
+                            <Property Name="ClippedByParent" Value="False" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-8},{0,-14},{0,48},{0,41}}" />
+                        </Window>
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/tizhi" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="体质" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="32.8112" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-79},{0.05,9},{0.05,-10},{0.05,49}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/curpoint1" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="888" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="36" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,395},{0.05,8},{0.05,453},{0.05,48}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/addpoint1" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="+211" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,431},{0.05,8},{0.05,502},{0.05,48}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/buttoncchsay" Name="petjiadian_mtg/right/tuijianjiadian" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="自动加点" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,266},{0,41},{0,407},{0,96}}" />
+                <Property Name="ButtonDefaultColourEnable" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/buttoncchsay" Name="petjiadian_mtg/right/shuxingshuoming" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="属性说明" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,416},{0,41},{0,557},{0,96}}" />
+                <Property Name="ButtonDefaultColourEnable" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/renwutiaodi" Name="petjiadian_mtg/right/tiaodi2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,77},{0,191},{0,599},{0,264}}" />
+                <Window Type="TaharezLook/common_jianhao" Name="petjiadian_mtg/right/jianhao2" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,4},{0,1},{0,65},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/common_jiahao" Name="petjiadian_mtg/right/jiahao2" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,361},{0,1},{0,422},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/bar2" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="CurrentProgress" Value="0" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,77},{0,18},{0,348},{0,46}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                    <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/blue2" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/ProgressBar_yellow" Name="petjiadian_mtg/right/yellow2" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="DefaultWindow" Name="petjiadian_mtg/right/thumbparent2" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                        <Window Type="TaharezLook/HorizontalScrollbarThumb" Name="petjiadian_mtg/right/thumb2" >
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="SizeType" Value="Auto" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="EnableClickAni" Value="True" />
+                            <Property Name="ClippedByParent" Value="False" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-8},{0,-14},{0,48},{0,41}}" />
+                        </Window>
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/moli" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="魔力" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="32.8112" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-79},{0.05,9},{0.05,-10},{0.05,49}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/curpoint2" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="811" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="36" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,395},{0.05,8},{0.05,453},{0.05,48}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/addpoint2" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="+211" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,431},{0.05,8},{0.05,502},{0.05,48}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/renwutiaodi" Name="petjiadian_mtg/right/tiaodi3" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,77},{0,271},{0,599},{0,344}}" />
+                <Window Type="TaharezLook/common_jianhao" Name="petjiadian_mtg/right/jianhao3" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,4},{0,1},{0,65},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/common_jiahao" Name="petjiadian_mtg/right/jiahao3" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,361},{0,1},{0,422},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/bar3" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="CurrentProgress" Value="0" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,77},{0,18},{0,348},{0,46}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                    <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/blue3" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/ProgressBar_yellow" Name="petjiadian_mtg/right/yellow3" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="DefaultWindow" Name="petjiadian_mtg/right/thumbparent3" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                        <Window Type="TaharezLook/HorizontalScrollbarThumb" Name="petjiadian_mtg/right/thumb3" >
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="SizeType" Value="Auto" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="EnableClickAni" Value="True" />
+                            <Property Name="ClippedByParent" Value="False" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-8},{0,-14},{0,48},{0,41}}" />
+                        </Window>
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/liliang" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="力量" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="32.8112" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-79},{0.05,9},{0.05,-10},{0.05,49}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/curpoint3" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="811" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="36" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,395},{0.05,8},{0.05,453},{0.05,48}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/addpoint3" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="+211" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,431},{0.05,8},{0.05,502},{0.05,48}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/renwutiaodi" Name="petjiadian_mtg/right/tiaodi4" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,77},{0,351},{0,599},{0,424}}" />
+                <Window Type="TaharezLook/common_jianhao" Name="petjiadian_mtg/right/jianhao4" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,4},{0,1},{0,65},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/common_jiahao" Name="petjiadian_mtg/right/jiahao4" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,361},{0,1},{0,422},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/bar4" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="CurrentProgress" Value="0" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,77},{0,18},{0,348},{0,46}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                    <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/blue4" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/ProgressBar_yellow" Name="petjiadian_mtg/right/yellow4" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="DefaultWindow" Name="petjiadian_mtg/right/thumbparent4" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                        <Window Type="TaharezLook/HorizontalScrollbarThumb" Name="petjiadian_mtg/right/thumb4" >
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="SizeType" Value="Auto" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="EnableClickAni" Value="True" />
+                            <Property Name="ClippedByParent" Value="False" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-8},{0,-14},{0,48},{0,41}}" />
+                        </Window>
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/naili" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="耐力" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="32.8112" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-79},{0.05,9},{0.05,-10},{0.05,49}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/curpoint4" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="811" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="36" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,395},{0.05,8},{0.05,453},{0.05,48}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/addpoint4" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="+211" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,431},{0.05,8},{0.05,502},{0.05,48}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/renwutiaodi" Name="petjiadian_mtg/right/tiaodi5" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,77},{0,431},{0,599},{0,504}}" />
+                <Window Type="TaharezLook/common_jianhao" Name="petjiadian_mtg/right/jianhao5" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,4},{0,1},{0,65},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/common_jiahao" Name="petjiadian_mtg/right/jiahao5" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,361},{0,1},{0,422},{0,62}}" />
+                </Window>
+                <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/bar5" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="CurrentProgress" Value="0" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,77},{0,18},{0,348},{0,46}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                    <Window Type="TaharezLook/ProgressBar_green" Name="petjiadian_mtg/right/blue5" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/ProgressBar_yellow" Name="petjiadian_mtg/right/yellow5" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="CurrentProgress" Value="0" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,28}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="DefaultWindow" Name="petjiadian_mtg/right/thumbparent5" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                        <Window Type="TaharezLook/HorizontalScrollbarThumb" Name="petjiadian_mtg/right/thumb5" >
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="SizeType" Value="Auto" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="EnableClickAni" Value="True" />
+                            <Property Name="ClippedByParent" Value="False" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-8},{0,-14},{0,48},{0,41}}" />
+                        </Window>
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/minjie" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="敏捷" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="32.8112" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-79},{0.05,9},{0.05,-10},{0.05,49}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/curpoint5" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="811" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="36" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,395},{0.05,8},{0.05,453},{0.05,48}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petjiadian_mtg/right/addpoint5" >
+                    <Property Name="Font" Value="hycyj-13" />
+                    <Property Name="Text" Value="+211" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,431},{0.05,8},{0.05,502},{0.05,48}}" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="petjiadian_mtg/" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:diban image:chongwu1" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,38},{0,-19},{0,148},{0,89}}" />
+        </Window>
+    </Window>
+</GUILayout>

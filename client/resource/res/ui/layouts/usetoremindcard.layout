@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="UseToRemindcardback" >
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0,1},{0,1},{1,1},{1,1}}" />
+        <Property Name="CreateEffectType" Value="Right" />
+        <Property Name="MousePassThroughEnabled" Value="True" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/StaticImage" Name="UseToRemindcard" >
+            <Property Name="Image" Value="set:diban2 image:banzi4" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{1,-308},{1,-375},{1,-110},{1,-109}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/ItemCell" Name="UseToRemindcard/item" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,61},{0,54},{0,142},{0,131}}" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/buttoncchsay" Name="UseToRemindcard/ok" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="使 用" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="buyBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,34.4},{0,191.4},{0,167.65},{0,244.65}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="ButtonDefaultColourEnable" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="UseToRemindcard/name" >
+                <Property Name="Font" Value="simhei-11" />
+                <Property Name="Text" Value="啊莫名我就喜欢你啊 " />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="183.5" />
+                <Property Name="VertExtent" Value="20.1719" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF1A2E4F" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,10},{0,141},{0,200},{0,173}}" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="UseToRemindcard/closed" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Image" />
+                <Property Name="HoverImage" Value="set:common image:common_X" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:ccui image:cxxx" />
+                <Property Name="PushedImage" Value="set:ccui image:cxxx" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:common image:common_X" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,142},{0,-2},{0,199},{0,53}}" />
+                <Property Name="ButtonBorderColour" Value="" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

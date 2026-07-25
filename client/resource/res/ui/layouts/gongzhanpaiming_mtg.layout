@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="gongzhanpaiming_mtg" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="familyfight" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-552},{0.5,-334},{0.5,552},{0.5,348}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/GroupButton6" Name="gongzhanpaiming_mtg/g1" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="对阵表" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,74},{0,90},{0,227},{0,153}}" />
+        </Window>
+        <Window Type="TaharezLook/GroupButton6" Name="gongzhanpaiming_mtg/g2" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="竞赛排名" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,250},{0,90},{0,403},{0,153}}" />
+        </Window>
+        <Window Type="TaharezLook/GroupButton6" Name="gongzhanpaiming_mtg/g3" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="历史战绩" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,425},{0,90},{0,578},{0,153}}" />
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="gongzhanpaiming_mtg/btnzhiyin" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:renwuui image:renwu_tishi" />
+            <Property Name="PushedImage" Value="set:renwuui image:renwu_tishi" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,966},{0,90},{0,1027},{0,151}}" />
+        </Window>
+        <Window Type="TaharezLook/GroupBtnTree" Name="gongzhanpaiming_mtg/btntree" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="MaskImage" Value="" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,66},{0,155},{0,336},{0,422}}" />
+            <Window Type="TaharezLook/common_text2bg" Name="gongzhanpaiming_mtg/btntree/di" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,4},{0,6},{0,266},{0,248}}" />
+                <Window Type="TaharezLook/CellGroupButton" Name="gongzhanpaiming_mtg/btntree/item1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="周二" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-5},{0.05,-4},{0.05,242},{0.05,70}}" />
+                    <Window Type="TaharezLook/StaticImage" Name="gongzhanpaiming_mtg/btntree/item1/img1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,5},{0,5},{0,50},{0,50}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/CellGroupButton" Name="gongzhanpaiming_mtg/btntree/item2" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="周四" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-5},{0.1,61},{0.05,242},{0.1,135}}" />
+                    <Window Type="TaharezLook/StaticImage" Name="gongzhanpaiming_mtg/btntree/item2/img2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,5},{0,5},{0,50},{0,50}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/CellGroupButton" Name="gongzhanpaiming_mtg/btntree/item3" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="本轮统计" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-5},{0.15,125},{0.05,242},{0.15,199}}" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="gongzhanpaiming_mtg/1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/text" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="对战匹配数据\n于对战前一日\n15:00刷新" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="132" />
+                <Property Name="VertExtent" Value="66.0002" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,130},{0,409},{0,290},{0,488}}" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="gongzhanpaiming_mtg/1/enter" >
+                <Property Name="Font" Value="simhei-16" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:jingjichang image:jingjichang1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:jingjichang image:jingjichang1" />
+                <Property Name="PushedImage" Value="set:jingjichang image:jingjichang1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:jingjichang image:jingjichang1" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,151},{0,493},{0,260},{0,606}}" />
+                <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/enter" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="进入竞赛场景" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="132" />
+                    <Property Name="VertExtent" Value="22.0001" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-18},{0.05,114},{0.05,126},{0.05,140}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="gongzhanpaiming_mtg/2" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,81},{0,387},{1,-803},{1,-116}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/RichEditbox" Name="gongzhanpaiming_mtg/text2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ReadOnly" Value="True" />
+                <Property Name="LineSpace" Value="1" />
+                <Property Name="BlinkCaret" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="MaxTextLength" Value="2147483647" />
+                <Property Name="UnifiedAreaRect" Value="{{0,16},{0,61},{0,176},{0,161}}" />
+                <Property Name="BlinkCaretTimeout" Value="0.5" />
+                <Property Name="TextParsingEnabled" Value="False" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/time" >
+            <Property Name="Font" Value="simhei-14" />
+            <Property Name="Text" Value="每周二、四晚\n 20:30开战" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="156" />
+            <Property Name="VertExtent" Value="51.3439" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,794},{0,90},{0,963},{0,149}}" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="gongzhanpaiming_mtg/1/di3" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LimitWindowSize" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,340},{0,159},{0,1026},{0,634}}" />
+            <Window Type="TaharezLook/MultiColumnList" Name="gongzhanpaiming_mtg/1/di3/mu1" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05102,-26},{0.05102,-17},{0.05102,646},{0.05102,447}}" />
+                <Property Name="ColumnHeader" Value="text:ID width:{0.1,0} id:0" />
+                <Property Name="ColumnHeader" Value="text:帮派 width:{0.2,0} id:1" />
+                <Property Name="ColumnHeader" Value="text: width:{0.35,0} id:2" />
+                <Property Name="ColumnHeader" Value="text:帮派 width:{0.2,0} id:3" />
+                <Property Name="ColumnHeader" Value="text:ID width:{1,-571} id:4" />
+                <Window Type="TaharezLook/common_hengxian" Name="gongzhanpaiming_mtg/mu1/hengxian" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,7},{0,33},{0,658},{0,37}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="gongzhanpaiming_mtg/1/di3/mu1/wujilu" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:teamui image:tean_icon" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.050595,108},{0.050595,21},{0.050595,470},{0.050595,383}}" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="gongzhanpaiming_mtg/2/di2" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LimitWindowSize" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,340},{0,159},{0,1026},{0,634}}" />
+            <Window Type="TaharezLook/MultiColumnList" Name="gongzhanpaiming_mtg/2/di2/mu2" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05102,-26},{0.05102,-17},{0.05102,646},{0.05102,447}}" />
+                <Property Name="ColumnHeader" Value="text:排名 width:{0.15,0} id:0" />
+                <Property Name="ColumnHeader" Value="text:帮派 width:{0.3,0} id:1" />
+                <Property Name="ColumnHeader" Value="text:参战次数 width:{0.2,0} id:2" />
+                <Property Name="ColumnHeader" Value="text:胜率 width:{0.2,0} id:3" />
+                <Property Name="ColumnHeader" Value="text:积分 width:{1,-570} id:4" />
+                <Window Type="TaharezLook/common_renwubg" Name="gongzhanpaiming_mtg/mu2/bangwai" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,408},{0,670},{0,464}}" />
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="排名" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-4},{0,0},{0,108},{0,52}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="帮派" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,112},{0,0},{0.05,224},{0,52}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu3" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="参战次数" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="88" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,279},{0,0},{0.05,391},{0,52}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu4" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="胜率" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.1,380},{0,1},{0.1,492},{0,53}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu5" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="积分" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,529},{0,0},{0.05,641},{0,52}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/common_hengxian" Name="gongzhanpaiming_mtg/mu1/hengxian1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-27},{0.05,10},{0.05,624},{0.05,14}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="gongzhanpaiming_mtg/1/di3/mu1/wujilu1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:teamui image:tean_icon" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,108},{0.05,21},{0.05,470},{0.05,383}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/MultiColumnList" Name="gongzhanpaiming_mtg/2/di2/mu21" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05102,-26},{0.05102,-17},{0.05102,646},{0.05102,447}}" />
+                <Property Name="ColumnHeader" Value="text:排名 width:{0.25,0} id:0" />
+                <Property Name="ColumnHeader" Value="text:帮派 width:{0.25,0} id:1" />
+                <Property Name="ColumnHeader" Value="text:等级 width:{0.25,0} id:2" />
+                <Property Name="ColumnHeader" Value="text:积分 width:{1,-503} id:3" />
+                <Window Type="TaharezLook/common_renwubg" Name="gongzhanpaiming_mtg/mu2/bangwai1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,407},{0,670},{0,463}}" />
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu11" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="排名" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,29},{0,0},{0,141},{0,52}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu21" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="帮派" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,162},{0,0},{0.05,274},{0,52}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu31" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="等级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,330},{0,0},{0.05,442},{0,52}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu2/bangwai/canshu41" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="积分" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.1,463},{0,0},{0.1,575},{0,52}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/common_hengxian" Name="gongzhanpaiming_mtg/mu1/hengxian11" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-27},{0.05,10},{0.05,624},{0.05,14}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="gongzhanpaiming_mtg/1/di3/mu1/wujilu2" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:teamui image:tean_icon" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.050595,108},{0.050595,21},{0.050595,470},{0.050595,383}}" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="gongzhanpaiming_mtg/3/di3" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LimitWindowSize" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,71},{0,157},{0,1033},{0,635}}" />
+            <Window Type="TaharezLook/MultiColumnList" Name="gongzhanpaiming_mtg/3/di3/mu3" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,7},{0,6},{0,958},{0,475}}" />
+                <Property Name="ColumnHeader" Value="text:排名 width:{0.1,0} id:0" />
+                <Property Name="ColumnHeader" Value="text:帮派 width:{0.4,0} id:1" />
+                <Property Name="ColumnHeader" Value="text:等级 width:{0.1,0} id:2" />
+                <Property Name="ColumnHeader" Value="text:参战次数 width:{0.15,0} id:3" />
+                <Property Name="ColumnHeader" Value="text:胜利次数 width:{0.15,0} id:4" />
+                <Property Name="ColumnHeader" Value="text:胜率 width:{1,-855} id:5" />
+                <Window Type="TaharezLook/common_renwubg" Name="gongzhanpaiming_mtg/mu3/historybangwai" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,417},{0,950},{0,469}}" />
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu3/historybangwai/hcanshu1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="排名" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-7},{0,1},{0,105},{0,46}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu3/historybangwai/hcanshu2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="帮派" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,181},{0.05,-1},{0.05,293},{0.05,44}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu3/historybangwai/hcanshu3" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="等级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,419},{0.05,-1},{0.05,531},{0.05,44}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu3/historybangwai/hcanshu4" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="参战次数" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="88" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,538},{0.05,-1},{0.05,650},{0.05,44}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu3/historybangwai/hcanshu5" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="胜利次数" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="88" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.1,633},{0.1,-3},{0.1,745},{0.1,42}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/mu3/historybangwai/hcanshu6" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="胜率" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="44" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.1,750},{0.1,-3},{0.1,862},{0.1,42}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="gongzhanpaiming_mtg/1/di3/mu1/wujilu21" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:teamui image:tean_icon" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.100595,193},{0.100595,-2},{0.100595,555},{0.100595,360}}" />
+                </Window>
+                <Window Type="TaharezLook/common_hengxian" Name="gongzhanpaiming_mtg/mu1/hengxian2" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.15,-137},{0.15,-36},{0.15,796},{0.15,-32}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="gongzhanpaiming_mtg/3/di3/qingling" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,29},{0,473},{0,622},{0,508}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="gongzhanpaiming_mtg/" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:diban image:paihang" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,37},{0,-19},{0,147},{0,89}}" />
+        </Window>
+    </Window>
+</GUILayout>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow3" Name="petexchangechange" >
+        <Property Name="Font" Value="hycyj-20" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0,843},{0,99},{0,1255},{0,652}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Window Type="TaharezLook/buttoncchsay" Name="petexchangechange/zhaohuan" >
+            <Property Name="Font" Value="simhei-13" />
+            <Property Name="Text" Value="召 唤" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="buyBtn" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,119.4},{0,483.4},{0,311.65},{0,540.65}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Property Name="ButtonDefaultColourEnable" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/common_f3biaoshi" Name="petexchangechange/bg/f3biaoshi" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,251.2},{0,1.2},{0,530.45},{0,55.45}}" />
+            <Property Name="HorizontalAlignment" Value="Centre" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="petexchangechange/bg/f3biaoshi/wzdc" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Text" Value="召唤宠物" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="104" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,49.3},{0,3.3},{0,228.55},{0,51.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="petexchangechange/back" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="SoundResource" Value="dlgopen.ogg" />
+            <Property Name="UnifiedAreaRect" Value="{{0,26},{0,97},{0,392},{0,474}}" />
+            <Property Name="CloseSoundResource" Value="dlgopen.ogg" />
+            <Window Type="TaharezLook/ScrollablePane" Name="petexchangechange/back/petlist" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,3},{0,4},{0,495},{0,372}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="petexchangechange/text" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="请选择召唤的宠物" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="176" />
+            <Property Name="VertExtent" Value="22.0001" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF693F00 tr:FF693F00 bl:FF693F00 br:FF693F00" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,22},{0,59},{0,262},{0,91}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="petexchangechange/shuliang" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="1/3" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="20" />
+            <Property Name="VertExtent" Value="22.0001" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF693F00 tr:FF693F00 bl:FF693F00 br:FF693F00" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,208},{0,59},{0,270},{0,91}}" />
+        </Window>
+    </Window>
+</GUILayout>

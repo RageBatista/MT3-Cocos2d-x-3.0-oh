@@ -1,0 +1,118 @@
+﻿Setmap id=1672 pos=63,38  
+PlaySound id=1 res=/sound/scene/Music_sangzhongzhen.ogg repeat=-1 fadein=1
+MoveCam pos=63,38 
+
+CreateNpc id=3 varname=ML pos=53,50 model=1010156 npcname=沃戈 tile=8 dir=1              d//t//A//c//t//i//o//n=13
+
+
+CreateNpc id=2 varname=WYW pos=65,25 model=1030003 npcname=野猪精 tile=8 dir=4 chengwei=<附身> 
+MoveNPC varname=WYW pos=60,37 time=2000
+Start
+Wait time=2000
+
+PlayAct varname=WYW id=9 dir=4 end=1
+Wait time=1500
+SKbegin time =200
+Speak varname=野猪精<附身> text=终于到手了... head=9033 time=5800 
+PlaySDEffect res=/sound/chat/MovieTalk/13004_01_5.ogg
+
+CreateNpc id=5 varname=TX1 pos=53,50  tile=8 dir=6 effect=geffect/sence/story/mt_jq_guangqiu/mt_jq_guangqiu repeat=-1 model=0
+CreateNpc id=6 varname=TX2 pos=53,50  tile=8 dir=6 effect=geffect/sence/story/mt_jq_guangqiu/mt_jq_guangqiu repeat=-1 model=0
+CreateNpc id=7 varname=TX3 pos=53,50  tile=8 dir=6 effect=geffect/sence/story/mt_jq_guangqiu/mt_jq_guangqiu repeat=-1 model=0
+CreateNpc id=8 varname=TX4 pos=53,50  tile=8 dir=6 effect=geffect/sence/story/mt_jq_guangqiu/mt_jq_guangqiu repeat=-1 model=0
+CreateNpc id=9 varname=TX5 pos=53,50  tile=8 dir=6 effect=geffect/sence/story/mt_jq_guangqiu/mt_jq_guangqiu repeat=-1 model=0
+Wait time=500
+
+MoveNPC varname=TX1 pos=58,50 time=100
+MoveNPC varname=TX2 pos=45,50 time=100
+MoveNPC varname=TX3 pos=49,48 time=100
+MoveNPC varname=TX4 pos=56,47 time=100
+MoveNPC varname=TX5 pos=52,54 time=100
+Wait time=400
+MoveNPC varname=TX1 pos=60,37 time=500
+Wait time=100
+MoveNPC varname=TX2 pos=60,37 time=500
+Wait time=50
+MoveNPC varname=TX3 pos=60,37 time=500
+Wait time=100
+MoveNPC varname=TX4 pos=60,37 time=500
+MoveNPC varname=TX5 pos=60,37 time=500
+
+Wait time=500
+
+DeleteNPC varname=TX1
+DeleteNPC varname=TX2
+DeleteNPC varname=TX3
+DeleteNPC varname=TX4
+DeleteNPC varname=TX5
+
+Wait time=1000
+
+SetSE name=jq1_youling pos=71,45 repeat=1
+Wait time=500
+
+CreateNpc id=4 varname=ESZ pos=71,45 model=1030003 npcname=野猪精 tile=8 dir=6 colorA=1 colorB=1
+SetDir varname=WYW dir=3
+Wait time=1500
+Speak varname=野猪精 text=你到底想干什么？ head=9033 time=3500
+PlaySDEffect res=/sound/chat/MovieTalk/13004_02_3.ogg
+MoveNPC varname=ESZ pos=69,41 time=500
+Wait time=3300
+Speak varname=野猪精<附身> text=桀桀桀。 head=9033 time=7100
+PlaySDEffect res=/sound/chat/MovieTalk/13004_03_7.ogg
+Wait time=7000
+Speak varname=野猪精<附身> text=你不会想知道的。 head=9033 time=7200 pause=1
+PlaySDEffect res=/sound/chat/MovieTalk/13004_04_7.ogg
+Wait time=7000
+
+PlayAct varname=ESZ id=8 dir=6 end=1
+SKbegin time =200
+Speak varname=野猪精 text=滚出去！ head=9033 pause=1 time=4400
+PlaySDEffect res=/sound/chat/MovieTalk/13004_05_4.ogg
+Wait time=500
+
+SetSE name=jq00_wuli_shouji pos=60,37 repeat=1
+Wait time=500
+
+PlayAct varname=WYW id=7 dir=3 end=1
+Wait time=1500
+
+PlayAct varname=WYW id=9 dir=3 end=1
+Wait time=1500
+SKbegin time =200
+Speak varname=野猪精<附身> text=别着急,别着急,我们必将成为这个世界的王。 head=9033 pause=1 time=4900
+PlaySDEffect res=/sound/chat/MovieTalk/13004_06_4.ogg
+
+SetSE name=aersasi_skill1_1 pos=69,41 repeat=1
+Wait time=300
+
+PlayAct varname=ESZ id=7 dir=6 end=1
+SetSE name=aersasi_skill1_3 pos=69,41 repeat=1
+Shake id=2 range=20 time=200
+DeleteNPC varname=ESZ
+Wait time=500
+
+SetSE name=jq1_xiaosan pos=65,40 repeat=1
+
+
+Wait time=4000
+
+Return time=100 type=0
+End
+
+
+eActionStand,		1//普通站立
+	eActionStandRandom,	2//站立随机动作
+	eActionBattleStand,	3//战斗警戒
+	eActionWalk,		4//走动
+	eActionRun,		5//跑步,不存在左腿还是右腿先跑
+	eActionBattleRun,	6//战斗中跑
+	eActionOnHit,		7//受击
+	eActionAttack,		8//攻击
+	eActionMagic,		9//施法
+	eActionRunaway,		10//逃跑
+	eActionDefence,		11//防御;
+	eActionDodge,		12//闪避
+	eActionDying,		13//倒地
+	eActionDeath,		14//死亡
+	eActionRoll,		15//击飞

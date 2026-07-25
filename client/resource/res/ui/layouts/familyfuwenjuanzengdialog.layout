@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/StaticImage" Name="familyfuwenjuanzengdialog/mask" >
+        <Property Name="Image" Value="set:LoginBack2 image:CommonBack" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="Familyqunfaxiaoxidialog" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,-1},{1,0},{1,-1}}" />
+        <Property Name="AllowModalStateClick" Value="True" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/FrameWindow3" Name="familyfuwenjuanzengdialog" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="LuaClass" Value="Familyfuwenjuanzengdialog" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="False" />
+            <Property Name="RollUpEnabled" Value="True" />
+            <Property Name="SizingEnabled" Value="False" />
+            <Property Name="LimitWindowSize" Value="False" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.5,-275},{0.5,-235},{0.5,275},{0.5,256}}" />
+            <Property Name="DragMovingEnabled" Value="False" />
+            <Property Name="CloseButtonEnabled" Value="False" />
+            <Property Name="HorizontalAlignment" Value="Centre" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+            <Window Type="TaharezLook/common_f3biaoshi" Name="familyfuwenjuanzengdialog/bg/f3biaoshi" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,251.2},{0,1.2},{0,530.45},{0,55.45}}" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="familyfuwenjuanzengdialog/bg/f3biaoshi/wzdc" >
+                    <Property Name="Font" Value="simhei-14" />
+                    <Property Name="Text" Value="临时符捐赠" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="130" />
+                    <Property Name="VertExtent" Value="25.672" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,48.3},{0,3.3},{0,227.55},{0,51.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="familyfuwenjuanzengdialog/tishi" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="[colour=&apos;ff8c5e2a&apos;]从包裹中选择临时符[colour=&apos;FF15B211&apos;]（点击道具可查看详情）" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="440" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,81},{0,75},{0,548},{0,125}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="familyfuwenjuanzengdialog/diban" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="." />
+                <Property Name="UnifiedAreaRect" Value="{{0,107},{0,131},{0,577},{0,361}}" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ScrollablePane" Name="familyfuwenjuanzengdialog/diban/huadong" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:-1 r:456 b:213" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,8},{0,6},{0,584},{0,221}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:-1 r:456 b:213" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:0 t:-1 r:456 b:213" />
+                        <Window Type="TaharezLook/ItemTable" Name="familyfuwenjuanzengdialog/diban/huadong/ItemPanel" >
+                            <Property Name="Font" Value="simhei-12" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="SpaceX" Value="12" />
+                            <Property Name="SpaceY" Value="12" />
+                            <Property Name="StartX" Value="12" />
+                            <Property Name="StartY" Value="12" />
+                            <Property Name="CellWidth" Value="76" />
+                            <Property Name="CellHeight" Value="76" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,1},{0,-1},{0,456},{0,213}}" />
+                            <Property Name="AllowModalStateClick" Value="True" />
+                        </Window>
+                    </AutoWindow>
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/buttoncchsay" Name="familyfuwenjuanzengdialog/btn" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="捐 赠" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="buyBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,179.4},{0,418.4},{0,371.65},{0,471.65}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="ButtonDefaultColourEnable" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/Checkbox" Name="familyfuwenjuanzengdialog/xuanze" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="m_CheckBox_1" />
+                <Property Name="UnifiedAreaRect" Value="{{0,38},{0,74},{0,88},{0,124}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/Checkbox" Name="familyfuwenjuanzengdialog/xuanze1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="m_CheckBox_2" />
+                <Property Name="UnifiedAreaRect" Value="{{0,38},{0,366},{0,88},{0,416}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="familyfuwenjuanzengdialog/tishi1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="消耗       点活力捐赠" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="178.5" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,87},{0,368},{0,477},{0,418}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="familyfuwenjuanzengdialog/tishi1/huolizhi" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="100" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="30" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF15B211 tr:FF15B211 bl:FF15B211 br:FF15B211" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="m_HuoLiText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,42},{0,9},{0,95},{0,45}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="familyfuwenjuanzengdialog/close" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:ccui image:cxxx" />
+                <Property Name="PushedImage" Value="set:ccui image:cxxx" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="m_CloseBtnEx" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,493},{0,-2},{0,553},{0,55}}" />
+                <Property Name="LuaEventOnClicked" Value="OnCloseBtnEx" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

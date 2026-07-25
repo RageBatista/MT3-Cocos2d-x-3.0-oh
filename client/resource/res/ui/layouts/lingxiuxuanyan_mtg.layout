@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow3" Name="lingxiuxuanyan_mtg">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Text" Value="竞选"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="leaderElectionDlg"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-318},{0.5,-274},{0.5,344},{0.5,274}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Window Type="TaharezLook/StaticText" Name="lingxiuxuanyan_mtg/text">
+			<Property Name="Font" Value="simhei-14"/>
+			<Property Name="Text" Value="竞选者名称"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="130.0"/>
+			<Property Name="VertExtent" Value="25.6593"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,51},{0,109},{0,196},{0,142}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="lingxiuxuanyan_mtg/di/jingxuanci">
+			<Property Name="Font" Value="simhei-14"/>
+			<Property Name="Text" Value="竞选词"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="78.0"/>
+			<Property Name="VertExtent" Value="25.6593"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="HorzFormatting" Value="HorzCentred"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,50},{0,181},{0,140},{0,210}}"/>
+		</Window>
+		<Window Type="TaharezLook/common_text3bgcase" Name="lingxiuxuanyan_mtg/title">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,207},{0,100},{0,608},{0,156}}"/>
+			<Window Type="TaharezLook/StaticText" Name="lingxiuxuanyan_mtg/title/name">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="playerName"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,2},{0,0},{0,403},{0,56}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/common_wenzidi" Name="lingxiuxuanyan_mtg/di">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,157},{0,175},{0,613},{0,401}}"/>
+			<Window Type="TaharezLook/RichEditbox" Name="lingxiuxuanyan_mtg/di/rich">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="LineSpace" Value="1.0"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="context"/>
+				<Property Name="MaxTextLength" Value="25"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,453},{0,222}}"/>
+				<Property Name="BlinkCaretTimeout" Value="0.5"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="lingxiuxuanyan_mtg/di/dianji">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="点击输入选择内容（字数限制1~25）"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="416.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FFB2B1AF tr:FFB2B1AF bl:FFB2B1AF br:FFB2B1AF"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="noteText"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,-31},{0,4},{0,453},{0,34}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/Button" Name="lingxiuxuanyan_mtg/btn1">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="取 消"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="cancel"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,72},{0,446},{0,303},{0,509}}"/>
+		</Window>
+		<Window Type="TaharezLook/Button" Name="lingxiuxuanyan_mtg/btn2">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="确 认"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="sure"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,362},{0,446},{0,593},{0,509}}"/>
+		</Window>
+	</Window>
+</GUILayout>

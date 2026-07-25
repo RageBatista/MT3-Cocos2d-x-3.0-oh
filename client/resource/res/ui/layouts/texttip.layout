@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="DefaultWindow" Name="texttip">
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="TextTip"/>
+		<Property Name="AlwaysOnTop" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}"/>
+		<Property Name="AllowModalStateClick" Value="True"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/common_goodstips" Name="texttip/back">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="back"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,100},{0,122},{0,781},{0,322}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+			<Property Name="MousePassThroughEnabled" Value="True"/>
+			<Window Type="TaharezLook/RichEditbox" Name="texttip/editbox">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="ReadOnly" Value="True"/>
+				<Property Name="LineSpace" Value="1.0"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="editbox"/>
+				<Property Name="MaxTextLength" Value="2147483647"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,15},{0,15},{0,666},{0,183}}"/>
+				<Property Name="BlinkCaretTimeout" Value="0.5"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="MousePassThroughEnabled" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="texttip/back/title">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,0},{0,9},{1,1},{0,39}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="MousePassThroughEnabled" Value="True"/>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

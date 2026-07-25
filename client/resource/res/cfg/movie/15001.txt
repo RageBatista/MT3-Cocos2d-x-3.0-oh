@@ -1,0 +1,183 @@
+﻿Setmap id=1662 pos=26,66  
+MoveCam pos=26,66 
+
+CreateNpc id=2 varname=XXJ pos=25,60 model=1020122 npcname=小贱 tile=8 dir=3              
+
+CreateNpc id=3 varname=AYN pos=48,45 model=1020117 npcname=小白龙 tile=8 dir=7
+
+Start
+Wait time=500
+
+SKbegin time =200
+Speak varname=小白龙 text=唉，白琉璃不知道去哪咧，俺得快点找到她！ head=9000 pause=1 time=2000
+Wait time=300
+
+MoveNPC varname=AYN pos=32,68 time=3000
+Wait time=1650
+
+PlayAct varname=XXJ id=9 dir=3 end=1
+Wait time=200
+
+CreateNpc id=7 varname=TX pos=24,66 tile=8 dir=3 effect=geffect/skill/mt_moxishu/mt_moxishu repeat=-1
+Wait time=500
+
+DeleteNPC varname=TX
+
+PlayAct varname=AYN id=7 dir=5 end=1
+Wait time=100
+
+DeleteNPC varname=AYN
+CreateNpc id=5 varname=YYY pos=32,68 model=1050101 npcname=小白龙 tile=8 dir=5
+Wait time=500
+
+MoveNPC varname=YYY pos=31,70 time=1500
+Wait time=100
+
+SetDir varname=XXJ dir=5
+Wait time=500
+
+SetDir varname=XXJ dir=3
+Wait time=100
+
+SKbegin time =200
+Speak varname=小贱 text=哇哈哈哈！姐我又可以调戏人了！ head=9001 pause=1 time=2000
+Wait time=100
+
+MoveNPC varname=YYY pos=33,69 time=2000
+
+
+PlayAct varname=XXJ id=8 dir=3 end=1
+Wait time=1300
+
+SetDir varname=XXJ dir=7
+Wait time=100
+
+MoveNPC varname=YYY pos=35,69 time=1200
+Wait time=200
+
+DeleteNPC varname=YYY
+CreateNpc id=6 varname=AYN pos=35,69 model=1020117 npcname=小白龙 tile=8 dir=7
+Wait time=200
+
+MoveNPC varname=AYN pos=31,66 time=1000
+
+
+SKbegin time =200
+Speak varname=小白龙 text=你个小娘们找死啊！ head=9000 pause=1 time=1500
+
+
+Wait time=100
+
+CreateNpc id=7 varname=TX pos=24,60 tile=8 dir=3 effect=geffect/skill/mt_moxishu/mt_moxishu repeat=-1
+Wait time=500
+
+DeleteNPC varname=TX
+
+PlayAct varname=AYN id=7 dir=7 end=1
+Wait time=100
+
+SetSE name=hc35_jiaoxia_dingshen pos=31,66 repeat=10
+Wait time=500
+
+PlayAct varname=AYN id=8 dir=7 end=1
+Wait time=700
+
+SetDir varname=XXJ dir=3
+Wait time=100
+
+SKbegin time =200
+Speak varname=小贱 text=从你的样子来看你刚才是不是在骂我呀？ head=9001 time=2000
+
+PlayAct varname=AYN id=8 dir=7 end=1
+Wait time=1000
+
+PlayAct varname=AYN id=8 dir=7 end=1
+Wait time=1000
+
+PlayAct varname=AYN id=8 dir=7 end=1
+Wait time=500
+
+MoveNPC varname=XXJ pos=28,63 time=2000
+
+
+Speak varname=小贱 text=嗯，你一定是在骂我！ head=9001 time=1600
+
+PlayAct varname=AYN id=8 dir=7 end=1
+Wait time=1200
+
+PlayAct varname=AYN id=8 dir=7 end=1
+
+Wait time=100
+
+
+Speak varname=小贱 text=你他丫的居然敢骂我！活的不耐烦了吗？ head=9001 pause=1 time=2400
+Wait time=100
+
+PlayAct varname=XXJ id=9 dir=3 end=1
+Wait time=100
+
+CreateNpc id=9 varname=TX pos=28,63 tile=8 dir=6 effect=geffect/skill/mt_moxishu/mt_moxishu repeat=-1
+Wait time=500
+
+DeleteNPC varname=TX
+
+PlayAct varname=AYN id=7 dir=7 end=1
+Wait time=100
+
+
+DeleteNPC varname=AYN
+CreateNpc id=10 varname=YYY pos=31,66 model=1050101 npcname=小白龙 tile=8 dir=7
+Wait time=300
+
+SetDir varname=YYY dir=5
+Wait time=500
+
+SetDir varname=YYY dir=3
+Wait time=500
+
+MoveNPC varname=XXJ pos=24,65 time=2000
+
+CreateNpc id=11 varname=LR pos=16,44 model=1020102 npcname=闲人 tile=8 dir=5              
+CreateNpc id=12 varname=ML pos=21,40 model=1020111 npcname=美人 tile=8 dir=5
+
+MoveNPC varname=LR pos=26,57 time=3000
+MoveNPC varname=ML pos=31,55 time=3000
+Wait time=500
+
+
+MoveNPC varname=YYY pos=31,68 time=1500
+Wait time=1500
+
+MoveNPC varname=YYY pos=32,68 time=1500
+Wait time=300
+
+MoveNPC varname=XXJ pos=28,63 time=2000
+
+MoveNPC varname=YYY pos=33,67 time=1500
+Wait time=200
+
+
+SKbegin time =200
+Speak varname=小贱 text=哎呀！有人来了！姐我就不陪你玩了！ head=9001 pause=1 time=2000
+
+Wait time=1500
+
+Return time=100 type=0
+End
+
+
+eActionStand,		1//普通站立
+	eActionStandRandom,	2//站立随机动作
+	eActionBattleStand,	3//战斗警戒
+	eActionWalk,		4//走动
+	eActionRun,		5//跑步,不存在左腿还是右腿先跑
+	eActionBattleRun,	6//战斗中跑
+	eActionOnHit,		7//受击
+	eActionAttack,		8//攻击
+	eActionMagic,		9//施法
+	eActionRunaway,		10//逃跑
+	eActionDefence,		11//防御;
+	eActionDodge,		12//闪避
+	eActionDying,		13//倒地
+	eActionDeath,		14//死亡
+	eActionRoll,		15//击飞

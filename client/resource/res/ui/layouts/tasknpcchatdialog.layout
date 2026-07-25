@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="Tasknpcchatdialog/back" >
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="Tasknpcchatdialog" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="LuaMemberName" Value="windowroot" />
+        <Property Name="SoundResource" Value="button.ogg" />
+        <Property Name="ClippedByParent" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{1,-500},{1,0},{1,0}}" />
+        <Property Name="AllowShowWithModalState" Value="True" />
+        <Property Name="MousePassThroughEnabled" Value="True" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/NpcCommonback" Name="Tasknpcchatdialog/back/ditu" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{1,-180},{1,0},{1,-20}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/RichEditbox" Name="Tasknpcchatdialog/RichEditBox" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ReadOnly" Value="True" />
+                <Property Name="LineSpace" Value="10" />
+                <Property Name="BlinkCaret" Value="True" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="richBoxChat" />
+                <Property Name="MaxTextLength" Value="1073741823" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,457},{0,10},{1,-14},{1,-10}}" />
+                <Property Name="BackGroundEnable" Value="False" />
+                <Property Name="NormalTextColour" Value="FF000000" />
+                <Property Name="BlinkCaretTimeout" Value="0.5" />
+                <Property Name="TextParsingEnabled" Value="False" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="Tasknpcchatdialog/back/line" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ImageSizeEnable" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-240},{0,0},{0,-240},{0,0}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/common_tittle" Name="Tasknpcchatdialog/NPCNameBack" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,275},{0,110},{0,549},{0,156}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Window Type="TaharezLook/StaticText" Name="Tasknpcchatdialog/name" >
+                        <Property Name="Font" Value="simhei-16" />
+                        <Property Name="Text" Value="啊啊啊啊一灯大师" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="208" />
+                        <Property Name="VertExtent" Value="25.672" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                        <Property Name="BorderColour" Value="00000000" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="LuaMemberName" Value="labelNpcName" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.211679,-56},{0.20438,-5},{0.156934,209},{0.20438,32}}" />
+                        <Property Name="TextParsingEnabled" Value="False" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="Tasknpcchatdialog/icon" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="imageHead" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,214},{1,-294},{0,662},{1,154}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

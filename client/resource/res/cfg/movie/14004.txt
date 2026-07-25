@@ -1,0 +1,75 @@
+﻿Setmap id=1694 pos=68,38 
+MoveCam pos=68,38 
+Start
+PlaySound id=999 res=/sound/scene/Music_beijun.ogg repeat=-1 fadein=1
+
+CreateNpc id=2 varname=jiaerlushi pos=74,29 model=1020134 npcname=城主 dir=5 chengwei=<城主>  
+CreateNpc id=3 varname=wuyi pos=64,30 model=1010150 npcname=医师 dir=3 
+CreateNpc id=4 varname=weibing01 pos=56,45 model=1030008 npcname=卫兵 dir=3
+CreateNpc id=5 varname=weibing02 pos=70,50 model=1030008 npcname=卫兵 dir=7
+
+CreateNpc id=6 varname=suoer pos=49,61 model=1030001 npcname=老孙头 dir=1 chengwei=<指引者>
+CreateNpc id=7 varname=jumo pos=43,60 model=1020102 npcname=卫兵 dir=1 chengwei=<近卫>
+CreateNpc id=8 varname=niutou pos=50,67 model=1020101 npcname=卫兵 dir=1 chengwei=<近卫>
+
+Wait time=1500
+SetDir varname=weibing01 dir=5
+SetDir varname=weibing02 dir=5
+
+MoveNPC varname=suoer pos=58,52 time=4500
+MoveNPC varname=jumo pos=52,54 time=4500
+MoveNPC varname=niutou pos=60,61 time=4500
+
+MoveNPC varname=jiaerlushi pos=66,39 time=3500
+Say varname=weibing01 text=真是他的儿子？
+Wait time=500
+Say varname=weibing02 text=他拿着毁灭之锤！
+MoveCam pos=60,49 time=3000
+SKbegin time=200  
+Speak name=老孙头<指引者> text=我很抱歉没能及时赶来。  head=9092 time=3000 pause=1
+PlayAct varname=suoer id=9 dir=1 end=1
+Wait time=3000
+
+SKbegin time=200 
+Speak name=城主<城主> text=我们对你的光临感到很荣幸。  head=9002 time=3000 pause=1
+PlayAct varname=jiaerlushi id=8 dir=5 end=1
+Wait time=3000
+
+SKbegin time=200     
+Speak name=老孙头<指引者> text=我有很多关于你父亲的事情要跟你说，但我想先去看望祖母。  head=9092 time=3000 pause=1
+Wait time=3000
+
+SKbegin time=200
+Speak name=城主<城主> text=祖母在那边一直等着你。  head=9002 time=3000 pause=1
+SetDir varname=jiaerlushi dir=3
+Wait time=1500
+SetDir varname=jiaerlushi dir=5
+Wait time=1500
+
+SetDir varname=suoer dir=3
+Wait time=1500
+MoveNPC varname=suoer pos=60,51 time=600
+Wait time=700
+SKbegin time=200  
+Speak name=老孙头<指引者> text=感谢你，在我拜访祖母之后我会找你好好谈谈。  head=9092 time=3000 pause=1
+Wait time=4000
+Return time=200 type=0
+End
+
+
+ eActionStand,  1//普通站立
+ eActionStandRandom, 2//站立随机动作
+ eActionBattleStand, 3//战斗警戒
+ eActionWalk,  4//走动
+ eActionRun,  5//跑步，不存在左腿还是右腿先跑
+ eActionBattleRun, 6//战斗中跑
+ eActionOnHit,  7//受击
+ eActionAttack,  8//攻击
+ eActionMagic,  9//施法
+ eActionRunaway,  10//逃跑
+ eActionDefence,  11//防御;
+ eActionDodge,  12//闪避
+ eActionDying,  13//倒地 --受击
+ eActionDeath,  14//死亡
+ eActionRoll,  15//击飞
+ eActionRoll,  43//保持死亡动作

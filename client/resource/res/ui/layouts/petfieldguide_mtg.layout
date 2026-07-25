@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindowcw2" Name="petfieldguide_mtg" >
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="PetGalleryDlg" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="SoundResource" Value="dlgopen.ogg" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-537},{0.5,-362},{0.5,591},{0.5,364}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="CloseSoundResource" Value="dlgopen.ogg" />
+        <Property Name="HorizontalAlignment" Value="Centre" />
+        <Window Type="TaharezLook/StaticImage" Name="petfieldguide_mtg/Back/flagbg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,357},{0,81},{0,640},{0,638}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticImage" Name="petfieldguide_mtg/Back/flagbg/smoke" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-117},{1,-71},{1,-116},{1,29}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF6EE6FF tr:FF6EE6FF bl:FF6EE6FF br:FF6EE6FF" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,331},{0,55},{0.00195301,1218.1},{0,649}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="DefaultWindow" Name="petfieldguide_mtg/Left1/textbg1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,344},{0,468},{0,773},{0,592}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg1/texthuode" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="获得途径：" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="120" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,15},{0,18},{0,165},{0,52}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/ImageButtoncc" Name="petfieldguide_mtg/Left1/textbg1/btnditu" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="确 定" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="NormalImage" Value="set:ccui1 image:an3" />
+                    <Property Name="PushedImage" Value="set:ccui1 image:an3" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="DisabledImage" Value="set:ccui1 image:an31" />
+                    <Property Name="LuaMemberName" Value="gainWayBtn1" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.1,-222},{0.1,141},{0.1,-79},{0.1,196}}" />
+                    <Property Name="NormalTextColour" Value="FF743A0F" />
+                    <Property Name="PushedTextColour" Value="ff743a0f" />
+                    <Property Name="DisabledTextColour" Value="ff743a0f" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Property Name="ButtonDefaultBorderEnable" Value="False" />
+                    <Property Name="ButtonDefaultColourEnable" Value="False" />
+                </Window>
+                <Window Type="TaharezLook/ImageButtoncc" Name="petfieldguide_mtg/Left1/textbg1/btnditu1" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="商店购买" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="NormalImage" Value="set:ccui1 image:an3" />
+                    <Property Name="PushedImage" Value="set:ccui1 image:an3" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="DisabledImage" Value="set:ccui1 image:an31" />
+                    <Property Name="LuaMemberName" Value="gainWayBtn2" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.15,-45},{0.15,37},{0.15,115},{0.15,95}}" />
+                    <Property Name="NormalTextColour" Value="FF743A0F" />
+                    <Property Name="PushedTextColour" Value="ff743a0f" />
+                    <Property Name="DisabledTextColour" Value="ff743a0f" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Property Name="ButtonDefaultBorderEnable" Value="False" />
+                    <Property Name="ButtonDefaultColourEnable" Value="False" />
+                </Window>
+                <Window Type="TaharezLook/ImageButtoncc" Name="petfieldguide_mtg/Left1/textbg1/btnditu2" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="摆摊购买" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="NormalImage" Value="set:ccui1 image:an3" />
+                    <Property Name="PushedImage" Value="set:ccui1 image:an3" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="DisabledImage" Value="set:ccui1 image:an31" />
+                    <Property Name="LuaMemberName" Value="gainWayBtn2" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.15,157},{0.15,37},{0.15,317},{0.15,95}}" />
+                    <Property Name="NormalTextColour" Value="FF743A0F" />
+                    <Property Name="PushedTextColour" Value="ff743a0f" />
+                    <Property Name="DisabledTextColour" Value="ff743a0f" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Property Name="ButtonDefaultBorderEnable" Value="False" />
+                    <Property Name="ButtonDefaultColourEnable" Value="False" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="petfieldguide_mtg/Left1/textbg2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,82},{0,86},{0,711},{0,550}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textjineng" >
+                    <Property Name="Font" Value="simhei-14" />
+                    <Property Name="Text" Value="技能最多为" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="HorzExtent" Value="130" />
+                    <Property Name="VertExtent" Value="25.6593" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,14},{0,321},{0,174},{0,351}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="petfieldguide_mtg/Left1/btnpingjia" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:chongwuui image:xinxi" />
+                <Property Name="PushedImage" Value="set:chongwuui image:xinxi" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="discuss" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,264},{0,185},{0,328},{0,249}}" />
+                <Property Name="LuaEventOnClicked" Value="handleDiscussClicked" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg1/texthuode1" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="初始可能获得：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="168" />
+                <Property Name="VertExtent" Value="23.8165" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,315},{0.05,207},{0.05,559},{0.05,241}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/SkillBox1" Name="petfieldguide_mtg/Left1/textbg2/box1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,319},{0.05,257},{0.05,400},{0.05,336}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/SkillBox1" Name="petfieldguide_mtg/Left1/textbg2/box2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,414},{0.05,257},{0.05,495},{0.05,336}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/SkillBox1" Name="petfieldguide_mtg/Left1/textbg2/box3" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,509},{0.05,257},{0.05,590},{0.05,336}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/SkillBox1" Name="petfieldguide_mtg/Left1/textbg2/box4" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,604},{0.05,257},{0.05,685},{0.05,336}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/SkillBox1" Name="petfieldguide_mtg/Left1/textbg2/box5" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,319},{0.05,352},{0.05,400},{0.05,431}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/SkillBox1" Name="petfieldguide_mtg/Left1/textbg2/box6" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,414},{0.05,352},{0.05,495},{0.05,431}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/SkillBox1" Name="petfieldguide_mtg/Left1/textbg2/box7" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,509},{0.05,352},{0.05,590},{0.05,431}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/SkillBox1" Name="petfieldguide_mtg/Left1/textbg2/box8" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,604},{0.05,352},{0.05,685},{0.05,431}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textgongji" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="攻击资质" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="88" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="0000000F" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,300},{0.05,48},{0.05,395},{0.05,78}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textzizhi1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1100-1380" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="99" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="gongzi" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,388},{0.05,48},{0.05,495},{0.05,78}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textfangyu" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="防御资质" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="88" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="0000000F" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,496},{0.05,48},{0.05,623},{0.05,78}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textzizhi4" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1100-1380" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="99" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="fangzi" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,583},{0.05,48},{0.05,695},{0.05,78}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textfali" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="法术资质" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="88" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="0000000F" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,496},{0.05,97},{0.05,623},{0.05,127}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textzizhi5" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1100-1380" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="99" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="fazi" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,583},{0.05,97},{0.05,694},{0.05,127}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/texttili" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="体力资质" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="88" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="0000000F" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,300},{0.05,97},{0.05,427},{0.05,127}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textzizhi2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1100-1380" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="99" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="tizi" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,388},{0.05,97},{0.05,498},{0.05,127}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textsudu" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="速度资质" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="88" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="0000000F" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,300},{0.05,145},{0.05,427},{0.05,175}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textzizhi3" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1100-1380" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="99" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="suzi" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,388},{0.05,145},{0.05,507},{0.05,175}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textchengzhang" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="成      长" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="110" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="0000000F" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,498},{0.05,145},{0.05,625},{0.05,175}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left1/textbg2/textzizhi6" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1100-1380" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="99" />
+                <Property Name="VertExtent" Value="21.9893" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="grow" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,583},{0.05,145},{0.05,733},{0.05,175}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/Left1/textbg2/btntishen1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="未提升" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,293},{0.05,-19},{0.05,385},{0.05,31}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/Left1/textbg2/btntishen2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="提升一次" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,386},{0.05,-18},{0.05,490},{0.05,31}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/Left1/textbg2/btntishen3" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="提升两次" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,492},{0.05,-18},{0.05,596},{0.05,31}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/Left1/textbg2/btntishen4" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="提升三次" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,599},{0.05,-18},{0.05,703},{0.05,31}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/Left1/groupbtnbb2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="野生" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="wildGroupBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,298},{0.05,-19},{0.05,422},{0.05,30}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/Left1/groupbtnbb" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="宝宝" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="babyGroupBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,441},{0.05,-19},{0.05,565},{0.05,30}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/Left1/groupbtnbianyi" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="变异" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="bianyiGroupBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,581},{0.05,-19},{0.05,705},{0.05,30}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="petfieldguide_mtg/Left/Item16" >
+                <Property Name="Image" Value="set:ccui1 image:chognwudi" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-31},{0.05,41},{0.05,285},{0.05,365}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticImage" Name="petfieldguide_mtg/Left/Item" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="profileIcon" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,85},{0,121},{0,245},{0,273}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left/Item16/text canzhan" >
+                    <Property Name="Font" Value="simhei-14" />
+                    <Property Name="Text" Value="参战等级" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="HorzExtent" Value="104" />
+                    <Property Name="VertExtent" Value="25.6593" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-9},{0,203},{0,111},{0,233}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_wenzidi" Name="petfieldguide_mtg/Left1/titleb" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,30},{0.05,-4},{0.05,232},{0.05,31}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left/Page8" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="泡泡" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="48" />
+                    <Property Name="VertExtent" Value="23.8165" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF000000" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="nameText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,4},{0,-1},{0,199},{0,37}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="petfieldguide_mtg/Left/Item16/imagebb" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:chongwuui image:chongwu_bb" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="kindImg" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,11},{0.05,-9},{0.05,49},{0.05,32}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="petfieldguide_mtg/icon/kindImg1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:ccui1 image:czdj" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Tooltip" Value="宠物共分六种品质，分别是 野生、宝宝、变异\n宝宝、灵兽、变异灵兽、神兽" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.15,143},{0.15,-30},{0.15,196},{0.15,121}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/tujian1/t111" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="参战等级" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="22" />
+                    <Property Name="VertExtent" Value="87.957" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FF553923" />
+                    <Property Name="BorderEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="WordWrapRightAligned" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,5.3},{0.05,35.3},{0.05,37.55},{0.05,135.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/Left/Item16/textlevel" >
+                    <Property Name="Text" Value="8" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="8.5" />
+                    <Property Name="VertExtent" Value="16.5" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="fightLevel" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,1},{0.05,-1},{0.05,42},{0.05,31}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="petfieldguide_mtg/Left/Item161" >
+                <Property Name="Image" Value="set:ccui image:jingling" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,13},{0.1,349},{0.1,156},{0.1,528}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/tujian1/t1111" >
+                <Property Name="Text" Value="宠物可通过炼妖获得更多技能。" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="HorzExtent" Value="187" />
+                <Property Name="VertExtent" Value="33" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF553923" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,33.3},{0.1,379.3},{0.1,225.55},{0.1,479.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/ImageButtoncc" Name="petfieldguide_mtg/shizhuang" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:my_yuehuahuanyi image:tubiao" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:my_yuehuahuanyi image:tubiao" />
+                <Property Name="PushedImage" Value="set:my_yuehuahuanyi image:tubiao" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:my_yuehuahuanyi image:tubiao" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,14},{0,368},{0.056243,15},{0.056243,385}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="petfieldguide_mtg/left" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF6EE6FF tr:FF6EE6FF bl:FF6EE6FF br:FF6EE6FF" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-12.957},{0,33.064},{0,330.043},{0,657.064}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/left/btnquanbu" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="全部" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="filterBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,96},{0,28},{0,336},{0,77}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/left/btnquanbu1" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="变异" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="filterBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,176},{0,28},{0,254},{0,77}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/left/btnquanbu2" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="特殊" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="filterBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,219},{0,28},{0,337},{0,77}}" />
+                <Property Name="NormalTextColour" Value="FF743A0F" />
+                <Property Name="SelectedTextColour" Value="FF743A0F" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="petfieldguide_mtg/left/di" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,10},{0,90},{0,298},{0,566}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/ScrollablePane" Name="petfieldguide_mtg/left/list" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:257 b:508" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="LuaMemberName" Value="petScroll" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,83},{0,94},{0,341},{0,603}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:257 b:508" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:257 b:508" />
+                    <Window Type="TaharezLook/ItemTable" Name="petfieldguide_mtg/left/list/petTable" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="SpaceX" Value="12" />
+                        <Property Name="SpaceY" Value="12" />
+                        <Property Name="StartX" Value="8" />
+                        <Property Name="StartY" Value="15" />
+                        <Property Name="ColCount" Value="3" />
+                        <Property Name="RowCount" Value="2" />
+                        <Property Name="CellWidth" Value="72" />
+                        <Property Name="CellHeight" Value="72" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ItemCellStyle" Value="IconExtend" />
+                        <Property Name="LuaMemberName" Value="petTable" />
+                        <Property Name="LimitWindowSize" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,4},{0,0},{1,0},{1,0}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="petfieldguide_mtg/touxiang" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,124},{0,-3},{0,965},{0,66}}" />
+        </Window>
+        <Window Type="TaharezLook/ScrollablePane" Name="petfieldguide_mtg/beijingkuang" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="ContentArea" Value="l:-11 t:0 r:230 b:112" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="HorzStepSize" Value="0.1" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="VertStepSize" Value="0.1" />
+            <Property Name="HorzOverlapSize" Value="0.01" />
+            <Property Name="UnifiedAreaRect" Value="{{0,80},{0,114},{0.053191,268},{0.053191,194}}" />
+            <Property Name="VertOverlapSize" Value="0.01" />
+            <Property Name="HorzScrollPosition" Value="0" />
+            <Property Name="VertScrollPosition" Value="0" />
+            <AutoWindow NameSuffix="__auto_container__" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:-11 t:0 r:230 b:112" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ChildExtentsArea" Value="l:-11 t:0 r:230 b:112" />
+                <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/beijingkuang/btnquanbu" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="宝宝" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="filterBtn" />
+                    <Property Name="EnableClickAni" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-22},{0.05,1},{0.05,218},{0.05,50}}" />
+                    <Property Name="NormalTextColour" Value="FF743A0F" />
+                    <Property Name="SelectedTextColour" Value="FF743A0F" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/GroupButtontj" Name="petfieldguide_mtg/beijingkuang/btnquanbu1" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="特殊" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="filterBtn" />
+                    <Property Name="EnableClickAni" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.1,-36},{0.1,51},{0.1,204},{0.1,100}}" />
+                    <Property Name="NormalTextColour" Value="FF743A0F" />
+                    <Property Name="SelectedTextColour" Value="FF743A0F" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </AutoWindow>
+        </Window>
+        <Window Type="TaharezLook/buttoncchsay" Name="petfieldguide_mtg/quanbu" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="全部" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,83},{0,62},{0.053191,261},{0.053191,74}}" />
+        </Window>
+    </Window>
+</GUILayout>

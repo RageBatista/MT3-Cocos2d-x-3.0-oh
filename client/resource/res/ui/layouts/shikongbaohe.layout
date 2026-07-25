@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/StaticImage" Name="shikongbaohe">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="NpcBaiChongShop"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="VertFormatting" Value="TopAligned"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-454},{0.5,-304},{0.5,454},{0.5,304}}"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/StaticImage" Name="shikongbaohe/bgtx">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,273},{0,241},{0,635},{0,469}}"/>
+			<Property Name="HorizontalAlignment" Value="Centre"/>
+			<Property Name="MousePassThroughEnabled" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/ImageButton" Name="shikongbaohe/x">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="HoverImage" Value="set:my_skbh image:x"/>
+			<Property Name="AlwaysOnTop" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="NormalImage" Value="set:my_skbh image:x"/>
+			<Property Name="PushedImage" Value="set:my_skbh image:x"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="DisabledImage" Value="set:my_skbh image:x"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,836},{0,2},{0,904},{0,76}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="shikongbaohe/timetext">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:my_skbh image:2"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="AlwaysOnTop" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,637},{0,123},{0,793},{0,160}}"/>
+			<Window Type="TaharezLook/StaticText" Name="shikongbaohe/timetext/txt">
+				<Property Name="Font" Value="mhsy-9-normal"/>
+				<Property Name="Text" Value="当前时间:子时"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="110.5"/>
+				<Property Name="VertExtent" Value="16.4919"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,37},{0,6},{0,170},{0,33}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/ImageButton" Name="shikongbaohe/all">
+			<Property Name="Font" Value="mhsy-14-normal"/>
+			<Property Name="Text" Value="开 始 抽 取"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="HoverImage" Value="set:my_skbh image:5"/>
+			<Property Name="AlwaysOnTop" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="NormalImage" Value="set:my_skbh image:5"/>
+			<Property Name="PushedImage" Value="set:my_skbh image:5"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="DisabledImage" Value="set:my_skbh image:5"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,276},{0,494},{0,633},{0,556}}"/>
+			<Property Name="ButtonBorderColour" Value="FF7f98d5"/>
+			<Property Name="ButtonBorderEnable" Value="True"/>
+			<Property Name="HorizontalAlignment" Value="Centre"/>
+			<Property Name="ButtonDefaultBorderEnable" Value="False"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="shikongbaohe/bgtx1">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,273},{0,241},{0,635},{0,469}}"/>
+			<Property Name="HorizontalAlignment" Value="Centre"/>
+			<Property Name="MousePassThroughEnabled" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="shikongbaohe/jiangchi">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:my_skbh image:6"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="ClippedByParent" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,475},{0,133},{0,996},{0,405}}"/>
+			<Window Type="TaharezLook/ScrollablePane" Name="shikongbaohe/box">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="ContentArea" Value="l:-4 t:0 r:267 b:475"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="HorzStepSize" Value="0.1"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="VertStepSize" Value="0.1"/>
+				<Property Name="HorzOverlapSize" Value="0.01"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,136},{0.05,66},{0.05,414},{0.05,203}}"/>
+				<Property Name="VertOverlapSize" Value="0.01"/>
+				<Property Name="HorzScrollPosition" Value="0.0"/>
+				<Property Name="VertScrollPosition" Value="0.0"/>
+				<AutoWindow NameSuffix="__auto_container__">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="ContentArea" Value="l:-4 t:0 r:267 b:475"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ChildExtentsArea" Value="l:-4 t:0 r:267 b:475"/>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item1">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,-4},{0,3},{0,60},{0,67}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item2">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,65},{0,3},{0,129},{0,67}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item3">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,134},{0,3},{0,198},{0,67}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item4">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,203},{0,3},{0,267},{0,67}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item5">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,-4},{0,71},{0,60},{0,135}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item6">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,65},{0,71},{0,129},{0,135}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item7">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,134},{0,71},{0,198},{0,135}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item8">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,203},{0,71},{0,267},{0,135}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item9">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,-4},{0,139},{0,60},{0,203}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item10">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,65},{0,139},{0,129},{0,203}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item11">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,134},{0,139},{0,198},{0,203}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item12">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,203},{0,139},{0,267},{0,203}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item13">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,-4},{0,207},{0,60},{0,271}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item14">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,65},{0,207},{0,129},{0,271}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item15">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,134},{0,207},{0,198},{0,271}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item16">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,203},{0,207},{0,267},{0,271}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item17">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,-4},{0,275},{0,60},{0,339}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item18">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,65},{0,275},{0,129},{0,339}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item19">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,134},{0,275},{0,198},{0,339}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item20">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,203},{0,275},{0,267},{0,339}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item21">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,-4},{0,343},{0,60},{0,407}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item22">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,65},{0,343},{0,129},{0,407}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item23">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,134},{0,343},{0,198},{0,407}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item24">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,203},{0,343},{0,267},{0,407}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item25">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,-4},{0,411},{0,60},{0,475}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item26">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,65},{0,411},{0,129},{0,475}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item27">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,134},{0,411},{0,198},{0,475}}"/>
+					</Window>
+					<Window Type="TaharezLook/ItemCellsk" Name="shikongbaohe/box/item28">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,203},{0,411},{0,267},{0,475}}"/>
+					</Window>
+				</AutoWindow>
+			</Window>
+			<Window Type="TaharezLook/ImageButton" Name="shikongbaohe/jiangchi/x">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="HoverImage" Value="set:my_skbh image:cell_x"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="NormalImage" Value="set:my_skbh image:cell_x"/>
+				<Property Name="PushedImage" Value="set:my_skbh image:cell_x"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="DisabledImage" Value="set:my_skbh image:cell_x"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,426},{0,1},{0,458},{0,33}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/ImageButton" Name="shikongbaohe/yulan">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="HoverImage" Value="set:my_skbh image:3"/>
+			<Property Name="AlwaysOnTop" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="NormalImage" Value="set:my_skbh image:3"/>
+			<Property Name="PushedImage" Value="set:my_skbh image:3"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="DisabledImage" Value="set:my_skbh image:3"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,527},{0,352},{0,574},{0,392}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="shikongbaohe/huafei">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:my_skbh image:di"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+            <Property Name="UnifiedAreaRect" Value="{{0,218},{0,455},{0,690},{0,490}}" />
+			<Window Type="TaharezLook/StaticImage" Name="shikongbaohe/huafei/yu">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:ccui1 image:czjf"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+                <Property Name="UnifiedAreaRect" Value="{{0,61},{0,5},{0,93},{0,34}}" />
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="shikongbaohe/huafei/text">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Text" Value="9999"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="26.5"/>
+				<Property Name="VertExtent" Value="22.0001"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF566DB0"/>
+				<Property Name="BorderEnable" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+                <Property Name="UnifiedAreaRect" Value="{{0,84},{0,4},{0,197},{0,36}}" />
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="shikongbaohe/yongyou">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Text" Value="拥有"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="44.0"/>
+				<Property Name="VertExtent" Value="22.0001"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF566DB0"/>
+				<Property Name="BorderEnable" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+                <Property Name="UnifiedAreaRect" Value="{{0,194},{0,3},{0,258},{0,35}}" />
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="shikongbaohe/yongyou/text">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Text" Value="9999"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="26.5"/>
+				<Property Name="VertExtent" Value="22.0001"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF566DB0"/>
+				<Property Name="BorderEnable" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+                <Property Name="UnifiedAreaRect" Value="{{0,261},{0,3},{0,453},{0,35}}" />
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/StaticImage" Name="RankingList/mask">
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="Familyqunfaxiaoxidialog"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0,-1},{0,-1},{1,-1},{1,-1}}"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/StaticImage" Name="RankingList">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:rankdbui image:bg"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="ModalState" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="SoundResource" Value="open.ogg"/>
+			<Property Name="LimitWindowSize" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.5,-598},{0.5,-344},{0.5,601},{0.5,345}}"/>
+			<Property Name="CloseSoundResource" Value="close.ogg"/>
+			<Window Type="TaharezLook/common_text2bgtou" Name="RankingList/PersonalInfo/leftback">
+				<Property Name="Font" Value="num-count1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,80},{0,60},{0,296},{0,667}}"/>
+				<Window Type="TaharezLook/GroupBtnTree" Name="RankingList/tree">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="MaskImage" Value=""/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,6},{0,26},{0,210},{0,585}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_text2bgtou" Name="RankingList/PersonalInfo/rightback">
+				<Property Name="Font" Value="simhei-10"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,308},{0,95},{0,876},{0,609}}"/>
+				<Property Name="MousePassThroughEnabled" Value="True"/>
+				<Window Type="TaharezLook/Buttonkx" Name="RankingList/get/list1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="三界总榜"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="useTenBtn1"/>
+					<Property Name="EnableClickAni" Value="False"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,122},{0,41}}"/>
+					<Property Name="NormalTextColour" Value="FF723B06"/>
+					<Property Name="LuaEventOnClicked" Value="handleUseTenClicked"/>
+					<Property Name="ButtonBorderEnable" Value="False"/>
+				</Window>
+				<Window Type="TaharezLook/Buttonkx" Name="RankingList/get/list2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="神威组"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="useTenBtn2"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="HoverTextColour" Value="FF723b06"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,416},{0,2},{0,529},{0,40}}"/>
+					<Property Name="NormalTextColour" Value="FF723B06"/>
+					<Property Name="LuaEventOnClicked" Value="handleUseTenClicked"/>
+					<Property Name="ButtonBorderEnable" Value="False"/>
+				</Window>
+				<Window Type="TaharezLook/Buttonkx" Name="RankingList/get/list3">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="勇武组"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="useTenBtn3"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,280},{0,2},{0,391},{0,40}}"/>
+					<Property Name="NormalTextColour" Value="FF723B06"/>
+					<Property Name="LuaEventOnClicked" Value="handleUseTenClicked"/>
+					<Property Name="ButtonBorderEnable" Value="False"/>
+				</Window>
+				<Window Type="TaharezLook/Buttonkx" Name="RankingList/get/list4">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="精锐组"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="useTenBtn4"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,148},{0,2},{0,254},{0,40}}"/>
+					<Property Name="NormalTextColour" Value="FF723B06"/>
+					<Property Name="LuaEventOnClicked" Value="handleUseTenClicked"/>
+					<Property Name="ButtonBorderEnable" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/MultiColumnListtm" Name="RankingList/PersonalInfo/list">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,291},{0,98},{0,850},{0,610}}"/>
+				<Property Name="ColumnHeader" Value="text:届次 width:{0.2,0} id:0"/>
+				<Property Name="ColumnHeader" Value="text:名称 width:{0.3,0} id:1"/>
+				<Property Name="ColumnHeader" Value="text:称谓 width:{0.1,0} id:2"/>
+				<Property Name="ColumnHeader" Value="text:称谓 width:{0.1,0} id:3"/>
+				<Property Name="ColumnHeader" Value="text:文采值 width:{1,-392} id:4"/>
+				<Property Name="ColumnHeader" Value="text:BOSS进度 width:{1,-555} id:5"/>
+			</Window>
+			<Window Type="TaharezLook/Button" Name="RankingList/get">
+				<Property Name="Text" Value="领取奖励"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="SoundResource" Value="click.ogg"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.703108,29},{0.858553,1},{0.946409,29},{0.846774,58.908}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="RankingList/personalrank">
+				<Property Name="Font" Value="num-count1"/>
+				<Property Name="Text" Value="好遗憾你还没有上榜。"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="VertExtent" Value="25.0"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FFF9C96D tr:FFF9C96D bl:FFF9C96D br:FFF9C96D"/>
+				<Property Name="BorderColour" Value="FF220B01"/>
+				<Property Name="BorderEnable" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.0557349,238},{0.871711,-26},{0.704181,0},{0.892275,39.466}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="RankingList/bangwaixinxi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="LeftAligned"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,291},{0,600},{0,850},{0,649}}"/>
+				<Window Type="TaharezLook/common_renwubg" Name="RankingList/bangwaixinxi/back">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,4},{0,560},{0,54}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/bangwaixinxi/paiming">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="排名"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="44.0"/>
+					<Property Name="VertExtent" Value="22.0001"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,10},{0,59},{0,49}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/bangwaixinxi/canshu1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="万家名城"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="88.0"/>
+					<Property Name="VertExtent" Value="22.0001"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,70},{0,10},{0,209},{0,49}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/bangwaixinxi/canshu2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="参数二三四五六七"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="176.0"/>
+					<Property Name="VertExtent" Value="22.0001"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,220},{0,10},{0,349},{0,49}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/bangwaixinxi/canshu3">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="参数三"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="66.0"/>
+					<Property Name="VertExtent" Value="22.0001"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,361},{0,11},{0,450},{0,50}}"/>
+				</Window>
+				<Window Type="TaharezLook/ImageButton" Name="RankingList/bangwaixinxi/xiangyinganniu">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,-7},{0,559},{0,52}}"/>
+				</Window>
+				<Window Type="TaharezLook/ImageButton" Name="RankingList/close">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="NormalImage" Value="set:common image:common_X"/>
+					<Property Name="PushedImage" Value="set:common image:common_X"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="m_CloseBtnEx"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,789},{0,-580},{0,863},{0,-498}}"/>
+					<Property Name="LuaEventOnClicked" Value="OnCloseBtnEx"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/bangwaixinxi/canshu4">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="参数四"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="66.0"/>
+					<Property Name="VertExtent" Value="22.0001"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,482},{0,12},{0,551},{0,51}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/bangwaixinxi/canshu5">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="参数五"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="66.0"/>
+					<Property Name="VertExtent" Value="22.0001"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF603E22 tr:FF603E22 bl:FF603E22 br:FF603E22"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,484},{0,10},{0,553},{0,49}}"/>
+				</Window>
+			</Window>
+			<Window Type="DefaultWindow" Name="RankingList/top3">
+				<Property Name="Font" Value="tahoma-9"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.075721,759},{0.075721,409},{0.075721,1029},{0.075721,607}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="RankingList/top3/mode">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.095977,54},{0.095977,64},{0.095977,169},{0.095977,167}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/top3/name">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="100"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,50},{0,160},{0,249},{0,188}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="DefaultWindow" Name="RankingList/top2">
+				<Property Name="Font" Value="tahoma-9"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.075721,759},{0.075721,218},{0.075721,1026},{0.075721,417}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="RankingList/top2/mode">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.095977,54},{0.095977,58},{0.095977,174},{0.095977,157}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/top2/name">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="100"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,37},{0.05,155},{0.05,234},{0.05,183}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="DefaultWindow" Name="RankingList/top1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.025721,819},{0.025721,55},{0.025721,1089},{0.025721,256}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="RankingList/top1/mode">
+					<Property Name="Font" Value="tahoma-9"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.045977,68},{0.045977,63},{0.045977,187},{0.045977,165}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="RankingList/top1/name">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="萨达"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="44.0"/>
+					<Property Name="VertExtent" Value="22.0001"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="100"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,36},{0.05,161},{0.05,227},{0.05,187}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

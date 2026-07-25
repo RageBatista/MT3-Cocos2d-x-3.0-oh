@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow" Name="mapchosedialog_mtg">
+		<Property Name="Text" Value="挂  机"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="MapChoseDlg"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="AlwaysOnTop" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="SoundResource" Value="dlgopen.ogg"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-583},{0.5,-334},{0.5,583},{0.5,348}}"/>
+		<Property Name="CreateEffectType" Value="Left"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="CloseSoundResource" Value="dlgopen.ogg"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/ScrollablePane" Name="mapchosedialog_mtg/list">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="HorzStepSize" Value="0.1"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="VertStepSize" Value="0.1"/>
+			<Property Name="LuaMemberName" Value="m_scrollCellList"/>
+			<Property Name="HorzOverlapSize" Value="0.01"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,77},{0,81},{0,1079},{0,487}}"/>
+			<Property Name="VertOverlapSize" Value="0.01"/>
+			<Property Name="HorzScrollPosition" Value="0.0"/>
+			<Property Name="VertScrollPosition" Value="0.0"/>
+			<AutoWindow NameSuffix="__auto_container__">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0"/>
+			</AutoWindow>
+		</Window>
+		<Window Type="TaharezLook/common_text2bg" Name="mapchosedialog_mtg/text3">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,77},{0,496},{0,1080},{0,646}}"/>
+			<Window Type="TaharezLook/StaticText" Name="mapchosedialog_mtg/text3/textzidong">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Text" Value="自动战斗"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="88.0"/>
+				<Property Name="VertExtent" Value="21.9893"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,29},{0,38},{0,127},{0,63}}"/>
+			</Window>
+			<Window Type="TaharezLook/Switch" Name="mapchosedialog_mtg/text3/switch">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Status" Value="OFF"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="m_switchAuto"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,34},{0,80},{0,126},{0,117}}"/>
+			</Window>
+			<Window Type="TaharezLook/dangebutton" Name="mapchosedialog_mtg/text3/btnrenwu">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="清心"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="m_btnFight"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,229},{0,52},{0,429},{0,115}}"/>
+				<Window Type="TaharezLook/SkillBox" Name="mapchosedialog_mtg/text3/btnrenwu/skillbox1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="m_imgSkillFight"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-93},{0,-19},{0,0},{0,75}}"/>
+					<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/text3/btnrenwu/skillbox1/imagerenwu">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Image" Value="set:fightui image:people"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ClippedByParent" Value="False"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,71},{0,-5},{0,95},{0,20}}"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/text3/btnrenwu/gongji1s">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:fightui image:defense"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-95},{0,-24},{0,5},{0,76}}"/>
+					<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/text3/btnrenwu/skillbox1/imagerenwu2">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Image" Value="set:fightui image:people"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ClippedByParent" Value="False"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,73},{0,0},{0,97},{0,25}}"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/text3/btnrenwu/xiajiantou">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:common_pack image:goods_xiangxiajiantou"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,174},{0,22},{0,196},{0,34}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/dangebutton" Name="mapchosedialog_mtg/text3/btnrenwu1">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="清心"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="m_btnDef"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,531},{0,51},{0,731},{0,114}}"/>
+				<Window Type="TaharezLook/SkillBox" Name="mapchosedialog_mtg/text3/btnrenwu/skillbox11">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-94},{0,-19},{0,0},{0,75}}"/>
+					<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/text3/btnrenwu/skillbox1/imagerenwu1">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Image" Value="set:fightui image:baobao"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ClippedByParent" Value="False"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,73},{0,-5},{0,97},{0,20}}"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/text3/btnrenwu/gongji1s1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:fightui image:defense"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="m_imgSkillDef"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-96},{0,-24},{0,4},{0,76}}"/>
+					<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/text3/btnrenwu/skillbox1/imagerenwu11">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Image" Value="set:fightui image:baobao"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ClippedByParent" Value="False"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,75},{0,0},{0,99},{0,25}}"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/text3/btnrenwu/xiajiantou1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:common_pack image:goods_xiangxiajiantou"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,187},{0,22},{0,209},{0,34}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/dangebutton" Name="mapchosedialog_mtg/now">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="原地挂机"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="AlwaysOnTop" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_btnYuandi"/>
+			<Property Name="SoundResource" Value="ciqi.ogg"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,815},{0,545},{0,1010},{0,610}}"/>
+			<Property Name="LuaEventOnClicked" Value="HandleBtnYuandiClick"/>
+		</Window>
+		<Window Type="TaharezLook/ImageButton" Name="mapchosedialog_mtg/btntishi1">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="AlwaysOnTop" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="NormalImage" Value="set:renwuui image:renwu_tishi"/>
+			<Property Name="PushedImage" Value="set:renwuui image:renwu_tishi"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_btnIntro"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,1013},{0,545},{0,1074},{0,606}}"/>
+			<Property Name="LuaEventOnClicked" Value="HandleBtnIntroClick"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="mapchosedialog_mtg/tubiao">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:diban image:guaji"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="AlwaysOnTop" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="ClippedByParent" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,39},{0,-19},{0,149},{0,89}}"/>
+			<Property Name="MousePassThroughEnabled" Value="True"/>
+		</Window>
+	</Window>
+</GUILayout>

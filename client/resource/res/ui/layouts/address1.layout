@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/StaticImage" Name="address1/mask">
+		<Property Name="Image" Value="set:LoginBack2 image:CommonBack"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="AlwaysOnTop" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}"/>
+		<Property Name="AllowModalStateClick" Value="True"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/FrameWindow3" Name="address">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="地理位置"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="RollUpEnabled" Value="True"/>
+			<Property Name="SizingEnabled" Value="False"/>
+			<Property Name="TitlebarEnabled" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.5,-331},{0.5,-274},{0.5,331},{0.5,274}}"/>
+			<Property Name="DragMovingEnabled" Value="False"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+			<Window Type="TaharezLook/common_text2bg" Name="address/di">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,28},{0,75},{0,633},{0,503}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Window Type="TaharezLook/StaticText" Name="address/now">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="当前位置："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="130.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,118},{0.05,9},{0.05,245},{0.05,59}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="address/where">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="XX省XX市"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="104.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,241},{0.05,9},{0.05,559},{0.05,59}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/common_ty" Name="address/sheng">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="省"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,12},{0,108},{0,196},{0,172}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+					<Window Type="TaharezLook/StaticImage" Name="address/sheng/down1">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Image" Value="set:common image:dowm"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,162},{0,24},{0,178},{0,41}}"/>
+						<Property Name="AllowModalStateClick" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/common_ty" Name="address/shi">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="市"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,205},{0,108},{0,389},{0,172}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+					<Window Type="TaharezLook/StaticImage" Name="address/down2">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Image" Value="set:common image:dowm"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,161},{0,24},{0,177},{0,41}}"/>
+						<Property Name="AllowModalStateClick" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/dangebutton" Name="address/auto">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="自动获取"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,400},{0,108},{0,595},{0,172}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="DefaultWindow" Name="address/di/xiala">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,227},{0,172},{0,403},{0,378}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+					<Window Type="TaharezLook/ScrollablePane" Name="address/di/xiala/list">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="HorzStepSize" Value="0.1"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="VertStepSize" Value="0.1"/>
+						<Property Name="HorzOverlapSize" Value="0.01"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,7},{0,2},{0,168},{0,202}}"/>
+						<Property Name="VertOverlapSize" Value="0.01"/>
+						<Property Name="HorzScrollPosition" Value="0.0"/>
+						<Property Name="VertScrollPosition" Value="0.0"/>
+						<Property Name="AllowModalStateClick" Value="True"/>
+						<AutoWindow NameSuffix="__auto_container__">
+							<Property Name="Scale" Value="x:1 y:1 z:1"/>
+							<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+							<Property Name="LuaForDialog" Value="True"/>
+							<Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0"/>
+						</AutoWindow>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="address/di/tips">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="点击自动获取自动获取位置，也可以自己手动设置位置"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="528.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,27},{0,205},{0,578},{0,291}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/Button" Name="address/di/quxiao">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="取 消"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,31},{0,328},{0,262},{0,391}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/Button" Name="address/di/queren">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="确 认"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,337},{0,328},{0,567},{0,391}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="DefaultWindow" Name="address/di/xiala1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,27},{0,172},{0,203},{0,378}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+					<Window Type="TaharezLook/ScrollablePane" Name="address/di/xiala/list1">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="HorzStepSize" Value="0.1"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="VertStepSize" Value="0.1"/>
+						<Property Name="HorzOverlapSize" Value="0.01"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,7},{0,2},{0,168},{0,202}}"/>
+						<Property Name="VertOverlapSize" Value="0.01"/>
+						<Property Name="HorzScrollPosition" Value="0.0"/>
+						<Property Name="VertScrollPosition" Value="0.0"/>
+						<Property Name="AllowModalStateClick" Value="True"/>
+						<AutoWindow NameSuffix="__auto_container__">
+							<Property Name="Scale" Value="x:1 y:1 z:1"/>
+							<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+							<Property Name="LuaForDialog" Value="True"/>
+							<Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0"/>
+						</AutoWindow>
+					</Window>
+				</Window>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

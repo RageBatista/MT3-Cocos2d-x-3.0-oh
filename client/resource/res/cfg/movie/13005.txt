@@ -1,0 +1,111 @@
+﻿Setmap id=1611 pos=82,25 
+PlaySound id=1 res=/sound/scene/Music_zhuridao.ogg repeat=-1 fadein=1
+MoveCam pos=82,25 
+
+CreateNpc id=0 varname=主角 pos=74,33 model=6025 npcname=主角 dir=1
+CreateNpc id=2 varname=KEJ pos=86,22 model=1010126 npcname=野猪统领 tile=8 dir=5 chengwei= colorA=1 colorB=1
+
+Start
+Wait time=1000
+
+SetSE name=jq01_chuxioan pos=70,10 repeat=1
+Wait time=350
+
+SetDir varname=KEJ dir=7
+SetDir varname=主角 dir=0
+Wait time=500
+SetSE name=jq0_chuxian pos=70,10 type=0
+Wait time=200
+
+CreateNpc id=3 varname=AJMG pos=72,15 model=1020125 npcname=猪族老人 tile=8 dir=3 chengwei=<野猪人半神>
+SKbegin time =200
+Speak name=猪族老人 text=是谁，从沉睡的久远中唤醒了我？ head=9099 pause=1 time=4300
+PlaySDEffect res=/sound/chat/MovieTalk/13005_01_4.ogg
+Wait time=200
+
+MoveNPC varname=AJMG pos=77,17 time=2000
+Wait time=2000
+CreateNpc id=5 varname=TX pos=77,17 tile=8 dir=6 effect=geffect/skill/mt_zhuanzhuyizhi/mt_zhuanzhuyizhi_xia repeat=-1
+Wait time=1800
+SKbegin time =200
+Speak name=野猪统领 text=（羞愧）先祖... head=9057 time=1500
+PlaySDEffect res=/sound/chat/MovieTalk/13005_02_1.ogg
+Wait time=1500
+
+Speak name=猪族老人<野猪人先祖> text=你身上有魔物的气息，我替你驱散它。 head=9099 pause=1 time=5500
+PlaySDEffect res=/sound/chat/MovieTalk/13005_03_5.ogg
+Wait time=2500
+
+PlayAct varname=AJMG id=9 dir=3 end=1
+Wait time=500
+
+SetSE name=jq00_jinghua_04 pos=91,19 repeat=1
+Wait time=1000
+
+SetSE name=jq00_jinghua_03 pos=86,22 repeat=1
+Wait time=1500
+
+SetSE name=jq00_jinghua_01 pos=86,22 repeat=1
+SetSE name=jq00_jinghua_02 pos=86,24 repeat=1
+Wait time=1500
+SetColor varname=KEJ type=50 id=0
+SetColor varname=KEJ type=51 id=0
+
+SKbegin time =200
+Speak name=野猪统领 text=我...我的身体恢复了 head=9057 pause=1 time=2800
+PlaySDEffect res=/sound/chat/MovieTalk/13005_04_2.ogg
+SetDir varname=KEJ dir=7
+PlayAct varname=KEJ id=9 dir=5 end=1
+Wait time=1300
+SetDir varname=KEJ dir=7
+Wait time=1000
+MoveNPC varname=AJMG pos=74,22 time=2500
+MoveNPC varname=TX pos=74,22 time=2500
+Wait time=2000
+SetDir varname=KEJ dir=5
+Wait time=500
+
+SKbegin time =200
+Speak name=猪族老人<野猪人先祖> text=原来是你,预言中的天选之子... head=9099 pause=1 time=4400
+PlaySDEffect res=/sound/chat/MovieTalk/13005_05_4.ogg
+Wait time=4400
+
+SKbegin time =200
+Speak name=猪族老人 text=我将剩余的神力托付给你，希望能够帮助你... head=9099 pause=1 time=4900
+PlaySDEffect res=/sound/chat/MovieTalk/13005_06_5.ogg
+Wait time=4300
+DeleteNPC varname=AJMG
+DeleteNPC varname=TX
+CreateNpc id=4 varname=TX1 pos=74,22  tile=8 dir=6 effect=geffect/sence/story/mt_jq_guangqiu/mt_jq_guangqiu repeat=-1 
+Wait time=600
+SKbegin time =200
+Speak name=主角 text=等等，别消失，我还有话要说。 head=0 pause=1 time=3300 
+PlaySDEffect res=/sound/chat/MovieTalk/13005_07_3.ogg type=1
+Wait time=500
+
+MoveNPC varname=TX1 pos=74,31 time=1000
+Wait time=1000
+DeleteNPC varname=TX1
+PlayAct varname=主角 id=7 dir=0 end=1
+
+Wait time=1000
+
+Return time=100 type=0
+End
+
+
+eActionStand,		1//普通站立
+	eActionStandRandom,	2//站立随机动作
+	eActionBattleStand,	3//战斗警戒
+	eActionWalk,		4//走动
+	eActionRun,		5//跑步，不存在左腿还是右腿先跑
+	eActionBattleRun,	6//战斗中跑
+	eActionOnHit,		7//受击
+	eActionAttack,		8//攻击
+	eActionMagic,		9//施法
+	eActionRunaway,		10//逃跑
+	eActionDefence,		11//防御;
+	eActionDodge,		12//闪避
+	eActionDying,		13//倒地
+	eActionDeath,		14//死亡
+	eActionRoll,		15//击飞

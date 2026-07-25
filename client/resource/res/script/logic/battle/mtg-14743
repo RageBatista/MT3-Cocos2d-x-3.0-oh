@@ -1,0 +1,101 @@
+Index: zhandouanniu.lua
+===================================================================
+--- zhandouanniu.lua	(revision 50091)
++++ zhandouanniu.lua	(working copy)
+@@ -199,7 +199,22 @@
+ 	self.m_btnGroupId[btnID_jiangli] = 0
+ 	self.m_btnGroupId[btnID_hongbao] = 0
+ 	self:refreshBtn()
+-
++    local funopenclosetype = require("protodef.rpcgen.fire.pb.funopenclosetype"):new()
++    local manager = require "logic.pointcardserver.pointcardservermanager".getInstanceNotCreate()
++    if manager then
++        if manager.m_OpenFunctionList.info then
++            for i,v in pairs(manager.m_OpenFunctionList.info) do
++                if v.key == funopenclosetype.FUN_REDPACK then
++                    if v.state == 1 then
++                        self.m_pBtnRedPack:setVisible(false)
++                        self.m_btnGroup[btnID_hongbao]  = nil
++                        self.m_btnGroupId[btnID_hongbao] = nil
++                        break
++                    end
++                end
++            end
++        end
++    end
+ 	NotificationCenter.addObserver(Notifi_TeamApplicantChange, ZhanDouAnNiu.handleEventTeamApplyChange)
+ end
+ 
+@@ -364,39 +379,40 @@
+ 	local posX = 0
+ 	local posY = 0
+ 	for i = 1, 15 do
+-		if self.m_btnGroupId[i] == 0 then
+-			local x = CEGUI.UDim(0,  posX * btnWidth)
+-			local y = CEGUI.UDim(0,  posY * btnHeight)
+-			local posOff = CEGUI.UVector2(x+ pos.x,y + pos.y)
+-			self.m_btnGroup[i]:setPosition(posOff)
+-			self.m_btnGroup[i]:setVisible(true)
+-			posX = posX + 1
+-			--如果超过4个换行
+-			if  posX ==  4 then
+-				posX = 0
+-				posY = posY + 1
+-			end
+-		else
+-            local record =  BeanConfigManager.getInstance():GetTableByName("mission.cnewfunctionopen"):getRecorder(self.m_btnGroupId[i])
+-			local needlevel = record.needlevel
+-			if XinGongNengOpenDLG.checkFeatureOpened(self.m_btnGroupId[i]) then
+-				local x = CEGUI.UDim(0,  posX * btnWidth)
+-				local y = CEGUI.UDim(0,  posY * btnHeight)
+-				local posOff = CEGUI.UVector2(x+ pos.x,y + pos.y)
+-				self.m_btnGroup[i]:setPosition(posOff)
+-				self.m_btnGroup[i]:setVisible(true)
+-				posX = posX + 1
+-				--如果超过4个换行
+-				if  posX ==  4 then
+-					posX = 0
+-					posY = posY + 1
+-				end
++        if self.m_btnGroupId[i] then
++		    if self.m_btnGroupId[i] == 0 then
++			    local x = CEGUI.UDim(0,  posX * btnWidth)
++			    local y = CEGUI.UDim(0,  posY * btnHeight)
++			    local posOff = CEGUI.UVector2(x+ pos.x,y + pos.y)
++			    self.m_btnGroup[i]:setPosition(posOff)
++			    self.m_btnGroup[i]:setVisible(true)
++			    posX = posX + 1
++			    --如果超过4个换行
++			    if  posX ==  4 then
++				    posX = 0
++				    posY = posY + 1
++			    end
++		    else
++                local record =  BeanConfigManager.getInstance():GetTableByName("mission.cnewfunctionopen"):getRecorder(self.m_btnGroupId[i])
++			    local needlevel = record.needlevel
++			    if XinGongNengOpenDLG.checkFeatureOpened(self.m_btnGroupId[i]) then
++				    local x = CEGUI.UDim(0,  posX * btnWidth)
++				    local y = CEGUI.UDim(0,  posY * btnHeight)
++				    local posOff = CEGUI.UVector2(x+ pos.x,y + pos.y)
++				    self.m_btnGroup[i]:setPosition(posOff)
++				    self.m_btnGroup[i]:setVisible(true)
++				    posX = posX + 1
++				    --如果超过4个换行
++				    if  posX ==  4 then
++					    posX = 0
++					    posY = posY + 1
++				    end
+ 
+-			else
+-				self.m_btnGroup[i]:setVisible(false)
+-			end
+-		end
+-
++			    else
++				    self.m_btnGroup[i]:setVisible(false)
++			    end
++		    end
++        end
+ 	end
+ 
+     

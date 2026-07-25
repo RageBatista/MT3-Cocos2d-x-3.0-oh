@@ -1,0 +1,1759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow" Name="SkillStudyDlg">
+		<Property Name="Font" Value="hycyj-20"/>
+		<Property Name="Text" Value="奇经八脉"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-553},{0.5,-335},{0.5,551},{0.5,347}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="DefaultWindow" Name="SkillStudyDlg/rightdown">
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,359},{0,402},{0,1076},{0,659}}"/>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/name">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="升级需求："/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="130.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.0285609,-22},{0.0334928,0},{0.695857,-22},{0.0140187,43.8572}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/text2">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="所需经验："/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="130.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.033754,-29},{0.173333,117.773},{0.267437,-60},{0.173333,147.773}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/text3">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="当前经验："/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="130.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.033754,-29},{0.173333,171.773},{0.267437,-61},{0.173333,201.773}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/text4">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="需要"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="52.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,0},{0,47},{0,71},{0,87}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/text5">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="拥有"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="52.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,0},{0,103},{0,71},{0,143}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/text6">
+				<Property Name="Text" Value="当前绑银："/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="HorzExtent" Value="85.0"/>
+				<Property Name="VertExtent" Value="16.5"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF1A2E4F tr:FF1A2E4F bl:FF1A2E4F br:FF1A2E4F"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.033754,0},{0.173333,335.773},{0.267437,0},{0.173333,360.773}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/num2">
+				<Property Name="Font" Value="plantc-15"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.270035,-52},{0.173333,176.773},{0.67249,-52},{0.173333,206.773}}"/>
+				<Property Name="BackgroundEnabled" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/rightdown/num2/exp">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:chongwuui image:deng"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-25},{0,-5},{0,19},{0,38}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/num3">
+				<Property Name="Font" Value="plantc-15"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.270035,-51},{0.173333,120.773},{0.67249,-51},{0.173333,150.773}}"/>
+				<Property Name="BackgroundEnabled" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/rightdown/num3/exp1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:chongwuui image:deng"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-27},{0,-6},{0,17},{0,37}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/num4">
+				<Property Name="Font" Value="plantc-15"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,137},{0,50},{0,369},{0,88}}"/>
+				<Property Name="BackgroundEnabled" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/rightdown/num4/yinbi1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:common image:common_jinb"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-22},{0,-3},{0,22},{0,40}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/num5">
+				<Property Name="Font" Value="plantc-15"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,137},{0,106},{0,369},{0,144}}"/>
+				<Property Name="BackgroundEnabled" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/rightdown/num4/yinbi2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:common image:common_jinb"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-22},{0,-3},{0,22},{0,40}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/num6">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.270035,0},{0.173333,181.773},{0.67249,0},{0.173333,209.773}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/rightdown/yinbi">
+				<Property Name="Font" Value="plantc-15"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,130},{0,105},{0,362},{0,143}}"/>
+				<Property Name="BackgroundEnabled" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/rightdown/yinbi/1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:common image:common_jinb"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-22},{0,-3},{0,22},{0,40}}"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/dangebutton" Name="SkillStudyDlg/yes">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="开启经脉"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,829},{0,587},{0,1024},{0,650}}"/>
+		</Window>
+		<Window Type="TaharezLook/CommonCaseChat" Name="SkillStudyDlg/tips">
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,629},{0,177},{0,1039},{0,419}}"/>
+			<Window Type="TaharezLook/RichEditbox" Name="SkillStudyDlg/AcupointTips">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="ReadOnly" Value="True"/>
+				<Property Name="LineSpace" Value="1.0"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="MaxTextLength" Value="2147483647"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,400},{0,219}}"/>
+				<Property Name="BlinkCaretTimeout" Value="0.5"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/AcupointTips/name">
+				<Property Name="Text" Value="这里是技能名称"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="119.0"/>
+				<Property Name="VertExtent" Value="16.5"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF37EFFF tr:FF37EFFF bl:FF1E90D8 br:FF1E90D8"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.0363509,0},{0.0423083,0},{0.039611,186.933},{0.0423083,30}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/rightup/line">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,4},{0,40},{0,374},{0,45}}"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/CommonCaseChat" Name="SkillStudyDlg/left/SkillBack">
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.0457128,0},{0.0411185,15},{0.05,421},{0.0460526,561}}"/>
+			<Window Type="TaharezLook/ImageButton" Name="SkillStudyDlg/left/SkillBack/imgbtn">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.00823357,0},{0.0136612,0},{0.441762,0},{0.110656,0}}"/>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/SkillBack/imgbtn/txt">
+					<Property Name="Font" Value="hkhb-14"/>
+					<Property Name="Text" Value="基础技能"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="116.0"/>
+					<Property Name="VertExtent" Value="29.3138"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FF91FFFB"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.126087,0},{0.130189,0},{0.935871,0},{0.833019,0}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/ImageButton" Name="SkillStudyDlg/left/SkillBack/imgbtn1">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.562941,0},{0.0164845,0},{0.996471,0},{0.113479,0}}"/>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/SkillBack/imgbtn1/txt">
+					<Property Name="Font" Value="hkhb-14"/>
+					<Property Name="Text" Value="觉醒技能"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="116.0"/>
+					<Property Name="VertExtent" Value="29.3138"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FF91FFFB"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.126087,0},{0.130189,0},{0.935871,0},{0.833019,0}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/AntiqueCase1" Name="SkillStudyDlg/Line">
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.491426,57},{0.0328948,37},{0.532155,52},{0.953947,16}}"/>
+		</Window>
+		<Window Type="TaharezLook/dangebutton" Name="SkillStudyDlg/yesall">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="一键升级"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,845},{0,570},{0,1040},{0,633}}"/>
+		</Window>
+		<Window Type="TaharezLook/common_titleB" Name="SkillStudyDlg/titlename">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,685},{0,81},{0,985},{0,129}}"/>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/titlename/skillname">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF"/>
+				<Property Name="BorderColour" Value="FF4176F1"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,47},{0,1},{0,194},{0,44}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/titlename/level">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="Lv.99"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="65.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF"/>
+				<Property Name="BorderColour" Value="FF4176F1"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,187},{0,4},{0,271},{0,43}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/ScrollablePane" Name="SkillStudyDlg/paneshuoming">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="ContentArea" Value="l:0 t:0 r:400 b:298"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="HorzStepSize" Value="0.1"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="VertStepSize" Value="0.1"/>
+			<Property Name="HorzOverlapSize" Value="0.01"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,629},{0,145},{0,1036},{0,452}}"/>
+			<Property Name="VertOverlapSize" Value="0.01"/>
+			<Property Name="HorzScrollPosition" Value="0.0"/>
+			<Property Name="VertScrollPosition" Value="0.0"/>
+			<AutoWindow NameSuffix="__auto_container__">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="ContentArea" Value="l:0 t:0 r:400 b:298"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ChildExtentsArea" Value="l:0 t:0 r:400 b:298"/>
+				<Window Type="TaharezLook/RichEditbox" Name="SkillStudyDlg/paneshuoming/box">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,71},{0,0},{0,400},{0,298}}"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="SelectedTextColour" Value="FFFFFFFF"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+					<Property Name="ActiveSelectionColour" Value="FFFFFFFF"/>
+					<Property Name="InactiveSelectionColour" Value="FFFFFFFF"/>
+				</Window>
+			</AutoWindow>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/left">
+			<Property Name="Image" Value="set:skillui image:skill_ditu"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="ClippedByParent" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,86},{0,73},{0,363},{0,646}}"/>
+			<Property Name="MousePassThroughEnabled" Value="True"/>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,149},{0,146},{0,269},{0,283}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill1">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,2},{0,98},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name1">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,79},{0,109},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level1">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,22},{0,103},{0,109},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/2">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,149},{0,146},{0,269},{0,283}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill2">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,2},{0,98},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name2">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,79},{0,109},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level2">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,22},{0,103},{0,109},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/3">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,180},{0,146},{0,300},{0,283}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill3">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,2},{0,98},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name3">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,79},{0,109},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level3">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,22},{0,103},{0,109},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/4">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,149},{0,146},{0,269},{0,283}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill4">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,2},{0,98},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name4">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,79},{0,109},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level4">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,22},{0,103},{0,109},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/5">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,149},{0,146},{0,269},{0,283}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill5">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,2},{0,98},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name5">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,79},{0,109},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level5">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,22},{0,103},{0,109},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/6">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,149},{0,146},{0,269},{0,283}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill6">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,2},{0,98},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name6">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,79},{0,109},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level6">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,22},{0,103},{0,109},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/7">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,149},{0,146},{0,269},{0,283}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill7">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,2},{0,98},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name7">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,79},{0,109},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level7">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,22},{0,103},{0,109},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/8">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,149},{0,146},{0,269},{0,283}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill8">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,2},{0,98},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name8">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,79},{0,109},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level8">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,22},{0,103},{0,109},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/22">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,101},{0,483},{0,185},{0,568}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill22">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name22">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,16},{0,82},{0,114},{0,107}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level22">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,16},{0,106},{0,113},{0,130}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/23">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,186},{0,1},{0,270},{0,86}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill23">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name23">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,15},{0,83},{0,116},{0,106}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level23">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,14},{0,107},{0,113},{0,130}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/24">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,186},{0,83},{0,270},{0,168}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill24">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name24">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,15},{0,82},{0,113},{0,107}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level24">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,15},{0,107},{0,112},{0,131}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/25">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,185},{0,164},{0,269},{0,249}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill25">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name25">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,14},{0,82},{0,113},{0,109}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level25">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,14},{0,105},{0,114},{0,130}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/27">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,185},{0,325},{0,269},{0,410}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill27">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name27">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,14},{0,81},{0,114},{0,105}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level27">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,14},{0,108},{0,116},{0,131}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/15">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,19},{0,484},{0,103},{0,569}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill15">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name15">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,80},{0,115},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level15">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,104},{0,114},{0,125}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/9">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,19},{0,0},{0,103},{0,85}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill9">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{0,80},{0,81}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name9">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-3},{0,82},{0,85},{0,104}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level9">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,1},{0,81},{0,88},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/10">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,19},{0,83},{0,103},{0,168}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill10">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,1},{0,1},{0,81},{0,81}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name10">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,79},{0,118},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level10">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,103},{0,117},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/11">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,19},{0,163},{0,103},{0,248}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill11">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name11">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,79},{0,118},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level11">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,103},{0,117},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/12">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,19},{0,243},{0,103},{0,328}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill12">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name12">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,79},{0,118},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level12">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,103},{0,117},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/13">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,19},{0,323},{0,103},{0,408}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill13">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name13">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,79},{0,118},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level13">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,103},{0,117},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/14">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,19},{0,404},{0,103},{0,489}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill14">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name14">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,79},{0,118},{0,101}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level14">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,18},{0,103},{0,117},{0,124}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/26">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,186},{0,244},{0,270},{0,329}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill26">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name26">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,13},{0,80},{0,119},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level26">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,15},{0,109},{0,114},{0,130}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/16">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,102},{0,0},{0,186},{0,85}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill16">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name16">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,80},{0,115},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level16">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,104},{0,114},{0,125}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/17">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,102},{0,83},{0,186},{0,168}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill17">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name17">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,80},{0,115},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level17">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,104},{0,114},{0,125}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/18">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,102},{0,164},{0,186},{0,249}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill18">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name18">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,80},{0,115},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level18">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,104},{0,114},{0,125}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/19">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,102},{0,245},{0,186},{0,330}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill19">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name19">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,80},{0,115},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level19">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,104},{0,114},{0,125}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/20">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,101},{0,324},{0,185},{0,409}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill20">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name20">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,80},{0,115},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level20">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,104},{0,114},{0,125}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/21">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,101},{0,403},{0,185},{0,488}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill21">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name21">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,80},{0,115},{0,102}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level21">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,21},{0,104},{0,114},{0,125}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/28">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,185},{0,405},{0,269},{0,490}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill28">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name28">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,16},{0,83},{0,116},{0,105}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level28">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,16},{0,107},{0,112},{0,130}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="SkillStudyDlg/left/btnshiyong">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="使用"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,260},{0,17},{0,423},{0,83}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/CellGroupButton2" Name="SkillStudyDlg/left/29">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,185},{0,485},{0,269},{0,570}}"/>
+				<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/left/skill29">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{0,80},{0,82}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/name29">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,24},{0,80},{0,111},{0,104}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/left/level29">
+					<Property Name="Font" Value="simhei-10"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,24},{0,102},{0,107},{0,130}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="DefaultWindow" Name="SkillStudyDlg/juejijiesuo">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,605},{0,59},{0,1045},{0,657}}"/>
+			<Window Type="TaharezLook/SkillBox3" Name="SkillStudyDlg/juejijiesuo/skillbox">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,29},{0,19},{0,118},{0,108}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/juejijiesuo/name">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="技能名称"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="104.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF58381E tr:FF58381E bl:FF58381E br:FF58381E"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,137},{0,19},{0,372},{0,59}}"/>
+			</Window>
+			<Window Type="TaharezLook/ProgressBar_green" Name="SkillStudyDlg/juejijiesuo/jindu">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="StepSize" Value="0.01"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="FrameEnable" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="CurrentProgress" Value="0.5"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,137},{0,69},{0,422},{0,106}}"/>
+			</Window>
+			<Window Type="TaharezLook/RichEditbox" Name="SkillStudyDlg/juejijiesuo/riche">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="LineSpace" Value="1.0"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="MaxTextLength" Value="2147483647"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,28},{0,112},{0,426},{0,389}}"/>
+				<Property Name="BlinkCaretTimeout" Value="0.5"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+			</Window>
+			<Window Type="TaharezLook/common_text2bg" Name="SkillStudyDlg/juejijiesuo/bf">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,21},{0,396},{0,437},{0,574}}"/>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/juejijiesuo/bf/bianliang">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="WordWrapCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,4},{0,5},{0,414},{0,170}}"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/common_text2bg" Name="SkillStudyDlg/jiesuojieneng">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,639},{0,460},{0,1035},{0,636}}"/>
+			<Window Type="TaharezLook/SkillBox4" Name="SkillStudyDlg/jiesuojieneng/skibox">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,27},{0,37},{0,116},{0,126}}"/>
+			</Window>
+			<Window Type="DefaultWindow" Name="SkillStudyDlg/jiesuojieneng/text12bg">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,121},{0,25},{0,416},{0,145}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/jiesuojieneng/text12bg/lock">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:skillui image:lock1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,24},{0,6},{0,85},{0,67}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/jiesuojieneng/text12bg/tiao">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="解锁条件"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="104.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,87},{0,17},{0,262},{0,57}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/jiesuojieneng/text12bg/xianzhi">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="解锁条件XXXXXX"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="182.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,27},{0,68},{0,268},{0,108}}"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="SkillStudyDlg/tubiao">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:diban image:jineng"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,36},{0,-16},{0,146},{0,92}}"/>
+		</Window>
+		<Window Type="TaharezLook/common_tittle1" Name="SkillStudyDlg/right/part2/line1/title1">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,323},{0,111},{0,753},{0,159}}"/>
+			<Window Type="TaharezLook/StaticText" Name="SkillStudyDlg/right/part2/line1/title1/need">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="必要材料"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="104.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,-96},{0,6},{0,32},{0,42}}"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/ItemCell" Name="SkillStudyDlg/right/cailiaolist/item1">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.05,447},{0.05,157},{0.05,536},{0.05,246}}"/>
+		</Window>
+	</Window>
+</GUILayout>
