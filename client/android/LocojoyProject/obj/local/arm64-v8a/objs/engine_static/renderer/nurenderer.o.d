@@ -244,8 +244,7 @@
   jni/../../../..//engine/renderer/nuifontmanager.h \
   jni/../../../..//engine/renderer/nufonttexture.h \
   D:/Android/android-sdk-64/ndk/16.1.4479499/build//../sources/cxx-stl/llvm-libc++/include\deque \
-  jni/../../../..//engine/renderer/nustatemanager.h \
-  jni/../../../..//engine/renderer/nuigetd3ddevice9.h
+  jni/../../../..//engine/renderer/nustatemanager.h
 
 jni/../../../..//engine/renderer/nucocos2d_render.h:
 
@@ -736,5 +735,3 @@ jni/../../../..//engine/renderer/nufonttexture.h:
 D:/Android/android-sdk-64/ndk/16.1.4479499/build//../sources/cxx-stl/llvm-libc++/include\deque:
 
 jni/../../../..//engine/renderer/nustatemanager.h:
-
-jni/../../../..//engine/renderer/nuigetd3ddevice9.h:

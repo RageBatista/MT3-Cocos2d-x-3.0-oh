@@ -326,7 +326,6 @@
   jni/../../../../client//FireClient/../../engine/renderer/nuifontmanager.h \
   jni/../../../../client//FireClient/../../engine/renderer/nufonttexture.h \
   jni/../../../../client//FireClient/../../engine/renderer/nustatemanager.h \
-  jni/../../../../client//FireClient/../../engine/renderer/nuigetd3ddevice9.h \
   jni/../../../../client//FireClient/../../common/platform\log/CoreLog.h \
   jni/../../../../client//FireClient/../../common/platform\log/../Singleton.hpp \
   jni/../../../../client//FireClient/../../common/platform/platform/platform_types.h \
@@ -993,8 +992,6 @@ jni/../../../../client//FireClient/../../engine/renderer/nuifontmanager.h:
 jni/../../../../client//FireClient/../../engine/renderer/nufonttexture.h:
 
 jni/../../../../client//FireClient/../../engine/renderer/nustatemanager.h:
-
-jni/../../../../client//FireClient/../../engine/renderer/nuigetd3ddevice9.h:
 
 jni/../../../../client//FireClient/../../common/platform\log/CoreLog.h:
 

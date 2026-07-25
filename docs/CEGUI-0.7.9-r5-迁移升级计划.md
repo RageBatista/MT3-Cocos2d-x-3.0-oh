@@ -1,7 +1,8 @@
 # CEGUI 0.7.1 → 0.7.9-r5 迁移升级计划
 
-> **版本**：1.0.0
+> **版本**：1.0.1
 > **制定日期**：2026-07-25
+> **修订日期**：2026-07-26
 > **适用范围**：MT3 全平台（Win32 / Android / iOS）UI 框架迁移
 > **源版本**：CEGUI 0.7.1（`dependencies/cegui/`，含大量 MT3 定制扩展）
 > **目标版本**：CEGUI 0.7.9-r5（`tools/CEGUI-0.7.9-r5/`，上游标准发行版）
@@ -36,7 +37,9 @@
 
 ### 1.2 MT3 对 CEGUI 0.7.1 的定制扩展清单
 
-以下为 `dependencies/cegui/` 中相对于上游 CEGUI 0.7.1 的 MT3 定制内容，**必须在迁移时逐项移植到 0.7.9-r5**：
+以下为 MT3 对 CEGUI 0.7.1 的定制内容，位于 `dependencies/cegui/CEGUI/` 目录下（`include/` 为头文件，`src/` 为源文件）。**必须在迁移时逐项移植到 0.7.9-r5**：
+
+> **路径说明**：下表中路径为相对于 CEGUI 源码根目录（`dependencies/cegui/CEGUI/`，包含 `include/` 和 `src/` 子目录）的相对路径。头文件实际位于 `dependencies/cegui/CEGUI/include/<路径>`，对应源文件位于 `dependencies/cegui/CEGUI/src/<路径>`。
 
 #### 1.2.1 自定义渲染器模块
 
@@ -183,7 +186,7 @@ CEGUI::SchemeManager::getSingleton().append("taharezlook2.scheme");  // 扩展�
 #### 1.4.3 方案文件（.scheme）解析
 
 **taharezlook.scheme** 定义了：
-- **100+ 个 Imageset 引用**（如 `ccui.imageset`、`common.imageset`、`mainui.imageset` 等）
+- **~97 个 Imageset 引用**（如 `ccui.imageset`、`common.imageset`、`mainui.imageset` 等）
 - **80+ 个 Font 引用**（mhsy 系列、tahoma 系列、simhei 系列、hycyj 系列等）
 - **1 个 LookNFeel 文件**：`TaharezLook.looknfeel`
 - **1 个 WindowRendererSet**：`CEGUIFalagardWRBase`
@@ -294,7 +297,7 @@ taharezlook2.scheme 引用了以下 MT3 自定义控件类型（这些在 0.7.9-
 | 2.1.1 | 创建迁移分支 | `git checkout -b feature/cegui-0.7.9-r5-migration` | 技术负责人 | 0.5h |
 | 2.1.2 | 提取 0.7.9-r5 源码 | 将 `tools/CEGUI-0.7.9-r5/cegui/` 复制到 `dependencies/cegui-0.7.9/` 作为新基线 | 构建工程师 | 1h |
 | 2.1.3 | 分析 0.7.9-r5 构建系统 | 阅读 `tools/CEGUI-0.7.9-r5/projects/premake/` 和 `Makefile.in`，理解官方构建方式 | 构建工程师 | 4h |
-| 2.1.4 | 创建 VS2013 工程 | 基于 0.7.9-r5 源码创建 `dependencies/cegui-0.7.9/project/win32/CEGUI.vcxproj`，配置 `v120` 工具集 | 构建工程师 | 8h |
+| 2.1.4 | 创建 VS2013 工程 | 基于 0.7.9-r5 源码创建 `dependencies/cegui-0.7.9/project/win32/CEGUI.vcxproj`，配置 `v120` 工具集<br/>**参考基线**：`tools/CEGUI-0.7.9-r5/` 根目录下已有 `cegui-0.7.9.win32.vcxproj` 和 `cegui-0.7.9.sln`，可作为 VS2013 工程创建的参考基线（需适配 `v120` 工具集和 Win32 配置） | 构建工程师 | 8h |
 | 2.1.5 | 编译验证 0.7.9-r5 基础库 | 在 VS2013 + Windows SDK 8.1 下编译 0.7.9-r5 核心库（不含 MT3 定制），确保 `cegui.lib` 可生成 | 构建工程师 | 4h |
 
 ### 2.2 原项目代码备份与版本控制
@@ -332,6 +335,7 @@ taharezlook2.scheme 引用了以下 MT3 自定义控件类型（这些在 0.7.9-
 | 3.1.1 | 更新 `mt3.win32.vcxproj` 的 CEGUI 包含路径 | 将 `../../dependencies/cegui/CEGUI/include` 改为 `../../dependencies/cegui-0.7.9/cegui/include` | 编译通过 |
 | 3.1.2 | 更新 `FireClient.win32.vcxproj` 的包含路径 | 同上，6 个子目录路径同步更新 | 编译通过 |
 | 3.1.3 | 更新 `engine.win32.vcxproj` 的预处理器定义 | 确认 `CEGUI_STATIC` 宏在各配置中保持一致 | 编译通过 |
+| 3.1.3b | 清理 `engine.win32.vcxproj` 的过期硬编码路径 | 移除 `AdditionalIncludeDirectories` 中的过期绝对路径（如 `E:/LJClient/NucleusEngine/Dependencies`、`E:/LJClient/NucleusEngine/Src/Core`、`E:/LJClient/NucleusEngine/Src/MyGUIEngine/include` 等），这些路径在当前机器上不存在且属于历史遗留 | 过期路径全部清除，include 路径仅包含当前仓库有效路径 |
 | 3.1.4 | 更新链接库路径 | 将 `cegui.lib`/`cegui_d.lib` 搜索路径指向 0.7.9-r5 输出目录 | 链接成功 |
 | 3.1.5 | 更新 `.clangd` 配置文件 | 同步 CEGUI 头文件路径 | IDE 智能提示正常 |
 

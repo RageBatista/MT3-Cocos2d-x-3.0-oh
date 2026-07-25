@@ -427,10 +427,4 @@ E:\MT3\client\android\LocojoyProject\res\layout\webview.xml \
 E:\MT3\client\android\LocojoyProject\res\values\backimage.xml \
 E:\MT3\client\android\LocojoyProject\res\values\startup.xml \
 E:\MT3\client\android\LocojoyProject\res\values\strings.xml \
-E:\MT3\client\android\LocojoyProject\bin\res\drawable\btn.png \
-E:\MT3\client\android\LocojoyProject\bin\res\drawable\btnup.png \
-E:\MT3\client\android\LocojoyProject\bin\res\drawable\formbg.png \
-E:\MT3\client\android\LocojoyProject\bin\res\drawable\icon.png \
-E:\MT3\client\android\LocojoyProject\bin\res\drawable\img1.png \
-E:\MT3\client\android\LocojoyProject\bin\res\drawable\splash.png \
 E:\MT3\client\android\LocojoyProject\bin\AndroidManifest.xml \

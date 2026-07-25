@@ -255,7 +255,6 @@
   jni/../../../..//engine/renderer/nuifontmanager.h \
   jni/../../../..//engine/renderer/nufonttexture.h \
   jni/../../../..//engine/renderer/nustatemanager.h \
-  jni/../../../..//engine/renderer/nuigetd3ddevice9.h \
   jni/../../../..//engine/renderer/nufxcode.h \
   jni/../../../..//engine/engine\nucocos2d_type.h \
   jni/../../../..//engine/renderer/../engine/nucocos2d_wraper.h \
@@ -831,8 +830,6 @@ jni/../../../..//engine/renderer/nuifontmanager.h:
 jni/../../../..//engine/renderer/nufonttexture.h:
 
 jni/../../../..//engine/renderer/nustatemanager.h:
-
-jni/../../../..//engine/renderer/nuigetd3ddevice9.h:
 
 jni/../../../..//engine/renderer/nufxcode.h:
 

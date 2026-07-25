@@ -355,7 +355,6 @@
   jni/../../../../client//FireClient/../../engine/renderer/nuifontmanager.h \
   jni/../../../../client//FireClient/../../engine/renderer/nufonttexture.h \
   jni/../../../../client//FireClient/../../engine/renderer/nustatemanager.h \
-  jni/../../../../client//FireClient/../../engine/renderer/nuigetd3ddevice9.h \
   jni/../../../../client//FireClient/Application/Common\UICommonHeader.h \
   jni/../../../../client//FireClient/../../dependencies/CEGUI/CEGUI/include\elements/CEGUIAll.h \
   jni/../../../../client//FireClient/../../dependencies/CEGUI/CEGUI/include/elements/CEGUICheckbox.h \
@@ -1299,8 +1298,6 @@ jni/../../../../client//FireClient/../../engine/renderer/nuifontmanager.h:
 jni/../../../../client//FireClient/../../engine/renderer/nufonttexture.h:
 
 jni/../../../../client//FireClient/../../engine/renderer/nustatemanager.h:
-
-jni/../../../../client//FireClient/../../engine/renderer/nuigetd3ddevice9.h:
 
 jni/../../../../client//FireClient/Application/Common\UICommonHeader.h:
 

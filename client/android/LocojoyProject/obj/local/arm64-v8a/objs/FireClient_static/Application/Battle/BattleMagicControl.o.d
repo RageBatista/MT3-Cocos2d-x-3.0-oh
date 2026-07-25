@@ -284,7 +284,6 @@
   jni/../../../../client//FireClient/../../engine/renderer/nuifontmanager.h \
   jni/../../../../client//FireClient/../../engine/renderer/nufonttexture.h \
   jni/../../../../client//FireClient/../../engine/renderer/nustatemanager.h \
-  jni/../../../../client//FireClient/../../engine/renderer/nuigetd3ddevice9.h \
   jni/../../../../client//FireClient/Application/../../../common/ljfm/code/include/ljfm.h \
   jni/../../../../client//FireClient/../../common/ljfm/code/include/ljfmimage.h \
   jni/../../../../client//FireClient/../../common/ljfm/code/include/ljfmopen.h \
@@ -1105,8 +1104,6 @@ jni/../../../../client//FireClient/../../engine/renderer/nuifontmanager.h:
 jni/../../../../client//FireClient/../../engine/renderer/nufonttexture.h:
 
 jni/../../../../client//FireClient/../../engine/renderer/nustatemanager.h:
-
-jni/../../../../client//FireClient/../../engine/renderer/nuigetd3ddevice9.h:
 
 jni/../../../../client//FireClient/Application/../../../common/ljfm/code/include/ljfm.h:
 

@@ -287,7 +287,6 @@
   jni/../../../..//engine/renderer/nuifontmanager.h \
   jni/../../../..//engine/renderer/nufonttexture.h \
   jni/../../../..//engine/renderer/nustatemanager.h \
-  jni/../../../..//engine/renderer/nuigetd3ddevice9.h \
   jni/../../../..//engine/../common/platform\utils/StringCover.h \
   jni/../../../..//engine/../common/platform/utils/../../cauthc/include/octets.h
 
@@ -864,8 +863,6 @@ jni/../../../..//engine/renderer/nuifontmanager.h:
 jni/../../../..//engine/renderer/nufonttexture.h:
 
 jni/../../../..//engine/renderer/nustatemanager.h:
-
-jni/../../../..//engine/renderer/nuigetd3ddevice9.h:
 
 jni/../../../..//engine/../common/platform\utils/StringCover.h:
 

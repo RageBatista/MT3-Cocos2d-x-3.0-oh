@@ -62124,11 +62124,9 @@ TOLUA_API int tolua_engine_open (lua_State* tolua_S)
     tolua_function(tolua_S,".call",tolua_engine_Nuclear_DrawBatchPictureParam_new01_local);
    tolua_endmodule(tolua_S);
    tolua_constant(tolua_S,"XPRV_DEFAULT",Nuclear::XPRV_DEFAULT);
-   tolua_constant(tolua_S,"XPRV_DX9",Nuclear::XPRV_DX9);
    tolua_constant(tolua_S,"XPRV_COCOS2D",Nuclear::XPRV_COCOS2D);
    tolua_constant(tolua_S,"XPCRF_VERTICALSYNC",Nuclear::XPCRF_VERTICALSYNC);
    tolua_constant(tolua_S,"XPCRR_NULL_POINTER",Nuclear::XPCRR_NULL_POINTER);
-   tolua_constant(tolua_S,"XPCRR_GET_DIRECT3D",Nuclear::XPCRR_GET_DIRECT3D);
    tolua_constant(tolua_S,"XPCRR_CREATE_DEVICE",Nuclear::XPCRR_CREATE_DEVICE);
    tolua_constant(tolua_S,"XPCRR_INIT_STATE_MANAGER",Nuclear::XPCRR_INIT_STATE_MANAGER);
    tolua_constant(tolua_S,"XPCRR_CREATE_DEPTHSTENCIL_SURFACE",Nuclear::XPCRR_CREATE_DEPTHSTENCIL_SURFACE);

@@ -335,8 +335,7 @@
   jni/../../../..//engine/../dependencies/freetype-2.4.9/include\freetype/ftglyph.h \
   jni/../../../..//engine/renderer/nuifontmanager.h \
   jni/../../../..//engine/renderer/nufonttexture.h \
-  jni/../../../..//engine/renderer/nustatemanager.h \
-  jni/../../../..//engine/renderer/nuigetd3ddevice9.h
+  jni/../../../..//engine/renderer/nustatemanager.h
 
 jni/../../../..//engine/sprite/nuspinesprite.h:
 
@@ -1013,5 +1012,3 @@ jni/../../../..//engine/renderer/nuifontmanager.h:
 jni/../../../..//engine/renderer/nufonttexture.h:
 
 jni/../../../..//engine/renderer/nustatemanager.h:
-
-jni/../../../..//engine/renderer/nuigetd3ddevice9.h:

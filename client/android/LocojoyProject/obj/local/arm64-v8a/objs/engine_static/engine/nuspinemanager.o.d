@@ -302,7 +302,6 @@
   jni/../../../..//engine/renderer/nuifontmanager.h \
   jni/../../../..//engine/renderer/nufonttexture.h \
   jni/../../../..//engine/renderer/nustatemanager.h \
-  jni/../../../..//engine/renderer/nuigetd3ddevice9.h \
   jni/../../../..//engine/../cocos2d-x-2.2.6/extensions\spine/spine-cocos2dx.h \
   jni/../../../..//engine/../cocos2d-x-2.2.6/extensions\spine/spine.h \
   jni/../../../..//engine/../cocos2d-x-2.2.6/extensions\spine/Animation.h \
@@ -934,8 +933,6 @@ jni/../../../..//engine/renderer/nuifontmanager.h:
 jni/../../../..//engine/renderer/nufonttexture.h:
 
 jni/../../../..//engine/renderer/nustatemanager.h:
-
-jni/../../../..//engine/renderer/nuigetd3ddevice9.h:
 
 jni/../../../..//engine/../cocos2d-x-2.2.6/extensions\spine/spine-cocos2dx.h:
 
