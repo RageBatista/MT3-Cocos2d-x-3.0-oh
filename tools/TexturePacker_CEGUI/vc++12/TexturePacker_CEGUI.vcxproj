@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A0E17D09-9A7B-4CA5-BC6A-EB9A2DD3E91A}</ProjectGuid>
+    <RootNamespace>TexturePacker_CEGUI</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <TP_TOOL_ROOT>$(ProjectDir)..</TP_TOOL_ROOT>
+    <CEGUI>$(ProjectDir)..\..\CEImagesetEditor-0.7.1\dependencies\CEGUI-0.7.1</CEGUI>
+    <CEGUI_INCLUDE>$(CEGUI)\include</CEGUI_INCLUDE>
+    <CEGUI_LIB>$(CEGUI)\lib</CEGUI_LIB>
+    <CEGUI_BIN>$(CEGUI)\bin</CEGUI_BIN>
+    <CEGUI_DEPS_BIN>$(CEGUI)\dependencies\bin</CEGUI_DEPS_BIN>
+    <WXWIDGETS>$(ProjectDir)..\..\CEImagesetEditor-0.7.1\dependencies\wxWidgets-3.0.5</WXWIDGETS>
+    <WXWIDGETS_INCLUDE>$(WXWIDGETS)\include</WXWIDGETS_INCLUDE>
+    <WXWIDGETS_INCLUDE_MSVC>$(WXWIDGETS)\include\msvc</WXWIDGETS_INCLUDE_MSVC>
+    <WXWIDGETS_LIB>$(WXWIDGETS)\lib\vc_lib</WXWIDGETS_LIB>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(TP_TOOL_ROOT)\bin\debug\</OutDir>
+    <IntDir>$(ProjectDir)Debug\</IntDir>
+    <TargetName>TexturePacker_CEGUI_d</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(TP_TOOL_ROOT)\bin\release\</OutDir>
+    <IntDir>$(ProjectDir)Release\</IntDir>
+    <TargetName>TexturePacker_CEGUI</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>.;..\inc;$(CEGUI_INCLUDE);$(WXWIDGETS_INCLUDE);$(WXWIDGETS_INCLUDE_MSVC);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(CEGUI_LIB);$(WXWIDGETS_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;comctl32.lib;rpcrt4.lib;CEGUIBase_d.lib;CEGUIOpenGLRenderer_d.lib;CEGUIExpatParser_d.lib;CEGUIFalagardWRBase_d.lib;CEGUISILLYImageCodec_d.lib;CEGUITGAImageCodec_d.lib;wxbase30ud.lib;wxbase30ud_xml.lib;wxmsw30ud_core.lib;wxmsw30ud_gl.lib;wxmsw30ud_adv.lib;wxpngd.lib;wxjpegd.lib;wxtiffd.lib;wxzlibd.lib;wxregexud.lib;wxexpatd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(CEGUI_BIN)\CEGUIBase_d.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUIOpenGLRenderer_d.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUIExpatParser_d.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUIFalagardWRBase_d.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUISILLYImageCodec_d.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUITGAImageCodec_d.dll" "$(OutDir)" /Y
+copy "$(CEGUI_DEPS_BIN)\SILLY_d.dll" "$(OutDir)" /Y
+xcopy "$(TP_TOOL_ROOT)\data" "$(OutDir)data" /S /I /Y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>.;..\inc;$(CEGUI_INCLUDE);$(WXWIDGETS_INCLUDE);$(WXWIDGETS_INCLUDE_MSVC);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(CEGUI_LIB);$(WXWIDGETS_LIB);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;comctl32.lib;rpcrt4.lib;CEGUIBase.lib;CEGUIOpenGLRenderer.lib;CEGUIExpatParser.lib;CEGUIFalagardWRBase.lib;CEGUISILLYImageCodec.lib;CEGUITGAImageCodec.lib;wxbase30u.lib;wxbase30u_xml.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxmsw30u_adv.lib;wxpng.lib;wxjpeg.lib;wxtiff.lib;wxzlib.lib;wxregexu.lib;wxexpat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(CEGUI_BIN)\CEGUIBase.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUIOpenGLRenderer.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUIExpatParser.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUIFalagardWRBase.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUISILLYImageCodec.dll" "$(OutDir)" /Y
+copy "$(CEGUI_BIN)\CEGUITGAImageCodec.dll" "$(OutDir)" /Y
+copy "$(CEGUI_DEPS_BIN)\SILLY.dll" "$(OutDir)" /Y
+copy "$(ProjectDir)..\..\..\client\resource\tools\msvcp120.dll" "$(OutDir)" /Y
+copy "$(ProjectDir)..\..\..\client\resource\tools\msvcr120.dll" "$(OutDir)" /Y
+xcopy "$(TP_TOOL_ROOT)\data" "$(OutDir)data" /S /I /Y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\BuildTypes.h" />
+    <ClInclude Include="..\inc\MainFrame.h" />
+    <ClInclude Include="..\inc\PreviewCanvas.h" />
+    <ClInclude Include="..\inc\TexturePackerInvoker.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\MainFrame.cpp" />
+    <ClCompile Include="..\src\PreviewCanvas.cpp" />
+    <ClCompile Include="..\src\TexturePacker_CEGUI.cpp" />
+    <ClCompile Include="..\src\TexturePackerInvoker.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
