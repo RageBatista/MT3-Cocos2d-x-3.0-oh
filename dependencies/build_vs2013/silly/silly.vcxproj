@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{684FFD81-8558-43CA-A1D5-F25B2B8ECF96}</ProjectGuid>
+    <RootNamespace>silly</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>silly</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+<WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Release\</OutDir>
+    <IntDir>e:\\MT3\\dependencies\\build_vs2013\\silly\\$(Configuration)\</IntDir>
+    <TargetName>silly</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\SILLY-0.1.0\\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\SILLY-0.1.0\\include\\loaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\jpeg-8b;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\libpng-1.4.7;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\zlib-1.2.5;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\cocos2d-x-2.2.6\\cocos2dx\\platform\\third_party\\win32\\libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\cocos2d-x-2.2.6\\cocos2dx\\platform\\third_party\\win32\\libpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+
+      <PreprocessorDefinitions>WIN32;NDEBUG;SILLY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4267;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\SILLYDataSource.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\SILLYFileDataSource.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\SILLYImage.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\SILLYImageContext.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\SILLYImageLoader.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\SILLYImageLoaderManager.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\SILLYMemoryDataSource.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\loaders\SILLYJPGImageContext.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\loaders\SILLYJPGImageLoader.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\loaders\SILLYPNGImageContext.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\loaders\SILLYPNGImageLoader.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\loaders\SILLYTGAImageContext.cpp" />
+    <ClCompile Include="e:\MT3\dependencies\SILLY-0.1.0\src\loaders\SILLYTGAImageLoader.cpp" />
+
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{34B68035-9CDE-4301-B2B2-1D321F22484D}</ProjectGuid>
+    <RootNamespace>libtiff</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>libtiff</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+<WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Release\</OutDir>
+    <IntDir>e:\\MT3\\dependencies\\build_vs2013\\libtiff\\$(Configuration)\</IntDir>
+    <TargetName>libtiff</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\third-party-rebuild\\tiff-4.0.3\\libtiff;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\third-party-rebuild\\tiff-4.0.3\\port;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\jpeg-8b;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\zlib-1.2.5;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4267;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\mkg3states.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_aux.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_close.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_codec.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_color.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_compress.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_dir.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_dirinfo.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_dirread.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_dirwrite.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_dumpmode.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_error.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_extension.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_fax3.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_fax3sm.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_flush.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_getimage.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_jbig.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_jpeg.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_jpeg_12.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_luv.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_lzma.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_lzw.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_next.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_ojpeg.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_open.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_packbits.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_pixarlog.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_predict.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_print.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_read.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_strip.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_swab.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_thunder.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_tile.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_unix.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_version.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_warning.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_win32.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_write.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="E:\MT3\dependencies\third-party-rebuild\tiff-4.0.3\libtiff\tif_zip.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

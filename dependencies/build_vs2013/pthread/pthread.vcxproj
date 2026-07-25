@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5F8F81C0-C746-4F63-BA60-D020DFC7ED24}</ProjectGuid>
+    <RootNamespace>pthreadVCE2</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>pthreadVCE2</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+<WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Release\</OutDir>
+    <IntDir>e:\\MT3\\dependencies\\build_vs2013\\pthread\\$(Configuration)\</IntDir>
+    <TargetName>pthreadVCE2</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\third-party-rebuild\\pthreads-w32\\pthreads.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\third-party-rebuild\\pthreads-w32\\Pre-built.2\\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+
+      <PreprocessorDefinitions>WIN32;NDEBUG;__CLEANUP_C;PTW32_STATIC_LIB;PTW32_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4267;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\attr.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\barrier.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\cancel.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\cleanup.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\condvar.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\create.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\dll.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\errno.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\exit.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\fork.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\global.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\misc.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\mutex.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\nonportable.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\private.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\pthread.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\rwlock.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\sched.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\semaphore.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\signal.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\spin.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\sync.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\third-party-rebuild\pthreads-w32\pthreads.2\tsd.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

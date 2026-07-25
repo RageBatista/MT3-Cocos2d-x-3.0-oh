@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{097D65D5-CFB8-406B-BFB0-8E0EA95CAC9B}</ProjectGuid>
+    <RootNamespace>libjpeg</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>libjpeg</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+<WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Release\</OutDir>
+    <IntDir>e:\\MT3\\dependencies\\build_vs2013\\libjpeg\\$(Configuration)\</IntDir>
+    <TargetName>libjpeg</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\jpeg-8b;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\cocos2d-x-2.2.6\\cocos2dx\\platform\\third_party\\win32\\libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4267;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jaricom.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcapimin.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcapistd.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcarith.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jccoefct.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jccolor.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcdctmgr.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jchuff.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcinit.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcmainct.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcmarker.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcmaster.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcomapi.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcparam.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcprepct.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jcsample.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jctrans.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdapimin.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdapistd.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdarith.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdatadst.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdatasrc.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdcoefct.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdcolor.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jddctmgr.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdhuff.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdinput.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdmainct.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdmarker.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdmaster.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdmerge.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdpostct.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdsample.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jdtrans.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jerror.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jfdctflt.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jfdctfst.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jfdctint.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jidctflt.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jidctfst.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jidctint.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jmemmgr.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jmemnobs.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jquant1.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jquant2.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\jpeg-8b\jutils.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

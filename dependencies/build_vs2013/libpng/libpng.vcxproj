@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5B1C1E54-9864-4CE1-AB70-3AB63F7AFA2E}</ProjectGuid>
+    <RootNamespace>libpng</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>libpng</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+<WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Release\</OutDir>
+    <IntDir>e:\\MT3\\dependencies\\build_vs2013\\libpng\\$(Configuration)\</IntDir>
+    <TargetName>libpng</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\libpng-1.4.7;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\zlib-1.2.5;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+
+      <PreprocessorDefinitions>WIN32;NDEBUG;PNG_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4267;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\png.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngerror.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngget.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngmem.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngpread.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngread.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngrio.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngrtran.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngrutil.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngset.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngtrans.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngwio.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngwrite.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngwtran.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+    <ClCompile Include="e:\MT3\dependencies\libpng-1.4.7\pngwutil.c"><CompileAs>CompileAsC</CompileAs></ClCompile>
+
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
