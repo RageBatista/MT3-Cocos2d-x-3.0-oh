@@ -1,0 +1,1 @@
+text1.exe push ../../../common/cauthc c cpp cxx cc tli tlh h hh hpp hxx hh inl rc resx idl asm inc lua pkg java

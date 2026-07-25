@@ -1,0 +1,5 @@
+export { type DimType, type OperatorType, type VertFormat, type HorzFormat, type FontMetricType, type FrameImageType, type ColourRect, type ImageRef, type DimNode, type AreaDef, type FrameComponent, type ImageryComponent, type TextComponent, type ImagerySection, type StateSectionRef, type StateLayer, type StateImagery, type PropertyDefinition, type PropertyLinkDefinition, type Property, type NamedArea, type ChildWidget, type WidgetLook, type FalagardDocument, type WidgetLookIndex, type FileIndex } from './types';
+export { type SubImageDef, type ImagesetResource, type SchemeResource, type TextureCacheEntry, type ResourceRegistry } from './resource';
+export { type FormatPreservingNode, type FormattedWidgetLook, type SerializationOptions, DEFAULT_SERIALIZATION_OPTIONS } from './serialization';
+export { type PixelRect, type DragMode, type SnapLine, type DragState, type CanvasViewport, type LayerTreeNode, type HistoryEntry, type ValidationError, type ValidationResult, type DimEvaluationContext, type EditorState, type FileState } from './editor';
+export { type ComponentNodeRef, type ComponentNodeType, makeComponentNodeId, parseComponentNodeId } from './node-ids';

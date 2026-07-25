@@ -1,0 +1,1 @@
+text1.exe FindText E:\MT_GMemory\client E:\mt3_engine\key.txt D:\find.txt
