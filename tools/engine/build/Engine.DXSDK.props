@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="EngineDirectXSdkDetection">
+    <!-- Keep existing DXSDK_DIR if the caller already set it -->
+    <DXSDK_DIR Condition="'$(DXSDK_DIR)' != ''">$(DXSDK_DIR)</DXSDK_DIR>
+
+    <!-- Auto-detect common install locations for DirectX SDK (June 2010) -->
+    <DXSDK_DIR Condition="'$(DXSDK_DIR)' == '' and Exists('C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3dx9.h')">C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\</DXSDK_DIR>
+    <DXSDK_DIR Condition="'$(DXSDK_DIR)' == '' and Exists('D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3dx9.h')">D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\</DXSDK_DIR>
+    <DXSDK_DIR Condition="'$(DXSDK_DIR)' == '' and Exists('E:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3dx9.h')">E:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\</DXSDK_DIR>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup Condition="'$(DXSDK_DIR)' != ''">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+</Project>
