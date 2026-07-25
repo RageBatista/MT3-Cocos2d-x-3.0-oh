@@ -83,7 +83,7 @@ namespace Nuclear
 		bool SaveAsyncReadTextureResource(const NuclearBuffer& data, std::wstring strTextureFileName);
 		bool SaveAsyncReadTextureResource(cocos2d::CCImage* pImage, std::wstring strTextureFileName);
 
-		bool InsertPslTexture(std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& vectorD3DTexture, const std::wstring &pslName);
+		bool InsertPslTexture(std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& textureResources, const std::wstring &pslName);
 
 		IBaseRenderer* GetRenderer() const { return m_pRenderer; }
 
@@ -97,7 +97,7 @@ namespace Nuclear
 		void SetSpecialPsVertexs(ParticleSystemHandle handle, const SHAPE_LIST& shapelist);
 		void Init();
 		void Destroy();
-		bool GenPSTextureInfo(std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& vectorD3DTexture, PSTEXTUREINFOSTRUCT* ppslTexture);
+		bool GenPSTextureInfo(std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& textureResources, PSTEXTUREINFOSTRUCT* ppslTexture);
 
 		bool IsLoading(const std::wstring &url) { return m_LoadingNotify.find(url) != m_LoadingNotify.end(); }
 		void InsertLoadingUrl(const std::wstring &url, CGeneralParticleSystem* pPS) 
@@ -120,7 +120,7 @@ namespace Nuclear
 		//m_mapPSL里面没有记录最后一次使用时间.. 在删除m_mapPslTexture里对应纹理的时候应该删除对应的PSL,Path和shapeList占用内存非常少，暂时就不加引用计数了
 		std::map<std::wstring, NuclearHardRef<PSL>*> m_mapPSL;		//psl名---
 		std::map<std::wstring, NuclearHardRef<PSTEXTUREINFOSTRUCT>*> m_mapPslTexture; //psl名----大纹理	
- 		std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*> m_mapD3d9Texture; //图片名---小纹理
+ 		std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*> m_mapTextureResources; //图片名---小纹理
 
 		std::map<std::wstring, std::vector<POINT> > m_mapPath;	//路径名---
 		std::map<std::wstring, SHAPE_LIST> m_mapShapeList;		//抽象特效顶点数据名--- 	

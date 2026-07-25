@@ -24,7 +24,7 @@ namespace Nuclear
 		virtual void SetShapePsScale(float fcx=1.0f, float fcy=1.0f); //绘制区域缩放比例
 		virtual void SetShapePsVertexs(const SHAPE_LIST& shapeList);
 		virtual void SetSilentTime(float ftime); //转场特效在这段时间内停留在第一帧
-		virtual PictureHandle GetSpecialPSTextureHandle()const { return m_pD3dTextureShapes; }
+		virtual PictureHandle GetSpecialPSTextureHandle()const { return m_shapeTexture; }
 
 	private:
 		bool CreateNewParticles(float fTimeDelta); //update里..产生新粒子
@@ -34,7 +34,7 @@ namespace Nuclear
 		//以下是抽象粒子效果特有的---
 		//抽象粒子顶点数据
 		SHAPE_LIST m_shapeList; //初始数据...update只修改particles里面的数据..	
-		PictureHandle m_pD3dTextureShapes; //抽象粒子特效用的纹理... ----从particleManager里面传过来的..这里面不做管理！
+		PictureHandle m_shapeTexture; //抽象粒子特效用的纹理... ----从particleManager里面传过来的..这里面不做管理！
 		int m_nShapeTextureWidth; //计算爆炸中心、通过纹理坐标计算顶点值、计算每块的开始结束纹理坐标...
 		int m_nShapeTextureHeight;
 		float m_fmaxu; //纹理有效数据区域..

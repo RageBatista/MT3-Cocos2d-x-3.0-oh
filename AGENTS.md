@@ -50,7 +50,7 @@
 | 平台壳层 | `client/MT3Win32App/`、`client/android/`、`client/FireClient/FireClient/` | 进程/应用入口、生命周期、窗口与输入、JNI/ObjC++、渠道 SDK、CrashDump |
 | 共享客户端业务 | `client/FireClient/Application/`、`client/resource/res/script/`、`client/resource/res/ui/` | `gRunGameApplication()` 后的启动、登录、入世界、网络、UI、Lua、配置和业务逻辑 |
 | Nuclear 引擎 | `engine/` | 场景、世界、精灵、地图、动画、特效、渲染组织和引擎接口 |
-| Cocos 基础层 | `cocos2d-x-2.2.6/` 与仍被特定工程引用的 `cocos2d-2.0-rc2-x-2.0.1/` | 图形、音频、物理、Lua 基础、扩展和平台适配；实际依赖按平台区分，见 3.3 |
+| Cocos 基础层 | `cocos2d-x-2.2.6/`（当前全平台主线）；历史 `cocos2d-2.0-rc2-x-2.0.1/` 已不存在于工作区 | 图形、音频、物理、Lua 基础、扩展和平台适配；实际依赖按平台区分，见 3.3 |
 | 公共本地库 | `common/` | `platform`、`ljfm`、`cauthc`、Lua/tolua、更新等跨模块基础库 |
 | 服务端与协议 | `server/`、`gbeans/` | Java/Ant 游戏服务、gnet/RPC、XDB/XBean、策划配置生成和运行分发 |
 | 资源生产与发布 | `client/resource/res/`、`client/res_*`、`client/android/**/assets/res/`、`tools/` | 源资源、平台 staging、APK 资源同步、PFS/热更新、编辑器与离线工具 |
@@ -87,7 +87,7 @@ Cocos2d-x 基础层
 
 - **Win32 canonical 主线**：`client/MT3Win32App/*.win32.vcxproj`、`engine/engine.win32.vcxproj` 和 `client/Build-MT3-v120.ps1` 使用 `cocos2d-x-2.2.6/`。
 - **Android Locojoy free 主线**：`client/android/LocojoyProject/jni/Android.mk` 以 `cocos2d-x-2.2.6/` 为导入根，`Application.mk` 当前为 `arm64-v8a + android-21 + c++_shared + clang`。`engine/Android.mk` 仍有一条旧树 `libSpine` 导入，而 `Assert-AndroidArm64Migration.ps1` 会把旧树导入判为错误；在该门禁通过前不得宣称 Android 依赖已完全收敛。
-- **iOS 工程**：`client/FireClient/FireClient.xcodeproj/project.pbxproj` 与 `engine/engine.xcodeproj/project.pbxproj` 当前仍直接引用 `cocos2d-2.0-rc2-x-2.0.1/`。因此旧树对 iOS 仍是现实兼容依赖，不应笼统标为“全仓只读历史目录”。
+- **iOS 工程**：`client/FireClient/FireClient.xcodeproj/project.pbxproj` 与 `engine/engine.xcodeproj/project.pbxproj` 已迁移至 `cocos2d-x-2.2.6/`（FireClient 工程 126 处引用，engine 工程 14 处引用，零处旧树引用）。旧树 `cocos2d-2.0-rc2-x-2.0.1/` 目录已不存在于工作区；2.2.6 引擎上叠加了 MT3 兼容补丁（详见 `cocos2d-x-2.2.6/MT3_PATCHES.md`）。
 - `client/MT3Win32App/mt3.vcxproj`、部分 `.filters`、WinRT/WP8 工程和其他旧项目文件仍可能包含旧树路径；它们不属于 Win32 canonical 入口，也不得用来推翻 canonical 主线事实。
 
 新增 Win32/Android 主线依赖不得继续指向旧树。处理旧树时必须先识别实际引用它的平台和工程，再决定修复、迁移或重编范围；禁止全目录批量替换路径。
@@ -152,7 +152,7 @@ client/resource/res/**                         # 业务源资源（可修改）
 | `client/MT3Win32App/**`、`client/android/**`、`client/FireClient/FireClient/**` | 第一方平台壳层 | 允许修改；保持平台工具链、生命周期和编码现状 |
 | `engine/**` | 第一方 Nuclear 引擎 | 允许修改；公共头默认按 ABI 高风险处理 |
 | `cocos2d-x-2.2.6/**` | 当前 Win32/Android 主线基础层 | 允许有证据的补丁；必须重编对应库及全部受影响下游 |
-| `cocos2d-2.0-rc2-x-2.0.1/**` | iOS/旧工程仍引用的兼容树 | 不做日常泛化修改；先定位引用工程，按平台专项评估和验证 |
+| `cocos2d-2.0-rc2-x-2.0.1/**` | 历史兼容树（已不存在于工作区） | iOS 已迁移至 2.2.6；旧树目录已删除，仅作概念回滚基线保留 |
 | `dependencies/**`、第三方快照 | vendor | 日常保持原状；专项补丁保留来源、影响和回滚，不做全仓风格治理 |
 | `client/resource/res/**`、`gbeans/*.xml`、协议/XML/pkg 定义 | 源定义 | 从这里修改，再运行相应生成/打包链 |
 | `.lib/.dll/.exe/.a/.so/.jar/.apk`、`serverbin/**` | 构建或分发产物 | 不手工编辑；回到源码和 canonical 构建入口 |

@@ -29,7 +29,7 @@ namespace Nuclear
 
 	CGeneralParticleSystem::~CGeneralParticleSystem(void)
 	{//各小图片的引用计数减1
-		m_vectorD3DTexture.clear();
+		m_textureResources.clear();
 	}
 
 	void CGeneralParticleSystem::SetParticleSysResouce(const NuclearHardRef<PSTEXTUREINFOSTRUCT>& pRefPSTextureInfo)
@@ -1450,7 +1450,7 @@ namespace Nuclear
 					particlePosy += fy0;
 				}
 
-				//出了视口的只更新不渲染...要经过D3D坐标变换的除外...._UTCT
+				// 出了视口的只更新不渲染，需要渲染坐标变换的粒子除外。
 			//	if(m_psParameter.m_bVertexRHWflag) //true			
 				if( (particlePosy > m_curViewPort.Height() +m_fparticleSize) || (particlePosy < -m_fparticleSize) 
 					|| (particlePosx > m_curViewPort.Width() +m_fparticleSize) || (particlePosx < -m_fparticleSize) )
@@ -1701,7 +1701,7 @@ namespace Nuclear
 				float particlePosx = part->m_vPos.x;
 				float particlePosy = part->m_vPos.y;
 
-				//出了视口的只更新不渲染...要经过D3D坐标变换的除外....
+				// 出了视口的只更新不渲染，需要渲染坐标变换的粒子除外。
 // 				if(m_psParameter.m_bVertexRHWflag)
 // 				{
 // 					if( (particlePosy > m_curViewPort.Height() +m_fparticleSize) || (particlePosy < -m_fparticleSize) 
@@ -1900,7 +1900,7 @@ namespace Nuclear
 				float particlePosx = part->m_vPos.x;
 				float particlePosy = part->m_vPos.y;
 
-				//出了视口的只更新不渲染...要经过D3D坐标变换的除外..版本4605中删掉..
+				// 出了视口的只更新不渲染，需要渲染坐标变换的粒子除外。
 
 				//计算该粒子的纹理坐标
 				float u[4];
@@ -2063,15 +2063,15 @@ namespace Nuclear
 		m_fparticleSize = particleSizex > particleSizey ? particleSizex : particleSizey;
 	}
 	
-	void CGeneralParticleSystem::SetPicHandleRefResource(const std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& vectorD3DTexture)
+	void CGeneralParticleSystem::SetPicHandleRefResource(const std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& textureResources)
 	{//使各小纹理图片的引用计数加1
-		m_vectorD3DTexture.clear();
-		m_vectorD3DTexture = vectorD3DTexture;
+		m_textureResources.clear();
+		m_textureResources = textureResources;
 	}
 
 	bool CGeneralParticleSystem::ReleaseResource()
 	{
-		m_vectorD3DTexture.clear();
+		m_textureResources.clear();
 
 		m_pRefPSTextureInfo = NuclearHardRef<PSTEXTUREINFOSTRUCT>();
 		m_vertices_TCT.clear();

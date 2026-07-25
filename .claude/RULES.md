@@ -149,7 +149,7 @@ $text = [System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
 | `engine/**` | 以 `UTF-8 with BOM` 为主，保持现有 BOM/换行 |
 | `client/MT3Win32App/**` | 保持原编码优先；该目录存在历史 `CP936/ANSI`、`UTF-8 no BOM`、`UTF-16` 文件 |
 | `cocos2d-x-2.2.6/**` | 保持原编码；允许补丁，但禁止顺手转码 |
-| `cocos2d-2.0-rc2-x-2.0.1/**` | 历史/回滚/差异基线；保持原编码；禁止顺手转码 |
+| `cocos2d-2.0-rc2-x-2.0.1/**` | 历史回滚/差异基线（目录已不存在于工作区）；保持原编码；禁止顺手转码 |
 | `dependencies/**` | 保持原编码；禁止做全仓统一编码改造 |
 | `tools/**` (C/C++ 源码) | 以 `UTF-8 with BOM` 为主；含中文的源文件 **必须** 保留 BOM |
 
@@ -178,7 +178,7 @@ $text = [System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
 | `client/MT3Win32App/**` | 允许 | 保持原编码优先 | `MT3` |
 | `engine/**` | 允许 | 保持 `UTF-8 BOM` 现状 | `engine` -> 下游 |
 | `cocos2d-x-2.2.6/**` | 允许补丁，但高风险 | 保持原编码 | 对应库 -> 下游 |
-| `cocos2d-2.0-rc2-x-2.0.1/**` | 原则上不改 | 保持原编码 | 仅历史回滚/差异核对 |
+| `cocos2d-2.0-rc2-x-2.0.1/**` | 目录已不存在于工作区 | 保持原编码 | 仅概念回滚/差异核对 |
 | `dependencies/**` | 原则上不改 | 不套用全仓规则 | 仅专项任务 |
 | `tools/**` | 允许 | 按各子工程现状 | 对应工具工程 |
 

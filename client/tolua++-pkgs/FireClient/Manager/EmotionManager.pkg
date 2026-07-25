@@ -1,0 +1,13 @@
+
+class EmotionManager : public CSingleton<EmotionManager>
+{
+	bool isEmotionExist(int id);							//鏌愪釜琛ㄦ儏鏄惁瀛橈紝杩斿洖true琛ㄦ槑璇D鐨勮〃鎯呭瓨鍦?
+	int GetImageSetIndexByIDAndFrame(int id, int frame);
+	int GetEmotionsCount();
+};
+
+inline EmotionManager* gGetEmotionManager()
+{
+	return EmotionManager::GetInstance();
+}
+

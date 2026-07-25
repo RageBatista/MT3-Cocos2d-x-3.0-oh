@@ -20,7 +20,7 @@ namespace Nuclear
 		virtual bool Update(float fTimeDelta); //允许外面更新粒子再调用render()
 		
 		void SetParticleSysResouce(const NuclearHardRef<PSTEXTUREINFOSTRUCT>& pRefPSTextureInfo);
-		void SetPicHandleRefResource(const std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& vectorD3DTexture);
+		void SetPicHandleRefResource(const std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& textureResources);
 
 		virtual void Reset(void);
 
@@ -62,7 +62,7 @@ namespace Nuclear
 	private:
 		NuclearHardRef<PSTEXTUREINFOSTRUCT> m_pRefPSTextureInfo; //普通粒子特效用的经过拼接后的大纹理
 		
-		std::vector<NuclearHardRef<PSPICHANDLESTRUCT> > m_vectorD3DTexture; //该粒子特效用到的小纹理图
+		std::vector<NuclearHardRef<PSPICHANDLESTRUCT> > m_textureResources; //该粒子特效用到的小纹理图
 		//记录的目的是使小纹理的引用计数加一、在delete粒子特效或者releaseResource的时候减一，达到合理管理资源的目的
 	
 		int m_nKeyPointIndex; //大于等于-1的数， -1 表示使用完整路径，否则就使用这个值。

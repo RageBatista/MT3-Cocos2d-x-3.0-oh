@@ -27,9 +27,7 @@ namespace Nuclear
 		switch( rv )
 		{		
 		case XPRV_DEFAULT:
-		case XPRV_DX9:		
-            assert(false && "dx9 render is not supported on mobile");
-			//*ppr = new DX9Renderer(pFileIOMan);
+			assert(false && "default renderer is not supported");
 			break;
         case XPRV_COCOS2D:
             *ppr = new Cocos2dRenderer(pFileIOMan);

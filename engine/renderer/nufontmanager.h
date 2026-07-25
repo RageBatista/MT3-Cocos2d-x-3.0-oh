@@ -94,7 +94,6 @@ namespace Nuclear
 
 	class CFontManager : public IFontManager
 	{
-		//friend class DX9Renderer;
 		// 文字阴影或描边效果的宽度
 		static const int offset_pixel_x = 1;
 		static const int offset_pixel_y = 1;

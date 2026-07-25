@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MeiqiaSdk-custom-rules">
+    <!--
+      Force a full javac pass after Android Ant default compile.
+      In this toolchain, default output may include error-stub classes,
+      which then break dx when LocojoyProject packages dependencies.
+    -->
+    <target name="-post-compile">
+        <echo level="info">MeiqiaSdk: forcing full javac 1.7 recompilation.</echo>
+
+        <property name="meiqia.java7.classes.dir" location="${out.absolute.dir}/classes_java7" />
+
+        <delete dir="${meiqia.java7.classes.dir}" failonerror="false" />
+        <mkdir dir="${meiqia.java7.classes.dir}" />
+
+        <delete dir="${out.classes.absolute.dir}" failonerror="false" />
+        <mkdir dir="${out.classes.absolute.dir}" />
+
+        <path id="meiqia.recompile.classpath">
+            <path refid="project.all.jars.path" />
+            <path refid="tested.project.classpath" />
+            <path path="${java.compiler.classpath}" />
+        </path>
+
+        <javac encoding="${java.encoding}"
+               source="1.7"
+               target="1.7"
+               debug="true"
+               extdirs=""
+               includeDestClasses="false"
+               includeantruntime="false"
+               destdir="${meiqia.java7.classes.dir}"
+               bootclasspathref="project.target.class.path"
+               classpathref="meiqia.recompile.classpath"
+               fork="${need.javac.fork}">
+            <src path="${source.absolute.dir}" />
+            <src path="${gen.absolute.dir}" />
+            <compilerarg line="${java.compilerargs}" />
+        </javac>
+
+        <copy todir="${out.classes.absolute.dir}">
+            <fileset dir="${meiqia.java7.classes.dir}" includes="**/*.class" />
+        </copy>
+
+        <property name="out.library.jar.file" location="${out.absolute.dir}/classes.jar" />
+        <propertybyreplace
+                name="project.app.package.path"
+                input="${project.app.package}"
+                replace="."
+                with="/" />
+
+        <delete file="${out.library.jar.file}" failonerror="false" />
+        <jar destfile="${out.library.jar.file}">
+            <fileset
+                    dir="${meiqia.java7.classes.dir}"
+                    includes="**/*.class"
+                    excludes="${project.app.package.path}/R.class ${project.app.package.path}/R$*.class ${project.app.package.path}/BuildConfig.class" />
+            <fileset dir="${source.absolute.dir}" excludes="**/*.java ${android.package.excludes}" />
+        </jar>
+    </target>
+</project>

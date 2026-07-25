@@ -1973,11 +1973,6 @@ namespace Nuclear
 	}
     
 	
-	bool Cocos2dRenderer::ResetD3D(const NuclearDisplayMode *newmode)
-	{
-		return true;
-	}
-    
 	void Cocos2dRenderer::SetScissorRect(const NuclearRect* pRect)
 	{
 		m_stateMan.SetScissorRect(pRect);

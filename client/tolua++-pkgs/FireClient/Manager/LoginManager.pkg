@@ -1,0 +1,96 @@
+enum eLoginState
+{
+	eLoginState_Null,
+	eLoginState_Enter,
+	eLoginState_RequestLogin,
+	eLoginState_RoleSelect,
+	eLoginState_RoleCreate,
+	eLoginState_ServersChoose,
+};
+
+enum eShortcutItem
+{
+	eShortcutItem_None,  // 涓嶆槸蹇嵎鑿滃崟鍚姩
+	eShortcutItem_ViewStall,  // 鏌ョ湅鎽嗘憡
+	eShortcutItem_FriendChat,  // 濂藉弸鑱婂ぉ锛堝ソ鍙嬪垪琛級
+	eShortcutItem_ActivityCalendar,  // 娲诲姩鏃ュ巻
+};
+
+class LoginManager
+{
+	
+      const std::wstring& GetSelectArea(); 
+      const std::wstring& GetSelectServer();
+      const std::wstring& GetHost();
+      const std::wstring& GetPort();
+	  const std::wstring& GetChannelId();
+	  const std::wstring& GetCurChannelId();
+      int GetHostType();
+			void ToServerChoose(const std::wstring& area, const std::wstring& server);
+			void SetAccountInfo(const std::wstring& account);
+			void SetSessionKey(const std::wstring& sessionKey);
+			void SetPassword(const std::wstring& password);
+			void LoginAccount(const std::string& account, const std::string& password);
+			void RegisterAccount(const std::string& account, const std::string& password, const std::string& inviteCode, const std::string& captcha);
+			const std::wstring& GetAccount();
+			const std::wstring& GetSessionKey();
+			const std::wstring& GetPassword();
+			std::string GetHistoryAccount(int num);
+			std::string GetHistoryPassword(int num);
+			void SetSelectServerInfo(const std::wstring& area,
+								const std::wstring& server,
+								const std::wstring& ip, 
+								const std::wstring& port,
+								int hosttype);
+			void Init();
+			void CheckLoad(const std::string host, const std::string port, int serverKey, int ct_type = CONNECT_TYPE_NORMAL, const std::string& gip = "", const std::string& gport = "", int checkTime = CHECK_SERVER_TIME);
+    	void ClearConnections();
+			void ClearConnectionByKey(int key);
+			std::vector<fire::pb::RoleInfo>&	GetRoleList();
+			void ToServerChoose(const std::wstring& area, const std::wstring& server);
+			int64_t	GetPreLoginRoleID();
+			void LoginAgain();
+			void setServerKey(int id);
+			
+			int getServerID();
+			int getServerID();
+			
+			int isSDKFuncSupported(const char *funcName);
+			
+			void SetPreLoginRoleID(int64_t dwID);
+			
+			void SaveAccount();
+			void SetLoginState(eLoginState state);
+			
+			void UpdateRoleList();
+	const std::wstring& GetOpenId();
+	const std::wstring& GetOpenKey();
+	const std::wstring& GetPayToken();
+	const std::wstring& GetPf();
+	const std::wstring& GetPfKey();
+	const std::wstring& GetZoneId();
+	const std::wstring& GetPlatformName();
+	void SetChannelId(const std::wstring& channelId);
+	void SetCurChannelId(const std::wstring& channelId);
+	bool isFirstEnter();
+
+	// 鏄惁浠? ios9 鐨勫揩鎹疯彍鍗曞惎鍔?
+	bool isShortcutLaunched() const;
+	eShortcutItem getShortcutItemLaunchedBy() const;
+	void setShortcutItemLaunchedBy(eShortcutItem item);
+	bool isShortcutItemHandled() const;
+	void setShortcutItemHandled(bool val);
+	
+	void SetIp(const std::wstring& ip);
+	std::wstring& GetIp();
+
+	const std::wstring& GetYJChannelId();
+
+	void CloseWinWebView();
+	void WinWebViewUpdate();
+};
+
+LoginManager* gGetLoginManager()
+{
+    return LoginManager:getInstance();
+}

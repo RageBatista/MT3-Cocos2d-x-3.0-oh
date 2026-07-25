@@ -42,7 +42,7 @@ namespace Nuclear
 
 	enum PSL_RENDSTATE
 	{
-		PSLRENDSTATE_ALPHA = 6,		 //D3DBLEND_INVSRCALPHA
+		PSLRENDSTATE_ALPHA = 6,		 // inverse source alpha blend
 		PSLRENDSTATE_LIGHTING = 2,   //ALPHA---ONE
 		PSLRENDSTATE_ADD  = 3,		 //ONE---ONE 
 	};

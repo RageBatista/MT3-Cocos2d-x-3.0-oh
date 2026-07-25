@@ -1,0 +1,135 @@
+enum eMsgType
+{
+	eMsgType_Normal,
+	eMsgType_Team,				//缁勯槦鐩稿叧
+	eMsgType_Friend,				//濂藉弸鐩稿叧
+	eMsgType_Family,				//
+	eMsgType_Faction,			//
+	eMsgType_FactionBattle,		//
+	eMsgType_Trade,				//浜ゆ槗鐩稿叧
+	eMsgType_Marriage,			//
+	eMsgType_PK,					//PK鐩稿叧
+	eMsgType_GoIntoMap,			//杩涘湴鍥剧‘璁?
+	eMsgType_Contract,			//鍥㈤槦鍗忕害
+	eMsgType_TeamSummon,			//
+	eMsgType_Game,				//娓告垙
+	eMsgType_Activity,			//娲诲姩
+	eMsgType_FriendChat, 		//濂藉弸鑱婂ぉ鏈?灏忓寲
+	eMsgType_YeXiDiYing,			//
+	eMsgType_GroupChat,			//缇よ亰澶╂渶灏忓寲
+	eMsgType_FeedFamilyBoss,		//
+	eMsgType_FeedFactionBoss,	//
+	eMsgType_Master,				//
+    eMsgType_Keju,       		//
+    eMsgType_VipBuy,     		//VIP娆℃暟璐拱
+	eMsgType_Max
+};
+ 
+//浜屾纭妗嗙被鍨?
+enum eConfirmType
+{
+	eConfirmNormal,
+	eConfirmOK,				//鍙湁鍗曚釜纭畾鎸夐挳
+	eConfirmResetPoint,		//娲楃偣
+	eConfirmDropItem,		//涓㈠純鐗╁搧
+	eConfirmNormalRepair,	//鏅?氫慨鐞?
+	eConfirmPearlRepair,	//鐝嶇彔淇悊
+	eConfirmSetFlyFlag,		//
+	eConfirmInitDuel,		//鍙戣捣鍐虫枟
+	eConfirmInitPK,			//鍙戣捣PK
+	eConfirmGiven,			//缁欎簣纭
+	eConfirmDivorce,		//绂诲纭
+	eConfirmFamilyExpel,	//椹遍??
+	eConfirmFactionSummon,	//鍏細鍙泦
+	eConfirmChangeBidding,	//宸ヤ細鎴樼珵鏍?
+	eConfirmFBAppoint,		//宸ヤ細鎴橀槦浼嶄换鍛?
+	eConfirmBattleEscape,	//鎴樻枟閫冭窇
+	eConfirmKeJuSignUp,		//鏅烘収璇曠偧鎶ュ悕
+	eConfirmKeJuGiveUp,		//鏅烘収璇曠偧寮冩潈
+	eConfirmFightChief,		//鎸戞垬棣栧腑-寮熷瓙
+	eConfirmBuyItem,		//璐拱纭
+	eConfirmStoreName,		//鏇存敼鎷涚墝
+	eConfirmCleanTempBag,	//娓呯┖涓存椂鍖呰９
+	eConfirmWeddingCard,	//纭閫佸嚭璇峰笘
+	eConfirmSellShop,		//鍑哄敭鍟嗗簵
+	eConfirmPetShopRelated,	//瀹犵墿鍟嗗簵鐩稿叧
+	eConfirmItemShopRelated,//鐗╁搧鍟嗗簵鐩稿叧
+	eConfirmPetSkillBook,	//瀹犵墿鎶?鑳戒功
+	eConfirmLevel3Drug,		//浣跨敤3绾ц嵂
+	eConfirmTakeTianZun,	//
+	eConfirmPayTianZun,		//
+	eConfirmFreePet,		//鏀剧敓瀹濆疂
+	eConfirmLevelUp,		//鍗囩骇纭
+	eConfirmAddGroup,   //鍚屾剰鍔犲叆缇ょ‘瀹?
+	eConfirmExchangeRepu,	//澹版湜鍊煎厬鎹?
+	eConfirmMasterOutGoing,	//甯富鍗镐换
+	eConfirmExitDream,  //鏆傜铏氬够澧?
+	eConfirmReturnDream,//杩斿洖铏氬够澧?
+	eConfirmBuyStuff,		//璐拱纭
+	eConfirmInLay,			//闀跺祵瀹濈煶纭
+	eConfirmBuyGem,			//璐拱瀹濈煶纭
+	eConfirmQuench,			//娣偧瑁呭纭
+	eConfirmRefineEquip,	//绮剧偧瑁呭纭
+	eConfirmOpenShop,		//鍟嗕細纭寮?搴?
+	eConfirmAcupointUp,		//鍏呯┐
+	eConfirmExpelFamily,	//椹遍?愮‘璁?
+	eConfirmAcution,		//绔炴媿鍙风爜纭
+	eConfirmFamilyApply,	//鎷掓敹/鎺ユ敹
+	eConfirmLeaveFamily,	//鑴辩纭
+	ePurifyAllDrug,			//鍏ㄩ儴鎻愮偧纭
+	eConfirmRevokeInfo,		//鎾ら攢寰佸弸娑堟伅纭
+	eConfirmStopKite,		//
+	eConfirmGivePet,		//缁欎簣瀹犵墿纭
+	eConfirmDemonSlayerTask,//
+	eConfirmLeaderJHSummon,	//
+	eConfirmSaveAntique,	//瀛樺叆鍙よ懀纭
+	eConfirmDelAntique,		//鍒犻櫎鍙よ懀纭
+	eConfirmDZXY,			//
+	eConfirmRecast,			//閲嶉摳纭
+	eConfirmRecast1,		//閲嶉摳纭1
+	eDrawPetStar,			//鎶藉彇瀹犵墿涔嬫槦
+	eConfirmBanTalk,		//绂佽█纭
+	eConfirmRepairAll,		//鍏ㄩ儴淇悊纭
+	eConfirmSendTrumpet,//浣跨敤鍠囧彮鍙戣█纭
+	eConfirmLeaveBoat,		//绂诲紑璧涜埞
+	eConfirmBuyBaoChan,		//
+	eConfirmUseFElement,	//纭浣跨敤鍏夌幆鍏冪礌
+	eConfirmMixBindItem,   //纭鍙犲姞缁戝畾閬撳叿
+	eConfirmAcceptZaxueLiansheng,	//纭鎺ユ敹鏉傚杩炲浠诲姟
+	eConfirmVoteLeave,		//鍙戣捣鎶曠エ绂诲紑鍏細
+	eConfirmLeaveFaction,	//鎶曠エ鑴辩鍏細
+	eConfirmSaveAccout,	//纭畾淇濆瓨璐﹀彿
+	eConfirmExitGame,	//纭畾閫?鍑烘父鎴?
+	eConfirmApplyWulindahui,	//
+	eConfirmCharge,		//纭畾鏀粯
+	eConfirmEnterInstance,	//纭杩涘叆鍓湰
+	eConfirmSupplyFlag,	//
+	eConfirmExpel5Days,		//5澶╁唴椹遍?愭垚鍛樹簩娆＄‘璁ゆ
+	eConfirmDropSkill,		//涓㈠純鎶?鑳?
+	eConfirmApplyAntialise, //纭畾閫?鍒拌鑹查?夋嫨鍚敤鏂扮殑鎶楅敮榻胯缃?
+	eConfirmPetEvolve,		//纭畾杩涘寲
+	eConfirmGemLevelUp,		//瀹濈煶鍚堟垚
+	eConfirmGemSmelt,		//瀹濈煶鐔旂偧
+	eConfirmQGEffectItem,	//浣跨敤鏇存崲椋炶秺鎷栧熬鐗规晥鐨勯亾鍏?
+	eConfirmCloseReplaceEquip,		//纭畾鍏抽棴鏇挎崲瑁呭
+	eConfirmCloseReplaceEquipTip,		//纭畾鍏抽棴鏇挎崲瑁呭鎻愰啋
+	eConfirmCloseRemindUseItem,	//纭畾鍏抽棴澶х孩澶ц摑鎻愮ず鐣岄潰
+	eConfirmCloseRemindUseItemTip,	//纭畾鍏抽棴澶х孩澶ц摑鎻愮ず
+	eConfirmAbandonTask,		//鏀惧純浠诲姟
+	eConfirmDeleteColorScheme,		//纭畾鍒犻櫎閰嶈壊
+	eConfirmReportRole, //涓炬姤鐜╁纭
+	eConfirmLottery,			//鍏祴鎶藉
+	eConfirmEnterPetIsland,			//纭畾杩涘叆瀹犵墿杩峰煄
+	eConfirmSelectNetType,			//纭畾閫夋嫨杩涘叆娓告垙鐨勭綉缁滅被鍨?
+	eConfirmXunBaoSell,			//鎵惧疂缃戝敭鍗栦娇鐢?
+	eConfirmBuyStallBoard,			//璐拱鎽婁綅鎷涚墝
+	eConfirmOpenPetIsland,
+	eConfirmCombineItem, // 纭畾鍚堟垚閬撳叿
+	eConfirmAllCombineItem,  //纭畾鍚堟垚鎵?鏈夐亾鍏?
+	eConfirmGotoHighLevelMap,  //纭畾浼犻?佽嚦姣旇嚜宸辩瓑绾ч珮鐨勫湴绾?
+	eConfirmBreakFriend,   //纭瑙ｉ櫎濂藉弸鍏崇郴
+	eConfirmTeamLeaderEnterFuben,  //鍓湰杩涘害涓嶅悓鏃惰繘鍏ュ壇鏈殑纭
+	eConfirmLoginFail
+};
+
+inline std::wstring GetConfirmTitleByType(eConfirmType type);

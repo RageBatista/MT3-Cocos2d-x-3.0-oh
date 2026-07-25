@@ -1,0 +1,24 @@
+struct stLifeSkillInfo
+{
+	int	Level;			//鎶?鑳界瓑绾?
+	int skilled;		//鎶?鑳界啛缁冨害
+	stLifeSkillInfo(int l,int s);
+	stLifeSkillInfo();
+};
+
+//鎶?鑳界绫?
+enum eSkillType
+{
+	eSkillType_NULL,
+	eSkillType_Other,		//鍏朵粬鎶?鑳?
+	eSkillType_Normal,		//浜虹墿鎷涘紡鎶?鑳?
+	eSkillType_Pet,			//瀹犵墿鎶?鑳?
+	eSkillType_Life,			//鐢熸椿鎶?鑳?
+	eSkillType_Equip,		//瑁呭鐗规妧
+	eSkillType_ZaXue,		//鏉傚鎶?鑳?
+	eSkillType_Marry,		//澶鎶?鑳?
+	eSkillType_NuQi,			//鎬掓皵鎶?鑳?
+};
+
+//鏍规嵁鎶?鑳絀D鍒ゆ柇鎶?鑳界绫?
+inline eSkillType gGetSkillTypeByID(int skillid);

@@ -30,7 +30,7 @@ namespace Nuclear
 		"		saturate(fResult.xyz);									\n"
 		"		fResult.w = fResult.w * input.c0.w;						\n"
 		,//6
-		"		fResult = fResult*input.c0; 	//D3DTOP_MODULATE2X 	\n"
+		"		fResult = fResult*input.c0; 	// double modulation 	\n"
 		"		fResult.xyz = fResult.xyz *2;							\n"
 		//7
 	};

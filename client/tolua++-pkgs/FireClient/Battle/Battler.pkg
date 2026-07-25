@@ -1,0 +1,255 @@
+struct sBattleBuff
+{
+	int buffid;
+	int	leftround;
+	std::list<std::wstring>	tipsparam;
+	Nuclear::IEffect*		buffeffect;
+	sBattleBuff();
+};
+
+class IActionListener
+{
+public:
+
+    virtual void OnUpdateAction(Nuclear::XPUSA_TYPE aType, eActionType aAction) = 0;
+};
+
+class AreaBlock
+{
+public:
+	bool CanPick(int eCurOperatorType, int iCurSkillID, stRoleItem& pCurItem);
+	void ShowPick(bool bShow);
+	bool HandlePickBtnClicked(const CEGUI::EventArgs& e);
+	void Release();
+	CEGUI::Window* GetBattleWindow();
+	int GetPos();
+};
+
+class Battler : public ComponentsObject
+{
+public:
+    void NewPlayAction(eActionType actionType,float freq,bool realmagic,eActionType eSpecialActionType,bool magicnotify,bool attackeffect);
+	Battler();
+	virtual ~Battler();
+	
+	void SetMoveOffset(int X, int Y);
+	void SetTargetPos(int X, int Y);
+	void ResetMoveOffset();
+	void ResetTargetPos();
+
+	void BeginHitMove(int nTime);
+	void StopHitMove();
+
+	void RegistListener(IActionListener* aPListener);
+    
+	void UnregistListener(IActionListener* aPListener);
+    
+    void NewPlayAction(eActionType actionType,float freq,bool realmagic,eActionType eSpecialActionType,bool magicnotify,bool attackeffect);
+
+	BattleIllusion* AddPhantom(int ID);
+	void DelPhantom(int ID);
+	BattleIllusion* FindPhantom(int ID);
+	BattleIllusion* FindAndAddPhantom(int ID);
+	void ClearPhantom();
+
+	Nuclear::IEffect* CreateLightEffect(const std::wstring& effect_name, Battler* pTarget,int startPos, int appearTime, int disappearTime, int totalTime);
+
+	std::list<sBattleBuff>	GetBattleBuffList();
+	void	AddBattleBuff(int buffid, int leftround = 0);
+
+	void	RemoveBattleBuff(int buffid);
+
+	bool	IsSetBattleBuff(int buffid);
+
+	bool	IsHaveBattleBuffSpecialShow(int SpecialShowType, int ExcludeBuffID);
+
+	void	GetBattleBuffInfoByID(int buffid,sBattleBuff& info);
+	void	GetBattleBuffInfoByIndex(int Index, sBattleBuff& info);
+
+	int		GetBattleBuffCount();
+	int		GetBattleBuffIDByIndex(int Index);
+
+	virtual int	GetShapeID();
+
+	unsigned char GetNormalAlpha();
+        
+	void SetShake(bool bShake);
+
+	bool GetShake();
+
+	bool IsPetCanUse(int pKey);
+	void SetPetUsed(int pKey);
+
+	void	SetCatchFailure(bool b){m_bCatchFailure = b;}
+	void	AddCatchEffect();
+	void	ClearCatchEffect();
+
+public:
+	int				GetAttackDistance();
+	virtual void    ChangeSpriteModel(const int& modelid, int effectID = 11045);
+
+	bool			IsDeath();
+	bool			IsDeathEx();
+	bool			IsDeathOnGround();
+	sBattlerData	GetBattlerData();
+	bool			IsGeneralDie();	//鏄惁瑕佹浜嗭紝鍖呮嫭姝讳骸鍊掑湴锛岃鍑婚锛岄榄傜姸鎬?
+	bool			IsFlyOut();		//鏄惁琚嚮椋炰簡
+	bool			IsDieVanish();	//鏄惁鍊掑湴娑堝け
+	virtual			std::wstring GetName();
+	bool			IsDisappear();
+	void			SetDisappear(bool b);
+	int				GetBattleID() const;
+	eBattlerType	GetBattlerType() const;
+
+	//鏄惁鍦ㄦ垬鍦哄彸涓嬭
+	bool IsFriendSide();
+	bool IsEnemySide();
+	bool IsWatcher();
+	bool IsWatcherTopRight();
+	bool IsWatcherBottomLeft();
+
+	bool SetCharacter(int64_t characterID,const int&shapeID,const std::map<char,int>& components);
+	bool SetCharacter(int64_t characterID,const int&shapeID, const std::map<char,int>& components, std::wstring modelName, std::wstring hair, std::wstring head, std::wstring body);
+	bool SetPet(int64_t petID,int shapeID);
+	bool SetPet(int64_t petID,int shapeID, std::wstring modelName, std::wstring hair, std::wstring head, std::wstring body);
+	bool SetCreeps(int64_t creepID,int shapeID);
+	virtual void SetNormalAlpha(unsigned char a, bool immediately);
+	virtual void SetAlphaCtrl(float fA);
+	void SetCurrentAlpha(unsigned char a);
+
+	virtual void SetTitle(const std::wstring &title);
+	virtual std::wstring GetTitle() const;
+	void SetTitleID(const int &);
+	int GetTitleID() const;
+	void UpdataTitleTexture();
+
+	int64_t	GetBattleDataID();
+
+	void SetDefaultAction(eActionType actionType,bool holdlastframe=false,float freq=g_defaultActionFrequence);
+	void ResetSpeed();
+	//鍔ㄤ綔鐩稿叧
+	void SetMoveToParam(Nuclear::NuclearLocation loc,int time);
+	void MoveTo();	//骞夸箟涓婄殑绉诲姩锛屼笉闇?瑕佸仛鏌愪釜鍔ㄤ綔
+	void RunTo(Nuclear::NuclearLocation ptMoveTarget);	//杩欓噷鐨刾tMoveTarget鏄儚绱犲潗鏍?
+	void RunBack();
+	void FlyOut();
+	void RunRollAction(int delta);
+
+	void ActionRunaway();
+	void PlayAction(eActionType actionType,float freq=g_defaultActionFrequence,bool playmagiceffect=false,eActionType eSpecialActionType = eActionNull,bool magicnotify = false,bool attackeffect = true);
+	//鍙楀嚮澹伴煶闊虫晥
+	std::wstring GetActionEffectSoundName();
+	void ChangeRollDirection();
+	//鍧愭爣鐩稿叧
+	bool IsOnBattlePosition();
+	
+	void SetBattleDirection();
+	void SetBattleLocation();
+	Nuclear::NuclearLocation GetAttackerPositionBehind();		//琚嚮鏀诲嚮鑰呯殑鍧愭爣
+	Nuclear::NuclearLocation GetAttackerClosePosition();		//琚嚮鏀诲嚮鑰呮洿杩戜簺鐨勫潗鏍?
+	Nuclear::NuclearLocation GetAttackerPosition(int attackdistance=96);//寰楀埌琚嚮鏃舵敾鍑昏?呯殑鍧愭爣
+	Nuclear::NuclearLocation GetAttackerFarPosition();
+
+	Nuclear::NuclearLocation GetAttackerSidePosition(bool bleft);
+
+	Nuclear::NuclearLocation GetProtecterPosition();			//寰楀埌琚嚮鏃讹紝淇濇姢鑰呯殑鍧愭爣
+	Nuclear::NuclearLocation GetDodgePosition();				//寰楀埌琚嚮鏃讹紝闂伩閫?鍚庣殑鍧愭爣
+	
+	Nuclear::NuclearLocation GetBattleLocation();
+
+	virtual void UpdateAction(Nuclear::XPUSA_TYPE type);
+
+	virtual void Run(int now,int delta);
+	virtual void Draw(int now);
+	virtual bool OnSetCursor();
+
+	virtual	bool SetAttribute(sBattlerData* pData);
+	bool SetAttribute(sBattlerData* pData, std::wstring modelName, std::wstring hair, std::wstring head, std::wstring body);
+	
+	bool CanUseTo(int usetype);					//鏄惁鍙綔鐢ㄥ嚱鏁?
+
+	bool AffectByAttack();						//鏄惁鑳藉琚敾鍑?
+
+	bool AffectedBySkill(int pSkillID);			//鏄惁鍙閫変腑鎶?鑳藉奖鍝?
+	bool AffectedByItem(int itemuse);			//鏄惁鍙閫変腑鐗╁搧褰卞搷
+	bool AffectedByCatch();						//鏄惁鍙鎹曟崏
+
+	bool AffectByProtect();						//鑳藉惁琚繚鎶?
+
+	bool CanBeCommand();						//鑳藉惁琚寚鎸?
+
+public://鎴樻枟Demo琛ㄧ幇鐩稿叧
+	bool ProcessAttackAction(sBattleDemoAttack* pAttack);			//鏀诲嚮鎵ц
+	bool ProcessResultAction(int eResult, int FlagType, int aOnhitDelay, int aOnhitDir, int HPChange, int MPChange, int uplimitHPChange = 0, int SPChange = 0, bool bReturnhurt = false, bool battackaction = false, int HPChangeGodBless = 0);//鏀诲嚮缁撴灉
+	void ProcessBuffChange(const sBattleBuffResult& buffdatalist);
+	void ProcessSpecialAction();//鎵ц鍚庣画缁撴灉锛屽嚮椋烇紝姝讳骸绛夌瓑
+
+	void OnHitNumber(int num, eBattleResult eHitType, int FlagType, bool critic = false);//澶翠笂鎺夊啋琛?鐨勬暟瀛?
+
+	void OnHpChangeOutSideBattle(int curhp);
+
+	void ResetBattlerLocation();
+		
+	void TurnTo(SceneObject* pSceneObj);//鏈濆悜鏌愪釜鍗曚綅
+
+	bool HandlePickBtnClicked(const CEGUI::EventArgs& e);
+	bool HandlePickBtnUp(const CEGUI::EventArgs& e);
+	bool HandlePickBtnDown(const CEGUI::EventArgs& e);
+	void RunPick(int now, int delta);
+	void ShowBattlerTip(bool bShow);
+
+	void ShowPickBtn(bool bShow);
+	bool CanPick(int eCurOperatorType, int iCurSkillID, stRoleItem& pCurItem);
+
+	bool HandleSkillNameStopped(const CEGUI::EventArgs& e);
+	void ShowSkillName(bool bShow, int iSkillID = 0);
+
+	void AddHpBar();			//娣诲姞琛?鏉?
+	void RemoveHpBar();			//鍒犻櫎琛?鏉?
+	void UpdateHpBarLocation();	//鏇存柊琛?鏉′綅缃?
+	void RefreshHpBar();
+
+	void ShowHpBar(bool b);
+
+	void SetEPValue(int vl);
+	int GetEPValue();
+	void SetHPValue(int vl);
+	int GetHPValue();
+
+	void AddLevelText(int level);
+
+	bool AddBabyTips();
+
+	CEGUI::Window* GetBattleWindow();
+
+	void SetOperateState(eOperateState state);
+
+	void ClientSetOperateState(eOperateState state);//姣忓洖鍚堟搷浣滃紑濮嬪墠锛屽鎴风鑷鎵?鏈変汉鐘舵?佷负鈥滃噯澶囦腑鈥濓紝demo寮?濮嬪墠璁句负鈥淣ULL鈥?
+
+	void OnBeforeRender(int now);
+	
+	void SetSelected(bool b){m_bSelected = b;}
+
+	void SetGlobalAnimFreq(float freq);	//璁剧疆鍏ㄥ眬鎾斁鍔ㄧ敾閫熷害鍊嶇巼
+	float GetGlobalAnimFreq();
+
+	void SetBattlerDemoSpeedRate(float rate);
+
+	void SetDemoShowEnd(bool b);
+
+	void AddDemoShowNotEndEffect(bool);
+
+	const std::wstring& GetHitEffect();
+
+	void SetHitBack();
+
+	void ClearHitBack();
+
+	void ContinueHitBack();
+
+	void ReadyBattleDemo();
+
+	void SetBattleAttackFinish(bool b);
+	void SetFlag(std::wstring flag);
+	std::wstring GetFlag();
+};

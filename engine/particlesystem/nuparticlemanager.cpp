@@ -281,7 +281,7 @@ namespace Nuclear
 			paramTemp.m_bScreenCoord = false;
 			paramTemp.m_bVertexRHWflag = true;
 		}
-		if ((!paramTemp.m_bScreenCoord) && (paramTemp.m_bVertexRHWflag))	//m_bVertexRHWflag等于false的情况由d3d来做以下坐标转换	
+		if ((!paramTemp.m_bScreenCoord) && (paramTemp.m_bVertexRHWflag))	// 非屏幕坐标由渲染器执行后续坐标变换
 			AdjustPSParameter(paramTemp.m_psModifyParam);
 
 		if ((*pRefPsl)->m_nInterfacePsl) //界面特效
@@ -360,16 +360,16 @@ namespace Nuclear
 		return m_psHandleSeed++;
 	}
 
-	bool ParticleManager::GenPSTextureInfo(std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& vectorD3DTexture, PSTEXTUREINFOSTRUCT* ppslTexture)
+	bool ParticleManager::GenPSTextureInfo(std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& textureResources, PSTEXTUREINFOSTRUCT* ppslTexture)
 	{
 		if (m_pRenderer == NULL)
 			return false;
 
-		int cnt = (int)vectorD3DTexture.size();
+		int cnt = (int)textureResources.size();
 		if (cnt < 1 || cnt>32)
 			return false;
 		NuclearPictureInfo picinfo;
-		if (!m_pRenderer->GetPictureInfo(vectorD3DTexture[0]->handle, picinfo))
+		if (!m_pRenderer->GetPictureInfo(textureResources[0]->handle, picinfo))
 			return false;
 
 		int nWidth = picinfo.m_nPicWidth;
@@ -429,7 +429,7 @@ namespace Nuclear
 		if (buffer == NULL) return false;
 		for (int i = 0; i < cnt; i++)
 		{
-			m_pRenderer->GetPictureData(vectorD3DTexture[i]->handle, buffer, buffersize, &srcrect);
+			m_pRenderer->GetPictureData(textureResources[i]->handle, buffer, buffersize, &srcrect);
 			int row = i / ppslTexture->PsTextureInfo.m_nPslTexCol;
 			int col = i%ppslTexture->PsTextureInfo.m_nPslTexCol;
 			NuclearRect dstrect(col*nWidth, row*nHeight, (col + 1)*nWidth, (row + 1)*nHeight);
@@ -622,7 +622,7 @@ namespace Nuclear
 
 	bool ParticleManager::SaveAsyncReadTextureResource(const NuclearBuffer& data, std::wstring strTextureFileName)
 	{
-		if (m_mapD3d9Texture.find(strTextureFileName) != m_mapD3d9Texture.end())
+		if (m_mapTextureResources.find(strTextureFileName) != m_mapTextureResources.end())
 		{
 			return true;
 		}
@@ -642,7 +642,7 @@ namespace Nuclear
 		PicHandle->dwTime = GetTickCount() / 1000;
 
 		NuclearHardRef<PSPICHANDLESTRUCT>* RefHandle = new NuclearHardRef<PSPICHANDLESTRUCT>(PicHandle);
-		m_mapD3d9Texture.insert(std::make_pair(strTextureFileName, RefHandle));
+		m_mapTextureResources.insert(std::make_pair(strTextureFileName, RefHandle));
 
 		m_fCurResourceSize += PicHandle->dataSize;
 
@@ -651,7 +651,7 @@ namespace Nuclear
 
 	bool ParticleManager::SaveAsyncReadTextureResource(cocos2d::CCImage* pImage, std::wstring strTextureFileName)
 	{
-		if (m_mapD3d9Texture.find(strTextureFileName) != m_mapD3d9Texture.end())
+		if (m_mapTextureResources.find(strTextureFileName) != m_mapTextureResources.end())
 		{
 			return true;
 		}
@@ -672,7 +672,7 @@ namespace Nuclear
 		PicHandle->dwTime = DWORD(GetTickCount() / 1000);
 
 		NuclearHardRef<PSPICHANDLESTRUCT>* RefHandle = new NuclearHardRef<PSPICHANDLESTRUCT>(PicHandle);
-		m_mapD3d9Texture.insert(std::make_pair(strTextureFileName, RefHandle));
+		m_mapTextureResources.insert(std::make_pair(strTextureFileName, RefHandle));
 
 		m_fCurResourceSize += PicHandle->dataSize;
 
@@ -1849,18 +1849,18 @@ namespace Nuclear
 						}
 						else {
 							int cnt = (int)ppsl->m_vectorTexturePath.size();
-							std::vector<NuclearHardRef<PSPICHANDLESTRUCT> > &vectorD3DTexture = m_okPSL[pslName];
+							std::vector<NuclearHardRef<PSPICHANDLESTRUCT> > &textureResources = m_okPSL[pslName];
 							for (int i = 0; i < cnt; i++)
 							{
-								std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator pit = m_mapD3d9Texture.find(ppsl->m_vectorTexturePath[i]);
-								XPASSERT(pit != m_mapD3d9Texture.end() && L"pPS->m_restTexRes == 0了，资源应该全了");
+								std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator pit = m_mapTextureResources.find(ppsl->m_vectorTexturePath[i]);
+								XPASSERT(pit != m_mapTextureResources.end() && L"pPS->m_restTexRes == 0了，资源应该全了");
 								pRefHandle = pit->second;
 								(*pRefHandle)->dwTime = time;
-								vectorD3DTexture.push_back(*pRefHandle);
+								textureResources.push_back(*pRefHandle);
 							}
-							if (!InsertPslTexture(vectorD3DTexture, pslName))
+							if (!InsertPslTexture(textureResources, pslName))
 							{
-								vectorD3DTexture.clear();
+								textureResources.clear();
 								//加载失败了，通知ParticleEffect吧
 								XPASSERT(pPS->GetParticleLoadingNotify() && L"//加载失败了，通知ParticleEffect吧");
 								pPS->GetParticleLoadingNotify()->OnReady(false);
@@ -1868,7 +1868,7 @@ namespace Nuclear
 								pPS = NULL;
 								continue;
 							}
-							pPS->SetPicHandleRefResource(vectorD3DTexture);
+							pPS->SetPicHandleRefResource(textureResources);
 						}
 						SetParticleSysResouce(pPS, m_mapPslTexture[pslName]);
 						//加载成功了，通知ParticleEffect吧
@@ -1910,13 +1910,13 @@ namespace Nuclear
 		it->second->SetStopFlag(bStop);
 	}
 
-	bool ParticleManager::InsertPslTexture(std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& vectorD3DTexture, const std::wstring &pslName)
+	bool ParticleManager::InsertPslTexture(std::vector<NuclearHardRef<PSPICHANDLESTRUCT> >& textureResources, const std::wstring &pslName)
 	{
 		if (m_pRenderer == NULL)
 			return false;
 
 		PSTEXTUREINFOSTRUCT *ppslTextureInfo = new PSTEXTUREINFOSTRUCT(m_pRenderer);
-		int cnt = vectorD3DTexture.size();
+		int cnt = textureResources.size();
 		if (cnt < 1)
 		{
 			XPSAFE_DELETE(ppslTextureInfo);
@@ -1934,7 +1934,7 @@ namespace Nuclear
 
 		if (cnt > 1 && nVersion < 4)
 		{
-			if (!GenPSTextureInfo(vectorD3DTexture, ppslTextureInfo))
+			if (!GenPSTextureInfo(textureResources, ppslTextureInfo))
 			{
 				XPSAFE_DELETE(ppslTextureInfo);
 				m_nLastError = PSLLOADERROR_TEXTURE;
@@ -1947,14 +1947,14 @@ namespace Nuclear
 		else
 		{
 			NuclearPictureInfo picinfo;
-			if (!m_pRenderer->GetPictureInfo(vectorD3DTexture[0]->handle, picinfo))
+			if (!m_pRenderer->GetPictureInfo(textureResources[0]->handle, picinfo))
 			{
 				XPSAFE_DELETE(ppslTextureInfo);
 				return false;
 			}
 
-			ppslTextureInfo->PsTextureInfo.handle = vectorD3DTexture[0]->handle;
-			ppslTextureInfo->dataSize = vectorD3DTexture[0]->dataSize;
+			ppslTextureInfo->PsTextureInfo.handle = textureResources[0]->handle;
+			ppslTextureInfo->dataSize = textureResources[0]->dataSize;
 
 			ppslTextureInfo->PsTextureInfo.m_nTexWidth = picinfo.m_nPicWidth;
 			ppslTextureInfo->PsTextureInfo.m_nTexHeight = picinfo.m_nPicHeight;
@@ -2010,7 +2010,7 @@ namespace Nuclear
 			}
 			else
 			{
-				std::vector<NuclearHardRef<PSPICHANDLESTRUCT> > vectorD3DTexture;
+				std::vector<NuclearHardRef<PSPICHANDLESTRUCT> > textureResources;
 				NuclearHardRef<PSL> ppsl = particleSys->GetPSL();
 				std::wstring strTextureFileName;
 				int cnt = (int)ppsl->m_vectorTexturePath.size();
@@ -2030,8 +2030,8 @@ namespace Nuclear
 						for (int i = 0; i < cnt; i++)
 						{
 							strTextureFileName = ppsl->m_vectorTexturePath[i];
-							std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::const_iterator it = m_mapD3d9Texture.find(strTextureFileName);
-							if (it == m_mapD3d9Texture.end())
+							std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::const_iterator it = m_mapTextureResources.find(strTextureFileName);
+							if (it == m_mapTextureResources.end())
 							{
 								//读文件加载纹理
 								PicHandle = new PSPICHANDLESTRUCT(m_pRenderer);
@@ -2047,7 +2047,7 @@ namespace Nuclear
 								}
 								PicHandle->dwTime = GetTickCount() / 1000;
 								RefHandle = new NuclearHardRef<PSPICHANDLESTRUCT>(PicHandle);
-								m_mapD3d9Texture.insert(std::make_pair(strTextureFileName, RefHandle));
+								m_mapTextureResources.insert(std::make_pair(strTextureFileName, RefHandle));
 
 								m_fCurResourceSize += PicHandle->dataSize;
 							}
@@ -2056,13 +2056,13 @@ namespace Nuclear
 								RefHandle = it->second;
 								(*RefHandle)->dwTime = GetTickCount() / 1000;
 							}
-							vectorD3DTexture.push_back(*RefHandle);
+							textureResources.push_back(*RefHandle);
 						}
-						if (!InsertPslTexture(vectorD3DTexture, pslName))
+						if (!InsertPslTexture(textureResources, pslName))
 						{
 							return XPEARR_LOAD_ERROR;
 						}
-						pPS->SetPicHandleRefResource(vectorD3DTexture);
+						pPS->SetPicHandleRefResource(textureResources);
 						SetParticleSysResouce(pPS, m_mapPslTexture[pslName]);
 						return XPEARR_RESREADY;
 					}
@@ -2073,8 +2073,8 @@ namespace Nuclear
 						for (int i = 0; i < cnt; i++)
 						{
 							strTextureFileName = ppsl->m_vectorTexturePath[i];
-							std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::const_iterator it = m_mapD3d9Texture.find(strTextureFileName);
-							if (it == m_mapD3d9Texture.end())
+							std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::const_iterator it = m_mapTextureResources.find(strTextureFileName);
+							if (it == m_mapTextureResources.end())
 							{ //资源还没有加载进来...
 								//检查任务是否需要提交
 								if (!IsLoading(strTextureFileName))
@@ -2104,17 +2104,17 @@ namespace Nuclear
 						{
 							for (int i = 0; i < cnt; i++)
 							{
-								std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator pit = m_mapD3d9Texture.find(ppsl->m_vectorTexturePath[i]);
+								std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator pit = m_mapTextureResources.find(ppsl->m_vectorTexturePath[i]);
 								RefHandle = pit->second;
 								(*RefHandle)->dwTime = GetTickCount() / 1000;
-								vectorD3DTexture.push_back(*RefHandle);
+								textureResources.push_back(*RefHandle);
 							}
-							if (!InsertPslTexture(vectorD3DTexture, pslName))
+							if (!InsertPslTexture(textureResources, pslName))
 							{
 								//加载失败了，通知ParticleEffect吧
 								return XPEARR_LOAD_ERROR;
 							}
-							pPS->SetPicHandleRefResource(vectorD3DTexture);
+							pPS->SetPicHandleRefResource(textureResources);
 							SetParticleSysResouce(pPS, m_mapPslTexture[pslName]);
 							return XPEARR_RESREADY;
 						}
@@ -2128,9 +2128,9 @@ namespace Nuclear
 					for (int i = 0; i < cnt; i++)
 					{
 						strTextureFileName = ppsl->m_vectorTexturePath[i];
-						std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::const_iterator iter = m_mapD3d9Texture.find(strTextureFileName);
+						std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::const_iterator iter = m_mapTextureResources.find(strTextureFileName);
 
-						if (iter == m_mapD3d9Texture.end())
+						if (iter == m_mapTextureResources.end())
 						{//
 							std::wstring pslFileName = pPS->GetPslName();
 							XPLOG_ERROR(L"(%s)对应的大纹理存在，小纹理(%s)不存在。逻辑错误！", pslFileName.c_str(), strTextureFileName.c_str());
@@ -2138,9 +2138,9 @@ namespace Nuclear
 						}
 						RefHandle = iter->second;
 						(*RefHandle)->dwTime = GetTickCount() / 1000;
-						vectorD3DTexture.push_back(*RefHandle);
+						textureResources.push_back(*RefHandle);
 					}
-					pPS->SetPicHandleRefResource(vectorD3DTexture);
+					pPS->SetPicHandleRefResource(textureResources);
 					SetParticleSysResouce(pPS, it->second);
 					return XPEARR_RESREADY;
 				}
@@ -2269,14 +2269,14 @@ namespace Nuclear
 		}
 		m_mapPslTexture.clear();
 
-		for (std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator it = m_mapD3d9Texture.begin(), ie = m_mapD3d9Texture.end(); it != ie; ++it)
+		for (std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator it = m_mapTextureResources.begin(), ie = m_mapTextureResources.end(); it != ie; ++it)
 		{
 			if (!(m_logName.empty()))
 				XPLOG_PSMHZX(L"ParticleManager::Destroy()--PSPICHANDLESTRUCT--HardRef: %d\n", it->second->GetHardRefCount());
 
 			XPSAFE_DELETE(it->second);
 		}
-		m_mapD3d9Texture.clear();
+		m_mapTextureResources.clear();
 
 		m_psHandleSeed = 1;
 	}
@@ -2445,8 +2445,8 @@ namespace Nuclear
 				++it;
 		}
 
-		std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator itPicHandle = m_mapD3d9Texture.begin();
-		while (itPicHandle != m_mapD3d9Texture.end()) //小纹理
+		std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator itPicHandle = m_mapTextureResources.begin();
+		while (itPicHandle != m_mapTextureResources.end()) //小纹理
 		{
 			DWORD time = (*(itPicHandle->second))->dwTime;
 			if ((itPicHandle->second->GetHardRefCount() == 1) && (dwCurTime - time > dwCriticalTime))
@@ -2454,7 +2454,7 @@ namespace Nuclear
 				m_fCurResourceSize -= (*(itPicHandle->second))->dataSize;
 
 				XPSAFE_DELETE(itPicHandle->second);
-				m_mapD3d9Texture.erase(itPicHandle++);
+				m_mapTextureResources.erase(itPicHandle++);
 			}
 			else
 				++itPicHandle;
@@ -2529,7 +2529,7 @@ namespace Nuclear
 			//释放资源
 			std::vector<std::wstring> textureFiles;
 
-			for (std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator it = m_mapD3d9Texture.begin(), ie = m_mapD3d9Texture.end(); it != ie; ++it)
+			for (std::map<std::wstring, NuclearHardRef<PSPICHANDLESTRUCT>*>::iterator it = m_mapTextureResources.begin(), ie = m_mapTextureResources.end(); it != ie; ++it)
 			{
 				XPLOG_INFO(L"ParticleManager::OnResetDevice()--PSPICHANDLESTRUCT--HardRef: %d\n", it->second->GetHardRefCount());
 
@@ -2539,7 +2539,7 @@ namespace Nuclear
 
 				textureFiles.push_back(it->first);
 			}
-			m_mapD3d9Texture.clear();
+			m_mapTextureResources.clear();
 
 			//
 			//重新加载资源
@@ -2561,7 +2561,7 @@ namespace Nuclear
 				}
 				PicHandle->dwTime = GetTickCount() / 1000;
 				RefHandle = new NuclearHardRef<PSPICHANDLESTRUCT>(PicHandle);
-				m_mapD3d9Texture.insert(std::make_pair(textureFiles[i], RefHandle));
+				m_mapTextureResources.insert(std::make_pair(textureFiles[i], RefHandle));
 
 				m_fCurResourceSize += PicHandle->dataSize;
 			}

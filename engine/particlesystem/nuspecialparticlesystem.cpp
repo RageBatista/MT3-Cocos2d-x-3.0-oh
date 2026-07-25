@@ -10,7 +10,7 @@ namespace Nuclear
 	{
 		assert(m_ppsl->m_nAbsrtactPsl == 1);
 		m_shapeList.clear();
-		m_pD3dTextureShapes = INVALID_PICTURE_HANDLE;
+		m_shapeTexture = INVALID_PICTURE_HANDLE;
 		m_fShapePsScalex = 1.0f;
 		m_fShapePsScaley = 1.0f;
 		m_fmaxu = 1.0f;
@@ -271,7 +271,7 @@ namespace Nuclear
 		if(m_bStop)
 			fTimeDelta = 0.0f;
 		
-		if(m_pD3dTextureShapes == INVALID_PICTURE_HANDLE || m_shapeList.empty())
+		if(m_shapeTexture == INVALID_PICTURE_HANDLE || m_shapeList.empty())
 			return false;
 
 		m_fSilentAge += fTimeDelta;
@@ -468,7 +468,7 @@ namespace Nuclear
 			vertices[3].u = 0.0f;
 			vertices[3].v = m_fmaxv;
 
-			return m_pRenderer->DrawTriangleFan(m_pD3dTextureShapes, &vertices[0], numVertex);
+			return m_pRenderer->DrawTriangleFan(m_shapeTexture, &vertices[0], numVertex);
 		}
 
 		float fcx = (float)m_curViewPort.Width()/(float)m_nShapeTextureWidth;
@@ -518,7 +518,7 @@ namespace Nuclear
 					vertices[i].v = shape.vertexs[numVertex-1-i].v *m_fmaxv;
 				}
 
-				if( !m_pRenderer->DrawTriangleFan(m_pD3dTextureShapes, &vertices[0], numVertex) )
+				if( !m_pRenderer->DrawTriangleFan(m_shapeTexture, &vertices[0], numVertex) )
 					return false;
 			}
 		}
@@ -545,12 +545,12 @@ namespace Nuclear
 	bool CSpecialParticleSystem::SetShapePsTexture(PictureHandle pShapesTexture, float fu, float fv)
 	{
 		//图片左下角的纹理坐标 fu fv (在烂显卡上创建非2幂纹理时...)
-		if(m_pD3dTextureShapes==pShapesTexture || pShapesTexture==INVALID_PICTURE_HANDLE)
+		if(m_shapeTexture==pShapesTexture || pShapesTexture==INVALID_PICTURE_HANDLE)
 			return false;
 
 		m_fmaxu = fu;
 		m_fmaxv = fv;
-		m_pD3dTextureShapes = pShapesTexture;
+		m_shapeTexture = pShapesTexture;
 
 		NuclearPictureInfo picinfo;
 		if( !(m_pRenderer->GetPictureInfo(pShapesTexture, picinfo)) )

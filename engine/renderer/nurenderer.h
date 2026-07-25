@@ -9,8 +9,8 @@ namespace Nuclear
 	// 性能测试参数
 	struct RenderPerformance
 	{
-		int m_iManagedTextureCount;				// d3d管理的 texture 的个数
-		int m_iManagedTextureMemory;			// d3d管理的 texture 所占总内存, 单位字节
+		int m_iManagedTextureCount;				// renderer 管理的 texture 个数
+		int m_iManagedTextureMemory;			// renderer 管理的 texture 总内存，单位字节
 
 		int m_iTotalPixelRenderedPerFrame;		// 每帧累积绘制纹理的总面积 单位像素数
 		int m_iDrawPrimitiveCountPerFrame;		// 每帧 DrawPrimitive 函数的调用次数
@@ -175,7 +175,6 @@ namespace Nuclear
 	enum XPRENDERER_VERSION
 	{
 		XPRV_DEFAULT =	0,
-		XPRV_DX9	 =	1,
         XPRV_COCOS2D =  2,
 	};
 
@@ -187,7 +186,6 @@ namespace Nuclear
 	enum XPCREATE_RENDERER_RESULT
 	{
 		XPCRR_NULL_POINTER = -8,
-		XPCRR_GET_DIRECT3D = -7,
 		XPCRR_CREATE_DEVICE = -6,
 		XPCRR_INIT_STATE_MANAGER = -5,
 		XPCRR_CREATE_DEPTHSTENCIL_SURFACE = -4,

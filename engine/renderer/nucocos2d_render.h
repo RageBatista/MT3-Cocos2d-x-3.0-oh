@@ -13,7 +13,6 @@
 #include "../particlesystem/nuparticlemanager.h"
 #include "nufontmanager.h"
 #include "nustatemanager.h"
-#include "nuigetd3ddevice9.h"
 
 namespace Nuclear
 {
@@ -365,7 +364,6 @@ namespace Nuclear
         
 		int GenTexture(NuclearTextureFormat texfmt, NuclearPoolType pooltype, CTextureInfo& TextureInfo);
 
-		bool ResetD3D(const NuclearDisplayMode *newmode = NULL);
 		bool InitBatchVB();
 		void DestroyBatchVB();
 

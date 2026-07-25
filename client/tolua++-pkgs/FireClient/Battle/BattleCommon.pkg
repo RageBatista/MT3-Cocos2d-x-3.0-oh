@@ -1,0 +1,221 @@
+
+#define OneSideMaxNum 14	//鎴樻枟涓?鏂规渶澶?14涓崟浣?
+//鍙嬫柟缂栧彿浠?1-14
+#define FriendMinID 1
+#define FriendMaxID 14
+//鍦版柟缂栧彿浠?15-28
+#define EnemyMinID 15
+#define EnemyMaxID 28
+
+#define WatchMinID	31	//鍗佷釜瑙傛垬浣?
+#define WatchMaxID	40
+
+#define BATTLE_GRID	25
+
+#define AUTO_ROUND_NUM 29	//鑷姩鍥炲悎鏁?30
+
+#define AI_PLAYACTION_DELAY 400	//AI鐨勬紨绀烘椂闂?
+
+enum eBattlerType
+{
+	eBattlerCharacter	= 1,	//瑙掕壊
+	eBattlerPet			= 2,	//瀹犵墿
+	eBattlerNaKaMa		= 3,	//浼欎即锛堢帺瀹惰嚜甯﹀姪鎴橈級
+	eBattlerMonster		= 4,	//鏆楅浄閲庢??
+	eBattlerNPC			= 5,	//鎴樻枟npc锛?24000浠ヤ笂锛?
+	eBattlerNaKaMaSys	= 6,	//绯荤粺瀹夋帓鐨勫姪鎴?
+	eBattlerMax,
+};
+
+enum eOperateBattlerType
+{
+	eOperateBattler_Char,
+	eOperateBattler_Pet,
+	eOperateBattlerMax
+};
+
+enum eBattleState
+{
+	eBattleState_Null = 0,
+	eBattleState_Begin,
+	eBattleState_AIBeforeOperate,
+	eBattleState_OperateChar,
+	eBattleState_OperatePet,
+	eBattleState_Wait,
+	eBattleState_Demo,
+	eBattleState_DemoOperate,
+	eBattleState_BeforeBattleEnd,
+	eBattleStateMax
+};
+
+enum eBattleOperate
+{
+	eOperate_Null		= 0,
+	eOperate_Attack		= 1,	
+	eOperate_Skill		= 2,	
+	eOperate_Item		= 3,	
+	eOperate_Defence	= 4,	
+	eOperate_Protect	= 5,	
+	eOperate_Summon		= 6,	
+	eOperate_Recall		= 7,	
+	eOperate_Catch		= 8,	
+	eOperate_Runaway	= 9,	
+	eOperate_Rest		= 10,	
+	eOperate_Special	= 11,	
+	eOperate_SummonInstant		= 12,
+	eOperate_EscapeInstant		= 13,
+	eOperate_Failure			= 14,
+	eOperate_AIBattleEnd		= 15,
+	eOperate_EnvironmentDemo	= 16,
+	eOperate_EnvironmentChange	= 17,
+	eOperate_RoundEndDemo		= 18,
+};
+
+enum eBattleResult
+{
+	eBattleResult_Null,
+	eBattleResult_HPChange	= 1<<0,	
+	eBattleResult_MPChange	= 1<<1,	
+	eBattleResult_SPChange	= 1<<2,	
+	eBattleResult_ULHPChange = 1<<3,
+	eBattleResult_Rest		= 1<<4,	
+	eBattleResult_Hit		= 1<<5,	
+	eBattleResult_Critic	= 1<<6,	
+	eBattleResult_Defence	= 1<<7,	
+	eBattleResult_Parry		= 1<<8,	
+	eBattleResult_Dodge		= 1<<9,	
+	eBattleResult_Runaway	= 1<<10,
+	eBattleResult_Seized	= 1<<11,
+	eBattleResult_Summonback = 1<<12,
+	eBattleResult_Death		= 1<<13,
+	eBattleResult_FlyOut	= 1<<14,
+	eBattleResult_Ghost		= 1<<15,
+	eBattleResult_Relive	= 1<<16,
+	eBattleResult_Summon	= 1<<17,
+	eBattleResult_NotDefence = 1<<18,
+	eBattleResult_Absorb	= 1<<19,
+	eBattleResult_DestroyMP	= 1<<20,
+	eBattleResult_GodBless	= 1<<21,
+	eBattleResult_EPChange	= 1<< 23,//杩炲嚮鐐?
+	eBattleResultMax,
+};
+
+enum eOperateState
+{
+	eOperateState_Null,
+	eOperateState_Prepare,
+	eOperateState_Wait,
+	eOperateState_FallLine,
+	eOperateStateMax
+};
+
+struct sBattleOperateCommand
+{
+	int TargetID;
+	eBattleOperate BattleOperate;
+	int OperatorID;
+	sBattleOperateCommand();
+	void Reset();
+};
+
+struct sBattleNpcData
+{
+	int NpcBaseID;
+	std::wstring name;
+};
+
+struct sBattlerData
+{
+	int iBattleID;
+	std::wstring strName;
+	std::wstring strTitle;
+	eBattlerType BattlerType;
+	char bGM;
+	int school;
+	int subtype; 
+	int64_t BattlerDataID;
+	int UpLimitHp;
+	int MaxHp;
+	int Hp;
+	int64_t iShapeID;
+	int level;
+    int             colorInx;
+	eOperateState OperateState;
+	sBattlerData();
+};
+
+struct sBattleBuffResult
+{
+	int battleid;
+	int buffid;
+	int buffdata;
+	sBattleBuffResult();
+	sBattleBuffResult(int battle,int id,int data);
+};
+
+struct sBattleDemoAttack
+{
+	int AttackerID;
+	int HPConsume;
+	int MPConsume;
+	int SPConsume;
+	eBattleOperate BattleOperate;
+	int OperatorID;
+	int msgid;
+	sBattleDemoAttack();
+};
+
+struct sBattleDemoResult
+{
+	int ResultType;
+	int FlagType;
+	int	TargetID;
+	int	HPChange;
+	int	MPChange;
+	int MaxHPChange;		//褰撳墠琛?涓婇檺鍙樺寲
+	int SPChange;			//褰撳墠鎬掓皵鍊煎彉鍖?
+	int	eTargetResult;		//琚嚮鑰呮晥鏋?
+	int	ReturnHurtEffect;	//鍙楀嚮鏂归?犳垚鐨勫弽浼ゅ?硷紝濡傛灉涓?0鍒欎唬琛ㄦ病鏈夊弽浼?
+	int	AttackBackEffect;	//鍙楀嚮鏂归?犳垚鐨勫弽鍑诲?硷紝濡傛灉涓?0鍒欎唬琛ㄦ病鏈夊弽鍑?
+	int	StealHPEffect;		//鏀诲嚮鏂逛骇鐢熺殑鍚歌鍊硷紝濡傛灉涓?0鍒欎唬琛ㄦ病鏈夊惛琛?
+	int	StealMPEffect;		//鏀诲嚮鏂逛骇鐢熺殑鍚歌摑鍊硷紝濡傛灉涓?0鍒欎唬琛ㄦ病鏈夊惛钃?
+	int	eAttackerResult;	//鏀诲嚮鑰呮晥鏋?
+	int	ProtecterID;
+	int	ProtectHPChange;
+	int	eProtecterResult;	//淇濇姢鑰呮晥鏋?
+	int	AssisterID;			//鍚堝嚮鑰匢D
+	int ProtectMaxHPChange;	//淇濇姢鑰呰涓婇檺鍙樺寲
+	int ReturnHurtMaxHP;	//鍙楀嚮鏂硅鍙嶄激鑷存鍚庣殑琛?涓婇檺鍙樺寲
+	std::list<sBattleBuffResult>		BuffResultList;
+	bool bgeneresult;		//鐢熸垚缁撴灉
+	int hitnum;				//鎵撳嚮娆℃暟
+	int EveryHitHP;			//姣忔鎵撳嚮鐨勪激瀹?
+	int EveryProtectHitHP;	//淇濇姢鑰呮瘡娆¤鎵撳嚮浼ゅ
+	eActionType eUseAction;	//浣跨敤鍔ㄤ綔
+	int	HPChangeGodBless;	//绁炰綉琛?閲忓彉鍖?
+	int	EPChange;			// 鍙楀嚮鑰呮晥鏋滅偣鍙樺寲锛屼负姝ｆ槸鍔犳晥鏋滅偣锛屼负璐熸槸鎵ｆ晥鏋滅偣
+	int ShapeChange;		// 妯″瀷鏀瑰彉
+	sBattleDemoResult();
+};
+
+struct sBattleAIAction
+{
+	int DemoIndex;	
+	int	ExecuteTime;
+	int BattlerID;
+	int AIActionID;	
+	sBattleAIAction();
+};
+
+struct sBattleDemoScript 
+{
+	sBattleDemoAttack	stMagicCasting;
+	stNewDemoResultArr	listResults;
+	BattlerData			listBattler;
+	std::map<int,int>	RoleAttribute;	//浜虹墿灞炴??
+	std::map<int,int>	PetAttribute;	//瀹犵墿灞炴??
+};
+
+
+inline void GetBattlerIndexAndSide(int battleid,int& index,bool& bFriend);
+

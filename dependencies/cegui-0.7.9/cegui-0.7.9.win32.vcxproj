@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7ED1310B-A664-477C-8A31-24F42712176B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>cegui-0.7.9</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration).win32\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration).win32\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_d</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration).win32\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration).win32\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;../../tools/CEGUI-0.7.9-r5/cegui/include;../../tools/CEGUI-0.7.9-r5/cegui/include/WindowRendererSets/Falagard;../../tools/CEGUI-0.7.9-r5/cegui/include/ImageCodecModules/SILLYImageCodec;../../tools/CEGUI-0.7.9-r5/cegui/include/XMLParserModules/TinyXMLParser;../../tools/CEGUI-0.7.9-r5/cegui/src/XMLParserModules/TinyXMLParser;../pcre-8.31;../SILLY-0.1.0/include;../SILLY-0.1.0/include/loaders;../freetype-2.4.12/include;../zlib-1.2.5;../libpng-1.4.7;../jpeg/include/win32;../wxWidgets-3.0.5/src/jpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>Default</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4244;4100;4127;4512;4702;4005;4018;4267;4311;4312;4334;4456;4457;4458;4459;4701;4703;4819</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;WIN7_32;_WINDOWS;_DEBUG;CEGUI_STATIC;HAVE_CONFIG_H;PCRE_STATIC;SILLY_HAVE_JPG;SILLY_HAVE_PNG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;../../tools/CEGUI-0.7.9-r5/cegui/include;../../tools/CEGUI-0.7.9-r5/cegui/include/WindowRendererSets/Falagard;../../tools/CEGUI-0.7.9-r5/cegui/include/ImageCodecModules/SILLYImageCodec;../../tools/CEGUI-0.7.9-r5/cegui/include/XMLParserModules/TinyXMLParser;../../tools/CEGUI-0.7.9-r5/cegui/src/XMLParserModules/TinyXMLParser;../pcre-8.31;../SILLY-0.1.0/include;../SILLY-0.1.0/include/loaders;../freetype-2.4.12/include;../zlib-1.2.5;../libpng-1.4.7;../jpeg/include/win32;../wxWidgets-3.0.5/src/jpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;4244;4100;4127;4512;4702;4005;4018;4267;4311;4312;4334;4456;4457;4458;4459;4701;4703;4819</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;WIN7_32;_WINDOWS;NDEBUG;CEGUI_STATIC;HAVE_CONFIG_H;PCRE_STATIC;SILLY_HAVE_JPG;SILLY_HAVE_PNG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <!-- ===== CEGUI 0.7.9-r5 Core Source Files ===== -->
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIAffector.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIAnimation.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIAnimationInstance.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIAnimationManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIAnimation_xmlHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIBase.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIBasicInterpolators.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIBasicRenderedStringParser.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIBiDiVisualMapping.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIBoundSlot.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUICentredRenderedString.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIChainedXMLHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIcolour.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIColourRect.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIConfig_xmlHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUICoordConverter.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIDataContainer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIDefaultLogger.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIDefaultRenderedStringParser.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIDefaultResourceProvider.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIDynamicModule.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIEvent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIEventArgs.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIEventSet.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIEventSignal.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIEventSignalSet.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIExceptions.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIFactoryModule.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIFont.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIFontManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIFontProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIFont_xmlHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIFormattedRenderedString.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIFreeTypeFont.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIFribidiVisualMapping.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIGeometryBuffer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIGlobalEventSet.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIGUILayout_xmlHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIImage.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIImageCodec.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIImageset.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIImagesetManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIImageset_xmlHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIJustifiedRenderedString.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIJustifiedRenderedStringWordWrapper.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIKeyFrame.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUILeftAlignedRenderedString.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUILogger.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIMinibidiVisualMapping.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIMinizipResourceProvider.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIMouseCursor.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUINamedXMLResourceManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIPCRERegexMatcher.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIPixmapFont.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIProperty.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIPropertyHelper.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIPropertySet.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRect.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderedString.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderedStringComponent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderedStringImageComponent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderedStringTextComponent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderedStringWidgetComponent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderEffectManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderingRoot.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderingSurface.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderingWindow.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRenderQueue.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIRightAlignedRenderedString.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIScheme.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUISchemeManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIScheme_xmlHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIScriptModule.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUISize.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIString.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUISubscriberSlot.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUISystem.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUITextUtils.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWindow.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWindowFactory.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWindowFactoryManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWindowManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWindowProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWindowRenderer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWindowRendererManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWindowRendererModule.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIWRFactoryRegisterer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIXMLAttributes.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIXMLHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIXMLParser.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\CEGUIXMLSerializer.cpp" />
+    <!-- ===== CEGUI Elements (Widgets) ===== -->
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIButtonBase.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUICheckbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUICheckboxProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIClippedContainer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUICombobox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIComboboxProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIComboDropList.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIDragContainer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIDragContainerProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIEditbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIEditboxProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIFrameWindow.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIFrameWindowProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIGridLayoutContainer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIGridLayoutContainerProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIGroupBox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIGUISheet.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIHorizontalLayoutContainer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIItemEntry.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIItemEntryProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIItemListBase.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIItemListBaseProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIItemListbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIItemListboxProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUILayoutContainer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIListbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIListboxItem.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIListboxProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIListboxTextItem.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIListHeader.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIListHeaderProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIListHeaderSegment.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIListHeaderSegmentProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMenubar.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMenuBase.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMenuBaseProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMenuItem.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMenuItemProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMultiColumnList.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMultiColumnListProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMultiLineEditbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIMultiLineEditboxProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIPopupMenu.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIPopupMenuProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIProgressBar.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIProgressBarProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIPushButton.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIRadioButton.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIRadioButtonProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIScrollablePane.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIScrollablePaneProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIScrollbar.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIScrollbarProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIScrolledContainer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIScrolledContainerProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIScrolledItemListBase.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIScrolledItemListBaseProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUISequentialLayoutContainer.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUISlider.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUISliderProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUISpinner.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUISpinnerProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITabButton.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITabControl.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITabControlProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIThumb.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIThumbProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITitlebar.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITitlebarProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITooltip.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITooltipProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITree.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITreeItem.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUITreeProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\elements\CEGUIVerticalLayoutContainer.cpp" />
+    <!-- ===== Falagard System ===== -->
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalagard_xmlHandler.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalComponentBase.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalDimensions.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalFrameComponent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalImageryComponent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalImagerySection.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalLayerSpecification.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalNamedArea.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalPropertyDefinition.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalPropertyDefinitionBase.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalPropertyInitialiser.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalPropertyLinkDefinition.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalSectionSpecification.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalStateImagery.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalTextComponent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalWidgetComponent.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalWidgetLookFeel.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalWidgetLookManager.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\falagard\CEGUIFalXMLEnumHelper.cpp" />
+    <!-- ===== Falagard Window Renderers ===== -->
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalButton.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalDefault.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalEditbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalEditboxProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalFrameWindow.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalItemEntry.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalItemListbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalListHeader.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalListHeaderProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalListHeaderSegment.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalListbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalMenuItem.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalMenubar.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalModule.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalMultiColumnList.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalMultiLineEditbox.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalMultiLineEditboxProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalPopupMenu.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalProgressBar.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalProgressBarProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalScrollablePane.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalScrollbar.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalScrollbarProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalSlider.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalSliderProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalStatic.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalStaticImage.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalStaticImageProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalStaticProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalStaticText.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalStaticTextProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalSystemButton.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalTabButton.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalTabControl.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalTabControlProperties.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalTitlebar.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalToggleButton.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalTooltip.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\WindowRendererSets\Falagard\FalTree.cpp" />
+    <!-- ===== SILLY Image Codec ===== -->
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\ImageCodecModules\SILLYImageCodec\CEGUISILLYImageCodec.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\ImageCodecModules\SILLYImageCodec\CEGUISILLYImageCodecModule.cpp" />
+    <!-- ===== TinyXML Parser ===== -->
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\XMLParserModules\TinyXMLParser\CEGUITinyXMLParser.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\XMLParserModules\TinyXMLParser\CEGUITinyXMLParserModule.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\XMLParserModules\TinyXMLParser\ceguitinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\XMLParserModules\TinyXMLParser\ceguitinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\XMLParserModules\TinyXMLParser\ceguitinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\XMLParserModules\TinyXMLParser\ceguitinyxml\tinyxmlparser.cpp" />
+    <!-- ===== Minizip ===== -->
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\minizip\ioapi.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\minizip\iowin32.cpp" />
+    <ClCompile Include="..\..\tools\CEGUI-0.7.9-r5\cegui\src\minizip\unzip.cpp" />
+
+    <!-- ===== PCRE Dependency (pcre-8.31) ===== -->
+    <ClCompile Include="..\pcre-8.31\pcre_compile.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_config.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_dfa_exec.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_exec.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_fullinfo.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_get.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_globals.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_newline.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_ord2utf8.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_refcount.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_study.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_tables.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_ucd.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_valid_utf8.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_version.c" />
+    <ClCompile Include="..\pcre-8.31\pcre_xclass.c" />
+    <ClCompile Include="..\pcre-8.31\pcreposix.c" />
+
+    <!-- ===== SILLY Dependency (SILLY-0.1.0) ===== -->
+    <ClCompile Include="..\SILLY-0.1.0\src\SILLYDataSource.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\SILLYFileDataSource.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\SILLYImage.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\SILLYImageContext.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\SILLYImageLoader.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\SILLYImageLoaderManager.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\SILLYMemoryDataSource.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\loaders\SILLYJPGImageContext.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\loaders\SILLYJPGImageLoader.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\loaders\SILLYPNGImageContext.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\loaders\SILLYPNGImageLoader.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\loaders\SILLYTGAImageContext.cpp" />
+    <ClCompile Include="..\SILLY-0.1.0\src\loaders\SILLYTGAImageLoader.cpp" />
+
+    <!-- ===== FreeType Dependency (freetype-2.4.12) ===== -->
+    <ClCompile Include="..\freetype-2.4.12\src\autofit\autofit.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftbase.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftbbox.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftbitmap.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftdebug.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftglyph.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftinit.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftmm.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftotval.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftpfr.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftstroke.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftsynth.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftsystem.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\fttype1.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftwinfnt.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftxf86.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftlcdfil.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftgxval.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\base\ftpatent.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\bdf\bdf.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\cff\cff.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\cid\type1cid.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\pcf\pcf.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\pfr\pfr.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\psaux\psaux.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\pshinter\pshinter.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\psnames\psmodule.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\raster\raster.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\sfnt\sfnt.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\smooth\smooth.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\truetype\truetype.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\type1\type1.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\type42\type42.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\winfonts\winfnt.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\gzip\ftgzip.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\lzw\ftlzw.c" />
+    <ClCompile Include="..\freetype-2.4.12\src\bzip2\ftbzip2.c" />
+
+    <!-- ===== zlib Dependency (zlib-1.2.5) ===== -->
+    <ClCompile Include="..\zlib-1.2.5\adler32.c" />
+    <ClCompile Include="..\zlib-1.2.5\compress.c" />
+    <ClCompile Include="..\zlib-1.2.5\crc32.c" />
+    <ClCompile Include="..\zlib-1.2.5\deflate.c" />
+    <ClCompile Include="..\zlib-1.2.5\gzclose.c" />
+    <ClCompile Include="..\zlib-1.2.5\gzlib.c" />
+    <ClCompile Include="..\zlib-1.2.5\gzread.c" />
+    <ClCompile Include="..\zlib-1.2.5\gzwrite.c" />
+    <ClCompile Include="..\zlib-1.2.5\infback.c" />
+    <ClCompile Include="..\zlib-1.2.5\inffast.c" />
+    <ClCompile Include="..\zlib-1.2.5\inflate.c" />
+    <ClCompile Include="..\zlib-1.2.5\inftrees.c" />
+    <ClCompile Include="..\zlib-1.2.5\trees.c" />
+    <ClCompile Include="..\zlib-1.2.5\uncompr.c" />
+    <ClCompile Include="..\zlib-1.2.5\zutil.c" />
+
+    <!-- ===== libpng Dependency (libpng-1.4.7) ===== -->
+    <ClCompile Include="..\libpng-1.4.7\png.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngerror.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngget.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngmem.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngpread.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngread.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngrio.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngrtran.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngrutil.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngset.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngtrans.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngwio.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngwrite.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngwtran.c" />
+    <ClCompile Include="..\libpng-1.4.7\pngwutil.c" />
+
+    <!-- ===== libjpeg Dependency (wxWidgets-3.0.5/src/jpeg) ===== -->
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcapimin.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcapistd.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jccoefct.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jccolor.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcdctmgr.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jchuff.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcinit.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcmainct.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcmarker.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcmaster.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcomapi.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcparam.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcphuff.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcprepct.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jcsample.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jctrans.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdapimin.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdapistd.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdatadst.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdatasrc.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdcoefct.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdcolor.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jddctmgr.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdhuff.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdinput.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdmainct.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdmarker.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdmaster.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdmerge.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdphuff.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdpostct.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdsample.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jdtrans.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jerror.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jfdctflt.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jfdctfst.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jfdctint.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jidctflt.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jidctfst.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jidctint.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jidctred.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jmemmgr.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jmemnobs.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jquant1.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jquant2.c" />
+    <ClCompile Include="..\wxWidgets-3.0.5\src\jpeg\jutils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

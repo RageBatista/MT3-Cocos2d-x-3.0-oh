@@ -1,0 +1,30 @@
+
+class DeviceInfo
+{ 
+public:
+    
+    static int sGetDeviceType(); // 0:DEBUG, 1:ios, 2:android, 3:wp8
+	static const char* sGetCurDeviceName();
+
+	static void sInitDeviceInfo();
+
+	static int sGetCpuFrequency();
+	static int sGetMaxCpuFreq();
+	static int sGetCpuCount();
+	static const char* sGetCpuName();
+
+    static int sGetTotalMemSize();
+    static int sGetFreeMemSize();
+    
+	static float sGetAppCpuRate();				// ANDROID娓告垙CPU鍗犵敤鐜?
+    static const char* sGetOSVersion();			// ANDROID鎵嬫満绯荤粺鐗堟湰鍙?
+	static const char* sGetProductModel();		// ANDROID鎵嬫満鍨嬪彿
+	static const char* sGetNetEnvir();			// ANDROID鎵嬫満缃戠粶绫诲瀷
+	static const char* sGetScreenWidthInfo();	// ANDROID灞忓箷瀹藉害锛堝儚绱狅級
+    static const char* sGetScreenHeightInfo();	// ANDROID灞忓箷楂樺害锛堝儚绱狅級
+    static const char* sGetVersionName();		// ANDROID娓告垙鐗堟湰鍙?
+    static const char* sGetPhoneNumber();		// ANDROID鐢ㄦ埛鎵嬫満鍙?
+	static const char* sGetDeviceID();			// ANDROID璁惧鍞竴鏍囪瘑锛欼MEI
+	static const char* sGetProvider();			// ANDROID鐢ㄦ埛缃戠粶杩愯惀鍟?
+
+};
