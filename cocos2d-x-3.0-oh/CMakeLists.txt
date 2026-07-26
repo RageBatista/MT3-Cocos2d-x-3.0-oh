@@ -247,6 +247,9 @@ add_subdirectory(external/tinyxml2)
 # xxhash library
 add_subdirectory(external/xxhash)
 
+# sqlite3 library
+add_subdirectory(external/sqlite3)
+
 # pvmp3dec  tremolo  library
 if(OHOS)
   add_subdirectory(external/webp)

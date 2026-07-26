@@ -13,6 +13,8 @@ target_link_libraries(storage
 
 if(OHOS)
   include_directories(${COCOS2DX_ROOT_PATH}/external/sqlit3/include)
+else()
+  include_directories(${COCOS2DX_ROOT_PATH}/external/sqlite3/include)
 endif()
 
 set_target_properties(storage
