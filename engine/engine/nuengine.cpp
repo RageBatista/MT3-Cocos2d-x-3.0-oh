@@ -18,6 +18,10 @@
 
 #include "nucocos2d_wraper.h"
 
+#ifdef WIN7_32
+#include "CCEGLView.h"
+#endif
+
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 
 #include "FileUtil.h"
@@ -402,6 +406,23 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
         
         m_adapter->init();
         MHSD_UTILS::flurryEvent(L"Engine_XPCreateRender_init");
+#ifdef WIN7_32
+		MT3_ENGINE_TRACE("Engine::Run WIN7_32 defined, about to ensure GLEW init");
+		{
+			cocos2d::CCEGLView* pEglView = cocos2d::CCEGLView::sharedOpenGLView();
+			HGLRC hRC = wglGetCurrentContext();
+			MT3_ENGINE_TRACE("Engine::Run eglView=%p wglGetCurrentContext=%p", pEglView, hRC);
+			if (pEglView && hRC)
+			{
+				GLenum glewResult = glewInit();
+				MT3_ENGINE_TRACE("Engine::Run glewInit before CreateRenderer result=%d", (int)glewResult);
+			}
+			else
+			{
+				MT3_ENGINE_TRACE("Engine::Run WARNING: no GL context before CreateRenderer, eglView=%p", pEglView);
+			}
+		}
+#endif
 		MT3_ENGINE_TRACE("Engine::Run before CreateRenderer");
 		XPCREATE_RENDERER_RESULT renderResult = CreateRenderer(&m_pRenderer, ep.dmode, m_pFileIOMan, ep.dwRenderFlags, XPRV_COCOS2D, ep.multiSampleType);
 		MT3_ENGINE_TRACE("Engine::Run CreateRenderer result=%d", (int)renderResult);

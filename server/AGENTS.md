@@ -4,8 +4,8 @@
 
 ## 首轮路由
 
-- `server/game_server/build.xml`：服务器主构建与代码生成入口。
-- `server/game_server/gs/**`：主服务源码、XDB 生成链和打包产物。
+- `server/server/game_server/build.xml`（自仓库根）：服务器主构建与代码生成入口。
+- `server/server/game_server/gs/**`：主服务源码、XDB 生成链和打包产物。
 - `tools/**`：`monkeyking`、`rpcgen` 等服务端工具链。
 - `serverbin/**`：运行时分发产物，不作为长期人工维护主源。
 
@@ -19,10 +19,12 @@
 
 ## 首轮验证入口
 
+从仓库根执行：
+
 ```powershell
-Get-Item .\server\game_server\build.xml
-ant -f .\server\game_server\build.xml genfiles
-ant -f .\server\game_server\build.xml dist
+Get-Item .\server\server\game_server\build.xml
+ant -f .\server\server\game_server\build.xml genfiles
+ant -f .\server\server\game_server\build.xml dist
 ```
 
 ## 常用技能

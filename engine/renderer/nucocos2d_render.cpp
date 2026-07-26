@@ -1,9 +1,11 @@
-﻿//  cocos2d_render.cpp
+//  cocos2d_render.cpp
 //  engine
 
 #include <iostream>
 #include <algorithm>
 #include <cstring>
+#include <stdio.h>
+#include <stdarg.h>
 #include "../common/nulog.h"
 #include "../common/nupngwriter.h"
 #include "../common/nufileiomanager.h"
@@ -46,6 +48,19 @@ namespace cocos2d
 namespace Nuclear
 {
 	const float XP_MMENGINE_Z_FAR = 200000.0f;
+
+	static void RndTrace(const char* fmt, ...)
+	{
+		FILE* fp = NULL;
+		if (fopen_s(&fp, "startup_bootstrap.log", "ab") != 0 || !fp) return;
+		fputs("[MT3_RNDR] ", fp);
+		va_list args;
+		va_start(args, fmt);
+		vfprintf(fp, fmt, args);
+		va_end(args);
+		fputs("\r\n", fp);
+		fclose(fp);
+	}
 
 #ifndef GL_TEXTURE_MAX_ANISOTROPY_EXT
 #define GL_TEXTURE_MAX_ANISOTROPY_EXT 0x84FE
@@ -257,17 +272,23 @@ namespace Nuclear
 		m_xpMultisampleType = XPMULTISAMPLE_NONE;
 		(void)mstype; // 当前 Cocos2d 渲染后端不支持运行时切换 MSAA，统一降级为 NONE。
 
+		RndTrace("Cocos2dRenderer::Create before ParticleManager");
 		m_pParticleMan = new ParticleManager(this, m_pFileIOMan);
+		RndTrace("Cocos2dRenderer::Create after ParticleManager=%p", m_pParticleMan);
         
 		m_pParticleMan->SetParticlePath(L"/effect/particle/");
         
+		RndTrace("Cocos2dRenderer::Create before CFontManager");
 		m_pFontMan = new CFontManager();
+		RndTrace("Cocos2dRenderer::Create before CFontManager::Init");
 		m_pFontMan->Init(this, m_pFileIOMan);
+		RndTrace("Cocos2dRenderer::Create after CFontManager::Init");
 
 		InitDefaultFont();
 		InitBatchVB();
 
 		MHSD_UTILS::flurryEvent(L"Cocos2dRenderer_Create");
+		RndTrace("Cocos2dRenderer::Create done");
 		return XPCRR_OK; 
 	}
     
