@@ -310,9 +310,9 @@ Cocos2d-x 3.0 移除了所有 `CC` 前缀：
 | 任务 | 说明 | 责任人 |
 |------|------|--------|
 | 安装 DevEco Studio | 最新 release 版本，用于 OHOS 构建 | 客户端开发 |
-| 安装 CMake 3.16+ | 3.0-oh 使用 CMake 构建 | 客户端开发 |
+| 安装 CMake 3.10（`D:\Program Files\CMake\bin\cmake.exe`） | 3.0-oh 使用 CMake 构建，已安装 CMake 3.10.0-rc1 | 客户端开发 |
 | 安装 NDK r16b+ | 确认 Android 构建环境 | 客户端开发 |
-| 安装 VS2015+ | 3.0-oh 可能需要更高版本 MSVC | 客户端开发 |
+| 确认 VS2013 (v120) | 3.0-oh 通过 CMake 生成 VS2013 工程，无需升级 VS 版本 | 客户端开发 |
 | Python 2.7/3.x | 确认构建脚本兼容性 | 客户端开发 |
 
 #### 4.1.3 基线建立

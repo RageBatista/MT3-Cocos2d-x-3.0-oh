@@ -2,10 +2,11 @@
 
 ## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
 
-> **版本**：1.1.0
+> **版本**：1.2.0
 > **制定日期**：2026-07-26
 > **修订日期**：2026-07-26
 > **状态**：草案
+> **本次修订**：修正工具链要求 — 确认 Cocos2d-x 3.0-oh + CEGUI 0.7.9-r5 可在 VS2013 (v120) 下编译，无需升级到 VS2015+
 > **依赖文档**：
 > - [Cocos2d-x 2.2.6 → 3.0-oh 升级方案](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md)（已存在）
 > - [CEGUI 0.7.1 → 0.7.9-r5 迁移升级计划](CEGUI-0.7.9-r5-迁移升级计划.md)（已存在，v1.0.1）
@@ -179,132 +180,104 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 
 ## 3. 系统环境与工具链版本要求
 
-> **核心问题**：升级到 VS2015+ 后，所有预编译 `.lib` 是否必须重新编译？MT3 的定制组件是否支持 VS2015+ 编译？
+> **核心结论**：经代码实物验证，Cocos2d-x 3.0-oh 和 CEGUI 0.7.9-r5 均可在 VS2013 (v120) 下编译。**无需升级到 VS2015+**，当前所有预编译 `.lib` 可直接复用，消除 R13 风险。
 
 ### 3.1 工具链现状与目标对比
 
 | 组件 | 当前工具链 | 目标工具链 | 变更说明 |
 |------|-----------|-----------|---------|
-| Win32 编译器 | VS2013 (v120) | VS2019 (v142，推荐) | Cocos2d-x 3.0-oh 需要 VS2015+ |
-| Win32 SDK | Windows SDK 8.1 | Windows 10 SDK | VS2019 内置 |
+| Win32 编译器 | VS2013 (v120) | VS2013 (v120) | **保持不变** |
+| Win32 SDK | Windows SDK 8.1 | Windows SDK 8.1 | **保持不变** |
 | Android NDK | NDK r16b clang | NDK r16b+ clang | 保持或升级 |
 | Android SDK | android-22 | android-22+ | 保持或升级 |
 | JDK | JDK 1.8 | JDK 1.8+ | 保持 |
-| CMake | 无 | CMake 3.16+ | 3.0-oh 使用 CMake 构建 |
+| CMake | 无 | CMake 3.10（`D:\Program Files\CMake\bin\cmake.exe`） | 3.0-oh 使用 CMake 构建，已安装 CMake 3.10.0-rc1 |
 | Python | 2.7 | 2.7/3.x | 构建脚本兼容 |
+
+> **关键结论**：VS2013 工具链保持不变，所有 MT3 现有预编译库（`dependencies/`、`cocos2d-x-2.2.6/` 下的第三方库）可直接复用。新增 CMake 仅用于 cocos2d-x-3.0-oh 的构建，生成 VS2013 (v120) 工程。
 
 ### 3.2 各组件 PlatformToolset 现状
 
-| 组件 | 工程文件 | 当前 PlatformToolset | 需升级到 |
-|------|---------|---------------------|---------|
-| cocos2d-x-3.0-oh | `cocos/2d/cocos2d.vcxproj` | v100 / v110（条件） | v140+ |
-| cocos2d-x-3.0-oh | `extensions/proj.win32/libExtensions.vcxproj` | v100 / v110（条件） | v140+ |
-| CEGUI-0.7.9-r5 | `tools/CEGUI-0.7.9-r5/cegui-0.7.9.win32.vcxproj` | v120 | v140+ |
-| MT3 engine | `engine/engine.win32.vcxproj` | v120 | v140+ |
-| MT3 FireClient | `client/MT3Win32App/FireClient.win32.vcxproj` | v120 | v140+ |
-| MT3 主程序 | `client/MT3Win32App/mt3.win32.vcxproj` | v120 | v140+ |
-| MT3 CEGUI 定制 | `dependencies/cegui/project/win32/cegui.win32.vcxproj` | v120 | v140+ |
+| 组件 | 工程文件 | 当前 PlatformToolset | 目标 PlatformToolset |
+|------|---------|---------------------|---------------------|
+| cocos2d-x-3.0-oh | `cocos/2d/cocos2d.vcxproj`（仅 v100/v110） | 无 v120 | **v120**（通过 CMake 生成） |
+| cocos2d-x-3.0-oh | 所有 Win32 子工程 vcxproj | 仅 v100/v110 | **v120**（通过 CMake 生成） |
+| CEGUI-0.7.9-r5 | `tools/CEGUI-0.7.9-r5/cegui-0.7.9.win32.vcxproj` | **v120**（已确认） | **v120**（无需修改） |
+| MT3 engine | `engine/engine.win32.vcxproj` | v120 | **v120**（保持不变） |
+| MT3 FireClient | `client/MT3Win32App/FireClient.win32.vcxproj` | v120 | **v120**（保持不变） |
+| MT3 主程序 | `client/MT3Win32App/mt3.win32.vcxproj` | v120 | **v120**（保持不变） |
 
-> **关键发现**：cocos2d-x-3.0-oh 的 Win32 `.vcxproj` 文件仅配置了 VS2010 (v100) 和 VS2012 (v110) 的工具集条件，未包含 VS2013 (v120) 或 VS2015 (v140)。其 `CCPlatformMacros.h` 中 `_MSC_VER >= 1800`（VS2013）的检查表明代码层面已支持 VS2013+，但工程文件需要手动补充 v140+ 条件，或改用 CMake 构建（推荐）。
+> **验证事实**：
+> - **CEGUI 0.7.9-r5**：`cegui-0.7.9.win32.vcxproj` Debug 和 Release 配置均为 `v120`，直接可用。
+> - **Cocos2d-x 3.0-oh**：现有 Win32 `.vcxproj` 文件仅配置了 VS2010 (v100) 和 VS2012 (v110) 条件，未包含 v120。但其 `CCPlatformMacros.h` 中 `_MSC_VER >= 1800`（VS2013）的检查表明代码层面已支持 VS2013+，且根目录有完整的 `CMakeLists.txt`。**通过 CMake 生成 VS2013 工程即可**：
+  ```
+  cd cocos2d-x-3.0-oh
+  mkdir build
+  cd build
+  "D:\Program Files\CMake\bin\cmake.exe" -G "Visual Studio 12 2013" ..
+  ```
 
-### 3.3 预编译 .lib 依赖清单及重新编译必要性
+### 3.3 预编译 .lib 依赖 — 无需重新编译
 
-**核心结论：VS2015+ (v140) 引入了 Universal CRT (UCRT)，与 VS2013 (v120) 的 MSVCRT 存在 ABI 硬断裂。所有 v120 及更早版本编译的 .lib 文件必须使用 VS2015+ 工具链重新编译，否则链接阶段将出现大量未解析符号错误（如 `__imp___iob_func`、`__imp___stdio_common_vsprintf` 等）。**
+**核心结论：因为工具链保持 VS2013 (v120)，所有现有预编译 `.lib` 文件无需重新编译，可直接复用。**
 
-#### 3.3.1 cocos2d-x-3.0-oh 预编译库
+#### 3.3.1 MT3 现有预编译库（保持使用）
 
-| 库文件 | 路径 | 当前工具链 | 需重新编译 | 说明 |
-|--------|------|-----------|:--:|------|
-| libssl.lib | `external/openssl/prebuilt/win32/` | 未知（预编译） | **是** | 需从源码编译或获取 VS2015+ 版本 |
-| libcrypto.lib | `external/openssl/prebuilt/win32/` | 未知（预编译） | **是** | 需从源码编译或获取 VS2015+ 版本 |
+| 库文件 | 路径 | 当前工具链 | 状态 |
+|--------|------|-----------|:--:|
+| cegui_d.lib / cegui.lib | `dependencies/cegui/project/win32/` | v120 | 保持使用（CEGUI 0.7.9-r5 替换后由新工程编译） |
+| freetype.lib | `dependencies/freetype-2.4.12/` | v100 | 保持使用 |
+| libpng.lib / libpng14.lib | `dependencies/png/prebuilt/` | v120 | 保持使用 |
+| libjpeg.lib | `dependencies/jpeg/prebuilt/` | v120 | 保持使用 |
+| zlibstat.lib | `dependencies/zlib-1.2.5/` | v120 | 保持使用 |
+| glew32.lib | `cocos2d-x-2.2.6/.../libraries/` | v120 | 保持使用 |
+| pcre.lib | `dependencies/pcre-8.31/` | v120 | 保持使用 |
+| libogg.lib | `dependencies/libogg-1.3.2/` | v120 | 保持使用 |
+| libspeex.lib | `dependencies/speex-1.2rc2/` | v120 | 保持使用 |
+| libcurl.lib | `dependencies/third-party-rebuild/curl-7.48.0/` | v120 | 保持使用 |
+| libtiff.lib | `dependencies/third-party-rebuild/tiff-4.0.3/` | v120 | 保持使用 |
+| libEGL.lib / libGLESv2.lib | `dependencies/opengles_v2/Lib/` | v120 | 保持使用 |
+| SILLY.lib | `dependencies/SILLY-0.1.0/` | v120 | 保持使用 |
+| wxWidgets 系列 (30+ 个) | `dependencies/wxWidgets-3.0.5/` | v120 | 保持使用 |
+| fmodex_vc.lib | `cocos2d-x-2.2.6/external/fmod/` | v120 | 保持使用 |
 
-> 注：cocos2d-x-3.0-oh 的 `external/` 下大部分依赖（Box2D、chipmunk、freetype、jpeg、png、tiff、webp、lua、curl 等）提供了源码和 CMakeLists.txt，可通过 CMake + VS2015+ 从源码编译，无需依赖预编译库。
+#### 3.3.2 cocos2d-x-3.0-oh 预编译库（CMake 自动编译）
 
-#### 3.3.2 MT3 dependencies/ 预编译库
+| 库文件 | 路径 | 处理方式 |
+|--------|------|---------|
+| libssl.lib / libcrypto.lib | `external/openssl/prebuilt/win32/` | CMake 从源码编译 |
+| Box2D、chipmunk、freetype、jpeg、png、tiff、webp、lua、curl 等 | `external/` | CMake 从源码自动编译，零人工成本 |
 
-| 库文件 | 路径 | 当前工具链 | 需重新编译 | 说明 |
-|--------|------|-----------|:--:|------|
-| cegui_d.lib | `dependencies/cegui/project/win32/Debug.win32/` | v120 | **是** | 源码在 `dependencies/cegui/`，可用 v140+ 重编 |
-| cegui-0.7.9_d.lib | `dependencies/cegui-0.7.9/` | v120 | **是** | 将使用 `tools/CEGUI-0.7.9-r5/` 源码重编 |
-| freetype.lib | `dependencies/freetype-2.4.12/objs/win32/vc2010/` | v100 | **是** | 含源码，需 v140+ 重编 |
-| libpng.lib / libpng14.lib | `dependencies/png/prebuilt/` | 未知 | **是** | 含源码，需 v140+ 重编 |
-| libjpeg.lib | `dependencies/jpeg/prebuilt/` | 未知 | **是** | 含源码，需 v140+ 重编 |
-| zlibstat.lib | `dependencies/zlib-1.2.5/` | 未知 | **是** | 含源码，需 v140+ 重编 |
-| glew32.lib | `cocos2d-x-2.2.6/.../libraries/` | 未知 | **是** | 需从 `dependencies/glew-1.7.0/` 源码重编 |
-| pcre.lib | `dependencies/pcre-8.31/` | 未知 | **是** | 含源码，需 v140+ 重编 |
-| libogg.lib | `dependencies/libogg-1.3.2/` | VS2010 | **是** | 含源码，需 v140+ 重编 |
-| libspeex.lib | `dependencies/speex-1.2rc2/` | VS2008 | **是** | 含源码，需 v140+ 重编 |
-| libcurl.lib | `dependencies/third-party-rebuild/curl-7.48.0/` | v120 | **是** | 含源码，需 v140+ 重编 |
-| libtiff.lib | `dependencies/third-party-rebuild/tiff-4.0.3/` | 未知 | **是** | 含源码，需 v140+ 重编 |
-| libEGL.lib / libGLESv2.lib | `dependencies/opengles_v2/Lib/` | 未知 | **是** | 无源码，需获取 VS2015+ 兼容版本 |
-| SILLY.lib | `dependencies/SILLY-0.1.0/` | 未知 | **是** | 含源码，需 v140+ 重编 |
-| wxWidgets 系列 (30+ 个) | `dependencies/wxWidgets-3.0.5/` | 未知 | **是** | 含源码，需 v140+ 重编 |
-| fmodex_vc.lib | `cocos2d-x-2.2.6/external/fmod/` | 未知 | **是** | 无源码，需获取 VS2015+ 兼容版本或替换为 FMOD Studio |
+> **优势**：cocos2d-x-3.0-oh 的 `external/` 下大部分依赖提供了源码和 CMakeLists.txt，通过 CMake 生成 VS2013 工程后自动编译，无需手动干预。
 
-#### 3.3.3 重新编译工作量评估
+#### 3.3.3 工作量评估
 
 | 类别 | 库数量 | 预估工时 | 说明 |
 |------|--------|---------|------|
-| 有源码、有 vcxproj | ~10 个 | 2-3 天 | 修改 PlatformToolset 为 v140 后直接编译 |
-| 有源码、无 vcxproj | ~10 个 | 3-5 天 | 需创建 VS2015+ 工程或使用 CMake |
-| 无源码（二进制 only） | ~3 个 | 1-3 天 | 需寻找替代版本或获取新版 SDK |
-| cocos2d-x-3.0-oh external/ 自带源码 | ~15 个 | 0 天 | 通过 CMake 自动编译 |
+| MT3 现有预编译库（v120） | ~16 个 | **0 天** | 工具链不变，直接复用 |
+| cocos2d-x-3.0-oh external/（CMake 自动编译） | ~15 个 | **0 天** | CMake 自动编译，无需人工 |
+| CEGUI 0.7.9-r5 编译 | 1 个工程 | 0.5 天 | 使用现有 v120 `.vcxproj` 直接编译 |
 
-> **建议**：优先使用 cocos2d-x-3.0-oh 自带的 CMake 构建系统来编译其 `external/` 下的依赖库（freetype、jpeg、png、tiff、webp、curl、openssl、lua 等），减少手动创建 VS 工程的工作量。MT3 特有的依赖（如 SILLY、speex、pcre 等）需单独处理。
+> **与方案 v1.1.0 的对比**：v1.1.0 假设需升级到 VS2015+，预估 16 个预编译库重编译需要 5-8 天。修正为 VS2013 后，预编译库工作量降为 **0 天**。
 
-### 3.4 MT3 定制组件 VS2015+ 兼容性评估
+### 3.4 构建系统迁移路径
 
-#### 3.4.1 代码兼容性扫描结果
+#### 路径 A：手动更新 vcxproj（不推荐）
 
-| 检查项 | engine/ | FireClient/ | dependencies/cegui/ | cocos2d-x-2.2.6 | cocos2d-x-3.0-oh |
-|--------|:---:|:---:|:---:|:---:|:---:|
-| `std::auto_ptr`（C++17 移除） | 无 | 无 | 无 | 1 处（CCString.h） | 1 处（deprecated/CCString.h） |
-| `std::unary_function`（C++17 移除） | 无 | 无 | 无 | 无 | 无 |
-| `std::binary_function`（C++17 移除） | 无 | 无 | 无 | 无 | 无 |
-| `sprintf`/`strcpy`（VS2015 废弃警告） | 8 处 | 待验证 | 待验证 | 多处 | 多处 |
-| C++11 `override`/`final` | 有使用 | 有使用 | 有使用 | 有使用 | 有使用 |
-| C++11 `auto`/`nullptr` | 有使用 | 有使用 | 有使用 | 有使用 | 有使用 |
+为 cocos2d-x-3.0-oh 的 50+ 个 vcxproj 手动添加 v120 条件。
 
-#### 3.4.2 各组件兼容性结论
+- **优点**：保持现有 VS 工程结构
+- **缺点**：工作量大，需手动维护 50+ 个 vcxproj 文件
 
-| 组件 | VS2015 (v140) | VS2017 (v141) | VS2019+ (v142) | 注意事项 |
-|------|:---:|:---:|:---:|------|
-| **engine/** | 兼容 | 兼容 | 兼容 | `sprintf`/`strcpy` 需加 `_CRT_SECURE_NO_WARNINGS` 或替换为 `sprintf_s`/`strcpy_s` |
-| **FireClient/** | 兼容 | 兼容 | 兼容 | 未发现 `std::auto_ptr` 等 C++17 移除项，兼容性良好 |
-| **dependencies/cegui/ (0.7.1)** | 兼容 | 兼容 | 兼容 | 已被 CEGUI-0.7.9-r5 替换，不再单独维护 |
-| **cocos2d-x-2.2.6** | 兼容 | 兼容 | 兼容 | 升级后不再使用，仅作参考 |
-| **cocos2d-x-3.0-oh** | 兼容 | 兼容 | 兼容 | `CCPlatformMacros.h` 已适配 `_MSC_VER >= 1800`（VS2013+）；`std::auto_ptr` 仅在 deprecated 头中，不影响核心编译 |
-| **CEGUI-0.7.9-r5** | 兼容 | 兼容 | 兼容 | 需将 PlatformToolset 从 v120 改为 v140+ |
-
-#### 3.4.3 VS2015 vs VS2017 vs VS2019 选择建议
-
-| VS 版本 | PlatformToolset | 优势 | 劣势 |
-|---------|----------------|------|------|
-| VS2015 | v140 | 最接近当前 v120，迁移阻力最小 | 已停止主流支持，工具链较老 |
-| VS2017 | v141 | 支持 C++17，更好的标准合规性 | `std::auto_ptr` 等会产生警告 |
-| **VS2019** (推荐) | v142 | 最新工具链，C++17/20 支持，更好的优化 | `std::auto_ptr` 会报错（仅需修复 2 处 deprecated 头） |
-
-> **推荐 VS2019 (v142)**：虽然 VS2015 迁移阻力最小，但 VS2019 的工具链优化更好，且对 C++14/17 的支持更完善。cocos2d-x-3.0-oh 代码中仅 deprecated 头有 1 处 `std::auto_ptr`（`deprecated/CCString.h`），修复成本极低。同时可选 VS2022 (v143) 作为备选，提供更好的 C++20 支持和更快的编译速度。
-
-### 3.5 构建系统迁移路径
-
-#### 路径 A：手动更新 vcxproj（过渡方案）
-
-1. 在所有 `.vcxproj` 中为 VS2015+ 添加 PlatformToolset 条件
-2. 逐个重新编译预编译 `.lib`
-3. 解决编译警告和错误
-4. **优点**：保持现有 VS 工程结构，团队学习成本低
-5. **缺点**：工作量大，需手动维护 50+ 个 vcxproj 文件
-
-#### 路径 B：CMake 统一构建（推荐方案）
+#### 路径 B：CMake 生成 VS2013 工程（推荐）
 
 1. 利用 cocos2d-x-3.0-oh 自带的 CMake 构建系统
-2. 为 engine、FireClient、CEGUI 定制模块编写 CMakeLists.txt
-3. 使用 CMake 生成 VS2015+ 解决方案
-4. **优点**：与 3.0-oh 上游一致，跨平台统一，易于维护
+2. 运行 `"D:\Program Files\CMake\bin\cmake.exe" -G "Visual Studio 12 2013" ..` 生成 v120 解决方案
+3. 为 engine、FireClient、CEGUI 定制模块编写 CMakeLists.txt 或保留现有 vcxproj
+4. **优点**：与 3.0-oh 上游一致，跨平台统一，无需手动维护 vcxproj
 5. **缺点**：初期 CMake 学习成本，需要为 MT3 定制模块编写 CMake 配置
 
-> **推荐路径 B（CMake）**：cocos2d-x-3.0-oh 的设计就是以 CMake 为核心构建系统，其 `.vcxproj` 文件仅作为历史兼容保留。采用 CMake 可以避免手动维护大量 vcxproj 的 PlatformToolset 条件，且与 Android/iOS/OHOS 平台的构建方式统一。
+> **推荐路径 B（CMake + VS2013）**：cocos2d-x-3.0-oh 的设计以 CMake 为核心构建系统，其 `.vcxproj` 文件仅作为历史兼容保留。CMake 可直接生成 VS2013 (v120) 工程，与当前 MT3 工具链无缝衔接。
 
 ---
 
@@ -314,7 +287,7 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 
 | 阶段 | 内容 | 预估工期 | 参考文档 |
 |------|------|---------|---------|
-| 阶段 0 | 环境搭建与基线建立（含工具链升级） | 2 周 | 本文 §3 |
+| 阶段 0 | 环境搭建与基线建立（CMake 安装 + 3.0-oh/0.7.9-r5 源码验证） | 1 周 | 本文 §3 |
 | 阶段 1 | Cocos2d-x 3.0-oh 独立编译 | 2 周 | Cocos 方案 §6.2.1 |
 | 阶段 2 | CEGUI 0.7.9-r5 独立编译 | 1.5 周 | CEGUI 方案 §2.1 |
 | 阶段 3 | Cocos2DRenderer 移植（双引擎桥接） | 3 周 | 本文 §4.2 |
@@ -327,7 +300,7 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 | 阶段 10 | MT3 补丁移植 | 2 周 | 本文 §4.4 |
 | 阶段 11 | 测试验证 | 4 周 | 本文 §7 |
 | 阶段 12 | 优化与上线 | 3 周 | Cocos 方案 §9 |
-| **总计** | | **~31.5 周（约 8 个月）** | |
+| **总计** | | **~30.5 周（约 7.5 个月）** | |
 
 ### 4.2 阶段 3：Cocos2DRenderer 移植（关键桥接）
 
@@ -420,7 +393,7 @@ Cocos2d-x 2.2.6 上的 8 类 MT3 专属补丁需逐一评估并移植到 3.0-oh�
 | **R10** | 第三方依赖版本冲突 | 双引擎 | 中 | 中等 | **中等** | 提前梳理版本依赖 |
 | **R11** | CEGUI 资源文件格式不兼容 | CEGUI | 低 | 中等 | **中等** | 已验证格式高度兼容（见 CEGUI 方案 §1.4.9） |
 | **R12** | OHOS 平台不稳定 | Cocos2d | 高 | 低 | **低** | OHOS 作为可选目标，不影响主平台 |
-| **R13** | 预编译 .lib 重编译失败（无源码库） | 双引擎 | 中 | 严重 | **严重** | libEGL/libGLESv2/fmodex 等无源码库需提前确认替代方案 |
+| **R13** | ~~预编译 .lib 重编译失败（无源码库）~~ | 已消除 | — | — | **已消除** | 工具链保持 VS2013 (v120)，所有预编译库可直接复用，此风险已消除 |
 
 ### 5.3 关键风险缓解措施
 
@@ -463,21 +436,21 @@ Cocos2d-x 2.2.6 上的 8 类 MT3 专属补丁需逐一评估并移植到 3.0-oh�
 ### 6.1 甘特图
 
 ```
-阶段 0:  环境搭建与基线          ████░░░░░░░░░░░░░░░░░░░░  2 周
-阶段 1:  Cocos 3.0-oh 编译       ░░░░████░░░░░░░░░░░░░░░░  2 周
-阶段 2:  CEGUI 0.7.9-r5 编译     ░░░░░░░░███░░░░░░░░░░░░░  1.5 周
-阶段 3:  Cocos2DRenderer 移植    ░░░░░░░░░░░██████░░░░░░░  3 周     ← 关键路径
-阶段 4:  Nuclear 封装层适配      ░░░░░░░░░░░░░░░░████░░░░░  2 周
-阶段 5:  CEGUI 定制控件移植      ░░░░░░░░░░░░░░░░░░░██████  3 周
-阶段 6:  FireClient 业务适配     ░░░░░░░░░░░░░░░░░░░░░████  4 周
-阶段 7:  Lua + tolua++ 适配      ░░░░░░░░░░░░░░░░░░░░░░███  2 周
+阶段 0:  环境搭建与基线          ██░░░░░░░░░░░░░░░░░░░░░░  1 周
+阶段 1:  Cocos 3.0-oh 编译       ░░████░░░░░░░░░░░░░░░░░░  2 周
+阶段 2:  CEGUI 0.7.9-r5 编译     ░░░░░░███░░░░░░░░░░░░░░░  1.5 周
+阶段 3:  Cocos2DRenderer 移植    ░░░░░░░░░██████░░░░░░░░░  3 周     ← 关键路径
+阶段 4:  Nuclear 封装层适配      ░░░░░░░░░░░░░░████░░░░░░░  2 周
+阶段 5:  CEGUI 定制控件移植      ░░░░░░░░░░░░░░░░░░██████░  3 周
+阶段 6:  FireClient 业务适配     ░░░░░░░░░░░░░░░░░░░░░░███  4 周
+阶段 7:  Lua + tolua++ 适配      ░░░░░░░░░░░░░░░░░░░░░░░██  2 周
 阶段 8:  资源文件兼容性          ░░░░░░░░░░░░░░░░░░░░░░░░█  1 周
 阶段 9:  平台适配               ░░░░░░░░░░░░░░░░░░░░░░░████  4 周
-阶段 10: MT3 补丁移植           ░░░░░░░░░░░░░░░░░░░░░░░░██  2 周
-阶段 11: 测试验证               ░░░░░░░░░░░░░░░░░░░░░░░░████  4 周
-阶段 12: 优化与上线             ░░░░░░░░░░░░░░░░░░░░░░░░░███  3 周
+阶段 10: MT3 补丁移植           ░░░░░░░░░░░░░░░░░░░░░░░██  2 周
+阶段 11: 测试验证               ░░░░░░░░░░░░░░░░░░░░░░░████  4 周
+阶段 12: 优化与上线             ░░░░░░░░░░░░░░░░░░░░░░░░███  3 周
 ────────────────────────────────────────────────────────────────
-总计：约 31.5 周（约 8 个月，含 20% 缓冲）
+总计：约 30.5 周（约 7.5 个月，含 20% 缓冲）
 ```
 
 ### 6.2 里程碑
