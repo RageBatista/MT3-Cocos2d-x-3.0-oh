@@ -2,11 +2,11 @@
 
 ## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
 
-> **版本**：1.2.0
+> **版本**：1.3.0
 > **制定日期**：2026-07-26
 > **修订日期**：2026-07-26
-> **状态**：执行中 — 阶段 0 进行中
-> **本次修订**：修正工具链要求 — 确认 Cocos2d-x 3.0-oh + CEGUI 0.7.9-r5 可在 VS2013 (v120) 下编译，无需升级到 VS2015+
+> **状态**：执行中 — 阶段 1、2 完成，阶段 3 待启动
+> **本次修订**：阶段 1 Cocos2d-x 3.0-oh 独立编译完成（Debug/Release 15 个 .lib + 1 个 .dll），阶段 2 CEGUI 0.7.9-r5 独立编译完成（Debug/Release 零错误）
 > **依赖文档**：
 >
 > - [Cocos2d-x 2.2.6 → 3.0-oh 升级方案](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md)（已存在）
@@ -578,8 +578,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 阶段 | 内容 | 预估工期 | 状态 | 实际耗时 | 备注 |
 |------|------|---------|------|---------|------|
 | 阶段 0 | 环境搭建与基线建立 | 1 周 | ✅ 完成 | 0.5 天 | 所有前置任务完成 |
-| 阶段 1 | Cocos2d-x 3.0-oh 独立编译 | 2 周 | 🔄 进行中 | — | — |
-| 阶段 2 | CEGUI 0.7.9-r5 独立编译 | 1.5 周 | ⬜ 待开始 | — | — |
+| 阶段 1 | Cocos2d-x 3.0-oh 独立编译 | 2 周 | ✅ 完成 | 0.5 天 | Debug/Release 均零错误（除 cpp-tests 缺 curl.lib） |
+| 阶段 2 | CEGUI 0.7.9-r5 独立编译 | 1.5 周 | ✅ 完成 | < 0.5 天 | Debug/Release 均零错误 |
 | 阶段 3 | Cocos2DRenderer 移植 | 3 周 | ⬜ 待开始 | — | — |
 | 阶段 4 | Nuclear 引擎封装层适配 | 2 周 | ⬜ 待开始 | — | — |
 | 阶段 5 | CEGUI 定制模块移植 | 3 周 | ⬜ 待开始 | — | — |
@@ -601,5 +601,47 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | CEGUI 0.7.9-r5 v120 工程确认 | ✅ 完成 | `cegui-0.7.9.win32.vcxproj` + `cegui-0.7.9.sln`，v120 |
 | 方案文档修正（VS2013 工具链） | ✅ 完成 | v1.2.0，修正 §3 全部内容 |
 | CMake 路径写入技能/文档 | ✅ 完成 | 方案 §3.1/§3.2/§3.4，`toolchain-constraints.md` |
-| 阶段 1 启动 | 🔄 进行中 | 编译 cocos2d-x-3.0-oh |
+
+### 阶段 1 详细进度 — Cocos2d-x 3.0-oh 独立编译
+
+| 任务 | 状态 | 结果 |
+|------|:--:|------|
+| Debug 配置编译 | ✅ 完成 | 15 个 .lib + 1 个 .dll 全部生成，零错误 |
+| Release 配置编译 | ✅ 完成 | 15 个 .lib + 1 个 .dll 全部生成，零错误 |
+| sqlite3 缺失修复 | ✅ 完成 | 创建 `external/sqlite3/CMakeLists.txt`，复制 `sqlite3.c` 源码，注册到根 `CMakeLists.txt` |
+| storage 模块 include 路径修复 | ✅ 完成 | 修复 `cocos/storage/CMakeLists.txt`，为非 OHOS 平台添加 sqlite3 include 路径 |
+| cpp-tests 跳过 | ⚠️ 已知 | cpp-tests 需要 curl.lib（非核心库，暂不处理） |
+
+**Debug 输出**（`build/lib/Debug/`）：
+
+| 库文件 | 大小 |
+|--------|------|
+| cocos2d.lib | 28.2 MB |
+| cocostudio.lib | 12.2 MB |
+| cocosbuilder.lib | 8.3 MB |
+| extensions.lib | 4.3 MB |
+| cocosbase.lib | 3.9 MB |
+| ui.lib | 2.8 MB |
+| network.lib | 2.2 MB |
+| sqlite3.lib | 937 KB |
+| box2d.lib | 841 KB |
+| spine.lib | 396 KB |
+| chipmunk.lib | 380 KB |
+| audio.lib | 268 KB |
+| tinyxml2.lib | 151 KB |
+| storage.lib | 57 KB |
+| unzip.lib | 29 KB |
+| xxhash.lib | 5 KB |
+| kazmath.dll | — |
+
+**Release 输出**（`build/lib/Release/`）：同 Debug，大小略小。
+
+### 阶段 2 详细进度 — CEGUI 0.7.9-r5 独立编译
+
+| 任务 | 状态 | 结果 |
+|------|:--:|------|
+| Debug 配置编译 | ✅ 完成 | `cegui-0.7.9_d.lib`（80.4 MB），零错误 |
+| Release 配置编译 | ✅ 完成 | `cegui-0.7.9.lib`（66.3 MB），零错误 |
+
+**关键修复**：无需修复，CEGUI 0.7.9-r5 的 VS2013 (v120) 工程直接可用。
 
