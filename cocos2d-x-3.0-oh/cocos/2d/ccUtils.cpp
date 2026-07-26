@@ -45,7 +45,7 @@ namespace utils {
     double gettime()
     {
         struct timeval tv;
-        gettimeofday(&tv, nullptr);
+        cocos2d::gettimeofday(&tv, nullptr);
 
         return (double)tv.tv_sec + (double)tv.tv_usec/1000000;
     }

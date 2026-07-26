@@ -148,6 +148,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/cocos/2d
   ${CMAKE_CURRENT_SOURCE_DIR}/cocos/2d/renderer
   ${CMAKE_CURRENT_SOURCE_DIR}/cocos/2d/platform
+  ${CMAKE_CURRENT_SOURCE_DIR}/cocos/2d/platform/desktop
   ${CMAKE_CURRENT_SOURCE_DIR}/cocos/base
   ${CMAKE_CURRENT_SOURCE_DIR}/cocos/deprecated
   ${CMAKE_CURRENT_SOURCE_DIR}/cocos/physics
@@ -174,6 +175,7 @@ include_directories(
 
 if(WIN32)
   include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/${PLATFORM_FOLDER}-specific/gles/include
     ${CMAKE_CURRENT_SOURCE_DIR}/external/${PLATFORM_FOLDER}-specific/gles/include/OGLES
     ${CMAKE_CURRENT_SOURCE_DIR}/external/${PLATFORM_FOLDER}-specific/icon/include
     ${CMAKE_CURRENT_SOURCE_DIR}/external/${PLATFORM_FOLDER}-specific/zlib/include
