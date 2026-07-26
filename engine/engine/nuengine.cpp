@@ -152,6 +152,7 @@ namespace Nuclear
 		m_AlphaSpriteHandle = INVALID_PICTURE_HANDLE;
 		m_bEnableWade = true;
 		m_bAsyncRead = false;
+		m_bUserWnd = false;
 		m_bSetInactiveTimer = false;
 		m_bIsMultiSampleTypeEnable = true;
 		m_windowState = XPWS_ACTIVE;

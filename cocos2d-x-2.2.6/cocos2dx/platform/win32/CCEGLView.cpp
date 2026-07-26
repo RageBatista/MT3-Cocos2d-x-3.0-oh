@@ -524,6 +524,11 @@ LRESULT CCEGLView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 
     case WM_CLOSE:
         CCDirector::sharedDirector()->end();
+        // Immediately destroy the window to ensure WM_DESTROY -> PostQuitMessage
+        // is generated synchronously. This guarantees the message loop exits even
+        // if purgeDirector() later fails during resource cleanup.
+        DestroyWindow(m_hWnd);
+        m_hWnd = NULL;
         break;
 
     case WM_DESTROY:
