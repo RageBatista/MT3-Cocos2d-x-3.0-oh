@@ -1,7 +1,7 @@
 # CELayoutEditor 启动崩溃诊断报告
 
-> **版本**: 3.0  
-> **日期**: 2026-04-17  
+> **版本**: 3.1  
+> **日期**: 2026-07-26（3.0 版 2026-04-17；本版按当前源码重校全部行号锚点）  
 > **诊断对象**: `tools/CELayoutEditor-0.7.1` 布局编辑器  
 > **重点报告目录**: `client/resource/tools/log/CELayoutEditor_dbgrpt-28636-20260417T143230`  
 > **辅助比对报告**: PID 8620、PID 14628、PID 20232、PID 20872、PID 10956 同批次启动崩溃报告  
@@ -18,7 +18,7 @@ CELayoutEditor 启动时 100% 可复现地崩溃于 `USER32!DispatchMessageW`，
 当前诊断结论：
 
 - **已证实**：崩溃发生在 wx 主事件循环的 `USER32!DispatchMessageW` 路径内；所有通用寄存器（EAX/EBX/ECX/EDX）归零，指向空指针解引用。
-- **高概率**：[`DialogMain::ScheduleUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:828) 通过 [`CallAfter()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:843) 投递的异步 UI 刷新请求，在目标窗口尚未完成创建或已被销毁时被 `DispatchMessageW` 分发，触发空指针崩溃。
+- **高概率**：[`DialogMain::ScheduleUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:822) 通过 [`CallAfter()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:837) 投递的异步 UI 刷新请求，在目标窗口尚未完成创建或已被销毁时被 `DispatchMessageW` 分发，触发空指针崩溃。
 - **待验证**：搜狗输入法 TSF 模块、`wxApp::Yield()` 重入、AMD OpenGL 驱动窗口子类化是潜在放大因素，但不是已被独立证实的唯一根因。
 
 修复优先级：
@@ -137,7 +137,7 @@ Level 2-3: 无符号信息（wxWidgets 事件循环帧）
 
 **已证实**：实际使用版本为 **wxWidgets 3.0.5**。
 
-证据来源：[`CELayoutEditor.vcxproj`](../../tools/CELayoutEditor-0.7.1/vc++12/CELayoutEditor.vcxproj:59) 中 Include 路径为 `dependencies/wxWidgets-3.0.5/include`。
+证据来源：[`CELayoutEditor.vcxproj`](../../tools/CELayoutEditor-0.7.1/vc++12/CELayoutEditor.vcxproj:59) 中 Include 路径为 `I:\cegui\wxWidgets-3.0.5\include`（工程内为机器绝对路径，指向 3.0.5；仓库内另有并存副本 `dependencies/wxWidgets-3.0.5/`）。
 
 > **v2.0 勘误**：v2.0 报告中引用的部分 wxWidgets 内部函数（如 `PreProcessMessage`、`MSWSafeIsDialogMessage`、`IsDialogMessageW`）属于 wxWidgets 3.0.5 框架内部实现，不在应用源码中。
 
@@ -145,10 +145,10 @@ Level 2-3: 无符号信息（wxWidgets 事件循环帧）
 
 以下函数已通过源码验证，确认存在于当前代码库中：
 
-#### 5.2.1 [`DialogMain::ScheduleUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:828)
+#### 5.2.1 [`DialogMain::ScheduleUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:822)
 
 ```cpp
-// DialogMain.cpp:828-844（已验证）
+// DialogMain.cpp:822-838（已验证）
 void DialogMain::ScheduleUpdateProperties(bool mapSkins)
 {
     if (m_refreshPending)
@@ -164,16 +164,16 @@ void DialogMain::ScheduleUpdateProperties(bool mapSkins)
     m_refreshPending = true;
     m_pendingMapSkins = mapSkins;
     LogDebugMessage(wxString::Format(wxT("[Property] ScheduleUpdateProperties queued mapSkins=%d"), mapSkins ? 1 : 0));
-    CallAfter(&DialogMain::DeferredUpdateProperties);  // 第 843 行
+    CallAfter(&DialogMain::DeferredUpdateProperties);  // 第 837 行
 }
 ```
 
 **作用**：通过 `CallAfter()` 向 wx 消息队列投递异步 UI 属性刷新请求。
 
-#### 5.2.2 [`DialogMain::DeferredUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:847)
+#### 5.2.2 [`DialogMain::DeferredUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:841)
 
 ```cpp
-// DialogMain.cpp:847-853（已验证）
+// DialogMain.cpp:841-847（已验证）
 void DialogMain::DeferredUpdateProperties()
 {
     const bool mapSkins = m_pendingMapSkins;
@@ -186,10 +186,10 @@ void DialogMain::DeferredUpdateProperties()
 
 **作用**：`CallAfter()` 的回调目标，执行实际的属性面板刷新。
 
-#### 5.2.3 [`wxApp::Yield()`](../../tools/CELayoutEditor-0.7.1/src/CELayoutEditor.cpp:347)
+#### 5.2.3 [`wxApp::Yield()`](../../tools/CELayoutEditor-0.7.1/src/CELayoutEditor.cpp:343)
 
 ```cpp
-// CELayoutEditor.cpp:347（已验证）
+// CELayoutEditor.cpp:343（已验证）
 (void)wxApp::Yield();
 ```
 
@@ -202,7 +202,7 @@ void DialogMain::DeferredUpdateProperties()
 | 位置 | 代码 | 说明 |
 |------|------|------|
 | [`CELayoutEditor.cpp:139`](../../tools/CELayoutEditor-0.7.1/src/CELayoutEditor.cpp:139) | `mainFrame->SetFocus()` | ModalMessageBox 恢复焦点 |
-| [`EditorFrame.cpp:589`](../../tools/CELayoutEditor-0.7.1/src/EditorFrame.cpp:589) | `m_searchCtrl->SetFocus()` | WindowSearchDialog 搜索框获焦 |
+| [`EditorFrame.cpp:439`](../../tools/CELayoutEditor-0.7.1/src/EditorFrame.cpp:439) | `m_searchCtrl->SetFocus()` | WindowSearchDialog 搜索框获焦 |
 | [`DialogAddWindow.cpp:199`](../../tools/CELayoutEditor-0.7.1/src/DialogAddWindow.cpp:199) | `m_editName->SetFocus()` | 添加窗口对话框名称输入框获焦 |
 
 ### 5.3 v2.0 中不准确引用的澄清
@@ -271,7 +271,7 @@ void DialogMain::DeferredUpdateProperties()
 
 **证据强度：高概率**
 
-[`CELayoutEditor.cpp:347`](../../tools/CELayoutEditor-0.7.1/src/CELayoutEditor.cpp:347) 在 splash screen 期间调用 `wxApp::Yield()`，这会在启动阶段引入消息泵重入。如果在 Yield 处理期间窗口尚未完全初始化，后续的异步消息分发可能访问无效窗口句柄。
+[`CELayoutEditor.cpp:343`](../../tools/CELayoutEditor-0.7.1/src/CELayoutEditor.cpp:343) 在 splash screen 期间调用 `wxApp::Yield()`，这会在启动阶段引入消息泵重入。如果在 Yield 处理期间窗口尚未完全初始化，后续的异步消息分发可能访问无效窗口句柄。
 
 #### 6.2.3 AMD OpenGL 驱动窗口子类化
 
@@ -299,11 +299,11 @@ void DialogMain::DeferredUpdateProperties()
 
 ### 8.1 P0：收口启动期异步 UI 刷新链
 
-**目标文件**：[`DialogMain.cpp`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:828)
+**目标文件**：[`DialogMain.cpp`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:822)
 
 **建议方向**：
 
-1. **去掉启动阶段对 `CallAfter()` 的依赖**。将 [`ScheduleUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:828) 中的 `CallAfter()` 改为同步调用：
+1. **去掉启动阶段对 `CallAfter()` 的依赖**。将 [`ScheduleUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:822) 中的 `CallAfter()` 改为同步调用：
 
    ```cpp
    // 修改前（异步，有风险）：
@@ -327,9 +327,9 @@ void DialogMain::DeferredUpdateProperties()
 
 **目标文件**：
 
-- [`CELayoutEditor.cpp:347`](../../tools/CELayoutEditor-0.7.1/src/CELayoutEditor.cpp:347) — `wxApp::Yield()` 在 splash screen 期间的重入
+- [`CELayoutEditor.cpp:343`](../../tools/CELayoutEditor-0.7.1/src/CELayoutEditor.cpp:343) — `wxApp::Yield()` 在 splash screen 期间的重入
 - [`CELayoutEditor.cpp:139`](../../tools/CELayoutEditor-0.7.1/src/CELayoutEditor.cpp:139) — `SetFocus()` 恢复焦点
-- [`EditorFrame.cpp:589`](../../tools/CELayoutEditor-0.7.1/src/EditorFrame.cpp:589) — 搜索框 `SetFocus()`
+- [`EditorFrame.cpp:439`](../../tools/CELayoutEditor-0.7.1/src/EditorFrame.cpp:439) — 搜索框 `SetFocus()`
 - [`DialogAddWindow.cpp:199`](../../tools/CELayoutEditor-0.7.1/src/DialogAddWindow.cpp:199) — 输入框 `SetFocus()`
 
 **建议方向**：
@@ -350,8 +350,8 @@ void DialogMain::DeferredUpdateProperties()
 
 建议在以下位置增加日志：
 
-1. [`ScheduleUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:828) 进入/退出日志（已有部分，需补充 HWND 状态）
-2. [`DeferredUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:847) 开始/结束日志
+1. [`ScheduleUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:822) 进入/退出日志（已有部分，需补充 HWND 状态）
+2. [`DeferredUpdateProperties()`](../../tools/CELayoutEditor-0.7.1/src/DialogMain.cpp:841) 开始/结束日志
 3. 当前焦点窗口 `HWND`、活动窗口 `HWND`
 4. `wxWindow::FindFocus()` 对应控件类名
 5. `CallAfter()` 投递时的调用栈快照
@@ -378,16 +378,16 @@ void DialogMain::DeferredUpdateProperties()
 | 引用 `FlushDeferredUiRefresh()` | **不存在**。实际函数为 `DeferredUpdateProperties()` |
 | 引用 `EnterStartupUiGuard()` | **不存在于应用源码** |
 | 引用 `CELayoutEditor.cpp:169` 为 PreProcessMessage 代码 | **实际是构造函数初始化列表** `m_aboutBox(wx_static_cast(DialogAbout*, NULL))` |
-| 引用 `DialogMain.cpp:568` 为 RequestDeferredUiRefresh | **实际行号 828**，函数名 `ScheduleUpdateProperties` |
-| 引用 `DialogMain.cpp:577` 为 CallAfter | **实际行号 843** |
-| 引用 `DialogMain.cpp:581` 为 FlushDeferredUiRefresh | **实际行号 847**，函数名 `DeferredUpdateProperties` |
+| 引用 `DialogMain.cpp:568` 为 RequestDeferredUiRefresh | **实际行号 822**，函数名 `ScheduleUpdateProperties` |
+| 引用 `DialogMain.cpp:577` 为 CallAfter | **实际行号 837** |
+| 引用 `DialogMain.cpp:581` 为 FlushDeferredUiRefresh | **实际行号 841**，函数名 `DeferredUpdateProperties` |
 | 引用 `DialogMain.cpp:2883` 为 LayoutOpened | 需重新验证，未在本版中引用 |
 | 引用 `DialogMain.cpp:2910` 为 LayoutStarted | 需重新验证，未在本版中引用 |
 | 引用 `EditorCanvas.cpp:110` 为 ImmAssociateContext | 需重新验证，本版未引用 |
 | 引用 `EditorCanvas.cpp:115` 为 ImmAssociateContextEx | 需重新验证，本版未引用 |
-| 引用 `EditorFrame.cpp:689` 为 SetFocus | **实际行号 589**，且是 `m_searchCtrl->SetFocus()` |
+| 引用 `EditorFrame.cpp:689` 为 SetFocus | **实际行号 439**，且是 `m_searchCtrl->SetFocus()` |
 | 引用 `EditorFrame.cpp:810` 为 SetFocus | 需重新验证 |
-| 引用 `CELayoutEditor.cpp:291` 为 Yield | **实际行号 347** |
+| 引用 `CELayoutEditor.cpp:291` 为 Yield | **实际行号 343** |
 | "写越界型 AV" | 寄存器全零更符合空指针解引用模式 |
 
 ### 9.3 保留的 v2.0 正确结论

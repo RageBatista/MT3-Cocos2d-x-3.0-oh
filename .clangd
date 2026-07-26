@@ -14,6 +14,7 @@ CompileFlags:
     - -IE:/MT3/client/FireClient/Application/oggenc
     - -IE:/MT3/client/FireClient/Application/oggenc/include
     - -IE:/MT3/engine
+    - -IE:/MT3/engine/engine
     - -IE:/MT3/engine/common
     - -IE:/MT3/common/platform
     - -IE:/MT3/common/platform/log
@@ -23,7 +24,6 @@ CompileFlags:
     - -IE:/MT3/common/cauthc/authc
     - -IE:/MT3/common/cauthc/authc/os/windows
     - -IE:/MT3/common/ljfm/code/include
-    - -IE:/MT3/common/tolua++-1.0.93/include
     - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx
     - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/include
     - -IE:/MT3/cocos2d-x-2.2.6/cocos2dx/kazmath/include
@@ -51,6 +51,7 @@ CompileFlags:
     - -IE:/MT3/dependencies/cegui/CEGUI/include/XMLParserModules/XMLIOParser
     - -IE:/MT3/dependencies/cegui/CEGUI/include/ScriptingModules/LuaScriptModule
     - -IE:/MT3/dependencies/SILLY-0.1.0/include
+    - -IE:/MT3/dependencies/LJXML/Include
     - -IE:/MT3/dependencies/jpeg/win32/include
     - -IE:/MT3/dependencies/png/win32/include
     - -IE:/MT3/dependencies/glew-1.7.0/include
@@ -135,6 +136,13 @@ Diagnostics:
 ---
 If:
   PathMatch: engine/engine/nuengine\.h
+Diagnostics:
+  Suppress:
+    - "*"
+---
+# tolua++ 生成的绑定文件，诊断由 clangd 配置确保正确性
+If:
+  PathMatch: client/FireClient/Application/Framework/LuaEngine(Win32)?\.cpp
 Diagnostics:
   Suppress:
     - "*"

@@ -30,9 +30,9 @@
 #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 #else
-#define LOGI
-#define LOGE
-#define LOGD
+#define LOGI(...) ((void)0)
+#define LOGE(...) ((void)0)
+#define LOGD(...) ((void)0)
 #endif
 
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
@@ -1649,6 +1649,8 @@ namespace Nuclear
 			break;
 		case XPTEXBM_MUTIPLY:
 			cocos2d::ccGLBlendFunc(GL_DST_COLOR, GL_ZERO);
+			break;
+		default:
 			break;
 		}
 

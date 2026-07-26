@@ -1,7 +1,7 @@
 # Windows客户端功能规格书（基线版）
 
-> 文档版本：2.2.0  
-> 最后更新：2026-07-15
+> 文档版本：2.2.1  
+> 最后更新：2026-07-26
 > 历史基线：`docs/09-历史归档/专项审计/2026-03-04-客户端三端代码基线审计.md`
 > 数据来源：`client/` 实际代码与工程文件（仅保留可直接核验事实）
 
@@ -206,22 +206,22 @@ rg -n "EquipDialog.InitSpriteModel rawShape=3000001|CharacterShiZhuangDlg.getPre
 - Windows 发布态默认 `LoadFromPak=true`，资源从 `res1/fl.ljpi` 映射读取。  
 - 当 `fl.ljpi` 映射与实际资源不同步时，`model/fashion-*` 资源可能在包映射中缺失，导致 `GetFileInfo` 直接 miss。  
 
-修复（已落地）：
+修复（当前实现，2026-07-26 按源码复核）：
 
 - 文件：`common/ljfm/code/source/ljfmopen.cpp`  
-- 策略（最终）：  
-  - 对 `model/fashion-*` 资源：优先读取散文件目录 `../../res/model/fashion-*`；  
-  - 若散文件不存在，再走 pack 映射兜底；  
-  - 对其他 `model/*` 资源，保持“pack miss 时回退散文件”。  
-- 新增一次性告警日志：  
-  - `WARN: LJFMOpen prefer loose res for model/fashion-...`  
-  - `WARN: LJFMOpen fallback to loose res for model/...`
+- 策略（现行）：  
+  - 发布态**优先使用打包资源索引**；早期“对 `model/fashion-*` 强制优先散文件”的策略已关停——`IsLooseResPreferredCandidate()`（第 142-147 行）恒返回 `false`，源码注释明确“发布态要求优先使用打包资源索引，不再做强制优先 loose res”。  
+  - 对 `model/*` 前缀资源（通用前缀判定，非 fashion 专属，见 `IsLooseResFallbackCandidate()` 第 136-140 行）保留“pack 映射 miss 时回退散文件”兜底。  
+- 告警日志现状：  
+  - `WARN: LJFMOpen fallback to loose res for model/...` —— 回退发生时会实际输出（第 283-286 行）；  
+  - `WARN: LJFMOpen prefer loose res for ...` —— 代码保留（第 298-301 行）但因 prefer 分支已关停，当前不会触发。
 
 发布前检查（新增）：
 
 ```powershell
 # Release 手工测试后，检查是否出现过模型回退告警
-rg -n "prefer loose res for model/fashion-|fallback to loose res for model/" client/resource/bin/Release/mt3_ct.log
+# （“prefer loose res”分支已关停，正常只可能出现 fallback 告警）
+rg -n "fallback to loose res for model/" client/resource/bin/Release/mt3_ct.log
 ```
 
 说明：

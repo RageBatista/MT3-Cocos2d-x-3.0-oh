@@ -16,7 +16,7 @@ TOLUA_API int  tolua_engineWin32_open (lua_State* tolua_S);
 #include "nuisprite.h"
 #include "../../../../common/ljfm/code/include/ljfmfex.h"
 #include "../../../../common/ljfm/code/include/ljfmopen.h"
-#include "Utils/IOS_Utils.h"
+#include "utils/IOS_Utils.h"
 
 /* function to release collected object via destructor */
 #ifdef __cplusplus

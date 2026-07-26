@@ -7,16 +7,15 @@
 
 ## 1. 当前源码事实
 
-[`ResolutionAdapter.cpp`](../../../client/FireClient/Application/Framework/ResolutionAdapter.cpp) 当前定义：
+[`ResolutionAdapter.cpp`](../../../client/FireClient/Application/Framework/ResolutionAdapter.cpp) 当前定义（以下为 Android 分支的等效汇总，非逐字源码：源码中 `c_max_ui_scale` 位于 `#if defined(ANDROID)/#else` 块，四个尺寸常量位于 `#ifdef WIN32/#elif defined(ANDROID)/...` 块，见 ResolutionAdapter.cpp:25-53）：
 
 ```cpp
-#if defined(ANDROID)
-static const float c_max_ui_scale = 2.00f;
+// Android 分支等效值
+static const float c_max_ui_scale = 2.00f;   // 非 Android 分支为 1.30f
 static const int c_render_width = 1080;
 static const int c_render_height = 720;
 static const int c_ui_width = 1080;
 static const int c_ui_height = 720;
-#endif
 ```
 
 同一实现中：

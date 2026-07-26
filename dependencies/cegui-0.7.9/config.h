@@ -14,7 +14,9 @@
 #define CEGUI_TINYXML_NAMESPACE CEGUITinyXML
 #define CEGUI_FALAGARD_RENDERER 
 #define CEGUI_TINYXML_H "ceguitinyxml/tinyxml.h"
+#ifndef CEGUI_DEFAULT_XMLPARSER
 #define CEGUI_DEFAULT_XMLPARSER TinyXMLParser
+#endif
 #define CEGUI_LUA_VER 51
 #define CEGUI_CODEC_SILLY 1
 

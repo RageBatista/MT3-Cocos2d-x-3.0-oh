@@ -1,7 +1,7 @@
 # Android 客户端功能规格书（代码基线版）
 
-> 文档版本：3.0.0  
-> 最后更新：2026-03-28  
+> 文档版本：3.1.0  
+> 最后更新：2026-07-26  
 > 数据来源：`client/android/**`、`AndroidManifest.xml`、`Application.mk`、`GameApp.java`、`GameSDK.java`、`SDKShare.java`、JNI 入口代码
 
 ---
@@ -17,14 +17,13 @@ Android 客户端当前包含以下目录类型：
 - `client/android/JoysdkProject`
 - `client/android/YijieProject`
 
-历史说明：`client/android/LocojoyProject64` 已废弃清空，不再作为免费服或 MuMu 兼容输出目录。
+历史说明：`client/android/LocojoyProject64` 目录已从仓库删除，不再作为免费服或 MuMu 兼容输出目录。
 
 ### 1.2 已签名产物目录
 
-- `client/android/梦屿西游`
-- `client/android/梦屿西游x64_sign`
+历史签名产物目录 `client/android/梦屿西游`、`client/android/梦屿西游x64_sign` 已不在当前工作树中；APK 产物统一由 `LocojoyProject/bin/` 输出且不入库。
 
-本文默认以前五者作为当前源码与构建基线；签名产物目录仅作为发布物参考，不作为主线源码工程。
+本文以 1.1 节四个目录作为当前源码与构建基线。
 
 ## 2. 渠道与 Manifest 基线
 
@@ -32,7 +31,7 @@ Android 客户端当前包含以下目录类型：
 |---|---|---|---:|---|---:|---:|
 | `common` | 公共壳工程 | `com.locojoy.mini.mt3.common` | 1 | 0.1 | 11 | 17 |
 | `LocojoyProject` | 乐游渠道主线 | `com.locojoy.mini.mt3.locojoy` | 1 | 0.0.1 | 11 | 27 |
-| `LocojoyProject64` | 历史 64 位分支（已废弃） | `com.locojoy.mini.mt3.locojoy` | 1 | 0.0.1 | 11 | 17 |
+| `LocojoyProject64`（已删除） | 历史 64 位分支，目录已不存在 | `com.locojoy.mini.mt3.locojoy` | 1 | 0.0.1 | 11 | 17 |
 | `JoysdkProject` | JoySDK 渠道 | `com.locojoy.mini.mt3.joysdk` | 101 | 1.0.1 | 11 | 17 |
 | `YijieProject` | 易接渠道 | `com.locojoy.wojmt3.yj` | 101 | 1.0.1 | 11 | 17 |
 
@@ -136,21 +135,27 @@ Android 权限不再适合写成“统一 28 项”。当前真实口径如下�
 
 ## 6. 构建系统与 ABI
 
-### 6.1 主线工具链
+### 6.1 主线工具链（LocojoyProject 免费服主线）
 
-- NDK：`r10e`
-- 构建系统：`ndk-build + Ant`
-- STL：`gnustl_static`
+- NDK：`r16b (16.1.4479499)`，工具链 `clang`
+- 构建系统：`ndk-build + Ant + JDK 8`
+- STL：`c++_shared`
 - C++ 标准：`-std=c++11`
 
 ### 6.2 `Application.mk` 基线
 
-常规渠道当前统一为：
+主线 `LocojoyProject/jni/Application.mk` 当前为：
 
-- `APP_STL := gnustl_static`
+- `APP_STL := c++_shared`
 - `APP_CPPFLAGS := -frtti -std=c++11`
-- `APP_ABI := armeabi-v7a`
-- `NDK_TOOLCHAIN_VERSION := 4.8`
+- `APP_ABI := arm64-v8a`
+- `APP_PLATFORM := android-21`
+- `NDK_TOOLCHAIN_VERSION := clang`
+
+legacy 渠道（`common`、`JoysdkProject`、`YijieProject`）仍保留历史配置：
+
+- `APP_STL := gnustl_static`、`APP_ABI := armeabi-v7a`、`NDK_TOOLCHAIN_VERSION := 4.8`
+- 这些渠道未随主线迁移，使用前需单独复验，不得当作当前 free 主线口径。
 
 ### 6.3 历史 `LocojoyProject64` 特例
 

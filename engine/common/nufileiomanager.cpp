@@ -1,4 +1,4 @@
-﻿#include "nufileiomanager.h"
+#include "nufileiomanager.h"
 #include "nuxml.h"
 #include "nulog.h"
 #include "nupobject.h"
@@ -25,9 +25,9 @@
 #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 #else
-#define LOGI
-#define LOGE
-#define LOGD
+#define LOGI(...) ((void)0)
+#define LOGE(...) ((void)0)
+#define LOGD(...) ((void)0)
 #endif
 
 namespace Nuclear

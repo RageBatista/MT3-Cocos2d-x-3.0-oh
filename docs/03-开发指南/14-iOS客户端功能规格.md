@@ -1,7 +1,7 @@
 # iOS客户端功能规格书（基线版）
 
-> 文档版本：2.0.0  
-> 最后更新：2026-07-15
+> 文档版本：2.0.1  
+> 最后更新：2026-07-26
 > 历史基线：`docs/09-历史归档/专项审计/2026-03-04-客户端三端代码基线审计.md`
 > 数据来源：`FireClient.xcodeproj`、`main.m`、`FireClientAppDelegate.mm`、iPhone/iPad 目录
 
@@ -41,8 +41,8 @@ iOS 客户端核心路径：
 
 ## 3. Xcode 工程实际配置
 
-- Native Target：`FireClient`（`project.pbxproj:4265`）
-- Bundle Identifier：`com.locojoy.immt3`（`project.pbxproj:4964`、`5111`）
+- Native Target：`FireClient`（`project.pbxproj:4239`）
+- Bundle Identifier：`com.locojoy.immt3`（`project.pbxproj:4932`、`5070`）
 - `IPHONEOS_DEPLOYMENT_TARGET`：存在 `5.1` 与 `6.1`
 - `SDKROOT`：`iphoneos`
 - `TARGETED_DEVICE_FAMILY`：`"1,2"`

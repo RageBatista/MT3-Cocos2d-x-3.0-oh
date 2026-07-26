@@ -48,9 +48,9 @@
 #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 #else
-#define LOGI
-#define LOGE
-#define LOGD
+#define LOGI(...) ((void)0)
+#define LOGE(...) ((void)0)
+#define LOGD(...) ((void)0)
 #endif
 
 #ifdef ANDROID
@@ -368,7 +368,7 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
 			return false;
 		}
 		MT3_ENGINE_TRACE("Engine::Run FileIO init success");
-        MHSD_UTILS::flurryEvent(L"Engine_FileIOManager_init_success");
+        (void)MHSD_UTILS::flurryEvent(L"Engine_FileIOManager_init_success");
         LOGD("fileio init finish!");
 
 #ifndef ANDROID
@@ -925,7 +925,7 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
 
 		if( m_pWorld != NULL )
 		{
-			CCLOGERROR("engine=%x world=%x\n",this,m_pWorld);
+			CCLOGERROR("engine=%p world=%p\n",this,m_pWorld);
 			m_pWorld->Render(m_tick, true, true/*mRealFrame*/);
 		}
 

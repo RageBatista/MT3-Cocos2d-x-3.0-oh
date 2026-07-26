@@ -75,7 +75,7 @@
 
 **修复对异步纹理加载机制的影响**：
 - 本次修复仅涉及 XML 解析器（`LJXMLParser`），不直接影响异步纹理加载机制
-- 异步纹理加载机制由 [`CEGUIResLoadThread`](../../dependencies/cegui/CEGUI/include/CEGUIResLoadThread.h:13)、[`CCEGUITaskManager`](../../dependencies/cegui/CEGUI/include/CEGUILoadingTaskManager.h:52)、[`ImagesetManager::UpdateTextureState()`](../../dependencies/cegui/CEGUI/src/CEGUIImagesetManager.cpp:116) 和 [`Renderer::OnFrameEnd()`](../../dependencies/cegui/CEGUI/include/CEGUIRenderer.h:292) 组成，与 XML 解析器独立
+- 异步纹理加载机制由 [`CEGUIResLoadThread`](../../dependencies/cegui/CEGUI/include/CEGUIResLoadThread.h:12)、[`CCEGUITaskManager`](../../dependencies/cegui/CEGUI/include/CEGUILoadingTaskManager.h:79)、[`ImagesetManager::UpdateTextureState()`](../../dependencies/cegui/CEGUI/src/CEGUIImagesetManager.cpp:116) 和 [`Renderer::OnFrameEnd()`](../../dependencies/cegui/CEGUI/include/CEGUIRenderer.h:292) 组成，与 XML 解析器独立
 - 帧内顺序以 [`GameApplication.cpp:2587-2618`](../../client/FireClient/Application/Framework/GameApplication.cpp:2587) 为准：先执行 UI 与后续效果的 Draw/render，再调用 `UpdateTextureState()`；该方法内部更新任务和 Imageset 状态，最后调用 `OnFrameEnd()`
 - 修复后的 `cegui_d.lib` 仍包含完整的 MT3 异步纹理加载机制
 
@@ -110,8 +110,8 @@
 
 ### 异步纹理加载机制
 
-- **[`CEGUIResLoadThread`](../../dependencies/cegui/CEGUI/include/CEGUIResLoadThread.h:13)**：异步纹理加载线程
-- **[`CCEGUITaskManager`](../../dependencies/cegui/CEGUI/include/CEGUILoadingTaskManager.h:52)**：加载任务管理器
+- **[`CEGUIResLoadThread`](../../dependencies/cegui/CEGUI/include/CEGUIResLoadThread.h:12)**：异步纹理加载线程
+- **[`CCEGUITaskManager`](../../dependencies/cegui/CEGUI/include/CEGUILoadingTaskManager.h:79)**：加载任务管理器
 - **[`ImagesetManager::UpdateTextureState()`](../../dependencies/cegui/CEGUI/src/CEGUIImagesetManager.cpp:116)**：在本帧 UI 与后续效果 Draw/render 完成后更新任务和纹理状态
 - **[`Renderer::OnFrameEnd()`](../../dependencies/cegui/CEGUI/include/CEGUIRenderer.h:292)**：由 `UpdateTextureState()` 在上述帧末阶段调用，用于资源状态收束
 
@@ -130,7 +130,7 @@
 
 ### 二进制布局系统
 
-- **[`BinLayoutFileSerializer`](../../dependencies/cegui/CEGUI/src/CEGUIWindowManager.cpp:429)**：二进制布局序列化器
+- **[`BinLayoutFileSerializer`](../../dependencies/cegui/CEGUI/src/CEGUIWindowManager.cpp:434)**：二进制布局序列化器
 - **[`WindowManager::loadWindowLayoutFromFile()`](../../dependencies/cegui/CEGUI/src/CEGUIWindowManager.cpp:416)**：自动识别文本 XML 和二进制布局
 
 **编译产物包含情况**：
