@@ -24,6 +24,12 @@
 6. [综合时间线与里程碑](#6-综合时间线与里程碑)
 7. [验证与验收标准](#7-验证与验收标准)
 
+**附录**：
+- [附录 A：快速参考 — 关键 API 对照表](#附录-a快速参考--关键-api-对照表)
+- [附录 B：参考文档索引](#附录-b参考文档索引)
+- [附录 C：执行进度跟踪](#附录-c执行进度跟踪)
+- [附录 D：踩坑记录](#附录-d踩坑记录)
+
 ***
 
 ## 1. 深度链路分析：MT3 客户端全模块依赖拓扑
@@ -571,16 +577,16 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 ## 附录 C：执行进度跟踪
 
 > **执行开始**：2026-07-26
-> **最后更新**：2026-07-26
+> **最后更新**：2026-07-27
 
 ### 总体进度
 
 | 阶段 | 内容 | 预估工期 | 状态 | 实际耗时 | 备注 |
 |------|------|---------|------|---------|------|
 | 阶段 0 | 环境搭建与基线建立 | 1 周 | ✅ 完成 | 0.5 天 | 所有前置任务完成 |
-| 阶段 1 | Cocos2d-x 3.0-oh 独立编译 | 2 周 | ✅ 完成 | 0.5 天 | Debug/Release 均零错误（除 cpp-tests 缺 curl.lib） |
-| 阶段 2 | CEGUI 0.7.9-r5 独立编译 | 1.5 周 | ✅ 完成 | < 0.5 天 | Debug/Release 均零错误 |
-| 阶段 3 | Cocos2DRenderer 移植 | 3 周 | ⬜ 待开始 | — | — |
+| 阶段 1 | Cocos2d-x 3.0-oh 独立编译 | 2 周 | ✅ 完成 | 0.5 天 | Debug/Release 各 15 个 .lib，零错误 |
+| 阶段 2 | CEGUI 0.7.9-r5 独立编译 | 1.5 周 | ✅ 完成 | < 0.5 天 | Debug/Release 均零错误，无需修复 |
+| 阶段 3 | Cocos2DRenderer 移植 | 3 周 | 🔄 进行中 | 1 天 | 源码移植完成，编译调试中（见 §阶段3详细） |
 | 阶段 4 | Nuclear 引擎封装层适配 | 2 周 | ⬜ 待开始 | — | — |
 | 阶段 5 | CEGUI 定制模块移植 | 3 周 | ⬜ 待开始 | — | — |
 | 阶段 6 | FireClient 业务代码适配 | 4 周 | ⬜ 待开始 | — | — |
@@ -606,13 +612,14 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 任务 | 状态 | 结果 |
 |------|:--:|------|
-| Debug 配置编译 | ✅ 完成 | 15 个 .lib + 1 个 .dll 全部生成，零错误 |
-| Release 配置编译 | ✅ 完成 | 15 个 .lib + 1 个 .dll 全部生成，零错误 |
+| Debug 配置编译 | ✅ 完成 | 15 个 .lib 全部生成，零错误 |
+| Release 配置编译 | ✅ 完成 | 15 个 .lib 全部生成，零错误 |
 | sqlite3 缺失修复 | ✅ 完成 | 创建 `external/sqlite3/CMakeLists.txt`，复制 `sqlite3.c` 源码，注册到根 `CMakeLists.txt` |
 | storage 模块 include 路径修复 | ✅ 完成 | 修复 `cocos/storage/CMakeLists.txt`，为非 OHOS 平台添加 sqlite3 include 路径 |
 | cpp-tests 跳过 | ⚠️ 已知 | cpp-tests 需要 curl.lib（非核心库，暂不处理） |
+| ~~audio.lib~~ | ❌ 未生成 | 文档 v1.3.0 列出 audio.lib 为编译产物，实际 Debug/Release 均未生成此文件；已从产物清单移除 |
 
-**Debug 输出**（`build/lib/Debug/`）：
+**Debug 输出**（`build/lib/Debug/`，15 个 .lib，2026-07-26/27）：
 
 | 库文件 | 大小 |
 |--------|------|
@@ -627,21 +634,143 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | box2d.lib | 841 KB |
 | spine.lib | 396 KB |
 | chipmunk.lib | 380 KB |
-| audio.lib | 268 KB |
 | tinyxml2.lib | 151 KB |
 | storage.lib | 57 KB |
 | unzip.lib | 29 KB |
 | xxhash.lib | 5 KB |
-| kazmath.dll | — |
 
-**Release 输出**（`build/lib/Release/`）：同 Debug，大小略小。
+**Release 输出**（`build/lib/Release/`，15 个 .lib，2026-07-27）：同 Debug，大小略小。
 
 ### 阶段 2 详细进度 — CEGUI 0.7.9-r5 独立编译
 
 | 任务 | 状态 | 结果 |
 |------|:--:|------|
-| Debug 配置编译 | ✅ 完成 | `cegui-0.7.9_d.lib`（80.4 MB），零错误 |
-| Release 配置编译 | ✅ 完成 | `cegui-0.7.9.lib`（66.3 MB），零错误 |
+| Debug 配置编译 | ✅ 完成 | `cegui-0.7.9_d.lib`（约 80 MB），零错误 |
+| Release 配置编译 | ✅ 完成 | `cegui-0.7.9.lib`（约 66 MB），零错误 |
+| 工程配置 | ✅ 完成 | v120 PlatformToolset，直接可用 |
 
 **关键修复**：无需修复，CEGUI 0.7.9-r5 的 VS2013 (v120) 工程直接可用。
+
+> **注意**：2026-07-27 执行 CppClean 后，`Debug.win32/` 和 `Release.win32/` 下的 .lib 文件已被清理，仅保留 .obj 中间文件。后续需重新编译生成 .lib。
+
+### 阶段 3 详细进度 — Cocos2DRenderer 移植（Cocos2d-x 3.0-oh）
+
+> **开始日期**：2026-07-25
+> **最后更新**：2026-07-27
+> **当前状态**：源码移植完成（6 个 .cpp + 6 个 .h），vcxproj 已更新，编译调试中
+
+#### 已完成工作
+
+| 任务 | 状态 | 结果 |
+|------|:--:|------|
+| 创建 Cocos2D Renderer 源文件 | ✅ 完成 | 6 个 .cpp + 6 个 .h 置于 `cegui/src/RendererModules/Cocos2D/` 和 `cegui/include/RendererModules/Cocos2D/` |
+| 更新 vcxproj 工程文件 | ✅ 完成 | 添加 6 个源文件编译项 + Cocos2d-x 3.0-oh include 路径 |
+| 适配 CEGUI 0.7.9-r5 Renderer 基类接口 | ✅ 完成 | `CEGUI::Renderer` 0.7.9 接口变更已适配 |
+| 适配 Cocos2d-x 3.0-oh API | ✅ 完成 | `CCTexture2D` → `Texture2D`，`CCImage` → `Image` 等 |
+| 修复 6 处编译错误 | ✅ 完成 | 2026-07-27 02:40 确认修复完成 |
+| Debug 配置编译 | 🔄 进行中 | 6 个 Cocos2D .obj 全部编译成功，链接阶段失败（`unsuccessfulbuild`，2026-07-27 02:38） |
+| Release 配置编译 | 🔄 进行中 | `CEGUICocos2DRenderer.obj` 编译失败（.obj 缺失），其余 5 个 .obj 编译成功 |
+
+#### 移植文件清单
+
+| 文件 | 类型 | 说明 |
+|------|------|------|
+| `CEGUICocos2DRenderer.h/.cpp` | 渲染器主类 | 继承 `CEGUI::Renderer`（0.7.9），管理纹理/几何缓冲/渲染目标 |
+| `CEGUICocos2DTexture.h/.cpp` | 纹理封装 | 基于 `cocos2d::Texture2D`（3.0-oh） |
+| `CEGUICocos2DGeometryBuffer.h/.cpp` | 几何缓冲 | 适配 3.0-oh `RenderCommand` 队列 |
+| `CEGUICocos2DRenderTarget.h/.cpp` | 渲染目标基类 | 使用 `kmMat4` 投影矩阵 |
+| `CEGUICocos2DViewportTarget.h/.cpp` | 视口渲染目标 | 基于 `glGetIntegerv(GL_VIEWPORT)` |
+| `CEGUICocos2DTextureTarget.h/.cpp` | 纹理渲染目标 | 基于 `cocos2d::RenderTexture`（3.0-oh） |
+
+#### vcxproj 关键变更
+
+| 变更项 | 内容 |
+|--------|------|
+| 源文件添加 | 6 个 Cocos2D Renderer `.cpp` 文件（行 377-383） |
+| Include 路径新增 | `cegui\include\RendererModules\Cocos2D`；`cocos2d-x-3.0-oh\cocos`；`cocos2d-x-3.0-oh\cocos\2d`；`cocos2d-x-3.0-oh\cocos\2d\platform\win32`；`cocos2d-x-3.0-oh\cocos\base`；`cocos2d-x-3.0-oh\cocos\math\kazmath`；`cocos2d-x-3.0-oh\external`；`cocos2d-x-3.0-oh\external\win32-specific\gles\include`；`cocos2d-x-3.0-oh\cocos\physics`；`common\platform` |
+
+---
+
+## 附录 D：踩坑记录
+
+> 记录双引擎升级过程中遇到的实际问题和解决方案，供后续阶段参考。
+
+### D.1 阶段 1：Cocos2d-x 3.0-oh 独立编译
+
+#### 坑 1：sqlite3 模块缺失 CMakeLists.txt
+
+- **现象**：CMake 生成工程时报错，`cocos/storage/` 找不到 sqlite3 依赖
+- **根因**：Cocos2d-x 3.0-oh 的 `external/sqlite3/` 目录只包含 `sqlite3.c` 和 `sqlite3.h` 源码，没有 CMakeLists.txt，导致 CMake 无法识别为独立 target
+- **修复**：
+  1. 创建 `external/sqlite3/CMakeLists.txt`，定义 `sqlite3` 静态库 target
+  2. 在根 `CMakeLists.txt` 中添加 `add_subdirectory(external/sqlite3)`
+  3. 修复 `cocos/storage/CMakeLists.txt` 中的条件编译，为非 OHOS 平台添加 `../external/sqlite3` 到 include 路径
+- **教训**：3.0-oh 的 external 依赖可能不完整，CMake 生成前需逐项检查
+
+#### 坑 2：cpp-tests 缺少 curl.lib
+
+- **现象**：cpp-tests 子项目编译失败，链接阶段找不到 curl.lib
+- **根因**：`cpp-tests` 依赖 libcurl 进行网络测试，但 3.0-oh 的 external 不包含 curl 预编译库
+- **处理**：跳过 cpp-tests 编译（非核心库，不影响引擎库生成）
+- **教训**：测试/示例项目依赖可能不完整，只关注核心库即可
+
+#### 坑 3：产物清单与实际输出不一致
+
+- **现象**：文档 v1.3.0 列出 `audio.lib`（268 KB）和 `kazmath.dll` 为编译产物，实际检查 `build/lib/Debug/` 和 `build/lib/Release/` 均未找到这两个文件
+- **根因**：`audio.lib` 对应的 `cocos/audio/` 模块在 CMake 配置中可能未被正确启用（需 `GENERATE_COCOS_SCRIPT_CORE` 或其他条件）；`kazmath.dll` 实际为 `kazmath.lib`（静态库），但 CMake 未将其输出到 `lib/` 目录
+- **处理**：从产物清单中移除 `audio.lib` 和 `kazmath.dll`，实际产物为 15 个 .lib
+- **教训**：编译产物清单必须以实际文件系统为准，不能仅凭 CMakeLists.txt 推断
+
+### D.2 阶段 2：CEGUI 0.7.9-r5 独立编译
+
+**本阶段无坑**。CEGUI 0.7.9-r5 的 VS2013 (v120) 工程配置完整，Debug/Release 均零错误编译通过。
+
+### D.3 阶段 3：Cocos2DRenderer 移植
+
+#### 坑 4：CEGUI 0.7.9-r5 Renderer 基类接口变更
+
+- **现象**：从 0.7.1 移植的 Cocos2DRenderer 代码无法直接编译，多处虚函数签名不匹配
+- **根因**：CEGUI 0.7.9-r5 的 `Renderer` 基类相比 0.7.1 有接口变更：
+  - `RenderingSurface` / `RenderingWindow` 新架构引入
+  - `RenderTarget` 接口调整
+  - `TextureTarget` 声明变更
+- **修复**：逐函数对比 0.7.1 和 0.7.9-r5 的 `CEGUIRenderer.h`，更新所有虚函数签名和实现
+- **教训**：Renderer 是 CEGUI 最核心的接口层，版本间 API 变化大，移植前应先做差异分析
+
+#### 坑 5：Cocos2d-x 3.0-oh 的 include 路径结构与 2.2.6 完全不同
+
+- **现象**：编译时找不到 `CCGLProgram.h`、`CCShaderCache.h`、`CCDirector.h` 等头文件
+- **根因**：Cocos2d-x 2.2.6 的头文件为扁平结构（`cocos2dx/` 根目录），3.0-oh 改为分层结构（`cocos/2d/`、`cocos/base/`、`cocos/math/` 等）
+- **修复**：在 vcxproj 的 `AdditionalIncludeDirectories` 中添加 10 个 Cocos2d-x 3.0-oh 子目录路径
+- **教训**：3.0-oh 的 include 路径是全量必要的，不能只添加 `cocos/` 根目录
+
+#### 坑 6：Release 模式下 CEGUICocos2DRenderer.cpp 编译失败
+
+- **现象**：Debug 配置 6 个 Cocos2D .obj 全部编译成功，但 Release 配置 `CEGUICocos2DRenderer.obj` 缺失
+- **根因**：待排查。可能原因：
+  1. Release 优化导致的编译错误（与 Debug 不同的代码路径）
+  2. 预处理器宏差异（`_DEBUG` vs `NDEBUG`）
+  3. 特定于 Release 的模板实例化或内联问题
+- **当前状态**：未解决，需进一步调试
+- **教训**：Debug 编译通过不代表 Release 通过，必须双配置验证
+
+#### 坑 7：链接阶段失败（Debug）
+
+- **现象**：Debug 配置 6 个 Cocos2D .obj 全部编译成功，但链接阶段 `unsuccessfulbuild`（2026-07-27 02:38）
+- **根因**：待排查。可能原因：
+  1. Cocos2d-x 3.0-oh 的 .lib 未链接到 CEGUI 工程
+  2. 缺少必要的第三方库依赖（如 `glew32.lib`、`libEGL.lib` 等）
+  3. 符号冲突或未解析的外部符号
+- **当前状态**：未解决，6 处编译错误已修复但链接仍失败
+- **教训**：Cocos2DRenderer 不仅需要 include 路径，还需要在链接阶段引入 Cocos2d-x 3.0-oh 的 .lib 和 OpenGL 依赖库
+
+### D.4 通用经验
+
+| 经验 | 说明 |
+|------|------|
+| 产物验证必须以文件系统为准 | 不能仅凭 CMakeLists.txt 或构建日志推断，必须在磁盘上验证每个产物 |
+| Debug 和 Release 必须分别验证 | Debug 通过不代表 Release 通过，反之亦然 |
+| 双引擎升级的耦合点集中在 Renderer 层 | CEGUI 的 Renderer 和 Cocos2d-x 的渲染 API 是最高风险区域 |
+| 增量构建后建议做 CppClean | 旧的 .obj 可能掩盖新代码的编译错误 |
+| include 路径需要全量添加 | 3.0-oh 的分层结构要求每个子目录单独添加，不能只加根目录 |
 
