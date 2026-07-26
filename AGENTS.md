@@ -1,8 +1,8 @@
 # MT3 仓库事实与协作边界（AGENTS）
 
-> **版本**：4.0.0
+> **版本**：4.1.0
 >
-> **更新日期**：2026-07-18
+> **更新日期**：2026-07-26
 >
 > **维护者**：技术委员会
 >
@@ -50,11 +50,12 @@
 | 平台壳层 | `client/MT3Win32App/`、`client/android/`、`client/FireClient/FireClient/` | 进程/应用入口、生命周期、窗口与输入、JNI/ObjC++、渠道 SDK、CrashDump |
 | 共享客户端业务 | `client/FireClient/Application/`、`client/resource/res/script/`、`client/resource/res/ui/` | `gRunGameApplication()` 后的启动、登录、入世界、网络、UI、Lua、配置和业务逻辑 |
 | Nuclear 引擎 | `engine/` | 场景、世界、精灵、地图、动画、特效、渲染组织和引擎接口 |
-| Cocos 基础层 | `cocos2d-x-2.2.6/`（当前全平台主线）；历史 `cocos2d-2.0-rc2-x-2.0.1/` 已不存在于工作区 | 图形、音频、物理、Lua 基础、扩展和平台适配；实际依赖按平台区分，见 3.3 |
+| Cocos 基础层 | `cocos2d-x-2.2.6/`（当前全平台主线）；历史 `cocos2d-2.0-rc2-x-2.0.1/` 已不存在于工作区；`cocos2d-x-3.0-oh/` 为双引擎升级评估树（草案，非构建主线） | 图形、音频、物理、Lua 基础、扩展和平台适配；实际依赖按平台区分，见 3.3 |
 | 公共本地库 | `common/` | `platform`、`ljfm`、`cauthc`、Lua/tolua、更新等跨模块基础库 |
 | 服务端与协议 | `server/`、`gbeans/` | Java/Ant 游戏服务、gnet/RPC、XDB/XBean、策划配置生成和运行分发 |
 | 资源生产与发布 | `client/resource/res/`、`client/res_*`、`client/android/**/assets/res/`、`tools/` | 源资源、平台 staging、APK 资源同步、PFS/热更新、编辑器与离线工具 |
 | 代理与文档治理 | `.codex/`、`.agents/`、`.claude/`、`.trae/`、`docs/` | Codex 原生配置、技能、兼容桥接、Trae 规则和项目文档 |
+| 计划与辅助材料 | `plans/`、`scheme_doc/`、`build_logs/`、`lib/` | 规划/分析报告 sidecar、策划与测试文档、构建日志证据、VS2013 预编译库归置；均不作为规范入口 |
 
 仓库中的行数、文件数和构建耗时会持续变化，不作为根级架构约束；需要统计时必须由当前工作树重新生成。
 
@@ -86,7 +87,7 @@ Cocos2d-x 基础层
 “逻辑架构使用 Cocos 基础层”不等于所有平台已经物理收敛到同一目录。当前工程实物为：
 
 - **Win32 canonical 主线**：`client/MT3Win32App/*.win32.vcxproj`、`engine/engine.win32.vcxproj` 和 `client/Build-MT3-v120.ps1` 使用 `cocos2d-x-2.2.6/`。
-- **Android Locojoy free 主线**：`client/android/LocojoyProject/jni/Android.mk` 以 `cocos2d-x-2.2.6/` 为导入根，`Application.mk` 当前为 `arm64-v8a + android-21 + c++_shared + clang`。`engine/Android.mk` 仍有一条旧树 `libSpine` 导入，而 `Assert-AndroidArm64Migration.ps1` 会把旧树导入判为错误；在该门禁通过前不得宣称 Android 依赖已完全收敛。
+- **Android Locojoy free 主线**：`client/android/LocojoyProject/jni/Android.mk` 以 `cocos2d-x-2.2.6/` 为导入根，`Application.mk` 当前为 `arm64-v8a + android-21 + c++_shared + clang`。`engine/Android.mk` 已无旧树导入（仅导入 `cocos2d-x-2.2.6` 与 `import-module,cocos2dx`；其中的 nuspine* 为第一方源码，非旧树 `libSpine`）；`Assert-AndroidArm64Migration.ps1` 仍作为回归门禁，任何新增旧树导入都会被判为错误。
 - **iOS 工程**：`client/FireClient/FireClient.xcodeproj/project.pbxproj` 与 `engine/engine.xcodeproj/project.pbxproj` 已迁移至 `cocos2d-x-2.2.6/`（FireClient 工程 126 处引用，engine 工程 14 处引用，零处旧树引用）。旧树 `cocos2d-2.0-rc2-x-2.0.1/` 目录已不存在于工作区；2.2.6 引擎上叠加了 MT3 兼容补丁（详见 `cocos2d-x-2.2.6/MT3_PATCHES.md`）。
 - `client/MT3Win32App/mt3.vcxproj`、部分 `.filters`、WinRT/WP8 工程和其他旧项目文件仍可能包含旧树路径；它们不属于 Win32 canonical 入口，也不得用来推翻 canonical 主线事实。
 
@@ -183,7 +184,7 @@ client/resource/res/**                         # 业务源资源（可修改）
 - 修改前必须探测原始编码、BOM 和换行，修改后按原编码回读并做字节校验；不按扩展名对全仓一刀切转码。
 - 交给 VS2013 `cl.exe` 的 UTF-8 C/C++ 文件只要含非 ASCII 字符就必须保留 UTF-8 BOM；历史 CP936/ANSI/UTF-16 文件仍按原编码写回。
 - `.rc` 文件保持原编码，禁止把常见 UTF-16 LE/BOM 自动转换成 UTF-8。
-- `.md/.json/.xml/.ps1/.lua/.java` 新文件默认 UTF-8 无 BOM；修改既有文件仍以保持原状和就近 `.gitattributes` 为先。本文件与 `.trae/rules/project_rules.md` 的当前基线为 UTF-8 无 BOM、CRLF。
+- `.md/.json/.xml/.ps1/.lua/.java` 新文件默认 UTF-8 无 BOM；修改既有文件仍以保持原状和就近 `.gitattributes` 为先。本文件与 `.trae/rules/project_rules.md` 的当前基线为 UTF-8 无 BOM、LF。
 - 代码命名、缩进、花括号、预编译头、宏和警告配置遵循最近模块现状；不存在可覆盖所有 C++、Lua、Java 和工具工程的单一格式模板。
 - PowerShell 使用 `$env:NAME`，`cmd.exe`/`.bat` 才使用 `%NAME%`；跨 shell 必须显式写 `cmd /c`、`powershell -File` 或 `bash -lc`。
 

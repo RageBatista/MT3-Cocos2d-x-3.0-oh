@@ -35,6 +35,8 @@
 
 #if defined(LIBTIFF_EXPORTS)
 #define TIFF_DLL     __declspec(dllexport)
+#elif defined(LIBTIFF_STATIC)
+#define TIFF_DLL
 #else         /* use a DLL library */
 #define TIFF_DLL     __declspec(dllimport)
 #endif

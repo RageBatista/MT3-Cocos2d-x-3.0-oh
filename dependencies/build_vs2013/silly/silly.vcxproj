@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{684FFD81-8558-43CA-A1D5-F25B2B8ECF96}</ProjectGuid>
+    <ProjectGuid>{A45280B9-5F08-41CE-A059-D409EDE10912}</ProjectGuid>
     <RootNamespace>silly</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>silly</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
-<WholeProgramOptimization>true</WholeProgramOptimization>
+
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -26,13 +26,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Release\</OutDir>
+    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Debug\</OutDir>
     <IntDir>e:\\MT3\\dependencies\\build_vs2013\\silly\\$(Configuration)\</IntDir>
     <TargetName>silly</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\SILLY-0.1.0\\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\SILLY-0.1.0\\include\\loaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\jpeg-8b;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -41,8 +41,8 @@
       <AdditionalIncludeDirectories>e:\\MT3\\cocos2d-x-2.2.6\\cocos2dx\\platform\\third_party\\win32\\libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>e:\\MT3\\cocos2d-x-2.2.6\\cocos2dx\\platform\\third_party\\win32\\libpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 
-      <PreprocessorDefinitions>WIN32;NDEBUG;SILLY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>WIN32;_DEBUG;SILLY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4996;4267;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>

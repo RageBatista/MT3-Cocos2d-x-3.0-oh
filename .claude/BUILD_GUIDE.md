@@ -61,7 +61,7 @@ cmd /c '"C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe" /version'
 
 补充：
 
-- `client/MT3Win32App/FireClient.win32.vcxproj` 与 `client/MT3Win32App/mt3.win32.vcxproj` 共用 `Release.win32` 中间目录，局部增量构建不能证明产物 ABI 一致。
+- `client/MT3Win32App/FireClient.win32.vcxproj` 与 `client/MT3Win32App/mt3.win32.vcxproj` 共享 `Release.win32` 输出目录（`IntDir` 按项目名分离），局部增量构建仍不能证明产物 ABI 一致。
 - 若 fresh process 在启动初始化阶段崩在容器访问或 `this + offset` 成员访问处，应优先复核 ABI 混编，而不是先归因到业务逻辑。
 
 ### 1. 手动重编 engine（Release|Win32）

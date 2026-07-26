@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5F8F81C0-C746-4F63-BA60-D020DFC7ED24}</ProjectGuid>
+    <ProjectGuid>{5003BD00-C31D-49A6-A370-B018A6F86215}</ProjectGuid>
     <RootNamespace>pthreadVCE2</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>pthreadVCE2</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
-<WholeProgramOptimization>true</WholeProgramOptimization>
+
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -26,18 +26,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Release\</OutDir>
+    <OutDir>e:\\MT3\\dependencies\\build_vs2013\\out\\Debug\</OutDir>
     <IntDir>e:\\MT3\\dependencies\\build_vs2013\\pthread\\$(Configuration)\</IntDir>
     <TargetName>pthreadVCE2</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\third-party-rebuild\\pthreads-w32\\pthreads.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>e:\\MT3\\dependencies\\third-party-rebuild\\pthreads-w32\\Pre-built.2\\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 
-      <PreprocessorDefinitions>WIN32;NDEBUG;__CLEANUP_C;PTW32_STATIC_LIB;PTW32_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>WIN32;_DEBUG;__CLEANUP_C;PTW32_STATIC_LIB;PTW32_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4996;4267;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>

@@ -17,7 +17,7 @@
 | 平台 | 主线工具链 | 禁止事项 |
 |------|------|------|
 | Windows 桌面 | `v120 (VS2013)` + `Windows SDK 8.1` | 禁止主线使用 `v140/v141/v142/v143` |
-| Android | `NDK r16 clang + Ant + JDK 8 + Python 2.7` | 禁止主线使用 `JDK 9+`、不完整 Android SDK、Gradle 替换 Ant，禁止回退到 r10e/GCC |
+| Android | `NDK r16b (16.1.4479499) clang + Ant + JDK 8 + Python 2.7` | 禁止主线使用 `JDK 9+`、不完整 Android SDK、Gradle 替换 Ant，禁止回退到 r10e/GCC |
 | 服务器 | `JDK 1.7/1.8 + Ant` | 禁止主线使用 `JDK 9+` 或 Maven/Gradle 替换 Ant |
 
 补充：
@@ -93,9 +93,9 @@ Win32 主线构建顺序固定如下：
 - 修改 `cocos2dx/**` 或 `CocosDenshion/**` 后，必须重编对应库并继续重编下游。
 - 若改动涉及第 3.1 节定义的 ABI 敏感头文件，以上“至少”一律提升为强制 `Rebuild`，不得以增量 `Build` 替代。
 
-共享中间目录约束：
+共享输出目录约束：
 
-- `client/MT3Win32App/FireClient.win32.vcxproj` 与 `client/MT3Win32App/mt3.win32.vcxproj` 共用 `Release.win32` 中间目录。
+- `client/MT3Win32App/FireClient.win32.vcxproj` 与 `client/MT3Win32App/mt3.win32.vcxproj` 共享 `Release.win32` 输出目录（`IntDir` 按项目名分离）。
 - 单项目增量 `Build/Rebuild` 可能出现“输出看似最新但未真正刷新”的情况。
 - 涉及 `FireClient` 改动时，必须显式确认 `FireClient` 已重编，再重链 `MT3`；优先使用 [BUILD_GUIDE.md](BUILD_GUIDE.md) 中的顺序命令。
 
