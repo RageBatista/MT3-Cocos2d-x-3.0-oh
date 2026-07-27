@@ -1,4 +1,4 @@
-﻿#ifndef __Nuclear_UTIL_H__
+#ifndef __Nuclear_UTIL_H__
 #define __Nuclear_UTIL_H__
 
 #if _MSC_VER > 1000
@@ -7,7 +7,7 @@
 
 #include "nuport.h"
 #if (defined WIN7_32)
-#include "platform.h"
+#include "platform/platform.h"
 #endif
 #include "CCStdC.h"
 

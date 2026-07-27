@@ -2,6 +2,7 @@
 //  engine
 
 #include <iostream>
+#include <set>
 #include "nucocos2d_wraper.h"
 #include "shaders/CCGLProgram.h"
 #include "shaders/ccGLStateCache.h"
@@ -54,7 +55,7 @@ namespace Nuclear
 #else
 #ifndef ANDROID
 
-        CCDirector* pDirector = CCDirector::sharedDirector();
+        Director* pDirector = Director::getInstance();
         assert(pDirector);
         return pDirector->getOpenGLView()->isIpad();
 #else
@@ -67,12 +68,12 @@ namespace Nuclear
     {
 #if (defined WIN32) || (defined _WIN32)
 #if (defined WIN7_32)
-		EngineApp* pApp = dynamic_cast<EngineApp*>(cocos2d::CCApplication::sharedApplication());//modify by eagle
+		EngineApp* pApp = dynamic_cast<EngineApp*>(cocos2d::Application::getInstance());//modify by eagle
 #else
-		EngineApp* pApp = dynamic_cast<EngineApp*>(cocos2d::CCApplication::sharedApplication());
+		EngineApp* pApp = dynamic_cast<EngineApp*>(cocos2d::Application::getInstance());
 #endif
 #else
-        EngineApp* pApp = dynamic_cast<EngineApp*>(cocos2d::CCApplication::sharedApplication());
+        EngineApp* pApp = dynamic_cast<EngineApp*>(cocos2d::Application::getInstance());
 #endif
         if (pApp) return pApp->GetEnginePtr();
      
@@ -92,15 +93,15 @@ namespace Nuclear
     
     bool EngineApp::applicationDidFinishLaunching()
     {
-        CCDirector* pDirector = CCDirector::sharedDirector();
+        Director* pDirector = Director::getInstance();
 #if (defined WIN32) || (defined _WIN32)
 #if (defined WIN7_32)
-		pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
+		pDirector->setOpenGLView(Director::getInstance()->getOpenGLView());
 #else
-		pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
+		pDirector->setOpenGLView(Director::getInstance()->getOpenGLView());
 #endif
 #else
-        pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
+        pDirector->setOpenGLView(Director::getInstance()->getOpenGLView());
 #endif
         pDirector->setDisplayStats(false);
 
@@ -117,7 +118,7 @@ namespace Nuclear
 		pDirector->setAnimationInterval(1.0 / 45.0f);//yangbin---setfps android and windows
 #endif
         
-        CCScene* pScene = CCScene::create();        
+        Scene* pScene = Scene::create();        
         s_EngineLayer = EngineLayer::create();
         pScene->addChild(s_EngineLayer);
         pDirector->runWithScene(pScene);
@@ -140,15 +141,15 @@ namespace Nuclear
 #if (defined ANDROID) || ((defined WIN32) || (defined _WIN32))
         CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
         GetEnginePtr()->GetApp()->applicationEnterForeground();
-        if (cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()) {
-            cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("ResetServerTimer");
+        if (cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()) {
+            cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("ResetServerTimer");
         }
 #endif
     }
     
     void EngineApp::setAnimationInterval(double interval)
     {
-        cocos2d::CCApplication::setAnimationInterval(interval);
+        cocos2d::Application::setAnimationInterval(interval);
     }
     
     
@@ -220,32 +221,31 @@ namespace Nuclear
 	}while(false)
     
 
-	static CCDictionary s_dic;
+	static std::set<intptr_t> s_processedTouches;
 
-	void EngineLayer::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
+	void EngineLayer::onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent)
 	{
-		CCSetIterator iter = pTouches->begin();
-		for (; iter != pTouches->end(); iter++)
+		for (auto iter = touches.begin(); iter != touches.end(); ++iter)
 		{
-			CCTouch* pTouch = (CCTouch*)(*iter);
+			cocos2d::Touch* pTouch = *iter;
 
-			if (s_dic.objectForKey(pTouch->getID()))
+			if (s_processedTouches.find(pTouch->getID()) != s_processedTouches.end())
 			{
 				continue;
 			}
 			else{
-				s_dic.setObject(pTouch, pTouch->getID());
+				s_processedTouches.insert(pTouch->getID());
 			}
             
             
             //CCLog("touch id:%d",pTouch->getID());
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
-			CCPoint pt = pTouch->getLocationInView();
+			Vec2 pt = pTouch->getLocationInView();
 #else
-			CCPoint pt = pTouch->getLocationInView();
+			Vec2 pt = pTouch->getLocationInView();
 #endif
-			float fScale = CCDirector::sharedDirector()->getContentScaleFactor();
+			float fScale = Director::getInstance()->getContentScaleFactor();
 			Nuclear::IEngine* pEngine = Nuclear::GetEngine();
 			SCALE_POINT(pt, fScale);
 
@@ -276,27 +276,26 @@ namespace Nuclear
 		}
 	}
 
-	void EngineLayer::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
+	void EngineLayer::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent)
 	{
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         
-        float fScale = CCDirector::sharedDirector()->getContentScaleFactor();
+        float fScale = Director::getInstance()->getContentScaleFactor();
         
-		CCTouch* tmp[CC_MAX_TOUCHES];
-		for (int i = 0; i < CC_MAX_TOUCHES; i++) {
+		cocos2d::Touch* tmp[EventTouch::MAX_TOUCHES];
+		for (int i = 0; i < EventTouch::MAX_TOUCHES; i++) {
             tmp[i] = NULL;
         }
 		pEngine->OnWindowsMessage(0, 990, 0, 0);
 
-		CCSetIterator iter = pTouches->begin();
-		for (; iter != pTouches->end(); iter++)
+		for (auto iter = touches.begin(); iter != touches.end(); ++iter)
 		{
-			CCTouch* pTouch = (CCTouch*)(*iter);
+			cocos2d::Touch* pTouch = *iter;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
-			CCPoint pt = pTouch->getLocationInView();
+			Vec2 pt = pTouch->getLocationInView();
 #else
-			CCPoint pt = pTouch->getLocationInView();
+			Vec2 pt = pTouch->getLocationInView();
 #endif
 			
 			SCALE_POINT(pt, fScale);
@@ -309,20 +308,20 @@ namespace Nuclear
 		}
         
         if (tmp[0] && tmp[1]) {
-            CCPoint tmp1 = tmp[0]->getLocationInView();
-            CCPoint tmp2 = tmp[1]->getLocationInView();
+            Vec2 tmp1 = tmp[0]->getLocationInView();
+            Vec2 tmp2 = tmp[1]->getLocationInView();
             SCALE_POINT(tmp1, fScale);
             SCALE_POINT(tmp2, fScale);
             
-            if (ccpDistance(tmp1, tmp2) - ccpDistance(m_Pos[0], m_Pos[1]) > 10 ) {
-                if (ccpDistance(m_Pos[0], tmp1) >= 20 && ccpDistance(m_Pos[1], tmp2) >= 20) {//开
+            if (tmp1.distance(tmp2) - m_Pos[0].distance(m_Pos[1]) > 10 ) {
+                if (m_Pos[0].distance(tmp1) >= 20 && m_Pos[1].distance(tmp2) >= 20) {//开
                     pEngine->OnWindowsMessage(0, 998, 0, 0);
                     m_Pos[0] = tmp1;
                     m_Pos[1] = tmp2;
                 }
             }
-            if (ccpDistance(tmp1, tmp2) - ccpDistance(m_Pos[0], m_Pos[1]) < -10 ) {
-                if (ccpDistance(m_Pos[0], tmp1) >= 20 && ccpDistance(m_Pos[1], tmp2) >= 20) {//合
+            if (tmp1.distance(tmp2) - m_Pos[0].distance(m_Pos[1]) < -10 ) {
+                if (m_Pos[0].distance(tmp1) >= 20 && m_Pos[1].distance(tmp2) >= 20) {//合
                     pEngine->OnWindowsMessage(0, 999, 0, 0);
                     m_Pos[0] = tmp1;
                     m_Pos[1] = tmp2;
@@ -332,19 +331,18 @@ namespace Nuclear
 	}
     
 
-	void EngineLayer::ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
+	void EngineLayer::onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent)
 	{
-		CCSetIterator iter = pTouches->begin();
-		for (; iter != pTouches->end(); iter++)
+		for (auto iter = touches.begin(); iter != touches.end(); ++iter)
 		{
-			CCTouch* pTouch = (CCTouch*)(*iter);
+			cocos2d::Touch* pTouch = *iter;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
-			CCPoint pt = pTouch->getLocationInView();
+			Vec2 pt = pTouch->getLocationInView();
 #else
-			CCPoint pt = pTouch->getLocationInView();
+			Vec2 pt = pTouch->getLocationInView();
 #endif 
-			float fScale = CCDirector::sharedDirector()->getContentScaleFactor();
+			float fScale = Director::getInstance()->getContentScaleFactor();
 			Nuclear::IEngine* pEngine = Nuclear::GetEngine();
 			SCALE_POINT(pt, fScale);
 
@@ -352,17 +350,17 @@ namespace Nuclear
 
 			pEngine->OnWindowsMessage((HWND)pTouch->getID(), WM_LBUTTONUP, pt.x, pt.y, &force);
 
-			s_dic.removeObjectForKey(pTouch->getID());
+			s_processedTouches.erase(pTouch->getID());
 
 			int pid = pTouch->getID();
 			if (0 <= pid && pid < MAXPOINT)
-				m_Pos[pid] = CCPoint(0, 0);
+				m_Pos[pid] = Vec2(0, 0);
 		}
 	}
 
-	void EngineLayer::ccTouchesCancelled(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
+	void EngineLayer::onTouchesCancelled(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent)
 	{
-		ccTouchesEnded(pTouches, pEvent);
+		onTouchesEnded(touches, pEvent);
 	}
     
     void EngineLayer::ccLongPress(int num, float xs[], float ys[], int state)
@@ -370,8 +368,8 @@ namespace Nuclear
         if (num <= 0)
             return;
         
-        CCPoint pt(xs[0], ys[0]);
-        float fScale = CCDirector::sharedDirector()->getContentScaleFactor();
+        Vec2 pt(xs[0], ys[0]);
+        float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
         
@@ -380,8 +378,8 @@ namespace Nuclear
     
     void EngineLayer::handleClick(float xPos, float yPos)
     {
-        CCPoint pt(xPos,yPos);
-        float fScale = CCDirector::sharedDirector()->getContentScaleFactor();
+        Vec2 pt(xPos,yPos);
+        float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
         
@@ -391,8 +389,8 @@ namespace Nuclear
     
     void EngineLayer::handleDoubleClick(float xPos, float yPos)
     {
-        CCPoint pt(xPos,yPos);
-        float fScale = CCDirector::sharedDirector()->getContentScaleFactor();
+        Vec2 pt(xPos,yPos);
+        float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
         
@@ -402,8 +400,8 @@ namespace Nuclear
     
     void EngineLayer::handleSlide(int dir, float xStart, float yStart, float v)
     {
-        CCPoint pt(xStart,yStart);
-        float fScale = CCDirector::sharedDirector()->getContentScaleFactor();
+        Vec2 pt(xStart,yStart);
+        float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
         
@@ -413,12 +411,12 @@ namespace Nuclear
     
     void EngineLayer::handleDrag(int state, float xStart, float yStart, float v_x,float v_y)
     {
-        CCPoint pt(xStart,yStart);
+        Vec2 pt(xStart,yStart);
         if (state==3) {
             pt.x=v_x;
             pt.y=v_y;
         }
-        float fScale = CCDirector::sharedDirector()->getContentScaleFactor();
+        float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
         
@@ -428,7 +426,7 @@ namespace Nuclear
     
     bool EngineLayer::init()
     {
-        if ( !CCLayer::init() )
+        if ( !Layer::init() )
         {
             return false;
         }
@@ -440,27 +438,22 @@ namespace Nuclear
         return true;
     }
 
-	void EngineLayer::registerWithTouchDispatcher(void)
-	{
-		CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this, 0);
-	}
-    
     void EngineLayer::onEnter()
     {
-        CCLayer::onEnter();
+        Layer::onEnter();
         this->runAction(m_pTicker);
     }
     
     void EngineLayer::onExit()
     {
-        CCLayer::onExit();
+        Layer::onExit();
     }
     
     void EngineLayer::draw(void)
     {
-        CCLayer::draw();
+        Layer::draw();
         
-        CCSize size = CCDirector::sharedDirector()->getWinSizeInPixels();        
+        Size size = Director::getInstance()->getWinSizeInPixels();        
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         
         float lh = pEngine->m_adapter->get_logic_h();
@@ -480,7 +473,7 @@ namespace Nuclear
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
              zeye = sh / 1.1566f;
 #else
-             zeye = sh / 1.1566f/ CC_CONTENT_SCALE_FACTOR();
+             zeye = sh / 1.1566f/ Director::getInstance()->getContentScaleFactor();
 #endif
         }
 		else
@@ -512,7 +505,7 @@ namespace Nuclear
         kmGLMatrixMode(KM_GL_PROJECTION);
         kmGLLoadIdentity();
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WP8
-		kmGLMultMatrix(CCEGLView::sharedOpenGLView()->getOrientationMatrix());
+		kmGLMultMatrix(Director::getInstance()->getOpenGLView()->getOrientationMatrix());
 #endif
         // issue #1334
         kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)rw/rh, 0.1f, zeye*2);
@@ -528,15 +521,15 @@ namespace Nuclear
         kmMat4LookAt(&matrixLookup, &eye, &center, &up);
         kmGLMultMatrix(&matrixLookup);
 
-        cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionTextureColor);
+        cocos2d::ShaderCache::getInstance()->pushShader(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
         pEngine->Draw();
 #if defined DEBUG || defined _DEBUG 
 		if (m_bShowingTexture)
 			drawTexture(m_uTexName);
 #endif
-        cocos2d::CCShaderCache::sharedShaderCache()->popShader();
-        assert(cocos2d::CCShaderCache::sharedShaderCache()->getSaderStackDepth() == 0);
-        CCDirector::sharedDirector()->setProjection(kCCDirectorProjection3D);
+        cocos2d::ShaderCache::getInstance()->popShader();
+        assert(cocos2d::ShaderCache::getInstance()->getSaderStackDepth() == 0);
+        Director::getInstance()->setProjection(Director::Projection::_3D);
 #if defined(_LOCOJOY_SDK_) || defined(_YJ_SDK_)
 		if (m_IsTick&&m_IsRunBrightNess&&m_BrightNessVersion)
 #else
@@ -563,7 +556,7 @@ namespace Nuclear
 #if defined DEBUG || defined _DEBUG  
 	void EngineLayer::drawTexture(GLuint texName) 
 	{
-		ccGLBindTexture2D(texName);
+		GL::bindTexture2D(texName);
 		GLfloat    coordinates[] = {   
 				1, 0,
                 1, 1,
@@ -578,21 +571,21 @@ namespace Nuclear
         };
 		unsigned int color[4];
 		color[0] = color[1] = color[2] = color[3] = 0;
-		ccGLBlendFunc(GL_ONE, GL_ZERO);
-		cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionColor);
-		glVertexAttribPointer(cocos2d::kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-        glVertexAttribPointer(cocos2d::kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, color);
+		GL::blendFunc(GL_ONE, GL_ZERO);
+		cocos2d::ShaderCache::getInstance()->pushShader(GLProgram::SHADER_NAME_POSITION_COLOR);
+		glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+        glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, color);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		cocos2d::CCShaderCache::sharedShaderCache()->popShader();
+		cocos2d::ShaderCache::getInstance()->popShader();
 
 		color[0] = color[1] = color[2] = color[3] = 0xFFFFFFFF;
-		ccGLBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionTextureColor);
-		glVertexAttribPointer(cocos2d::kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-        glVertexAttribPointer(cocos2d::kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
-        glVertexAttribPointer(cocos2d::kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, color);
+		GL::blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		cocos2d::ShaderCache::getInstance()->pushShader(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
+		glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+        glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
+        glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, color);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		cocos2d::CCShaderCache::sharedShaderCache()->popShader();
+		cocos2d::ShaderCache::getInstance()->popShader();
 	}
 #endif
     EngineLayer* EngineLayer::GetEngineLayer()

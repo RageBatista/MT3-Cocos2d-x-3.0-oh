@@ -1,4 +1,4 @@
-﻿#ifndef __Nuclear_LOG_H__
+#ifndef __Nuclear_LOG_H__
 #define __Nuclear_LOG_H__
 
 #if _MSC_VER > 1000
@@ -138,7 +138,7 @@ inline void XPTRACE(const wchar_t* fmt, ...){
 #include <cocos2d.h>
 #define XPASSERT(x) do { \
 		if(!(x) ) { \
-			cocos2d::CCMessageBox("Assertion Failed in "__FILE__ " \nExpr is \"" #x "\", Teminate Process?", "Assertion Failed"); \
+			cocos2d::MessageBox("Assertion Failed in "__FILE__ " \nExpr is \"" #x "\", Teminate Process?", "Assertion Failed"); \
 		} \
 	} while(0)
 #else

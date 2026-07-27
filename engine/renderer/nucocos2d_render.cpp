@@ -110,7 +110,7 @@ namespace Nuclear
 			return s_value;
 		}
 
-		void applyPictureTextureSampling(cocos2d::CCTexture2D* texture, const std::wstring& fileuri)
+		void applyPictureTextureSampling(cocos2d::Texture2D* texture, const std::wstring& fileuri)
 		{
 			if (texture == NULL)
 			{
@@ -169,17 +169,17 @@ namespace Nuclear
     {
         Cocos2dRenderTarget* pRet = new Cocos2dRenderTarget();
         
-        cocos2d::CCTexture2DPixelFormat fmt;
+        cocos2d::Texture2D::PixelFormat fmt;
         switch (aTFormat) {
             case XPTEXFMT_A8R8G8B8:
-                fmt = cocos2d::kCCTexture2DPixelFormat_RGBA8888;
+                fmt = cocos2d::Texture2D::PixelFormat::RGBA8888;
                 break;
                 
             default:
                 assert(false);
                 break;
         }
-        cocos2d::CCRenderTexture* pRT = cocos2d::CCRenderTexture::create(aIWidth, aIHeight, fmt, 0);        
+        cocos2d::RenderTexture* pRT = cocos2d::RenderTexture::create(aIWidth, aIHeight, fmt, 0);        
         if (!pRT){ CC_SAFE_DELETE(pRet); return NULL;}
         pRT->retain();
         pRet->m_pRenderTexture = (MyRenderTexture*)pRT;
@@ -258,7 +258,7 @@ namespace Nuclear
 			int cnt = (int)(it->second.m_CTextureInfoVector.size());
 			for (int i = 0; i < cnt; ++i)
 			{
-				cocos2d::CCTexture2D* ifTexture = it->second.m_CTextureInfoVector[i].m_pTexture;
+				cocos2d::Texture2D* ifTexture = it->second.m_CTextureInfoVector[i].m_pTexture;
 				delete ifTexture;
 			}
 		}
@@ -401,7 +401,7 @@ namespace Nuclear
         
 		cocos2d::ccGLBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionColor);
+		cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionColor);
         cocos2d::ccGLEnableVertexAttribs( cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_Color);
         
         cocos2d::ccGLBindTexture2D( 0 );
@@ -424,7 +424,7 @@ namespace Nuclear
 #endif
 		}
 
-        cocos2d::CCShaderCache::sharedShaderCache()->popShader();
+        cocos2d::ShaderCache::getInstance()->popShader();
 
 		return true;
 	}
@@ -580,9 +580,9 @@ namespace Nuclear
 
             if (texInfo.m_pTexture==NULL)
             {
-                cocos2d::CCTexture2D* pTexture = new cocos2d::CCTexture2D();
+                cocos2d::Texture2D* pTexture = new cocos2d::Texture2D();
                 
-				bool bSuc = pTexture->initWithData(NULL, GetCCPixelFormatFromXP(it->second.m_info.m_texfmt), texInfo.rect.Width(), texInfo.rect.Height(), cocos2d::CCSize((float)texInfo.rect.Width(), (float)texInfo.rect.Height()));
+				bool bSuc = pTexture->initWithData(NULL, GetCCPixelFormatFromXP(it->second.m_info.m_texfmt), texInfo.rect.Width(), texInfo.rect.Height(), cocos2d::Size((float)texInfo.rect.Width(), (float)texInfo.rect.Height()));
                 
                 if (bSuc) {
                     texInfo.m_pTexture=pTexture;
@@ -758,7 +758,7 @@ namespace Nuclear
 #ifdef XP_PERFORMANCE
 		int64_t tick = Nuclear::GetMilliSeconds();
 #endif
-		cocos2d::CCTexture2D* d_texture = cocos2d::CCTextureCache::sharedTextureCache()->addImage(nativepath.c_str());
+		cocos2d::Texture2D* d_texture = cocos2d::Director::getInstance()->getTextureCache()->addImage(nativepath.c_str());
 
         CTextureInfo TextureInfo;
 		CPicInfo PicInfo;
@@ -800,24 +800,24 @@ namespace Nuclear
             pi = it->second;
             
             CTextureInfo ti = pi.m_CTextureInfoVector[0];
-            cocos2d::CCImage::EImageFormat ccfmt = cocos2d::CCImage::kFmtTga;
+            cocos2d::Image::Format ccfmt = cocos2d::Image::Format::TGA;
             switch (pi.m_info.m_texfmt) {
                 case XPIFF_DDS:
-                    ccfmt = cocos2d::CCImage::kFmtDDS;
+                    ccfmt = cocos2d::Image::Format::DDS;
                     break;
                 case XPIFF_JPG:
-                    ccfmt = cocos2d::CCImage::kFmtJpg;
+                    ccfmt = cocos2d::Image::Format::JPG;
                     break;
                 case XPIFF_PNG:
-                    ccfmt = cocos2d::CCImage::kFmtPng;
+                    ccfmt = cocos2d::Image::Format::PNG;
                     break;
                 case XPIFF_TGA:
-                    ccfmt = cocos2d::CCImage::kFmtTga;
+                    ccfmt = cocos2d::Image::Format::TGA;
                     break;
                 default:
-                    ccfmt = cocos2d::CCImage::kFmtPng;
+                    ccfmt = cocos2d::Image::Format::PNG;
             }
-            cocos2d::VolatileTexture::addImageTexture(ti.m_pTexture, ws2s(filename).c_str(), ccfmt);
+            cocos2d::VolatileTextureMgr::addImageTexture(ti.m_pTexture, ws2s(filename).c_str(), ccfmt);
         }
 #endif   
 #endif        
@@ -860,17 +860,17 @@ namespace Nuclear
         {
             MaliSDK::ETCHeader etcheader = MaliSDK::ETCHeader((unsigned char*)etcheader_ptr);
             
-            cocos2d::CCTexture2D* d_texture = NULL;
+            cocos2d::Texture2D* d_texture = NULL;
             if(d_texture != NULL)
             {
                 delete d_texture;
             }
             
-            d_texture = new cocos2d::CCTexture2D();
+            d_texture = new cocos2d::Texture2D();
             
             bool bIsETC=false;
 
-            d_texture->initWithETCData(((unsigned char *)data), 0, 8, true,int(etcheader.getWidth()),int(etcheader.getHeight()), cocos2d::kCCTexture2DPixelFormat_ETC);
+            d_texture->initWithETCData(((unsigned char *)data), 0, 8, true,int(etcheader.getWidth()),int(etcheader.getHeight()), cocos2d::Texture2D::PixelFormat::ETC);
             bIsETC=true;
             
             CTextureInfo TextureInfo;
@@ -911,7 +911,7 @@ namespace Nuclear
             
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 #ifdef TEST_CACHE_MEM
-            cocos2d::VolatileTexture::addETCImage(d_texture,data,size,0);
+            cocos2d::VolatileTextureMgr::addETCImage(d_texture,data,size,0);
 #endif
 #endif
 #ifdef XP_PERFORMANCE
@@ -931,16 +931,16 @@ namespace Nuclear
         
 		if (CC_SWAP_INT32_BIG_TO_HOST(header->version) == 0x50565203)
 		{
-			cocos2d::CCTexture2D* d_texture = NULL;
+			cocos2d::Texture2D* d_texture = NULL;
 			if (d_texture != NULL)
 			{
 				delete d_texture;
 			}
 
-			d_texture = new cocos2d::CCTexture2D();
+			d_texture = new cocos2d::Texture2D();
 			fileinfo.ImageFileFormat = XPIFF_PVR4;
 
-			d_texture->initWithPVRTCData(((unsigned char *)data) + (sizeof(ccPVRv3TexHeader) + header->metadataLength), 0, fileinfo.ImageFileFormat == XPIFF_PVR4 ? 4 : 2, true, CC_SWAP_INT32_LITTLE_TO_HOST(header->width), fileinfo.ImageFileFormat == XPIFF_PVR4 ? cocos2d::kCCTexture2DPixelFormat_PVRTC4 : cocos2d::kCCTexture2DPixelFormat_PVRTC2);
+			d_texture->initWithPVRTCData(((unsigned char *)data) + (sizeof(ccPVRv3TexHeader) + header->metadataLength), 0, fileinfo.ImageFileFormat == XPIFF_PVR4 ? 4 : 2, true, CC_SWAP_INT32_LITTLE_TO_HOST(header->width), fileinfo.ImageFileFormat == XPIFF_PVR4 ? cocos2d::Texture2D::PixelFormat::PVRTC4 : cocos2d::Texture2D::PixelFormat::PVRTC2);
 
 			CTextureInfo TextureInfo;
 			CPicInfo PicInfo;
@@ -982,11 +982,11 @@ namespace Nuclear
 #ifdef TEST_CACHE_MEM
 			if(bIsETC)
 			{
-				cocos2d::VolatileTexture::addETCImage(d_texture,data,size,0);
+				cocos2d::VolatileTextureMgr::addETCImage(d_texture,data,size,0);
 			}
 			else
 			{
-				cocos2d::VolatileTexture::addPVRTCImage(d_texture, data, size);
+				cocos2d::VolatileTextureMgr::addPVRTCImage(d_texture, data, size);
 			}
 #endif       
 #endif
@@ -1006,10 +1006,10 @@ namespace Nuclear
         AndroidHeader* pAH = (AndroidHeader*)data;
         if (pAH->sig == 0x11111111)
 		{
-            cocos2d::CCTexture2D* d_texture = NULL;
+            cocos2d::Texture2D* d_texture = NULL;
             
-            d_texture = new cocos2d::CCTexture2D();
-            d_texture->initWithATCData(((unsigned char *)data) + 4*sizeof(unsigned int), 0, 8, true, pAH->width, pAH->height,cocos2d::kCCTexture2DPixelFormat_ATC_Explicit);
+            d_texture = new cocos2d::Texture2D();
+            d_texture->initWithATCData(((unsigned char *)data) + 4*sizeof(unsigned int), 0, 8, true, pAH->width, pAH->height,cocos2d::Texture2D::PixelFormat::ATC_EXPLICIT_ALPHA);
             CTextureInfo TextureInfo;
             CPicInfo PicInfo;
             
@@ -1048,7 +1048,7 @@ namespace Nuclear
             
 #if CC_ENABLE_CACHE_TEXTURE_DATA
  #ifdef TEST_CACHE_MEM            
-            cocos2d::VolatileTexture::addAtcImage(d_texture,data,size );
+            cocos2d::VolatileTextureMgr::addAtcImage(d_texture,data,size );
 #endif
 #endif
 #ifdef XP_PERFORMANCE
@@ -1082,31 +1082,31 @@ namespace Nuclear
 		//normal picture 
 		//===========================================
 #if (defined ANDROID) || (defined WIN32 || defined _WIN32)
-        cocos2d::CCImage* image = new cocos2d::CCImage();
+        cocos2d::Image* image = new cocos2d::Image();
 #else
-        cocos2d::CCImage image;       
+        cocos2d::Image image;       
 #endif
-        cocos2d::CCTexture2D* d_texture = NULL;
-        cocos2d::CCImage::EImageFormat ccfmt = cocos2d::CCImage::kFmtPng;
+        cocos2d::Texture2D* d_texture = NULL;
+        cocos2d::Image::Format ccfmt = cocos2d::Image::Format::PNG;
         switch (fileinfo.ImageFileFormat)
 		{
             case XPIFF_DDS:
-                ccfmt = cocos2d::CCImage::kFmtDDS;
+                ccfmt = cocos2d::Image::Format::DDS;
                 break;
             case XPIFF_JPG:
-                ccfmt = cocos2d::CCImage::kFmtJpg;
+                ccfmt = cocos2d::Image::Format::JPG;
                 break;
             case XPIFF_PNG:
-                ccfmt = cocos2d::CCImage::kFmtPng;
+                ccfmt = cocos2d::Image::Format::PNG;
                 break;
             case XPIFF_TGA:
-                ccfmt = cocos2d::CCImage::kFmtTga;
+                ccfmt = cocos2d::Image::Format::TGA;
 				break;
 			case XPIFF_WEBP:
-				ccfmt = cocos2d::CCImage::kFmtWebP;
+				ccfmt = cocos2d::Image::Format::WEBP;
 				break;
             default:
-                ccfmt = cocos2d::CCImage::kFmtPng;
+                ccfmt = cocos2d::Image::Format::PNG;
         }
 #if (defined ANDROID) || (defined WIN32 || defined _WIN32)
         if(image->initWithImageData((void*)data, size, ccfmt))
@@ -1116,23 +1116,23 @@ namespace Nuclear
                 delete d_texture;
             }
             
-            cocos2d::CCTexture2DPixelFormat pixfmt;
+            cocos2d::Texture2D::PixelFormat pixfmt;
             if(image->hasAlpha())
             {
-                pixfmt = cocos2d::kCCTexture2DPixelFormat_RGBA8888;
+                pixfmt = cocos2d::Texture2D::PixelFormat::RGBA8888;
             }else
             {
-                pixfmt = cocos2d::kCCTexture2DPixelFormat_RGB888;
+                pixfmt = cocos2d::Texture2D::PixelFormat::RGB888;
             }
            
-            d_texture = new cocos2d::CCTexture2D();
-			d_texture->initWithData(image->getData(), pixfmt, image->getWidth(), image->getHeight(), cocos2d::CCSize(image->getWidth(), image->getHeight()));
+            d_texture = new cocos2d::Texture2D();
+			d_texture->initWithData(image->getData(), pixfmt, image->getWidth(), image->getHeight(), cocos2d::Size(image->getWidth(), image->getHeight()));
 			applyPictureTextureSampling(d_texture, pPicInfo ? pPicInfo->fileuri : std::wstring());
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
  #ifdef TEST_CACHE_MEM  
             if (bCache) {
-                cocos2d::VolatileTexture::addCCImage(d_texture, image);
+                cocos2d::VolatileTextureMgr::addCCImage(d_texture, image);
                 image->release();
             }      
 #endif
@@ -1146,17 +1146,17 @@ namespace Nuclear
                 delete d_texture;
             }
             
-            cocos2d::CCTexture2DPixelFormat pixfmt;
+            cocos2d::Texture2D::PixelFormat pixfmt;
             if(image.hasAlpha())
             {
-                pixfmt = cocos2d::kCCTexture2DPixelFormat_RGBA8888;
+                pixfmt = cocos2d::Texture2D::PixelFormat::RGBA8888;
             }else
             {
-                pixfmt = cocos2d::kCCTexture2DPixelFormat_RGB888;
+                pixfmt = cocos2d::Texture2D::PixelFormat::RGB888;
             }
 
-             d_texture = new cocos2d::CCTexture2D();
-			d_texture->initWithData(image.getData(), pixfmt, image.getWidth(), image.getHeight(), cocos2d::CCSize(image.getWidth(), image.getHeight()));
+             d_texture = new cocos2d::Texture2D();
+			d_texture->initWithData(image.getData(), pixfmt, image.getWidth(), image.getHeight(), cocos2d::Size(image.getWidth(), image.getHeight()));
 			applyPictureTextureSampling(d_texture, pPicInfo ? pPicInfo->fileuri : std::wstring());
         }
 #endif
@@ -1216,7 +1216,7 @@ namespace Nuclear
 		return (handle == 0) ? m_picHandleSeed++ : handle;
 	}
 
-	bool Cocos2dRenderer::LoadCCImageFromMem(cocos2d::CCImage* pImage, NuclearTextureFormat texfmt, const void *data, int size)
+	bool Cocos2dRenderer::LoadCCImageFromMem(cocos2d::Image* pImage, NuclearTextureFormat texfmt, const void *data, int size)
 	{
 		if (!pImage)
 		{
@@ -1301,59 +1301,59 @@ namespace Nuclear
 		//normal picture 
 		//===========================================
 
-		cocos2d::CCImage::EImageFormat ccfmt = cocos2d::CCImage::kFmtPng;
+		cocos2d::Image::Format ccfmt = cocos2d::Image::Format::PNG;
 		switch (fileinfo.ImageFileFormat)
 		{
 		case XPIFF_DDS:
-			ccfmt = cocos2d::CCImage::kFmtDDS;
+			ccfmt = cocos2d::Image::Format::DDS;
 			break;
 		case XPIFF_JPG:
-			ccfmt = cocos2d::CCImage::kFmtJpg;
+			ccfmt = cocos2d::Image::Format::JPG;
 			break;
 		case XPIFF_PNG:
-			ccfmt = cocos2d::CCImage::kFmtPng;
+			ccfmt = cocos2d::Image::Format::PNG;
 			break;
 		case XPIFF_TGA:
-			ccfmt = cocos2d::CCImage::kFmtTga;
+			ccfmt = cocos2d::Image::Format::TGA;
 			break;
 		case XPIFF_WEBP:
-			ccfmt = cocos2d::CCImage::kFmtWebP;
+			ccfmt = cocos2d::Image::Format::WEBP;
 			break;
 		default:
-			ccfmt = cocos2d::CCImage::kFmtPng;
+			ccfmt = cocos2d::Image::Format::PNG;
 		}
 
 		return pImage->initWithImageData((void*)data, size, ccfmt);
 	}
 
-	PictureHandle Cocos2dRenderer::LoadPictureFromCCImage(cocos2d::CCImage* image, NuclearTextureFormat texfmt, NuclearPictureInfo *pPicInfo/* = NULL*/, NuclearPoolType pooltype/* = XPPOOL_MANAGED*/, bool bCache/* = true*/, PictureHandle handle/* = 0*/)
+	PictureHandle Cocos2dRenderer::LoadPictureFromCCImage(cocos2d::Image* image, NuclearTextureFormat texfmt, NuclearPictureInfo *pPicInfo/* = NULL*/, NuclearPoolType pooltype/* = XPPOOL_MANAGED*/, bool bCache/* = true*/, PictureHandle handle/* = 0*/)
 	{
 #ifdef XP_PERFORMANCE
 		int64_t tick = Nuclear::GetMilliSeconds();
 #endif
 
-		cocos2d::CCTexture2DPixelFormat pixfmt;
+		cocos2d::Texture2D::PixelFormat pixfmt;
 		if (image->hasAlpha())
 		{
-			pixfmt = cocos2d::kCCTexture2DPixelFormat_RGBA8888;
+			pixfmt = cocos2d::Texture2D::PixelFormat::RGBA8888;
 		}
 		else
 		{
-			pixfmt = cocos2d::kCCTexture2DPixelFormat_RGB888;
+			pixfmt = cocos2d::Texture2D::PixelFormat::RGB888;
 		}
 
-		cocos2d::CCTexture2D* d_texture = new cocos2d::CCTexture2D();
+		cocos2d::Texture2D* d_texture = new cocos2d::Texture2D();
 
 		unsigned char* pData = image->getData();
 		unsigned short width = image->getWidth();
 		unsigned short height = image->getHeight();
-		d_texture->initWithData(pData, pixfmt, width, height, cocos2d::CCSize((float)width, (float)height));
+		d_texture->initWithData(pData, pixfmt, width, height, cocos2d::Size((float)width, (float)height));
 		applyPictureTextureSampling(d_texture, pPicInfo ? pPicInfo->fileuri : std::wstring());
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 #ifdef TEST_CACHE_MEM  
 		if (bCache) {
-			cocos2d::VolatileTexture::addCCImage(d_texture, image);
+			cocos2d::VolatileTextureMgr::addCCImage(d_texture, image);
 		}
 #endif
 #endif
@@ -1523,16 +1523,16 @@ namespace Nuclear
 	bool Cocos2dRenderer::GetTextData(const char* pChar, const std::string &font, int size, unsigned char*& pData, int& w, int& h)
 	{
 #if (defined ANDROID) || (defined WIN32 || defined _WIN32)
-		cocos2d::CCImage* image = new cocos2d::CCImage();
-		image->initWithString(pChar, size, size, cocos2d::CCImage::kAlignCenter, font.c_str(), size);
+		cocos2d::Image* image = new cocos2d::Image();
+		image->initWithString(pChar, size, size, cocos2d::Image::TextAlign::CENTER, font.c_str(), size);
 		w = image->getWidth();
 		h = image->getHeight();
 		pData = new unsigned char[w*h*sizeof(unsigned int)];
 		memcpy(pData, image->getData(), image->getDataLen()*sizeof(unsigned int));
 		delete image;
 #else
-		cocos2d::CCImage image;
-		image.initWithString(pChar, size, size, cocos2d::CCImage::kAlignCenter, font.c_str(), size);
+		cocos2d::Image image;
+		image.initWithString(pChar, size, size, cocos2d::Image::TextAlign::CENTER, font.c_str(), size);
 		w = image.getWidth();
 		h = image.getHeight();
 		pData = new unsigned char[w*h*sizeof(unsigned int)];
@@ -1548,7 +1548,7 @@ namespace Nuclear
             std::vector<CTextureInfo>* textureVec = &(pic->m_CTextureInfoVector);
             std::vector<CTextureInfo>::iterator tx = textureVec->begin();
             for (; tx != textureVec->end(); tx++) {
-                cocos2d::CCTexture2D* texture = tx->m_pTexture;
+                cocos2d::Texture2D* texture = tx->m_pTexture;
                 if(NULL == texture)continue;
                 std::wstring path = texture->getDataFileUri();
                 if(path.length() > 0 && path.find_first_of(L"/") == 0)
@@ -1775,7 +1775,7 @@ namespace Nuclear
 				{
 					if (texInfo.m_pTexture->isEtcTexture())
 					{
-						cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionTextureColorEtc);
+						cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColorEtc);
 						//cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
 						cocos2d::ccGLActiveTexture(GL_TEXTURE0);
 						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
@@ -1784,7 +1784,7 @@ namespace Nuclear
 					}
 					else
 					{
-						//cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionTextureColor);
+						//cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColor);
 						//cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
 						cocos2d::ccGLActiveTexture(GL_TEXTURE0);
 						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
@@ -1794,7 +1794,7 @@ namespace Nuclear
 				{
 					if (texInfo.m_pTexture->isEtcTexture())
 					{
-						cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionTextureColorEtc);
+						cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColorEtc);
 						//cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
 						cocos2d::ccGLActiveTexture(GL_TEXTURE0);
 						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
@@ -1803,9 +1803,9 @@ namespace Nuclear
 					}
 					else
 					{
-						cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionTextureColorHSV);
-						cocos2d::CCGLProgram* pProgram = NULL;
-						pProgram = cocos2d::CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColorHSV);
+						cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColorHSV);
+						cocos2d::GLProgram* pProgram = NULL;
+						pProgram = cocos2d::ShaderCache::getInstance()->programForKey(kCCShader_PositionTextureColorHSV);
 						float fH1 = param.pPartParam0[0];
 						float fH2= param.pPartParam0[2];
 						if (fH1 < 0)
@@ -1835,12 +1835,12 @@ namespace Nuclear
 			}
 			else
 			{
-				cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionTextureColorGray);
+				cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColorGray);
 				//cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
 
 				cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
 
-				cocos2d::CCGLProgram* pProgram = cocos2d::CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColorGray);
+				cocos2d::GLProgram* pProgram = cocos2d::ShaderCache::getInstance()->programForKey(kCCShader_PositionTextureColorGray);
 				GLint ctlLoc = glGetUniformLocation(pProgram->getProgram(), kCCUniformFloatY);
 				GLint redLoc = glGetUniformLocation(pProgram->getProgram(), kCCUniformFloatRed);
 
@@ -1879,17 +1879,17 @@ namespace Nuclear
 				{
 					if (texInfo.m_pTexture->isEtcTexture())
 					{
-						cocos2d::CCShaderCache::sharedShaderCache()->popShader();
+						cocos2d::ShaderCache::getInstance()->popShader();
 					}
 				}
 				else //if (param.iShaderType == 1/* && texInfoPart.m_pTexture*/)//HSV
 				{
-					cocos2d::CCShaderCache::sharedShaderCache()->popShader();
+					cocos2d::ShaderCache::getInstance()->popShader();
 				}
 			}
 			else
 			{
-				cocos2d::CCShaderCache::sharedShaderCache()->popShader();
+				cocos2d::ShaderCache::getInstance()->popShader();
 			}
 		}
 		return true;

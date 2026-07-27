@@ -1,4 +1,4 @@
-﻿#include <algorithm>
+#include <algorithm>
 #include <stdarg.h>
 #include <stdio.h>
 #include "../common/nulog.h"
@@ -19,7 +19,7 @@
 #include "nucocos2d_wraper.h"
 
 #ifdef WIN7_32
-#include "CCEGLView.h"
+#include "platform/CCGLView.h"
 #endif
 
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
@@ -237,7 +237,7 @@ namespace Nuclear
 			XPLOG_INFO(L"----------显卡摘要信息------------\n");
 
 			//获取当前设备总内存量
-			cocos2d::CCImage::SetTotalPhysMemory(int(CFileUtil::GetTotalMemory() * 1024));
+			cocos2d::Image::SetTotalPhysMemory(int(CFileUtil::GetTotalMemory() * 1024));
 
 			m_pConfigMan = new ConfigManager(this);
 			XPLOG_INFO(L"  配置管理器器创建成功\n");
@@ -392,7 +392,7 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
         //cocos2d::CCApplication::sharedApplication()->run();
 #else
 		MT3_ENGINE_TRACE("Engine::Run before CCApplication::run");
-		int appRunResult = cocos2d::CCApplication::sharedApplication()->run();
+		int appRunResult = cocos2d::Application::getInstance()->run();
 		MT3_ENGINE_TRACE("Engine::Run after CCApplication::run result=%d", appRunResult);
 #endif
 		LOGD("引擎LJFM初始化成功");
@@ -410,7 +410,7 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
 #ifdef WIN7_32
 		MT3_ENGINE_TRACE("Engine::Run WIN7_32 defined, about to ensure GLEW init");
 		{
-			cocos2d::CCEGLView* pEglView = cocos2d::CCEGLView::sharedOpenGLView();
+			cocos2d::GLView* pEglView = cocos2d::Director::getInstance()->getOpenGLView();
 			HGLRC hRC = wglGetCurrentContext();
 			MT3_ENGINE_TRACE("Engine::Run eglView=%p wglGetCurrentContext=%p", pEglView, hRC);
 			if (pEglView && hRC)
@@ -460,9 +460,9 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) 
-		cocos2d::CCApplication::sharedApplication()->run();
+		cocos2d::Application::getInstance()->run();
 #elif (defined WIN7_32)
-		cocos2d::CCApplication::sharedApplication()->run();
+		cocos2d::Application::getInstance()->run();
 #endif     
 
 #ifndef WIN7_32
