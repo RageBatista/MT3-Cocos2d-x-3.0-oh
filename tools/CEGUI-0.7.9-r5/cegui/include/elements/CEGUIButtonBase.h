@@ -94,6 +94,9 @@ public:
 	*/
 	virtual ~ButtonBase(void);
 
+	// MT3: EnableClickAni support for GroupButton and Switch
+	void EnableClickAni(bool bEnable) { d_EnableClickAni = bEnable; }
+	bool isClickAniEnable() const { return d_EnableClickAni; }
 
 protected:
 	/*************************************************************************
@@ -137,10 +140,6 @@ protected:
 		if (class_name=="ButtonBase")	return true;
 		return Window::testClassName_impl(class_name);
 	}
-
-	// MT3: EnableClickAni support for GroupButton and Switch
-	void EnableClickAni(bool bEnable) { d_EnableClickAni = bEnable; }
-	bool isClickAniEnable() const { return d_EnableClickAni; }
 
 	/*************************************************************************
 		Implementation Data

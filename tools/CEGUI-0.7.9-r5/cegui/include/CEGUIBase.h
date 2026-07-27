@@ -164,6 +164,10 @@ static const float		DefaultNativeVertRes	= 480.0f;		//!< Default native vertical
     Additional typedefs
 *************************************************************************/
 typedef std::ostream OutStream;     //!< Output stream class.
+
+// MT3: Global text loading state flag
+extern bool g_bIsTextLoading;
+
 }  // end of CEGUI namespace section
 
 
@@ -199,5 +203,7 @@ typedef std::ostream OutStream;     //!< Output stream class.
 *************************************************************************/
 #include "CEGUIForwardRefs.h"
 
+// MT3: Default UI click sound resource
+#define UIClickSound "button.ogg"
 
 #endif	// end of guard _CEGUIBase_h_

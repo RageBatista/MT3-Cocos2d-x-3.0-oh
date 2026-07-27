@@ -38,7 +38,7 @@ namespace Nuclear
         class MyRenderTexture : public cocos2d::RenderTexture
         {
             public:
-            cocos2d::Texture2D* GetTexture(){ return m_pTexture; }
+            cocos2d::Texture2D* GetTexture(){ return _texture; }
         };
         
         static Cocos2dRenderTarget* CreateRenderTarget(int aIWidth, int aIHeight, NuclearTextureFormat aTFormat);

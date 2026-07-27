@@ -59,19 +59,20 @@ FalagardRichEditbox::FalagardRichEditbox(const String& type) :
 	d_StartDrawLineYoffset(0.0f),
     d_SelectBrushLeft(NULL),
     d_SelectBrushMiddle(NULL),
-    d_SelectBrushRight(NULL)
-
+    d_SelectBrushRight(NULL),
+    d_PushedBrushLeft(NULL),
+    d_PushedBrushMiddle(NULL),
+    d_PushedBrushRight(NULL)
 {
     registerProperty(&d_blinkCaretProperty);
     registerProperty(&d_blinkCaretTimeoutProperty);
     
-	// MT3: ImagesetManager::getImage() not available in CEGUI-0.7.9-r5
-    // d_SelectBrushLeft = ImagesetManager::getSingleton().getImage("common", "common_buttonyellow60_l");
-    // d_SelectBrushMiddle = ImagesetManager::getSingleton().getImage("common", "common_buttonyellow60_c");
-    // d_SelectBrushRight = ImagesetManager::getSingleton().getImage("common", "common_buttonyellow60_r");
-    // d_PushedBrushLeft = ImagesetManager::getSingleton().getImage("common", "common_buttonlan60_l");
-    // d_PushedBrushMiddle = ImagesetManager::getSingleton().getImage("common", "common_buttonlan60_c");
-    // d_PushedBrushRight = ImagesetManager::getSingleton().getImage("common", "common_buttonlan60_r");
+    d_SelectBrushLeft = ImagesetManager::getSingleton().getImage("common", "common_buttonyellow60_l");
+    d_SelectBrushMiddle = ImagesetManager::getSingleton().getImage("common", "common_buttonyellow60_c");
+    d_SelectBrushRight = ImagesetManager::getSingleton().getImage("common", "common_buttonyellow60_r");
+    d_PushedBrushLeft = ImagesetManager::getSingleton().getImage("common", "common_buttonlan60_l");
+    d_PushedBrushMiddle = ImagesetManager::getSingleton().getImage("common", "common_buttonlan60_c");
+    d_PushedBrushRight = ImagesetManager::getSingleton().getImage("common", "common_buttonlan60_r");
 
 }
 

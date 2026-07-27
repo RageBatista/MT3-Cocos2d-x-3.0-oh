@@ -425,23 +425,23 @@ void GroupBtnItem::draw(GeometryBuffer* buffer, const Rect &targetRect,
 	if(d_selected && d_SelectionImage)
 	{
 		 final_colours = getModulateAlphaColourRect(d_selectCols, alpha);
-		 d_SelectionImage->draw(buffer,finalRect,clipper,image_colours);
+		 d_SelectionImage->draw(*buffer,finalRect,clipper,image_colours);
 	}
 	else if(d_MouseOn && d_HoverImage)
 	{
 		final_colours = getModulateAlphaColourRect(d_hoverCols, alpha);
-		d_HoverImage->draw(buffer,finalRect,clipper,image_colours);
+		d_HoverImage->draw(*buffer,finalRect,clipper,image_colours);
 	}
    
 	else if(d_isOpen && d_OpenImage)
 	{
 		final_colours = getModulateAlphaColourRect(d_selectCols, alpha);
-		d_OpenImage->draw(buffer,finalRect,clipper,image_colours);
+		d_OpenImage->draw(*buffer,finalRect,clipper,image_colours);
 	}
 	else if(d_NormalImage)
 	{
 		final_colours = getModulateAlphaColourRect(d_textCols, alpha);
-		d_NormalImage->draw(buffer,finalRect,clipper,image_colours);
+		d_NormalImage->draw(*buffer,finalRect,clipper,image_colours);
 	}
 
 	drawText(buffer,targetRect,final_colours,clipper);
@@ -450,7 +450,7 @@ void GroupBtnItem::draw(GeometryBuffer* buffer, const Rect &targetRect,
 	{
 		imagesize = d_OrnamentImage->getSize();
 		Rect rect(d_OrnamentPosition + finalRect.getPosition(), imagesize);
-		d_OrnamentImage->draw(buffer, rect, clipper, image_colours);
+		d_OrnamentImage->draw(*buffer, rect, clipper, image_colours);
 	}
 }
 
@@ -494,7 +494,7 @@ void GroupBtnItem::drawText(GeometryBuffer* buffer, const Rect& targetRect, cons
 		
 		//colorRect.modulateAlpha(d_window->getEffectiveAlpha());
 		// cache the text for rendering.
-		d_formattedRenderedString->draw(buffer,
+		d_formattedRenderedString->draw(*buffer,
 			absarea.getPosition(),
 			&color, clipper);
 	}

@@ -1,7 +1,7 @@
 ﻿#include "../common/nulog.h"
 #include "nustatemanager.h"
 #include <CCGL.h>
-#include <shaders/ccGLStateCache.h>
+#include <ccGLStateCache.h>
 
 namespace
 {

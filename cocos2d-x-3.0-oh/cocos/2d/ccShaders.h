@@ -69,6 +69,27 @@ extern CC_DLL const GLchar * ccLabelOutline_frag;
 
 extern CC_DLL const GLchar * ccLabel_vert;
 
+// MT3 custom shader sources (ported from Cocos2d-x 2.2.6)
+extern CC_DLL const GLchar * ccPositionTextureColorHSV_frag;
+extern CC_DLL const GLchar * ccPositionTextureColorHSV_vert;
+
+extern CC_DLL const GLchar * ccPositionTextureColorHSV_frag2;
+extern CC_DLL const GLchar * ccPositionTextureColorHSV_vert2;
+
+extern CC_DLL const GLchar * ccPositionTextureColorEtc_frag;
+extern CC_DLL const GLchar * ccPositionTextureColorEtc_vert;
+
+extern CC_DLL const GLchar * ccPositionTextureColorX_frag;
+extern CC_DLL const GLchar * ccPositionTextureColorX_vert;
+
+extern CC_DLL const GLchar * ccPositionTextureColorXEtc_frag;
+extern CC_DLL const GLchar * ccPositionTextureColorXEtc_vert;
+
+extern CC_DLL const GLchar * ccPositionTextureColorGray_frag;
+extern CC_DLL const GLchar * ccPositionTextureColorGray_vert;
+
+extern CC_DLL const GLchar * ccExSwitchMask_frag;
+
 // end of shaders group
 /// @}
 

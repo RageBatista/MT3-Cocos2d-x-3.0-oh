@@ -151,6 +151,9 @@ public:
     void writeImagesetToStream(const String& imageset,
                                OutStream& out_stream) const;
 
+    // MT3: Convenience method to get an image by imageset and image name
+    const Image* getImage(const String& imageset, const String& image) const;
+
     //! ImagesetIterator type definition.
     typedef ConstBaseIterator<ObjectRegistry> ImagesetIterator;
 

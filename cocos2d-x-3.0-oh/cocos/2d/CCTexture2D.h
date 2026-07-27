@@ -355,6 +355,12 @@ public:
     
 public:
     static const PixelFormatInfoMap& getPixelFormatInfoMap();
+
+    // MT3 custom methods (ported from Cocos2d-x 2.2.6)
+    bool isEtcTexture() const { return m_bIsEtcTexture; }
+    GLuint getAlphaName() const { return m_etcAlphaChannel; }
+    bool initWithPVRTCData(const void *data, int level, int bpp, bool hasAlpha, int length, Texture2D::PixelFormat pixelFormat);
+    bool initWithATCData(const void *data, int level, int bpp, bool hasAlpha, int width, int height, Texture2D::PixelFormat pixelFormat);
     
 private:
 
@@ -438,6 +444,11 @@ protected:
     static const PixelFormatInfoMap _pixelFormatInfoTables;
 
     bool _antialiasEnabled;
+
+    // MT3 custom (ported from Cocos2d-x 2.2.6)
+    bool    m_bIsEtcTexture;
+    GLuint  m_etcAlphaChannel;
+    CC_SYNTHESIZE(std::wstring, m_sDataFileUri, DataFileUri);
 };
 
 

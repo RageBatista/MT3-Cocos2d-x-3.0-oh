@@ -57,6 +57,11 @@
 #include "FalTooltip.h"
 #include "FalItemListbox.h"
 #include "FalTree.h"
+// MT3 custom Falagard renderers
+#include "FalAnimationButton.h"
+#include "FalIrregularButton.h"
+#include "FalGroupBtnTree.h"
+#include "FalRichEditbox.h"
 
 //----------------------------------------------------------------------------//
 extern "C"
@@ -99,6 +104,11 @@ FalagardWRModule::FalagardWRModule()
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardTooltip>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardItemListbox>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardTree>);
+    // MT3 custom Falagard renderers
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardAnimationButton>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardIrregularButton>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardGroupBtnTree>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardRichEditbox>);
 }
 
 //----------------------------------------------------------------------------//

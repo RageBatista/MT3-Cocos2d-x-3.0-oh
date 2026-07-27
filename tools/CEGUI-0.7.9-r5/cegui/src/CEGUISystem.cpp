@@ -215,7 +215,29 @@ System::System(Renderer& renderer,
   d_imageCodecModule(0),
   d_ourLogger(Logger::getSingletonPtr() == 0),
   d_customRenderedStringParser(0),
-  d_generateMouseClickEvents(true)
+  d_generateMouseClickEvents(true),
+  d_defaultCompnenttip(NULL),
+  d_DefaultGoToFunction(NULL),
+  d_DefaultShowItemTips(NULL),
+  d_DefaultLinkHttpFunction(NULL),
+  d_CopyToClipBordFunc(NULL),
+  d_PasteFromClipBordFunc(NULL),
+  d_ChangelClickFunc(NULL),
+  d_CompnentTips(NULL),
+  d_EmotionNum(0),
+  d_CellImage(NULL),
+  d_UIPlaySoundFunc(NULL),
+  d_LinkTextClickFunc(NULL),
+  d_AddEffectToItemCellFunc(NULL),
+  d_DefultEmotionChangeFrameFunction(NULL),
+  d_TipsLinkClickFunc(NULL),
+  d_NameClickFunc(NULL),
+  d_FamilyRecruitFunc(NULL),
+  d_JoinTeamLinkFunc(NULL),
+  d_RequestTeamLinkFunc(NULL),
+  d_AnswerQuestionLinkFunc(NULL),
+  d_CommonLinkFunc(NULL),
+  d_requestOtherQuestFunc(NULL)
 {
     // Start out by fixing the numeric locale to C (we depend on this behaviour)
     // consider a UVector2 as a property {{0.5,0},{0.5,0}} could become {{0,5,0},{0,5,0}}
@@ -2032,6 +2054,15 @@ void System::invalidateAllWindows()
 }
 
 //----------------------------------------------------------------------------//
+// MT3: Play UI sound via registered callback
+//----------------------------------------------------------------------------//
+void System::PlayUISound(const String& soundRes)
+{
+    if (d_UIPlaySoundFunc)
+    {
+        (*d_UIPlaySoundFunc)(soundRes);
+    }
+}
 
 } // End of  CEGUI namespace section
 

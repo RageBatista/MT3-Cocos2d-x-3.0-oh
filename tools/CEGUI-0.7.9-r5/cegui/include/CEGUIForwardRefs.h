@@ -191,6 +191,8 @@ class TreeEventArgs;
 class UpdateEventArgs;
 class WindowEventArgs;
 class RichEditBoxCoponentEventArgs;
+class CompnentTip;
+class RichEditboxComponent;
 
 } // End of  CEGUI namespace section
 

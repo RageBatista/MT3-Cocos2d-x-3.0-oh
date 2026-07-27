@@ -138,8 +138,8 @@ void RichEditboxTextComponent::draw(GeometryBuffer* buffer,
 
   bool textBorder=bBorder||d_Border;   
 	// draw the text string.
-    fnt->drawText(buffer, d_text, final_pos, clip_rect, final_cols,
-                  space_extra, 1.0f, y_scale,false,textBorder,d_BorderColour);
+    fnt->drawText(*buffer, d_text, final_pos, clip_rect, final_cols,
+                  space_extra, 1.0f, y_scale, false, textBorder, d_BorderColour);
 	
 
 	
@@ -290,8 +290,8 @@ size_t RichEditboxTextComponent::GetIndexByWidth(float width)
 		 {
 			     size_t charIndex= fnt->getCharAtPixel(d_text,width);
 			
-				 float selectCharWidth=fnt->getTextExtent(d_text.substr(charIndex,1)); //Ñ¡ÔñµÄÄÇ¸ö×ÖµÄ¿í¶È
-				 float FirstToSelectWidth=fnt->getTextExtent(d_text.substr(0,charIndex)); //´Ó¿ªÊ¼µ½Ñ¡ÔñµÄÄÇ¸ö×ÖµÄ¿í¶È
+				 float selectCharWidth=fnt->getTextExtent(d_text.substr(charIndex,1)); //Ñ¡ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ÖµÄ¿ï¿½ï¿½ï¿½
+				 float FirstToSelectWidth=fnt->getTextExtent(d_text.substr(0,charIndex)); //ï¿½Ó¿ï¿½Ê¼ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ÖµÄ¿ï¿½ï¿½ï¿½
 				 if (width>(FirstToSelectWidth-selectCharWidth)/2.0f)
 				 {
 					 return charIndex+1;
@@ -360,7 +360,7 @@ RichEditboxComponent* RichEditboxTextComponent::HandleChar(size_t offset,const S
 	return NULL;
 }
 
-RichEditboxComponent* RichEditboxTextComponent::InsertComponent(size_t offset,RichEditboxComponent* pComponent)   //·µ»ØtrueÔòÐèÉú³ÉÐÂµÄcomponent
+RichEditboxComponent* RichEditboxTextComponent::InsertComponent(size_t offset,RichEditboxComponent* pComponent)   //ï¿½ï¿½ï¿½ï¿½trueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½component
 {
 	if (pComponent==NULL||offset>d_text.size())
 	{
@@ -479,7 +479,7 @@ bool RichEditboxTextComponent::GetNewCaratPos(float width,size_t curIdx,size_t& 
 
 }
 
-bool RichEditboxTextComponent::isOnlySpace() //Ö»·ñÖ»ÓÐ¿Õ×Ö·û
+bool RichEditboxTextComponent::isOnlySpace() //Ö»ï¿½ï¿½Ö»ï¿½Ð¿ï¿½ï¿½Ö·ï¿½
 {
 	if (canSplit()&&d_text.size()>0)
 	{
@@ -494,10 +494,10 @@ bool RichEditboxTextComponent::isOnlySpace() //Ö»·ñÖ»ÓÐ¿Õ×Ö·û
 
 RichEditboxComponent* RichEditboxTextComponent::ParseControlText(bool bIsCaratOn,size_t curCpnIdx,size_t curCaratIndex,size_t curCaratOffet,
 									   size_t& newCaratIndex,size_t& newCaratOffset,bool& bChange,String& newText,
-									   bool& bWaitEmotionNum,bool bAcceptEmotion) //½âÎö×Ö·û´® ½âÎö#µÈ¿ì½ÝÊäÈëÐÅÏ¢
+									   bool& bWaitEmotionNum,bool bAcceptEmotion) //ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½#ï¿½È¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 {
 	bChange=false;
-	//yangbin --²»½âÎö±íÇéµÄ¿ì½ÝÊäÈë·½Ê½£¬ÎªÁËÊ¹ÓÃÏµÍ³ÊäÈë¿Ø¼þ
+	//yangbin --ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ë·½Ê½ï¿½ï¿½Îªï¿½ï¿½Ê¹ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½
 	return NULL;
 
 	if (!isOnlySpace())
@@ -523,14 +523,14 @@ RichEditboxComponent* RichEditboxTextComponent::ParseControlText(bool bIsCaratOn
 			
 			if (emodtionID>=0&&emodtionID<=maxEmoitonNum)
 			{
-				//todo ¼ì²âÓÐÃ»ÓÐÕâ¸ö±íÇé
+				//todo ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				RichEditboxEmotionComponent* pNewEmotion=new RichEditboxEmotionComponent;
 				
 				pNewEmotion->SetAnimateID(emodtionID);
 
 				if (bIsCaratOn)
 				{
-					//Èç¹ûµ±Ç°µÄÎÄ×ÖÒÑ¾­±»Çå¿Õ£¬µ±Ç°¿Ø¼þÊÇÒª±»É¾µôµÄ
+					//ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Õ£ï¿½ï¿½ï¿½Ç°ï¿½Ø¼ï¿½ï¿½ï¿½Òªï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½
 					if (d_text.empty())
 					{
 						newCaratIndex=curCpnIdx;
@@ -548,7 +548,7 @@ RichEditboxComponent* RichEditboxTextComponent::ParseControlText(bool bIsCaratOn
 
 				}else
 				{
-					//Èç¹ûÐ¡ÓÚµ±Ç°¿Ø¼þ
+					//ï¿½ï¿½ï¿½Ð¡ï¿½Úµï¿½Ç°ï¿½Ø¼ï¿½
 					if (curCpnIdx<curCaratIndex)
 					{
 
@@ -581,7 +581,7 @@ RichEditboxComponent* RichEditboxTextComponent::ParseControlText(bool bIsCaratOn
 	return NULL;
 }
 
-bool RichEditboxTextComponent::isNumber(utf32 num) //ÊÇ·ñÊÇÊý×Ö×Ö·û
+bool RichEditboxTextComponent::isNumber(utf32 num) //ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 {
 	if (num>=48&&num<=57)
 	{
@@ -591,21 +591,21 @@ bool RichEditboxTextComponent::isNumber(utf32 num) //ÊÇ·ñÊÇÊý×Ö×Ö·û
 }
 
 
-bool RichEditboxTextComponent::GetFirstEmotionInf(size_t& startIdx, size_t& endIdx,bool& bWaitNum,bool bAcceptEmotion) //µÃµ½µÚÒ»¸ö±íÇéµÄ#ºÅÎ»ÖÃ¼°±íÇé¶ÔÓ¦Êý×ÖµÄ×îºóÒ»Î»¶ÔÓ¦µÄÎ»ÖÃ
+bool RichEditboxTextComponent::GetFirstEmotionInf(size_t& startIdx, size_t& endIdx,bool& bWaitNum,bool bAcceptEmotion) //ï¿½Ãµï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½#ï¿½ï¿½Î»ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ò»Î»ï¿½ï¿½Ó¦ï¿½ï¿½Î»ï¿½ï¿½
 {
 	bWaitNum=false;
 	size_t curIdx=d_text.find("#");
-	// #´æÔÚ¶øÇÒ²»ÊÇ×îºóÒ»¸ö×Ö·û
+	// #ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½
 	while(curIdx!=String::npos&&(curIdx!=d_text.size()-1))
 	{
 		
 		utf32 nextChar=d_text[curIdx+1];
-		//Èç¹ûÕâ¸ö×Ö·ûÊÇÊý×Ö
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (isNumber(nextChar))
 		{
-			startIdx=curIdx; //¼ÇÂ¼#Î»ÖÃ
+			startIdx=curIdx; //ï¿½ï¿½Â¼#Î»ï¿½ï¿½
 			
-			//Ñ°µ½Ä©Î²»òÊÇ×îºóÒ»¸öÊý×Ö
+			//Ñ°ï¿½ï¿½Ä©Î²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 			String strNumber("");
 			strNumber+=nextChar;
@@ -641,7 +641,7 @@ bool RichEditboxTextComponent::GetFirstEmotionInf(size_t& startIdx, size_t& endI
 						break;
 					}
 				}
-			}else if (endIdx==d_text.size()-1) //Èç¹ûÊÇ×îºóÒ»¸öÊý×Ö×Ö·û´¦ÔÚ×îºóÇÒ¿ÉÄÜÔÙÊäÈëÒ»Î»»áÓÐÐÂ±íÇéÒ²²»½âÎö
+			}else if (endIdx==d_text.size()-1) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Î»ï¿½ï¿½ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
 				if (curEmotionIdx<=maxEmotionIdx/10)
 				{

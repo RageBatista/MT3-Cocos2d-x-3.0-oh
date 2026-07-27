@@ -69,6 +69,40 @@ extern "C"
 
 NS_CC_BEGIN
 
+int Image::ms_iTotalPhysMemory = 768 * 1024;
+int Image::ms_iTotalPhysMemoryLimit = 768 * 1024;
+bool Image::ms_bNormal = true;
+
+void Image::SetTotalPhysMemory(int TotalPhysMemory)
+{
+    ms_iTotalPhysMemory = TotalPhysMemory;
+}
+
+void Image::SetTotalPhysMemoryLimit(int TotalPhysMemoryLimit)
+{
+    ms_iTotalPhysMemoryLimit = TotalPhysMemoryLimit;
+}
+
+int Image::GetTotalPhysMemory()
+{
+    return ms_iTotalPhysMemory;
+}
+
+int Image::GetTotalPhysMemoryLimit()
+{
+    return ms_iTotalPhysMemoryLimit;
+}
+
+void Image::SetIsNormal(bool bNormal)
+{
+    ms_bNormal = bNormal;
+}
+
+bool Image::IsNormal()
+{
+    return ms_bNormal;
+}
+
 //////////////////////////////////////////////////////////////////////////
 //struct and data for pvr structure
 
@@ -2172,6 +2206,19 @@ bool Image::saveImageToJPG(const std::string& filePath)
         bRet = true;
     } while (0);
     return bRet;
+}
+
+// MT3 custom methods (ported from Cocos2d-x 2.2.6)
+bool Image::initWithString(const char *pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char *pFontName, int nSize)
+{
+    CCLOG("cocos2d: WARNING: Image::initWithString is not implemented in 3.0-oh MT3 port.");
+    return false;
+}
+
+bool Image::initWithStringShadowStroke(const char *pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char *pFontName, int nSize, float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, float shadowOpacity, float shadowBlur, bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize)
+{
+    CCLOG("cocos2d: WARNING: Image::initWithStringShadowStroke is not implemented in 3.0-oh MT3 port.");
+    return false;
 }
 
 NS_CC_END

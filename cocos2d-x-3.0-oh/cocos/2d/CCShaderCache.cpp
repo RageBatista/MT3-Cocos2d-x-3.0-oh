@@ -44,6 +44,13 @@ enum {
     kShaderType_PositionTextureA8Color,
     kShaderType_Position_uColor,
     kShaderType_PositionLengthTexureColor,
+    // MT3 custom shader types (ported from Cocos2d-x 2.2.6)
+    kShaderType_PositionTextureColorHSV,
+    kShaderType_PositionTextureColorEtc,
+    kShaderType_PositionTextureColorX,
+    kShaderType_PositionTextureColorXEtc,
+    kShaderType_PositionTextureColorGray,
+    kShaderType_ControlSwitch,
     kShaderType_LabelDistanceFieldNormal,
     kShaderType_LabelDistanceFieldGlow,
     kShaderType_LabelNormal,
@@ -188,6 +195,37 @@ void ShaderCache::loadDefaultShaders()
     p = new GLProgram();
     loadDefaultShader(p, kShaderType_LabelOutline);
     _programs.insert( std::make_pair(GLProgram::SHADER_NAME_LABEL_OUTLINE, p) );
+
+    // MT3 custom shaders (ported from Cocos2d-x 2.2.6)
+    // Position Texture Color HSV shader
+    p = new GLProgram();
+    loadDefaultShader(p, kShaderType_PositionTextureColorHSV);
+    _programs.insert( std::make_pair(kCCShader_PositionTextureColorHSV, p) );
+
+    // Position Texture Color ETC shader
+    p = new GLProgram();
+    loadDefaultShader(p, kShaderType_PositionTextureColorEtc);
+    _programs.insert( std::make_pair(kCCShader_PositionTextureColorEtc, p) );
+
+    // Position Texture Color X shader
+    p = new GLProgram();
+    loadDefaultShader(p, kShaderType_PositionTextureColorX);
+    _programs.insert( std::make_pair(kCCShader_PositionTextureColorX, p) );
+
+    // Position Texture Color X ETC shader
+    p = new GLProgram();
+    loadDefaultShader(p, kShaderType_PositionTextureColorXEtc);
+    _programs.insert( std::make_pair(kCCShader_PositionTextureColorXEtc, p) );
+
+    // Position Texture Color Gray shader
+    p = new GLProgram();
+    loadDefaultShader(p, kShaderType_PositionTextureColorGray);
+    _programs.insert( std::make_pair(kCCShader_PositionTextureColorGray, p) );
+
+    // ControlSwitch shader
+    p = new GLProgram();
+    loadDefaultShader(p, kShaderType_ControlSwitch);
+    _programs.insert( std::make_pair(kCCShader_ControlSwitch, p) );
 }
 
 void ShaderCache::reloadDefaultShaders()
@@ -276,6 +314,31 @@ void ShaderCache::reloadDefaultShaders()
     p = getProgram(GLProgram::SHADER_NAME_LABEL_OUTLINE);
     p->reset();
     loadDefaultShader(p, kShaderType_LabelOutline);
+
+    // MT3 custom shaders reload (ported from Cocos2d-x 2.2.6)
+    p = getProgram(kCCShader_PositionTextureColorHSV);
+    p->reset();
+    loadDefaultShader(p, kShaderType_PositionTextureColorHSV);
+
+    p = getProgram(kCCShader_PositionTextureColorEtc);
+    p->reset();
+    loadDefaultShader(p, kShaderType_PositionTextureColorEtc);
+
+    p = getProgram(kCCShader_PositionTextureColorX);
+    p->reset();
+    loadDefaultShader(p, kShaderType_PositionTextureColorX);
+
+    p = getProgram(kCCShader_PositionTextureColorXEtc);
+    p->reset();
+    loadDefaultShader(p, kShaderType_PositionTextureColorXEtc);
+
+    p = getProgram(kCCShader_PositionTextureColorGray);
+    p->reset();
+    loadDefaultShader(p, kShaderType_PositionTextureColorGray);
+
+    p = getProgram(kCCShader_ControlSwitch);
+    p->reset();
+    loadDefaultShader(p, kShaderType_ControlSwitch);
 }
 
 void ShaderCache::loadDefaultShader(GLProgram *p, int type)
@@ -396,6 +459,55 @@ void ShaderCache::loadDefaultShader(GLProgram *p, int type)
             p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
 
             break;
+        // MT3 custom shader loaders (ported from Cocos2d-x 2.2.6)
+        case kShaderType_PositionTextureColorHSV:
+            p->initWithByteArrays(ccPositionTextureColorHSV_vert, ccPositionTextureColorHSV_frag);
+
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+
+            break;
+        case kShaderType_PositionTextureColorEtc:
+            p->initWithByteArrays(ccPositionTextureColorEtc_vert, ccPositionTextureColorEtc_frag);
+
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+
+            break;
+        case kShaderType_PositionTextureColorX:
+            p->initWithByteArrays(ccPositionTextureColorX_vert, ccPositionTextureColorX_frag);
+
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+
+            break;
+        case kShaderType_PositionTextureColorXEtc:
+            p->initWithByteArrays(ccPositionTextureColorXEtc_vert, ccPositionTextureColorXEtc_frag);
+
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+
+            break;
+        case kShaderType_PositionTextureColorGray:
+            p->initWithByteArrays(ccPositionTextureColorGray_vert, ccPositionTextureColorGray_frag);
+
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+
+            break;
+        case kShaderType_ControlSwitch:
+            p->initWithByteArrays(ccPositionTextureColor_vert, ccExSwitchMask_frag);
+
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+            p->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+
+            break;
         default:
             CCLOG("cocos2d: %s:%d, error shader type", __FUNCTION__, __LINE__);
             return;
@@ -419,6 +531,55 @@ void ShaderCache::addProgram(GLProgram* program, const std::string &key)
 {
     program->retain();
     _programs.insert( std::make_pair( key, program) );
+}
+
+// MT3 custom shader stack operations (ported from Cocos2d-x 2.2.6)
+void ShaderCache::pushShader(std::string key)
+{
+    _shaderStack.push_back(key);
+
+    GLProgram* pProgram = getProgram(key);
+    CCAssert(pProgram, "shader program not found");
+    if (pProgram && _currentShader != key)
+    {
+        pProgram->use();
+        _currentShader = key;
+    }
+    if (pProgram)
+    {
+        pProgram->updateUniforms();
+    }
+}
+
+void ShaderCache::popShader()
+{
+    CCAssert(!_shaderStack.empty(), "shader stack is empty");
+    if (_shaderStack.empty())
+    {
+        _currentShader = "";
+        return;
+    }
+
+    _shaderStack.pop_back();
+    if (!_shaderStack.empty())
+    {
+        std::string key = _shaderStack.back();
+        GLProgram* pProgram = getProgram(key);
+        CCAssert(pProgram, "shader program not found");
+        if (pProgram && _currentShader != key)
+        {
+            pProgram->use();
+            _currentShader = key;
+        }
+        if (pProgram)
+        {
+            pProgram->updateUniforms();
+        }
+    }
+    else
+    {
+        _currentShader = "";
+    }
 }
 
 NS_CC_END

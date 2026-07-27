@@ -36,8 +36,14 @@
 
 #include <spine/spine.h>
 #include <spine/CCSkeleton.h>
+#include <spine/spine-cocos2dx.h>
+#include <map>
+#include <string>
 
 namespace spine {
+
+// MT3 custom type: maps texture file path to Cocos2d-x Texture2D pointer
+typedef std::map<std::string, cocos2d::Texture2D*> PathToTextureMap;
 
 class SkeletonAnimation;
 typedef void (cocos2d::Ref::*SEL_AnimationStateEvent)(spine::SkeletonAnimation* node, int trackIndex, spEventType type, spEvent* event, int loopCount);
@@ -52,10 +58,12 @@ public:
 	static SkeletonAnimation* createWithData (spSkeletonData* skeletonData);
 	static SkeletonAnimation* createWithFile (const char* skeletonDataFile, spAtlas* atlas, float scale = 0);
 	static SkeletonAnimation* createWithFile (const char* skeletonDataFile, const char* atlasFile, float scale = 0);
+	static SkeletonAnimation* createWithTextureMap (const char* skeletonRawData, int skeletonRawDataLen, const char* atlasRawData, int atlasRawDataLen, const char* dir, const PathToTextureMap& textureMap, float scale = 1);
 
 	SkeletonAnimation (spSkeletonData* skeletonData);
 	SkeletonAnimation (const char* skeletonDataFile, spAtlas* atlas, float scale = 0);
 	SkeletonAnimation (const char* skeletonDataFile, const char* atlasFile, float scale = 0);
+	SkeletonAnimation (const char* skeletonRawData, int skeletonRawDataLen, const char* atlasRawData, int atlasRawDataLen, const char* dir, const PathToTextureMap& textureMap, float scale = 1);
 
 	virtual ~SkeletonAnimation ();
 
@@ -71,6 +79,18 @@ public:
 	void clearTracks ();
 	void clearTrack (int trackIndex = 0);
 
+	// MT3 custom: time scale for animation playback speed
+	void setTimeScale (float scale);
+	float getTimeScale () const;
+
+	// MT3 custom: get the duration of an animation by name
+	float getAnimationDuration (const char* name);
+	float getAnimationDuration (int stateIndex, const char* name);
+
+	// MT3 custom: draw with viewport offset and alpha, compatible with 2.2.6 API
+	using Skeleton::draw;
+	void draw (float vpLeft, float vpTop, float drawAlpha = 1.0f);
+
 	virtual void onAnimationStateEvent (int trackIndex, spEventType type, spEvent* event, int loopCount);
 
 protected:
@@ -81,6 +101,7 @@ private:
     cocos2d::Ref* listenerInstance;
 	SEL_AnimationStateEvent listenerMethod;
 	bool ownsAnimationStateData;
+	spAtlas* _mt3OwnedAtlas;
 
 	void initialize ();
 };

@@ -115,4 +115,16 @@ void ImagesetManager::writeImagesetToStream(const String& imageset,
 
 //----------------------------------------------------------------------------//
 
+// MT3: Convenience method to get an image by imageset and image name
+const Image* ImagesetManager::getImage(const String& imageset, const String& image) const
+{
+    if (isDefined(imageset))
+    {
+        const Imageset& iset = get(imageset);
+        if (iset.isImageDefined(image))
+            return &iset.getImage(image);
+    }
+    return 0;
+}
+
 } // End of  CEGUI namespace section

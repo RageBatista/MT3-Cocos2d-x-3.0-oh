@@ -647,6 +647,21 @@ public:
 		return	(d_cplength == 0);
 	}
 
+    // MT3: Get encoded character length (byte length in UTF-8)
+    size_type GetCharLength() const
+    {
+        size_type len = 0;
+        if (d_reserve > STR_QUICKBUFF_SIZE && d_buffer)
+        {
+            len = encoded_size(d_buffer);
+        }
+        else
+        {
+            len = encoded_size(d_quickbuff);
+        }
+        return len;
+    }
+
 	/*!
 	\brief
 		Returns the maximum size of a String.
@@ -4754,6 +4769,21 @@ public:
 	{
 		return const_reverse_iterator(begin());
 	}
+
+    // MT3: wchar_t support for backward compatibility with CEGUI 0.7.1 code
+    String(const wchar_t* text)
+    {
+        init();
+        const wchar_t* p = text;
+        while (*p)
+            ++p;
+        const size_type len = p - text;
+        grow(len);
+        utf32* pt = ptr();
+        for (size_type i = 0; i < len; ++i)
+            *pt++ = static_cast<utf32>(text[i]);
+        setlen(len);
+    }
 
 private:
 	/*************************************************************************

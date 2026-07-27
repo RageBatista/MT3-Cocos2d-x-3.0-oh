@@ -1,4 +1,4 @@
-﻿#include "nuspineeffect.h"
+#include "nuspineeffect.h"
 #include "engine/nuenginebase.h"
 #include "../renderer/nucocos2d_render.h"
 #include "utils/StringCover.h"
@@ -145,7 +145,7 @@ namespace Nuclear
 				m_pSkelAnim->setScaleY(-m_scale.y * fWorldScale);	// 因为坐标系不同，因此要做一次上下翻转
 
 				NuclearRect vp = m_pEB->GetViewport();
-				cocos2d::CCRect box = m_pSkelAnim->boundingBox();
+				cocos2d::Rect box = m_pSkelAnim->getBoundingBox();
 				float left = box.origin.x;
 				float right = box.origin.x + box.size.width;
 				float top = box.origin.y;

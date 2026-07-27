@@ -55,7 +55,7 @@ namespace CEGUI
 
 
 	GroupButton::GroupButton(const String& type) :
-		ButtonBase(type)
+		ButtonBase(type, "")
 	{
 	}
 	const GroupButton& GroupButton::operator=(const GroupButton& t)
@@ -367,6 +367,8 @@ namespace CEGUI
 			return d_TextNormalColourRect;
 		}
 
+	// Ensure all control paths return a value
+	return d_TextNormalColourRect;
 	}
 void    GroupButton::setStateBordcerColour(enumGroupButtonState state,const colour& cl)
 {
@@ -461,8 +463,11 @@ const colour& GroupButton::GetStateBorderColour(enumGroupButtonState state)
 		return d_NormalBorderColour;
 	}
 
+	// Ensure all control paths return a value (MSVC 2013 requires this for proper parsing)
+	return d_NormalBorderColour;
 }
-void GroupButton::initialiseComponents(bool bClone)  //ÉèÖÃÍêÍâ¹ÛºóÉèÖÃ¸÷ÖÖ×´Ì¬µÄÎÄ×ÖÑÕÉ«
+void GroupButton::initialiseComponents(bool bClone)  // Initialize component state colours from properties
+{{//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ûºï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 {
 	if (!bClone)
 	{

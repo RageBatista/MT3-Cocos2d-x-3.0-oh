@@ -4,9 +4,9 @@
 #include <iostream>
 #include <set>
 #include "nucocos2d_wraper.h"
-#include "shaders/CCGLProgram.h"
-#include "shaders/ccGLStateCache.h"
-#include "shaders/CCShaderCache.h"
+#include "CCGLProgram.h"
+#include "ccGLStateCache.h"
+#include "CCShaderCache.h"
 #if ((defined WIN32) || (defined _WIN32))
 #ifdef IGNORE_EXPORT
 #undef IGNORE_EXPORT
@@ -173,6 +173,16 @@ namespace Nuclear
         return;
     }
 
+    EngineTicker* EngineTicker::clone() const
+    {
+        return new EngineTicker(m_pEngineLayer);
+    }
+
+    EngineTicker* EngineTicker::reverse() const
+    {
+        return new EngineTicker(m_pEngineLayer);
+    }
+
        
     EngineLayer::EngineLayer()
     {
@@ -241,9 +251,9 @@ namespace Nuclear
             //CCLog("touch id:%d",pTouch->getID());
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
-			Vec2 pt = pTouch->getLocationInView();
+			Point pt = pTouch->getLocationInView();
 #else
-			Vec2 pt = pTouch->getLocationInView();
+			Point pt = pTouch->getLocationInView();
 #endif
 			float fScale = Director::getInstance()->getContentScaleFactor();
 			Nuclear::IEngine* pEngine = Nuclear::GetEngine();
@@ -293,9 +303,9 @@ namespace Nuclear
 			cocos2d::Touch* pTouch = *iter;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
-			Vec2 pt = pTouch->getLocationInView();
+			Point pt = pTouch->getLocationInView();
 #else
-			Vec2 pt = pTouch->getLocationInView();
+			Point pt = pTouch->getLocationInView();
 #endif
 			
 			SCALE_POINT(pt, fScale);
@@ -308,20 +318,20 @@ namespace Nuclear
 		}
         
         if (tmp[0] && tmp[1]) {
-            Vec2 tmp1 = tmp[0]->getLocationInView();
-            Vec2 tmp2 = tmp[1]->getLocationInView();
+            Point tmp1 = tmp[0]->getLocationInView();
+            Point tmp2 = tmp[1]->getLocationInView();
             SCALE_POINT(tmp1, fScale);
             SCALE_POINT(tmp2, fScale);
             
-            if (tmp1.distance(tmp2) - m_Pos[0].distance(m_Pos[1]) > 10 ) {
-                if (m_Pos[0].distance(tmp1) >= 20 && m_Pos[1].distance(tmp2) >= 20) {//开
+            if (tmp1.getDistance(tmp2) - m_Pos[0].getDistance(m_Pos[1]) > 10 ) {
+                if (m_Pos[0].getDistance(tmp1) >= 20 && m_Pos[1].getDistance(tmp2) >= 20) {//开
                     pEngine->OnWindowsMessage(0, 998, 0, 0);
                     m_Pos[0] = tmp1;
                     m_Pos[1] = tmp2;
                 }
             }
-            if (tmp1.distance(tmp2) - m_Pos[0].distance(m_Pos[1]) < -10 ) {
-                if (m_Pos[0].distance(tmp1) >= 20 && m_Pos[1].distance(tmp2) >= 20) {//合
+            if (tmp1.getDistance(tmp2) - m_Pos[0].getDistance(m_Pos[1]) < -10 ) {
+                if (m_Pos[0].getDistance(tmp1) >= 20 && m_Pos[1].getDistance(tmp2) >= 20) {//合
                     pEngine->OnWindowsMessage(0, 999, 0, 0);
                     m_Pos[0] = tmp1;
                     m_Pos[1] = tmp2;
@@ -338,9 +348,9 @@ namespace Nuclear
 			cocos2d::Touch* pTouch = *iter;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
-			Vec2 pt = pTouch->getLocationInView();
+			Point pt = pTouch->getLocationInView();
 #else
-			Vec2 pt = pTouch->getLocationInView();
+			Point pt = pTouch->getLocationInView();
 #endif 
 			float fScale = Director::getInstance()->getContentScaleFactor();
 			Nuclear::IEngine* pEngine = Nuclear::GetEngine();
@@ -354,7 +364,7 @@ namespace Nuclear
 
 			int pid = pTouch->getID();
 			if (0 <= pid && pid < MAXPOINT)
-				m_Pos[pid] = Vec2(0, 0);
+				m_Pos[pid] = Point(0, 0);
 		}
 	}
 
@@ -368,7 +378,7 @@ namespace Nuclear
         if (num <= 0)
             return;
         
-        Vec2 pt(xs[0], ys[0]);
+        Point pt(xs[0], ys[0]);
         float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
@@ -378,7 +388,7 @@ namespace Nuclear
     
     void EngineLayer::handleClick(float xPos, float yPos)
     {
-        Vec2 pt(xPos,yPos);
+        Point pt(xPos,yPos);
         float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
@@ -389,7 +399,7 @@ namespace Nuclear
     
     void EngineLayer::handleDoubleClick(float xPos, float yPos)
     {
-        Vec2 pt(xPos,yPos);
+        Point pt(xPos,yPos);
         float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
@@ -400,7 +410,7 @@ namespace Nuclear
     
     void EngineLayer::handleSlide(int dir, float xStart, float yStart, float v)
     {
-        Vec2 pt(xStart,yStart);
+        Point pt(xStart,yStart);
         float fScale = Director::getInstance()->getContentScaleFactor();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         SCALE_POINT(pt, fScale);
@@ -411,7 +421,7 @@ namespace Nuclear
     
     void EngineLayer::handleDrag(int state, float xStart, float yStart, float v_x,float v_y)
     {
-        Vec2 pt(xStart,yStart);
+        Point pt(xStart,yStart);
         if (state==3) {
             pt.x=v_x;
             pt.y=v_y;
@@ -449,9 +459,9 @@ namespace Nuclear
         Layer::onExit();
     }
     
-    void EngineLayer::draw(void)
+    void EngineLayer::draw(cocos2d::Renderer *renderer, const kmMat4& transform, bool transformUpdated)
     {
-        Layer::draw();
+        Layer::draw(renderer, transform, transformUpdated);
         
         Size size = Director::getInstance()->getWinSizeInPixels();        
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();

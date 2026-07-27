@@ -38,6 +38,21 @@
 #include "cocos2d.h"
 #include <spine/CCSkeleton.h>
 #include <spine/CCSkeletonAnimation.h>
+#include <map>
+#include <string>
+
+namespace spine {
+
+// MT3 custom type: maps texture file path to Cocos2d-x Texture2D pointer
+typedef std::map<std::string, cocos2d::Texture2D*> PathToTextureMap;
+
+// MT3 custom: parse atlas text to extract texture file paths
+void spAtlas_parseTextureMap (const char* begin, int length, const char* dir, PathToTextureMap* textureMap);
+
+// MT3 custom: read atlas with pre-loaded texture map
+spAtlas* Atlas_readAtlasWithTextureMap (const char* begin, int length, const char* dir, const PathToTextureMap& textureMap);
+
+}
 
 void spRegionAttachment_updateQuad (spRegionAttachment* self, spSlot* slot, cocos2d::V3F_C4B_T2F_Quad* quad, bool premultiplied = false);
 

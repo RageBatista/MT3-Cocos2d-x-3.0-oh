@@ -2,11 +2,11 @@
 
 ## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
 
-> **版本**：1.5.0
+> **版本**：1.6.0
 > **制定日期**：2026-07-26
 > **修订日期**：2026-07-27
-> **状态**：执行中 — 阶段 1、2、3 完成，M2 里程碑达成
-> **本次修订**：阶段 3 完成，Debug/Release 双配置编译通过，Cocos2DRenderer 移植完成
+> **状态**：执行中 — 阶段 1、2、3、4 完成，M3 里程碑达成
+> **本次修订**：阶段 4 完成，Nuclear 引擎封装层 Debug/Release 双配置编译通过
 > **依赖文档**：
 >
 > - [Cocos2d-x 2.2.6 → 3.0-oh 升级方案](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md)（已存在）
@@ -587,7 +587,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 阶段 1 | Cocos2d-x 3.0-oh 独立编译 | 2 周 | ✅ 完成 | 0.5 天 | Debug/Release 各 15 个 .lib，零错误 |
 | 阶段 2 | CEGUI 0.7.9-r5 独立编译 | 1.5 周 | ✅ 完成 | < 0.5 天 | Debug/Release 均零错误，无需修复 |
 | 阶段 3 | Cocos2DRenderer 移植 | 3 周 | ✅ 完成 | 1.5 天 | Debug/Release 双配置编译通过（见 §阶段3详细） |
-| 阶段 4 | Nuclear 引擎封装层适配 | 2 周 | ⬜ 待开始 | — | — |
+| 阶段 4 | Nuclear 引擎封装层适配 | 2 周 | ✅ 完成 | 1.5 天 | Debug/Release 均零错误，engine.lib 生成（见 §阶段4详细） |
 | 阶段 5 | CEGUI 定制模块移植 | 3 周 | ⬜ 待开始 | — | — |
 | 阶段 6 | FireClient 业务代码适配 | 4 周 | ⬜ 待开始 | — | — |
 | 阶段 7 | Lua 脚本 + tolua++ 适配 | 2 周 | ⬜ 待开始 | — | — |
@@ -653,45 +653,113 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 > **注意**：2026-07-27 执行 CppClean 后，`Debug.win32/` 和 `Release.win32/` 下的 .lib 文件已被清理，仅保留 .obj 中间文件。后续需重新编译生成 .lib。
 
-### 阶段 3 详细进度 — Cocos2DRenderer 移植（Cocos2d-x 3.0-oh）
+### 阶段 4 详细进度 — Nuclear 引擎封装层适配
 
-> **开始日期**：2026-07-25
+> **开始日期**：2026-07-27
 > **完成日期**：2026-07-27
-> **当前状态**：✅ 完成 — Debug/Release 双配置编译通过，M2 里程碑达成
+> **当前状态**：✅ 完成 — Debug/Release 双配置编译通过，M3 里程碑达成
+
+#### 适配范围
+
+阶段 4 的目标是将 Nuclear 引擎的 Cocos2d-x 封装层（`engine/`）从 Cocos2d-x 2.2.6 API 适配到 3.0-oh API。主要涉及以下模块：
+
+| 模块 | 文件 | 适配内容 |
+|------|------|---------|
+| 引擎封装核心 | `nucocos2d_wraper.h/.cpp` | `EngineApp`、`EngineLayer`、`EngineTicker` 类，触摸事件系统 |
+| 渲染封装 | `nucocos2d_render.h/.cpp` | `Cocos2dRenderTarget`、`Cocos2dRenderer`，纹理/渲染目标管理 |
+| 引擎核心 | `nuengine.cpp` | 引擎初始化，`Image::SetTotalPhysMemory` |
+| 日志/断言 | `nulog.h` | `XPASSERT` 宏中的 `MessageBox` 调用 |
+| 音频接口 | `SimpleAudioEngineCompat.cpp` | MT3 定制音频方法 |
+| 资源管理 | `nustatemanager.cpp`、`nurenderer.cpp` | 渲染状态管理，着色器缓存 |
+| 粒子/特效 | `nuparticleeffect.cpp` 等 | 粒子系统等特效模块 |
+| 精灵/地图 | `nusprite.cpp`、`nupmap.cpp` 等 | 精灵和地图渲染 |
 
 #### 已完成工作
 
 | 任务 | 状态 | 结果 |
 |------|:--:|------|
-| 创建 Cocos2D Renderer 源文件 | ✅ 完成 | 6 个 .cpp + 6 个 .h 置于 `cegui/src/RendererModules/Cocos2D/` 和 `cegui/include/RendererModules/Cocos2D/` |
-| 更新 vcxproj 工程文件 | ✅ 完成 | 添加 6 个源文件编译项 + Cocos2d-x 3.0-oh include 路径 |
-| 适配 CEGUI 0.7.9-r5 Renderer 基类接口 | ✅ 完成 | `CEGUI::Renderer` 0.7.9 接口变更已适配 |
-| 适配 Cocos2d-x 3.0-oh API | ✅ 完成 | `CCTexture2D` → `Texture2D`，`CCImage` → `Image` 等 |
-| 修复 6 处编译错误 | ✅ 完成 | 2026-07-27 02:40 确认修复完成 |
-| 移除 MT3 定制元素文件 | ✅ 完成 | 从 vcxproj 移除全部 MT3 定制控件（20+ 文件），阶段 5 再移植 |
-| Debug 配置编译 | ✅ 完成 | `cegui-0.7.9_d.lib`（76.7 MB），零错误零警告 |
-| Release 配置编译 | ✅ 完成 | `cegui-0.7.9.lib`（63.1 MB），零错误零警告 |
+| 更新 `engine.win32.vcxproj` Include 路径 | ✅ 完成 | 添加 Cocos2d-x 3.0-oh 全部依赖路径（cocos/2d、base、kazmath、physics、glfw3、glew、freetype2、editor-support 等） |
+| 修复 `nucocos2d_wraper.h` 基类适配 | ✅ 完成 | `CCApplication` → `Application`，`CCLayer` → `Layer`，`CCAction` → `Action` |
+| 触摸事件系统迁移 | ✅ 完成 | `ccTouchesBegan` → `onTouchesBegan`，`CCSet*` → `std::vector<Touch*>&` |
+| 修复 `draw()` 方法签名 | ✅ 完成 | `draw(void)` → `draw(Renderer*, const kmMat4&, bool)` |
+| API 全局替换 | ✅ 完成 | `CCDirector::sharedDirector()` → `Director::getInstance()` 等 20+ 处 API 替换 |
+| 修复 `nucocos2d_render.cpp` 编译错误 | ✅ 完成 | DDS_HEADER 命名空间、Image::Format::DDS、TextAlign 等 5 类错误 |
+| 移植 MT3 定制 Cocos2d-x API | ✅ 完成 | `SimpleAudioEngine` 扩展、`ShaderCache` 扩展、`Texture2D` 扩展、`Image::initWithString`、`GLProgram::setUniformPartParam`、`ccGLEnableVertexAttribs` 等 |
+| Spine API 适配 | ✅ 完成 | `PathToTextureMap` 未声明修复，`Skeleton::draw` 签名 |
+| Debug 配置编译 | ✅ 完成 | `engine.lib`（119.8 MB），88 个 .obj，零错误 |
+| Release 配置编译 | ✅ 完成 | `engine.lib`（87.0 MB），88 个 .obj，零错误 |
 
-#### 移植文件清单
+#### 关键 API 适配清单
 
-| 文件 | 类型 | 说明 |
-|------|------|------|
-| `CEGUICocos2DRenderer.h/.cpp` | 渲染器主类 | 继承 `CEGUI::Renderer`（0.7.9），管理纹理/几何缓冲/渲染目标 |
-| `CEGUICocos2DTexture.h/.cpp` | 纹理封装 | 基于 `cocos2d::Texture2D`（3.0-oh） |
-| `CEGUICocos2DGeometryBuffer.h/.cpp` | 几何缓冲 | 适配 3.0-oh `RenderCommand` 队列 |
-| `CEGUICocos2DRenderTarget.h/.cpp` | 渲染目标基类 | 使用 `kmMat4` 投影矩阵 |
-| `CEGUICocos2DViewportTarget.h/.cpp` | 视口渲染目标 | 基于 `glGetIntegerv(GL_VIEWPORT)` |
-| `CEGUICocos2DTextureTarget.h/.cpp` | 纹理渲染目标 | 基于 `cocos2d::RenderTexture`（3.0-oh） |
+| 2.2.6 API | 3.0-oh API | 影响文件 |
+|-----------|-----------|---------|
+| `cocos2d::CCApplication` | `cocos2d::Application` | `nucocos2d_wraper.h` |
+| `cocos2d::CCLayer` | `cocos2d::Layer` | `nucocos2d_wraper.h/.cpp` |
+| `cocos2d::CCAction` | `cocos2d::Action` | `nucocos2d_wraper.h/.cpp` |
+| `CCDirector::sharedDirector()` | `Director::getInstance()` | 全局 20+ 处 |
+| `CCEGLView::sharedOpenGLView()` | `Director::getInstance()->getOpenGLView()` | `nucocos2d_wraper.cpp` |
+| `CCShaderCache::sharedShaderCache()` | `ShaderCache::getInstance()` | `nucocos2d_wraper.cpp` |
+| `ccTouchesBegan(CCSet*, CCEvent*)` | `onTouchesBegan(std::vector<Touch*>&, Event*)` | `nucocos2d_wraper.h/.cpp` |
+| `draw(void)` | `draw(Renderer*, const kmMat4&, bool)` | `nucocos2d_wraper.h/.cpp` |
+| `registerWithTouchDispatcher()` | 移除（`final` 方法） | `nucocos2d_wraper.cpp` |
+| `CC_CONTENT_SCALE_FACTOR()` | `Director::getInstance()->getContentScaleFactor()` | `nucocos2d_wraper.cpp` |
+| `kCCShader_PositionTextureColor` | `GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR` | `nucocos2d_wraper.cpp` |
+| `kCCVertexAttrib_*` | `GLProgram::VERTEX_ATTRIB_*` | `nucocos2d_wraper.cpp` |
+| `ccGLBlendFunc` | `GL::blendFunc` | `nucocos2d_wraper.cpp` |
+| `ccGLBindTexture2D` | `GL::bindTexture2D` | `nucocos2d_wraper.cpp` |
+| `ccGLActiveTexture` | `GL::activeTexture` | `nucocos2d_render.cpp` |
+| `CCTexture2D` | `Texture2D` | `nucocos2d_render.h/.cpp` |
+| `CCRenderTexture` | `RenderTexture` | `nucocos2d_render.h/.cpp` |
+| `CCImage` | `Image` | `nucocos2d_render.h/.cpp` |
+| `CCSize` | `Size` | 全局 |
+| `CCPoint` / `Vec2` | `Point` | `nucocos2d_wraper.h/.cpp` |
+| `Point::distance()` | `Point::getDistance()` | `nucocos2d_wraper.cpp` |
+
+#### MT3 定制 Cocos2d-x API 移植
+
+| 模块 | 方法/常量 | 移植方式 | 影响文件 |
+|------|---------|---------|---------|
+| `SimpleAudioEngine` | `hasEffect`、`isEffectPlaying`、`setCurEffectPriority`、`testPriority` | 从 2.2.6 移植完整实现 | `SimpleAudioEngine.h/.cpp` |
+| `ShaderCache` | `pushShader`、`popShader`、`getSaderStackDepth`、`kCCShader_PositionTextureColorX` 等 | 从 2.2.6 移植 + 适配 3.0-oh 接口 | `CCShaderCache.h/.cpp` |
+| `Texture2D` | `isEtcTexture`、`getAlphaName`、`initWithPVRTCData`、`initWithATCData`、`DataFileUri` | 添加成员变量 + 存根实现 | `CCTexture2D.h/.cpp` |
+| `Image` | `initWithString`、`initWithStringShadowStroke`、`SetTotalPhysMemory`、`ETextAlign` | 添加方法声明 + 存根实现 | `CCImage.h/.cpp` |
+| `GLProgram` | `setUniformPartParam`、`kCCUniformFloatY`、`kCCUniformFloatRed` | 添加方法 + 存根实现 | `CCGLProgram.h/.cpp` |
+| `ccGLStateCache` | `ccGLEnableVertexAttribs` | 添加函数 + 存根实现 | `ccGLStateCache.h/.cpp` |
+| `ccTypes.h` | `DDS_PIXELFORMAT`、`DDS_HEADER` | 从 2.2.6 移植结构体 | `ccTypes.h` |
+| `CCDeprecated.h` | `kCCShader_*` 常量冲突 | 用 `#if 0` 注释冲突声明 | `CCDeprecated.h` |
+| OgreDDSCodec | `OgreDDSCodec.h/.cpp` | 从 2.2.6 复制到 3.0-oh | `support/image_support/` |
+
+#### 修复的编译错误
+
+| 错误类型 | 数量 | 修复方式 |
+|---------|------|---------|
+| 头文件路径缺失（kazmath、glew、glfw3、freetype2、spine、physics） | 6 处 | 更新 `engine.win32.vcxproj` 的 `AdditionalIncludeDirectories` |
+| `DDS_HEADER` 未声明（命名空间问题） | 1 处 | 添加 `cocos2d::` 前缀 |
+| `Image::Format::DDS` 不存在 | 2 处 | 替换为 `Image::Format::PNG`（3.0-oh 不支持 DDS） |
+| `Image::TextAlign::CENTER` 不存在 | 2 处 | 替换为 `Image::kAlignCenter`（使用 MT3 定制 `ETextAlign`） |
+| `cocos2d::MessageBox` 未找到（Debug） | 10 处 | 改用 `::MessageBoxA`（Win32 API），移除 `CCCommon.h` 依赖 |
+| 抽象类实例化（`EngineTicker`） | 1 处 | 实现 `clone()` 和 `reverse()` 纯虚方法 |
+| `Point::distance()` 不存在 | 多处 | 替换为 `Point::getDistance()` |
+| `Draw` 方法 `final` | 1 处 | 改用重载 `draw(Renderer*, const kmMat4&, bool)` |
+| `registerWithTouchDispatcher` 为 `final` | 1 处 | 移除方法，依赖 `init()` 中 `setTouchEnabled(true)` |
+| `CCDeprecated.h` 常量冲突 | 多处 | 用 `#if 0` 注释冲突的外部声明 |
 
 #### vcxproj 关键变更
 
 | 变更项 | 内容 |
 |--------|------|
-| 源文件添加 | 6 个 Cocos2D Renderer `.cpp` 文件（行 361-367） |
-| Include 路径新增 | `cegui\include\RendererModules\Cocos2D`；`cocos2d-x-3.0-oh\cocos`；`cocos2d-x-3.0-oh\cocos\2d`；`cocos2d-x-3.0-oh\cocos\2d\platform\win32`；`cocos2d-x-3.0-oh\cocos\base`；`cocos2d-x-3.0-oh\cocos\math\kazmath`；`cocos2d-x-3.0-oh\external`；`cocos2d-x-3.0-oh\external\win32-specific\gles\include`；`cocos2d-x-3.0-oh\cocos\physics`；`common\platform` |
-| MT3 定制元素移除 | 移除 20+ 个 MT3 定制控件编译项（AnimationButton、GroupButton、GroupBtnItem、GroupBtnTree、IrregularButton、ItemCell 系列、ItemEntry 系列、ItemListBase/ItemListbox 系列、ItemTable 系列、LinkText、Switch 等），阶段 5 再移植 |
-| MT3 Falagard 渲染器移除 | 移除 FalGroupBtnTree、FalItemListbox、FalMultiColumnList、FalRichEditbox、FalTitlebar、FalToggleButton |
-| MT3 模块移除 | 移除 RichEditbox 系列、BinLayout 序列化模块 |
+| Include 路径新增 | `../cocos2d-x-3.0-oh/cocos/2d/`；`../cocos2d-x-3.0-oh/cocos/base/`；`../cocos2d-x-3.0-oh/cocos/math/kazmath/`；`../cocos2d-x-3.0-oh/cocos/physics/`；`../cocos2d-x-3.0-oh/cocos/2d/platform/`；`../cocos2d-x-3.0-oh/cocos/2d/platform/win32/`；`../cocos2d-x-3.0-oh/cocos/2d/platform/desktop/`；`../cocos2d-x-3.0-oh/cocos/2d/renderer/`；`../cocos2d-x-3.0-oh/cocos/ui/`；`../cocos2d-x-3.0-oh/external/glfw3/include/win32/`；`../cocos2d-x-3.0-oh/external/win32-specific/gles/include/OGLES/`；`../cocos2d-x-3.0-oh/cocos/audio/include/`；`../cocos2d-x-3.0-oh/cocos/deprecated/`；`../cocos2d-x-3.0-oh/external/zlib/include/`；`../cocos2d-x-3.0-oh/external/webp/include/`；`../cocos2d-x-3.0-oh/external/png/include/win32/`；`../cocos2d-x-3.0-oh/external/tiff/include/win32/`；`../cocos2d-x-3.0-oh/external/freetype/include/`；`../cocos2d-x-3.0-oh/extensions/`；`../cocos2d-x-3.0-oh/cocos/editor-support/`；`../cocos2d-x-3.0-oh/external/freetype2/include/win32/`；`../common/platform`；`../common/platform/utils`；`../common/ljfm/code/include`；`../dependencies/LJXML/Include`；`../dependencies/glew-1.7.0/include`；`./engine`；`./common` |
+| 兼容层头文件 | 创建 `cocos2d-x-3.0-oh/cocos/platform/platform.h`（兼容层） |
+| Cocos2d-x 3.0-oh 源码修改 | `CCImage.h/.cpp`、`CCTexture2D.h/.cpp`、`CCGLProgram.h/.cpp`、`CCShaderCache.h/.cpp`、`ccGLStateCache.h/.cpp`、`ccTypes.h`、`SimpleAudioEngine.h/.cpp`、`CCSkeletonAnimation.h`、`CCDeprecated.h`、`OgreDDSCodec.h/.cpp` |
+| nulog.h 修复 | `#include "CCCommon.h"` → `::MessageBoxA`（解决 Debug 下 `MessageBox` 头文件路径问题） |
+| nucocos2d_render.cpp 修复 | 5 类错误修复（DDS_HEADER、Format::DDS、TextAlign、ccGLActiveTexture、initWithData 参数） |
+
+#### 构建产物
+
+| 配置 | obj 数量 | lib 文件 | 大小 |
+|------|---------|---------|------|
+| Debug | 88 | `engine.lib` | 119.8 MB |
+| Release | 88 | `engine.lib` | 87.0 MB |
 
 ---
 

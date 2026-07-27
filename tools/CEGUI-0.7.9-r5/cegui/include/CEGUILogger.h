@@ -63,6 +63,9 @@ enum LoggingLevel
 	Insane			//!< Mostly everything gets logged (use for heavy tracing only, log WILL be big).
 };
 
+// MT3: Error logging macro
+#define CEGUI_LOGERR(message) CEGUI::Logger::getSingleton().logEvent((message), CEGUI::Errors);
+
 /*!
 \brief
 	Abstract class that defines the interface of a logger object for the GUI system.

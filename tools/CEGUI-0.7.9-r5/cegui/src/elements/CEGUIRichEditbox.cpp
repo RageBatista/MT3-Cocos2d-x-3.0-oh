@@ -1746,11 +1746,8 @@ void RichEditbox::onMouseButtonDown(MouseEventArgs& e)
 *************************************************************************/
 void RichEditbox::onMouseButtonUp(MouseEventArgs& e)
 {
-	// yangbin--��������ˣ��򷵻ز�����buttonup
-	if (d_recognizerManager->onMouseButtonUp(e)) {
-		return;
-	}
-	
+	// MT3: Gesture module not available in CEGUI-0.7.9-r5
+	// original code: if (d_recognizerManager->onMouseButtonUp(e)) { return; }
 
 	//RichEditboxComponent* pClickCpn=GetComponentByPos(e.position);
 	RichEditboxComponent* pClickCpn = GetComponentByPos(downPosition);

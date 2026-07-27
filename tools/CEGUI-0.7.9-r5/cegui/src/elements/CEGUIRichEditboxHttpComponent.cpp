@@ -162,8 +162,8 @@ namespace CEGUI
 
 		// draw the text string.
 		
-		fnt->drawText(buffer, d_text, final_pos, clip_rect, final_cols,
-			space_extra, 1.0f, y_scale,true,bBorder);
+		fnt->drawText(*buffer, d_text, final_pos, clip_rect, final_cols,
+			space_extra, 1.0f, y_scale);
 	}
 
 	void RichEditboxHttpComponent::DrawSelectFlag(GeometryBuffer* buffer, const Vector2& position,

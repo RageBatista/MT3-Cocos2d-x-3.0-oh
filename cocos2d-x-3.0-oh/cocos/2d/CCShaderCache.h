@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include "CCRef.h"
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 NS_CC_BEGIN
@@ -41,6 +42,25 @@ class GLProgram;
  * @addtogroup shaders
  * @{
  */
+
+// MT3 custom shader name constants (ported from Cocos2d-x 2.2.6)
+#define kCCShader_PositionTextureColor              "ShaderPositionTextureColor"
+#define kCCShader_PositionTextureColorHSV           "ShaderPositionTextureColorHSV"
+#define kCCShader_PositionTextureColorEtc           "ShaderPositionTextureColorEtc"
+#define kCCShader_PositionTextureColorAlphaTest     "ShaderPositionTextureColorAlphaTest"
+#define kCCShader_PositionColor                     "ShaderPositionColor"
+#define kCCShader_PositionTexture                   "ShaderPositionTexture"
+#define kCCShader_PositionTexture_uColor            "ShaderPositionTexture_uColor"
+#define kCCShader_PositionTextureA8Color            "ShaderPositionTextureA8Color"
+#define kCCShader_Position_uColor                   "ShaderPosition_uColor"
+#define kCCShader_PositionTextureColorX             "ShaderPositionTextureColorX"
+#define kCCShader_PositionTextureColorXEtc          "ShaderPositionTextureColorXEtc"
+#define kCCShader_PositionTextureColorGray          "ShaderPositionTextureColorGray"
+#define kCCShader_PositionLengthTexureColor         "ShaderPositionLengthTextureColor"
+#define kCCShader_ControlSwitch                     "Shader_ControlSwitch"
+
+// MT3 custom uniform names
+#define kCCUniformTSSOPValue                        "u_tss_color_op"
 
 /** ShaderCache
  Singleton that stores manages GL shaders
@@ -89,13 +109,24 @@ public:
     /** adds a GLProgram to the cache for a given name */
     void addProgram(GLProgram* program, const std::string &key);
 
+    // MT3 custom shader stack operations (ported from Cocos2d-x 2.2.6)
+    unsigned int getSaderStackDepth() { return (unsigned int)_shaderStack.size(); }
+    std::string getCurShader() { return _currentShader; }
+    void pushShader(std::string key);
+    void popShader();
+
 private:
     bool init();
     void loadDefaultShader(GLProgram *program, int type);
 
 //    Dictionary* _programs;
     std::unordered_map<std::string, GLProgram*> _programs;
+    std::vector<std::string> _shaderStack;
+    std::string _currentShader;
 };
+
+// MT3 backward compatibility typedef
+typedef ShaderCache CCShaderCache;
 
 // end of shaders group
 /// @}

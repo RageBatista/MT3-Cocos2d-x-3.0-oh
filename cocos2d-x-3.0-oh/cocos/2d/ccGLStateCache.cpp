@@ -270,3 +270,9 @@ void setProjectionMatrixDirty( void )
 } // Namespace GL
 
 NS_CC_END
+
+// MT3 custom function (ported from Cocos2d-x 2.2.6)
+void ccGLEnableVertexAttribs(unsigned int flags)
+{
+    // Stub: not implemented in 3.0-oh MT3 port
+}

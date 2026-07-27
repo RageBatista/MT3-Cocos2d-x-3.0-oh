@@ -142,4 +142,41 @@ namespace CEGUI
         d_vertical = setting;
     }
 
+    bool FalagardScrollbar::isThumbOnEnd(void)
+    {
+        Scrollbar* w = (Scrollbar*)d_window;
+        const WidgetLookFeel& wlf = getLookNFeel();
+        Rect area(wlf.getNamedArea("ThumbTrackArea").getArea().getPixelRect(*w));
+
+        Thumb* theThumb = w->getThumb();
+        float posExtent = w->getDocumentSize() - w->getPageSize();
+
+        if (d_vertical)
+        {
+            float slideExtent = area.getHeight() - theThumb->getPixelSize().d_height;
+            float yOffset = theThumb->getYPosition().asAbsolute(w->getPixelSize().d_height) - area.d_top;
+            if (yOffset >= slideExtent - 0.5f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            float slideExtent = area.getWidth() - theThumb->getPixelSize().d_width;
+            float xOffset = theThumb->getXPosition().asAbsolute(w->getPixelSize().d_width) - area.d_left;
+            if (xOffset >= slideExtent - 0.5f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
 } // End of  CEGUI namespace section

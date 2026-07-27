@@ -29,6 +29,7 @@ THE SOFTWARE.
 #define __CCTYPES_H__
 
 #include <string>
+#include <stdint.h>
 #include "CCGeometry.h"
 #include "CCGL.h"
 
@@ -474,6 +475,37 @@ public:
 
 extern const std::string STD_STRING_EMPTY;
 extern const ssize_t CC_INVALID_INDEX;
+
+// MT3 custom: DDS header structures (ported from Cocos2d-x 2.2.6)
+struct DDS_PIXELFORMAT
+{
+    uint32_t dwSize;
+    uint32_t dwFlags;
+    uint32_t dwFourCC;
+    uint32_t dwRGBBitCount;
+    uint32_t dwRBitMask;
+    uint32_t dwGBitMask;
+    uint32_t dwBBitMask;
+    uint32_t dwABitMask;
+};
+
+typedef struct _DDS_HEADER
+{
+    uint32_t dwSize;
+    uint32_t dwFlags;
+    uint32_t dwHeight;
+    uint32_t dwWidth;
+    uint32_t dwPitchOrLinearSize;
+    uint32_t dwDepth;
+    uint32_t dwMipMapCount;
+    uint32_t dwReserved1[11];
+    DDS_PIXELFORMAT ddspf;
+    uint32_t dwCaps;
+    uint32_t dwCaps2;
+    uint32_t dwCaps3;
+    uint32_t dwCaps4;
+    uint32_t dwReserved2;
+} DDS_HEADER;
 
 NS_CC_END
 

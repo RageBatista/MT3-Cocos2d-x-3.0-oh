@@ -488,6 +488,9 @@ public:
     */
     Window(const String& type, const String& name);
 
+    // MT3: Single-argument constructor for backward compatibility
+    Window(const String& type);
+
     /*!
     \brief
         Destructor for Window base class
@@ -2287,6 +2290,45 @@ public:
     */
     void setAutoRepeatRate(float rate);
 
+    // MT3: Drag move enable/disable
+    void SetDragMoveEnable(bool b) { d_DragMoveEnable = b; }
+    bool GetDragMoveEnable() const { return d_DragMoveEnable; }
+
+    // MT3: Sound enable/disable
+    void SetSoundEnable(bool bEnable) { d_SoundEnable = bEnable; }
+    bool isSoundEable() const { return d_SoundEnable; }
+
+    // MT3: Sound resource getter/setter
+    void SetSoundResource(const String& soundRes) { d_SoundResource = soundRes; }
+    const String& GetSoundResource() const { return d_SoundResource; }
+
+    // MT3: Close sound resource getter/setter
+    void SetCloseSoundResource(const String& soundRes) { d_CloseSoundResource = soundRes; }
+    const String& GetCloseSoundResource() const { return d_CloseSoundResource; }
+
+    // MT3: Edit enable/disable
+    bool IsCanEdit() { return d_CanEdit; }
+    void SetCanEdit(bool bCanEdit) { d_CanEdit = bCanEdit; }
+
+    // MT3: Slide enable/disable
+    void EnbaleSlide(bool bEnable) { d_SlideEnable = bEnable; }
+
+    // MT3: Drag enable/disable
+    void EnableDrag(bool bEnable = true);
+
+    // MT3: Get screen position
+    Point GetScreenPos() const;
+    Point GetScreenPosOfCenter();
+
+    // MT3: Check guide end
+    virtual void CheckGuideEnd(MouseButton button);
+
+    // MT3: Set template looknfeel recursively
+    bool onSetTemplateLookNFeel();
+
+    // MT3: Allow copy assignment for subclasses
+    Window& operator=(const Window&) {return *this;}
+
     /*!
     \brief
         Set whether the window wants inputs passed to its attached
@@ -2472,6 +2514,9 @@ public:
         Once a look'n'feel has been assigned it is locked - as in cannot be changed.
     */
     virtual void setLookNFeel(const String& look);
+
+    // MT3: Overloaded setLookNFeel with clone parameter
+    virtual void setLookNFeel(const String& look, bool /*bClone*/) { setLookNFeel(look); }
 
     /*!
     \brief
@@ -4402,13 +4447,29 @@ protected:
     //! specifies whether mouse inputs should be propagated to parent(s)
     bool d_propagateMouseInputs;
 
+    // MT3: Drag move enable flag
+    bool d_DragMoveEnable;
+    // MT3: Sound enable flag
+    bool d_SoundEnable;
+    // MT3: Sound resource name
+    String d_SoundResource;
+    // MT3: Close sound resource name
+    String d_CloseSoundResource;
+
+    // MT3: Can edit flag
+    bool d_CanEdit;
+    // MT3: Slide enable flag
+    bool d_SlideEnable;
+
 
 private:
     /*************************************************************************
         May not copy or assign Window objects
     *************************************************************************/
     Window(const Window&) : PropertySet(), EventSet() {}
-    Window& operator=(const Window&) {return *this;}
+protected:
+    // MT3: Get clone window from template
+    Window* getCloneWindowFromTemplate(Window* templateWnd, const char* cloneWndPrifex);
 };
 
 } // End of  CEGUI namespace section

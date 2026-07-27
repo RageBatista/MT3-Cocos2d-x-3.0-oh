@@ -80,6 +80,9 @@ namespace CEGUI
         void render();
         void performChildWindowLayout();
 
+        // MT3: Check if thumb is at the end position
+        bool isThumbOnEnd(void);
+
     protected:
         // data members
         bool    d_vertical;     //!< True if slider operates in vertical direction.

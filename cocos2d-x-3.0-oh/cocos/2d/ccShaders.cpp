@@ -93,4 +93,38 @@ const GLchar * ccLabelOutline_frag =
 const GLchar * ccLabel_vert =
 #include "ccShader_Label_vert.h"
 
+// MT3 custom shader source implementations (ported from Cocos2d-x 2.2.6)
+const GLchar * ccPositionTextureColorHSV_frag =
+#include "ccShader_PositionTextureColorHSV_frag.h"
+const GLchar * ccPositionTextureColorHSV_vert =
+#include "ccShader_PositionTextureColorHSV_vert.h"
+
+const GLchar * ccPositionTextureColorHSV_frag2 =
+#include "ccShader_PositionTextureColorHSV_frag2.h"
+const GLchar * ccPositionTextureColorHSV_vert2 =
+#include "ccShader_PositionTextureColorHSV_vert2.h"
+
+const GLchar * ccPositionTextureColorEtc_frag =
+#include "ccShader_PositionTextureColorEtc_frag.h"
+const GLchar * ccPositionTextureColorEtc_vert =
+#include "ccShader_PositionTextureColorEtc_vert.h"
+
+const GLchar * ccPositionTextureColorX_frag =
+#include "ccShader_PositionTextureColorX_frag.h"
+const GLchar * ccPositionTextureColorX_vert =
+#include "ccShader_PositionTextureColorX_vert.h"
+
+const GLchar * ccPositionTextureColorXEtc_frag =
+#include "ccShader_PositionTextureColorXEtc_frag.h"
+const GLchar * ccPositionTextureColorXEtc_vert =
+#include "ccShader_PositionTextureColorXEtc_vert.h"
+
+const GLchar * ccPositionTextureColorGray_frag =
+#include "ccShader_PositionTextureColorGray_frag.h"
+const GLchar * ccPositionTextureColorGray_vert =
+#include "ccShader_PositionTextureColorGray_vert.h"
+
+const GLchar * ccExSwitchMask_frag =
+#include "ccShaderEx_SwitchMask_frag.h"
+
 NS_CC_END

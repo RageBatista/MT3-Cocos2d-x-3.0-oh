@@ -386,6 +386,27 @@ float Scrollbar::getAdjustDirectionFromPoint(const Point& pt) const
 }
 
 //----------------------------------------------------------------------------//
+// MT3: Check if thumb is at the end position
+//----------------------------------------------------------------------------//
+bool Scrollbar::isThumbOnEnd()
+{
+    if (d_windowRenderer != 0)
+    {
+        ScrollbarWindowRenderer* wr = (ScrollbarWindowRenderer*)d_windowRenderer;
+        return wr->isThumbOnEnd();
+    }
+    return false;
+}
+
+//----------------------------------------------------------------------------//
+// MT3: Mouse slide event handler
+//----------------------------------------------------------------------------//
+void Scrollbar::onMouseSlide(MouseEventArgs& e)
+{
+    // MT3 custom: currently empty implementation
+}
+
+//----------------------------------------------------------------------------//
 bool Scrollbar::setScrollPosition_impl(const float position)
 {
     const float old_pos = d_position;

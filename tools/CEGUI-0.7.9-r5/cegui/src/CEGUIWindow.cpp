@@ -299,6 +299,13 @@ Window::Window(const String& type, const String& name) :
 }
 
 //----------------------------------------------------------------------------//
+// MT3: Single-argument constructor for backward compatibility
+Window::Window(const String& type) :
+    Window(type, "")
+{
+}
+
+//----------------------------------------------------------------------------//
 Window::~Window(void)
 {
     // most cleanup actually happened earlier in Window::destroy.
@@ -4187,6 +4194,37 @@ bool Window::onRenameTemplatePrefix(const String& sPrefix)
 }
 
 //----------------------------------------------------------------------------//
+// MT3: Get clone window from template
+//----------------------------------------------------------------------------//
+Window* Window::getCloneWindowFromTemplate(Window* templateWnd, const char* cloneWndPrifex)
+{
+    if (templateWnd == NULL)
+    {
+        return templateWnd;
+    }
+    std::string templateWndName = templateWnd->getName().c_str();
+    static size_t templateNamePrifexLength = strlen("@template@");
+    if (templateWndName.length() < templateNamePrifexLength)
+    {
+        return templateWnd;
+    }
+    if (memcmp(templateWndName.c_str(), "@template@", templateNamePrifexLength))
+    {
+        return templateWnd;
+    }
+    const char* wndName = &templateWndName[templateNamePrifexLength];
+    std::string cloneWndName = std::string(cloneWndPrifex) + wndName;
+    try
+    {
+        return WindowManager::getSingleton().getWindow(cloneWndName);
+    }
+    catch (UnknownObjectException&)
+    {
+        return templateWnd;
+    }
+}
+
+//----------------------------------------------------------------------------//
 Rect Window::getChildWindowContentArea(const bool non_client) const
 {
     return non_client ?
@@ -4272,5 +4310,61 @@ bool Window::isBehind(const Window& wnd) const
 }
 
 //----------------------------------------------------------------------------//
+
+// MT3: Enable drag
+void Window::EnableDrag(bool bEnable)
+{
+    if (bEnable)
+        d_DragMoveEnable = true;
+}
+
+// MT3: Get screen position
+Point Window::GetScreenPos() const
+{
+    Point pt;
+    if (d_parent)
+    {
+        pt.d_x = CoordConverter::windowToScreenX(*d_parent, getPosition().d_x);
+        pt.d_y = CoordConverter::windowToScreenY(*d_parent, getPosition().d_y);
+    }
+    else
+    {
+        Size screenSize = System::getSingleton().getRenderer()->getDisplaySize();
+        pt.d_x = screenSize.d_width * getXPosition().d_scale + getXPosition().d_offset;
+        pt.d_y = screenSize.d_height * getYPosition().d_scale + getYPosition().d_offset;
+    }
+    return pt;
+}
+
+// MT3: Get screen position of center
+Point Window::GetScreenPosOfCenter()
+{
+    Point pt = GetScreenPos();
+    pt.d_x = pt.d_x + getPixelSize().d_width / 2.0f;
+    pt.d_y = pt.d_y + getPixelSize().d_height / 2.0f;
+    return pt;
+}
+
+// MT3: Check guide end
+void Window::CheckGuideEnd(MouseButton button)
+{
+    // MT3: Guide system check - placeholder
+}
+
+// MT3: Set template looknfeel recursively
+bool Window::onSetTemplateLookNFeel()
+{
+    if (d_windowRenderer)
+    {
+        setLookNFeel(d_lookName);
+    }
+    for (size_t i = 0; i < getChildCount(); ++i)
+    {
+        Window* wnd = getChildAtIdx(i);
+        if (!wnd->onSetTemplateLookNFeel())
+            return false;
+    }
+    return true;
+}
 
 } // End of  CEGUI namespace section

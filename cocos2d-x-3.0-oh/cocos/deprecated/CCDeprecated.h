@@ -816,6 +816,10 @@ CC_DEPRECATED_ATTRIBUTE const int kCCUniformRandom01 = GLProgram::UNIFORM_RANDOM
 CC_DEPRECATED_ATTRIBUTE const int kCCUniformSampler = GLProgram::UNIFORM_SAMPLER;
 CC_DEPRECATED_ATTRIBUTE const int kCCUniform_MAX = GLProgram::UNIFORM_MAX;
 
+// MT3: kCCShader_* constants are now defined as #define macros in CCShaderCache.h
+// (compatible with Cocos2d-x 3.0-oh). The extern declarations below are disabled
+// to avoid conflicts with the macro definitions.
+#if 0
 CC_DEPRECATED_ATTRIBUTE extern const char* kCCShader_PositionTextureColor;
 CC_DEPRECATED_ATTRIBUTE extern const char* kCCShader_PositionTextureColorAlphaTest;
 CC_DEPRECATED_ATTRIBUTE extern const char* kCCShader_PositionColor;
@@ -824,6 +828,7 @@ CC_DEPRECATED_ATTRIBUTE extern const char* kCCShader_PositionTexture_uColor;
 CC_DEPRECATED_ATTRIBUTE extern const char* kCCShader_PositionTextureA8Color;
 CC_DEPRECATED_ATTRIBUTE extern const char* kCCShader_Position_uColor;
 CC_DEPRECATED_ATTRIBUTE extern const char* kCCShader_PositionLengthTexureColor;
+#endif
 
 // uniform names
 CC_DEPRECATED_ATTRIBUTE extern const char* kCCUniformPMatrix_s;

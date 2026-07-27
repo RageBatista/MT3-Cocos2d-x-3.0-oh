@@ -135,10 +135,9 @@ inline void XPTRACE(const wchar_t* fmt, ...){
 
 #ifdef XDEBUG_ASSERT
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
-#include <cocos2d.h>
 #define XPASSERT(x) do { \
 		if(!(x) ) { \
-			cocos2d::MessageBox("Assertion Failed in "__FILE__ " \nExpr is \"" #x "\", Teminate Process?", "Assertion Failed"); \
+			::MessageBoxA(NULL, "Assertion Failed in "__FILE__ " \nExpr is \"" #x "\", Teminate Process?", "Assertion Failed", MB_YESNO); \
 		} \
 	} while(0)
 #else

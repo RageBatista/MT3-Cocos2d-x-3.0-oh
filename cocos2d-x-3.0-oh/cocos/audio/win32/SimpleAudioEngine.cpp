@@ -60,6 +60,8 @@ static MciPlayer& sharedMusic()
 }
 
 SimpleAudioEngine::SimpleAudioEngine()
+: m_bEffectEnable(true)
+, mCurEffectPriority(-1)
 {
 }
 
@@ -235,6 +237,42 @@ void SimpleAudioEngine::stopAllEffects()
     {
         iter->second->Stop();
     }
+}
+
+void SimpleAudioEngine::setEffectVolume(unsigned int nSoundId, float fVolume)
+{
+    // The official Cocos2d-x Win32 MCI backend has no per-effect volume API.
+    (void)nSoundId;
+    (void)fVolume;
+}
+
+bool SimpleAudioEngine::hasEffect(unsigned int nSoundId)
+{
+    return sharedList().find(nSoundId) != sharedList().end();
+}
+
+bool SimpleAudioEngine::isEffectPlaying(unsigned int nSoundId)
+{
+    EffectList::iterator p = sharedList().find(nSoundId);
+    return p != sharedList().end() && p->second && p->second->IsPlaying();
+}
+
+void SimpleAudioEngine::stopEffectByPath(const char* pszFilePath)
+{
+    if (!pszFilePath)
+    {
+        return;
+    }
+    stopEffect(_Hash(pszFilePath));
+}
+
+bool SimpleAudioEngine::getEffectIsPlaying(const char* pszFilePath)
+{
+    if (!pszFilePath)
+    {
+        return false;
+    }
+    return isEffectPlaying(_Hash(pszFilePath));
 }
 
 void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath)

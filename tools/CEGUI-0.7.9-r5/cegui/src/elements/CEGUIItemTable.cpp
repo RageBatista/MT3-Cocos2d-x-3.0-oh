@@ -11,7 +11,6 @@
 #include "CEGUIRenderingContext.h"
 #include "CEGUIPropertyHelper.h"
 #include "CEGUIWindowManager.h"
-#include "gesture/CEGUILongPressGestureRecognizer.h"
 #include <math.h>
 #include "CEGUIGeometryBuffer.h"
 #include "elements/CEGUIScrollablePane.h"
@@ -227,14 +226,14 @@ namespace CEGUI
 			ItemCell* pCell = d_ListCells[i];
 			if ((bFilterHideCell&&pCell->isVisible()) || !bFilterHideCell)
 			{
-				// ycl 计算 Cell 位置的代码统一放在 SetCellPosByIndex 函数里
+				// ycl 锟斤拷锟斤拷 Cell 位锟矫的达拷锟斤拷统一锟斤拷锟斤拷 SetCellPosByIndex 锟斤拷锟斤拷锟斤拷
 				SetCellPosByIndex(pCell, j);
 				j++;
 			}
 		}
 	}
 
-	// ycl 刷新所有 Cell 的位置和尺寸
+	// ycl 刷锟斤拷锟斤拷锟斤拷 Cell 锟斤拷位锟矫和尺达拷
 	void ItemTable::RefreshCellPosAndSize()
 	{
 		for (size_t index = 0; index < d_ListCells.size(); ++index)
@@ -248,7 +247,7 @@ namespace CEGUI
 		}
 	}
 
-	// ycl 计算并返回一个 Cell 的位置
+	// ycl 锟斤拷锟姐并锟斤拷锟斤拷一锟斤拷 Cell 锟斤拷位锟斤拷
 	void ItemTable::CalCellPosByIndex(size_t index, float* pX, float* pY) const
 	{
 		if (pX)
@@ -275,7 +274,7 @@ namespace CEGUI
 		}
 	}
 
-	// ycl 设置 Cell 的位置
+	// ycl 锟斤拷锟斤拷 Cell 锟斤拷位锟斤拷
 	void ItemTable::SetCellPosByIndex(ItemCell* pCell, size_t index)
 	{
 		float xOffset, yOffset;
@@ -303,7 +302,7 @@ namespace CEGUI
 			pCell->SetIndex(index);
 
 			pCell->setSize(UVector2(UDim(0.0f, d_CellWide), UDim(0.0f, d_CellHeight)));
-			// ycl 计算 Cell 位置的代码统一放在 SetCellPosByIndex 函数里
+			// ycl 锟斤拷锟斤拷 Cell 位锟矫的达拷锟斤拷统一锟斤拷锟斤拷 SetCellPosByIndex 锟斤拷锟斤拷锟斤拷
 			SetCellPosByIndex(pCell, index);
 			addChildWindow(pCell);
 			d_ListCells.push_back(pCell);
@@ -394,7 +393,7 @@ namespace CEGUI
 
 	void ItemTable::SetCellWidth(int width)
 	{
-		// ycl 只在 Cell 尺寸发生变化时刷新所有 Cell 的位置和尺寸
+		// ycl 只锟斤拷 Cell 锟竭寸发锟斤拷锟戒化时刷锟斤拷锟斤拷锟斤拷 Cell 锟斤拷位锟矫和尺达拷
 		if (d_CellWide != width)
 		{
 			d_CellWide = width;
@@ -406,7 +405,7 @@ namespace CEGUI
 
 	void ItemTable::SetCellHeight(int height)
 	{
-		// ycl 只在 Cell 尺寸发生变化时刷新所有 Cell 的位置和尺寸
+		// ycl 只锟斤拷 Cell 锟竭寸发锟斤拷锟戒化时刷锟斤拷锟斤拷锟斤拷 Cell 锟斤拷位锟矫和尺达拷
 		if (d_CellHeight != height)
 		{
 			d_CellHeight = height;
@@ -418,7 +417,7 @@ namespace CEGUI
 
 	void ItemTable::SetSpaceX(int x)
 	{
-		// ycl 只在 d_SpaceX 发生变化时刷新所有 Cell 的位置和尺寸
+		// ycl 只锟斤拷 d_SpaceX 锟斤拷锟斤拷锟戒化时刷锟斤拷锟斤拷锟斤拷 Cell 锟斤拷位锟矫和尺达拷
 		if (d_SpaceX != x)
 		{
 			d_SpaceX = x;
@@ -430,7 +429,7 @@ namespace CEGUI
 
 	void ItemTable::SetSpaceY(int y)
 	{
-		// ycl 只在 d_SpaceY 发生变化时刷新所有 Cell 的位置和尺寸
+		// ycl 只锟斤拷 d_SpaceY 锟斤拷锟斤拷锟戒化时刷锟斤拷锟斤拷锟斤拷 Cell 锟斤拷位锟矫和尺达拷
 		if (d_SpaceY != y)
 		{
 			d_SpaceY = y;
@@ -442,7 +441,7 @@ namespace CEGUI
 
 	void ItemTable::SetStartX(int x)
 	{
-		// ycl 只在 d_StartX 发生变化时刷新所有 Cell 的位置和尺寸
+		// ycl 只锟斤拷 d_StartX 锟斤拷锟斤拷锟戒化时刷锟斤拷锟斤拷锟斤拷 Cell 锟斤拷位锟矫和尺达拷
 		if (d_StartX != x)
 		{
 			d_StartX = x;
@@ -452,7 +451,7 @@ namespace CEGUI
 	}
 	void ItemTable::SetStartY(int y)
 	{
-		// ycl 只在 d_StartY 发生变化时刷新所有 Cell 的位置和尺寸
+		// ycl 只锟斤拷 d_StartY 锟斤拷锟斤拷锟戒化时刷锟斤拷锟斤拷锟斤拷 Cell 锟斤拷位锟矫和尺达拷
 		if (d_StartY != y)
 		{
 			d_StartY = y;

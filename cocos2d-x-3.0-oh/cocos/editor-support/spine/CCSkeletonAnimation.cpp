@@ -64,6 +64,12 @@ SkeletonAnimation* SkeletonAnimation::createWithFile (const char* skeletonDataFi
 	return node;
 }
 
+SkeletonAnimation* SkeletonAnimation::createWithTextureMap (const char* skeletonRawData, int skeletonRawDataLen, const char* atlasRawData, int atlasRawDataLen, const char* dir, const PathToTextureMap& textureMap, float scale) {
+	SkeletonAnimation* node = new SkeletonAnimation(skeletonRawData, skeletonRawDataLen, atlasRawData, atlasRawDataLen, dir, textureMap, scale);
+	node->autorelease();
+	return node;
+}
+
 void SkeletonAnimation::initialize () {
 	listenerInstance = 0;
 	listenerMethod = 0;
@@ -89,9 +95,29 @@ SkeletonAnimation::SkeletonAnimation (const char* skeletonDataFile, const char* 
 	initialize();
 }
 
+SkeletonAnimation::SkeletonAnimation (const char* skeletonRawData, int skeletonRawDataLen, const char* atlasRawData, int atlasRawDataLen, const char* dir, const PathToTextureMap& textureMap, float scale)
+		: Skeleton(), _mt3OwnedAtlas(0) {
+	_mt3OwnedAtlas = Atlas_readAtlasWithTextureMap(atlasRawData, atlasRawDataLen, dir, textureMap);
+	CCAssert(_mt3OwnedAtlas, "Error reading atlas data.");
+
+	spSkeletonJson* json = spSkeletonJson_create(_mt3OwnedAtlas);
+	json->scale = scale == 0 ? (1 / Director::getInstance()->getContentScaleFactor()) : scale;
+	std::string skeletonJson(skeletonRawData, skeletonRawDataLen);
+	spSkeletonData* skeletonData = spSkeletonJson_readSkeletonData(json, skeletonJson.c_str());
+	CCAssert(skeletonData, json->error ? json->error : "Error reading skeleton data.");
+	spSkeletonJson_dispose(json);
+
+	setSkeletonData(skeletonData, true);
+	initialize();
+}
+
 SkeletonAnimation::~SkeletonAnimation () {
 	if (ownsAnimationStateData) spAnimationStateData_dispose(state->data);
 	spAnimationState_dispose(state);
+	if (_mt3OwnedAtlas) {
+		spAtlas_dispose(_mt3OwnedAtlas);
+		_mt3OwnedAtlas = 0;
+	}
 }
 
 void SkeletonAnimation::update (float deltaTime) {
@@ -152,6 +178,60 @@ void SkeletonAnimation::clearTracks () {
 
 void SkeletonAnimation::clearTrack (int trackIndex) {
 	spAnimationState_clearTrack(state, trackIndex);
+}
+
+void SkeletonAnimation::setTimeScale (float scale) {
+	timeScale = scale;
+}
+
+float SkeletonAnimation::getTimeScale () const {
+	return timeScale;
+}
+
+float SkeletonAnimation::getAnimationDuration (const char* name) {
+	spAnimation* animation = name ? spSkeletonData_findAnimation(skeleton->data, name) : 0;
+	if (!animation) {
+		log("Spine: Animation not found: %s", name ? name : "");
+		return 0;
+	}
+	return animation->duration;
+}
+
+float SkeletonAnimation::getAnimationDuration (int stateIndex, const char* name) {
+	return getAnimationDuration(name);
+}
+
+void SkeletonAnimation::draw (float vpLeft, float vpTop, float drawAlpha) {
+	GLubyte oldOpacity = getOpacity();
+	if (drawAlpha < 0) drawAlpha = 0;
+	if (drawAlpha > 1) drawAlpha = 1;
+	setOpacity((GLubyte)(oldOpacity * drawAlpha));
+
+	kmGLPushMatrix();
+	kmGLTranslatef(-vpLeft, -vpTop, 0);
+
+	// Apply node's own transform (position, scale, rotation)
+	kmMat4 nodeTransform = getNodeToParentTransform();
+	kmGLMultMatrix(&nodeTransform);
+
+	// Get the current modelview matrix for the shader
+	kmMat4 currentMV;
+	kmGLGetMatrix(KM_GL_MODELVIEW, &currentMV);
+
+	onDraw(currentMV, true);
+
+	kmGLPopMatrix();
+
+	// Restore shader program that may have been changed by pushShader/popShader
+	ShaderCache* shaderCache = ShaderCache::getInstance();
+	std::string currentShader = shaderCache->getCurShader();
+	GLProgram* restoreProgram = currentShader.empty() ? getShaderProgram() : shaderCache->getProgram(currentShader.c_str());
+	if (restoreProgram) {
+		restoreProgram->use();
+		restoreProgram->setUniformsForBuiltins();
+	}
+
+	setOpacity(oldOpacity);
 }
 
 void SkeletonAnimation::onAnimationStateEvent (int trackIndex, spEventType type, spEvent* event, int loopCount) {

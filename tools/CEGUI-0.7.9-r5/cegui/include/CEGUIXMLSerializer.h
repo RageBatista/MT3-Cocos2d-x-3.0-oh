@@ -167,6 +167,12 @@ namespace CEGUI
             return false != d_error;
         }
         
+    // MT3: Made public for RichEditbox text component
+    /*!
+    \brief convert special char to there corresponding entity in text data. 
+    */
+    static String convertEntityInText(const String& text);
+
     protected:
     private:
         bool d_error; //!< Store the status of the serializer 
@@ -182,10 +188,6 @@ namespace CEGUI
         \brief put padding in the stream before line data 
         */
         void indentLine();
-        /*!
-        \brief convert special char to there corresponding entity in text data. 
-        */
-        static String convertEntityInText(const String& text);
         /*!
         \brief convert special char into entities including line ending for use in attributes.
         */

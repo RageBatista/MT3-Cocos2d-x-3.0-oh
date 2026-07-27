@@ -692,4 +692,14 @@ void GLProgram::reset()
     _hashForUniforms = nullptr;
 }
 
+// MT3 custom method (ported from Cocos2d-x 2.2.6)
+void GLProgram::setUniformPartParam(int iIndex, GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4)
+{
+    if (iIndex < 0 || iIndex > 2)
+    {
+        return;
+    }
+    // Stub: not implemented in 3.0-oh MT3 port
+}
+
 NS_CC_END

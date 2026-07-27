@@ -167,6 +167,17 @@ public:
     */
     virtual void setEffectsVolume(float volume);
 
+    // MT3 compatibility helpers retained over the official Win32 MCI backend.
+    void setEffectVolume(unsigned int nSoundId, float fVolume);
+    bool hasEffect(unsigned int nSoundId);
+    bool isEffectPlaying(unsigned int nSoundId);
+    void stopEffectByPath(const char* pszFilePath);
+    bool getEffectIsPlaying(const char* pszFilePath);
+    void setEffectEnable(bool bEffectEnable) { m_bEffectEnable = bEffectEnable; }
+    int getCurEffectPriority() const { return mCurEffectPriority; }
+    void setCurEffectPriority(int prio) { mCurEffectPriority = prio; }
+    bool testPriority(int prio) { return (prio > mCurEffectPriority); }
+
     // 
     // for sound effects
 
@@ -231,6 +242,10 @@ public:
     @param pszFilePath        The path of the effect file
     */
     virtual void unloadEffect(const char* pszFilePath);
+
+private:
+    bool m_bEffectEnable;
+    int mCurEffectPriority;
 };
 
 } // end of namespace CocosDenshion

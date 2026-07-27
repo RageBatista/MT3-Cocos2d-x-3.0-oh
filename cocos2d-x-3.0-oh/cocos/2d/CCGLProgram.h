@@ -48,6 +48,10 @@ struct _hashUniformEntry;
 typedef void (*GLInfoFunction)(GLuint program, GLenum pname, GLint* params);
 typedef void (*GLLogFunction) (GLuint program, GLsizei bufsize, GLsizei* length, GLchar* infolog);
 
+// MT3 custom uniform names (ported from Cocos2d-x 2.2.6)
+#define kCCUniformFloatY                "u_f_verticle"
+#define kCCUniformFloatRed              "u_f_red"
+
 /** GLProgram
  Class that implements a glProgram
  
@@ -264,6 +268,9 @@ public:
     CC_DEPRECATED_ATTRIBUTE bool initWithVertexShaderFilename(const GLchar* vShaderByteArray, const GLchar* fShaderByteArray)
     { return initWithFilenames(vShaderByteArray, fShaderByteArray); }
     CC_DEPRECATED_ATTRIBUTE void addAttribute(const char* attributeName, GLuint index) const { return bindAttribLocation(attributeName, index); }
+
+    // MT3 custom method (ported from Cocos2d-x 2.2.6)
+    void setUniformPartParam(int iIndex, GLfloat f1, GLfloat f2, GLfloat f3, GLfloat f4);
 
 private:
     bool updateUniformLocation(GLint location, const GLvoid* data, unsigned int bytes);

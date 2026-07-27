@@ -38,6 +38,7 @@
 #include "CEGUIInputEvent.h"
 #include "CEGUIResourceProvider.h"
 #include <cstdint>
+#include <vector>
 
 
 #if defined(_MSC_VER)
@@ -695,6 +696,9 @@ public:
         no system default tooltip is available.
      */
     Tooltip* getDefaultTooltip(void) const;
+
+    // MT3: Get default component tip
+    CompnentTip* getDefaultCompnenttip(void) const  { return d_defaultCompnenttip;}
 
 	/*!
 	\brief
@@ -1391,6 +1395,140 @@ private:
     RenderedStringParser* d_customRenderedStringParser;
     //! true if mouse click events will be automatically generated.
     bool d_generateMouseClickEvents;
+
+    // MT3: Custom member variables
+    CompnentTip* d_defaultCompnenttip;              //!< System default component tip object.
+    GoToFunction* d_DefaultGoToFunction;            //!< Default go to function callback.
+    ShowItemTips* d_DefaultShowItemTips;            //!< Default show item tips callback.
+    LinkHttpFunction* d_DefaultLinkHttpFunction;    //!< Default link HTTP callback.
+    OnCopyToClipBord* d_CopyToClipBordFunc;         //!< Copy to clipboard callback.
+    OnPasteFromClipBord* d_PasteFromClipBordFunc;   //!< Paste from clipboard callback.
+    OnChangelImageClick* d_ChangelClickFunc;        //!< Changel image click callback.
+    ShowCompnentTips* d_CompnentTips;               //!< Show component tips callback.
+    int d_EmotionNum;                               //!< Number of emotions.
+    const Image* d_CellImage;                       //!< Cell image.
+
+    // MT3: UI sound playback
+    OnUIPlaySound* d_UIPlaySoundFunc; //!< Callback function for UI sound playback
+    OnLinkTextClick* d_LinkTextClickFunc; //!< Callback function for link text click
+    AddSelectEffectToItemCell* d_AddEffectToItemCellFunc; //!< Callback function for item cell select effect
+
+    // MT3: Emotion key vector
+    std::vector<int> d_EmotionKeyVec;
+    // MT3: Emotion frame change callback
+    EmotionChangeFrameFunction* d_DefultEmotionChangeFrameFunction;
+    // MT3: Tips link click callback
+    TipsLinkClick* d_TipsLinkClickFunc;
+    // MT3: Name click callback
+    OnNameLinkClick* d_NameClickFunc;
+    // MT3: Family recruit callback
+    OnFamilyRecruitClick* d_FamilyRecruitFunc;
+    // MT3: Join team link callback
+    JoinTeamLinkClicked* d_JoinTeamLinkFunc;
+    // MT3: Request team link callback
+    RequestTeamLinkClicked* d_RequestTeamLinkFunc;
+    // MT3: Answer question link callback
+    AnswerQuestionLinkClicked* d_AnswerQuestionLinkFunc;
+    // MT3: Common link callback
+    CommonLinkLinkClicked* d_CommonLinkFunc;
+    // MT3: Request other quest callback
+    RequestOtherQuest* d_requestOtherQuestFunc;
+
+public:
+    // MT3: Play UI sound via registered callback
+    void PlayUISound(const String& soundRes);
+    void SetUIPlaySoundFunc(OnUIPlaySound* pFunc) { d_UIPlaySoundFunc = pFunc; }
+    OnUIPlaySound* GetUIPlaySoundFunc() { return d_UIPlaySoundFunc; }
+
+    // MT3: Link text click callback
+    void SetLinkTextClickFuction(OnLinkTextClick* pFunc) { d_LinkTextClickFunc = pFunc; }
+    OnLinkTextClick* GetLinkTextClickFunc() { return d_LinkTextClickFunc; }
+
+    // MT3: Add select effect to item cell
+    AddSelectEffectToItemCell* GetAddSelectEffectToItemCell() { return d_AddEffectToItemCellFunc; }
+
+    // MT3: Emotion number
+    void SetEmotionNum(int num) { d_EmotionNum = num; }
+    int GetEmotionNum() { return d_EmotionNum; }
+
+    // MT3: Copy/Paste clipboard callbacks
+    void SetCopyToClipBordFunc(OnCopyToClipBord* pFunc) { d_CopyToClipBordFunc = pFunc; }
+    OnCopyToClipBord* GetCopyToClipBordFunc() { return d_CopyToClipBordFunc; }
+
+    void SetPasteFromClipBordFunc(OnPasteFromClipBord* pFunc) { d_PasteFromClipBordFunc = pFunc; }
+    OnPasteFromClipBord* GetPasteFromClipBordFunc() { return d_PasteFromClipBordFunc; }
+
+    // MT3: Default link HTTP function
+    void SetDefaultLinkHttpFunction(LinkHttpFunction* func) { d_DefaultLinkHttpFunction = func; }
+    LinkHttpFunction* GetDefaultLinkHttpFunction() { return d_DefaultLinkHttpFunction; }
+
+    // MT3: Default go to function
+    void SetDefaultGoToFunction(GoToFunction* func) { d_DefaultGoToFunction = func; }
+    GoToFunction* GetDefaultGoToFunction() { return d_DefaultGoToFunction; }
+
+    // MT3: Default show item tips
+    void SetDefaultShowItemTips(ShowItemTips* func) { d_DefaultShowItemTips = func; }
+    ShowItemTips* GetDefaultShowItemTips() { return d_DefaultShowItemTips; }
+
+    // MT3: Component tips
+    void SetCompnentTips(ShowCompnentTips* pFuc) { d_CompnentTips = pFuc; }
+    ShowCompnentTips* GetCompnentTips() { return d_CompnentTips; }
+
+    // MT3: Cell image
+    void SetCellImage(const Image* img) { d_CellImage = img; }
+    const Image* GetCellImage() { return d_CellImage; }
+
+    // MT3: Changel click function
+    void SetChangelClickFuction(OnChangelImageClick* pFuc) { d_ChangelClickFunc = pFuc; }
+    OnChangelImageClick* GetChangelClickFunc() { return d_ChangelClickFunc; }
+
+    // MT3: Emotion key management
+    void SetEmotionKey(int key) { d_EmotionKeyVec.push_back(key); }
+    bool HasEmotionKey(int key)
+    {
+        for (std::vector<int>::iterator it = d_EmotionKeyVec.begin(); it != d_EmotionKeyVec.end(); ++it)
+        {
+            if (*it == key)
+                return true;
+        }
+        return false;
+    }
+
+    // MT3: Emotion frame change callback
+    void SetEmotionFrameChangeFunction(EmotionChangeFrameFunction* func) { d_DefultEmotionChangeFrameFunction = func; }
+    EmotionChangeFrameFunction* GetEmotionFrameChangeFunction() { return d_DefultEmotionChangeFrameFunction; }
+
+    // MT3: Tips link click callback
+    void SetTipsLinkClickFunc(TipsLinkClick* func) { d_TipsLinkClickFunc = func; }
+    TipsLinkClick* GetTipsLinkClickFunc() { return d_TipsLinkClickFunc; }
+
+    // MT3: Name click callback
+    void SetNameClickFunc(OnNameLinkClick* pFuc) { d_NameClickFunc = pFuc; }
+    OnNameLinkClick* GetNameClickFunc() { return d_NameClickFunc; }
+
+    // MT3: Default common link callback
+    void SetDefaultCommonLinkLinkFunc(CommonLinkLinkClicked* func) { d_CommonLinkFunc = func; }
+    CommonLinkLinkClicked* GetDefaultCommonLinkLinkFunc() { return d_CommonLinkFunc; }
+
+    // MT3: Family recruit callback
+    void SetFamilyRecruitFunc(OnFamilyRecruitClick* pFunc) { d_FamilyRecruitFunc = pFunc; }
+    OnFamilyRecruitClick* GetFamilyRecruitFunc() { return d_FamilyRecruitFunc; }
+
+    // MT3: Join team link callback
+    void SetDefaultJoinTeamLinkFunc(JoinTeamLinkClicked* func) { d_JoinTeamLinkFunc = func; }
+    JoinTeamLinkClicked* GetDefaultJoinTeamLinkFunc() { return d_JoinTeamLinkFunc; }
+
+    // MT3: Request team link callback
+    void SetDefaultRequestTeamLinkFunc(RequestTeamLinkClicked* func) { d_RequestTeamLinkFunc = func; }
+    RequestTeamLinkClicked* GetDefaultRequestTeamLinkFunc() { return d_RequestTeamLinkFunc; }
+
+    // MT3: Answer question link callback
+    void SetDefaultAnswerQuestionTeamLinkFunc(AnswerQuestionLinkClicked* func) { d_AnswerQuestionLinkFunc = func; }
+    AnswerQuestionLinkClicked* GetDefaultAnswerQuestionTeamLinkFunc() { return d_AnswerQuestionLinkFunc; }
+
+    // MT3: Request other quest callback
+    void SetDefaultOtherQuest(RequestOtherQuest* func) { d_requestOtherQuestFunc = func; }
+    RequestOtherQuest* GetDefaultOtherQuest() { return d_requestOtherQuestFunc; }
 };
 
 } // End of  CEGUI namespace section

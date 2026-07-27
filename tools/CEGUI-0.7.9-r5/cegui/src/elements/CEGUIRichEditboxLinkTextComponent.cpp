@@ -160,8 +160,8 @@ void RichEditboxLinkTextComponent::draw(GeometryBuffer* buffer,
         final_cols *= *mod_colours;
 
     // draw the text string.
-    fnt->drawText(buffer, getText(), final_pos, clip_rect, final_cols,
-                  space_extra, 1.0f, y_scale,d_UnderLine,bBorder);
+    fnt->drawText(*buffer, getText(), final_pos, clip_rect, final_cols,
+                  space_extra, 1.0f, y_scale, d_UnderLine, bBorder);
 	
 }
 
@@ -248,7 +248,7 @@ String RichEditboxLinkTextComponent::GenerateParseText()
 	return parseText;
 }	
 
-RichEditboxComponent* RichEditboxLinkTextComponent::InsertComponent(size_t offset,RichEditboxComponent* pComponent)   //·µ»ØtrueÔòÐèÉú³ÉÐÂµÄcomponent
+RichEditboxComponent* RichEditboxLinkTextComponent::InsertComponent(size_t offset,RichEditboxComponent* pComponent)   //ï¿½ï¿½ï¿½ï¿½trueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½component
 {
 	return RichEditboxComponent::InsertComponent(offset,pComponent);
 }

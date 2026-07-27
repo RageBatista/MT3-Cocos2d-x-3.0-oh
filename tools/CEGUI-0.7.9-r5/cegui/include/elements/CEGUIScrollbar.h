@@ -85,6 +85,9 @@ public:
         - +1 to indicate scroll bar position should be moved to a higher value.
     */
     virtual float getAdjustDirectionFromPoint(const Point& pt) const  = 0;
+
+    // MT3: Check if thumb is at the end position
+    virtual bool isThumbOnEnd(void) = 0;
 };
 
 /*!
@@ -415,6 +418,18 @@ public:
         Nothing.
     */
     void setScrollPosition(float position);
+
+    // MT3: Overloaded setScrollPosition with checkPos parameter
+    void setScrollPosition(float position, bool checkPos);
+
+    // MT3: Stop scrolling
+    void Stop();
+
+    // MT3: Mouse slide event handler
+    virtual void onMouseSlide(MouseEventArgs& e);
+
+    // MT3: Check if thumb is at the end position
+    bool isThumbOnEnd();
 
     /*!
     \brief

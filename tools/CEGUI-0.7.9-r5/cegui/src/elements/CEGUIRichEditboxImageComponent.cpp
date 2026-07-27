@@ -79,7 +79,7 @@ void RichEditboxImageComponent::setImage(const String& imageset,
 		}
 		catch (const CEGUI::UnknownObjectException& uoe)
 		{
-			//Í¼Æ¬×ÊÔ´Ã»ÓÐÕÒµ½
+			//Í¼Æ¬ï¿½ï¿½Ô´Ã»ï¿½ï¿½ï¿½Òµï¿½
 			d_image = 0;
 			std::wostringstream strsteam;
 			strsteam << uoe.getMessage().c_str();
@@ -126,7 +126,7 @@ const ColourRect& RichEditboxImageComponent::getColours() const
 
 void RichEditboxImageComponent::onMouseEnter()
 {
-	//d_specialID ´ú±íÈÎÎñÎïÆ·µÄÊýÁ¿,ÖµÎªÁã´ú±í²»ÊÇÈÎÎñµÀ¾ßµÄÍ¼Æ¬£¬²»ÐèÒªÏÔÊ¾tips
+	//d_specialID ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ÖµÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ê¾tips
 	if(d_specialID > 100)
 	{
 		ShowCompnentTips* pFunc=System::getSingleton().GetCompnentTips();
@@ -212,7 +212,7 @@ void RichEditboxImageComponent::draw(GeometryBuffer* buffer,
         final_cols *= *mod_colours;
 
     // draw the image.
-	if(d_specialID > 0 && d_specialID <100)//´ú±íÈÎÎñÎïÆ·µÄÊýÁ¿,»­¸ñ×Ó
+	if(d_specialID > 0 && d_specialID <100)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	{
 		const Image* pBackimage=System::getSingleton().GetCellImage();
 
@@ -221,9 +221,9 @@ void RichEditboxImageComponent::draw(GeometryBuffer* buffer,
 		backdest.d_top = dest.d_top - 6.5f;
 		backdest.d_right = dest.d_right + 6.5f;
 		backdest.d_bottom = dest.d_bottom + 6.5f;
-		pBackimage->draw(buffer, backdest, clip_rect, final_cols);
+		pBackimage->draw(*buffer, backdest, clip_rect, final_cols);
 	}
-    d_image->draw(buffer, dest, clip_rect, final_cols);
+    d_image->draw(*buffer, dest, clip_rect, final_cols);
 	if(d_specialID > 1 && d_specialID <100)
 	{
 		Vector2 final_pos(position);
@@ -232,7 +232,7 @@ void RichEditboxImageComponent::draw(GeometryBuffer* buffer,
 
 		String text = CEGUI::PropertyHelper::intToString(d_specialID);
 		 Font* fnt = System::getSingleton().getDefaultFont();
-		 fnt->drawText(buffer, text, final_pos, clip_rect, final_cols,
+		 fnt->drawText(*buffer, text, final_pos, clip_rect, final_cols,
 			 0, 1.0f, y_scale);
 	}
 }

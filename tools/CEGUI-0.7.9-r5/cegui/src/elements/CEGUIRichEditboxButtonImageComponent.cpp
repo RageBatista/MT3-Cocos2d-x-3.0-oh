@@ -198,15 +198,15 @@ void RichEditboxButtonImageComponent::draw(GeometryBuffer* buffer,
     // draw the image.
 	if (IsMouseOn() && d_HoverImage)
 	{
-		d_HoverImage->draw(buffer, dest, clip_rect, final_cols);
+		d_HoverImage->draw(*buffer, dest, clip_rect, final_cols);
 	}
 	else if(d_Pushed && d_PushedImage)
 	{
-		d_PushedImage->draw(buffer, dest, clip_rect, final_cols);
+		d_PushedImage->draw(*buffer, dest, clip_rect, final_cols);
 	}
 	else
 	{
-		d_image->draw(buffer, dest, clip_rect, final_cols);
+		d_image->draw(*buffer, dest, clip_rect, final_cols);
 	}
  
 }

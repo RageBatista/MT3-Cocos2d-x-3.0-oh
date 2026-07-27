@@ -57,6 +57,18 @@ class CC_DLL Image : public Ref
 {
 public:
     friend class TextureCache;
+
+    static int ms_iTotalPhysMemory;
+    static int ms_iTotalPhysMemoryLimit;
+    static bool ms_bNormal;
+
+    static void SetTotalPhysMemory(int TotalPhysMemory);
+    static void SetTotalPhysMemoryLimit(int TotalPhysMemoryLimit);
+    static int GetTotalPhysMemory();
+    static int GetTotalPhysMemoryLimit();
+    static void SetIsNormal(bool bNormal);
+    static bool IsNormal();
+
     /**
      * @js ctor
      */
@@ -137,6 +149,49 @@ public:
      @param    isToRGB        whether the image is saved as RGB format.
      */
     bool saveToFile(const std::string &filename, bool isToRGB = true);
+
+    // MT3 custom methods (ported from Cocos2d-x 2.2.6)
+    /** @brief MT3 text alignment enum */
+    typedef enum {
+        kAlignCenter        = 0x33,
+        kAlignTop           = 0x13,
+        kAlignTopRight      = 0x12,
+        kAlignRight         = 0x32,
+        kAlignBottomRight   = 0x22,
+        kAlignBottom        = 0x23,
+        kAlignBottomLeft    = 0x21,
+        kAlignLeft          = 0x31,
+        kAlignTopLeft       = 0x11,
+    } ETextAlign;
+
+    bool initWithString(
+        const char *    pText, 
+        int             nWidth = 0, 
+        int             nHeight = 0,
+        ETextAlign      eAlignMask = kAlignCenter,
+        const char *    pFontName = 0,
+        int             nSize = 0);
+
+    bool initWithStringShadowStroke(
+        const char *    pText,
+        int             nWidth      = 0,
+        int             nHeight     = 0,
+        ETextAlign      eAlignMask  = kAlignCenter,
+        const char *    pFontName   = 0,
+        int             nSize       = 0,
+        float           textTintR   = 1,
+        float           textTintG   = 1,
+        float           textTintB   = 1,
+        bool            shadow      = false,
+        float           shadowOffsetX = 0,
+        float           shadowOffsetY = 0,
+        float           shadowOpacity = 0,
+        float           shadowBlur    = 0,
+        bool            stroke        = false,
+        float           strokeR       = 0,
+        float           strokeG       = 0,
+        float           strokeB       = 0,
+        float           strokeSize    = 0);
 
 protected:
     bool initWithJpgData(const unsigned char *  data, ssize_t dataLen);

@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include <stdarg.h>
 #include <stdio.h>
 #include "../common/nulog.h"
@@ -19,7 +19,7 @@
 #include "nucocos2d_wraper.h"
 
 #ifdef WIN7_32
-#include "platform/CCGLView.h"
+#include "CCGLView.h"
 #endif
 
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)

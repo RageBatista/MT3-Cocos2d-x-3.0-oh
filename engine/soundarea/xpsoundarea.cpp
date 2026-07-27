@@ -1,4 +1,5 @@
 ﻿#include "xpsoundarea.h"
+#include <cocos2d.h>
 #include "nulog.h"
 
 namespace Nuclear

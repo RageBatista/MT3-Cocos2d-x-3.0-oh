@@ -1,6 +1,6 @@
 /***********************************************************************
 filename: 	CEGUICompnentTip.h
-purpose:	richeditbox×é¼þµÄtips
+purpose:	richeditboxï¿½ï¿½ï¿½ï¿½ï¿½tips
 *************************************************************************/
 
 #ifndef _CEGUICompnentTip_h_
@@ -32,7 +32,6 @@ namespace CEGUI
 		Constructor
 		*/
 		CompnentTipWindowRenderer(const String& name);
-		CompnentTipWindowRenderer(){}
 
 		/*!
 		\brief
@@ -43,7 +42,6 @@ namespace CEGUI
 		Size object describing the size of the rendered tooltip text in pixels.
 		*/
 		virtual Size getTextSize() const = 0;
-		virtual void clone(const WindowRenderer* templateRenderer){ WindowRenderer::clone(templateRenderer); }
 
 	};
 
@@ -132,7 +130,7 @@ namespace CEGUI
 		float       d_elapsed;      //!< Used to track state change timings
 		float       d_displayTime;  //!< tool-tip display time (seconds that tip is showsn for).
 		float       d_fadeTime;     //!< tool-tip fade time (seconds it takes for tip to fade in and/or out).
-		bool	    d_InChatOutWin;//ÊÇ·ñÔÚÍâÖÃÁÄÌì´°
+		bool	    d_InChatOutWin;//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì´°
 	};
 
 } // End of  CEGUI namespace section

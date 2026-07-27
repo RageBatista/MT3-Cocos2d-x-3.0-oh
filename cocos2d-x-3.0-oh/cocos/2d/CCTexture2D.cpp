@@ -1407,5 +1407,17 @@ const Texture2D::PixelFormatInfoMap& Texture2D::getPixelFormatInfoMap()
     return _pixelFormatInfoTables;
 }
 
+// MT3 custom methods (ported from Cocos2d-x 2.2.6)
+bool Texture2D::initWithPVRTCData(const void *data, int level, int bpp, bool hasAlpha, int length, Texture2D::PixelFormat pixelFormat)
+{
+    CCLOG("cocos2d: WARNING: PVRTC images is not supported in 3.0-oh MT3 port.");
+    return false;
+}
+
+bool Texture2D::initWithATCData(const void *data, int level, int bpp, bool hasAlpha, int width, int height, Texture2D::PixelFormat pixelFormat)
+{
+    CCLOG("cocos2d: WARNING: ATC images is not supported in 3.0-oh MT3 port.");
+    return false;
+}
 
 NS_CC_END

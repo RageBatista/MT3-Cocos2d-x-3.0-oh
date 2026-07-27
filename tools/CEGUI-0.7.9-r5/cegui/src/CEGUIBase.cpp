@@ -33,4 +33,7 @@
 namespace CEGUI
 {
 
+// MT3: Global text loading state flag
+bool g_bIsTextLoading = true;
+
 } // End of  CEGUI namespace section

@@ -44,13 +44,15 @@ namespace Nuclear
         
         virtual bool isDone(void);
         virtual void step(float dt);
+        virtual EngineTicker* clone() const;
+        virtual EngineTicker* reverse() const;
     };
     
     class EngineLayer : public cocos2d::Layer
     {
     private:
         EngineTicker* m_pTicker;
-        cocos2d::Vec2 m_Pos[MAXPOINT];
+        cocos2d::Point m_Pos[MAXPOINT];
     public:
         EngineLayer();
         virtual ~EngineLayer();
@@ -68,7 +70,7 @@ namespace Nuclear
         virtual bool init();
         virtual void onEnter();
         virtual void onExit();
-        virtual void draw(void);
+        virtual void draw(cocos2d::Renderer *renderer, const kmMat4& transform, bool transformUpdated);
 
 		static EngineLayer* GetEngineLayer();
          
