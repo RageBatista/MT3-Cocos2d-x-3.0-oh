@@ -5,8 +5,11 @@
 > **版本**：1.8.0
 > **制定日期**：2026-07-26
 > **修订日期**：2026-07-28
-> **状态**：执行中 — 阶段 1、2、3、4、5、6 完成，M4 里程碑达成
-> **本次修订**：阶段 6 完成，FireClient 业务代码适配 Debug 编译零错误通过，FireClient.lib（约 167MB）生成
+> **状态**：📋 执行中 — 阶段 1、2、3、4、5、6 完成，M4 里程碑达成（2026-07-28）
+> **本次修订**：
+> - R13 风险状态更新为"已解决"，附验证证据
+> - Phase 7-12 补充预计开始日期
+> - 架构描述明确 FireClient.win32.vcxproj 已实际切换
 > **依赖文档**：
 >
 > - [Cocos2d-x 2.2.6 → 3.0-oh 升级方案](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md)（已存在）
@@ -54,7 +57,7 @@
 └──────────┬───────────────────────────────┬──────────────────────┘
            │ CEGUI::System                   │ cocos2d::CCDirector
 ┌──────────▼──────────────┐ ┌───────────────▼──────────────────────┐
-│  Layer 3a: CEGUI 0.7.1  │ │  Layer 3b: Nuclear 引擎              │
+│  Layer 3a: CEGUI 0.7.1 → 0.7.9-r5 (**FireClient 已切换**) │ │  Layer 3b: Nuclear 引擎              │
 │  dependencies/cegui/    │ │  engine/                             │
 │  ├── Cocos2DRenderer    │ │  ├── EngineApp : CCApplication       │
 │  ├── Cocos2DImageCodec  │ │  ├── EngineLayer : CCLayer           │
@@ -67,8 +70,9 @@
            │ CEGUICocos2DTexture              │ CCNode, CCSprite
            │ CEGUICocos2DRenderer             │ CCDirector, CCTexture
 ┌──────────▼─────────────────────────────────▼────────────────────┐
-│  Layer 2: Cocos2d-x 2.2.6 (含 8 类 MT3 补丁)                    │
-│  cocos2d-x-2.2.6/cocos2dx/                                      │
+│  Layer 2: Cocos2d-x 2.2.6/3.0-oh (含 8 类 MT3 补丁)           │
+│  **FireClient.win32.vcxproj 已切换至 3.0-oh**                     │
+│  cocos2d-x-3.0-oh/cocos/ ← **FireClient 已切换到此**         │
 │  ├── CCNode, CCSprite, CCLayer, CCScene, CCDirector             │
 │  ├── CCTexture2D, CCTextureCache, CCSpriteFrameCache            │
 │  ├── CCAction, CCSequence, CCCallFunc (SEL 选择器回调)           │
@@ -401,7 +405,7 @@ Cocos2d-x 2.2.6 上的 8 类 MT3 专属补丁需逐一评估并移植到 3.0-oh�
 | **R10** | 第三方依赖版本冲突                | 双引擎     | 中  | 中等 | **中等**  | 提前梳理版本依赖                                |
 | **R11** | CEGUI 资源文件格式不兼容          | CEGUI   | 低  | 中等 | **中等**  | 已验证格式高度兼容（见 CEGUI 方案 §1.4.9）            |
 | **R12** | OHOS 平台不稳定               | Cocos2d | 高  | 低  | **低**   | OHOS 作为可选目标，不影响主平台                      |
-| **R13** | ~~预编译 .lib 重编译失败（无源码库）~~ | 已消除     | —  | —  | **已消除** | 工具链保持 VS2013 (v120)，所有预编译库可直接复用，此风险已消除  |
+| **R13** | ~~预编译 .lib 重编译失败（无源码库）~~ | **已解决** | 2026-07-28 | VS2013 (v120) 工具链确认完全兼容，无需升级。`FireClient.win32.vcxproj` 已切换至 `cocos2d-x-3.0-oh/build/lib/Debug` 和 `tools/CEGUI-0.7.9-r5/cegui-0.7.9/Debug.win32`，Debug 编译零错误通过，FireClient.lib (167MB) 生成。R13 风险完全消除。 |
 
 ### 5.3 关键风险缓解措施
 
@@ -577,7 +581,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 ## 附录 C：执行进度跟踪
 
 > **执行开始**：2026-07-26
-> **最后更新**：2026-07-27
+> **最后更新**：2026-07-28
 
 ### 总体进度
 
@@ -590,12 +594,12 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 阶段 4 | Nuclear 引擎封装层适配 | 2 周 | ✅ 完成 | 1.5 天 | Debug/Release 均零错误，engine.lib 生成（见 §阶段4详细） |
 | 阶段 5 | CEGUI 定制模块移植 | 3 周 | ✅ 完成 | 1.5 天 | Debug/Release 双配置编译通过（见 §阶段5详细） |
 | 阶段 6 | FireClient 业务代码适配 | 4 周 | ✅ 完成 | 1 天 | Debug 编译零错误，FireClient.lib（约 167MB）生成（见 §阶段6详细） |
-| 阶段 7 | Lua 脚本 + tolua++ 适配 | 2 周 | ⬜ 待开始 | — | — |
-| 阶段 8 | 资源文件兼容性处理 | 1 周 | ⬜ 待开始 | — | — |
-| 阶段 9 | 平台适配 | 4 周 | ⬜ 待开始 | — | — |
-| 阶段 10 | MT3 补丁移植 | 2 周 | ⬜ 待开始 | — | — |
-| 阶段 11 | 测试验证 | 4 周 | ⬜ 待开始 | — | — |
-| 阶段 12 | 优化与上线 | 3 周 | ⬜ 待开始 | — | — |
+| 阶段 7 | Lua 脚本 + tolua++ 适配 | 2 周 | ⬜ 待开始 | 2026-07-28 | 2026-08-11 |
+| 阶段 8 | 资源文件兼容性处理 | 1 周 | ⬜ 待开始 | 2026-08-11 | 2026-08-18 |
+| 阶段 9 | 平台适配 | 4 周 | ⬜ 待开始 | 2026-08-18 | 2026-09-15 |
+| 阶段 10 | MT3 补丁移植 | 2 周 | ⬜ 待开始 | 2026-09-15 | 2026-09-29 |
+| 阶段 11 | 测试验证 | 4 周 | ⬜ 待开始 | 2026-09-29 | 2026-10-27 |
+| 阶段 12 | 优化与上线 | 3 周 | ⬜ 待开始 | 2026-10-27 | 2026-11-17 |
 
 ### 阶段 0 详细进度
 
@@ -1071,4 +1075,49 @@ self->PlayNPCSound(ceguiSoundRes, iNpcId, bForcePlay);
 - **根因**：CEGUI 0.7.9-r5 的 `WindowRenderer` 移除默认构造函数，且 `clone()` 不再是其成员
 - **修复**：移除这些类的默认构造函数和 `clone()` 方法
 - **教训**：0.7.9-r5 的 `WindowRenderer` 体系与 0.7.1 差异较大，自定义渲染器需要重新审视架构
+
+### D.6 阶段 6：FireClient 业务代码适配
+
+#### 坑 10：tolua++ 接口缺失导致 LuaFireClientWin32.cpp 编译失败
+
+- **现象**：编译 `LuaFireClientWin32.cpp` 时出现 `C3861`（找不到标识符）错误，涉及 `tolua_isfunction`、`tolua_ref_function`、`tolua_isluaobj`、`tolua_ref_luaobj`
+- **根因**：Cocos2d-x 3.0-oh 的 `tolua++.h` 只包含标准 tolua 接口，缺少 MT3 在 2.2.6 中新增的内联包装函数。`tolua_isfunction` 和 `tolua_isluaobj` 是 `LuaFireClientWin32.cpp`（4.3MB 生成文件）中被大量使用的类型检查函数
+- **修复**：在 `cocos2d-x-3.0-oh/external/lua/tolua/tolua++.h` 中添加 5 个内联函数实现：
+  - `tolua_ref_function`：包装 `toluafix_ref_function`
+  - `tolua_remove_function_by_refid`：包装 `toluafix_remove_function_by_refid`
+  - `tolua_isfunction`：基于 `lua_isfunction` 实现
+  - `tolua_ref_luaobj`：基于 `luaL_ref` 实现
+  - `tolua_isluaobj`：始终返回 1（兼容现有逻辑）
+- **教训**：tolua++ 绑定代码的依赖链很深，需要同时适配 tolua++.h 头文件和 tolua_fix.cpp 编译单元
+
+#### 坑 11：tolua_fix.cpp 未包含在工程中
+
+- **现象**：链接阶段缺少 `toluafix_ref_function` 和 `toluafix_remove_function_by_refid` 符号
+- **根因**：`tolua_fix.cpp` 在 Cocos2d-x 3.0-oh 中路径为 `cocos/scripting/lua-bindings/manual/tolua_fix.cpp`，未包含在 `FireClient.win32.vcxproj` 的 ClCompile 列表中
+- **修复**：在 `FireClient.win32.vcxproj` 中添加 `<ClCompile Include="..\..\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\manual\tolua_fix.cpp">`，并设置 `PrecompiledHeader` 为 `NotUsing`
+- **教训**：tolua++ 的运行时实现分散在多个文件中，迁移时需要确保所有依赖的编译单元都包含在工程中
+
+#### 坑 12：HTTP 模块 API 命名空间变更
+
+- **现象**：编译 `LuaFireClientWin32.cpp` 时出现 `C2065`（未声明标识符）错误，涉及 `cocos2d::extension::CCHttpClient`、`cocos2d::extension::CCHttpResponse`、`kHttpPost`
+- **根因**：Cocos2d-x 3.0-oh 将 HTTP 模块从 `cocos2d::extension` 命名空间迁移至 `cocos2d::network`，类名也去掉了 `CC` 前缀
+- **修复**：
+  - `CCHttpClient` → `HttpClient`（含命名空间变更）
+  - `CCHttpResponse` → `HttpResponse`
+  - `CCHttpRequest::HttpRequestType::kHttpPost` → `(int)HttpRequest::Type::POST`（枚举类型也变更）
+- **教训**：Cocos2d-x 3.0 的命名空间重构影响面广，HTTP、网络、音频等模块都需要关注
+
+#### 坑 13：wstring 到 CEGUI::String 的类型转换
+
+- **现象**：`PlayNPCSound` 调用处出现 `C2664`（参数类型转换失败）错误
+- **根因**：`tolua_tocppwstring` 返回 `std::wstring`，但 `PlayNPCSound` 需要 `CEGUI::String` 参数，两者之间没有隐式转换。Cocos2d-x 3.0-oh 的 CEGUI String 类与 2.2.6 版本不兼容
+- **修复**：添加显式转换 `CEGUI::String ceguiSoundRes(soundRes.c_str());`
+- **教训**：跨引擎边界的类型转换需要显式处理，不能依赖隐式转换
+
+#### 坑 14：编译日志文件路径中的分号导致 PowerShell 语法错误
+
+- **现象**：MSBuild 的 `/flp` 参数中 `;Verbosity=minimal` 被 PowerShell 解析为独立语句，报 `The term 'Verbosity=minimal' is not recognized`
+- **根因**：PowerShell 中分号 `;` 是语句分隔符，MSBuild 的 `/flp:logfile=xxx;Verbosity=minimal` 在 PowerShell 中需要转义或使用引号包裹
+- **修复**：将整个 `/flp:` 参数值用引号包裹，或移除 `;Verbosity=minimal` 部分（MSBuild 默认输出 minimal 级别）
+- **教训**：在 PowerShell 中调用 MSBuild 时，注意分号、逗号等特殊字符的转义
 

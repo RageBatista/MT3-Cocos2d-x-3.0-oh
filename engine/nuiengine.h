@@ -1,4 +1,4 @@
-﻿#ifndef __Nuclear_IENGINE_H__
+#ifndef __Nuclear_IENGINE_H__
 #define __Nuclear_IENGINE_H__
 
 #if _MSC_VER > 1000
@@ -57,8 +57,8 @@ namespace Nuclear
 
 		virtual int GetScreenWidth() = 0;
 		virtual int GetScreenHeight() = 0;
-		virtual void SetEngineLayer(cocos2d::CCLayer* aPLayer) = 0;
-		virtual cocos2d::CCLayer* GetEngineLayer() = 0;
+		virtual void SetEngineLayer(cocos2d::Layer* aPLayer) = 0;
+		virtual cocos2d::Layer* GetEngineLayer() = 0;
 		virtual void Draw() = 0;
 		// 下面两个设路径的方法，要在调用Run()之前调用
 		virtual bool SetInfoLogPath(const std::wstring &fn) = 0;

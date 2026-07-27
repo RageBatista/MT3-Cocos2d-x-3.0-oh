@@ -76,9 +76,9 @@ public:
 	void connetGetUserInfo();
 	void connetCreateRoleInfo(int serverid, int headid);
 	void connetGetRecruitInfo(char* url, int index);
-	void onGetServerlist(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void onGetUserInfo(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void onSerUserInfo(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void onGetServerlist(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void onGetUserInfo(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void onSerUserInfo(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 	void setHttpAdressMap(enumServerHttpAdress em, std::string value);
 	std::string getHttpAdressByEnum(enumServerHttpAdress em);
