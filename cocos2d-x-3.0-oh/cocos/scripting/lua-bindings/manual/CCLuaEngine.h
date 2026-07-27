@@ -129,6 +129,42 @@ public:
     virtual int sendEvent(ScriptEvent* message) override;
     virtual int handleEvent(ScriptHandlerMgr::HandlerType type,void* data);
     virtual int handleEvent(ScriptHandlerMgr::HandlerType type, void* data, int numResults, const std::function<void(lua_State*,int)>& func);
+    
+    // ====== MT3 Custom Lua Bridge Methods ======
+    virtual lua_State* getLuaState(void) override;
+    
+    virtual int pushIntegerToLuaStack(int data) override;
+    virtual int pushInt64ToLuaStack(int64_t data) override;
+    virtual int pushFloatToLuaStack(float data) override;
+    virtual int pushBooleanToLuaStack(int data) override;
+    virtual int pushStringToLuaStack(const char* data) override;
+    virtual int pushUserDataToLuaStack(void* data) override;
+    
+    virtual int executeFunctionByHandler(int nHandler, int numArgs = 0) override;
+    virtual int executeFunctionWithIntegerData(int nHandler, int data) override;
+    virtual int executeFunctionWithFloatData(int nHandler, float data) override;
+    virtual int executeFunctionWithBooleanData(int nHandler, bool data) override;
+    virtual int executeFunctionWithStringData(int nHandler, const char* data) override;
+    virtual int executeFunctionWithParamsData(int nHandler, double param0, double param1, double param2 = 0, double param3 = 0) override;
+    
+    virtual std::string executeGlobalFunctionBackString(const char* functionName, int numArgs = 0) override;
+    virtual int executeGlobalFunctionWithIntegerData(const char* functionName, int data) override;
+    virtual int executeGlobalFunctionWithDoubleData(const char* functionName, double data) override;
+    virtual int executeGlobalFunctionWithBooleanData(const char* functionName, bool data) override;
+    virtual int executeGlobalFunctionWithStringData(const char* functionName, const char* data) override;
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, double param0, double param1, double param2 = 0, double param3 = 0) override;
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, double param0, double param1, double param2, double param3, double param4) override;
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, void* param0, double param1, double param2 = 0, double param3 = 0) override;
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, void* param0, void* param1, double param2 = 0, double param3 = 0) override;
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, int param0, int param1, int param2 = 0, int param3 = 0) override;
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, const char* param0, const char* param1, const char* param2, const char* param3) override;
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, const char* param0, int param1, int param2, int param3, int param4 = 0) override;
+    virtual int executeGlobalFunctionWithData(const char* functionName, void* param0, int param1) override;
+    virtual int executeGlobalFunctionWith2Int(const char* functionName, int param0, int param1) override;
+    
+    virtual bool executeProtocolHandler(int nHandler, const aio::Protocol& e) override;
+    virtual void executeLuaProtocolHandler(int nHandler, const aio::LuaProtocol& lp) override;
+    virtual void collectMemory() override;
 private:
     LuaEngine(void)
     : _stack(nullptr)

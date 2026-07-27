@@ -35,6 +35,71 @@
 
 NS_CC_BEGIN
 
+namespace {
+
+static bool pushNamedLuaFunction(lua_State* L, const char* functionName)
+{
+    if (!L || !functionName || functionName[0] == '\0')
+    {
+        CCLOG("[LUA ERROR] empty function name");
+        return false;
+    }
+
+    int top = lua_gettop(L);
+    std::string name(functionName);
+    std::string::size_type dot = name.find('.');
+    if (dot == std::string::npos)
+    {
+        lua_getglobal(L, name.c_str());
+    }
+    else
+    {
+        lua_getglobal(L, name.substr(0, dot).c_str());
+        if (!lua_istable(L, -1))
+        {
+            lua_settop(L, top);
+            CCLOG("[LUA ERROR] name '%s' does not start with a Lua table", functionName);
+            return false;
+        }
+
+        std::string::size_type start = dot + 1;
+        while (true)
+        {
+            dot = name.find('.', start);
+            std::string part = (dot == std::string::npos)
+                ? name.substr(start)
+                : name.substr(start, dot - start);
+            lua_pushstring(L, part.c_str());
+            lua_gettable(L, -2);
+            lua_remove(L, -2);
+
+            if (dot == std::string::npos)
+            {
+                break;
+            }
+
+            if (!lua_istable(L, -1))
+            {
+                lua_settop(L, top);
+                CCLOG("[LUA ERROR] name '%s' has a non-table component '%s'", functionName, part.c_str());
+                return false;
+            }
+            start = dot + 1;
+        }
+    }
+
+    if (!lua_isfunction(L, -1))
+    {
+        lua_settop(L, top);
+        CCLOG("[LUA ERROR] name '%s' does not represent a Lua function", functionName);
+        return false;
+    }
+
+    return true;
+}
+
+} // namespace
+
 LuaEngine* LuaEngine::_defaultEngine = nullptr;
 
 LuaEngine* LuaEngine::getInstance(void)
@@ -1079,6 +1144,264 @@ int LuaEngine::handleArmatureWrapper(ScriptHandlerMgr::HandlerType type,void* da
 int LuaEngine::reload(const char* moduleFileName)
 {
     return _stack->reload(moduleFileName);
+}
+
+// ====== MT3 Custom Lua Bridge Method Implementations ======
+
+lua_State* LuaEngine::getLuaState(void)
+{
+    return _stack ? _stack->getLuaState() : nullptr;
+}
+
+int LuaEngine::pushIntegerToLuaStack(int data)
+{
+    _stack->pushInt(data);
+    return 0;
+}
+
+int LuaEngine::pushInt64ToLuaStack(int64_t data)
+{
+    lua_State* L = _stack->getLuaState();
+    lua_pushnumber(L, (lua_Number)data);
+    return 0;
+}
+
+int LuaEngine::pushFloatToLuaStack(float data)
+{
+    _stack->pushFloat(data);
+    return 0;
+}
+
+int LuaEngine::pushBooleanToLuaStack(int data)
+{
+    _stack->pushBoolean(data != 0);
+    return 0;
+}
+
+int LuaEngine::pushStringToLuaStack(const char* data)
+{
+    _stack->pushString(data ? data : "");
+    return 0;
+}
+
+int LuaEngine::pushUserDataToLuaStack(void* data)
+{
+    lua_pushlightuserdata(_stack->getLuaState(), data);
+    return 0;
+}
+
+int LuaEngine::executeFunctionByHandler(int nHandler, int numArgs)
+{
+    int ret = _stack->executeFunctionByHandler(nHandler, numArgs);
+    _stack->clean();
+    return ret;
+}
+
+int LuaEngine::executeFunctionWithIntegerData(int nHandler, int data)
+{
+    pushIntegerToLuaStack(data);
+    return executeFunctionByHandler(nHandler, 1);
+}
+
+int LuaEngine::executeFunctionWithFloatData(int nHandler, float data)
+{
+    pushFloatToLuaStack(data);
+    return executeFunctionByHandler(nHandler, 1);
+}
+
+int LuaEngine::executeFunctionWithBooleanData(int nHandler, bool data)
+{
+    pushBooleanToLuaStack(data ? 1 : 0);
+    return executeFunctionByHandler(nHandler, 1);
+}
+
+int LuaEngine::executeFunctionWithStringData(int nHandler, const char* data)
+{
+    pushStringToLuaStack(data);
+    return executeFunctionByHandler(nHandler, 1);
+}
+
+int LuaEngine::executeFunctionWithParamsData(int nHandler, double param0, double param1, double param2, double param3)
+{
+    lua_State* L = _stack->getLuaState();
+    lua_pushnumber(L, param0);
+    lua_pushnumber(L, param1);
+    lua_pushnumber(L, param2);
+    lua_pushnumber(L, param3);
+    return executeFunctionByHandler(nHandler, 4);
+}
+
+std::string LuaEngine::executeGlobalFunctionBackString(const char* functionName, int numArgs)
+{
+    lua_State* L = getLuaState();
+    std::string ret;
+
+    if (!pushNamedLuaFunction(L, functionName))
+    {
+        _stack->clean();
+        return ret;
+    }
+
+    if (numArgs > 0)
+    {
+        lua_insert(L, -(numArgs + 1));
+    }
+
+    int functionIndex = -(numArgs + 1);
+    int traceback = 0;
+    lua_getglobal(L, "__G__TRACKBACK__");
+    if (!lua_isfunction(L, -1))
+    {
+        lua_pop(L, 1);
+    }
+    else
+    {
+        lua_insert(L, functionIndex - 1);
+        traceback = functionIndex - 1;
+    }
+
+    int error = lua_pcall(L, numArgs, 1, traceback);
+    if (error)
+    {
+        CCLOG("[LUA ERROR] %s", lua_tostring(L, -1));
+        _stack->clean();
+        return ret;
+    }
+
+    if (lua_isstring(L, -1))
+    {
+        ret = lua_tostring(L, -1);
+    }
+
+    _stack->clean();
+    return ret;
+}
+
+int LuaEngine::executeGlobalFunctionWithIntegerData(const char* functionName, int data)
+{
+    pushIntegerToLuaStack(data);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithDoubleData(const char* functionName, double data)
+{
+    lua_pushnumber(getLuaState(), data);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithBooleanData(const char* functionName, bool data)
+{
+    _stack->pushBoolean(data);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithStringData(const char* functionName, const char* data)
+{
+    _stack->pushString(data ? data : "");
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, double param0, double param1, double param2, double param3)
+{
+    lua_State* L = getLuaState();
+    lua_pushnumber(L, param0);
+    lua_pushnumber(L, param1);
+    lua_pushnumber(L, param2);
+    lua_pushnumber(L, param3);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, double param0, double param1, double param2, double param3, double param4)
+{
+    lua_State* L = getLuaState();
+    lua_pushnumber(L, param0);
+    lua_pushnumber(L, param1);
+    lua_pushnumber(L, param2);
+    lua_pushnumber(L, param3);
+    lua_pushnumber(L, param4);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, void* param0, double param1, double param2, double param3)
+{
+    lua_State* L = getLuaState();
+    lua_pushlightuserdata(L, param0);
+    lua_pushnumber(L, param1);
+    lua_pushnumber(L, param2);
+    lua_pushnumber(L, param3);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, void* param0, void* param1, double param2, double param3)
+{
+    lua_State* L = getLuaState();
+    lua_pushlightuserdata(L, param0);
+    lua_pushlightuserdata(L, param1);
+    lua_pushnumber(L, param2);
+    lua_pushnumber(L, param3);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, int param0, int param1, int param2, int param3)
+{
+    pushIntegerToLuaStack(param0);
+    pushIntegerToLuaStack(param1);
+    pushIntegerToLuaStack(param2);
+    pushIntegerToLuaStack(param3);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, const char* param0, const char* param1, const char* param2, const char* param3)
+{
+    _stack->pushString(param0 ? param0 : "");
+    _stack->pushString(param1 ? param1 : "");
+    _stack->pushString(param2 ? param2 : "");
+    _stack->pushString(param3 ? param3 : "");
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, const char* param0, int param1, int param2, int param3, int param4)
+{
+    _stack->pushString(param0 ? param0 : "");
+    pushIntegerToLuaStack(param1);
+    pushIntegerToLuaStack(param2);
+    pushIntegerToLuaStack(param3);
+    pushIntegerToLuaStack(param4);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWithData(const char* functionName, void* param0, int param1)
+{
+    lua_pushlightuserdata(getLuaState(), param0);
+    pushIntegerToLuaStack(param1);
+    return executeGlobalFunction(functionName);
+}
+
+int LuaEngine::executeGlobalFunctionWith2Int(const char* functionName, int param0, int param1)
+{
+    pushIntegerToLuaStack(param0);
+    pushIntegerToLuaStack(param1);
+    return executeGlobalFunction(functionName);
+}
+
+bool LuaEngine::executeProtocolHandler(int nHandler, const aio::Protocol& e)
+{
+    // MT3: stub - protocol handler is implemented in generated LuaFireClient.cpp
+    CC_UNUSED_PARAM(nHandler);
+    CC_UNUSED_PARAM(e);
+    return false;
+}
+
+void LuaEngine::executeLuaProtocolHandler(int nHandler, const aio::LuaProtocol& lp)
+{
+    // MT3: stub - protocol handler is implemented in generated LuaFireClient.cpp
+    CC_UNUSED_PARAM(nHandler);
+    CC_UNUSED_PARAM(lp);
+}
+
+void LuaEngine::collectMemory()
+{
+    lua_gc(getLuaState(), LUA_GCCOLLECT, 0);
 }
 
 NS_CC_END

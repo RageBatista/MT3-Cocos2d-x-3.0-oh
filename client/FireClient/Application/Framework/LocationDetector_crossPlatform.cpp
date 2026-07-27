@@ -1,11 +1,11 @@
 //////////////////////////////////////////////////////////////////////////
 // File:		LocationDetector_crossPlatform.cpp
-// Author:	Ñî´ºÀ×
+// Author:	ï¿½î´ºï¿½ï¿½
 // Date:		2016/05/11
 //////////////////////////////////////////////////////////////////////////
 
 #include "LocationDetector.h"
-#include "script_support/CCScriptSupport.h"
+#include "CCScriptSupport.h"
 
 const LocationDetector::Location LocationDetector::getLocation(int index) const
 {

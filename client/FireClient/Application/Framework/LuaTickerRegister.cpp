@@ -1,5 +1,5 @@
 #include "LuaTickerRegister.h"
-#include "script_support/CCScriptSupport.h"
+#include "CCScriptSupport.h"
 
 
 LuaTickerRegister::LuaTickerRegister():m_iLuaTickerHandler(0)

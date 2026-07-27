@@ -36,8 +36,12 @@
 #include <map>
 #include <string>
 #include <list>
+#include <stdint.h>
 
 typedef struct lua_State lua_State;
+
+// MT3: forward declarations for aio protocol types used by MT3 custom Lua bridge
+namespace aio { class Protocol; class LuaProtocol; }
 
 NS_CC_BEGIN
 
@@ -448,6 +452,48 @@ public:
     };
     /** Parse configuration file */
     virtual bool parseConfig(ConfigType type, const std::string& str) = 0;
+
+    // ====== MT3 Custom Lua Bridge Methods (kept for FireClient backward compatibility) ======
+
+    /** Get attached lua_State, kept for MT3 FireClient callers. */
+    virtual lua_State* getLuaState(void) { return nullptr; }
+
+    /** Legacy Lua helper: push values to Lua stack */
+    virtual int pushIntegerToLuaStack(int data) { return 0; }
+    virtual int pushInt64ToLuaStack(int64_t data) { return 0; }
+    virtual int pushFloatToLuaStack(float data) { return 0; }
+    virtual int pushBooleanToLuaStack(int data) { return 0; }
+    virtual int pushStringToLuaStack(const char* data) { return 0; }
+    virtual int pushUserDataToLuaStack(void* data) { return 0; }
+
+    /** Legacy Lua handler invocation helpers */
+    virtual int executeFunctionByHandler(int nHandler, int numArgs = 0) { return 0; }
+    virtual int executeFunctionWithIntegerData(int nHandler, int data) { return 0; }
+    virtual int executeFunctionWithFloatData(int nHandler, float data) { return 0; }
+    virtual int executeFunctionWithBooleanData(int nHandler, bool data) { return 0; }
+    virtual int executeFunctionWithStringData(int nHandler, const char* data) { return 0; }
+    virtual int executeFunctionWithParamsData(int nHandler, double param0, double param1, double param2 = 0, double param3 = 0) { return 0; }
+
+    /** Legacy global function execution with typed data */
+    virtual std::string executeGlobalFunctionBackString(const char* functionName, int numArgs = 0) { return ""; }
+    virtual int executeGlobalFunctionWithIntegerData(const char* functionName, int data) { return 0; }
+    virtual int executeGlobalFunctionWithDoubleData(const char* functionName, double data) { return 0; }
+    virtual int executeGlobalFunctionWithBooleanData(const char* functionName, bool data) { return 0; }
+    virtual int executeGlobalFunctionWithStringData(const char* functionName, const char* data) { return 0; }
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, double param0, double param1, double param2 = 0, double param3 = 0) { return 0; }
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, double param0, double param1, double param2, double param3, double param4) { return 0; }
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, void* param0, double param1, double param2 = 0, double param3 = 0) { return 0; }
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, void* param0, void* param1, double param2 = 0, double param3 = 0) { return 0; }
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, int param0, int param1, int param2 = 0, int param3 = 0) { return 0; }
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, const char* param0, const char* param1, const char* param2, const char* param3) { return 0; }
+    virtual int executeGlobalFunctionWithParamsData(const char* functionName, const char* param0, int param1, int param2, int param3, int param4 = 0) { return 0; }
+    virtual int executeGlobalFunctionWithData(const char* functionName, void* param0, int param1) { return 0; }
+    virtual int executeGlobalFunctionWith2Int(const char* functionName, int param0, int param1) { return 0; }
+
+    /** Legacy protocol handler */
+    virtual bool executeProtocolHandler(int nHandler, const aio::Protocol& e) { return false; }
+    virtual void executeLuaProtocolHandler(int nHandler, const aio::LuaProtocol& lp) {}
+    virtual void collectMemory() {}
 };
 
 /**
@@ -509,6 +555,13 @@ private:
     
     ScriptEngineProtocol *_scriptEngine;
 };
+
+// ====== MT3 Backward Compatibility: CC-prefixed class aliases ======
+typedef ScriptEngineManager        CCScriptEngineManager;
+typedef ScriptEngineProtocol       CCScriptEngineProtocol;
+typedef ScriptHandlerEntry         CCScriptHandlerEntry;
+typedef SchedulerScriptHandlerEntry CCSchedulerScriptHandlerEntry;
+typedef TouchScriptHandlerEntry    CCTouchScriptHandlerEntry;
 
 // end of script_support group
 /// @}

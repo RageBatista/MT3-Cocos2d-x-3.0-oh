@@ -1,5 +1,5 @@
 #include "LuaXPRenderEffect.h"
-#include "script_support/CCScriptSupport.h"
+#include "CCScriptSupport.h"
 #include "CEGUI.h"
 #include <stdarg.h>
 #include <stdio.h>

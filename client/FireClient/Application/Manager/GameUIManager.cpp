@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "GameUIManager.h"
 #include "engine/nucocos2d_wraper.h"
 #if defined WIN7_32
@@ -10,7 +10,7 @@
 #include "GameStateManager.h"
 #include "GameOperateState.h"
 #include "TaskOnOffEffectManager.h"
-#include "script_support/CCScriptSupport.h" 
+#include "CCScriptSupport.h" 
 #include "CCLuaEngine.h"
 #include "IconManager.h"
 #include "EmotionManager.h"

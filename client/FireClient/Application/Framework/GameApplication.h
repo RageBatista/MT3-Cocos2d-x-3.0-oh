@@ -1,4 +1,4 @@
-﻿#ifndef enginetester_GameApplication_h
+#ifndef enginetester_GameApplication_h
 #define enginetester_GameApplication_h
 
 #include "nuiapp.h"
@@ -7,7 +7,7 @@
 #include <nuiengine.h>
 #include "common/nuexecutor.h"
 
-#include "script_support/CCScriptSupport.h"
+#include "CCScriptSupport.h"
 #include "CCLuaEngine.h"
 #include "LuaTickerRegister.h"
 #include "common/GameCommon.h"

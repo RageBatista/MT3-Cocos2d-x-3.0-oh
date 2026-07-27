@@ -3,7 +3,7 @@
 #endif
 #include "Utils2.h"
 #include "cocos2d.h"
-#include "script_support/CCScriptSupport.h"
+#include "CCScriptSupport.h"
 #include "../../../../common/platform/utils/StringCover.h"
 #include "GameTable/EffectPath/CEffectPathNoneDrama.h"
 #include "GameTable/message/CMessageTip.h"

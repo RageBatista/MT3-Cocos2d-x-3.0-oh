@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #endif
 #include "CallLuaUtil.h"
-#include "script_support/CCScriptSupport.h"
+#include "CCScriptSupport.h"
 
 void LuaArgUsertype::pushToLua(lua_State* pState) const
  {

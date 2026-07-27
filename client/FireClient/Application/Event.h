@@ -1,7 +1,7 @@
-﻿#ifndef __EVENT_HPP
+#ifndef __EVENT_HPP
 #define __EVENT_HPP
 
-#include "script_support/CCScriptSupport.h"
+#include "CCScriptSupport.h"
 #include <vector>
 #include <list>
 

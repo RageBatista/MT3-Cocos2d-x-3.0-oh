@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ProtocolLuaFunManager.h"
-#include "script_support/CCScriptSupport.h"
+#include "CCScriptSupport.h"
 
 
 namespace Game
