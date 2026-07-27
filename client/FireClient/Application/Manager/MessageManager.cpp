@@ -688,7 +688,7 @@ stMessageBoxInfo* MessageManager::AddMessageBox(const std::wstring& title, const
 				else
 					ypos.d_offset = ypos.d_offset - (h.d_offset-96) / 2;
 				m_pText->setYPosition(ypos);
-				m_pText->setText(message, 0xff57371d);
+				m_pText->setText(CEGUI::PFSResourceProvider::WStringToGUIString(message));
 
 				pMiniBtn->setVisible(false);
 				pOKBtn->setXPosition(CEGUI::UDim(0, pBgWindow->getPixelSize().d_width - pOKBtn->getPixelSize().d_width - 50.0f));
