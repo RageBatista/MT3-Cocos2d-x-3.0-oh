@@ -97,5 +97,7 @@
 #include "CEGUIRichEditboxAnswerQuestionLinkComponent.h"
 #include "CEGUIRichEditboxRequestOtherQuestComponent.h"
 #include "CEGUIRichEditboxBreakLineComponent.h"
+// MT3: MessageTip backward compatibility typedef
+#include "CEGUIMessageTip.h"
 
 #endif // End of guard _CEGUIAll_h_

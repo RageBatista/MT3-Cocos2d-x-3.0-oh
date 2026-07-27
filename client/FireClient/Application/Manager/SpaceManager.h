@@ -26,7 +26,7 @@ public:
 	SpaceManager();
 	virtual ~SpaceManager();
 
-	void SendRequest(std::string strProtocolId, std::string strUrl, std::string strData = "", int nHttpType = cocos2d::network::HttpRequest::HttpRequestType::kHttpPost, int nTimeOut = 5);
+	void SendRequest(std::string strProtocolId, std::string strUrl, std::string strData = "", int nHttpType = cocos2d::network::HttpRequest::Type::POST, int nTimeOut = 5);
 	void ReceiveRequest_process(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 	bool Initialize(const char* tempFilePath);

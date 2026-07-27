@@ -12,7 +12,7 @@ class HttpOperator
 public:
 	bool Send(cocos2d::CCObject* obj);
 public:
-	cocos2d::network::HttpRequest::HttpRequestType mType;
+	cocos2d::network::HttpRequest::Type mType;
 	cocos2d::extension::SEL_HttpResponse mResponse;
 	std::string mStrUrl;
 	std::vector<std::string> mVetHeader; // http 头.

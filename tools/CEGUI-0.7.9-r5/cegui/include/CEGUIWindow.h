@@ -4467,9 +4467,18 @@ private:
         May not copy or assign Window objects
     *************************************************************************/
     Window(const Window&) : PropertySet(), EventSet() {}
+// MT3: Custom methods for backward compatibility
+    void SetOnShiedUIState(bool b) { d_OnShiedRootWnd = b; }
+    void SetTimeAutoClose(bool b) { d_TimeAutoClose = b; }
+    bool isTimeAutoClose() const { return d_TimeAutoClose; }
+
 protected:
     // MT3: Get clone window from template
     Window* getCloneWindowFromTemplate(Window* templateWnd, const char* cloneWndPrifex);
+
+    // MT3: Custom member variables for backward compatibility
+    bool d_TimeAutoClose;
+    bool d_OnShiedRootWnd;
 };
 
 } // End of  CEGUI namespace section

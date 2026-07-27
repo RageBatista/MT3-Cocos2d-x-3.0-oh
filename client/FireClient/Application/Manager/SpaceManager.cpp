@@ -94,7 +94,7 @@ void SpaceManager::SendRequest(std::string strProtocolId,std::string strUrl, std
 		
 		pRequest->setRequestData(strData.c_str(), strData.length());
 	}
-	pRequest->setRequestType((cocos2d::network::HttpRequest::HttpRequestType) nHttpType);
+	pRequest->setRequestType((cocos2d::network::HttpRequest::Type) nHttpType);
 	pRequest->setResponseCallback((cocos2d::CCObject*)this, httpresponse_selector(SpaceManager::ReceiveRequest_process));
 	cocos2d::network::HttpClient* pHttpClient = cocos2d::network::HttpClient::getInstance();
 	pHttpClient->setTimeoutForConnect(nTimeOut);
