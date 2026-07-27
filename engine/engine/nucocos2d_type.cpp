@@ -1,4 +1,4 @@
-﻿//  cocos2d_type.cpp
+//  cocos2d_type.cpp
 //  engine
 
 #include <iostream>
@@ -7,7 +7,7 @@
 
 namespace Nuclear
 {
-	cocos2d::CCTexture2DPixelFormat GetCCPixelFormatFromXP(NuclearPixelFormat aPF)
+	cocos2d::Texture2D::PixelFormat GetCCPixelFormatFromXP(NuclearPixelFormat aPF)
     {
 		switch (aPF)
 		{
@@ -15,16 +15,16 @@ namespace Nuclear
                 assert("unknown pixel format XPPIXELFMT_DEFAULT" && false);
                 break;
             case XPPIXELFMT_R5G6B5:
-                return cocos2d::kCCTexture2DPixelFormat_RGB565;
+                return cocos2d::Texture2D::PixelFormat::RGB565;
             case XPPIXELFMT_A8R8G8B8:
-                return cocos2d::kCCTexture2DPixelFormat_RGBA8888;
+                return cocos2d::Texture2D::PixelFormat::RGBA8888;
             case XPPIXELFMT_A4R4G4B4:
-                return cocos2d::kCCTexture2DPixelFormat_RGBA4444;
+                return cocos2d::Texture2D::PixelFormat::RGBA4444;
         }
         assert("unknown pixel format" && false);
     }
     
-	cocos2d::CCTexture2DPixelFormat GetCCPixelFormatFromXP(NuclearTextureFormat aPTF)
+	cocos2d::Texture2D::PixelFormat GetCCPixelFormatFromXP(NuclearTextureFormat aPTF)
     {
 		switch (aPTF)
 		{
@@ -32,11 +32,11 @@ namespace Nuclear
                 assert("unknown pixel format XPTEXFMT_DEFAULT" && false);
                 break;
             case XPTEXFMT_R5G6B5:
-                return cocos2d::kCCTexture2DPixelFormat_RGB565;
+                return cocos2d::Texture2D::PixelFormat::RGB565;
             case XPTEXFMT_A8R8G8B8:
-                return cocos2d::kCCTexture2DPixelFormat_RGBA8888;
+                return cocos2d::Texture2D::PixelFormat::RGBA8888;
             case XPTEXFMT_A4R4G4B4:
-                return cocos2d::kCCTexture2DPixelFormat_RGBA4444;
+                return cocos2d::Texture2D::PixelFormat::RGBA4444;
             default:
                 assert("unknown pixel format" && false);
         }        

@@ -1,4 +1,4 @@
-﻿//  cocos2d_render.h
+//  cocos2d_render.h
 //  engine
 
 #ifndef __Nuclear_cocos2d_render_H__
@@ -18,7 +18,7 @@ namespace Nuclear
 {
     class NuclearFileIOManager;
     
-    class Cocos2dRenderTarget : public cocos2d::CCTexture2D
+    class Cocos2dRenderTarget : public cocos2d::Texture2D
     {
     public:
         Cocos2dRenderTarget()
@@ -35,15 +35,15 @@ namespace Nuclear
             }
         }
         
-        class MyRenderTexture : public cocos2d::CCRenderTexture
+        class MyRenderTexture : public cocos2d::RenderTexture
         {
             public:
-            cocos2d::CCTexture2D* GetTexture(){ return m_pTexture; }
+            cocos2d::Texture2D* GetTexture(){ return m_pTexture; }
         };
         
         static Cocos2dRenderTarget* CreateRenderTarget(int aIWidth, int aIHeight, NuclearTextureFormat aTFormat);
         
-        cocos2d::CCRenderTexture* getRT() { return m_pRenderTexture; }
+        cocos2d::RenderTexture* getRT() { return m_pRenderTexture; }
 
     private:
         MyRenderTexture*    m_pRenderTexture;        
@@ -55,7 +55,7 @@ namespace Nuclear
 		struct CTextureInfo
 		{
 			NuclearRect rect;
-            cocos2d::CCTexture2D* m_pTexture;
+            cocos2d::Texture2D* m_pTexture;
 			std::wstring fileuri;
             
 #ifdef XP_PERFORMANCE
@@ -182,8 +182,8 @@ namespace Nuclear
 		virtual PictureHandle LoadPictureFromMem(const void *data, int size, NuclearPictureInfo *pPicInfo = NULL, NuclearTextureFormat texfmt = XPTEXFMT_DEFAULT, NuclearPoolType pooltype = XPPOOL_MANAGED, bool bCache = true, PictureHandle handle = 0, int iScale = 100);
 		virtual bool GetTextData(const char* pChar, const std::string &font, int size, unsigned char*& pData, int& w, int& h);
 
-		virtual bool LoadCCImageFromMem(cocos2d::CCImage* pImage, NuclearTextureFormat texfmt, const void *data, int size);
-		virtual PictureHandle LoadPictureFromCCImage(cocos2d::CCImage* image, NuclearTextureFormat texfmt, NuclearPictureInfo *pPicInfo = NULL, NuclearPoolType pooltype = XPPOOL_MANAGED, bool bCache = true, PictureHandle handle = 0);
+		virtual bool LoadCCImageFromMem(cocos2d::Image* pImage, NuclearTextureFormat texfmt, const void *data, int size);
+		virtual PictureHandle LoadPictureFromCCImage(cocos2d::Image* image, NuclearTextureFormat texfmt, NuclearPictureInfo *pPicInfo = NULL, NuclearPoolType pooltype = XPPOOL_MANAGED, bool bCache = true, PictureHandle handle = 0);
 
 		virtual PictureHandle NewPicture(int width, int height, NuclearPictureInfo *pPicInfo =NULL, NuclearTextureFormat texfmt=XPTEXFMT_DEFAULT);
 		virtual bool GetPictureData(PictureHandle handle, void *data, int size, const NuclearRect* pRect = NULL);

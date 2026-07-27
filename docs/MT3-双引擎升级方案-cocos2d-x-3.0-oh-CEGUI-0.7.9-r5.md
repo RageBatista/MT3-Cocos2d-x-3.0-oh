@@ -2,11 +2,11 @@
 
 ## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
 
-> **版本**：1.4.0
+> **版本**：1.5.0
 > **制定日期**：2026-07-26
 > **修订日期**：2026-07-27
-> **状态**：执行中 — 阶段 1、2 完成，阶段 3 进行中（源码移植完成，编译调试中）
-> **本次修订**：阶段性进度审查，补充阶段 3 实际进展、踩坑记录和附录 D
+> **状态**：执行中 — 阶段 1、2、3 完成，M2 里程碑达成
+> **本次修订**：阶段 3 完成，Debug/Release 双配置编译通过，Cocos2DRenderer 移植完成
 > **依赖文档**：
 >
 > - [Cocos2d-x 2.2.6 → 3.0-oh 升级方案](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md)（已存在）
@@ -586,7 +586,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 阶段 0 | 环境搭建与基线建立 | 1 周 | ✅ 完成 | 0.5 天 | 所有前置任务完成 |
 | 阶段 1 | Cocos2d-x 3.0-oh 独立编译 | 2 周 | ✅ 完成 | 0.5 天 | Debug/Release 各 15 个 .lib，零错误 |
 | 阶段 2 | CEGUI 0.7.9-r5 独立编译 | 1.5 周 | ✅ 完成 | < 0.5 天 | Debug/Release 均零错误，无需修复 |
-| 阶段 3 | Cocos2DRenderer 移植 | 3 周 | 🔄 进行中 | 1 天 | 源码移植完成，编译调试中（见 §阶段3详细） |
+| 阶段 3 | Cocos2DRenderer 移植 | 3 周 | ✅ 完成 | 1.5 天 | Debug/Release 双配置编译通过（见 §阶段3详细） |
 | 阶段 4 | Nuclear 引擎封装层适配 | 2 周 | ⬜ 待开始 | — | — |
 | 阶段 5 | CEGUI 定制模块移植 | 3 周 | ⬜ 待开始 | — | — |
 | 阶段 6 | FireClient 业务代码适配 | 4 周 | ⬜ 待开始 | — | — |
@@ -656,8 +656,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 ### 阶段 3 详细进度 — Cocos2DRenderer 移植（Cocos2d-x 3.0-oh）
 
 > **开始日期**：2026-07-25
-> **最后更新**：2026-07-27
-> **当前状态**：源码移植完成（6 个 .cpp + 6 个 .h），vcxproj 已更新，编译调试中
+> **完成日期**：2026-07-27
+> **当前状态**：✅ 完成 — Debug/Release 双配置编译通过，M2 里程碑达成
 
 #### 已完成工作
 
@@ -668,8 +668,9 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 适配 CEGUI 0.7.9-r5 Renderer 基类接口 | ✅ 完成 | `CEGUI::Renderer` 0.7.9 接口变更已适配 |
 | 适配 Cocos2d-x 3.0-oh API | ✅ 完成 | `CCTexture2D` → `Texture2D`，`CCImage` → `Image` 等 |
 | 修复 6 处编译错误 | ✅ 完成 | 2026-07-27 02:40 确认修复完成 |
-| Debug 配置编译 | 🔄 进行中 | 6 个 Cocos2D .obj 全部编译成功，链接阶段失败（`unsuccessfulbuild`，2026-07-27 02:38） |
-| Release 配置编译 | 🔄 进行中 | `CEGUICocos2DRenderer.obj` 编译失败（.obj 缺失），其余 5 个 .obj 编译成功 |
+| 移除 MT3 定制元素文件 | ✅ 完成 | 从 vcxproj 移除全部 MT3 定制控件（20+ 文件），阶段 5 再移植 |
+| Debug 配置编译 | ✅ 完成 | `cegui-0.7.9_d.lib`（76.7 MB），零错误零警告 |
+| Release 配置编译 | ✅ 完成 | `cegui-0.7.9.lib`（63.1 MB），零错误零警告 |
 
 #### 移植文件清单
 
@@ -686,8 +687,11 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 变更项 | 内容 |
 |--------|------|
-| 源文件添加 | 6 个 Cocos2D Renderer `.cpp` 文件（行 377-383） |
+| 源文件添加 | 6 个 Cocos2D Renderer `.cpp` 文件（行 361-367） |
 | Include 路径新增 | `cegui\include\RendererModules\Cocos2D`；`cocos2d-x-3.0-oh\cocos`；`cocos2d-x-3.0-oh\cocos\2d`；`cocos2d-x-3.0-oh\cocos\2d\platform\win32`；`cocos2d-x-3.0-oh\cocos\base`；`cocos2d-x-3.0-oh\cocos\math\kazmath`；`cocos2d-x-3.0-oh\external`；`cocos2d-x-3.0-oh\external\win32-specific\gles\include`；`cocos2d-x-3.0-oh\cocos\physics`；`common\platform` |
+| MT3 定制元素移除 | 移除 20+ 个 MT3 定制控件编译项（AnimationButton、GroupButton、GroupBtnItem、GroupBtnTree、IrregularButton、ItemCell 系列、ItemEntry 系列、ItemListBase/ItemListbox 系列、ItemTable 系列、LinkText、Switch 等），阶段 5 再移植 |
+| MT3 Falagard 渲染器移除 | 移除 FalGroupBtnTree、FalItemListbox、FalMultiColumnList、FalRichEditbox、FalTitlebar、FalToggleButton |
+| MT3 模块移除 | 移除 RichEditbox 系列、BinLayout 序列化模块 |
 
 ---
 
@@ -747,22 +751,23 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 #### 坑 6：Release 模式下 CEGUICocos2DRenderer.cpp 编译失败
 
 - **现象**：Debug 配置 6 个 Cocos2D .obj 全部编译成功，但 Release 配置 `CEGUICocos2DRenderer.obj` 缺失
-- **根因**：待排查。可能原因：
-  1. Release 优化导致的编译错误（与 Debug 不同的代码路径）
-  2. 预处理器宏差异（`_DEBUG` vs `NDEBUG`）
-  3. 特定于 Release 的模板实例化或内联问题
-- **当前状态**：未解决，需进一步调试
-- **教训**：Debug 编译通过不代表 Release 通过，必须双配置验证
+- **根因**：Release 编译失败的根本原因与 Debug 链接失败相同——**vcxproj 中仍保留了 MT3 定制元素文件**（AnimationButton、GroupButton、GroupBtnItem、GroupBtnTree、IrregularButton、ItemCell 系列、ItemEntry 系列、ItemListBase/ItemListbox 系列、ItemTable 系列、LinkText、Switch 等），这些文件依赖 MT3 在 CEGUI 0.7.1 上的定制 API（如 `SetDragMoveEnable`、`PlayUISound`、`getImage`、`GetScreenPos` 等），与 CEGUI 0.7.9-r5 不兼容。Release 模式下优化器对编译单元的处理方式不同，导致错误表现与 Debug 略有差异，但根因相同
+- **修复**：从 vcxproj 中移除全部 20+ 个 MT3 定制元素文件，仅保留标准 CEGUI 0.7.9-r5 文件 + 6 个 Cocos2DRenderer 文件。这些定制控件将在阶段 5 统一移植
+- **教训**：Debug 和 Release 的错误表现可能不同，但根因往往是同一个；先解决根因，不要分别打补丁
 
 #### 坑 7：链接阶段失败（Debug）
 
-- **现象**：Debug 配置 6 个 Cocos2D .obj 全部编译成功，但链接阶段 `unsuccessfulbuild`（2026-07-27 02:38）
-- **根因**：待排查。可能原因：
-  1. Cocos2d-x 3.0-oh 的 .lib 未链接到 CEGUI 工程
-  2. 缺少必要的第三方库依赖（如 `glew32.lib`、`libEGL.lib` 等）
-  3. 符号冲突或未解析的外部符号
-- **当前状态**：未解决，6 处编译错误已修复但链接仍失败
-- **教训**：Cocos2DRenderer 不仅需要 include 路径，还需要在链接阶段引入 Cocos2d-x 3.0-oh 的 .lib 和 OpenGL 依赖库
+- **现象**：Debug 配置 6 个 Cocos2D .obj 全部编译成功，但链接阶段 `unsuccessfulbuild`
+- **根因**：与坑 6 相同——MT3 定制元素文件编译失败导致部分 .obj 缺失，链接阶段因符号缺失而失败。移除 MT3 定制文件后，所有标准 CEGUI 文件 + Cocos2DRenderer 文件编译和链接均正常
+- **修复**：同坑 6，从 vcxproj 移除全部 MT3 定制元素文件
+- **教训**：链接错误不一定是缺少外部库依赖，也可能是编译阶段部分文件失败导致 .obj 缺失。先确保所有编译单元通过，再排查链接问题
+
+#### 坑 8：MT3 定制元素文件与 CEGUI 0.7.9-r5 不兼容
+
+- **现象**：编译时出现大量 `C3861`（找不到标识符）、`C2039`（不是成员）、`C2664`（参数类型转换失败）等错误，涉及 `SetDragMoveEnable`、`PlayUISound`、`getImage`、`GetScreenPos`、`GetLinkTextClickFunc` 等 MT3 定制 API
+- **根因**：MT3 在 CEGUI 0.7.1 上扩展了大量定制控件和 API（`System::PlayUISound`、`ImagesetManager::getImage`、`Window::SetDragMoveEnable` 等），这些在 CEGUI 0.7.9-r5 中不存在。之前只移除了 Falagard 渲染器和 RichEditbox/BinLayout，但遗漏了 20+ 个 MT3 定制元素文件
+- **修复**：从 vcxproj 移除全部 MT3 定制元素编译项：AnimationButton、GroupButton、GroupBtnItem、GroupBtnTree、IrregularButton、ItemCell、ItemCellGeneral、ItemEntry、ItemListBase、ItemListbox、ItemTable、LinkText、Switch 及其 Properties 文件
+- **教训**：阶段 3 的目标是验证 Cocos2DRenderer 与标准 CEGUI 0.7.9-r5 的编译兼容性，MT3 定制模块属于阶段 5 的工作范围，不应混入阶段 3 的编译验证
 
 ### D.4 通用经验
 

@@ -1,4 +1,4 @@
-﻿//  cocos2d_type.h
+//  cocos2d_type.h
 //  engine
 
 #ifndef __Nuclear_cocos2d_type_H__
@@ -8,8 +8,8 @@
 
 namespace Nuclear
 {
-    cocos2d::CCTexture2DPixelFormat GetCCPixelFormatFromXP(NuclearPixelFormat aPF);
-    cocos2d::CCTexture2DPixelFormat GetCCPixelFormatFromXP(NuclearTextureFormat aPTF);
+    cocos2d::Texture2D::PixelFormat GetCCPixelFormatFromXP(NuclearPixelFormat aPF);
+    cocos2d::Texture2D::PixelFormat GetCCPixelFormatFromXP(NuclearTextureFormat aPTF);
     
 }// namespace Nuclear
 

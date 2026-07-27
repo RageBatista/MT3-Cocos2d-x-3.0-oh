@@ -1,4 +1,4 @@
-﻿#ifndef _Nuclear_ENGINE_H__
+#ifndef _Nuclear_ENGINE_H__
 #define _Nuclear_ENGINE_H__
 
 #if _MSC_VER > 1000
@@ -40,15 +40,15 @@ namespace Nuclear
 		Engine() ;
 		virtual ~Engine();
 
-		cocos2d::CCLayer* m_engineLayer;
+		cocos2d::Layer* m_engineLayer;
 	public:
 		int GetScreenWidth() { assert(m_iScreenWidth != 0 && "not inited"); return m_iScreenWidth; }
 		int GetScreenHeight() { assert(m_iScreenHeight != 0 && "not inited"); return m_iScreenHeight; }
 		//yanji 20150822 lua 获得逻辑分辨率
 		int GetLogicWidth();
 		int GetLogicHeight();
-		virtual void SetEngineLayer(cocos2d::CCLayer* aPLayer){m_engineLayer = aPLayer;}
-		virtual cocos2d::CCLayer* GetEngineLayer(){return m_engineLayer;}
+		virtual void SetEngineLayer(cocos2d::Layer* aPLayer){m_engineLayer = aPLayer;}
+	virtual cocos2d::Layer* GetEngineLayer(){return m_engineLayer;}
 		void Draw(){ Render(false); }
 
 		static Engine& GetInstance() { return s_instance; }

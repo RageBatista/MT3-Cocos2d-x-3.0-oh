@@ -1,4 +1,4 @@
-﻿//  cocos2d_wraper.h
+//  cocos2d_wraper.h
 //  engine
 
 #ifndef __Nuclear_cocos2d_wraper_H__
@@ -8,7 +8,7 @@
 #include "nuengine.h"
 namespace cocos2d
 {
-    class CCGLProgram;
+    class GLProgram;
 }
 #define MAXPOINT 5
 namespace Nuclear
@@ -19,7 +19,7 @@ namespace Nuclear
 
 	bool IsInIpad();
 
-    class EngineApp : public cocos2d::CCApplication
+    class EngineApp : public cocos2d::Application
     {
     private:
         IEngine* m_PEngine;
@@ -36,7 +36,7 @@ namespace Nuclear
         virtual void setAnimationInterval(double interval);
     };
     
-    class EngineTicker : public cocos2d::CCAction
+    class EngineTicker : public cocos2d::Action
     {
         EngineLayer* m_pEngineLayer;
     public:
@@ -46,20 +46,19 @@ namespace Nuclear
         virtual void step(float dt);
     };
     
-    class EngineLayer : public cocos2d::CCLayer
+    class EngineLayer : public cocos2d::Layer
     {
     private:
         EngineTicker* m_pTicker;
-        cocos2d::CCPoint m_Pos[MAXPOINT];
+        cocos2d::Vec2 m_Pos[MAXPOINT];
     public:
         EngineLayer();
         virtual ~EngineLayer();
 
-		virtual void registerWithTouchDispatcher(void);
-		virtual void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
-		virtual void ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
-		virtual void ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
-		virtual void ccTouchesCancelled(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
+		virtual void onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent);
+		virtual void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent);
+		virtual void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent);
+		virtual void onTouchesCancelled(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent);
         
         virtual void ccLongPress(int num, float xs[], float ys[], int state);
         virtual void handleClick(float xPos,float yPos);
