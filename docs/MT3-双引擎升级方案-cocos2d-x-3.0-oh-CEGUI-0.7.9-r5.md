@@ -589,7 +589,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 阶段 3 | Cocos2DRenderer 移植 | 3 周 | ✅ 完成 | 1.5 天 | Debug/Release 双配置编译通过（见 §阶段3详细） |
 | 阶段 4 | Nuclear 引擎封装层适配 | 2 周 | ✅ 完成 | 1.5 天 | Debug/Release 均零错误，engine.lib 生成（见 §阶段4详细） |
 | 阶段 5 | CEGUI 定制模块移植 | 3 周 | ✅ 完成 | 1.5 天 | Debug/Release 双配置编译通过（见 §阶段5详细） |
-| 阶段 6 | FireClient 业务代码适配 | 4 周 | ⬜ 待开始 | — | — |
+| 阶段 6 | FireClient 业务代码适配 | 4 周 | ✅ 完成 | 1 天 | Debug 编译零错误，FireClient.lib（约 167MB）生成（见 §阶段6详细） |
 | 阶段 7 | Lua 脚本 + tolua++ 适配 | 2 周 | ⬜ 待开始 | — | — |
 | 阶段 8 | 资源文件兼容性处理 | 1 周 | ⬜ 待开始 | — | — |
 | 阶段 9 | 平台适配 | 4 周 | ⬜ 待开始 | — | — |
@@ -861,6 +861,94 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 2. **部分方法为空实现**：`onMouseSlide`、`CheckGuideEnd`、`onSetTemplateLookNFeel` 等方法当前为空实现或存根实现，需要在后续阶段根据实际运行时需求补充。
 3. **API 差异可能影响运行时行为**：如 `Font::drawText` 新增的默认参数（underline/border）与 0.7.1 行为可能存在差异，需在集成测试中验证。
 4. **编码问题**：`FalRichEditbox.cpp` 等文件中的 GBK 注释在添加 UTF-8 BOM 后可能出现乱码，但不影响编译和功能。
+
+---
+
+### 阶段 6 详细进度 — FireClient 业务代码适配
+
+> **开始日期**：2026-07-27
+> **完成日期**：2026-07-28
+> **编译配置**：Debug | Win32 | v120
+> **编译结果**：零错误，FireClient.lib（约 167MB）生成
+
+#### 任务清单
+
+| 任务 | 状态 | 结果 |
+|------|:--:|------|
+| FireClient.win32.vcxproj 工程配置更新 | ✅ 完成 | Include 路径、Library 路径全部切换至 3.0-oh + CEGUI 0.7.9-r5 |
+| tolua++ 接口适配（tolua++.h） | ✅ 完成 | 补充 tolua_isfunction、tolua_ref_function、tolua_isluaobj、tolua_ref_luaobj 等内联函数 |
+| tolua_fix.cpp 编译集成 | ✅ 完成 | 添加到 FireClient.win32.vcxproj 的 ClCompile 列表 |
+| HTTP 模块 API 适配 | ✅ 完成 | CCHttpClient→HttpClient、CCHttpResponse→HttpResponse、kHttpPost→Type::POST |
+| 类型转换修复 | ✅ 完成 | PlayNPCSound 中 std::wstring→CEGUI::String 转换 |
+| LuaFireClientWin32.cpp 适配 | ✅ 完成 | 4.3MB 超大文件编译通过（含大量 tolua 绑定代码） |
+| Debug 配置编译验证 | ✅ 完成 | 零错误，约 5262 个警告（均为 deprecation/macro 重定义） |
+| Release 配置编译验证 | ⬜ 待执行 | 计划后续执行 |
+
+#### 关键适配工作
+
+##### 1. tolua++ 接口适配
+
+Cocos2d-x 3.0-oh 的 `tolua++.h` 缺少 MT3 在 2.2.6 中新增的内联包装函数。在 `cocos2d-x-3.0-oh/external/lua/tolua/tolua++.h` 中添加：
+
+| 新增函数 | 用途 |
+|----------|------|
+| `tolua_ref_function` | 包装 `toluafix_ref_function`，管理 Lua 函数引用 |
+| `tolua_remove_function_by_refid` | 包装 `toluafix_remove_function_by_refid`，移除函数引用 |
+| `tolua_isfunction` | 检查栈位置是否为 Lua 函数 |
+| `tolua_ref_luaobj` | 通过 `luaL_ref` 管理 Lua 对象引用 |
+| `tolua_isluaobj` | 检查是否为 Lua 对象（始终返回 true，兼容现有逻辑） |
+
+##### 2. 工程配置更新
+
+`FireClient.win32.vcxproj` 关键变更：
+
+| 变更项 | 旧值 | 新值 |
+|--------|------|------|
+| CEGUI Include | `dependencies/cegui/CEGUI/include` | `tools/CEGUI-0.7.9-r5/cegui/include` |
+| Cocos Include | `cocos2d-x-2.2.6/cocos2dx` | `cocos2d-x-3.0-oh/cocos` |
+| Cocos Library | `cocos2d-x-2.2.6/Debug.win32` | `cocos2d-x-3.0-oh/build/lib/Debug` |
+| CEGUI Library | `dependencies/cegui/lib` | `tools/CEGUI-0.7.9-r5/cegui-0.7.9/Debug.win32` |
+| HttpClient.cpp 源路径 | `cocos2d-x-2.2.6/extensions/network/HttpClient.cpp` | `cocos2d-x-3.0-oh/cocos/network/HttpClient.cpp` |
+| tolua_fix.cpp | 未包含 | 新增 `cocos2d-x-3.0-oh/cocos/scripting/lua-bindings/manual/tolua_fix.cpp` |
+
+##### 3. HTTP 模块 API 适配
+
+Cocos2d-x 3.0-oh 将 HTTP 模块从 `cocos2d::extension` 命名空间迁移至 `cocos2d::network`：
+
+| 旧 API | 新 API |
+|--------|--------|
+| `cocos2d::extension::CCHttpClient` | `cocos2d::network::HttpClient` |
+| `cocos2d::extension::CCHttpResponse` | `cocos2d::network::HttpResponse` |
+| `CCHttpRequest::HttpRequestType::kHttpPost` | `(int)HttpRequest::Type::POST` |
+
+##### 4. 类型转换修复
+
+`PlayNPCSound` 方法需要 `std::wstring` 到 `CEGUI::String` 的显式转换：
+
+```cpp
+const std::wstring soundRes = tolua_tocppwstring(tolua_S, 2, 0);
+CEGUI::String ceguiSoundRes(soundRes.c_str());
+self->PlayNPCSound(ceguiSoundRes, iNpcId, bForcePlay);
+```
+
+##### 5. 已知警告（无需修复）
+
+- **C4996 deprecation 警告**（约 5000+ 条）：Cocos2d-x 3.0-oh 中 `CCImage`、`CCLayer`、`CCArray`、`CCUserDefault`、`ScriptEngineManager::sharedManager` 等标记为 deprecated，但通过 `ccdeprecated.h` 提供向后兼容 typedef
+- **C4005 宏重定义**：`POLLIN`/`POLLOUT`/`POLLERR` 在 `pollio.h` 和 `winsock2.h` 中重复定义
+- **C4190 C 链接警告**：`tolua_tocppwstring` 返回 UDT 类型
+
+#### 构建产物
+
+| 配置 | 文件 | 大小 |
+|------|------|------|
+| Debug | `FireClient.lib` | 约 167 MB |
+
+#### 后续注意事项
+
+1. **Release 编译待执行**：当前仅验证 Debug 配置，Release 编译可能有不同的警告/错误
+2. **链接阶段未验证**：阶段 6 仅生成 FireClient.lib（静态库），尚未进行 MT3.exe 链接，链接阶段可能发现新的符号缺失问题
+3. **运行时验证尚未进行**：编译通过不代表功能正确，需在阶段 11 进行集成测试
+4. **LuaFireClientWin32.cpp 为生成文件**：该文件由 tolua++ 生成，后续若修改 .pkg 定义需重新生成
 
 ---
 
