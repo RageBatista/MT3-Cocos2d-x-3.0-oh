@@ -10,17 +10,17 @@
 class HttpOperator
 {
 public:
-	bool Send(cocos2d::CCObject* obj);
+	bool Send(cocos2d::Ref* obj);
 public:
 	cocos2d::network::HttpRequest::Type mType;
-	cocos2d::extension::SEL_HttpResponse mResponse;
+	cocos2d::network::SEL_HttpResponse mResponse;
 	std::string mStrUrl;
 	std::vector<std::string> mVetHeader; // http 头.
 	std::string mStrData;
 	std::vector<std::string> mVetParam;
 };
 
-class VoiceManager : public cocos2d::CCObject
+class VoiceManager : public cocos2d::Ref
 {
 public:
 	VoiceManager();
@@ -119,7 +119,7 @@ VoiceManager* gGetVoiceManager();
 
 /*****************************************************************/
 
-class GetTextManager : public cocos2d::CCObject
+class GetTextManager : public cocos2d::Ref
 {
 public:
 	GetTextManager();
@@ -163,7 +163,7 @@ GetTextManager* gGetGetTextManager();
 
 /*****************************************************************/
 
-class SendVoiceManager : public cocos2d::CCObject
+class SendVoiceManager : public cocos2d::Ref
 {
 public:
 	SendVoiceManager();
@@ -190,7 +190,7 @@ SendVoiceManager* gGetSendVoiceManager();
 
 /*****************************************************************/
 
-class GetVoiceManager : public cocos2d::CCObject
+class GetVoiceManager : public cocos2d::Ref
 {
 public:
 	GetVoiceManager();

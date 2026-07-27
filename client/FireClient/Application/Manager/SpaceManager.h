@@ -10,14 +10,14 @@
 
 
 
-class SpaceManager : public cocos2d::CCObject
+class SpaceManager : public cocos2d::Ref
 {
 public:
 	struct sSpacePicData
 	{
 		std::string strUrl;
 		CEGUI::Image* pCeguiImage;
-		cocos2d::CCImage* pCocosImage;
+		cocos2d::Image* pCocosImage;
 		bool bAutoDelete;
 		std::string strImageName;
 		std::string strImageSetName;
@@ -31,7 +31,7 @@ public:
 
 	bool Initialize(const char* tempFilePath);
 	std::string GetTempFilePath();
-	std::string SaveImageToCurString(cocos2d::CCImage* pImage, bool bIsToRGB, std::string strFilePath);
+	std::string SaveImageToCurString(cocos2d::Image* pImage, bool bIsToRGB, std::string strFilePath);
 	std::string SaveDefaultVoiceToCurString(std::string strTempFilePath);
 	std::string GetCurSoundUrl();
 	void SaveVoice(std::string strSoundUrl, std::string strSounFilePath);
@@ -40,7 +40,7 @@ public:
 	bool SaveStringToFile(std::string& strImageData, std::string  strFilePath);
 	CEGUI::Image* SaveCeguiImageWithUrl(std::string strFilePath, bool bAutoDelete,bool bSaveCocosImage, std::string strUrl, std::string strImageName, std::string strImageSetName, int nImageType = 1, bool bUseCurString=false);
 	CEGUI::Image* GetCeguiImageWithUrl(std::string strUrl);
-	cocos2d::CCImage* GetCocosImageWithUrl(std::string strUrl);
+	cocos2d::Image* GetCocosImageWithUrl(std::string strUrl);
 	void Release();
 	void DeleteTopImage();
 	std::string GetUrlEnCode(const std::string& str);
@@ -52,14 +52,14 @@ public:
 	void ClearCurFileData();
 	std::string UpdatePostData(std::string strData);
 
-	int GetCocosImageWidth(cocos2d::CCImage* pCocosImage);
-	int GetCocosImageHeight(cocos2d::CCImage* pCocosImage);
+	int GetCocosImageWidth(cocos2d::Image* pCocosImage);
+	int GetCocosImageHeight(cocos2d::Image* pCocosImage);
 
 	void ReplaceString(std::string& strData, std::string strA, std::string strB);
 	void EncodeBase64Data(std::string& strData);
 	std::string JsonDecode(std::string& strJsonString, std::string& strName, std::string& strDefault);
 
-	bool ImageScaleToRect(cocos2d::CCImage* pImage, int nWidth, int nHeight);
+	bool ImageScaleToRect(cocos2d::Image* pImage, int nWidth, int nHeight);
 	unsigned int GetCurStringLength();
 	std::string Json_decode(std::string& strJson);
 	//-------------------
@@ -74,7 +74,7 @@ public:
 
 	float getSoundTime();
 	//wangbin test api
-	cocos2d::CCImage* getTestCocos2dImage(std::string strFileName);
+	cocos2d::Image* getTestCocos2dImage(std::string strFileName);
 	const CEGUI::Image* getTestCeguiImage(std::string strFileName);
 
 private:

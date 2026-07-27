@@ -241,6 +241,7 @@ Window::Window(const String& type, const String& name) :
 
     // z-order related options
     d_alwaysOnTop(false),
+    d_alwsyaOnBottom(false),
     d_riseOnClick(true),
     d_zOrderingEnabled(true),
 
@@ -791,6 +792,28 @@ void Window::setAlwaysOnTop(bool setting)
 
     WindowEventArgs args(this);
     onAlwaysOnTopChanged(args);
+}
+
+//----------------------------------------------------------------------------//
+void Window::setAlwaysOnBottom(bool setting)
+{
+    // only react to an actual change
+    if (isAlwaysOnBottom() == setting)
+        return;
+
+    d_alwsyaOnBottom = setting;
+
+    // move us in front of sibling windows with the same 'always-on-bottom'
+    // setting as we have.
+    if (d_parent)
+    {
+        Window* const org_parent = d_parent;
+
+        org_parent->removeChild_impl(this);
+        org_parent->addChild_impl(this);
+
+        onZChange_impl();
+    }
 }
 
 //----------------------------------------------------------------------------//
@@ -2413,10 +2436,17 @@ void Window::addWindowToDrawList(Window& wnd, bool at_back)
         ChildList::iterator pos = d_drawList.begin();
         if (wnd.isAlwaysOnTop())
         {
-            // find first topmost window
+            // find first always-on-top window
             while ((pos != d_drawList.end()) && (!(*pos)->isAlwaysOnTop()))
                 ++pos;
         }
+        else if (!wnd.isAlwaysOnBottom())
+        {
+            // normal window: skip past always-on-bottom windows
+            while ((pos != d_drawList.end()) && ((*pos)->isAlwaysOnBottom()))
+                ++pos;
+        }
+        // always-on-bottom: pos stays at d_drawList.begin() (insert at very beginning)
         // add window to draw list
         d_drawList.insert(pos, &wnd);
     }
@@ -2425,7 +2455,13 @@ void Window::addWindowToDrawList(Window& wnd, bool at_back)
     {
         // calculate position where window should be added for drawing
         ChildList::reverse_iterator position = d_drawList.rbegin();
-        if (!wnd.isAlwaysOnTop())
+        if (wnd.isAlwaysOnBottom())
+        {
+            // find last always-on-bottom window
+            while ((position != d_drawList.rend()) && (!(*position)->isAlwaysOnBottom()))
+                ++position;
+        }
+        else if (!wnd.isAlwaysOnTop())
         {
             // find last non-topmost window
             while ((position != d_drawList.rend()) && ((*position)->isAlwaysOnTop()))

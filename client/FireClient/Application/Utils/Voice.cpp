@@ -1,4 +1,4 @@
-﻿#include <cstring>
+#include <cstring>
 #include <cstdio>
 #include <stdlib.h>
 #ifdef WIN32 
@@ -6,7 +6,7 @@
 #endif
 #include "voice.h"
 #include <speex/speex.h>
-#include "platform/CCPlatformConfig.h"
+#include "base/CCPlatformConfig.h"
 
 ///////////////////////////////////wav & speex///////////////////////////////////
 //#define JIANGZAO

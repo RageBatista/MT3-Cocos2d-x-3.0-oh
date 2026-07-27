@@ -537,6 +537,9 @@ public:
     */
     bool isAlwaysOnTop(void) const  {return d_alwaysOnTop;}
 
+    // MT3: Returns true if the window is always drawn on the bottom of all siblings
+    bool isAlwaysOnBottom() const { return d_alwsyaOnBottom; }
+
     /*!
     \brief
         return whether the Window is currently disabled
@@ -568,6 +571,9 @@ public:
         - false if the window is hidden and therefore ignored when rendering.
     */
     bool isVisible(bool localOnly = false) const;
+
+    // MT3: Get local visible state without considering parent visibility
+    bool GetVisbleLocal() { return d_visible; }
 
     /*!
     \brief
@@ -1708,6 +1714,9 @@ public:
         Nothing
     */
     void setAlwaysOnTop(bool setting);
+
+    // MT3: Always draw this window on bottom of all siblings
+    void setAlwaysOnBottom(bool setting);
 
     /*!
     \brief
@@ -4371,6 +4380,8 @@ protected:
 
     //! true if Window will be drawn on top of all other Windows
     bool d_alwaysOnTop;
+    // MT3: true if Window will be drawn on bottom of all sibling Windows
+    bool d_alwsyaOnBottom;
     //! whether window should rise in the z order when left clicked.
     bool d_riseOnClick;
     //! true if the Window responds to z-order change requests.
@@ -4467,7 +4478,9 @@ private:
         May not copy or assign Window objects
     *************************************************************************/
     Window(const Window&) : PropertySet(), EventSet() {}
-// MT3: Custom methods for backward compatibility
+
+public:
+    // MT3: Custom methods for backward compatibility
     void SetOnShiedUIState(bool b) { d_OnShiedRootWnd = b; }
     void SetTimeAutoClose(bool b) { d_TimeAutoClose = b; }
     bool isTimeAutoClose() const { return d_TimeAutoClose; }

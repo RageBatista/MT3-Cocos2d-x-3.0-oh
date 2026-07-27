@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "SceneObject.h"
 #include "GameOperateState.h"
 #include "GameScene.h"
@@ -910,7 +910,7 @@ void SceneObject::AddTalk(const std::wstring& strTalk, float V_Offset, bool bChe
 		CEGUI::UDim width(0.0f, cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithStringData("GetNumberValueForStrKey", "CHAT_POP_MAX_WIDTH"));
 		CEGUI::UDim height(0.0f, 100.0f);
 		pRichEditBox->setSize(CEGUI::UVector2(width, height));
-		pRichEditBox->AppendParseText(strTalk, bCheckShied);
+		pRichEditBox->AppendParseText(CEGUI::String(strTalk.c_str()), bCheckShied);
 		pRichEditBox->Refresh();
 		CEGUI::Size NeedSize = pRichEditBox->GetExtendSize();
 		NeedSize.d_width += 2.0f * cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithStringData("GetNumberValueForStrKey", "CHAT_POP_LEFT_OFF");

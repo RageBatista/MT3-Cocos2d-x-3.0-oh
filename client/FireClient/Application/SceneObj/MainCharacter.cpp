@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "MainCharacter.h"
 #include "GameScene.h"
 #include "FossickNpc.h"
@@ -28,6 +28,7 @@
 #endif
 #include "GameTable/move/CAutoMovePath.h"
 #include "GameTable/move/CAutoMovePathPoint.h"
+#include "CEGUIPfsResourceProvider.h"
 
 #define FOSSICK_DIS 7
 const int c_iRandomPacingRadius = 16;
