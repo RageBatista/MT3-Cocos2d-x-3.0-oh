@@ -958,6 +958,7 @@ CC_DEPRECATED_ATTRIBUTE const LanguageType kLanguagePolish      = LanguageType::
 CC_DEPRECATED_ATTRIBUTE typedef LanguageType ccLanguageType;
 
 
+#if 0  // MT3: Application::Platform removed in 3.0-oh, use ApplicationProtocol::Platform instead
 CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWindows      = Application::Platform::OS_WINDOWS;
 CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetLinux        = Application::Platform::OS_LINUX;
 CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetMacOS        = Application::Platform::OS_MAC;
@@ -971,6 +972,7 @@ CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetTizen        = Applic
 CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWinRT        = Application::Platform::OS_WINRT;
 CC_DEPRECATED_ATTRIBUTE const Application::Platform kTargetWP8          = Application::Platform::OS_WP8;
 CC_DEPRECATED_ATTRIBUTE typedef Application::Platform TargetPlatform;
+#endif
 
 CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionExactFit      = ResolutionPolicy::EXACT_FIT;
 CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionNoBorder      = ResolutionPolicy::NO_BORDER;
