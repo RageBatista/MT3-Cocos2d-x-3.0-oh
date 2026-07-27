@@ -3,6 +3,7 @@
 #include "EmotionManager.h"
 #include "CEGUIImagesetManager.h"
 #include "CEGUIPropertyHelper.h"
+#include "CEGUIPfsResourceProvider.h"
 #include "GameTable/common/CCommon.h"
 
 IconManager::IconManager()
@@ -30,7 +31,7 @@ void IconManager::InitImagesetSizeInfo(std::vector<int>& vec, CEGUI::String pref
 	}
 }
 
-const CEGUI::Image* IconManager::GetImageByID(int id)  //¸ù¾ÝÍ¼Æ¬µÄid»ñµÃÍ¼Æ¬
+const CEGUI::Image* IconManager::GetImageByID(int id)  //ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½idï¿½ï¿½ï¿½Í¼Æ¬
 {
 	CEGUI::String strImageSetName = FindImageSetNameByID(id);
 	if (strImageSetName.empty())
@@ -84,23 +85,23 @@ const CEGUI::String IconManager::GetImagePathByID(int id)
 	}
 }
 
-const CEGUI::Image* IconManager::GetBuffIconByID(int id)	//¸ù¾ÝbuffµÄid»ñµÃËüµÄÍ¼±ê
+const CEGUI::Image* IconManager::GetBuffIconByID(int id)	//ï¿½ï¿½ï¿½ï¿½buffï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 {
 	return GetImageByID(id);
 }
 
-const CEGUI::Image* IconManager::GetItemIconByID(int id)  //¸ù¾ÝµÀ¾ßµÄid»ñµÃËüµÄÍ¼±ê
+const CEGUI::Image* IconManager::GetItemIconByID(int id)  //ï¿½ï¿½ï¿½Ýµï¿½ï¿½ßµï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 {
 	return GetImageByID(id);
 
 }
 
-const CEGUI::Image* IconManager::GetSkillIconByID(int id)  //¸ù¾Ý¼¼ÄÜµÄid»ñµÃËüµÄÍ¼±ê
+const CEGUI::Image* IconManager::GetSkillIconByID(int id)  //ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½Üµï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 {
 	return GetImageByID(id);
 }
 
-const CEGUI::String IconManager::GetItemIconPathByID(int id)    // ¸ù¾ÝµÀ¾ßµÄid»ñµÃËüµÄÍ¼±êµÄ±êÊ¶ÎÄ×Ö (imgeset+name)
+const CEGUI::String IconManager::GetItemIconPathByID(int id)    // ï¿½ï¿½ï¿½Ýµï¿½ï¿½ßµï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ä±ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ (imgeset+name)
 {
 	CEGUI::String path = GetImagePathByID(id);
 	if (path == "")
@@ -108,12 +109,12 @@ const CEGUI::String IconManager::GetItemIconPathByID(int id)    // ¸ù¾ÝµÀ¾ßµÄid»
 	return path;
 }
 
-const CEGUI::String IconManager::GetSkillIconPathByID(int id)   // ¸ù¾Ý¼¼ÄÜµÄid»ñµÃËüµÄÍ¼±êµÄ±êÊ¶ÎÄ×Ö (imgeset+name)
+const CEGUI::String IconManager::GetSkillIconPathByID(int id)   // ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½Üµï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ä±ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ (imgeset+name)
 {
 	return GetImagePathByID(id);
 }
 
-void IconManager::CreateImageSet(const CEGUI::String& name)  //´´½¨Ò»¸öimageset
+void IconManager::CreateImageSet(const CEGUI::String& name)  //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½imageset
 {
 	if (std::find(m_vecIconImageSet.begin(), m_vecIconImageSet.end(), name) == m_vecIconImageSet.end())
 	{
@@ -123,7 +124,7 @@ void IconManager::CreateImageSet(const CEGUI::String& name)  //´´½¨Ò»¸öimageset
 
 }
 
-void IconManager::DestroyImageSet(const CEGUI::String& name) //Ïú»ÙÒ»¸öimageset
+void IconManager::DestroyImageSet(const CEGUI::String& name) //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½imageset
 {
 	CEGUI::ImagesetManager::getSingleton().destroy(name);
 	IconImageSetListIt it = std::find(m_vecIconImageSet.begin(), m_vecIconImageSet.end(), name);
@@ -134,7 +135,7 @@ void IconManager::DestroyImageSet(const CEGUI::String& name) //Ïú»ÙÒ»¸öimageset
 
 }
 
-CEGUI::String IconManager::FindImageSetNameByID(int id)  //Í¨¹ýIDÑ°ÕÒËùÔÚµÄimagesetµÄÃû×Ö,Èç¹ûÕÒ²»µ½Ãû×ÖÎª¿Õ
+CEGUI::String IconManager::FindImageSetNameByID(int id)  //Í¨ï¿½ï¿½IDÑ°ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½imagesetï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½
 {
 	CEGUI::String ImageSetName("");
 
@@ -183,7 +184,7 @@ CEGUI::String IconManager::FindImageSetNameByID(int id)  //Í¨¹ýIDÑ°ÕÒËùÔÚµÄimage
 		//the image count in each imageset is not same any more. change by liugeng
 		if (m_vecPetImagesetSize.empty())
 		{
-			int maxImagesetCount = CEGUI::PropertyHelper::stringToInt(GameTable::common::GetCCommonTableInstance().getRecorder(177).value);
+			int maxImagesetCount = CEGUI::PropertyHelper::stringToInt(CEGUI::PFSResourceProvider::WStringToGUIString(GameTable::common::GetCCommonTableInstance().getRecorder(177).value));
 			InitImagesetSizeInfo(m_vecPetImagesetSize, "righttoppet", 0, maxImagesetCount);
 		}
 		int n = 0;
@@ -204,7 +205,7 @@ CEGUI::String IconManager::FindImageSetNameByID(int id)  //Í¨¹ýIDÑ°ÕÒËùÔÚµÄimage
 		//the image count in each imageset is not same any more. change by liugeng
 		if (m_vecPetImagesetSize.empty())
 		{
-			int maxImagesetCount = CEGUI::PropertyHelper::stringToInt(GameTable::common::GetCCommonTableInstance().getRecorder(177).value);
+			int maxImagesetCount = CEGUI::PropertyHelper::stringToInt(CEGUI::PFSResourceProvider::WStringToGUIString(GameTable::common::GetCCommonTableInstance().getRecorder(177).value));
 			InitImagesetSizeInfo(m_vecPetImagesetSize, "righttoppet", 0, maxImagesetCount);
 		}
 		int n = 0;

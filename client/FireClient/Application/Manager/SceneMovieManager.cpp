@@ -1,8 +1,9 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "SceneMovieManager.h"
 #include "GameUIManager.h"
 #include "GameApplication.h"
 #include "GameScene.h"
+#include "CEGUIPfsResourceProvider.h"
 #include "MainRoleDataManager.h"
 #include "GameTable/EffectPath/CEffectPath.h"
 #include "ConfigManager.h"
@@ -1300,8 +1301,8 @@ void SceneMovieManager::GetPosByVarName(int& x, int& y, const std::wstring& varN
 		size_t OffIdx = strPos.find(L",");
 		std::wstring strX = strPos.substr(0, OffIdx);
 		std::wstring strY = strPos.substr(OffIdx + 1, std::wstring::npos);
-		x = CEGUI::PropertyHelper::stringToInt(strX);
-		y = CEGUI::PropertyHelper::stringToInt(strY);
+		x = CEGUI::PropertyHelper::stringToInt(CEGUI::PFSResourceProvider::WStringToGUIString(strX));
+		y = CEGUI::PropertyHelper::stringToInt(CEGUI::PFSResourceProvider::WStringToGUIString(strY));
 	}
 }
 
@@ -1359,7 +1360,7 @@ int SceneMovieManager::GetIntByVarName(const std::wstring& varName, const std::w
 		size_t varSize = varAllName.size();
 		std::wstring strID;
 		GetValueStr(strParseText, idx + varSize, strID);
-		int iValue = CEGUI::PropertyHelper::stringToInt(strID);
+		int iValue = CEGUI::PropertyHelper::stringToInt(CEGUI::PFSResourceProvider::WStringToGUIString(strID));
 		return iValue;
 	}
 	return -1;
