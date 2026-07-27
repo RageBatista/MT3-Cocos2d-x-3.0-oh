@@ -1,4 +1,4 @@
-﻿#ifndef __SPACEMANAGER_H__
+#ifndef __SPACEMANAGER_H__
 #define __SPACEMANAGER_H__ 
 
 #include "network/HttpClient.h"
@@ -26,8 +26,8 @@ public:
 	SpaceManager();
 	virtual ~SpaceManager();
 
-	void SendRequest(std::string strProtocolId, std::string strUrl, std::string strData = "", int nHttpType = cocos2d::extension::CCHttpRequest::HttpRequestType::kHttpPost, int nTimeOut = 5);
-	void ReceiveRequest_process(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void SendRequest(std::string strProtocolId, std::string strUrl, std::string strData = "", int nHttpType = cocos2d::network::HttpRequest::HttpRequestType::kHttpPost, int nTimeOut = 5);
+	void ReceiveRequest_process(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 	bool Initialize(const char* tempFilePath);
 	std::string GetTempFilePath();

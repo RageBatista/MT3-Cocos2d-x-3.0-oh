@@ -461,16 +461,13 @@ public:
     */
     bool isLocked() const;
 
+    // MT3: This was public in CEGUI 0.7.1, used by FireClient code
+    String generateUniqueWindowName();
+
 private:
     /*************************************************************************
         Implementation Methods
     *************************************************************************/
-    /*!
-    \brief
-        Implementation method to generate a unique name to use for a window.
-    */
-    String generateUniqueWindowName();
-
     //! function to set up RenderEffect on a window
     void initialiseRenderEffect(Window* wnd, const String& effect) const;
 

@@ -41,7 +41,7 @@ GameIMEDelegate::~GameIMEDelegate()
 // CCIMEDelegate
 //////////////////////////////////////////////////////////////////////////
 
-const char * GameIMEDelegate::getContentText()
+const std::string& GameIMEDelegate::getContentText()
 {
 	return m_InputText.c_str();
 }

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "LoginManager.h"
 #include "../ProtoDef/fire/pb/CRoleList.hpp"
 #include "../ProtoDef/fire/pb/CEnterWorld.hpp"
@@ -223,7 +223,7 @@ std::string BuildAccountPostData(bool isRegister, const AccountHttpContext& cont
 	return data;
 }
 
-std::string GetHttpResponseBody(cocos2d::extension::CCHttpResponse* response)
+std::string GetHttpResponseBody(cocos2d::network::HttpResponse* response)
 {
 	std::string body;
 	if (response == NULL || response->getResponseData() == NULL)
@@ -977,9 +977,9 @@ void LoginManager::StartAccountHttpRequest(bool isRegister, const std::string& a
 	AccountHttpContext* context = new AccountHttpContext(isRegister, account, password, invitecode, captcha);
 	const std::string postData = BuildAccountPostData(isRegister, *context);
 
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 	request->setUrl(url.c_str());
-	request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpPost);
+	request->setRequestType(cocos2d::network::HttpRequest::kHttpPost);
 	request->setRequestData(postData.c_str(), postData.length());
 	request->setUserData(context);
 	std::vector<std::string> headers;
@@ -997,25 +997,25 @@ void LoginManager::StartAccountHttpRequest(bool isRegister, const std::string& a
 	m_accountHttpRequesting = true;
 	CCLOG("[LoginHTTP] request start register=%d url=%s accountLen=%d postLen=%d",
 		isRegister ? 1 : 0, url.c_str(), static_cast<int>(account.length()), static_cast<int>(postData.length()));
-	cocos2d::extension::CCHttpClient* httpClient = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* httpClient = cocos2d::network::HttpClient::getInstance();
 	httpClient->setTimeoutForConnect(10);
 	httpClient->send(request);
 	request->release();
 }
 
-void LoginManager::OnLoginAccountHttpResponse(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void LoginManager::OnLoginAccountHttpResponse(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	CC_UNUSED_PARAM(client);
 	HandleAccountHttpResponse(response, false);
 }
 
-void LoginManager::OnRegisterAccountHttpResponse(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void LoginManager::OnRegisterAccountHttpResponse(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	CC_UNUSED_PARAM(client);
 	HandleAccountHttpResponse(response, true);
 }
 
-void LoginManager::HandleAccountHttpResponse(cocos2d::extension::CCHttpResponse* response, bool isRegister)
+void LoginManager::HandleAccountHttpResponse(cocos2d::network::HttpResponse* response, bool isRegister)
 {
 	AccountHttpContext* context = NULL;
 	if (response != NULL && response->getHttpRequest() != NULL)

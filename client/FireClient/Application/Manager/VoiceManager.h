@@ -1,4 +1,4 @@
-﻿#ifndef __VOICEMANAGER_H__
+#ifndef __VOICEMANAGER_H__
 #define __VOICEMANAGER_H__ 
 
 #include "network/HttpClient.h"
@@ -12,7 +12,7 @@ class HttpOperator
 public:
 	bool Send(cocos2d::CCObject* obj);
 public:
-	cocos2d::extension::CCHttpRequest::HttpRequestType mType;
+	cocos2d::network::HttpRequest::HttpRequestType mType;
 	cocos2d::extension::SEL_HttpResponse mResponse;
 	std::string mStrUrl;
 	std::vector<std::string> mVetHeader; // http 头.
@@ -58,8 +58,8 @@ public:
 
 	void SendChatToPlatform(int type, CEGUI::String content, int rolelv, int rolefushi);
 	void RoleAccusation(int roleid, int type, CEGUI::String content, int rolelv, int rolefushi, int aid, CEGUI::String aname, int alv, int afushi);
-	void SendChatToPlatformCallBack(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void RoleAccusationCallBack(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void SendChatToPlatformCallBack(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void RoleAccusationCallBack(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 	CEGUI::Window* getYuyinAniWnd();
 private:
@@ -131,14 +131,14 @@ public:
 	void tryRequestToken();
 
 	void getTextFromXunFei(const char* uuid, const std::string& spxData, int recordTime, int voiceChanelid);	// 从讯飞服务器获取语音文本
-	void onGetText(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void onGetText(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 private:
 	void doGetTextResult(const std::string& strUuid, const std::string& result);
 	void PopOperator_GetText();
 
 	void requestTocken();
-	void onTocken(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void onTocken(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 private:
 	bool stoparam(std::string& type, std::string& param, const std::string& word);
@@ -175,7 +175,7 @@ public:
 	// 上传语音文件到语音服务器
 	void sendVoiceToServer(const char* uuid, const std::string& spxData, unsigned int recordTime);
 	// 上传语音文件的response
-	void onSendVoice(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void onSendVoice(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 private:
 	void PopOperator_SendVoice();
@@ -202,7 +202,7 @@ public:
 	// 从语音服务器下载语音文件
 	void getVoiceFromServer(const char* uuid, float fTime, const char* yuyinBtnName, bool bTouchPlay);
 	// 下载语音文件的response
-	void onGetVoice(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void onGetVoice(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 private:
 	void PopOperator_GetVoice();

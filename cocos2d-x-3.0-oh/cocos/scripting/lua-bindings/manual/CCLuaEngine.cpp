@@ -172,6 +172,14 @@ int LuaEngine::executeGlobalFunction(const char* functionName)
     return ret;
 }
 
+// MT3 Compatibility: executeGlobalFunction with numArgs parameter
+int LuaEngine::executeGlobalFunction(const char* functionName, int numArgs)
+{
+    int ret = _stack->executeGlobalFunction(functionName, numArgs);
+    _stack->clean();
+    return ret;
+}
+
 int LuaEngine::executeNodeEvent(Node* pNode, int nAction)
 {
     return 0;

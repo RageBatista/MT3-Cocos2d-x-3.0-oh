@@ -1,8 +1,9 @@
-﻿#ifndef __BATTLER_H__
+#ifndef __BATTLER_H__
 #define __BATTLER_H__
 
 #include "ComponentsObject.h"
 #include "BattleCommon.h"
+#include "elements/CEGUIProgressBarTwoValue.h"
 
 class CArtText;
 

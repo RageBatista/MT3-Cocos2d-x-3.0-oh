@@ -107,6 +107,8 @@ public:
      @return The integer value returned from the script function.
      */
     virtual int executeGlobalFunction(const char* functionName);
+    // MT3 Compatibility: executeGlobalFunction with numArgs parameter
+    virtual int executeGlobalFunction(const char* functionName, int numArgs);
 
     virtual void clean(void);
     virtual void pushInt(int intValue);

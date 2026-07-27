@@ -307,6 +307,19 @@ int LuaStack::executeGlobalFunction(const char* functionName)
     return executeFunction(0);
 }
 
+// MT3 Compatibility: executeGlobalFunction with numArgs parameter
+int LuaStack::executeGlobalFunction(const char* functionName, int numArgs)
+{
+    lua_getglobal(_state, functionName);       /* query function by name, stack: function */
+    if (!lua_isfunction(_state, -1))
+    {
+        CCLOG("[LUA ERROR] name '%s' does not represent a Lua function", functionName);
+        lua_pop(_state, 1);
+        return 0;
+    }
+    return executeFunction(numArgs);
+}
+
 void LuaStack::clean(void)
 {
     lua_settop(_state, 0);

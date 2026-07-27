@@ -429,6 +429,11 @@ public:
      */
     virtual int executeGlobalFunction(const char* functionName) = 0;
     
+    // MT3 Compatibility: executeGlobalFunction with numArgs parameter
+    // In Cocos2d-x 2.x, this was the standard API. The numArgs parameter specifies
+    // how many arguments have been pushed to the Lua stack before calling this.
+    virtual int executeGlobalFunction(const char* functionName, int numArgs) = 0;
+    
     /**when trigger a script event ,call this func,add params needed into ScriptEvent object.nativeObject is object triggering the event, can be nullptr in lua
      * @js NA
      * @lua NA
@@ -563,7 +568,18 @@ typedef ScriptHandlerEntry         CCScriptHandlerEntry;
 typedef SchedulerScriptHandlerEntry CCSchedulerScriptHandlerEntry;
 typedef TouchScriptHandlerEntry    CCTouchScriptHandlerEntry;
 
-// end of script_support group
+// ====== MT3 Compatibility: gGetScriptEngine global function ======
+// In Cocos2d-x 2.x this was a global function. In 3.0-oh it's accessed via
+// ScriptEngineManager::sharedManager()->getScriptEngine().
+inline ScriptEngineProtocol* gGetScriptEngine() {
+    return ScriptEngineManager::sharedManager()->getScriptEngine();
+}
+
+// MT3 Compatibility: executeGlobalFunction overload with numArgs parameter
+// In Cocos2d-x 2.x, executeGlobalFunction(const char*, int) was the standard API.
+// In 3.0-oh, it's executeGlobalFunction(const char*) without numArgs.
+
+NS_CC_END// end of script_support group
 /// @}
 
 NS_CC_END

@@ -25,8 +25,8 @@ THE SOFTWARE.
 #ifndef __CCEGUIIMEDelegate_H__
 #define __CCEGUIIMEDelegate_H__
 
-#include "text_input_node/CCIMEDelegate.h"
-#include "touch_dispatcher/CCTouchDelegateProtocol.h"
+#include "CCIMEDelegate.h"
+// MT3: CCTouchDelegateProtocol.h removed in Cocos2d-x 3.0-oh
 #include <string>
 
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
@@ -84,7 +84,7 @@ protected:
     virtual bool canDetachWithIME();
     virtual void insertText(const char * text, int len);
     virtual void deleteBackward();
-    virtual const char * getContentText();
+    virtual const std::string& getContentText();
     
     virtual void keyboardWillShow(cocos2d::CCIMEKeyboardNotificationInfo& info);
     virtual void keyboardWillHide(cocos2d::CCIMEKeyboardNotificationInfo& info);

@@ -96,13 +96,13 @@ void ConnectGetServerInfo::connetGetServerlist()
 	LOGE("[ServerList] Request url=%s", strUrl.c_str());
 #endif
 
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 	request->setUrl(strUrl.c_str());
-	request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
 	request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetServerlist));
 
-	cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 	client->setTimeoutForConnect(10);
 	client->send(request);
 	request->release();
@@ -135,14 +135,14 @@ void ConnectGetServerInfo::connetGetUserInfo()
 #endif
 
 
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 	request->setUrl(strUrl.c_str());
 	//request->setRequestData(data.c_str(), data.length());
-	request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
 	request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetUserInfo));
 
-	cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 	client->setTimeoutForConnect(10);
 	client->send(request);
 	request->release();
@@ -206,19 +206,19 @@ void ConnectGetServerInfo::connetCreateRoleInfo(int serverid, int headid)
 	strUrl += "&sign=";
 	strUrl += md5Str;
 
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 	request->setUrl(strUrl.c_str());
-	request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
 	request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onSerUserInfo));
 
-	cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 	client->setTimeoutForConnect(10);
 	client->send(request);
 	request->release();
 }
 
-void ConnectGetServerInfo::onGetUserInfo(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void ConnectGetServerInfo::onGetUserInfo(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
@@ -283,7 +283,7 @@ void ConnectGetServerInfo::onGetUserInfo(cocos2d::extension::CCHttpClient* clien
 	}
 }
 
-void ConnectGetServerInfo::onGetServerlist(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void ConnectGetServerInfo::onGetServerlist(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
@@ -460,7 +460,7 @@ void ConnectGetServerInfo::onGetServerlist(cocos2d::extension::CCHttpClient* cli
 			conState = enumGetServerState(eNumConnectSuccess);
 		}
 	}
-	else //Á¬½ÓÊ§°Ü
+	else //ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
 	{
 		conState = enumGetServerState(eNumConnectFailed);
 	}
@@ -484,7 +484,7 @@ void ConnectGetServerInfo::doAfterGetServerListData()
 		{
 			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithIntegerData("SelectServerEntry.SetGetServerResult", 1);
 
-			// ³¢ÊÔÇëÇóÑ¶·ÉµÄToken
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¶ï¿½Éµï¿½Token
 			gGetGetTextManager()->tryRequestToken();
 
 // upload Android dump files
@@ -507,7 +507,7 @@ void ConnectGetServerInfo::doAfterGetServerListData()
 	}
 }
 
-void ConnectGetServerInfo::onSerUserInfo(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void ConnectGetServerInfo::onSerUserInfo(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 
 }
@@ -582,13 +582,13 @@ std::string ConnectGetServerInfo::getHttpAdressByEnum(enumServerHttpAdress em)
 
 /*
 http://bbs.locojoy.com/gameloginatserver.php?username=xwtest100201&date=20160321&rand=2323&sign=62e8094b603c9807b4b2c0c559b0cce2
-×Ö¶ÎËµÃ÷£º
-×Ö¶ÎÃû	ËµÃ÷	±¸×¢
-username	ÓÃ»§Ãû	È·±£Î¨Ò»£¡
-date	ÈÕÆÚ	¸ñÊ½£º20160321
-rand	Ëæ»úÊý×Ö	×îºÃÔÚ4Î»£¬
-sign	×éºÏ¼ÓÃÜºóµÄ×Ö·û´®	MD5 32Î»£¨Ð¡Ð´£©
-sign ×Ö¶Î¼ÓÃÜËµÃ÷£ºmd5(username + date + rand);*/
+ï¿½Ö¶ï¿½Ëµï¿½ï¿½ï¿½ï¿½
+ï¿½Ö¶ï¿½ï¿½ï¿½	Ëµï¿½ï¿½	ï¿½ï¿½×¢
+username	ï¿½Ã»ï¿½ï¿½ï¿½	È·ï¿½ï¿½Î¨Ò»ï¿½ï¿½
+date	ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½Ê½ï¿½ï¿½20160321
+rand	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	ï¿½ï¿½ï¿½ï¿½ï¿½4Î»ï¿½ï¿½
+sign	ï¿½ï¿½Ï¼ï¿½ï¿½Üºï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½	MD5 32Î»ï¿½ï¿½Ð¡Ð´ï¿½ï¿½
+sign ï¿½Ö¶Î¼ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½md5(username + date + rand);*/
 
 void ConnectGetServerInfo::doEnterBBS(){
 	std::string bbsUrl = getHttpAdressByEnum(enumServerHttpAdress(eHttpCommunityUrl));
@@ -652,7 +652,7 @@ void ConnectGetServerInfo::doEnterBBS(){
 void ConnectGetServerInfo::doRequestJingLingQuest(int id) 
 {
 	std::string strUrl = "";
-	//id > 1000 ÊÇ¾ßÌåÊÇÎÊÌâµÄid 
+	//id > 1000 ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id 
 	if (id > 1000)
 	{
 		strUrl = getHttpAdressByEnum(eHttpJinglingUrl) + "/faq/detail?faq_id=" + StringCover::intToString(id);
@@ -664,10 +664,10 @@ void ConnectGetServerInfo::doRequestJingLingQuest(int id)
 
 	if (strUrl != "")
 	{
-		cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+		cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 		request->setUrl(strUrl.c_str());
-		request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+		request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
 		if (id > 1000)
 		{
 			request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetSingelAnswer));
@@ -677,7 +677,7 @@ void ConnectGetServerInfo::doRequestJingLingQuest(int id)
 			request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetJingLingData));
 		}
 
-		cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+		cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 		client->setTimeoutForConnect(10);
 		client->send(request);
 		request->release();
@@ -687,7 +687,7 @@ void ConnectGetServerInfo::doRequestJingLingQuest(int id)
 
 }
 
-void ConnectGetServerInfo::onGetJingLingData(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void ConnectGetServerInfo::onGetJingLingData(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
@@ -795,7 +795,7 @@ void ConnectGetServerInfo::onGetJingLingData(cocos2d::extension::CCHttpClient* c
 	}
 }
 
-void ConnectGetServerInfo::onGetSingelAnswer(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void ConnectGetServerInfo::onGetSingelAnswer(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
@@ -820,7 +820,7 @@ void ConnectGetServerInfo::onGetSingelAnswer(cocos2d::extension::CCHttpClient* c
 			if (error && error->type == Json_String)
 			{
 				std::string errorno = error->valueString;
-				if (errorno.length() > 0) //ÊÇ·ñ´æÔÚ´íÎóºÅ
+				if (errorno.length() > 0) //ï¿½Ç·ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½
 				{
 					cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("JinglingDlg.doGotResponseNoMatch");
 					Json_dispose(root);
@@ -897,7 +897,7 @@ void ConnectGetServerInfo::onGetSingelAnswer(cocos2d::extension::CCHttpClient* c
 	}
 }
 
-void ConnectGetServerInfo::onGetSearchData(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void ConnectGetServerInfo::onGetSearchData(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
@@ -950,7 +950,7 @@ void ConnectGetServerInfo::onGetSearchData(cocos2d::extension::CCHttpClient* cli
 					}
 				}
 
-				if (!isMatch && count != 0) //Èç¹ûÃ»ÓÐÕÒµ½info ËµÃ÷²»ÊÇ¾«È·Æ¥Åä
+				if (!isMatch && count != 0) //ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½info Ëµï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½È·Æ¥ï¿½ï¿½
 				{
 					std::string key = "";
 					Json* _key = Json_getItem(data, "q");
@@ -1006,13 +1006,13 @@ void ConnectGetServerInfo::doRequestSearchData(std::string keyWord)
 
 	std::string strUrl = getHttpAdressByEnum(eHttpJinglingUrl) + "/faq/search?q=" + keyWord;
 
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 	request->setUrl(strUrl.c_str());
-	request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
 	request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetSearchData));
 
 
-	cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 	client->setTimeoutForConnect(10);
 	client->send(request);
 	request->release();
@@ -1108,7 +1108,7 @@ ConnectGetServerInfo::ConnectGetServerInfo()
 ConnectGetServerInfo::~ConnectGetServerInfo()
 {
 }
-void ConnectGetServerInfo::HandleCheckRecruit(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response){
+void ConnectGetServerInfo::HandleCheckRecruit(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response){
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
 	bool isSuccess = false;
@@ -1134,7 +1134,7 @@ void ConnectGetServerInfo::HandleCheckRecruit(cocos2d::extension::CCHttpClient* 
 			if (error && error->type == Json_String)
 			{
 				std::string errorno = error->valueString;
-				if (errorno.length() > 0) //ÊÇ·ñ´æÔÚ´íÎóºÅ
+				if (errorno.length() > 0) //ï¿½Ç·ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½
 				{
 					cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.createroledialog\":CheckRecruitFail()");
 					Json_dispose(root);
@@ -1151,13 +1151,13 @@ void ConnectGetServerInfo::HandleCheckRecruit(cocos2d::extension::CCHttpClient* 
 		}
 	}
 }
-void ConnectGetServerInfo::HandleCheckRecruitAndRole(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response){
+void ConnectGetServerInfo::HandleCheckRecruitAndRole(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response){
 
 }
-void ConnectGetServerInfo::HandleSendRecruitCode(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response){
+void ConnectGetServerInfo::HandleSendRecruitCode(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response){
 
 }
-void ConnectGetServerInfo::HandleGetRecruitList(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response){
+void ConnectGetServerInfo::HandleGetRecruitList(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response){
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
 	bool isSuccess = false;
@@ -1184,7 +1184,7 @@ void ConnectGetServerInfo::HandleGetRecruitList(cocos2d::extension::CCHttpClient
 			if (error && error->type == Json_String)
 			{
 				std::string errorno = error->valueString;
-				if (errorno.length() > 0) //ÊÇ·ñ´æÔÚ´íÎóºÅ
+				if (errorno.length() > 0) //ï¿½Ç·ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½
 				{
 					cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.recruit.recruitdlg\":getRecruitListFail()");
 					Json_dispose(root);
@@ -1257,7 +1257,7 @@ void ConnectGetServerInfo::HandleGetRecruitList(cocos2d::extension::CCHttpClient
 
 	}
 }
-void ConnectGetServerInfo::HandleCheckRecruitOneRole(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response){
+void ConnectGetServerInfo::HandleCheckRecruitOneRole(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response){
 	m_RecruitRoleList.clear();
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
@@ -1285,7 +1285,7 @@ void ConnectGetServerInfo::HandleCheckRecruitOneRole(cocos2d::extension::CCHttpC
 			if (error && error->type == Json_String)
 			{
 				std::string errorno = error->valueString;
-				if (errorno.length() > 0) //ÊÇ·ñ´æÔÚ´íÎóºÅ
+				if (errorno.length() > 0) //ï¿½Ç·ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½
 				{
 					cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.recruit.recruitdlg\":getOneRoleFail()");
 					Json_dispose(root);
@@ -1359,7 +1359,7 @@ void ConnectGetServerInfo::HandleCheckRecruitOneRole(cocos2d::extension::CCHttpC
 	}
 
 }
-void ConnectGetServerInfo::HandlegetRecruitInfo(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response){
+void ConnectGetServerInfo::HandlegetRecruitInfo(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response){
 	int rcode = response->getResponseCode();
 	std::string jsonStr;
 	bool isSuccess = false;
@@ -1386,7 +1386,7 @@ void ConnectGetServerInfo::HandlegetRecruitInfo(cocos2d::extension::CCHttpClient
 			if (error && error->type == Json_String)
 			{
 				std::string errorno = error->valueString;
-				if (errorno.length() > 0) //ÊÇ·ñ´æÔÚ´íÎóºÅ
+				if (errorno.length() > 0) //ï¿½Ç·ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½
 				{
 					cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.recruit.recruitdlg\":getRecruitFail()");
 					Json_dispose(root);
@@ -1429,10 +1429,10 @@ void ConnectGetServerInfo::HandlegetRecruitInfo(cocos2d::extension::CCHttpClient
 
 }
 void ConnectGetServerInfo::connetGetRecruitInfo(char* url, int index){
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 	request->setUrl(url);
-	request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
 	switch (index)
 	{
 	case 0:{
@@ -1463,7 +1463,7 @@ void ConnectGetServerInfo::connetGetRecruitInfo(char* url, int index){
 		return;
 		break;
 	}
-	cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 	client->setTimeoutForConnect(10);
 	client->send(request);
 	request->release();

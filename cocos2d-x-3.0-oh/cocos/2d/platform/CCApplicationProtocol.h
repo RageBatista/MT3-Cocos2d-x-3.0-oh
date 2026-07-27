@@ -68,6 +68,11 @@ public:
         OS_WP8,
         OS_HARMONY_NEXT  
     };
+    // MT3: restore cauthc macros that were temporarily undefined
+    #pragma pop_macro("OS_IOS")
+    #pragma pop_macro("OS_LINUX")
+    #pragma pop_macro("OS_ANDROID")
+    #pragma pop_macro("OS_WINDOWS")
 
     /**
      * @js NA

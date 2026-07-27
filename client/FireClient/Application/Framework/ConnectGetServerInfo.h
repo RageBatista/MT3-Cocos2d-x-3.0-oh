@@ -91,26 +91,26 @@ public:
 	void connetGetUserInfo();
 	void connetCreateRoleInfo(int serverid, int headid);
 	void connetGetRecruitInfo(char* url, int index);
-	//0:½Ó¿Ú3.Ð£ÑéÕÐÄ¼ÂëÊÇ´æÔÚ, ²»Ð£Ñé±»ÕÐÄ¼  http://mt3.pengyouquan001.locojoy.com:8830/enlist/check_code?code=7956261002
-	//1:½Ó¿Ú4.Ð£ÑéÕÐÄ¼Âë, Í¬Ê±Ð£Ñé±»ÕÐÄ¼ÈË    http://mt3.pengyouquan001.locojoy.com:8830/enlist/check?code=7956261002&new_serverid=1101011002&new_roleid=795626
-	//2:½Ó¿Ú5.ÕÐÄ¼ÈËÌá½»ÕÐÄ¼Âë http ://mt3.pengyouquan001.locojoy.com:8830/enlist/submit_code?code=7956261002&new_serverid=1101011002&new_roleid=795626
-	//3:½Ó¿Ú6.ÕÐÄ¼ÈË»ñÈ¡±»ÕÐÄ¼ÈËÁÐ±í http://mt3.pengyouquan001.locojoy.com:8830/enlist/get_enlist_list?serverid=1101011002&roleid=795626
-	//4:½Ó¿Ú8.»ñÈ¡Ä³±»ÕÐÄ¼ÈËµÄ½±Àø½ø¶È×´Ì¬http ://mt3.pengyouquan001.locojoy.com:8830/enlist/get_prize_list?serverid=1101011002&roleid=795626&new_serverid=123&new_roleid=123
-	//»ñÈ¡ÕÐÄ¼ÈËÕÐÄ¼ÈËÊý,ºÍÒÑÁìÈ¡µÄ´ÎÊý½±Àø
+	//0:ï¿½Ó¿ï¿½3.Ð£ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½, ï¿½ï¿½Ð£ï¿½é±»ï¿½ï¿½Ä¼  http://mt3.pengyouquan001.locojoy.com:8830/enlist/check_code?code=7956261002
+	//1:ï¿½Ó¿ï¿½4.Ð£ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½, Í¬Ê±Ð£ï¿½é±»ï¿½ï¿½Ä¼ï¿½ï¿½    http://mt3.pengyouquan001.locojoy.com:8830/enlist/check?code=7956261002&new_serverid=1101011002&new_roleid=795626
+	//2:ï¿½Ó¿ï¿½5.ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½á½»ï¿½ï¿½Ä¼ï¿½ï¿½ http ://mt3.pengyouquan001.locojoy.com:8830/enlist/submit_code?code=7956261002&new_serverid=1101011002&new_roleid=795626
+	//3:ï¿½Ó¿ï¿½6.ï¿½ï¿½Ä¼ï¿½Ë»ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ð±ï¿½ http://mt3.pengyouquan001.locojoy.com:8830/enlist/get_enlist_list?serverid=1101011002&roleid=795626
+	//4:ï¿½Ó¿ï¿½8.ï¿½ï¿½È¡Ä³ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ËµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬http ://mt3.pengyouquan001.locojoy.com:8830/enlist/get_prize_list?serverid=1101011002&roleid=795626&new_serverid=123&new_roleid=123
+	//ï¿½ï¿½È¡ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//http://mt3.pengyouquan001.locojoy.com:8830/enlist/get_times_prize?serverid=1101011002&roleid=795626
-	void HandleCheckRecruit(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void HandleCheckRecruitAndRole(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void HandleSendRecruitCode(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void HandleGetRecruitList(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void HandleCheckRecruitOneRole(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void HandlegetRecruitInfo(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void HandleCheckRecruit(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void HandleCheckRecruitAndRole(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void HandleSendRecruitCode(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void HandleGetRecruitList(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void HandleCheckRecruitOneRole(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void HandlegetRecruitInfo(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 	void connetCheckRecruitCode(char* url);
 	void connetCheckRecruitCodeAndRoleid(char* url);
 	void connetGetOneRoleInfo(char* url);
-	void onGetServerlist(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void onGetUserInfo(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void onSerUserInfo(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
+	void onGetServerlist(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void onGetUserInfo(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void onSerUserInfo(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 
 	void setHttpAdressMap(enumServerHttpAdress em, std::string value);
 	std::string getHttpAdressByEnum(enumServerHttpAdress em);
@@ -128,19 +128,19 @@ public:
 
 	void doEnterBBS();
 
-	//¾«ÁéÏà¹Ø
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void doRequestJingLingQuest(int id);
 	void doRequestSearchData(std::string keyWord);
-	void onGetJingLingData(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void onGetSingelAnswer(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void onGetSearchData(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void getRedianIds(std::vector<int>& ids);  //È¡µÃÈÈµãids
-	void getTuijianIds(std::vector<int>& ids);  //È¡µÃÍÆ¼öids
-	void getKefuIds(std::vector<int>& ids);  //È¡µÃ¿Í·þids
+	void onGetJingLingData(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void onGetSingelAnswer(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void onGetSearchData(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void getRedianIds(std::vector<int>& ids);  //È¡ï¿½ï¿½ï¿½Èµï¿½ids
+	void getTuijianIds(std::vector<int>& ids);  //È¡ï¿½ï¿½ï¿½Æ¼ï¿½ids
+	void getKefuIds(std::vector<int>& ids);  //È¡ï¿½Ã¿Í·ï¿½ids
 	void getSearchResultList(std::string q, std::vector<stQuestTitleID>& ids);
 	stJinglingINFO getJinglingDataByID(int id); //for lua
 	void clearJinglingData();
-	//ÕÐÄ¼
+	//ï¿½ï¿½Ä¼
 	stRecruitData getRecruitData(){ return m_RecruitData;}
 	std::vector<stRecruitList> getRecruitList(){ return m_RecruitList; }
 	std::vector<stRecruitOneRoleData> getRecruitOneRole(){ return m_RecruitRoleList; }
@@ -153,7 +153,7 @@ private:
 	std::map<enumServerHttpAdress, std::string> httpAdressMap;
 	std::map<int, int> roleServerInfoMap;
 
-	//¾«ÁéÎÊ´ðÏà¹Ø
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê´ï¿½ï¿½ï¿½ï¿½
 	int m_currentRequestID;
 	std::map<int, stJinglingINFO> jinglingDataMap;
 	std::map<std::string, std::vector<stQuestTitleID> > questWidthoutContent;
@@ -161,10 +161,10 @@ private:
 	std::vector<int> tuijianIds;
 	std::vector<int> kefuIds;
 
-	//ÕÐÄ¼Ïà¹ØÊý¾Ý
-	stRecruitData m_RecruitData; //ÕÐÄ¼ÈËÊýºÍ½±Àø
-	std::vector<stRecruitList> m_RecruitList;//ÕÐÄ¼ÁÐ±í
-	std::vector<stRecruitOneRoleData>m_RecruitRoleList;//Ä³¸öÈËÊý¾Ý
+	//ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	stRecruitData m_RecruitData; //ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½
+	std::vector<stRecruitList> m_RecruitList;//ï¿½ï¿½Ä¼ï¿½Ð±ï¿½
+	std::vector<stRecruitOneRoleData>m_RecruitRoleList;//Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void checkVectorContainsAndInsert(std::vector<int>& vec, int value);
 
 	void doAfterGetServerListData(); 

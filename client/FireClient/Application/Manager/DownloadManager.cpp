@@ -2,7 +2,7 @@
 #include "ljfmopen.h"
 using namespace LJFM;
 
-DownloadOne::DownloadOne() : CCHttpResponse(new cocos2d::extension::CCHttpRequest())
+DownloadOne::DownloadOne() : CCHttpResponse(new cocos2d::network::HttpRequest())
 {
 	m_State = 0;
 	m_DMMemberFunctionSlot = NULL;
@@ -20,9 +20,9 @@ void DownloadOne::Start()
 	std::string sSrcURL = ws2s(m_pDownloadInfo.m_wsSrcURL);
 	getHttpRequest()->setUrl(sSrcURL.c_str());
 	getHttpRequest()->setTag("get data");
-	getHttpRequest()->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+	getHttpRequest()->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
 	getHttpRequest()->setResponseCallback((cocos2d::CCObject*)this, httpresponse_selector(DownloadOne::onGetData));
-	cocos2d::extension::CCHttpClient* HC = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* HC = cocos2d::network::HttpClient::getInstance();
 	HC->setTimeoutForConnect(10);
 	HC->send(getHttpRequest());
 	m_State = 1;
@@ -35,7 +35,7 @@ void DownloadOne::Stop()
 		m_State = 2;
 	}
 }
-void DownloadOne::onGetData(cocos2d::extension::CCHttpClient* HC, cocos2d::extension::CCHttpResponse* HR)
+void DownloadOne::onGetData(cocos2d::network::HttpClient* HC, cocos2d::network::HttpResponse* HR)
 {
 	LJFMOpen::GetOutLogInstance()->Print(L"DownloadOne::onGetData\n");
 	int ResultCode = HR->getResponseCode();
@@ -52,7 +52,7 @@ void DownloadOne::onGetData(cocos2d::extension::CCHttpClient* HC, cocos2d::exten
 	(*m_DMMemberFunctionSlot)(m_pDownloadInfo);
 	m_State = 2;
 }
-void DownloadOne::onGetDataDiscard(cocos2d::extension::CCHttpClient* HC, cocos2d::extension::CCHttpResponse* HR)
+void DownloadOne::onGetDataDiscard(cocos2d::network::HttpClient* HC, cocos2d::network::HttpResponse* HR)
 {
 	m_State = 2;
 }
@@ -91,7 +91,7 @@ DownloadManager::DownloadManager()
 }
 DownloadManager::~DownloadManager()
 {
-	//cocos2d::extension::CCHttpClient* HC = cocos2d::extension::CCHttpClient::getInstance();
+	//cocos2d::network::HttpClient* HC = cocos2d::network::HttpClient::getInstance();
 	//HC->destroyInstance();//ios exit is crash
 	if (m_TaskWait.size() > 0)
 	{

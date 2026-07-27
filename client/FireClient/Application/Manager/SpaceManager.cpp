@@ -81,7 +81,7 @@ std::string SpaceManager::UpdatePostData(std::string strData)
 
 void SpaceManager::SendRequest(std::string strProtocolId,std::string strUrl, std::string strData,int nHttpType,int nTimeOut)
 {
-	cocos2d::extension::CCHttpRequest* pRequest = new cocos2d::extension::CCHttpRequest();
+	cocos2d::network::HttpRequest* pRequest = new cocos2d::network::HttpRequest();
 	pRequest->setUrl(strUrl.c_str());
 	pRequest->setTag(strProtocolId.c_str());
 	if (strData.empty() == false)
@@ -94,17 +94,17 @@ void SpaceManager::SendRequest(std::string strProtocolId,std::string strUrl, std
 		
 		pRequest->setRequestData(strData.c_str(), strData.length());
 	}
-	pRequest->setRequestType((cocos2d::extension::CCHttpRequest::HttpRequestType) nHttpType);
+	pRequest->setRequestType((cocos2d::network::HttpRequest::HttpRequestType) nHttpType);
 	pRequest->setResponseCallback((cocos2d::CCObject*)this, httpresponse_selector(SpaceManager::ReceiveRequest_process));
-	cocos2d::extension::CCHttpClient* pHttpClient = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* pHttpClient = cocos2d::network::HttpClient::getInstance();
 	pHttpClient->setTimeoutForConnect(nTimeOut);
 	pHttpClient->send(pRequest);
 	pRequest->release();
 }
 
-void SpaceManager::ReceiveRequest_process(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void SpaceManager::ReceiveRequest_process(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
-	cocos2d::extension::CCHttpRequest* pRequest = response->getHttpRequest();
+	cocos2d::network::HttpRequest* pRequest = response->getHttpRequest();
 	if (!pRequest)
 	{
 		return;

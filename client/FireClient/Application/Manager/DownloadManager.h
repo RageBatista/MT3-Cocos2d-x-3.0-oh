@@ -92,8 +92,8 @@ private:
 	T* m_Class;
 
 };
-//static cocos2d::extension::CCHttpRequest m_Request;
-class DownloadOne : public cocos2d::extension::CCHttpResponse
+//static cocos2d::network::HttpRequest m_Request;
+class DownloadOne : public cocos2d::network::HttpResponse
 {
 	DownloadInfo m_pDownloadInfo;
 	DMSlotFunctorBase* m_DMMemberFunctionSlot;
@@ -114,8 +114,8 @@ public:
 	}
 	void Start();
 	void Stop();
-	void onGetData(cocos2d::extension::CCHttpClient* HC, cocos2d::extension::CCHttpResponse* HR);
-	void onGetDataDiscard(cocos2d::extension::CCHttpClient* HC, cocos2d::extension::CCHttpResponse* HR);
+	void onGetData(cocos2d::network::HttpClient* HC, cocos2d::network::HttpResponse* HR);
+	void onGetDataDiscard(cocos2d::network::HttpClient* HC, cocos2d::network::HttpResponse* HR);
 	bool IsMe(std::wstring wsKey, int iID, void* pData, std::wstring wsSrcURL, std::wstring wsDstFileName);
 	
 };

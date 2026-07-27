@@ -1611,7 +1611,7 @@ void GameUImanager::OnExitGameApp()
 		delete m_pUIIMEDelegate;	// yeqing 2015-10-20
 		m_pUIIMEDelegate = NULL;
 	}
-	cocos2d::extension::CCHttpClient::destroyInstance();
+	cocos2d::network::HttpClient::destroyInstance();
 }
 
 void GameUImanager::OnExitGameToSelectRole()

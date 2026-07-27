@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include <iostream>
 #include <stdarg.h>
 #include <stdio.h>
@@ -1227,7 +1227,7 @@ void GameApplication::ExitGame(eExitType eType, int relogin)
 		m_bWindowsExitInProgress = true;
 	}
 
-	cocos2d::extension::CCHttpClient::getInstance()->clear();
+	cocos2d::network::HttpClient::getInstance()->clear();
 
 	gGetWavRecorder()->release();
 	gGetVoiceManager()->release();

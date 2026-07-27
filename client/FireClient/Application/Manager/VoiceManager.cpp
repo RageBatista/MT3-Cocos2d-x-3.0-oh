@@ -1,4 +1,4 @@
-﻿#include "CCPlatformMacros.h"
+#include "CCPlatformMacros.h"
 #if CC_TARGET_PLATFORM==CC_PLATFORM_IOS
 #include <AudioToolbox/CAFFile.h>
 #include "sys/types.h"
@@ -54,7 +54,7 @@ std::string getChatServerUrl();
 
 bool HttpOperator::Send(cocos2d::CCObject* obj)
 {
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 	request->setUrl(mStrUrl.c_str());
 	if (mVetHeader.size()) {
 		request->setHeaders(mVetHeader);
@@ -65,7 +65,7 @@ bool HttpOperator::Send(cocos2d::CCObject* obj)
 	request->setRequestType(mType);
 	request->setResponseCallback(obj, mResponse);
 
-	cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 	client->setTimeoutForConnect(20);
 	client->send(request);
 	request->release();
@@ -734,13 +734,13 @@ void VoiceManager::SendChatToPlatform(int type, CEGUI::String content, int rolel
 	strUrl += StringCover::int64_tToString(ServerTime) + "&Sign=";
 	strUrl += md5Str;
 
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 	request->setUrl(GetServerInfo()->getHttpAdressByEnum(eHttpServerInfoUrl).c_str());
-	request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpPost);
+	request->setRequestType(cocos2d::network::HttpRequest::kHttpPost);
 	request->setRequestData(strUrl.c_str(), strUrl.length());
 	request->setResponseCallback((cocos2d::CCObject*)this, httpresponse_selector(VoiceManager::SendChatToPlatformCallBack));
 
-	cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 	client->setTimeoutForConnect(10);
 	client->send(request);
 	request->release();
@@ -804,18 +804,18 @@ void VoiceManager::RoleAccusation(int roleid, int type, CEGUI::String content, i
 	strUrl += StringCover::int64_tToString(ServerTime) + "&Sign=";
 	strUrl += md5Str;
 
-	cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 	request->setUrl(strUrl.c_str());
-	request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
 	request->setResponseCallback((cocos2d::CCObject*)this, httpresponse_selector(VoiceManager::RoleAccusationCallBack));
 
-	cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 	client->setTimeoutForConnect(10);
 	client->send(request);
 	request->release();
 }
 
-void VoiceManager::SendChatToPlatformCallBack(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void VoiceManager::SendChatToPlatformCallBack(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	int retCode = response->getResponseCode();
 	std::string type = "-1";
@@ -870,7 +870,7 @@ void VoiceManager::SendChatToPlatformCallBack(cocos2d::extension::CCHttpClient* 
 	}
 }
 
-void VoiceManager::RoleAccusationCallBack(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void VoiceManager::RoleAccusationCallBack(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	int retCode = response->getResponseCode();
 	std::string type = "-1";
@@ -1048,7 +1048,7 @@ void GetTextManager::getTextFromXunFei(const char* uuid, const std::string& spxD
 	par += Base64::YYEncode((unsigned char*)parText, strlen(parText));
 	oper->mStrData = spxData;
 	oper->mResponse = httpresponse_selector(GetTextManager::onGetText);
-	oper->mType = cocos2d::extension::CCHttpRequest::kHttpPost;
+	oper->mType = cocos2d::network::HttpRequest::kHttpPost;
 	oper->mVetParam.push_back(uuid);
 	char paramText[256] = {};
 	snprintf(paramText, sizeof(paramText), "%.1f", recordTime * 0.001f);
@@ -1058,7 +1058,7 @@ void GetTextManager::getTextFromXunFei(const char* uuid, const std::string& spxD
 	mOper_GetText.push_back(oper);
 }
 
-void GetTextManager::onGetText(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void GetTextManager::onGetText(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	// release后不再处理无效的response
 	if (!mLock_GetText) {
@@ -1165,12 +1165,12 @@ void GetTextManager::requestTocken()
 	par += "}";
 	mTockenOperator->mVetHeader.push_back(par);
 	mTockenOperator->mResponse = httpresponse_selector(GetTextManager::onTocken);
-	mTockenOperator->mType = cocos2d::extension::CCHttpRequest::kHttpGet;
+	mTockenOperator->mType = cocos2d::network::HttpRequest::kHttpGet;
 	mTockenOperator->Send(this);
 }
 
 
-void GetTextManager::onTocken(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void GetTextManager::onTocken(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	LOGE("GetTextManager::onTocken start....");
@@ -1410,13 +1410,13 @@ void SendVoiceManager::sendVoiceToServer(const char* uuid, const std::string& sp
 
 	oper->mResponse = httpresponse_selector(SendVoiceManager::onSendVoice);
 
-	oper->mType = cocos2d::extension::CCHttpRequest::kHttpPost;
+	oper->mType = cocos2d::network::HttpRequest::kHttpPost;
 
 	mOper_SendVoice.push_back(oper);
 }
 
 // 上传语音文件的response
-void SendVoiceManager::onSendVoice(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void SendVoiceManager::onSendVoice(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	// release后不再处理无效的response
 	if (!mLock_SendVoice) {
@@ -1537,7 +1537,7 @@ void GetVoiceManager::getVoiceFromServer(const char* uuid, float fTime, const ch
 	oper->mStrUrl = getChatServerUrl();
 	oper->mStrUrl += "iat/";
 	oper->mStrUrl += uuid;
-	oper->mType = cocos2d::extension::CCHttpRequest::kHttpGet;
+	oper->mType = cocos2d::network::HttpRequest::kHttpGet;
 	oper->mResponse = httpresponse_selector(GetVoiceManager::onGetVoice);
 	oper->mVetParam.push_back(uuid);
 	oper->mVetParam.push_back(yuyinBtnName);
@@ -1549,7 +1549,7 @@ void GetVoiceManager::getVoiceFromServer(const char* uuid, float fTime, const ch
 	mOper_GetVoice.push_back(oper);
 }
 
-void GetVoiceManager::onGetVoice(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+void GetVoiceManager::onGetVoice(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 {
 	// release后不再处理无效的response
 	if (!mLock_GetVoice) {

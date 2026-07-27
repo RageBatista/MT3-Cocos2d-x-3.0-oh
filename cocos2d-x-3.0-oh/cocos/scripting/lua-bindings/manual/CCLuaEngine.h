@@ -110,6 +110,8 @@ public:
      @return The integer value returned from the script function.
      */
     virtual int executeGlobalFunction(const char* functionName);
+    // MT3 Compatibility: executeGlobalFunction with numArgs parameter
+    virtual int executeGlobalFunction(const char* functionName, int numArgs) override;
 
     virtual int executeNodeEvent(Node* pNode, int nAction);
     virtual int executeMenuItemEvent(MenuItem* pMenuItem);

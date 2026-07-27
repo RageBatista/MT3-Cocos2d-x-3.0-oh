@@ -1,4 +1,4 @@
-﻿#ifndef __LOGINMANAGER_H
+#ifndef __LOGINMANAGER_H
 #define __LOGINMANAGER_H
 
 #include "Singleton.hpp"
@@ -216,9 +216,9 @@ private:
 
 private:
 	void StartAccountHttpRequest(bool isRegister, const std::string& account, const std::string& password, const std::string& invitecode, const std::string& captcha);
-	void OnLoginAccountHttpResponse(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void OnRegisterAccountHttpResponse(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response);
-	void HandleAccountHttpResponse(cocos2d::extension::CCHttpResponse* response, bool isRegister);
+	void OnLoginAccountHttpResponse(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void OnRegisterAccountHttpResponse(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
+	void HandleAccountHttpResponse(cocos2d::network::HttpResponse* response, bool isRegister);
 	void OpenSelectServerEntry();
 	void OpenSelectServerEntryWithSavedAccount(const char* reason);
 
