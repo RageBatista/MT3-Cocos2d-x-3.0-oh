@@ -42,6 +42,16 @@ public:
 
     // Since WINDOWS and ANDROID are defined as macros, we could not just use these keywords in enumeration(Platform).
     // Therefore, 'OS_' prefix is added to avoid conflicts with the definitions of system macros.
+    // MT3: cauthc headers define OS_WINDOWS/OS_ANDROID/OS_LINUX/OS_IOS as empty macros,
+    // which conflicts with these enum values. Temporarily undefine them, then restore.
+    #pragma push_macro("OS_WINDOWS")
+    #pragma push_macro("OS_ANDROID")
+    #pragma push_macro("OS_LINUX")
+    #pragma push_macro("OS_IOS")
+    #undef OS_WINDOWS
+    #undef OS_ANDROID
+    #undef OS_LINUX
+    #undef OS_IOS
     enum class Platform
     {
         OS_WINDOWS,
