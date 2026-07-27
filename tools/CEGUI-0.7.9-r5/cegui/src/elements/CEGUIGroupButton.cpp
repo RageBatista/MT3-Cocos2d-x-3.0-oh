@@ -467,7 +467,6 @@ const colour& GroupButton::GetStateBorderColour(enumGroupButtonState state)
 	return d_NormalBorderColour;
 }
 void GroupButton::initialiseComponents(bool bClone)  // Initialize component state colours from properties
-{{//��������ۺ����ø���״̬��������ɫ
 {
 	if (!bClone)
 	{
