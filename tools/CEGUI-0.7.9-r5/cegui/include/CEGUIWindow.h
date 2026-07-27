@@ -4487,6 +4487,7 @@ public:
     void OnShiedUI();
     void EnableAllowModalState(bool b) { d_AllowModalSate = b; }
     void SeModalStateDrawEffect(bool b) { d_ModalStateDrawEffect = b; }
+    void cleanupAllEvent(void);
 
 protected:
     // MT3: Get clone window from template

@@ -29,6 +29,9 @@ extern "C" {
 #define tolua_pushcppstring(x,y)                tolua_pushstring(x,y.c_str())
 #define tolua_iscppstring                       tolua_isstring
 
+#define tolua_pushcppwstring(x,y)               tolua_pushwstring(x,y.c_str())
+#define tolua_iscppwstring                      tolua_isstring
+
 #define tolua_iscppstringarray                  tolua_isstringarray
 #define tolua_pushfieldcppstring(L,lo,idx,s)    tolua_pushfieldstring(L, lo, idx, s.c_str())
 
@@ -142,6 +145,10 @@ TOLUA_API void tolua_dobuffer(lua_State* L, char* B, unsigned int size, const ch
 TOLUA_API int class_gc_event (lua_State* L);
 
 #ifdef __cplusplus
+} // extern "C"
+
+#include <string>
+
 static inline const char* tolua_tocppstring (lua_State* L, int narg, const char* def) {
 
     const char* s = tolua_tostring(L, narg, def);
@@ -153,6 +160,48 @@ static inline const char* tolua_tofieldcppstring (lua_State* L, int lo, int inde
     const char* s = tolua_tofieldstring(L, lo, index, def);
     return s?s:"";
 };
+
+// MT3: wstring support for CEGUI Lua bindings
+static inline void tolua_pushwstring(lua_State* L, const wchar_t* value)
+{
+    if (value == NULL)
+        lua_pushnil(L);
+    else
+    {
+        std::wstring ws(value);
+        int len = WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), (int)ws.length(), NULL, 0, NULL, NULL);
+        if (len > 0)
+        {
+            std::string str(len, 0);
+            WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), (int)ws.length(), &str[0], len, NULL, NULL);
+            lua_pushlstring(L, str.c_str(), len);
+        }
+        else
+        {
+            lua_pushstring(L, "");
+        }
+    }
+}
+
+static inline std::wstring tolua_tocppwstring(lua_State* L, int narg, const wchar_t* def)
+{
+    const char* s = tolua_tostring(L, narg, NULL);
+    if (!s)
+        return def ? def : L"";
+    else
+    {
+        int len = MultiByteToWideChar(CP_UTF8, 0, s, -1, NULL, 0);
+        if (len > 0)
+        {
+            std::wstring ws(len, 0);
+            MultiByteToWideChar(CP_UTF8, 0, s, -1, &ws[0], len);
+            if (!ws.empty() && ws.back() == L'\0')
+                ws.pop_back();
+            return ws;
+        }
+        return L"";
+    }
+}
 
 #else
 #define tolua_tocppstring tolua_tostring

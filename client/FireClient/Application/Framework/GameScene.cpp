@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "GameApplication.h"
 #include "GameScene.h"
 #include "MainCharacter.h"
@@ -13,6 +13,7 @@
 #include "BattleReplayManager.h"
 
 #include "LoginManager.h"
+#include "CEGUIPfsResourceProvider.h"
 //#include "fire/pb/move/SAddUserScreen.hpp"
 
 //#include "../ProtoDef/fire/pb/move/SAddPickupScreen.hpp"
@@ -1310,7 +1311,7 @@ bool GameScene::ChangeMap(int64_t sceneID,Nuclear::NuclearLocation ptLocation,st
 			GetMainCharacter()->SetVisible(true);
 				
 			Nuclear::GetEngine()->GetWorld()->SetCameraUpdateType(Nuclear::XPCAMERA_UPDATE_TYPE2);
-			CEGUI::uint32 color = static_cast<CEGUI::uint32>(CEGUI::PropertyHelper::stringToColour(GetTableWStringFromLua("map.cmapconfig", m_MapInfoId, "sceneColor")));
+			CEGUI::uint32 color = static_cast<CEGUI::uint32>(CEGUI::PropertyHelper::stringToColour(CEGUI::PFSResourceProvider::WStringToGUIString(GetTableWStringFromLua("map.cmapconfig", m_MapInfoId, "sceneColor"))));
 			Nuclear::GetEngine()->GetWorld()->SetMaskBoxColor(color);
 
 			//如果是第一次进入游戏世界
@@ -2684,7 +2685,7 @@ void GameScene::RefreshScenarioDisplayNpcState(int npcbaseid, eNpcMissionState s
 bool GameScene::AddMovieSceneNpc(int64_t id, const std::wstring& strName, int title, int modelid, int Logic_X, int Logic_Y, int dir, int colorTemplate, eActionType actype,
 	float scale, const std::wstring& efName, int repeat, int ex, int ey, const std::wstring& chengwei, const std::wstring& cwColor) //增加一个场景动画NPC
 {
-	DWORD chengweiColor = static_cast<CEGUI::uint32>(CEGUI::PropertyHelper::stringToColour(GetTableWStringFromLua("map.cmapconfig", m_MapInfoId, "sceneColor")));
+	DWORD chengweiColor = static_cast<CEGUI::uint32>(CEGUI::PropertyHelper::stringToColour(CEGUI::PFSResourceProvider::WStringToGUIString(GetTableWStringFromLua("map.cmapconfig", m_MapInfoId, "sceneColor"))));
 
 	stMovieSceneNpcData npcData(id,strName,title,modelid,(Nuclear::NuclearDirection)dir,colorTemplate, chengwei, chengweiColor);
 	MovieSceneNpc* pNpc = FindMovieSceneNpcByID(npcData.id);

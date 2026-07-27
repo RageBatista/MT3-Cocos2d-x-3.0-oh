@@ -53,7 +53,7 @@ extern "C" {
 #include "platform/platform_types.h"
 #include "CEGUIFontManager.h"
 #include "CEGUIImagesetManager.h"
-#include "textures/CCTextureCache.h"
+#include "2d/CCTextureCache.h"
 #include "renderer/nuifontmanager.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

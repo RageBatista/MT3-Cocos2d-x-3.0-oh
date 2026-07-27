@@ -99,7 +99,7 @@ void ConnectGetServerInfo::connetGetServerlist()
 	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 	request->setUrl(strUrl.c_str());
-	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 	request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetServerlist));
 
 	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
@@ -139,7 +139,7 @@ void ConnectGetServerInfo::connetGetUserInfo()
 
 	request->setUrl(strUrl.c_str());
 	//request->setRequestData(data.c_str(), data.length());
-	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 	request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetUserInfo));
 
 	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
@@ -209,7 +209,7 @@ void ConnectGetServerInfo::connetCreateRoleInfo(int serverid, int headid)
 	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 	request->setUrl(strUrl.c_str());
-	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 	request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onSerUserInfo));
 
 	cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
@@ -667,7 +667,7 @@ void ConnectGetServerInfo::doRequestJingLingQuest(int id)
 		cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 		request->setUrl(strUrl.c_str());
-		request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
+		request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 		if (id > 1000)
 		{
 			request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetSingelAnswer));
@@ -1008,7 +1008,7 @@ void ConnectGetServerInfo::doRequestSearchData(std::string keyWord)
 
 	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 	request->setUrl(strUrl.c_str());
-	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 	request->setResponseCallback(this, httpresponse_selector(ConnectGetServerInfo::onGetSearchData));
 
 
@@ -1432,7 +1432,7 @@ void ConnectGetServerInfo::connetGetRecruitInfo(char* url, int index){
 	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 
 	request->setUrl(url);
-	request->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
+	request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 	switch (index)
 	{
 	case 0:{

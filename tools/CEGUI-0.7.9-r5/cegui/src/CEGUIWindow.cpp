@@ -4416,4 +4416,16 @@ void Window::OnShiedUI()
     }
 }
 
+//----------------------------------------------------------------------------//
+void Window::cleanupAllEvent(void)
+{
+    removeAllEvents();
+    const size_t child_count = getChildCount();
+
+    for (size_t i = 0; i < child_count; ++i)
+    {
+        d_children[i]->cleanupAllEvent();
+    }
+}
+
 } // End of  CEGUI namespace section

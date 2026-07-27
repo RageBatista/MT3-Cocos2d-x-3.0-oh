@@ -1,5 +1,6 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "Battler.h"
+#include "CEGUIPfsResourceProvider.h"
 #include "BattleIllusion.h"
 #include "GameScene.h"
 #include "GameOperateState.h"
@@ -2060,7 +2061,7 @@ void Battler::ShowSkillName(bool bShow, int iSkillID)
 			const GameTable::skill::CSkillTypeConfig& skilltypecfg = GameTable::skill::GetCSkillTypeConfigTableInstance().getRecorder(iSkillID);
 			if (skilltypecfg.id > 0)
 			{
-				m_pSkillNameText->setText(skilltypecfg.skillname);
+				m_pSkillNameText->setText(CEGUI::PFSResourceProvider::WStringToGUIString(skilltypecfg.skillname));
 			}
 			else
 			{
