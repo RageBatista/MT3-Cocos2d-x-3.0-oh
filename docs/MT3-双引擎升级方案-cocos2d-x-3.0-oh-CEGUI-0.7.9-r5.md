@@ -2,11 +2,11 @@
 
 ## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
 
-> **版本**：1.6.0
+> **版本**：1.7.0
 > **制定日期**：2026-07-26
 > **修订日期**：2026-07-27
-> **状态**：执行中 — 阶段 1、2、3、4 完成，M3 里程碑达成
-> **本次修订**：阶段 4 完成，Nuclear 引擎封装层 Debug/Release 双配置编译通过
+> **状态**：执行中 — 阶段 1、2、3、4、5 完成，M3 里程碑达成
+> **本次修订**：阶段 5 完成，CEGUI 0.7.9-r5 全部 MT3 定制控件（20+ 控件 + 16 渲染器）Debug/Release 双配置编译通过
 > **依赖文档**：
 >
 > - [Cocos2d-x 2.2.6 → 3.0-oh 升级方案](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md)（已存在）
@@ -449,7 +449,7 @@ Cocos2d-x 2.2.6 上的 8 类 MT3 专属补丁需逐一评估并移植到 3.0-oh�
 阶段 2:  CEGUI 0.7.9-r5 编译     ░░░░░░███░░░░░░░░░░░░░░░  1.5 周
 阶段 3:  Cocos2DRenderer 移植    ░░░░░░░░░██████░░░░░░░░░  3 周     ← 关键路径
 阶段 4:  Nuclear 封装层适配      ░░░░░░░░░░░░░░████░░░░░░░  2 周
-阶段 5:  CEGUI 定制控件移植      ░░░░░░░░░░░░░░░░░░██████░  3 周
+阶段 5:  CEGUI 定制控件移植      ░░░░░░░░░░░░░░░░░░████████  3 周
 阶段 6:  FireClient 业务适配     ░░░░░░░░░░░░░░░░░░░░░░███  4 周
 阶段 7:  Lua + tolua++ 适配      ░░░░░░░░░░░░░░░░░░░░░░░██  2 周
 阶段 8:  资源文件兼容性          ░░░░░░░░░░░░░░░░░░░░░░░░█  1 周
@@ -588,7 +588,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 阶段 2 | CEGUI 0.7.9-r5 独立编译 | 1.5 周 | ✅ 完成 | < 0.5 天 | Debug/Release 均零错误，无需修复 |
 | 阶段 3 | Cocos2DRenderer 移植 | 3 周 | ✅ 完成 | 1.5 天 | Debug/Release 双配置编译通过（见 §阶段3详细） |
 | 阶段 4 | Nuclear 引擎封装层适配 | 2 周 | ✅ 完成 | 1.5 天 | Debug/Release 均零错误，engine.lib 生成（见 §阶段4详细） |
-| 阶段 5 | CEGUI 定制模块移植 | 3 周 | ⬜ 待开始 | — | — |
+| 阶段 5 | CEGUI 定制模块移植 | 3 周 | ✅ 完成 | 1.5 天 | Debug/Release 双配置编译通过（见 §阶段5详细） |
 | 阶段 6 | FireClient 业务代码适配 | 4 周 | ⬜ 待开始 | — | — |
 | 阶段 7 | Lua 脚本 + tolua++ 适配 | 2 周 | ⬜ 待开始 | — | — |
 | 阶段 8 | 资源文件兼容性处理 | 1 周 | ⬜ 待开始 | — | — |
@@ -763,6 +763,107 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 ---
 
+### 阶段 5 详细进度 — CEGUI 定制模块移植
+
+> **开始日期**：2026-07-27
+> **完成日期**：2026-07-27
+> **当前状态**：✅ 完成 — Debug/Release 双配置编译通过，M3 里程碑达成
+
+#### 移植范围
+
+阶段 5 的目标是将 MT3 在 CEGUI 0.7.1 上扩展的全部定制控件和 Falagard 渲染器移植到 CEGUI 0.7.9-r5，确保编译通过。
+
+| 类别 | 数量 | 说明 |
+|------|------|------|
+| MT3 定制 Elements | 25+ | AnimationButton、GroupButton、IrregularButton、RichEditbox（含 ~15 个子组件）、ItemTable、ItemCell、LinkText、MessageTip、Switch 等 |
+| MT3 定制 Falagard 渲染器 | 5+ | FalAnimationButton、FalIrregularButton、FalRichEditbox、FalGroupBtnTree 等 |
+| Cocos2D Renderer | 6 | 已在阶段 3 完成 |
+
+#### 修复的编译错误（11 大类）
+
+| 类别 | 错误描述 | 修复文件数 | 修复方式 |
+|------|---------|-----------|---------|
+| 1. WindowRenderer 基类接口变更 | 默认构造函数和 `clone()` 不存在 | 4 | 移除默认构造函数，移除 `clone()` 方法 |
+| 2. Image::draw() 参数类型变更 | `GeometryBuffer*` → `GeometryBuffer&` | 6 | 指针解引用：`draw(buffer, ...)` → `draw(*buffer, ...)` |
+| 3. Font::drawText() 参数变更 | 缺少 underline/border 参数 | 3 | 在 CEGUIFont 中添加默认参数 `bool bIsUnderLine=false, bool bBorder=false, const ColourRect& BorderColours=ColourRect()` |
+| 4. CentredRenderedString::draw() | 指针→引用 | 1 | `draw(*buffer, ...)` |
+| 5. MT3 定制 System API 缺失 | 20+ 个回调函数和成员变量 | 3 | 在 CEGUISystem.h 添加 typedef/成员/方法，在 CEGUISystem.cpp 初始化 |
+| 6. MT3 定制 Scrollbar API 缺失 | `onMouseSlide`、`isThumbOnEnd` | 2 | 在 CEGUIScrollbar.h 添加方法声明，在 FalScrollbar 实现 isThumbOnEnd |
+| 7. MT3 定制 String API 缺失 | `GetCharLength` | 1 | 在 CEGUIString.h 添加方法 |
+| 8. MT3 定制宏/函数缺失 | `CEGUI_LOGERR`、`SetCanEdit`、`EnbaleSlide`、`getCloneWindowFromTemplate` | 4 | 在 CEGUILogger.h 添加宏，在 CEGUIWindow.h 添加方法 |
+| 9. ButtonBase 构造函数变更 | 缺少双参数构造函数 | 1 | `ButtonBase(type)` → `ButtonBase(type, "")` |
+| 10. GestureRecognizer 头文件缺失 | 未使用的头文件引用 | 1 | 移除 `#include "gesture/CEGUILongPressGestureRecognizer.h"` |
+| 11. FalRichEditbox 编码问题 | GBK 编码的 UTF-8 无 BOM 文件 | 1 | 添加 UTF-8 BOM |
+
+#### 新增的 MT3 定制 API（CEGUI 0.7.9-r5 中）
+
+| 模块 | 新增 API | 说明 |
+|------|---------|------|
+| CEGUISystem.h | `GoToFunction`、`LinkHttpFunction`、`ShowItemTips`、`OnChangelImageClick`、`ShowCompnentTips`、`OnPasteFromClipBord`、`OnCopyToClipBord`、`OnNameLinkClick`、`OnFamilyRecruitClick`、`JoinTeamLinkClicked`、`RequestTeamLinkClicked`、`AnswerQuestionLinkClicked`、`CommonLinkLinkClicked`、`OpenDialog`、`RequestOtherQuest` 等 typedef | 从 0.7.1 移植全部回调函数类型 |
+| CEGUISystem.h | 20+ 个 getter/setter 方法 | 表情、链接、剪贴板、组件提示、物品提示等回调管理 |
+| CEGUISystem.h | `d_defaultCompnenttip`、`d_EmotionNum`、`d_CellImage` 等 10+ 个成员变量 | MT3 定制状态管理 |
+| CEGUIScrollbar.h | `onMouseSlide()`、`isThumbOnEnd()` | 滚动条滑动和终点检测 |
+| CEGUIString.h | `GetCharLength()` | 字符长度计算 |
+| CEGUIWindow.h | `SetCanEdit()`、`EnbaleSlide()`、`getCloneWindowFromTemplate()` | 窗口编辑和克隆功能 |
+| CEGUILogger.h | `CEGUI_LOGERR` 宏 | 错误日志便捷宏 |
+| CEGUIXMLSerializer.h | `convertEntityInText()` 改为 public | XML 实体转换公开访问 |
+| CEGUIForwardRefs.h | `CompnentTip`、`RichEditboxComponent` 前向声明 | 类型前向声明 |
+| CEGUIButtonBase.h | `EnableClickAni()`、`isClickAniEnable()` 改为 public | 按钮点击动画访问 |
+| CEGUIWindow.h | `EnableDrag()`、`GetScreenPos()`、`CheckGuideEnd()`、`onSetTemplateLookNFeel()` | 窗口拖拽和屏幕坐标 |
+| CEGUIImagesetManager.h | `getImage(const String& imageset, const String& image)` | 便捷图片获取 |
+| CEGUIString.h | `String(const wchar_t*)` 构造函数 | 宽字符串支持 |
+| CEGUIFont.h | `drawText()` 添加 underline/border 默认参数 | 文本渲染兼容 |
+
+#### 关键文件修改清单
+
+| 文件 | 修改类型 | 说明 |
+|------|---------|------|
+| `CEGUISystem.h` | 新增 50+ 行 | 添加 20+ 个 MT3 回调 typedef、成员变量、getter/setter |
+| `CEGUISystem.cpp` | 新增 10 行 | 构造函数初始化新增成员 |
+| `CEGUIWindow.h` | 新增 20+ 行 | 添加 EnableDrag、SetCanEdit、EnbaleSlide、getCloneWindowFromTemplate 等 |
+| `CEGUIWindow.cpp` | 新增 40+ 行 | 实现新增方法 |
+| `CEGUIScrollbar.h` | 新增 10 行 | 添加 onMouseSlide、isThumbOnEnd 声明 |
+| `CEGUIScrollbar.cpp` | 新增 10 行 | 实现 onMouseSlide、isThumbOnEnd |
+| `CEGUIString.h` | 新增 25 行 | 添加 GetCharLength、wchar_t 构造函数 |
+| `CEGUIForwardRefs.h` | 新增 2 行 | 添加 CompnentTip、RichEditboxComponent 前向声明 |
+| `CEGUILogger.h` | 新增 1 行 | 添加 CEGUI_LOGERR 宏 |
+| `CEGUIXMLSerializer.h` | 移动 5 行 | convertEntityInText 从 private 移至 public |
+| `CEGUIButtonBase.h` | 移动 2 行 | EnableClickAni/isClickAniEnable 从 protected 移至 public |
+| `CEGUIImagesetManager.h/.cpp` | 新增 15 行 | 添加 getImage 便捷方法 |
+| `CEGUIBase.h/.cpp` | 新增 2 行 | g_bIsTextLoading 全局变量 |
+| `CEGUIFont.h/.cpp` | 修改 2 行 | drawText 添加默认参数 |
+| `FalScrollbar.h/.cpp` | 新增 40 行 | 实现 isThumbOnEnd 方法 |
+| `FalRichEditbox.cpp` | 编码修复 | 添加 UTF-8 BOM |
+| `FalAnimationButton.h`、`FalIrregularButton.h` | 删除 4 行 | 移除默认构造函数和 clone() |
+| `CEGUICompnentTip.h` | 删除 2 行 | 移除默认构造函数和 clone() |
+| `CEGUIGroupButton.cpp` | 修改 1 行 | ButtonBase 构造函数适配 |
+| `CEGUIRichEditbox.cpp` | 删除 1 行 | 移除不存在的 d_recognizerManager 调用 |
+| `CEGUIItemTable.cpp` | 删除 1 行 | 移除未使用的 GestureRecognizer 头文件 |
+| `CEGUIGroupBtnItem.cpp` | 修改 6 行 | Image::draw 和 CentredRenderedString::draw 指针→引用 |
+| `CEGUIRichEditboxImageComponent.cpp` | 修改 3 行 | Image::draw 指针→引用 |
+| `CEGUIRichEditboxHttpComponent.cpp` | 修改 1 行 | Font::drawText 参数适配 |
+| `CEGUIRichEditboxGoToComponent.cpp` | 修改 1 行 | Font::drawText 参数适配 |
+| `CEGUIRichEditboxTextComponent.cpp` | 修改 2 行 | Image::draw 和 Font::drawText 适配 |
+| `CEGUIRichEditboxEmotionComponent.cpp` | 修改 1 行 | Image::draw 指针→引用 |
+| `CEGUIRichEditboxButtonImageComponent.cpp` | 修改 3 行 | Image::draw 指针→引用 |
+| `CEGUIRichEditboxLinkTextComponent.cpp` | 修改 1 行 | Font::drawText 指针→引用 |
+
+#### 构建产物
+
+| 配置 | 文件 | 大小 |
+|------|------|------|
+| Debug | `cegui-0.7.9_d.lib` | 95.1 MB |
+| Release | `cegui-0.7.9.lib` | 78.6 MB |
+
+#### 后续注意事项
+
+1. **运行时验证尚未进行**：阶段 5 仅完成编译通过，自定义控件的渲染正确性和功能正确性需要在阶段 11（测试验证）中进行。
+2. **部分方法为空实现**：`onMouseSlide`、`CheckGuideEnd`、`onSetTemplateLookNFeel` 等方法当前为空实现或存根实现，需要在后续阶段根据实际运行时需求补充。
+3. **API 差异可能影响运行时行为**：如 `Font::drawText` 新增的默认参数（underline/border）与 0.7.1 行为可能存在差异，需在集成测试中验证。
+4. **编码问题**：`FalRichEditbox.cpp` 等文件中的 GBK 注释在添加 UTF-8 BOM 后可能出现乱码，但不影响编译和功能。
+
+---
+
 ## 附录 D：踩坑记录
 
 > 记录双引擎升级过程中遇到的实际问题和解决方案，供后续阶段参考。
@@ -846,4 +947,40 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 双引擎升级的耦合点集中在 Renderer 层 | CEGUI 的 Renderer 和 Cocos2d-x 的渲染 API 是最高风险区域 |
 | 增量构建后建议做 CppClean | 旧的 .obj 可能掩盖新代码的编译错误 |
 | include 路径需要全量添加 | 3.0-oh 的分层结构要求每个子目录单独添加，不能只加根目录 |
+
+### D.5 阶段 5：CEGUI 定制模块移植
+
+#### 坑 6：CEGUI 0.7.9-r5 缺失 MT3 大量定制 API
+
+- **现象**：编译时出现 ~200 个错误，涉及 `CompnentTip` 未定义、`GoToFunction` 等回调类型未声明、`onMouseSlide`/`isThumbOnEnd` 不存在、`CEGUI_LOGERR` 宏未定义等
+- **根因**：MT3 在 CEGUI 0.7.1 上深度定制了 System、Window、Scrollbar、String 等核心类，添加了 50+ 个定制 API。这些 API 在 0.7.9-r5 中不存在
+- **修复**：
+  1. 在 CEGUISystem.h 中添加 20+ 个回调 typedef 和对应的 getter/setter 方法
+  2. 在 CEGUIWindow.h 中添加 `EnableDrag`、`SetCanEdit`、`EnbaleSlide`、`getCloneWindowFromTemplate` 等方法
+  3. 在 CEGUIScrollbar.h 中添加 `onMouseSlide`、`isThumbOnEnd` 方法
+  4. 在 CEGUIString.h 中添加 `GetCharLength` 方法和 `wchar_t` 构造函数
+  5. 在 CEGUILogger.h 中添加 `CEGUI_LOGERR` 宏
+  6. 在 CEGUIForwardRefs.h 中添加 `CompnentTip`、`RichEditboxComponent` 前向声明
+- **教训**：阶段 5 的 API 补充工作量远超预期，因为 MT3 对 CEGUI 0.7.1 的定制深度很大，涉及核心类（System、Window）的修改
+
+#### 坑 7：FalRichEditbox.cpp 编码问题导致 50+ 语法错误
+
+- **现象**：编译 `FalRichEditbox.cpp` 时出现 `FalagardRichEditbox` 不是类名、`i` 未声明、`pos` 未声明等 50+ 个语法错误，但代码逻辑本身正确
+- **根因**：文件是 UTF-8 无 BOM 格式，但其中文注释实际是 GBK 编码。GBK 多字节序列中的某些字节恰好等于 ASCII 的 `{`（0x7B）和 `}`（0x7D），VS2013 在无 BOM 时以 CP936（GBK）解析，导致括号匹配错误——for 循环被提前关闭，后续所有成员函数定义脱离了类作用域
+- **修复**：为文件添加 UTF-8 BOM（EF BB BF），使 VS2013 以 UTF-8 模式解析
+- **教训**：VS2013 编译且包含非 ASCII 的 UTF-8 C/C++ 文件必须保留 BOM；GBK 注释在无 BOM 的 UTF-8 文件中是定时炸弹
+
+#### 坑 8：Image::draw() 和 Font::drawText() 签名变更影响面广
+
+- **现象**：编译时出现大量 `C2664`（无法将 `GeometryBuffer*` 转换为 `GeometryBuffer&`）错误
+- **根因**：CEGUI 0.7.9-r5 将 `Image::draw()` 和 `Font::drawText()` 的参数从指针改为引用
+- **修复**：在 10+ 个文件中将所有 `draw(buffer, ...)` 改为 `draw(*buffer, ...)`
+- **教训**：指针→引用的 API 变更是编译时最容易发现的，但影响面广，需要逐文件修改；建议使用 grep 全局搜索确保无遗漏
+
+#### 坑 9：WindowRenderer 基类构造函数变更
+
+- **现象**：`FalAnimationButton`、`FalIrregularButton`、`CompnentTipWindowRenderer` 等编译失败
+- **根因**：CEGUI 0.7.9-r5 的 `WindowRenderer` 移除默认构造函数，且 `clone()` 不再是其成员
+- **修复**：移除这些类的默认构造函数和 `clone()` 方法
+- **教训**：0.7.9-r5 的 `WindowRenderer` 体系与 0.7.1 差异较大，自定义渲染器需要重新审视架构
 

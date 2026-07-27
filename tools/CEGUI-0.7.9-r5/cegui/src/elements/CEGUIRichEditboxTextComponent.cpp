@@ -168,7 +168,7 @@ void RichEditboxTextComponent::DrawSelectFlag(GeometryBuffer* buffer, const Vect
 		Size SelectAreaSize(0.0f,0.0f);
 		SelectAreaSize.d_width=selectWidth;
 		SelectAreaSize.d_height=d_font->getFontHeight(1.0f);
-		pSeleImage->draw(buffer,SelectDrawPos,SelectAreaSize,clip_rect,*mod_colours);
+		pSeleImage->draw(*buffer,SelectDrawPos,SelectAreaSize,clip_rect,*mod_colours);
 	}
 }
 

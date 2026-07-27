@@ -159,7 +159,7 @@ void RichEditboxEmotionComponent::draw(GeometryBuffer* buffer,
         final_cols *= *mod_colours;
 
     // draw the image.
-    d_image->draw(buffer, dest, clip_rect, final_cols);
+    d_image->draw(*buffer, dest, clip_rect, final_cols);
 }
 
 //----------------------------------------------------------------------------//
