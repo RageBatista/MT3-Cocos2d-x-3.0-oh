@@ -30,6 +30,7 @@
 
 #include "CEGUICheckbox.h"
 #include "CEGUIClippedContainer.h"
+#include "CEGUICompnentTip.h"
 #include "CEGUICombobox.h"
 #include "CEGUIComboDropList.h"
 #include "CEGUIDragContainer.h"

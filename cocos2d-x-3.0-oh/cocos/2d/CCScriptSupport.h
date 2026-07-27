@@ -582,8 +582,6 @@ inline ScriptEngineProtocol* gGetScriptEngine() {
 NS_CC_END// end of script_support group
 /// @}
 
-NS_CC_END
-
 #endif // #if CC_ENABLE_SCRIPT_BINDING
 
 #endif // __SCRIPT_SUPPORT_H__

@@ -11,6 +11,7 @@
 #include "CEGUIAnimationManager.h"
 #include "WindowRendererSets/Falagard/FalStaticText.h"
 #include "CallLuaUtil.h"
+#include "../../common/platform/utils/StringUtil.h"
 
 #include "GameApplication.h"
 
@@ -586,7 +587,7 @@ inline DWORD GetPetNameColor(int baseid)
 	if (petData_id != -1)
 	{
 		std::wstring petData_colour = GetTableWStringFromLua("pet.cpetattr", baseid, "colour");
-		return CEGUI::PropertyHelper::stringToColour(petData_colour);
+		return CEGUI::PropertyHelper::stringToColour(CEGUI::String(ws2s(petData_colour)));
 	}
 	return ColorDefine::White;
 }

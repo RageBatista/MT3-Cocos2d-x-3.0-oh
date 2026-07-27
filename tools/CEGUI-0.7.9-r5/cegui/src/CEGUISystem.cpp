@@ -1490,6 +1490,7 @@ void System::addStandardWindowFactories()
     WindowFactoryManager::addFactory< TplWindowFactory<DragContainer> >();
     WindowFactoryManager::addFactory< TplWindowFactory<ScrolledContainer> >();
     WindowFactoryManager::addFactory< TplWindowFactory<ClippedContainer> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<CompnentTip> >();
     WindowFactoryManager::addFactory< TplWindowFactory<Checkbox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<PushButton> >();
     WindowFactoryManager::addFactory< TplWindowFactory<RadioButton> >();

@@ -1,6 +1,6 @@
 /***********************************************************************
 filename: 	CEGUICompnentTip.h
-purpose:	richeditbox�����tips
+purpose:	richeditbox component tips (MT3: MessageTip compatibility)
 *************************************************************************/
 
 #ifndef _CEGUICompnentTip_h_
@@ -9,6 +9,7 @@ purpose:	richeditbox�����tips
 #include "../CEGUIBase.h"
 #include "../CEGUIWindow.h"
 #include "CEGUIRichEditboxComponent.h"
+#include <vector>
 //#include "CEGUIRichEditbox.h"
 
 #if defined(_MSC_VER)
@@ -20,6 +21,13 @@ purpose:	richeditbox�����tips
 // Start of CEGUI namespace section
 namespace CEGUI
 {
+	// MT3: TipType enum for MessageTip compatibility
+	enum TipType
+	{
+		eMsgTip = 1,
+		eSystemTip = 2,
+	};
+
 	/*!
 	\brief
 	Base class for Tooltip window renderer objects.
@@ -58,6 +66,7 @@ namespace CEGUI
 		*************************************************************************/
 		static const String WidgetTypeName;                 //!< Window factory name
 		static const String EventNamespace;                 //!< Namespace for global events
+		static const String EventStartFade;                 //!< MT3: Event fired when tip starts fading
 		/*************************************************************************
 		Construction and Destruction
 		*************************************************************************/
@@ -99,6 +108,19 @@ namespace CEGUI
 		*/
 		void sizeSelf(void);
 
+		// MT3: Methods added for MessageTip backward compatibility
+		void		InitSysMsgParamter();
+		void		SetDestYPos(float height) { d_destYPos = height; }
+		float		GetDestYPos() { return d_destYPos; }
+		void		SetTipsType(TipType type) { d_tipType = type; }
+		TipType		GetTipType() { return d_tipType; }
+		bool		GetTextureIsLoading();
+		void		SetStartYPos(float yPos) { d_startYPos = yPos; }
+		float		GetStartYPos() { return d_startYPos; }
+		void		SetDisplayTime(float fDisplayTime) { d_displayTime = fDisplayTime; }
+		float		GetHeightScale() { return d_fHeightScale; }
+		void		SetHeightScale(float fHeightScale) { d_fHeightScale = fHeightScale; }
+
 	public:
 		CompnentTip(const String& type);
 		const CompnentTip& operator=(const CompnentTip& t);
@@ -130,7 +152,14 @@ namespace CEGUI
 		float       d_elapsed;      //!< Used to track state change timings
 		float       d_displayTime;  //!< tool-tip display time (seconds that tip is showsn for).
 		float       d_fadeTime;     //!< tool-tip fade time (seconds it takes for tip to fade in and/or out).
-		bool	    d_InChatOutWin;//�Ƿ����������촰
+		bool	    d_InChatOutWin;
+		// MT3: Member variables added for MessageTip backward compatibility
+		float		d_destYPos;
+		float		d_decHeight;
+		bool		d_startFade;
+		float		d_startYPos;
+		float		d_fHeightScale;
+		TipType		d_tipType;
 	};
 
 } // End of  CEGUI namespace section
