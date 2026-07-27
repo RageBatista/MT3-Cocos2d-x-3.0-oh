@@ -417,7 +417,7 @@ void VoiceManager::ProcessVoiceDataForLua(unsigned int recordTime, int voiceChan
 		std::string strWavPath = gGetWavRecorder()->getTempFileName();
 		std::string strAmrPath = swapWavAmrFileName(strWavPath, true);
 		encodeWAVE2AMR(strWavPath.c_str(), strAmrPath.c_str(), 1, 16);
-		unsigned long nSize = 0;
+		ssize_t nSize = 0;
 		unsigned char* pBuffer = cocos2d::CCFileUtils::sharedFileUtils()->getFileData(strAmrPath.c_str(), "rb", &nSize);
 		if (!pBuffer) return;
 
@@ -700,7 +700,8 @@ void VoiceManager::SendChatToPlatform(int type, CEGUI::String content, int rolel
 	int GameID = 88;
 	int RoleID = GetMainRoleDataNumValue<int64_t>("roleid");
 	int ServerID = gGetLoginManager()->getServerID();
-	std::wstring RoleName = s2ws(GetMainRoleDataStrValue("strName"));
+	std::string strRoleName = GetMainRoleDataStrValue("strName");
+	std::wstring RoleName = s2ws(strRoleName);
 	int ContentType = type;
 	std::string ChatContent = StringCover::to_string(s2ws(content));
 	int64_t ServerTime = gGetServerTime();
@@ -798,7 +799,7 @@ void VoiceManager::RoleAccusation(int roleid, int type, CEGUI::String content, i
 	strUrl += StringCover::intToString(rolelv) + "&FuShi=";
 	strUrl += StringCover::intToString(rolefushi) + "&TipRoleId=";
 	strUrl += StringCover::intToString(aid) + "&TipRoleName=";
-	strUrl += UrlEnCode(aname) + "&TipRoleLevel=";
+	strUrl += UrlEnCode(std::string(aname.c_str())) + "&TipRoleLevel=";
 	strUrl += StringCover::intToString(alv) + "&TipFuShi=";
 	strUrl += StringCover::intToString(afushi) + "&Time=";
 	strUrl += StringCover::int64_tToString(ServerTime) + "&Sign=";

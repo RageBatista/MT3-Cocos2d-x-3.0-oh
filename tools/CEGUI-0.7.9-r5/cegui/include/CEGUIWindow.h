@@ -4484,6 +4484,9 @@ public:
     void SetOnShiedUIState(bool b) { d_OnShiedRootWnd = b; }
     void SetTimeAutoClose(bool b) { d_TimeAutoClose = b; }
     bool isTimeAutoClose() const { return d_TimeAutoClose; }
+    void OnShiedUI();
+    void EnableAllowModalState(bool b) { d_AllowModalSate = b; }
+    void SeModalStateDrawEffect(bool b) { d_ModalStateDrawEffect = b; }
 
 protected:
     // MT3: Get clone window from template
@@ -4492,6 +4495,9 @@ protected:
     // MT3: Custom member variables for backward compatibility
     bool d_TimeAutoClose;
     bool d_OnShiedRootWnd;
+    bool d_AllowModalSate;
+    bool d_ModalStateDrawEffect;
+    bool d_OldVisable;
 };
 
 } // End of  CEGUI namespace section

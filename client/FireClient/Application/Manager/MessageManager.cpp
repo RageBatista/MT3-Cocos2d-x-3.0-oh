@@ -1,8 +1,9 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "MessageManager.h"
 
 #include "GameUIManager.h"
 #include "ScriptingModules/LuaScriptModule/CEGUILuaFunctor.h"
+#include "CEGUIPfsResourceProvider.h"
 #include "tolua_fix.h"
 
 namespace
@@ -614,7 +615,7 @@ void MessageManager::MessageBoxRun(int now, int delta)
 			CEGUI::Window* pBtnRight = m_pCurrentMessageBox->pWindow->getChildAtIdx(0)->getChildAtIdx(0);
 			if (pBtnRight)
 			{
-				pBtnRight->setText(m_pCurrentMessageBox->strRightBtnTitle + L"(" + StringCover::intTowstring(m_pCurrentMessageBox->life / 1000) + L")");
+				pBtnRight->setText(CEGUI::PFSResourceProvider::WStringToGUIString(m_pCurrentMessageBox->strRightBtnTitle + L"(" + StringCover::intTowstring(m_pCurrentMessageBox->life / 1000) + L")"));
 			}
 		}
 		else
@@ -648,12 +649,12 @@ stMessageBoxInfo* MessageManager::AddMessageBox(const std::wstring& title, const
 
 				CEGUI::Window* pBgWindow = pMessageWindow->getChildAtIdx(0);
 				CEGUI::Window* pTitle = pBgWindow->getChildAtIdx(4);
-				pTitle->getChildAtIdx(0)->setText(title);
+				pTitle->getChildAtIdx(0)->setText(CEGUI::PFSResourceProvider::WStringToGUIString(title));
 				pMessageWindow->setUserData(pData);
 				CEGUI::Window* m_pText = pBgWindow->getChildAtIdx(2);
 				CEGUI::PushButton* pOKBtn = static_cast<CEGUI::PushButton*>(pBgWindow->getChildAtIdx(0));
 				pOKBtn->subscribeEvent(CEGUI::PushButton::EventClicked, okEvent);
-				pOKBtn->setText(oktext);			//自定义的ok按钮文字，默认为“确定”
+				pOKBtn->setText(CEGUI::PFSResourceProvider::WStringToGUIString(oktext));			//自定义的ok按钮文字，默认为“确定”
 				CEGUI::PushButton* pCancelBtn = static_cast<CEGUI::PushButton*>(pBgWindow->getChildAtIdx(1));
 				pCancelBtn->subscribeEvent(CEGUI::PushButton::EventClicked, cancleEvent);
 				pCancelBtn->setText(canceltext);	//自定义的cancel按钮文字，默认为“取消”
@@ -784,12 +785,12 @@ stConfirmBoxInfo* MessageManager::AddConfirmBox(eConfirmType type, const std::ws
 			pMessageWindow->setAlwaysOnTop(true);
 			pMessageWindow->setUserData(pData);
 			CEGUI::Window* m_pText = pBgWindow->getChildAtIdx(2);
-			m_pText->setText(message);
+			m_pText->setText(CEGUI::PFSResourceProvider::WStringToGUIString(message));
 
 			CEGUI::PushButton* pOKBtn = static_cast<CEGUI::PushButton*>(pBgWindow->getChildAtIdx(0));
 			pOKBtn->setUserData(pConfirmBoxInfo);
 			pOKBtn->subscribeEvent(CEGUI::PushButton::EventClicked, okEvent);
-			pOKBtn->setText(oktext);			//自定义的ok按钮文字，默认为“确定”
+			pOKBtn->setText(CEGUI::PFSResourceProvider::WStringToGUIString(oktext));			//自定义的ok按钮文字，默认为“确定”
 
 			CEGUI::PushButton* pCancelBtn = static_cast<CEGUI::PushButton*>(pBgWindow->getChildAtIdx(1));
 			if (type == eConfirmOK) {

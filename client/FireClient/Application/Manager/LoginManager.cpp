@@ -122,7 +122,7 @@ static bool TrySelectFirstAndroidServer(LoginManager* manager)
 
 static void DestroyAndroidSelectServersDialogIfLoaded()
 {
-	cocos2d::CCScriptEngineProtocol* pScriptEngine = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine();
+	cocos2d::ScriptEngineProtocol* pScriptEngine = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine();
 	if (pScriptEngine == NULL)
 	{
 		return;
@@ -413,7 +413,7 @@ void LoginManager::Clear()
     GameConfigManager::sSetPlayBackMusicBootState(true);
 
     CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("loginBg.DestroyDialog");
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("loginBg.DestroyDialog");
 	m_eLoginState = eLoginState_Null;
 	m_RoleNum = 0;
 
@@ -436,7 +436,7 @@ void LoginManager::Init()
 	m_RoleList.clear();
 	m_eLoginState = eLoginState_Enter;
 	MT3_LOGIN_TRACE("LoginManager::Init before loginBg.getInstanceAndShow");
-	int loginBgResult = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("loginBg.getInstanceAndShow");
+	int loginBgResult = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("loginBg.getInstanceAndShow");
 	MT3_LOGIN_TRACE("LoginManager::Init after loginBg.getInstanceAndShow result=%d", loginBgResult);
 }
 
@@ -669,7 +669,7 @@ void LoginManager::UpdateRoleList()
 	}
 	SDLOG_INFO(L"[LoginFlow] LoginManager::UpdateRoleList roleNum=%d preRole=%lld", static_cast<int>(m_RoleList.size()), m_dwPreLoginID);
 
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LoginQuickDialog.DestroyDialog");
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("LoginQuickDialog.DestroyDialog");
 
     //帐号只有一个角色
     if (m_RoleList.size() == 1)
@@ -679,7 +679,7 @@ void LoginManager::UpdateRoleList()
         {
             gGetGameApplication()->DrawLoginBar(20);
             m_eLoginState = eLoginState_Null;
-            int numMaxShowNum = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("SystemSettingNewDlg.GetMaxDisplayPlayerNum");
+            int numMaxShowNum = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("SystemSettingNewDlg.GetMaxDisplayPlayerNum");
             fire::pb::CEnterWorld EnterWorldCmd(gGetLoginManager()->GetPreLoginRoleID(), numMaxShowNum);
             gGetNetConnection()->send(EnterWorldCmd);
         }
@@ -854,7 +854,7 @@ eLoginState LoginManager::GetLoginState()
 void LoginManager::ShowCreateRoleDialog()
 {
 	m_eLoginState = eLoginState_RoleCreate;
-    cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.createroledialog\":getInstance()");
+    cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeString("require \"logic.createroledialog\":getInstance()");
 }
 
 //易接SDK所需参数
@@ -979,7 +979,7 @@ void LoginManager::StartAccountHttpRequest(bool isRegister, const std::string& a
 
 	cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 	request->setUrl(url.c_str());
-	request->setRequestType(cocos2d::network::HttpRequest::kHttpPost);
+	request->setRequestType(cocos2d::network::HttpRequest::Type::POST);
 	request->setRequestData(postData.c_str(), postData.length());
 	request->setUserData(context);
 	std::vector<std::string> headers;
@@ -1137,7 +1137,7 @@ void LoginManager::OpenSelectServerEntry()
 		return;
 	}
 
-	cocos2d::CCScriptEngineProtocol* pScriptEngine = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine();
+	cocos2d::ScriptEngineProtocol* pScriptEngine = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine();
 	if (pScriptEngine == NULL)
 	{
 		return;
@@ -1255,7 +1255,7 @@ void LoginManager::SetServerLoad(int key, FireNet::ServerInfo info)
 {
     m_mCheckLoadTimeMap[key].hasReturn = true;
     m_mServerInfoMap[key] = info;
-    cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithParamsData("SelectServersDialog.SetServerLoad", key, info.load);
+    cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithParamsData("SelectServersDialog.SetServerLoad", key, info.load);
 }
 
 void LoginManager::doGetRoleHeadInfo()
@@ -1413,7 +1413,7 @@ void LoginManager::LoginAgain(){
 		if (isFunctionSupported("logout"))
 		{
 			logout();
-			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("SelectServerEntry_YingYongBaoShow");
+			cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("SelectServerEntry_YingYongBaoShow");
 		}
 	}
 	else
@@ -1429,7 +1429,7 @@ void LoginManager::LoginAgain(){
 				LOGE("LoginManager::LoginAgain()");
 				logout();
 				bool is_RongHe = false;
-				cocos2d::CCScriptEngineProtocol* pScriptEngine = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine();
+				cocos2d::ScriptEngineProtocol* pScriptEngine = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine();
 				if (pScriptEngine)
 				{
 					CallLuaUtil util;
@@ -1506,7 +1506,7 @@ void LoginManager::EnterLuaMain(){
 #ifdef _LOCOJOY_SDK_
 #ifdef ANDROID
 		bool is_LocoJoy = false;
-		cocos2d::CCScriptEngineProtocol* pScriptEngine = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine();
+		cocos2d::ScriptEngineProtocol* pScriptEngine = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine();
 		if (pScriptEngine)
 		{
 			CallLuaUtil util;
@@ -1534,19 +1534,19 @@ void LoginManager::EnterLuaMain(){
 			layer->m_IsRunBrightNess = true;
 			layer->m_LastTick = Nuclear::GetMilliSeconds();
 		}
-        cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeScriptFile(L"main.lua");
+        cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeScriptFile("main.lua");
     }
 	else if (EnterMainStatus == eEnterMainStatus_SwitchBySdk) {
 		EnterMainStatus = eEnterMainStatus_Waiting;
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("Logout_CalledBySdk"); // 触发调用游戏内的“切换账号”
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("Logout_CalledBySdk"); // 触发调用游戏内的“切换账号”
 	}
 	else if (EnterMainStatus == eEnterMainStatus_ActiveCodeBySdkSwitch) {
 		EnterMainStatus = eEnterMainStatus_NeedDisableBtnInUI;
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("Logout_CalledBySdk"); // 触发调用游戏内的“切换账号”
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("Logout_CalledBySdk"); // 触发调用游戏内的“切换账号”
 	}
 	else if (EnterMainStatus == eEnterMainStatus_NeedDisableBtnInUI) {
 		bool disableServerEntryClick = false;
-		cocos2d::CCScriptEngineProtocol* pScriptEngine = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine();
+		cocos2d::ScriptEngineProtocol* pScriptEngine = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine();
 		if (pScriptEngine) {
 			CallLuaUtil util;
 			util.addArg(false);

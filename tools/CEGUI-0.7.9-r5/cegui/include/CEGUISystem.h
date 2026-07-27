@@ -719,6 +719,9 @@ public:
 	*/
 	Window* getModalTarget(void) const		{return d_modalTarget;}
 
+    // MT3: Custom method for backward compatibility
+    bool isInModalState() const { return d_modalTarget != NULL; }
+
     /*!
     \brief
         Static member to set the name of the default XML parser module that

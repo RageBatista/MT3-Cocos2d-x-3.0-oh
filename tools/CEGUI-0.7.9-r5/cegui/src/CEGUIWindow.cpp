@@ -4403,4 +4403,17 @@ bool Window::onSetTemplateLookNFeel()
     return true;
 }
 
+//----------------------------------------------------------------------------//
+// MT3: Custom method for backward compatibility
+//----------------------------------------------------------------------------//
+void Window::OnShiedUI()
+{
+    d_OldVisable = d_visible;
+    if (d_OnShiedRootWnd)
+    {
+        d_visible = false;
+        invalidate(true);
+    }
+}
+
 } // End of  CEGUI namespace section

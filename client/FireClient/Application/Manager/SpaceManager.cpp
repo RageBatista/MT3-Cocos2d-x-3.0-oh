@@ -95,7 +95,7 @@ void SpaceManager::SendRequest(std::string strProtocolId,std::string strUrl, std
 		pRequest->setRequestData(strData.c_str(), strData.length());
 	}
 	pRequest->setRequestType((cocos2d::network::HttpRequest::Type) nHttpType);
-	pRequest->setResponseCallback((cocos2d::CCObject*)this, httpresponse_selector(SpaceManager::ReceiveRequest_process));
+	pRequest->setResponseCallback((cocos2d::Ref*)this, httpresponse_selector(SpaceManager::ReceiveRequest_process));
 	cocos2d::network::HttpClient* pHttpClient = cocos2d::network::HttpClient::getInstance();
 	pHttpClient->setTimeoutForConnect(nTimeOut);
 	pHttpClient->send(pRequest);
@@ -126,7 +126,7 @@ void SpaceManager::ReceiveRequest_process(cocos2d::network::HttpClient* client, 
 	const char* param1 = m_strFileData.c_str();
 	const char* param2 = "";
 	const char* param3 = "";
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithParamsData("Spaceprotocol.ReceiveRequest_process", param0, param1, param2, param3);
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithParamsData("Spaceprotocol.ReceiveRequest_process", param0, param1, param2, param3);
 }
 
 

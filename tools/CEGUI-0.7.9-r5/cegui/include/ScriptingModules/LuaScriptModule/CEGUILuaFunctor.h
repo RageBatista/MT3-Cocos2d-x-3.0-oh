@@ -85,14 +85,10 @@ public:
     */
     static void pushNamedFunction(lua_State* L, const String& name);
 
-private:
-    /*!
-    \brief
-        Invalidate the registry references.  This is used internally to ensure
-        that the references do not get released (for example when we destroy
-        a temporary object)
-    */
+    // MT3: Make invalidateLuaRefs public for FireClient backward compatibility
     void invalidateLuaRefs();
+
+private:
 
     lua_State* L;
     mutable int index;
