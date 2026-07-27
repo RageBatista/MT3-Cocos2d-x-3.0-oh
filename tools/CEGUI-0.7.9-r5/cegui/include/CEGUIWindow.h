@@ -4677,8 +4677,20 @@ public:
     void EnableAllowModalState(bool b) { d_AllowModalSate = b; }
     void SeModalStateDrawEffect(bool b) { d_ModalStateDrawEffect = b; }
     void cleanupAllEvent(void);
-    // MT3: cleanupChildren made public for external access
-    using Window::cleanupChildren;
+    // MT3: Public wrapper for protected cleanupChildren
+    void cleanupChildrenPublic(void) { cleanupChildren(); }
+
+    // MT3: ESC close window
+    Window* getEscCloseWindow() { return d_escCloseWindow; }
+    void setEscCloseWindow(Window* w) { d_escCloseWindow = w; }
+
+    // MT3: Text color
+    void SetTextColor(unsigned int color) { d_textColor = color; }
+    unsigned int GetTextColor() const { return d_textColor; }
+
+    // MT3: Top most flag
+    void setTopMost(bool b) { d_topMost = b; }
+    bool isTopMost() const { return d_topMost; }
 
 protected:
     // MT3: Get clone window from template
@@ -4690,6 +4702,9 @@ protected:
     bool d_AllowModalSate;
     bool d_ModalStateDrawEffect;
     bool d_OldVisable;
+    Window* d_escCloseWindow;
+    unsigned int d_textColor;
+    bool d_topMost;
 };
 
 } // End of  CEGUI namespace section

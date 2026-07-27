@@ -538,7 +538,7 @@ bool HandleCheckShied(CEGUI::String& inText)
 
 	if (tmp != "")
 	{
-		inText = s2ws(tmp);
+		inText = tmp;
 	}
 	return true;
 }
@@ -1556,7 +1556,7 @@ void GameUImanager::OnExitGameApp()
 
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LuaUIManager.Exit");
 
-	CEGUI::System::getSingleton().getGUISheet()->cleanupChildren();
+	CEGUI::System::getSingleton().getGUISheet()->cleanupChildrenPublic();
 	if (m_pFPSLabel != NULL)
 	{
 		CEGUI::WindowManager& winMgr = CEGUI::WindowManager::getSingleton();
@@ -1640,7 +1640,7 @@ void GameUImanager::OnExitGameToSelectRole()
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("RemindUseItemDlg.ClearAllDialog");
 
 	RemoveAllUIEffect();
-	CEGUI::System::getSingleton().getGUISheet()->cleanupChildren();
+	CEGUI::System::getSingleton().getGUISheet()->cleanupChildrenPublic();
 }
 
 void GameUImanager::OnExitGameToLogin(int relogin)
@@ -1668,7 +1668,7 @@ void GameUImanager::OnExitGameToLogin(int relogin)
 
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LuaUIManager.Exit");
 
-	CEGUI::System::getSingleton().getGUISheet()->cleanupChildren();
+	CEGUI::System::getSingleton().getGUISheet()->cleanupChildrenPublic();
 
 	if (m_pFPSLabel != NULL)
 	{
@@ -2429,7 +2429,7 @@ bool GameUImanager::InitGameUI()
 		return false;
 	}
 
-	m_pCEGUICocos2DRender = &CEGUI::Cocos2DRenderer::bootstrapSystem(pEngineLayer, NULL);
+	m_pCEGUICocos2DRender = &CEGUI::Cocos2DRenderer::bootstrapSystem(pEngineLayer);
 
 #ifdef PUBLISHED_VERSION
 	m_pResourceProvider = new CEGUI::PFSResourceProvider;

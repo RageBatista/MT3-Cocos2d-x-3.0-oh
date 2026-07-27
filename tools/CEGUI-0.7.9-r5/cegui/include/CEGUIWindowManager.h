@@ -464,6 +464,30 @@ public:
     // MT3: This was public in CEGUI 0.7.1, used by FireClient code
     String generateUniqueWindowName();
 
+    // MT3: Stat info for debugging
+    struct StatInfo
+    {
+        String name;
+        float size;
+        StatInfo() : size(0) {}
+        StatInfo(const String& n, float s) : name(n), size(s) {}
+    };
+
+    // MT3: Debug statistics
+    const std::multimap<unsigned int, StatInfo>& getStatLayout() const { return d_statLayout; }
+    int getWindowCount() const { return static_cast<int>(d_windowRegistry.size()); }
+    const String& getLastCreateWindow() const { return d_lastCreateWindow; }
+
+    // MT3: Cache layout methods
+    void setupCacheLayout(const char* layoutName);
+    const std::set<String>& getCacheLayout();
+
+private:
+    // MT3: Debug statistics members
+    std::multimap<unsigned int, StatInfo> d_statLayout;
+    String d_lastCreateWindow;
+    std::set<String> d_cacheLayouts;
+
 private:
     /*************************************************************************
         Implementation Methods

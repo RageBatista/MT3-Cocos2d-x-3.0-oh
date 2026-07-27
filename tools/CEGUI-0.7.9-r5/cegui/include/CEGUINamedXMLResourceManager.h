@@ -150,6 +150,29 @@ public:
 
     /*!
     \brief
+        Creates a new T object from an XML file and appends it to the collection.
+
+        This function works exactly like create, appending the resource defined
+        in the XML file to the collection.
+
+    \param xml_filename
+        String holding the filename of the XML file to be used when creating the
+        new object instance.
+
+    \param resource_group
+        String holding the name of the resource group identifier to be used
+        when loading the XML file described by \a xml_filename.
+
+    \param action
+        One of the XMLResourceExistsAction enumerated values indicating what
+        action should be taken when an object with the specified name
+        already exists within the collection.
+    */
+    T& append(const String& xml_filename, const String& resource_group = "",
+              XMLResourceExistsAction action = XREA_RETURN);
+
+    /*!
+    \brief
         Destroy the object named \a object_name, or do nothing if such an
         object does not exist in the collection.
 
@@ -225,6 +248,17 @@ template<typename T, typename U>
 T& NamedXMLResourceManager<T, U>::create(const String& xml_filename,
                                         const String& resource_group,
                                         XMLResourceExistsAction action)
+{
+    U xml_loader(xml_filename, resource_group);
+    return doExistingObjectAction(xml_loader.getObjectName(),
+                                  &xml_loader.getObject(), action);
+}
+
+//----------------------------------------------------------------------------//
+template<typename T, typename U>
+T& NamedXMLResourceManager<T, U>::append(const String& xml_filename,
+                                             const String& resource_group,
+                                             XMLResourceExistsAction action)
 {
     U xml_loader(xml_filename, resource_group);
     return doExistingObjectAction(xml_loader.getObjectName(),

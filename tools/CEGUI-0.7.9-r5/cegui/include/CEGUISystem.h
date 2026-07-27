@@ -37,6 +37,7 @@
 #include "CEGUIMouseCursor.h"
 #include "CEGUIInputEvent.h"
 #include "CEGUIResourceProvider.h"
+#include "CEGUIAdapter.h"
 #include <cstdint>
 #include <vector>
 
@@ -81,11 +82,8 @@ typedef void (CommonLinkLinkClicked)(const String &arg);
 typedef void (OpenDialog)(int64_t dialogID);
 typedef void (RequestOtherQuest)(int64_t questid, const CEGUI::String &title);
 
-// MT3: Additional function pointer typedefs for edit area and emotion
+// MT3: Additional function pointer typedef for WP8 edit area
 typedef void (OnClickWp8EditArea)(const String& str, const Rect& clickrect);
-typedef void (OnClickEditArea)(const String& str);
-typedef void (EmotionParseInfFunc)(int id, bool& bExist, bool& bExitstNextChar);
-typedef void (AddSelectEffectToItemCell)(Window *wnd, bool isSelected);
 
 /*!
 \brief
@@ -704,7 +702,7 @@ public:
     Tooltip* getDefaultTooltip(void) const;
 
     // MT3: Get default component tip
-    CompnentTip* getDefaultCompnenttip(void) const  { return d_defaultCompnenttip;}
+    const String& getDefaultCompnenttip(void) const  { return d_defaultCompnenttip;}
 
 	/*!
 	\brief
@@ -941,7 +939,7 @@ public:
 		- true if the input was processed by the gui system.
 		- false if the input was not processed by the gui system.
 	*/
-	bool	injectMouseButtonDown(MouseButton button);
+	bool	injectMouseButtonDown(MouseButton button, int eventId = 0);
 
 
 	/*!
@@ -955,7 +953,7 @@ public:
 		- true if the input was processed by the gui system.
 		- false if the input was not processed by the gui system.
 	*/
-	bool	injectMouseButtonUp(MouseButton button);
+	bool	injectMouseButtonUp(MouseButton button, int eventId = 0);
 
 
 	/*!
@@ -1120,6 +1118,11 @@ public:
         - false if nobody handled the event.
     */
     bool injectMouseButtonTripleClick(const MouseButton button);
+
+    // MT3: Custom input injection methods
+    bool injectLongPress(MouseButton button, int state);
+    bool injectMouseSlide(int dir, float xPos, float yPos, float vol);
+    bool injectMouseDrag(int state, float xPos, float yPos, float vol);
 
     // MT3: getTargetWindow made public for external access
     Window* getTargetWindow(const Point& pt, const bool allow_disabled) const;
@@ -1393,7 +1396,7 @@ private:
     bool d_generateMouseClickEvents;
 
     // MT3: Custom member variables
-    CompnentTip* d_defaultCompnenttip;              //!< System default component tip object.
+    String d_defaultCompnenttip;              //!< System default component tip object.
     GoToFunction* d_DefaultGoToFunction;            //!< Default go to function callback.
     ShowItemTips* d_DefaultShowItemTips;            //!< Default show item tips callback.
     LinkHttpFunction* d_DefaultLinkHttpFunction;    //!< Default link HTTP callback.
@@ -1429,6 +1432,20 @@ private:
     CommonLinkLinkClicked* d_CommonLinkFunc;
     // MT3: Request other quest callback
     RequestOtherQuest* d_requestOtherQuestFunc;
+    // MT3: Adapter for screen/logic coordinate conversion
+    IAdapter* d_adapter;
+    // MT3: Text brush image for RichEditbox
+    const Image* d_TextBrushImage;
+    // MT3: Check shield callback
+    OnCheckShied* d_CheckShiedFunc;
+    // MT3: Open dialog callback
+    OpenDialog* d_OpenDialogFunc;
+    // MT3: Emotion parse info callback
+    EmotionParseInfFunc* d_EmotionParseInfFunc;
+    // MT3: On click WP8 edit area callback
+    OnClickWp8EditArea* d_OnClickWp8EditAreaFunc;
+    // MT3: On click edit area callback
+    OnClickEditArea* d_OnClickEditAreaFunc;
 
 public:
     // MT3: Play UI sound via registered callback
@@ -1525,6 +1542,47 @@ public:
     // MT3: Request other quest callback
     void SetDefaultOtherQuest(RequestOtherQuest* func) { d_requestOtherQuestFunc = func; }
     RequestOtherQuest* GetDefaultOtherQuest() { return d_requestOtherQuestFunc; }
+
+    // MT3: Adapter for screen/logic coordinate conversion
+    void SetAdapter(IAdapter* a) { d_adapter = a; }
+    IAdapter* GetAdapter() { return d_adapter; }
+
+    // MT3: Text brush image for RichEditbox
+    void SetTextBrushImage(const Image* img) { d_TextBrushImage = img; }
+    const Image* GetTextBrushImage() { return d_TextBrushImage; }
+
+    // MT3: Default component tip window type
+    void setDefaultCompnenttip(const String& tip) { d_defaultCompnenttip = tip; }
+
+    // MT3: Check shield callback
+    void SetCheckShiedFunc(OnCheckShied* pFunc) { d_CheckShiedFunc = pFunc; }
+    OnCheckShied* GetCheckShiedFunc() { return d_CheckShiedFunc; }
+
+    // MT3: Open dialog callback
+    void setDefaultOpenDialog(OpenDialog* pFunc) { d_OpenDialogFunc = pFunc; }
+    OpenDialog* getDefaultOpenDialog() { return d_OpenDialogFunc; }
+
+    // MT3: Request other quest callback (alias)
+    void setDefaultRequestOtherQuest(RequestOtherQuest* func) { d_requestOtherQuestFunc = func; }
+
+    // MT3: Add select effect to item cell
+    void SetAddSelectEffectToItemCell(AddSelectEffectToItemCell* pFunc) { d_AddEffectToItemCellFunc = pFunc; }
+
+    // MT3: Answer question link clicked
+    void SetDefaultAnswerQuestionLinkClicked(AnswerQuestionLinkClicked* func) { d_AnswerQuestionLinkFunc = func; }
+    AnswerQuestionLinkClicked* GetDefaultAnswerQuestionLinkClicked() { return d_AnswerQuestionLinkFunc; }
+
+    // MT3: On click WP8 edit area callback
+    void SetOnClickWp8EditAreaFunc(OnClickWp8EditArea* pFunc) { d_OnClickWp8EditAreaFunc = pFunc; }
+    OnClickWp8EditArea* GetOnClickWp8EditAreaFunc() { return d_OnClickWp8EditAreaFunc; }
+
+    // MT3: On click edit area callback
+    void SetOnClickEditAreaFunc(OnClickEditArea* pFunc) { d_OnClickEditAreaFunc = pFunc; }
+    OnClickEditArea* GetOnClickEditAreaFunc() { return d_OnClickEditAreaFunc; }
+
+    // MT3: Emotion parse info callback
+    void SetEmotionParseInfFunc(EmotionParseInfFunc* pFunc) { d_EmotionParseInfFunc = pFunc; }
+    EmotionParseInfFunc* GetEmotionParseInfFunc() { return d_EmotionParseInfFunc; }
 };
 
 } // End of  CEGUI namespace section

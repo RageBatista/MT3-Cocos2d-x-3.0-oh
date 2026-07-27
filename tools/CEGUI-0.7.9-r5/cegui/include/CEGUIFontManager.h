@@ -200,9 +200,17 @@ public:
     // ensure we see overloads from template base class
     using NamedXMLResourceManager<Font, Font_xmlHandler>::create;
 
+    // MT3: Underline image for RichEditbox
+    const Image* GetUnderLineImage() { return d_pUnderLineImage; }
+    void SetUnderLineImage(Image* pImage) { d_pUnderLineImage = pImage; }
+
 protected:
     // override from base
     void doPostObjectAdditionAction(Font& object);
+
+private:
+    // MT3: Underline image for RichEditbox
+    Image* d_pUnderLineImage;
 };
 
 } // End of  CEGUI namespace section

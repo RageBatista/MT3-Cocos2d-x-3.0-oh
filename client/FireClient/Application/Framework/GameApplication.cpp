@@ -444,6 +444,7 @@ namespace
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WGL
 #include "glfw3native.h"
 #endif
 

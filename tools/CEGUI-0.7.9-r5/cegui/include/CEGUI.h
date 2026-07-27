@@ -46,6 +46,7 @@
 #include "CEGUIDefaultLogger.h"
 #include "CEGUIDefaultRenderedStringParser.h"
 #include "CEGUIDefaultResourceProvider.h"
+#include "CEGUIPfsResourceProvider.h"
 #include "CEGUIDynamicModule.h"
 #include "CEGUIExceptions.h"
 #include "CEGUIFactoryModule.h"
