@@ -4,151 +4,118 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MT3 (梦幻西游 MG 版本) is a 2D MMORPG commercial game. The codebase is ~5.3M+ lines across C++, Lua, Java, and tool code.
+MT3（梦幻西游 MG 版本）是一个 2D MMORPG 商业游戏，代码规模约 530 万行，涵盖 C++、Lua、Java 和工具代码。
 
-### Four-Layer Architecture
+## Key Entry Points (Priority Order)
 
-1. **Platform Layer** (Win32/Android/iOS) — OS-specific bridges
-2. **Cocos2d-x 2.2.6** — Graphics, audio, platform abstraction
-3. **Nuclear Engine** (`engine/`) — Scenes, sprites, animations, effects, world rendering
-4. **FireClient** (`client/FireClient/Application/`) — Network, UI (CEGUI), Lua scripting, business logic
+1. **AGENTS.md** — Repository facts, task routing, root-level boundaries (read every session)
+2. **RULES.md** — Toolchain constraints, ABI safety, generated code rules
+3. **BUILD_GUIDE.md** — Verified build commands for current machine
+4. **CLAUDE.md** — This file, configuration explanation
 
-Key binary artifacts: `FireClient.lib`, `engine.lib`, `libcocos2d.lib` — these are build outputs, their source is modifiable.
-
-### Directory Layout
+## Four-Layer Architecture
 
 ```
-MT3/
-├── client/
-│   ├── MT3Win32App/          # Win32 shell/launcher (.vcxproj)
-│   ├── FireClient/           # Business logic layer (C++ sources + .mm for iOS)
-│   │   ├── Application/      # Core: Framework, Manager, SceneObj, GameUI, Battle, ProtoDef
-│   │   └── FireClient.xcodeproj/  # iOS Xcode project
-│   ├── resource/             # Game resources (res/, scripts, audio)
-│   └── android/              # Android channel projects (LocojoyProject, YijieProject, JoysdkProject, common)
-├── engine/                   # First-party Nuclear engine source
-├── cocos2d-x-2.2.6/          # Current Cocos2d-x base engine (all-platform mainline)
-├── cocos2d-x-3.0-oh/         # Cocos2d-x 3.0 upstream tree — dual-engine upgrade target (draft, NOT in build mainline)
-├── common/                   # Shared libraries (cauthc, ljfm, platform, updateengine)
-├── dependencies/             # Third-party: CEGUI (0.7.1 runtime), freetype, SILLY, speex, vorbis, etc.
-├── gbeans/                   # Server design-config source XMLs consumed by ant `gengbeans`
-├── lib/                      # Prebuilt libraries (vs2013/)
-├── server/                   # Java game server (Ant + gnet/xbean); main build at server/server/game_server/
-├── scheme_doc/               # Game-design & test documents (GM command list, excel_tool, etc.)
-├── plans/                    # Planning/analysis reports (sidecar; not normative)
-├── build_logs/               # MSBuild logs and dependency-audit evidence
-├── tools/                    # Editors, PFS tools, sprite tools, build scripts
-└── docs/                     # Documentation
+FireClient Business Layer (C++/Lua/CEGUI/Protocol/Manager/Battle/SceneObj)
+    ↓
+Nuclear Engine Layer (Scene/Sprite/Animation/Effects/Rendering)
+    ↓
+Cocos2d-x Base Layer (Win32: 2.2.6; Android: 2.2.6; iOS: 2.2.6)
+    ↓
+Platform Layer (Win32/Android/iOS lifecycle and channel bridges)
 ```
 
-Note: the legacy tree `cocos2d-2.0-rc2-x-2.0.1/` has been removed from the worktree; it survives only as a conceptual rollback baseline in history.
+## Key Subsystems
+
+| Subsystem | Path | Description |
+|-----------|------|-------------|
+| Platform Shell | `client/MT3Win32App/`, `client/android/` | Process entry, lifecycle, window/input |
+| FireClient | `client/FireClient/Application/` | Network, UI, Lua scripting, business logic |
+| Nuclear Engine | `engine/` | Scene, world, sprite, map, animation, effects |
+| Server | `server/server/game_server/` | Java/Ant + gnet/XBean |
+| Resources | `client/resource/res/` | Lua scripts, UI config, game resources |
 
 ## Build Commands
 
-### Win32 Client
+### Win32 Client (VS2013 v120)
 
 ```powershell
 # Standard build (recommended entry point)
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release
 
 # Fast local debug build
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Debug -FastLocal -MaxParallelJobs 8
+powershell -ExecutionPolicy Bypass -File tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Debug -FastLocal -MaxParallelJobs 8
 
 # Full validation (Debug + Release + runtime audit)
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidation.ps1 -Configuration Both
-
-# Manual rebuild chain (for ABI-sensitive header changes)
-# Step 1: Rebuild engine
-cmd /c 'call "D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86 && msbuild engine\engine.win32.vcxproj /t:Rebuild /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v120 /m'
-# Step 2: Rebuild FireClient
-cmd /c 'call "D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86 && msbuild client\MT3Win32App\FireClient.win32.vcxproj /t:Rebuild /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v120 /m'
-# Step 3: Build MT3.exe
-cmd /c 'call "D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86 && msbuild client\MT3Win32App\mt3.win32.vcxproj /t:Build /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v120 /m'
+powershell -ExecutionPolicy Bypass -File tools\scripts\Build-MT3-FullValidation.ps1 -Configuration Both
 ```
 
-### Android Client
+### Android (Locojoy free channel)
 
 ```powershell
-# Via build script (recommended)
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-Android-Locojoy-WithGate.ps1 -ProjectDir "client/android/LocojoyProject" -BuildType Debug -Channel free -Jobs 4 -NdkBuildPath "D:\Android\android-sdk-64\ndk\16.1.4479499\ndk-build.cmd" -JdkHome "C:\Program Files\Java\jdk1.8.0_144" -AndroidSdkRoot "D:\android-sdk_r24.1.2-windows\android-sdk-windows" -RequireArm64InApk
-
-# Manual NDK build (from project dir)
-cd client/android/LocojoyProject
-& "D:\Android\android-sdk-64\ndk\16.1.4479499\ndk-build.cmd" -j4 NDK_DEBUG=1
-
-# Manual Ant packaging
-$env:JAVA_TOOL_OPTIONS = "-Dfile.encoding=UTF-8"
-ant debug -Dsdk.dir="D:/android-sdk_r24.1.2-windows/android-sdk-windows"
+powershell -ExecutionPolicy Bypass -File tools\scripts\Build-Android-Locojoy-WithGate.ps1 -ProjectDir client\android\LocojoyProject -BuildType Debug -Channel free -Jobs 4
 ```
-
-**Note**: Android free package output is `client/android/LocojoyProject/bin/mt3-debug.apk` or `mt3-release.apk`; `client/android/LocojoyProject64` has been removed from the tree and is not a valid output project.
-
-**Resource rule**: `client/android/LocojoyProject/assets/res/**` is generated by the `client/resource/tools/LJFilePack_打包安卓.bat` resource pipeline. Never edit it manually; change `client/resource/res/**`, rerun the pack script, then rebuild/sync.
 
 ### Server
 
 ```bash
 cd server/server/game_server
-ant init      # First-time setup: genfiles + mhsdcounter.jar
-ant genfiles  # Regenerate all (genrpc + genxdb + gengbeans + jsconvert)
-ant dist      # Compile & package the server (delegates to gs/ subproject)
+ant init      # First-time: genfiles + mhsdcounter.jar
+ant genfiles  # Regenerate: genrpc + genxdb + gengbeans + jsconvert
+ant dist      # Compile and package
 ```
-
-Other targets in `build.xml`: `genrpc`, `genxdb`, `gengbeans`, `robot`, `checkconf`. There is no `compile`/`jar` target; compilation happens inside `dist` via the `gs/` subproject.
 
 ## Toolchain Constraints (MANDATORY)
 
 | Platform | Toolchain | Forbidden |
 |----------|-----------|-----------|
-| Win32 | VS2013 `v120` + Windows SDK 8.1 | v140/v141/v142/v143 |
-| Android | NDK r16b (16.1.4479499) clang + Ant + JDK 8 | Gradle, JDK 9+, incomplete Android SDK |
+| Win32 | VS2013 v120 + Windows SDK 8.1 | v140/v141/v142/v143 |
+| Android | NDK r16b (16.1.4479499) + Ant + JDK 8 | Gradle, JDK 9+ |
 | Server | JDK 1.7/1.8 + Ant | JDK 9+, Maven, Gradle |
 
 ## ABI Safety Rules
 
-Changes to headers in `engine/**/*.h` or `client/FireClient/Application/**/*.h` are ABI-sensitive. Must rebuild in dependency order:
+- `engine/**/*.h` changed → `Rebuild engine → Rebuild FireClient → Build MT3`
+- `client/FireClient/Application/**/*.h` changed → `Rebuild FireClient → Build MT3`
+- `FireClient.win32.vcxproj` and `mt3.win32.vcxproj` share `$(SolutionDir)$(Configuration).win32` output directory
 
-- Engine header changed → `Rebuild engine → Rebuild FireClient → Build MT3`
-- FireClient header changed → `Rebuild FireClient → Build MT3`
-
-`FireClient.win32.vcxproj` and `mt3.win32.vcxproj` share the `Release.win32` **output** directory (each project keeps its own `IntDir`), so incremental builds can still mix stale `.lib`/`.exe` artifacts and produce inconsistent ABIs. When in doubt, rebuild the full chain.
-
-## Generated Code Boundaries
-
-Never manually edit these paths — modify the source definition and regenerate:
+## Generated Code Boundaries (DO NOT edit manually)
 
 | Generator | Source Definition | Generated Output |
 |-----------|------------------|-----------------|
-| xbean (ant `genxdb`) | `server/**/gsx.mkdb.xml` | `server/**/xbean/*.java`, `xtable/*.java` |
-| gnet (ant `genrpc`) | `server/server/game_server/protocol.main.xml` | `server/**/rpc/*.java` |
-| gbeans (ant `gengbeans`) | `gbeans/*.xml` | design-config Java classes |
-| tolua++ | `client/tolua++-pkgs/**/*.pkg`, `engine/tolua++-pkgs/engine.pkg` | binding `.cpp` such as `client/FireClient/Application/Framework/LuaFireClient.cpp`, `LuaEngine.cpp` |
-| ProtoDef | `client/FireClient/Application/*.xml` + `genprotocol*.bat/.sh` | `client/FireClient/Application/ProtoDef/**`, `client/resource/res/script/protodef/**` |
+| xbean | `server/**/gsx.mkdb.xml` | `server/**/xbean/*.java`, `xtable/*.java` |
+| gnet | `server/server/game_server/protocol.main.xml` | `server/**/rpc/*.java` |
+| tolua++ | `client/tolua++-pkgs/**/*.pkg`, `engine/tolua++-pkgs/engine.pkg` | `client/FireClient/Application/Framework/Lua*.cpp` |
+| ProtoDef | `client/FireClient/Application/*.xml` + `genprotocol*.bat/.sh` | `ProtoDef/**`, `script/protodef/**` |
 
-## Platform Conditional Code
+## Development Skills Reference
 
-The codebase uses these preprocessor macros for platform branches:
+- **C++ Development**: `.claude/skills/client/cpp-development.md`
+- **Lua Scripting**: `.claude/skills/client/lua-scripting.md`
+- **Java Server**: `.claude/skills/server/java-development.md`
+- **gbean System**: `.claude/skills/server/xbean-system.md`
+- **gnet Framework**: `.claude/skills/server/gnet-framework.md`
+- **Build Troubleshooting**: `.claude/skills/common/build-troubleshooting.md`
+
+## Rules Documentation Index
+
+| File | Priority | Description |
+|------|----------|-------------|
+| `.claude/rules/01-toolchain.md` | 🔴 Mandatory | Toolchain constraints |
+| `.claude/rules/02-code-style.md` | 🟡 Important | C++/Lua/Java code standards |
+| `.claude/rules/03-security.md` | 🔴 Mandatory | Security rules and checklist |
+| `.claude/rules/04-generated-code.md` | 🔴 Mandatory | xbean/gnet/tolua++ rules |
+| `.claude/rules/08-verification-gates.md` | 🔴 Mandatory | Verification gates and delivery criteria |
+
+## Platform Conditional Compilation
 
 - `WIN32` / `WIN7_32` — Windows desktop
 - `ANDROID` — Android
 - `OS_IOS` / `_OS_IOS` — iOS
-- `CC_TARGET_PLATFORM == CC_PLATFORM_IOS/ANDROID/WIN32` — Cocos2d-x platform macros
-- `TARGET_OS_IPHONE` — Apple target condition
-- `WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP` — Windows Phone
+- `CC_TARGET_PLATFORM == CC_PLATFORM_IOS/ANDROID/WIN32` — Cocos2d-x macros
 
-iOS-specific implementations live in `.mm` files (e.g., `IOSDeviceInfo.mm`, `DeviceData_iOS.mm`, `GameCenter_ios.mm`). When building iOS, `IOSDeviceInfo.mm` provides DeviceInfo functions instead of `DeviceInfo.cpp`.
-
-## Key Subsystems
-
-- **Rendering**: ResolutionAdapter controls logical resolution (Android/iOS baseline: 1080x720, UI scale cap: 1.3x)
-- **Scene system**: SceneObject → Npc → SceneNpc hierarchy; coordinate transform uses `x*1.5` in SetLogicLocation
-- **UI**: CEGUI with CEGUIIMEDelegate for input; Lua scripts drive most UI logic
-- **Network**: gnet framework with RPC-based protocol; client sends via `gGetNetConnection()->send()`
-- **Scripting**: Lua via CCLuaEngine; most game logic in `client/resource/res/script/logic/`
-- **Audio**: CocosDenshion (SimpleAudioEngine) for sound; OGG encoding for voice
+iOS-specific implementations live in `.mm` files (e.g., `IOSDeviceInfo.mm`)
 
 ## Documentation Hierarchy
 
 Priority (highest first): engineering files → `AGENTS.md` → `.claude/RULES.md` → `.claude/BUILD_GUIDE.md` → `.claude/config/*.json` → `.claude/CLAUDE.md`
-
-Detailed project rules are in `.claude/rules/` (01-toolchain through 09-claude-config-governance).

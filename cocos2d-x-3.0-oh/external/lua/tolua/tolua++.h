@@ -237,4 +237,51 @@ TOLUA_API int tolua_fast_isa(lua_State *L, int mt_indexa, int mt_indexb, int sup
 #define tolua_owned
 #endif
 
+// MT3: Forward declarations for toluafix functions (implemented in tolua_fix.cpp)
+TOLUA_API int toluafix_ref_function(lua_State* L, int lo, int def);
+TOLUA_API void toluafix_remove_function_by_refid(lua_State* L, int refid);
+
+// MT3: Inline wrappers for Lua function reference management (compatible with 2.2.6 tolua++.h)
+static inline int tolua_ref_function(lua_State* L, int lo, int def)
+{
+    return toluafix_ref_function(L, lo, def);
+}
+
+static inline void tolua_remove_function_by_refid(lua_State* L, int refid)
+{
+    toluafix_remove_function_by_refid(L, refid);
+}
+
+static inline int tolua_isfunction(lua_State* L, int lo, tolua_Error* err)
+{
+    int top = lua_gettop(L);
+    int abslo = lo < 0 ? -lo : lo;
+    if (top >= abslo && lua_isfunction(L, lo))
+        return 1;
+
+    if (err)
+    {
+        err->index = lo;
+        err->array = 0;
+        err->type = "[not function]";
+    }
+    return 0;
+}
+
+// MT3: Inline wrappers for Lua object reference management (compatible with 2.2.6 tolua++.h)
+static inline int tolua_ref_luaobj(lua_State* L, int lo, int def)
+{
+    (void)def;
+    lua_pushvalue(L, lo);
+    return luaL_ref(L, LUA_REGISTRYINDEX);
+}
+
+static inline int tolua_isluaobj(lua_State* L, int lo, tolua_Error* err)
+{
+    (void)L;
+    (void)lo;
+    (void)err;
+    return 1;
+}
+
 #endif
