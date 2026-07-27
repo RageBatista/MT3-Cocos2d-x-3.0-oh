@@ -22,21 +22,20 @@
 namespace CEGUI
 {
 
-#if (defined PUBLISHED_VERSION) && !(defined FORCEGUIEDITOR)
-    void PFSResourceProvider::loadRawDataContainer(const String& filename, LJFM::LJFMID& output, const String& resourceGroup)
-    {
-        // MT3: PFS loading - requires LJFM/Nuclear headers
-        // For now, stub implementation
-        throw InvalidRequestException(
-            "PFSResourceProvider::loadRawDataContainer(LJFMID) - PFS loading not yet ported to CEGUI 0.7.9-r5");
-    }
-#else
-    void PFSResourceProvider::loadRawDataContainer(const String& filename, RawDataContainer& output, const String& resourceGroup)
+void PFSResourceProvider::loadRawDataContainer(const String& filename, RawDataContainer& output, const String& resourceGroup)
     {
         // MT3: PFS loading - requires LJFM/Nuclear headers
         // For now, stub implementation
         throw InvalidRequestException(
             "PFSResourceProvider::loadRawDataContainer - PFS loading not yet ported to CEGUI 0.7.9-r5");
+    }
+
+#if (defined PUBLISHED_VERSION) && !(defined FORCEGUIEDITOR)
+    void PFSResourceProvider::loadRawDataContainer(const String& filename, LJFM::LJFMID& output, const String& resourceGroup)
+    {
+        // MT3: PFS loading - requires LJFM/Nuclear headers
+        throw InvalidRequestException(
+            "PFSResourceProvider::loadRawDataContainer(LJFMID) - PFS loading not yet ported to CEGUI 0.7.9-r5");
     }
 #endif
 

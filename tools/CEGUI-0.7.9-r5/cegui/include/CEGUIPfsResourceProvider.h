@@ -27,10 +27,10 @@ public:
     const String& getResourceGroupDirectory(const String& resourceGroup);
     void clearResourceGroupDirectory(const String& resourceGroup);
 
+// MT3: Always implement the base class pure virtual method
+    void loadRawDataContainer(const String& filename, RawDataContainer& output, const String& resourceGroup);
 #if (defined PUBLISHED_VERSION) && !(defined FORCEGUIEDITOR)
     void loadRawDataContainer(const String& filename, LJFM::LJFMID& output, const String& resourceGroup);
-#else
-    void loadRawDataContainer(const String& filename, RawDataContainer& output, const String& resourceGroup);
 #endif
     void unloadRawDataContainer(RawDataContainer& data);
     size_t getResourceGroupFileNames(std::vector<String>& out_vec,

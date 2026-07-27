@@ -626,7 +626,7 @@ void ReloadAllTextures()
 
     if (gGetGameUIManager())
     {
-		CEGUI::FontManager::getSingleton().destroyAllFonts();
+		CEGUI::FontManager::getSingleton().destroyAll();
         // MT3: CEGUI 0.7.9-r5 removed CleanUPTextureState
         // CEGUI::ImagesetManager::getSingleton().CleanUPTextureState();
 
@@ -1522,7 +1522,8 @@ bool GameApplication::InitLuaScriptModule()
 		std::string path = "/script/";
 #endif
     
-		pEngine->addSearchPath(path.c_str());
+		// MT3: Cocos2d-x 3.0 ScriptEngineManager doesn't have addSearchPath, use FileUtils instead
+		cocos2d::FileUtils::getInstance()->addSearchPath(path.c_str());
 
 		int dofileResult = pEngine->executeScriptFile("dofile_main.lua");
 		MT3_TRACE("GameApplication::InitLuaScriptModule executeScriptFile dofile_main.lua path=%s result=%d", path.c_str(), dofileResult);

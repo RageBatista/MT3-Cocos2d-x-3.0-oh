@@ -28,6 +28,7 @@
 #include "sprite/nuspritemanager.h"
 #include "UISpineSprite.h"
 #include "LoginManager.h"
+#include <mmsystem.h>
 #include "BattleManager.h"
 #include "MessageManager.h"
 #include "effect/nuspineeffect.h"
@@ -3231,7 +3232,8 @@ void GameUImanager::OnGameStart()
 {
 	float pro = 33;
 	float step = 2;
-	cocos2d::CCDirector::sharedDirector()->SetSwapBuffer(true);
+	// MT3: Cocos2d-x 3.0 removed SetSwapBuffer, no-op for now
+	// cocos2d::CCDirector::sharedDirector()->SetSwapBuffer(true);
 	
 
 	if (gGetNewRoleGuideManager() && gGetNewRoleGuideManager()->isGuideFinish(30023))
@@ -3919,7 +3921,7 @@ void GameUImanager::InjectString(const char* pStr)
 	{
 		std::wstring wstr = StringCover::to_wstring(pStr);
 		CEGUI::System& guiSystem = CEGUI::System::getSingleton();
-		guiSystem.injectString(wstr);
+		guiSystem.injectString(CEGUI::String(wstr.c_str()));
 	}
 }
 

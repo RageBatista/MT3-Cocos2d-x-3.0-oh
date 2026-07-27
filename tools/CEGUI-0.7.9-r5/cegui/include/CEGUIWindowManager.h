@@ -254,6 +254,15 @@ public:
 	*/
 	Window*	loadWindowLayout(const String& filename, const String& name_prefix = "", const String& resourceGroup = "", PropertyCallback* callback = 0, void* userdata = 0);
 
+    // MT3: Legacy API aliases and custom methods
+    Window* loadWindowLayoutFromFile(const String& filename, const String& name_prefix = "", const String& resourceGroup = "", PropertyCallback* callback = 0, void* userdata = 0)
+    { return loadWindowLayout(filename, name_prefix, resourceGroup, callback, userdata); }
+
+    void setLoading(bool val);
+    Window* cloneWindow(Window* rootWnd, const String& name_prefix = "");
+    Window* cloneWindowFromTemplate(const String& filename, const String& name_prefix = "");
+    void addTemplateWindow(const String& filename, Window* rootWnd);
+
     /*!
     \brief
         Return whether the window dead pool is empty.
@@ -487,6 +496,8 @@ private:
     std::multimap<unsigned int, StatInfo> d_statLayout;
     String d_lastCreateWindow;
     std::set<String> d_cacheLayouts;
+    int d_layoutLoading;
+    std::map<String, Window*> d_templateWindows;
 
 private:
     /*************************************************************************

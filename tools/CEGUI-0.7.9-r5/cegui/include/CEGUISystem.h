@@ -997,10 +997,13 @@ public:
 	*/
 	bool	injectChar(utf32 code_point);
 
+    // MT3: Legacy overload for FireClient code compatibility
+    bool injectChar(const String& strText);
 
-	/*!
-	\brief
-		Method that injects a mouse-wheel / scroll-wheel event into the system.
+
+    /*!
+    \brief
+        Method that injects a mouse-wheel / scroll-wheel event into the system.
 
 	\param delta
 		float value representing the amount the wheel moved.
@@ -1127,6 +1130,12 @@ public:
     // MT3: getTargetWindow made public for external access
     Window* getTargetWindow(const Point& pt, const bool allow_disabled) const;
 
+    // MT3: getKeyboardTargetWindow made public for external access
+    Window* getKeyboardTargetWindow(void) const;
+
+    // MT3: injectString for legacy FireClient code compatibility
+    bool injectString(const String& strText);
+
 private:
     // unimplemented constructors / assignment
     System(const System& obj);
@@ -1182,7 +1191,8 @@ private:
 	\return
 		Pointer to a Window object that should receive the keyboard input.
 	*/
-	Window* getKeyboardTargetWindow(void) const;
+	// MT3: moved to public section above
+	// Window* getKeyboardTargetWindow(void) const;
 
 
 	/*!
