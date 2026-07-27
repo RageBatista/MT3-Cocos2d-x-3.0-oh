@@ -1,6 +1,6 @@
 /***********************************************************************
 filename: 	ReportManager.h
-purpose:	数据上报管理器
+purpose:	锟斤拷锟斤拷锟较憋拷锟斤拷锟斤拷锟斤拷
 *************************************************************************/
 #pragma once
 #include "Singleton.hpp"
@@ -8,6 +8,11 @@ purpose:	数据上报管理器
 #include "ConnectGetServerInfo.h"
 #include "../../../../common/platform/utils/FileUtil.h"
 #include "../../../../common/ljfm/code/include/ljfileinfo.h"
+#ifdef WIN7_32
+#include <windows.h>
+#else
+#include <sys/time.h>
+#endif
 
 class ReportManager : public CSingleton < ReportManager >
 {
@@ -25,6 +30,16 @@ public:
 		std::string sResult;;
 		std::wstring wsResult;
 		wsResult = gGetLoginManager()->GetDeviceid() + L"_";
+#ifdef WIN7_32
+		// Windows: use GetSystemTimeAsFileTime for microsecond precision
+		FILETIME ft;
+		GetSystemTimeAsFileTime(&ft);
+		ULARGE_INTEGER uli;
+		uli.LowPart = ft.dwLowDateTime;
+		uli.HighPart = ft.dwHighDateTime;
+		// Convert from 100-nanosecond intervals to seconds
+		long CurSec = (long)(uli.QuadPart / 10000000ULL);
+#else
 		struct timeval now;
 		if (gettimeofday(&now, NULL) != 0)
 		{
@@ -32,6 +47,7 @@ public:
 			return sResult;
 		}
 		long CurSec = now.tv_sec + now.tv_usec / 1000000;
+#endif
 		if (CurSec < 0)
 		{
 			CurSec = CurSec * -1;

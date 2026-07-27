@@ -184,7 +184,7 @@ CEGUI::String IconManager::FindImageSetNameByID(int id)  //ͨ��IDѰ���
 		//the image count in each imageset is not same any more. change by liugeng
 		if (m_vecPetImagesetSize.empty())
 		{
-			int maxImagesetCount = CEGUI::PropertyHelper::stringToInt(GameTable::common::GetCCommonTableInstance().getRecorder(177).value);
+			int maxImagesetCount = CEGUI::PropertyHelper::stringToInt(StringCover::to_string(GameTable::common::GetCCommonTableInstance().getRecorder(177).value));
 			InitImagesetSizeInfo(m_vecPetImagesetSize, "righttoppet", 0, maxImagesetCount);
 		}
 		int n = 0;
@@ -205,7 +205,7 @@ CEGUI::String IconManager::FindImageSetNameByID(int id)  //ͨ��IDѰ���
 		//the image count in each imageset is not same any more. change by liugeng
 		if (m_vecPetImagesetSize.empty())
 		{
-			int maxImagesetCount = CEGUI::PropertyHelper::stringToInt(GameTable::common::GetCCommonTableInstance().getRecorder(177).value);
+			int maxImagesetCount = CEGUI::PropertyHelper::stringToInt(StringCover::to_string(GameTable::common::GetCCommonTableInstance().getRecorder(177).value));
 			InitImagesetSizeInfo(m_vecPetImagesetSize, "righttoppet", 0, maxImagesetCount);
 		}
 		int n = 0;

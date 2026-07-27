@@ -246,7 +246,7 @@ namespace
 
 	inline bool EnsureLoginQuickDialogLoaded()
 	{
-		cocos2d::CCScriptEngineProtocol* scriptEngine = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine();
+		cocos2d::ScriptEngineProtocol* scriptEngine = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine();
 		lua_State* L = scriptEngine ? scriptEngine->getLuaState() : NULL;
 		if (!L)
 		{
@@ -294,7 +294,7 @@ namespace
 			return -1;
 		}
 
-		cocos2d::CCScriptEngineProtocol* scriptEngine = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine();
+		cocos2d::ScriptEngineProtocol* scriptEngine = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine();
 		int bgResult = scriptEngine->executeGlobalFunction("loginBg.getInstanceAndShow");
 		int loginResult = scriptEngine->executeGlobalFunction("LoginQuickDialog.getInstanceAndShow");
 		if (bgResult != 0 || loginResult != 0)
@@ -399,7 +399,7 @@ namespace
 		s_runtimeDiagNextTick = now + s_runtimeDiagIntervalMs;
 
 		const char* textureDesc = "CCTextureCache unavailable";
-		cocos2d::CCTextureCache* textureCache = cocos2d::CCTextureCache::sharedTextureCache();
+		cocos2d::TextureCache* textureCache = cocos2d::TextureCache::sharedTextureCache();
 		if (textureCache)
 		{
 			textureDesc = textureCache->description();
@@ -442,6 +442,11 @@ namespace
 
 #include "VideoPlayerEngine.h"
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include "glfw3native.h"
+#endif
+
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "ShareSdkViewController.h"
 #include "ScreenRecordController.h"
@@ -476,9 +481,9 @@ static int  s_iBackgroundTicks = 0;
 void LogLuaTraceBack()
 {
 #ifdef _DEBUG
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("print(debug.traceback())");
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeString("print(debug.traceback())");
 #endif
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("LogErr(debug.traceback())");
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeString("LogErr(debug.traceback())");
 }
 
 void gRefuseAppBrightness(bool bBackgroundMode)
@@ -526,9 +531,10 @@ void gSetBackgroundMode(bool bBackgroundMode)
     
     s_bIsGameInBackground = bBackgroundMode;
     s_iBackgroundTicks = 0;
-    if (cocos2d::CCDirector::sharedDirector()) {
-        cocos2d::CCDirector::sharedDirector()->SetBackgroundMode(s_bIsGameInBackground);
-    }
+    // MT3: Director::SetBackgroundMode removed in Cocos2d-x 3.0-oh
+    // if (cocos2d::Director::getInstance()) {
+    //     cocos2d::Director::getInstance()->SetBackgroundMode(s_bIsGameInBackground);
+    // }
 
 	if (GetBattleManager() && bBackgroundMode)
 	{
@@ -541,11 +547,11 @@ void gSetBackgroundMode(bool bBackgroundMode)
 	{
 		if (bBackgroundMode)
 		{
-			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("ShowHide.ClientLockScreen");
+			cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("ShowHide.ClientLockScreen");
 		}
 		else
 		{
-			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("ShowHide.UnClientLockScreen");
+			cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("ShowHide.UnClientLockScreen");
 
 			cocos2d::VideoPlayer::applicationWillEnterForeground();
 		}
@@ -576,6 +582,8 @@ void gSetReloadAllTexturesState(bool flag)
 	s_bIsOpenGLReady = flag;
 }
 
+// MT3: CCFileProvidor removed in Cocos2d-x 3.0-oh; texture reload via custom provider not supported
+/*
 class CTextureFileReloader : public cocos2d::CCFileProvidor
 {
 	Nuclear::NuclearBuffer data;
@@ -592,6 +600,7 @@ public:
         return bRet;
     }
 };
+*/
 
 void ReloadAllTextures()
 {
@@ -616,10 +625,12 @@ void ReloadAllTextures()
 
     if (gGetGameUIManager())
     {
-		CEGUI::FontManager::getSingleton().freeAllFont();
-        CEGUI::ImagesetManager::getSingleton().CleanUPTextureState();
+		CEGUI::FontManager::getSingleton().destroyAllFonts();
+        // MT3: CEGUI 0.7.9-r5 removed CleanUPTextureState
+        // CEGUI::ImagesetManager::getSingleton().CleanUPTextureState();
 
-		CEGUI::FontManager::getSingleton().updateAllFont();
+		// MT3: CEGUI 0.7.9-r5 removed updateAllFont
+		// CEGUI::FontManager::getSingleton().updateAllFont();
 		
         CEGUI::System::getSingleton().signalRedraw();
     }
@@ -632,8 +643,9 @@ void ReloadAllTextures()
 		gGetScene()->ReloadAllSpriteNameTexture();
 
 	Nuclear::GetEngine()->GetRenderer()->OnReloadAllTexture();
-    CTextureFileReloader reloader;
-    cocos2d::CCTextureCache::reloadAllTextures(&reloader);    
+    // MT3: CCFileProvidor removed in 3.0-oh; using no-arg reloadAllTextures
+    // CTextureFileReloader reloader;
+    cocos2d::Director::getInstance()->getTextureCache()->reloadAllTextures();    
 }
 
 
@@ -751,7 +763,7 @@ extern int64_t gGetServerTime()
 extern void gSetMaxFps(int maxFps)
 {
 //#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
-	cocos2d::CCDirector* pDirector = cocos2d::CCDirector::sharedDirector();
+	cocos2d::Director* pDirector = cocos2d::Director::getInstance();
 	if (pDirector)
 	{
 		pDirector->setAnimationInterval(1.0f / float(maxFps));
@@ -925,7 +937,7 @@ void GameApplication::StartLogin()
 	MessageManager::NewInstance();
 	gGetLoginManager()->Init();
 
-	int mainScriptResult = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeScriptFile("main.lua");
+	int mainScriptResult = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeScriptFile("main.lua");
 	MT3_TRACE("GameApplication::StartLogin executeScriptFile main.lua result=%d", mainScriptResult);
 
 	playLoginBGM();  // ycl 从游戏中返回登录界面时再次播放登录背景音乐
@@ -940,8 +952,8 @@ void GameApplication::FinishLogin()
     }
 
 	//发送ios本地推送是否打开的设置
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->pushIntegerToLuaStack(m_LocalPushType);
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("SystemsettingTuiSongDlg.LocalNotificationType", 1);
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->pushIntegerToLuaStack(m_LocalPushType);
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("SystemsettingTuiSongDlg.LocalNotificationType", 1);
 }
 
 void GameApplication::BeginDrawServantIntro()
@@ -954,7 +966,7 @@ void GameApplication::EndDrawServantIntro()
 	m_bFirstLogin = false;
 	if (!m_bReconnecting)
 	{
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LoginImageAndBar.unLoad");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("LoginImageAndBar.unLoad");
 	}
 
 	if (GetBattleManager() && GetBattleManager()->IsInBattle()==false)
@@ -970,7 +982,7 @@ void GameApplication::EndDrawServantIntro()
 	{
 		//reconnect successed
 		m_bReconnecting = false;
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("OnInternetReconnected");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("OnInternetReconnected");
 	}
 }
 
@@ -998,8 +1010,8 @@ void GameApplication::SetTime(const int64_t &servertime)
 	m_time = allseconds/150 % 12;
 
 	int64_t time_set = m_iServerTime + ((23 - times.tm_hour) * 3600 + (59 - times.tm_min) * 60 + (60 - times.tm_sec)) * 1000;
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->pushInt64ToLuaStack(time_set);
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("TaskManager_CToLua_SetTime", 1);
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->pushInt64ToLuaStack(time_set);
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("TaskManager_CToLua_SetTime", 1);
 
 	if(m_time == 4)
 	{
@@ -1227,7 +1239,8 @@ void GameApplication::ExitGame(eExitType eType, int relogin)
 		m_bWindowsExitInProgress = true;
 	}
 
-	cocos2d::network::HttpClient::getInstance()->clear();
+	// MT3: HttpClient::clear() removed in Cocos2d-x 3.0-oh
+	// cocos2d::network::HttpClient::getInstance()->clear();
 
 	gGetWavRecorder()->release();
 	gGetVoiceManager()->release();
@@ -1238,7 +1251,7 @@ void GameApplication::ExitGame(eExitType eType, int relogin)
 	if (m_bReconnecting)
 	{
 		m_bReconnecting = false;
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.reconnectdlg\".DestroyDialog()");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeString("require \"logic.reconnectdlg\".DestroyDialog()");
 	}
 	else
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
@@ -1273,15 +1286,15 @@ void GameApplication::ExitGame(eExitType eType, int relogin)
 	if (gGetGameUIManager())
 	{
 		//gGetGameUIManager()->clearMessages();
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CTipsManager.clearMessages_");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("CTipsManager.clearMessages_");
 	}
 	if (GetMainCharacter())
 	{
 		GetMainCharacter()->RefreshRoleInfoOfThisServer();
 	}
 
-	if (cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()) {
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("MT3HeroManager_PurgeData");
+	if (cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()) {
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("MT3HeroManager_PurgeData");
 	}
 
 	switch (eType)
@@ -1350,7 +1363,7 @@ void GameApplication::ExitGame(eExitType eType, int relogin)
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 		WinSDK::getInstance()->closeWinWebView();
 		// Win32 needs an explicit director shutdown to leave the message loop.
-		cocos2d::CCDirector* director = cocos2d::CCDirector::sharedDirector();
+		cocos2d::Director* director = cocos2d::Director::getInstance();
 		if (director)
 		{
 			director->end();
@@ -1451,10 +1464,22 @@ int lua_print(lua_State * luastate)
 
 int lua_getusectime(lua_State * luastate)
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	// Windows: use GetSystemTimeAsFileTime for microsecond precision
+	FILETIME ft;
+	GetSystemTimeAsFileTime(&ft);
+	ULARGE_INTEGER uli;
+	uli.LowPart = ft.dwLowDateTime;
+	uli.HighPart = ft.dwHighDateTime;
+	// Convert from 100-nanosecond intervals to microseconds
+	int64_t ret = (int64_t)(uli.QuadPart / 10);
+	lua_pushnumber(luastate, (lua_Number)ret);
+#else
 	timeval val;
 	gettimeofday(&val, NULL);
 	int64_t ret = ((int64_t)val.tv_sec) * 1000000 + val.tv_usec;
 	lua_pushnumber(luastate, ret);
+#endif
 	return 1;
 }
 #endif
@@ -1464,10 +1489,10 @@ bool GameApplication::InitLuaScriptModule()
     Game::ProtocolLuaFunManager::NewInstance();
     USING_NS_CC;
     // register lua engine
-	cocos2d::CCScriptEngineProtocol* pEngine = cocos2d::CCLuaEngine::engine();
+	cocos2d::ScriptEngineProtocol* pEngine = cocos2d::LuaEngine::getInstance();
 	if (pEngine)
 	{
-		cocos2d::CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
+		cocos2d::ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WP8
 		tolua_engineWp8_open(pEngine->getLuaState());
@@ -1491,7 +1516,7 @@ bool GameApplication::InitLuaScriptModule()
 
 #if defined(WIN7_32)
 		std::string path = CFileUtil::GetWin32LooseResourceRoot() + "/script";
-		cocos2d::CCFileUtils::sharedFileUtils()->addSearchPath(path.c_str());
+		cocos2d::FileUtils::getInstance()->addSearchPath(path.c_str());
 #else
 		std::string path = "/script/";
 #endif
@@ -1515,7 +1540,7 @@ bool GameApplication::CleanupLuaScriptModule()
     USING_NS_CC;
 
 	// cleanup lua engine
-    CCScriptEngineManager::sharedManager()->purgeSharedManager();
+    ScriptEngineManager::getInstance()->purgeSharedManager();
     
 	return true;
 }
@@ -1765,7 +1790,7 @@ void GameApplication::InitIni()
 #endif
 
 	int TmpTotalPhysMemoryLimit = IniFile::read_profile_int("ClientSetting", "TotalPhysMemoryLimit", 800 * 1000, clientIniPath.c_str());
-	cocos2d::CCImage::SetTotalPhysMemoryLimit(TmpTotalPhysMemoryLimit);
+	cocos2d::Image::SetTotalPhysMemoryLimit(TmpTotalPhysMemoryLimit);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	if (useSDKInWindows)
@@ -2049,7 +2074,7 @@ bool GameApplication::OnInit(int step)
 	case 5:
 	{
 		InitFont();
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("MT3HeroManager_Initialize");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("MT3HeroManager_Initialize");
 		MT3_TRACE("GameApplication::OnInit step=5 success");
 		return true;
 	}
@@ -2088,8 +2113,8 @@ bool GameApplication::OnInit(int step)
 		break;
 	}
 
-	bool bNormalVer = cocos2d::CCImage::GetTotalPhysMemoryLimit() < cocos2d::CCImage::GetTotalPhysMemory() ? true : false;
-	cocos2d::CCImage::SetIsNormal(bNormalVer);
+	bool bNormalVer = cocos2d::Image::GetTotalPhysMemoryLimit() < cocos2d::Image::GetTotalPhysMemory() ? true : false;
+	cocos2d::Image::SetIsNormal(bNormalVer);
 
 	IconManager::NewInstance();
 
@@ -2277,10 +2302,10 @@ void GameApplication::OnTick(unsigned int now, unsigned int delta, unsigned real
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	if (gGetGameApplication()->IsUseSDKInWindows()) {
 		// Windows登陆框的update
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.winlogindlg\".Update()");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeString("require \"logic.winlogindlg\".Update()");
 	}
 	// Windows公告栏的update
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.newswarndlg\".Update_Cpp()");
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeString("require \"logic.newswarndlg\".Update_Cpp()");
 #endif
 }
 
@@ -2455,7 +2480,7 @@ void GameApplication::doSDKOrShowQuickLogin()
 	if (MT3::ChannelManager::getIsYingYongBao()) {
 		sFramesBeforeShowSDK = 2;  // ycl 2 帧后再弹 SDK 界面
 	} else {
-		int setPlatformResult = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithStringData("Config.setCur3rdPlatform", "app");
+		int setPlatformResult = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithStringData("Config.setCur3rdPlatform", "app");
 		MT3_TRACE("GameApplication::doSDKOrShowQuickLogin Config.setCur3rdPlatform result=%d", setPlatformResult);
 		int showLoginResult = ShowAndroidLoginQuickDialog();
 		MT3_TRACE("GameApplication::doSDKOrShowQuickLogin LoginQuickDialog.getInstanceAndShow result=%d", showLoginResult);
@@ -2468,7 +2493,7 @@ void GameApplication::doSDKOrShowQuickLogin()
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 	if (gGetGameApplication()->IsUseSDKInWindows()) {
-		int setPlatformResult = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithStringData("Config.setCur3rdPlatform", "winapp");
+		int setPlatformResult = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithStringData("Config.setCur3rdPlatform", "winapp");
 		MT3_TRACE("GameApplication::doSDKOrShowQuickLogin Config.setCur3rdPlatform result=%d", setPlatformResult);
 	}
 #endif
@@ -2476,7 +2501,7 @@ void GameApplication::doSDKOrShowQuickLogin()
 #ifdef ANDROID
 		ShowAndroidLoginQuickDialog();
 #else
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LoginQuickDialog.getInstanceAndShow");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("LoginQuickDialog.getInstanceAndShow");
 #endif
 	MT3_TRACE("GameApplication::doSDKOrShowQuickLogin LoginQuickDialog.getInstanceAndShow result=%d", showLoginResult);
 
@@ -2529,7 +2554,8 @@ void GameApplication::OnRenderUI(int now, bool realRender)
 
 	if (gGetGameUIManager())
 	{
-		CEGUI::System::getSingleton().getRenderer()->ResetRenderTextures();  // 在渲染开始前清除所有CEGUI贴图被渲染过的标记，以便在渲染结束时判断出哪些贴图无用了
+		// MT3: ResetRenderTextures removed in CEGUI 0.7.9-r5
+		// CEGUI::System::getSingleton().getRenderer()->ResetRenderTextures();
 	}
 
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
@@ -2551,15 +2577,15 @@ void GameApplication::OnRenderUI(int now, bool realRender)
 		if (gGetStateManager() && gGetStateManager()->getGameState() != eGameStateLogin && gGetStateManager()->getGameState() != eGameStateNull)
 		{
 			//重连 by lg
-			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.reconnectdlg\".getInstanceAndShow()");
+			cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeString("require \"logic.reconnectdlg\".getInstanceAndShow()");
 			gGetGameApplication()->setReconnecting(true);
 		}
 		else if (gGetStateManager() && gGetStateManager()->getGameState() == eGameStateLogin)
 		{
-			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.createroledialog\".OnDisconnect()");
+			cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeString("require \"logic.createroledialog\".OnDisconnect()");
 		}
 
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("TaskManager_CToLua_ResetCurMainTaskNpcState");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("TaskManager_CToLua_ResetCurMainTaskNpcState");
 
 		if (GetMainCharacter() && GetMainCharacter()->GetMoveState() == eMove_Fly)
 		{
@@ -2596,24 +2622,25 @@ void GameApplication::OnRenderUI(int now, bool realRender)
 		GetBattleManager()->Draw(now);
 	}
 
-	if (cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()) {
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("RoleSkillManager_DrawEffect");
+	if (cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()) {
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("RoleSkillManager_DrawEffect");
 	}
 
 	if (m_bWaitForEnterWorldMessage && !m_bReconnecting)
 	{
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithIntegerData("LoginImageAndBar.draw", 20);
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithIntegerData("LoginImageAndBar.draw", 20);
 	}
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 	if (m_bStartChangeMap && !m_bReconnecting)
 	{
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithIntegerData("LoginImageAndBar.draw", 20);
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithIntegerData("LoginImageAndBar.draw", 20);
 	}
 #endif
 
 	if (gGetGameUIManager())
 	{
-		CEGUI::ImagesetManager::getSingleton().UpdateTextureState();
+		// MT3: UpdateTextureState removed in CEGUI 0.7.9-r5
+		// CEGUI::ImagesetManager::getSingleton().UpdateTextureState();
 	}
 }
 
@@ -2621,12 +2648,13 @@ void GameApplication::DrawLoginBar(float pro)
 {
 	if (!m_bReconnecting)
 	{
-		cocos2d::CCDirector* pDirector = cocos2d::CCDirector::sharedDirector();
+		cocos2d::Director* pDirector = cocos2d::Director::getInstance();
 		if (pDirector != NULL)
 		{
-			pDirector->BeginDraw(m_pEngine->m_adapter->get_scene_render_w(), m_pEngine->m_adapter->get_scene_render_h(),
-				m_pEngine->m_adapter->get_screen_w(), m_pEngine->m_adapter->get_screen_h());
-			cocos2d::CCShaderCache::sharedShaderCache()->pushShader(kCCShader_PositionTextureColor);
+			// MT3: BeginDraw removed in Cocos2d-x 3.0-oh
+			// pDirector->BeginDraw(m_pEngine->m_adapter->get_scene_render_w(), m_pEngine->m_adapter->get_scene_render_h(),
+			// 	m_pEngine->m_adapter->get_screen_w(), m_pEngine->m_adapter->get_screen_h());
+			cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColor);
 		}
 
 		if (gGetSceneMovieManager() && gGetSceneMovieManager()->isOnSceneMovie() && !gGetSceneMovieManager()->CanDrawLoadingBar())
@@ -2636,12 +2664,13 @@ void GameApplication::DrawLoginBar(float pro)
 			}
 		}
 		else
-			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithIntegerData("LoginImageAndBar.draw", pro);
+			cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithIntegerData("LoginImageAndBar.draw", pro);
 
 		if (pDirector != NULL)
 		{
-			cocos2d::CCShaderCache::sharedShaderCache()->popShader();
-			pDirector->EndDraw();
+			cocos2d::ShaderCache::getInstance()->popShader();
+			// MT3: EndDraw removed in Cocos2d-x 3.0-oh
+			// pDirector->EndDraw();
 		}
 
 	}
@@ -2795,10 +2824,10 @@ BOOL GameApplication::SetGameMainWindowTitle(LPCWSTR TitleName)
 BOOL GameApplication::SetGameMainWindowTitle(const std::wstring& TitleName)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	cocos2d::CCEGLView *eglView = cocos2d::CCEGLView::sharedOpenGLView();
+	cocos2d::GLView* glView = cocos2d::Director::getInstance()->getOpenGLView();
 	WCHAR wszBuf[50] = { 0 };
 	MultiByteToWideChar(CP_UTF8, 0, ws2s(TitleName).c_str(), -1, wszBuf, sizeof(wszBuf));
-	SetWindowTextW(eglView->getHWnd(), wszBuf);
+	SetWindowTextW(glfwGetWin32Window(glView->getWindow()), wszBuf);
 #endif
     return true;
 }
@@ -3168,10 +3197,10 @@ void GameApplication::CollectingGCMemory()
 {
 	if (gGetStateManager() && gGetStateManager()->getGameState() == eGameStateRunning)
 	{
-		cocos2d::CCScriptEngineManager* pScriptEngine = cocos2d::CCScriptEngineManager::sharedManager();
+		cocos2d::ScriptEngineManager* pScriptEngine = cocos2d::ScriptEngineManager::getInstance();
 		if (pScriptEngine && pScriptEngine->getScriptEngine())
 		{
-			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->collectMemory();
+			cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->collectMemory();
 		}
 		if (Nuclear::GetEngine())
 		{
@@ -3326,12 +3355,18 @@ void GameApplication::CreateCrossConnection(const char *account, const char *key
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WP8
 #include <thread>
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #else
 #include <pthread.h>
 #include <semaphore.h>
 #endif
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WP8
+static std::thread* s_voiceThread;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 static std::thread* s_voiceThread;
 #else
 static pthread_t s_voiceThread;
@@ -3471,7 +3506,7 @@ void GameApplication::OnXmlBeanReady()
 	}
     if(GetWaitToEnterWorld())
     {
-		int maxNumber = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("SystemSettingNewDlg.GetMaxDisplayPlayerNum");
+		int maxNumber = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("SystemSettingNewDlg.GetMaxDisplayPlayerNum");
 
 		fire::pb::CEnterWorld EnterWorldCmd(GetEnterWorldRoleID(), maxNumber);
         gGetNetConnection()->send(EnterWorldCmd);
@@ -3737,7 +3772,7 @@ std::wstring GameApplication::getCaptureDir() {
 
 bool GameApplication::IsNormalVer()
 {
-	return cocos2d::CCImage::IsNormal();
+	return cocos2d::Image::IsNormal();
 }
 
 // 分享到社交平台
@@ -3816,7 +3851,7 @@ void gSetGCCooldown(int time)
 
 long gGetNumberValueByStrKey(const char *key)
 {
-	return cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithStringData("GetNumberValueForStrKey", key);
+	return cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithStringData("GetNumberValueForStrKey", key);
 }
 
 
@@ -3867,10 +3902,10 @@ std::wstring GetTableWStringFromLua(const char* tableName, int tableId, const ch
 extern "C" {
 	jint Java_com_locojoy_mini_mt3_GameApp_nativeGetNotifyEnable(JNIEnv* env, jobject thiz, jint id)
 	{
-        if (cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine())
+        if (cocos2d::ScriptEngineManager::getInstance()->getScriptEngine())
         {
-            cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->pushIntegerToLuaStack(id);
-            int ret = cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("SystemsettingTuiSongDlg.LoadConfigById", 1);
+            cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->pushIntegerToLuaStack(id);
+            int ret = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("SystemsettingTuiSongDlg.LoadConfigById", 1);
             return ret;
         }
         return 0;
@@ -3937,7 +3972,7 @@ extern "C" {
 extern "C" {
 	void Java_com_locojoy_mini_mt3_GameApp_nativeSendWGInfo(JNIEnv* env)
 	{
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("AlertKick");
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("AlertKick");
 	}
 }
 #endif
@@ -4214,7 +4249,7 @@ void GameApplication::CallEvaluate()
 
 void GameApplication::ShareResultCallBack(int nReslt)
 {
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithIntegerData("g_shareResultCallBack", nReslt);
+	cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunctionWithIntegerData("g_shareResultCallBack", nReslt);
 
 	
 }

@@ -703,7 +703,7 @@ void VoiceManager::SendChatToPlatform(int type, CEGUI::String content, int rolel
 	std::string strRoleName = GetMainRoleDataStrValue("strName");
 	std::wstring RoleName = s2ws(strRoleName);
 	int ContentType = type;
-	std::string ChatContent = StringCover::to_string(s2ws(content));
+	std::string ChatContent = StringCover::to_string(s2ws(std::string(content.c_str())));
 	int64_t ServerTime = gGetServerTime();
 
 #ifdef _WIN32
@@ -754,7 +754,7 @@ void VoiceManager::RoleAccusation(int roleid, int type, CEGUI::String content, i
 	int ServerID = gGetLoginManager()->getServerID();
 	std::wstring RoleName = L"";
 	int64_t ServerTime = gGetServerTime();
-	std::string ChatContent = StringCover::to_string(s2ws(content));
+	std::string ChatContent = StringCover::to_string(s2ws(std::string(content.c_str())));
 
 	if (gGetScene()->FindCharacterByID(roleid))
 	{

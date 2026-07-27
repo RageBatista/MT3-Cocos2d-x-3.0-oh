@@ -162,6 +162,9 @@ static inline const char* tolua_tofieldcppstring (lua_State* L, int lo, int inde
 };
 
 // MT3: wstring support for CEGUI Lua bindings
+#if defined(_WIN32) || defined(WIN32)
+#include <windows.h>
+#endif
 static inline void tolua_pushwstring(lua_State* L, const wchar_t* value)
 {
     if (value == NULL)
@@ -232,10 +235,6 @@ TOLUA_API int tolua_fast_isa(lua_State *L, int mt_indexa, int mt_indexb, int sup
 
 #ifndef tolua_owned
 #define tolua_owned
-#endif
-
-#ifdef __cplusplus
-}
 #endif
 
 #endif

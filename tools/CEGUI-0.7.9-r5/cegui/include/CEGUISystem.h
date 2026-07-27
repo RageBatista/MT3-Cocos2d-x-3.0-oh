@@ -81,6 +81,12 @@ typedef void (CommonLinkLinkClicked)(const String &arg);
 typedef void (OpenDialog)(int64_t dialogID);
 typedef void (RequestOtherQuest)(int64_t questid, const CEGUI::String &title);
 
+// MT3: Additional function pointer typedefs for edit area and emotion
+typedef void (OnClickWp8EditArea)(const String& str, const Rect& clickrect);
+typedef void (OnClickEditArea)(const String& str);
+typedef void (EmotionParseInfFunc)(int id, bool& bExist, bool& bExitstNextChar);
+typedef void (AddSelectEffectToItemCell)(Window *wnd, bool isSelected);
+
 /*!
 \brief
 	The System class is the CEGUI class that provides access to all other elements in this system.
@@ -1115,6 +1121,9 @@ public:
     */
     bool injectMouseButtonTripleClick(const MouseButton button);
 
+    // MT3: getTargetWindow made public for external access
+    Window* getTargetWindow(const Point& pt, const bool allow_disabled) const;
+
 private:
     // unimplemented constructors / assignment
     System(const System& obj);
@@ -1162,22 +1171,6 @@ private:
         Destructor for System objects.
     */
     ~System(void);
-
-	/*!
-	\brief
-		Given Point \a pt, return a pointer to the Window that should receive a mouse input if \a pt is the mouse location.
-
-	\param pt
-		Point object describing a screen location in pixels.
-
-    \param allow_disabled
-        Specifies whether a disabled window may be returned.
-
-	\return
-		Pointer to a Window object that should receive mouse input with the system in its current state and the mouse at location \a pt.
-	*/
-	Window*	getTargetWindow(const Point& pt, const bool allow_disabled) const;
-
 
 	/*!
 	\brief

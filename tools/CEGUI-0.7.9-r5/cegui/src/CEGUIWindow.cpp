@@ -119,6 +119,15 @@ const String Window::EventKeyDown("KeyDown");
 const String Window::EventKeyUp("KeyUp");
 const String Window::EventCharacterKey("CharacterKey");
 
+// MT3: Custom events for window effects
+const String Window::EventScreenAreaChange("ScreenAreaChange");
+const String Window::EventCreateWndEffectBegin("CreateWndEffectBegin");
+const String Window::EventCreateWndEffectEnd("CreateWndEffectEnd");
+const String Window::EventCloseWndEffectBegin("CloseWndEffectBegin");
+const String Window::EventCloseWndEffectEnd("CloseWndEffectEnd");
+const String Window::EventFlyToTargetPosition("FlyToTargetPosition");
+const String Window::EventKeyboardTargetWndChanged("KeyboardTargetWndChanged");
+
 //----------------------------------------------------------------------------//
 const String Window::TooltipNameSuffix("__auto_tooltip__");
 const String Window::AutoWidgetNameSuffix("__auto_");

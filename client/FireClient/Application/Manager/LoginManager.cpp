@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "LoginManager.h"
 #include "../ProtoDef/fire/pb/CRoleList.hpp"
 #include "../ProtoDef/fire/pb/CEnterWorld.hpp"
@@ -962,7 +962,7 @@ void LoginManager::StartAccountHttpRequest(bool isRegister, const std::string& a
 {
 	if (m_accountHttpRequesting)
 	{
-		ShowAccountLoginError("正在登录，请稍候", isRegister);
+		ShowAccountLoginError(StringCover::to_string(L"正在登录，请稍候"), isRegister);
 		return;
 	}
 
@@ -970,7 +970,7 @@ void LoginManager::StartAccountHttpRequest(bool isRegister, const std::string& a
 	if (url.empty())
 	{
 		SDLOG_WARN(L"[LoginHTTP] request skipped: empty url register=%d accountLen=%d", isRegister ? 1 : 0, static_cast<int>(account.length()));
-		ShowAccountLoginError("登录接口地址未配置", isRegister);
+		ShowAccountLoginError(StringCover::to_string(L"登录接口地址未配置"), isRegister);
 		return;
 	}
 
@@ -1041,11 +1041,11 @@ void LoginManager::HandleAccountHttpResponse(cocos2d::network::HttpResponse* res
 
 	if (response == NULL)
 	{
-		message = "登录接口无响应";
+		message = StringCover::to_string(L"登录接口无响应");
 	}
 	else if (!response->isSucceed() || httpCode != 200)
 	{
-		message = "登录接口请求失败";
+		message = StringCover::to_string(L"登录接口请求失败");
 		if (response->getErrorBuffer() != NULL && strlen(response->getErrorBuffer()) > 0)
 		{
 			CCLOG("[LoginHTTP] request error register=%d http=%d error=%s",
@@ -1054,14 +1054,14 @@ void LoginManager::HandleAccountHttpResponse(cocos2d::network::HttpResponse* res
 	}
 	else if (body.empty())
 	{
-		message = "登录接口返回为空";
+		message = StringCover::to_string(L"登录接口返回为空");
 	}
 	else
 	{
 		Json* root = Json_create(body.c_str());
 		if (root == NULL)
 		{
-			message = "登录接口返回格式错误";
+			message = StringCover::to_string(L"登录接口返回格式错误");
 		}
 		else
 		{
@@ -1099,7 +1099,7 @@ void LoginManager::HandleAccountHttpResponse(cocos2d::network::HttpResponse* res
 				}
 				else
 				{
-					message = "登录接口未返回入服凭证";
+					message = StringCover::to_string(L"登录接口未返回入服凭证");
 				}
 			}
 			Json_dispose(root);

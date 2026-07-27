@@ -1345,7 +1345,7 @@ float SceneMovieManager::GetFloatByVarName(const std::wstring& varName, const st
 		size_t varSize = varAllName.size();
 		std::wstring strID;
 		GetValueStr(strParseText, idx + varSize, strID);
-		float iValue = CEGUI::PropertyHelper::stringToFloat(strID);
+		float iValue = CEGUI::PropertyHelper::stringToFloat(StringCover::to_string(strID));
 		return iValue;
 	}
 	return -1;

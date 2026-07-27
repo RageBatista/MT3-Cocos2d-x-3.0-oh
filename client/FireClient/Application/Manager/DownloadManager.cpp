@@ -2,7 +2,7 @@
 #include "ljfmopen.h"
 using namespace LJFM;
 
-DownloadOne::DownloadOne() : CCHttpResponse(new cocos2d::network::HttpRequest())
+DownloadOne::DownloadOne() : HttpResponse(new cocos2d::network::HttpRequest())
 {
 	m_State = 0;
 	m_DMMemberFunctionSlot = NULL;
@@ -20,7 +20,7 @@ void DownloadOne::Start()
 	std::string sSrcURL = ws2s(m_pDownloadInfo.m_wsSrcURL);
 	getHttpRequest()->setUrl(sSrcURL.c_str());
 	getHttpRequest()->setTag("get data");
-	getHttpRequest()->setRequestType(cocos2d::network::HttpRequest::kHttpGet);
+	getHttpRequest()->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 	getHttpRequest()->setResponseCallback((cocos2d::CCObject*)this, httpresponse_selector(DownloadOne::onGetData));
 	cocos2d::network::HttpClient* HC = cocos2d::network::HttpClient::getInstance();
 	HC->setTimeoutForConnect(10);

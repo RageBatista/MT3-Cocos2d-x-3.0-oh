@@ -522,6 +522,10 @@ public:
     static const String& getDefaultResourceGroup()
         { return d_defaultResourceGroup; }
 
+    // MT3: Get first/last image name
+    const String& GetFirstImageName() const { return d_firstImageName; }
+    const String& GetEndImageName() const { return d_endImageName; }
+
 protected:
 	/*************************************************************************
 		Implementation Functions
@@ -572,6 +576,10 @@ protected:
 	float	d_nativeHorzRes;		//!< native horizontal resolution for this Imageset.
 	float	d_nativeVertRes;		//!< native vertical resolution for this Imageset.
     static String d_defaultResourceGroup;   //!< Default resource group specifically for Imagesets.
+
+    // MT3: First and last image names
+    String d_firstImageName;
+    String d_endImageName;
 };
 
 } // End of  CEGUI namespace section

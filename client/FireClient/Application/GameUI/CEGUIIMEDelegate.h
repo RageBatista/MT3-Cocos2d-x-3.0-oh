@@ -25,6 +25,7 @@ THE SOFTWARE.
 #ifndef __CCEGUIIMEDelegate_H__
 #define __CCEGUIIMEDelegate_H__
 
+#include "CCIMEDispatcher.h"
 #include "CCIMEDelegate.h"
 // MT3: CCTouchDelegateProtocol.h removed in Cocos2d-x 3.0-oh
 #include <string>
@@ -35,7 +36,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-class GameIMEDelegate : public cocos2d::CCIMEDelegate
+class GameIMEDelegate : public cocos2d::IMEDelegate
 {
 public:
     GameIMEDelegate();
@@ -86,9 +87,9 @@ protected:
     virtual void deleteBackward();
     virtual const std::string& getContentText();
     
-    virtual void keyboardWillShow(cocos2d::CCIMEKeyboardNotificationInfo& info);
-    virtual void keyboardWillHide(cocos2d::CCIMEKeyboardNotificationInfo& info);
-    virtual void keyboardDidHide(cocos2d::CCIMEKeyboardNotificationInfo& info);
+    virtual void keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info);
+    virtual void keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info);
+    virtual void keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info);
 };
 
 

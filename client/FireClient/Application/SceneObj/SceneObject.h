@@ -1,8 +1,9 @@
-﻿#pragma once
+#pragma once
 #include "SceneCommon.h"
 #include "BuffCommon.h"
 #include "nuisprite.h"
 #include "renderer/nuifontmanager.h"
+#include "elements/CEGUIRichEditbox.h"
 
 #define DEFAULT_HPBAR_HEIGHT	120
 #define DEFAULT_HPBAR_HEIGHT_LONG 110

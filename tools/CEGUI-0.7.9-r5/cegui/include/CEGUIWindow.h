@@ -122,6 +122,34 @@ enum WindowUpdateMode
     WUM_VISIBLE
 };
 
+enum CreateWindowEffect
+{
+    CreateWndEffect_None,
+    CreateWndEffect_Drop,
+    CreateWndEffect_FlyFromLeft,
+    CreateWndEffect_FlyFromRight,
+    CreateWndEffect_ZoomOut,
+};
+
+enum WndEffectState
+{
+    WndEffectState_None,
+    WndEffectState_Ready,
+    WndEffectState_Go,
+    WndEffectState_Create,
+    WndEffectState_Close,
+};
+
+enum CloseWndEffect
+{
+    CloseWndEffect_None,
+    CloseWndEffect_FlyUp,
+    CloseWndEffect_FlyDown,
+    CloseWndEffect_FlyLeft,
+    CloseWndEffect_FlyRight,
+    CloseWndEffect_ZoomIn,
+};
+
 /*!
 \brief
     An abstract base class providing common functionality and specifying the
@@ -466,6 +494,15 @@ public:
      * values active when the character input was received.
      */
     static const String EventCharacterKey;
+
+    // MT3: Custom events for window effects
+    static const String EventScreenAreaChange;
+    static const String EventCreateWndEffectBegin;
+    static const String EventCreateWndEffectEnd;
+    static const String EventCloseWndEffectBegin;
+    static const String EventCloseWndEffectEnd;
+    static const String EventFlyToTargetPosition;
+    static const String EventKeyboardTargetWndChanged;
 
     /*************************************************************************
         Child Widget name suffix constants
@@ -2302,6 +2339,119 @@ public:
     // MT3: Drag move enable/disable
     void SetDragMoveEnable(bool b) { d_DragMoveEnable = b; }
     bool GetDragMoveEnable() const { return d_DragMoveEnable; }
+
+    // MT3: Handle drag move enable/disable
+    void SetHandleDragMove(bool b) { d_HandleDragMove = b; }
+    bool isHandleDragMove() const { return d_HandleDragMove; }
+
+    // MT3: ESC close
+    void SetEscClose(bool bEscClose) { d_EscClose = bEscClose; }
+    bool IsEscClose() { return d_EscClose; }
+
+    // MT3: Close is hide
+    void SetCloseIsHide(bool b) { d_CloseIsHide = b; }
+    bool GetCloseIsHide() const { return d_CloseIsHide; }
+
+    // MT3: Create/Close window effect
+    void SetCreateEffectType(CreateWindowEffect type) { d_CreateWndType = type; }
+    void SetCloseEffectType(CloseWndEffect type) { d_CloseWndType = type; }
+    CreateWindowEffect GetCreateWndEffect() const { return d_CreateWndType; }
+    CloseWndEffect GetCloseWndEffect() const { return d_CloseWndType; }
+    WndEffectState GetWndEffectState() const { return d_EffectState; }
+
+    void BeginCreateEffect();
+    void EndCreateEffect();
+    void BeginCloseEffect();
+    void EndCloseEffect();
+    void UpdateWndEffect(float elapse);
+    void UpdateCreateEffect(float elapse);
+    void UpdateCloseEffect(float elapse);
+
+    // MT3: Center in parent
+    void CenterInParent();
+    void SetWndCenterInParentXPos(float xPos);
+    void SetWndCenterInParentYPos(float yPos);
+
+    // MT3: Modal state
+    bool isModalAfterShow() const { return d_ModalStateAfterShow; }
+    void EnableModalStateAfterShow(bool b) { d_ModalStateAfterShow = b; }
+    bool isAllowModalState(bool local = false) const;
+    bool isAllowShowWithModalState() const { return d_AllowShowWithModalState; }
+    void EnabledAllowShowWithModalState(bool b) { d_AllowShowWithModalState = b; }
+    void DrawModalStateEffect(float ctx_x, float ctx_y);
+
+    // MT3: Flash
+    void StartFlash(float frequence = 1.5f);
+    void StopFlash();
+    bool isFlash() { return d_Flash; }
+    bool isEnableFlash() { return d_EnableFlash; }
+    void SetEnableFlash(bool b) { d_EnableFlash = b; }
+
+    // MT3: Right button close
+    void OnRightButtonClose();
+    void SetRButtonCloseEnable(bool bEnable) { d_RButtonCloseEnable = bEnable; }
+
+    // MT3: Align window
+    Window* GetAlignWindow() { return d_AlignWindow; }
+    void SetAlignWindow(Window* pAlignWnd, int type);
+    void RefreshAlignWindowPos();
+
+    // MT3: Mouse on window
+    bool isMouseOnThisWnd();
+    bool isInChatOutWnd() const;
+    void SetInChatOutWnd(bool bInChatOutWnd) { d_InChatOutWnd = bInChatOutWnd; }
+
+    // MT3: Guide
+    bool HasGuide() { return d_HasGuide; }
+    void SetGuideState(bool bHasGuide) { d_HasGuide = bHasGuide; }
+
+    // MT3: Show/Hide UI
+    void OnShowUI();
+    void ShieAll();
+    void ShowAll();
+    void SetShiedUIOldState(bool bVis) { d_OldVisable = bVis; }
+
+    // MT3: Offset position
+    void offsetPixelPosition(const Vector2& offset);
+    void CheckLeftTopPos();
+
+    // MT3: Move to center
+    void MoveToHorzCenter();
+    void MoveToVertCenter();
+
+    // MT3: Old size
+    Size GetOldSize() { return d_oldSize; }
+    void SetAutoSizeWithParent(bool b) { d_AutoSizeWithParent = b; }
+
+    // MT3: Get offsets
+    float GetXOffset() const;
+    float GetYOffset() const;
+
+    // MT3: Children visibility
+    bool isAllChildrenShow();
+    bool isAllChildrenHide();
+    Point GetTopLeftPosOnParent();
+    void SetAllChildrenVis(bool bVis);
+
+    // MT3: Pixel decide
+    void SetIsPixelDecide(bool b) { d_IsPixelDecide = b; }
+    bool GetIsPixelDecide() const { return d_IsPixelDecide; }
+
+    // MT3: Click animation scale
+    void SetClickAniScale(float scale);
+    float GetClickAniScale() const { return d_ClickStateScale; }
+    void SetLoadedDraw(bool loadedDraw) { d_IsLoadedDraw = loadedDraw; }
+    bool GetLoadedDraw() { return d_IsLoadedDraw; }
+
+    // MT3: Set all child alpha
+    void SetAllChildAlphaButModal(float alpha);
+
+    // MT3: Fly effects
+    void FlyToScreenPoint(Point targetPoint, float time);
+    void FlyToWndCenter(Window* pTargetWnd, float time);
+    void FlyFromPointToWndCenter(Point startPoint, Window* pTargetWnd, float time);
+    void UpdateFlyPos(float fElapse);
+    void MoveToStartFlyPoint();
 
     // MT3: Sound enable/disable
     void SetSoundEnable(bool bEnable) { d_SoundEnable = bEnable; }
@@ -4472,6 +4622,45 @@ protected:
     // MT3: Slide enable flag
     bool d_SlideEnable;
 
+    // MT3: ESC close flag
+    bool d_EscClose;
+    // MT3: Handle drag move flag
+    bool d_HandleDragMove;
+    // MT3: Close is hide flag
+    bool d_CloseIsHide;
+    // MT3: Create window effect type
+    CreateWindowEffect d_CreateWndType;
+    // MT3: Close window effect type
+    CloseWndEffect d_CloseWndType;
+    // MT3: Effect state
+    WndEffectState d_EffectState;
+    // MT3: Modal state after show
+    bool d_ModalStateAfterShow;
+    // MT3: Allow show with modal state
+    bool d_AllowShowWithModalState;
+    // MT3: Pixel decide
+    bool d_IsPixelDecide;
+    // MT3: Flash
+    bool d_Flash;
+    bool d_EnableFlash;
+    // MT3: Right button close
+    bool d_RButtonCloseEnable;
+    // MT3: Align window
+    Window* d_AlignWindow;
+    int d_AlignType;
+    // MT3: In chat out window
+    bool d_InChatOutWnd;
+    // MT3: Has guide
+    bool d_HasGuide;
+    // MT3: Old size
+    Size d_oldSize;
+    // MT3: Auto size with parent
+    bool d_AutoSizeWithParent;
+    // MT3: Click state scale
+    float d_ClickStateScale;
+    // MT3: Is loaded draw
+    bool d_IsLoadedDraw;
+
 
 private:
     /*************************************************************************
@@ -4488,6 +4677,8 @@ public:
     void EnableAllowModalState(bool b) { d_AllowModalSate = b; }
     void SeModalStateDrawEffect(bool b) { d_ModalStateDrawEffect = b; }
     void cleanupAllEvent(void);
+    // MT3: cleanupChildren made public for external access
+    using Window::cleanupChildren;
 
 protected:
     // MT3: Get clone window from template

@@ -1,9 +1,11 @@
 /** gaoyong change for pcmt
-ä¯ÀÀÆ÷Ê¹ÓÃ
+ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½
 */
 #include "MyWebBrowser.h"
 #include "WinSDK.h"
 #include <iostream>
+#include <windows.h>
+#include <shellapi.h>
 
 namespace
 {
@@ -19,7 +21,7 @@ namespace
 }
 
 
-//·Ö¸î×Ö·û´®
+//ï¿½Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 int split_string(const std::string &inputstr, std::string& delimiters, std::vector<std::string> &substrs)
 {
 	if (inputstr.empty() || delimiters.empty()) {
@@ -28,8 +30,8 @@ int split_string(const std::string &inputstr, std::string& delimiters, std::vect
 
 	size_t find_pos = 0; //the finding position   
 	while (true) {
-		size_t split_pos = std::string::npos; // ×î½üµÄ·Ö¸ô·ûÎ»ÖÃ    
-		size_t delimiter_size = 0; // ËùÓÃµ½µÄ·Ö¸ô·û³¤¶È   
+		size_t split_pos = std::string::npos; // ï¿½ï¿½ï¿½ï¿½Ä·Ö¸ï¿½ï¿½ï¿½Î»ï¿½ï¿½    
+		size_t delimiter_size = 0; // ï¿½ï¿½ï¿½Ãµï¿½ï¿½Ä·Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   
 
 		size_t tpos = inputstr.find(delimiters, find_pos);
 		if (tpos != std::string::npos) {
@@ -83,14 +85,14 @@ LRESULT CALLBACK WndProcChildren2(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 			}
 			else
 			{
-				// »Øµ÷¹Ø±ÕÊÂ¼þ
+				// ï¿½Øµï¿½ï¿½Ø±ï¿½ï¿½Â¼ï¿½
 				if ((*ppWeb)->m_onClose)
 				{
 					(*ppWeb)->m_onClose();
 					(*ppWeb)->m_onClose= NULL;
 				}
 			}
-			// ½â¾öÔÚ Win8 ÏÂ¹Ø±Õ·ÖÏí´°¿Úºó£¬¿Í»§¶Ë±ÀÀ£ÎÊÌâ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ Win8 ï¿½Â¹Ø±Õ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úºó£¬¿Í»ï¿½ï¿½Ë±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (*ppWeb)
 			{
 				delete (*ppWeb);
@@ -207,8 +209,8 @@ CMyWebBrowser::GetWebBrowser2()
 	USE_DO;
 	if( _pWB2 != NULL )
 		return _pWB2;
-	NULLTEST_SE( _pOleObj,L"Ole¶ÔÏóÎª¿Õ");
-	HRTEST_SE( _pOleObj->QueryInterface(IID_IWebBrowser2,(void**)&_pWB2),L"QueryInterface IID_ICOleContainer2 Ê§°Ü");
+	NULLTEST_SE( _pOleObj,L"Oleï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
+	HRTEST_SE( _pOleObj->QueryInterface(IID_IWebBrowser2,(void**)&_pWB2),L"QueryInterface IID_ICOleContainer2 Ê§ï¿½ï¿½");
 	return _pWB2;
 	USE_WIHLE;
 	return NULL;
@@ -221,14 +223,14 @@ CMyWebBrowser::GetHTMLDocument2()
 	USE_DO;
 	if( _pHtmlDoc2 != NULL )
 		return _pHtmlDoc2;
-	NULLTEST(pWB2 = GetWebBrowser2());//GetCOleContainer2ÒÑ¾­½«´íÎóÔ­Òò½»¸øLastError.
+	NULLTEST(pWB2 = GetWebBrowser2());//GetCOleContainer2ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ò½»¸ï¿½LastError.
 	if(!pWB2)
 		return NULL;
 	IDispatch* pDp =  NULL;
-	HRTEST_SE(pWB2->get_Document(&pDp),L"DCOleContainer2::get_Document ´íÎó");
+	HRTEST_SE(pWB2->get_Document(&pDp),L"DCOleContainer2::get_Document ï¿½ï¿½ï¿½ï¿½");
 	if(!pDp)
 		return NULL;
-	HRTEST_SE(pDp->QueryInterface(IID_IHTMLDocument2,(void**)&_pHtmlDoc2),L"QueryInterface IID_IHTMLDocument2 Ê§°Ü");
+	HRTEST_SE(pDp->QueryInterface(IID_IHTMLDocument2,(void**)&_pHtmlDoc2),L"QueryInterface IID_IHTMLDocument2 Ê§ï¿½ï¿½");
 	pDp->Release();
 	return _pHtmlDoc2;
 	USE_WIHLE;
@@ -243,14 +245,14 @@ CMyWebBrowser::GetHTMLDocument3()
 
 	IWebBrowser2* pWB2 = NULL;
 	USE_DO;
-	NULLTEST(pWB2 = GetWebBrowser2());//GetCOleContainer2ÒÑ¾­½«´íÎóÔ­Òò½»¸øLastError.
+	NULLTEST(pWB2 = GetWebBrowser2());//GetCOleContainer2ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ò½»¸ï¿½LastError.
 	if(!pWB2)
 		return NULL;
 	IDispatch* pDp =  NULL;
-	HRTEST_SE(pWB2->get_Document(&pDp),L"DCOleContainer2::get_Document ´íÎó");
+	HRTEST_SE(pWB2->get_Document(&pDp),L"DCOleContainer2::get_Document ï¿½ï¿½ï¿½ï¿½");
 	if(!pDp)
 		return NULL;
-	HRTEST_SE(pDp->QueryInterface(IID_IHTMLDocument3,(void**)&_pHtmlDoc3),L"QueryInterface IID_IHTMLDocument3 Ê§°Ü");
+	HRTEST_SE(pDp->QueryInterface(IID_IHTMLDocument3,(void**)&_pHtmlDoc3),L"QueryInterface IID_IHTMLDocument3 Ê§ï¿½ï¿½");
 	pDp->Release();
 	return _pHtmlDoc3;
 	USE_WIHLE;
@@ -265,7 +267,7 @@ CMyWebBrowser::GetHTMLWindow2()
     IHTMLDocument2*  pHD2 = GetHTMLDocument2();
 	USE_DO;
 	NULLTEST( pHD2 );
-    HRTEST_SE( pHD2->get_parentWindow(&_pHtmlWnd2),L"IHTMLWindow2::get_parentWindow ´íÎó" );
+    HRTEST_SE( pHD2->get_parentWindow(&_pHtmlWnd2),L"IHTMLWindow2::get_parentWindow ï¿½ï¿½ï¿½ï¿½" );
     return _pHtmlWnd2;
 	USE_WIHLE;
     return NULL;
@@ -279,7 +281,7 @@ CMyWebBrowser::GetHTMLEventObject()
     IHTMLWindow2* pHW2;
 	USE_DO;
 	NULLTEST( pHW2 = GetHTMLWindow2() );
-    HRTEST_SE( pHW2->get_event(&_pHtmlEvent),L"IHTMLWindow2::get_event ´íÎó");
+    HRTEST_SE( pHW2->get_event(&_pHtmlEvent),L"IHTMLWindow2::get_event ï¿½ï¿½ï¿½ï¿½");
     return _pHtmlEvent;
 	USE_WIHLE;
     return NULL;
@@ -290,11 +292,11 @@ CMyWebBrowser::SetWebRect(LPRECT lprc)
 {
     BOOL bRet = FALSE;
 	USE_DO;
-	if( false == _bInPlaced )//ÉÐÎ´OpenCOleContainer²Ù×÷,Ö±½ÓÐ´Èë_rcWebWnd
+	if( false == _bInPlaced )//ï¿½ï¿½Î´OpenCOleContainerï¿½ï¿½ï¿½ï¿½,Ö±ï¿½ï¿½Ð´ï¿½ï¿½_rcWebWnd
     {
        _rcWebWnd = *lprc;
     }
-    else//ÒÑ¾­´ò¿ªCOleContainer,Í¨¹ý IOleInPlaceObject::SetObjectRects µ÷Õû´óÐ¡
+    else//ï¿½Ñ¾ï¿½ï¿½ï¿½COleContainer,Í¨ï¿½ï¿½ IOleInPlaceObject::SetObjectRects ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡
     {
         SIZEL size;
         size.cx = lprc->right- lprc->left;
@@ -302,11 +304,11 @@ CMyWebBrowser::SetWebRect(LPRECT lprc)
 
         IOleObject* pOleObj;
         NULLTEST( pOleObj= _GetOleObject());
-        HRTEST_SE( pOleObj->SetExtent(  1,&size ),L"SetExtent ´íÎó");
+        HRTEST_SE( pOleObj->SetExtent(  1,&size ),L"SetExtent ï¿½ï¿½ï¿½ï¿½");
 
         IOleInPlaceObject* pInPlace;
         NULLTEST( pInPlace = _GetInPlaceObject());
-        HRTEST_SE( pInPlace->SetObjectRects(lprc,lprc),L"SetObjectRects ´íÎó");
+        HRTEST_SE( pInPlace->SetObjectRects(lprc,lprc),L"SetObjectRects ï¿½ï¿½ï¿½ï¿½");
         _rcWebWnd = *lprc;
     }
     bRet = TRUE;
@@ -319,32 +321,32 @@ CMyWebBrowser::OpenWebBrowser()
 {
     BOOL bRet = FALSE;
 	USE_DO;
-	NULLTEST_SE( _GetOleObject(),L"ActiveX¶ÔÏóÎª¿Õ" );//¶ÔÓÚ±¾ÉíµÄÊµÏÖº¯Êý,Æä×ÔÉí³Ðµ£´íÎóÂ¼Èë¹¤×÷
+	NULLTEST_SE( _GetOleObject(),L"ActiveXï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½" );//ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Öºï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ë¹¤ï¿½ï¿½
     
     if ( _rcWebWnd.right- _rcWebWnd.left && _rcWebWnd.bottom- _rcWebWnd.top == 0 )
-        ::GetClientRect( GetHWND() ,&_rcWebWnd);//ÉèÖÃCOleContainerµÄ´óÐ¡Îª´°¿ÚµÄ¿Í»§Çø´óÐ¡.
+        ::GetClientRect( GetHWND() ,&_rcWebWnd);//ï¿½ï¿½ï¿½ï¿½COleContainerï¿½Ä´ï¿½Ð¡Îªï¿½ï¿½ï¿½ÚµÄ¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡.
     
     if( _bInPlaced == false )// Activate In Place
     {
         _bInPlaced = true;//_bInPlaced must be set as true, before INPLACEACTIVATE, otherwise, once DoVerb, it would return error;
         _bExternalPlace = 0;//lParam;
     
-        HRTEST_SE( _GetOleObject()->DoVerb(OLEIVERB_INPLACEACTIVATE,0,this,0, GetHWND()  ,&_rcWebWnd),L"¹ØÓÚINPLACEµÄDoVerb´íÎó");
+        HRTEST_SE( _GetOleObject()->DoVerb(OLEIVERB_INPLACEACTIVATE,0,this,0, GetHWND()  ,&_rcWebWnd),L"ï¿½ï¿½ï¿½ï¿½INPLACEï¿½ï¿½DoVerbï¿½ï¿½ï¿½ï¿½");
         _bInPlaced = true;
         
-        //* ¹Ò½ÓDWebBrwoser2Event
+        //* ï¿½Ò½ï¿½DWebBrwoser2Event
         IConnectionPointContainer* pCPC = NULL;
         IConnectionPoint*          pCP  = NULL;
-        HRTEST_SE( GetWebBrowser2()->QueryInterface(IID_IConnectionPointContainer,(void**)&pCPC),L"Ã¶¾ÙIConnectionPointContainer½Ó¿ÚÊ§°Ü");
-        HRTEST_SE( pCPC->FindConnectionPoint( DIID_DWebBrowserEvents2,&pCP),L"FindConnectionPointÊ§°Ü");
+        HRTEST_SE( GetWebBrowser2()->QueryInterface(IID_IConnectionPointContainer,(void**)&pCPC),L"Ã¶ï¿½ï¿½IConnectionPointContainerï¿½Ó¿ï¿½Ê§ï¿½ï¿½");
+        HRTEST_SE( pCPC->FindConnectionPoint( DIID_DWebBrowserEvents2,&pCP),L"FindConnectionPointÊ§ï¿½ï¿½");
         DWORD dwCookie = 0;
-        HRTEST_SE( pCP->Advise( (IUnknown*)(void*)this,&dwCookie),L"IConnectionPoint::AdviseÊ§°Ü");
+        HRTEST_SE( pCP->Advise( (IUnknown*)(void*)this,&dwCookie),L"IConnectionPoint::AdviseÊ§ï¿½ï¿½");
 		TrackBrowserEventConnection(pCP, dwCookie);
 		SafeComRelease(pCPC);
     }
 
 	if (GetWebBrowser2())
-	{//¹Ø±Õ¶Ô»°¿ò£¬ÔÝÎª²»ÌáÊ¾´íÎóÐÅÏ¢£¬ÊÇ·ñÓÐ¸º×÷ÓÃ£¬Î´Öª¡£
+	{//ï¿½Ø±Õ¶Ô»ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Ã£ï¿½Î´Öªï¿½ï¿½
 		GetWebBrowser2()->put_Silent(VARIANT_TRUE);
 	}
     bRet = TRUE;
@@ -371,7 +373,7 @@ CMyWebBrowser::showWebBrowser(VARIANT* pVarUrl,cocos2d::CCRect rc)
 
     BOOL bRet = FALSE;
 	USE_DO;
-	HRTEST_SE( GetWebBrowser2()->Navigate2( pVarUrl,0,0,0,0),L"GetWebBrowser2 Ê§°Ü");
+	HRTEST_SE( GetWebBrowser2()->Navigate2( pVarUrl,0,0,0,0),L"GetWebBrowser2 Ê§ï¿½ï¿½");
     bRet = TRUE;
 	USE_WIHLE;
     return bRet;
@@ -564,7 +566,7 @@ CMyWebBrowserEX::getWebviewInstanceEX()
 	return &s_pWebviewEX;
 }
 
-//ÓëÓÎÏ·´°¿ÚÎÞ¹ØµÄwebview£¬³åÖµÊ¹ÓÃ
+//ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Þ¹Øµï¿½webviewï¿½ï¿½ï¿½ï¿½ÖµÊ¹ï¿½ï¿½
 bool
 CMyWebBrowserEX::initWindow()
 {
@@ -579,14 +581,14 @@ CMyWebBrowserEX::initWindow()
 		wc.hInstance	= hInstance;
 		wc.hCursor		= LoadCursor(nullptr, IDC_ARROW);
 		wc.hbrBackground= (HBRUSH)(COLOR_WINDOW+ 1);
-		wc.lpszClassName= L"ÎÒ½ÐMT3";
+		wc.lpszClassName= L"ï¿½Ò½ï¿½MT3";
 
 		RegisterClassEx(&wc);
 
 		m_hWnd = CreateWindowEx(
 			0,
-			L"ÎÒ½ÐMT3",
-			L"ÎÒ½ÐMT3",
+			L"ï¿½Ò½ï¿½MT3",
+			L"ï¿½Ò½ï¿½MT3",
 			WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
 			CW_USEDEFAULT,
 			0,
@@ -612,11 +614,11 @@ CMyWebBrowserEX::SetWebRect(LPRECT lprc)
 {
 	BOOL bRet = FALSE;
 	USE_DO;
-	if( false == _bInPlaced )//ÉÐÎ´OpenCOleContainer²Ù×÷,Ö±½ÓÐ´Èë_rcWebWnd
+	if( false == _bInPlaced )//ï¿½ï¿½Î´OpenCOleContainerï¿½ï¿½ï¿½ï¿½,Ö±ï¿½ï¿½Ð´ï¿½ï¿½_rcWebWnd
 	{
 		_rcWebWnd = *lprc;
 	}
-	else//ÒÑ¾­´ò¿ªCOleContainer,Í¨¹ý IOleInPlaceObject::SetObjectRects µ÷Õû´óÐ¡
+	else//ï¿½Ñ¾ï¿½ï¿½ï¿½COleContainer,Í¨ï¿½ï¿½ IOleInPlaceObject::SetObjectRects ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡
 	{
 		SIZEL size;
 		size.cx = lprc->right- lprc->left;
@@ -624,11 +626,11 @@ CMyWebBrowserEX::SetWebRect(LPRECT lprc)
 
 		IOleObject* pOleObj;
 		NULLTEST( pOleObj= _GetOleObject());
-		HRTEST_SE( pOleObj->SetExtent(  1,&size ),L"SetExtent ´íÎó");
+		HRTEST_SE( pOleObj->SetExtent(  1,&size ),L"SetExtent ï¿½ï¿½ï¿½ï¿½");
 
 		IOleInPlaceObject* pInPlace;
 		NULLTEST( pInPlace = _GetInPlaceObject());
-		HRTEST_SE( pInPlace->SetObjectRects(lprc,lprc),L"SetObjectRects ´íÎó");
+		HRTEST_SE( pInPlace->SetObjectRects(lprc,lprc),L"SetObjectRects ï¿½ï¿½ï¿½ï¿½");
 		_rcWebWnd = *lprc;
 	}
 	bRet = TRUE;
@@ -641,32 +643,32 @@ CMyWebBrowserEX::OpenWebBrowser()
 {
     BOOL bRet = FALSE;
 	USE_DO;
-	NULLTEST_SE( _GetOleObject(),L"ActiveX¶ÔÏóÎª¿Õ" );//¶ÔÓÚ±¾ÉíµÄÊµÏÖº¯Êý,Æä×ÔÉí³Ðµ£´íÎóÂ¼Èë¹¤×÷
+	NULLTEST_SE( _GetOleObject(),L"ActiveXï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½" );//ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Öºï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ë¹¤ï¿½ï¿½
     
     if ( _rcWebWnd.right- _rcWebWnd.left && _rcWebWnd.bottom- _rcWebWnd.top == 0 )
-        ::GetClientRect( GetHWND() ,&_rcWebWnd);//ÉèÖÃCOleContainerµÄ´óÐ¡Îª´°¿ÚµÄ¿Í»§Çø´óÐ¡.
+        ::GetClientRect( GetHWND() ,&_rcWebWnd);//ï¿½ï¿½ï¿½ï¿½COleContainerï¿½Ä´ï¿½Ð¡Îªï¿½ï¿½ï¿½ÚµÄ¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡.
     
     if( _bInPlaced == false )// Activate In Place
     {
         _bInPlaced = true;//_bInPlaced must be set as true, before INPLACEACTIVATE, otherwise, once DoVerb, it would return error;
         _bExternalPlace = 0;//lParam;
     
-        HRTEST_SE( _GetOleObject()->DoVerb(OLEIVERB_INPLACEACTIVATE,0,this,0, GetHWND()  ,&_rcWebWnd),L"¹ØÓÚINPLACEµÄDoVerb´íÎó");
+        HRTEST_SE( _GetOleObject()->DoVerb(OLEIVERB_INPLACEACTIVATE,0,this,0, GetHWND()  ,&_rcWebWnd),L"ï¿½ï¿½ï¿½ï¿½INPLACEï¿½ï¿½DoVerbï¿½ï¿½ï¿½ï¿½");
         _bInPlaced = true;
         
-        //* ¹Ò½ÓDWebBrwoser2Event
+        //* ï¿½Ò½ï¿½DWebBrwoser2Event
         IConnectionPointContainer* pCPC = NULL;
         IConnectionPoint*          pCP  = NULL;
-        HRTEST_SE( GetWebBrowser2()->QueryInterface(IID_IConnectionPointContainer,(void**)&pCPC),L"Ã¶¾ÙIConnectionPointContainer½Ó¿ÚÊ§°Ü");
-        HRTEST_SE( pCPC->FindConnectionPoint( DIID_DWebBrowserEvents2,&pCP),L"FindConnectionPointÊ§°Ü");
+        HRTEST_SE( GetWebBrowser2()->QueryInterface(IID_IConnectionPointContainer,(void**)&pCPC),L"Ã¶ï¿½ï¿½IConnectionPointContainerï¿½Ó¿ï¿½Ê§ï¿½ï¿½");
+        HRTEST_SE( pCPC->FindConnectionPoint( DIID_DWebBrowserEvents2,&pCP),L"FindConnectionPointÊ§ï¿½ï¿½");
         DWORD dwCookie = 0;
-        HRTEST_SE( pCP->Advise( (IUnknown*)(void*)this,&dwCookie),L"IConnectionPoint::AdviseÊ§°Ü");
+        HRTEST_SE( pCP->Advise( (IUnknown*)(void*)this,&dwCookie),L"IConnectionPoint::AdviseÊ§ï¿½ï¿½");
 		TrackBrowserEventConnection(pCP, dwCookie);
 		SafeComRelease(pCPC);
     }
 
 	if (GetWebBrowser2())
-	{//¹Ø±Õ¶Ô»°¿ò£¬ÔÝÎª²»ÌáÊ¾´íÎóÐÅÏ¢£¬ÊÇ·ñÓÐ¸º×÷ÓÃ£¬Î´Öª¡£
+	{//ï¿½Ø±Õ¶Ô»ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Ã£ï¿½Î´Öªï¿½ï¿½
 		GetWebBrowser2()->put_Silent(VARIANT_TRUE);
 	}
     bRet = TRUE;
@@ -674,7 +676,7 @@ CMyWebBrowserEX::OpenWebBrowser()
     return bRet;
 }
 
-//È«ÆÁÏÔÊ¾µÄwebvew£¬ÓÃÀ´ÏÔÊ¾³åÖµ
+//È«ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½webvewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Öµ
 BOOL    
 CMyWebBrowserEX::showWebBrowser(VARIANT* pVarUrl,cocos2d::CCRect rc)
 {
@@ -691,7 +693,7 @@ CMyWebBrowserEX::showWebBrowser(VARIANT* pVarUrl,cocos2d::CCRect rc)
 	DWORD dwWXStyle= GetWindowLong(m_hWnd,GWL_EXSTYLE);
 	AdjustWindowRectEx(&rc1,dwStyle,false,dwWXStyle);
 
-	//½«´°¿ÚÖÃ¼ä
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½
 	RECT rcDesktop, rcWindow;
 	GetWindowRect(GetDesktopWindow(), &rcDesktop);
 	// substract the task bar
@@ -719,7 +721,7 @@ CMyWebBrowserEX::showWebBrowser(VARIANT* pVarUrl,cocos2d::CCRect rc)
 	//SetWindowPos(m_hWnd, 0, offsetX, offsetY, 0, 0, SWP_NOCOPYBITS | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 	//end
 
-	//ÉèÖÃÎ»ÖÃ
+	//ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	SetWindowPos(m_hWnd,0,offsetX,offsetY,rc.size.width+ width,rc.size.height+ height,0 );
 
 	ShowWindow(m_hWnd, SW_SHOW);
@@ -729,7 +731,7 @@ CMyWebBrowserEX::showWebBrowser(VARIANT* pVarUrl,cocos2d::CCRect rc)
 
 	BOOL bRet = FALSE;
 	USE_DO;
-	HRTEST_SE( GetWebBrowser2()->Navigate2( pVarUrl,0,0,0,0),L"GetWebBrowser2 Ê§°Ü");
+	HRTEST_SE( GetWebBrowser2()->Navigate2( pVarUrl,0,0,0,0),L"GetWebBrowser2 Ê§ï¿½ï¿½");
 	bRet = TRUE;
 	USE_WIHLE;
 	return bRet;
@@ -750,8 +752,8 @@ CMyWebBrowserEX::GetWebBrowser2()
 	USE_DO;
 	if( _pWB2 != NULL )
 		return _pWB2;
-	NULLTEST_SE( _pOleObj,L"Ole¶ÔÏóÎª¿Õ");
-	HRTEST_SE( _pOleObj->QueryInterface(IID_IWebBrowser2,(void**)&_pWB2),L"QueryInterface IID_ICOleContainer2 Ê§°Ü");
+	NULLTEST_SE( _pOleObj,L"Oleï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
+	HRTEST_SE( _pOleObj->QueryInterface(IID_IWebBrowser2,(void**)&_pWB2),L"QueryInterface IID_ICOleContainer2 Ê§ï¿½ï¿½");
 	return _pWB2;
 	USE_WIHLE;
 	return NULL;
@@ -764,10 +766,10 @@ CMyWebBrowserEX::GetHTMLDocument2()
 	USE_DO;
 	if( _pHtmlDoc2 != NULL )
 		return _pHtmlDoc2;
-	NULLTEST(pWB2 = GetWebBrowser2());//GetCOleContainer2ÒÑ¾­½«´íÎóÔ­Òò½»¸øLastError.
+	NULLTEST(pWB2 = GetWebBrowser2());//GetCOleContainer2ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ò½»¸ï¿½LastError.
 	IDispatch* pDp =  NULL;
-	HRTEST_SE(pWB2->get_Document(&pDp),L"DCOleContainer2::get_Document ´íÎó");
-	HRTEST_SE(pDp->QueryInterface(IID_IHTMLDocument2,(void**)&_pHtmlDoc2),L"QueryInterface IID_IHTMLDocument2 Ê§°Ü");
+	HRTEST_SE(pWB2->get_Document(&pDp),L"DCOleContainer2::get_Document ï¿½ï¿½ï¿½ï¿½");
+	HRTEST_SE(pDp->QueryInterface(IID_IHTMLDocument2,(void**)&_pHtmlDoc2),L"QueryInterface IID_IHTMLDocument2 Ê§ï¿½ï¿½");
 	pDp->Release();
 	return _pHtmlDoc2;
 	USE_WIHLE;
@@ -782,10 +784,10 @@ CMyWebBrowserEX::GetHTMLDocument3()
 
 	IWebBrowser2* pWB2 = NULL;
 	USE_DO;
-	NULLTEST(pWB2 = GetWebBrowser2());//GetCOleContainer2ÒÑ¾­½«´íÎóÔ­Òò½»¸øLastError.
+	NULLTEST(pWB2 = GetWebBrowser2());//GetCOleContainer2ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ò½»¸ï¿½LastError.
 	IDispatch* pDp =  NULL;
-	HRTEST_SE(pWB2->get_Document(&pDp),L"DCOleContainer2::get_Document ´íÎó");
-	HRTEST_SE(pDp->QueryInterface(IID_IHTMLDocument3,(void**)&_pHtmlDoc3),L"QueryInterface IID_IHTMLDocument3 Ê§°Ü");
+	HRTEST_SE(pWB2->get_Document(&pDp),L"DCOleContainer2::get_Document ï¿½ï¿½ï¿½ï¿½");
+	HRTEST_SE(pDp->QueryInterface(IID_IHTMLDocument3,(void**)&_pHtmlDoc3),L"QueryInterface IID_IHTMLDocument3 Ê§ï¿½ï¿½");
 	pDp->Release();
 	return _pHtmlDoc3;
 	USE_WIHLE;
@@ -800,7 +802,7 @@ CMyWebBrowserEX::GetHTMLWindow2()
 	IHTMLDocument2*  pHD2 = GetHTMLDocument2();
 	USE_DO;
 	NULLTEST( pHD2 );
-	HRTEST_SE( pHD2->get_parentWindow(&_pHtmlWnd2),L"IHTMLWindow2::get_parentWindow ´íÎó" );
+	HRTEST_SE( pHD2->get_parentWindow(&_pHtmlWnd2),L"IHTMLWindow2::get_parentWindow ï¿½ï¿½ï¿½ï¿½" );
 	return _pHtmlWnd2;
 	USE_WIHLE;
 	return NULL;
@@ -814,7 +816,7 @@ CMyWebBrowserEX::GetHTMLEventObject()
 	IHTMLWindow2* pHW2;
 	USE_DO;
 	NULLTEST( pHW2 = GetHTMLWindow2() );
-	HRTEST_SE( pHW2->get_event(&_pHtmlEvent),L"IHTMLWindow2::get_event ´íÎó");
+	HRTEST_SE( pHW2->get_event(&_pHtmlEvent),L"IHTMLWindow2::get_event ï¿½ï¿½ï¿½ï¿½");
 	return _pHtmlEvent;
 	USE_WIHLE;
 	return NULL;
@@ -842,7 +844,7 @@ void CMyWebBrowserEX::setTranslateAccelerator(UINT message, WPARAM wParam, LPARA
 	}
 }
 
-/*	ÍøÒ³¿ì½Ý¼ü´¦Àí
+/*	ï¿½ï¿½Ò³ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 void CMyWebBrowserEX::setTranslateAccelerator(MSG& msg)
 {
@@ -856,7 +858,7 @@ void CMyWebBrowserEX::setTranslateAccelerator(MSG& msg)
 			hr= iBrowser->QueryInterface(IID_IOleInPlaceActiveObject, (void**)&pIOIPAO);
 			if (SUCCEEDED(hr))
 			{
-				// ´Ë´¦×öÒ»ÏÂÅÐ¶Ï£¬Èç¹ûÊÇÓ¢ÎÄ×´Ì¬ÏÂµÄÊäÈë²ÅÈ¥×ö´ËÅÐ¶Ï
+				// ï¿½Ë´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ð¶Ï£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½×´Ì¬ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
 				DWORD wParam = msg.wParam;
 				DWORD lParam = msg.lParam;
 				if (msg.message == WM_CHAR || msg.message == WM_KEYDOWN || msg.message == WM_KEYUP)

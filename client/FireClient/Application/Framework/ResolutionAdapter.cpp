@@ -1,8 +1,8 @@
-﻿#include "ResolutionAdapter.h"
+#include "ResolutionAdapter.h"
 #include <engine/nuengine.h>
 #include <RuntimeViewportCalculator.h>
 #ifdef WIN32
-#include "CCEGLView.h"
+#include "platform/desktop/CCGLView.h"
 #include <fstream>
 #include <iomanip>
 #endif
@@ -77,13 +77,13 @@ static void ExportRuntimeViewportProfileForWysiwyg(const mt3::RuntimeViewportPro
 
 static bool TryGetWin32FrameSize(int& width, int& height)
 {
-	cocos2d::CCEGLView* eglView = cocos2d::CCEGLView::sharedOpenGLView();
+	cocos2d::GLView* eglView = cocos2d::Director::getInstance()->getOpenGLView();
 	if (!eglView)
 	{
 		return false;
 	}
 
-	const cocos2d::CCSize& frameSize = eglView->getFrameSize();
+	const cocos2d::Size& frameSize = eglView->getFrameSize();
 	if (frameSize.width <= 0.0f || frameSize.height <= 0.0f)
 	{
 		return false;

@@ -5,6 +5,10 @@
 #include "LoginManager.h"
 #include "GameApplication.h"
 #include "MainRoleDataManager.h"
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include "glfw3native.h"
+#include "CCDirector.h"
+#include <shellapi.h>
 
 WinSDK* WinSDK::m_Inst = NULL;
 
@@ -29,9 +33,9 @@ WinSDK::WinSDK()
 {
 	m_bWebViewVisible = false;
 	m_strPlatformId = "";
-	//m_strLoginUrl = "http://192.168.29.151:9001/ClientGame/Login.aspx?"; // ÄÚÍø²âÊÔµØÖ·
+	//m_strLoginUrl = "http://192.168.29.151:9001/ClientGame/Login.aspx?"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½Ö·
 	m_strLoginUrl = "http://billing.locojoy.com/api/nosdk/login/locojoy/ClientGameWeb.ashx?";
-	//m_strChargeUrl = "http://192.168.29.151:9001/api/nosdk/pay/locojoy/ClientGameWeb.ashx?"; // ÄÚÍø²âÊÔµØÖ·
+	//m_strChargeUrl = "http://192.168.29.151:9001/api/nosdk/pay/locojoy/ClientGameWeb.ashx?"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½Ö·
 	m_strChargeUrl = "http://billing.locojoy.com/api/nosdk/pay/locojoy/ClientGameWeb.ashx?";
 }
 
@@ -188,16 +192,16 @@ void WinSDK::onLoginSuccess(std::string& platformid, std::string& session)
 	gGetLoginManager()->SetChannelId(StringCover::to_wstring(strChannel));
 
 	if (gGetLoginManager()->getEnterMainStatus() == eEnterMainStatus_None)
-		gGetLoginManager()->setEnterMainStatus(eEnterMainStatus_LoginSuccess); // SDKµÇÂ½³É¹¦
+		gGetLoginManager()->setEnterMainStatus(eEnterMainStatus_LoginSuccess); // SDKï¿½ï¿½Â½ï¿½É¹ï¿½
 	else {
 		gGetLoginManager()->setEnterMainStatus(eEnterMainStatus_GamePlaying);
-		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithBooleanData("SelectServerEntry_EnableClick", true); // ÉèÖÃÑ¡·þ½çÃæ°´Å¥¿Éµã»÷
+		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunctionWithBooleanData("SelectServerEntry_EnableClick", true); // ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½æ°´Å¥ï¿½Éµï¿½ï¿½
 	}
 
-	// ¹Ø±ÕWINDOW°æ±¾Æô¶¯Ê±µÄ¿ìËÙµÇÂ¼½çÃæ
+	// ï¿½Ø±ï¿½WINDOWï¿½æ±¾ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ä¿ï¿½ï¿½Ùµï¿½Â¼ï¿½ï¿½ï¿½ï¿½
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LoginQuickDialog.DestroyDialog");
 
-	// ¹Ø±ÕWINDOW°æ±¾µÄµÇÂ½´°¿Ú
+	// ï¿½Ø±ï¿½WINDOWï¿½æ±¾ï¿½Äµï¿½Â½ï¿½ï¿½ï¿½ï¿½
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("WinLoginDlg.DestroyDialog");
 	if (gGetLoginManager()->isFirstEnter())
 	{
@@ -205,8 +209,8 @@ void WinSDK::onLoginSuccess(std::string& platformid, std::string& session)
 	}
 	gGetLoginManager()->SaveAccount();
 
-	cocos2d::CCEGLView *eglView = cocos2d::CCEGLView::sharedOpenGLView();
-	::SetFocus(eglView->getHWnd());
+	cocos2d::GLView* glView = cocos2d::Director::getInstance()->getOpenGLView();
+	::SetFocus(glfwGetWin32Window(glView->getWindow()));
 }
 
 void WinSDK::openChargeUrl(std::string& productid, int productcount)
@@ -261,7 +265,7 @@ void WinSDK::openChargeUrl(std::string& productid, int productcount)
 	delete[] buffer;
 }
 
-// ½öÓÃÓÚµÇÂ½µÄ»Øµ÷
+// ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Â½ï¿½Ä»Øµï¿½
 void WinSDK::update()
 {
 	if (m_bWebViewVisible) {

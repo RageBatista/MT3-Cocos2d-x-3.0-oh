@@ -4,8 +4,8 @@
 #if defined WIN7_32
 #include "engine/nusystemresourcemanager.h"
 #endif
-#include "shaders/CCShaderCache.h"
-#include "shaders/CCGLProgram.h"
+#include "CCShaderCache.h"
+#include "CCGLProgram.h"
 #include "GameApplication.h"
 #include "GameStateManager.h"
 #include "GameOperateState.h"
@@ -766,7 +766,7 @@ void GameUImanager::RemoveAllUIEffect()
 			}
 
 			Nuclear::GetEngine()->ReleaseEffect(it->first);
-			pWnd->getGeometryBuffer()->setRenderEffect(0);
+			pWnd->getGeometryBuffer().setRenderEffect(0);
 		}
 	}
 	m_mapUIEffect.clear();
@@ -790,7 +790,7 @@ bool GameUImanager::OnSpriteWndDestroy(const CEGUI::EventArgs& e)
 				}
 
 				delete it->first;
-				pWnd->getGeometryBuffer()->setRenderEffect(0);
+				pWnd->getGeometryBuffer().setRenderEffect(0);
 				m_mapWindowSprite.erase(it++);
 				break;
 			}
@@ -827,11 +827,8 @@ bool GameUImanager::OnWndDestroy(const CEGUI::EventArgs& e)
 				}
 
 				Nuclear::GetEngine()->ReleaseEffect(it->first);
-				CEGUI::GeometryBuffer* pGB = pWnd->getGeometryBuffer();
-				if (pGB)
-				{
-					pGB->setRenderEffect(0);
-				}
+				CEGUI::GeometryBuffer& pGB = pWnd->getGeometryBuffer();
+				pGB.setRenderEffect(0);
 				m_mapUIEffect.erase(it++);
 			}
 			else
@@ -875,7 +872,7 @@ void GameUImanager::RemoveWindowSpriteByWnd(CEGUI::Window* pWnd)
 				}
 
 				delete it->first;
-				it->second->getGeometryBuffer()->setRenderEffect(0);
+				it->second->getGeometryBuffer().setRenderEffect(0);
 				m_mapWindowSprite.erase(it++);
 			}
 			else
@@ -910,11 +907,8 @@ void GameUImanager::RemoveUIEffect(CEGUI::Window* pWnd)
 				}
 
 				Nuclear::GetEngine()->ReleaseEffect(it->first);
-				CEGUI::GeometryBuffer* pGB = pEffectWnd->getGeometryBuffer();
-				if (pGB)
-				{
-					pGB->setRenderEffect(0);
-				}
+				CEGUI::GeometryBuffer& pGB = pEffectWnd->getGeometryBuffer();
+				pGB.setRenderEffect(0);
 				m_mapUIEffect.erase(it++);
 			}
 			else
@@ -956,7 +950,7 @@ void GameUImanager::RemoveWindowSprite(UISprite* pSprite)
 		if (it != m_mapWindowSprite.end())
 		{
 			delete pSprite;
-			it->second->getGeometryBuffer()->setRenderEffect(0);
+			it->second->getGeometryBuffer().setRenderEffect(0);
 			m_mapWindowSprite.erase(it);
 		}
 	}
@@ -1059,7 +1053,7 @@ void GameUImanager::RenderWindowSprite(XPRenderEffect* pRenderEffect)
 		for (; it != m_mapWindowSprite.end(); ++it)
 		{
 			CEGUI::Window* pWnd = it->second;
-			if (pWnd->getGeometryBuffer()->getRenderEffect() == (CEGUI::RenderEffect*)pRenderEffect && pWnd->getEffectiveAlpha() >= 0.95f)
+			if (pWnd->getGeometryBuffer().getRenderEffect() == (CEGUI::RenderEffect*)pRenderEffect && pWnd->getEffectiveAlpha() >= 0.95f)
 			{
 				CEGUI::Point wndPos = pWnd->GetScreenPos();
 				std::map<UISprite*, Nuclear::NuclearLocation>::iterator locItor = m_mapSpritePos.find(it->first);
@@ -1161,7 +1155,7 @@ void GameUImanager::RenderUIEffect(XPRenderEffect* pRenderEffect)
 		for (; it != m_mapUIEffect.end(); ++it)
 		{
 			CEGUI::Window* pWnd = it->second;
-			CEGUI::RenderEffect* pCurRE = pWnd->getGeometryBuffer()->getRenderEffect();
+			CEGUI::RenderEffect* pCurRE = pWnd->getGeometryBuffer().getRenderEffect();
 			float fCurAlpha = pWnd->getEffectiveAlpha();
 			if (pCurRE == (CEGUI::RenderEffect*)pRenderEffect && fCurAlpha >= 0.95f)
 			{
@@ -1213,20 +1207,18 @@ UISprite* GameUImanager::AddWindowSprite(CEGUI::Window* pWnd, int modleId, Nucle
 			sprite->SetUILocation(spritePos);
 			sprite->SetUIDirection(dir);
 
-			CEGUI::GeometryBuffer* pGB = pWnd->getGeometryBuffer();
-			if (pGB)
-			{
-				XPRenderEffect* pXPRenderEffect = new XPRenderEffect;
-				pXPRenderEffect->setType(2);
-				if (clip)
-				{
-					pXPRenderEffect->setClip(true);
-				}
-				pGB->setRenderEffect(pXPRenderEffect);
+			CEGUI::GeometryBuffer& pGB = pWnd->getGeometryBuffer();
 
-				pWnd->subscribeEvent(CEGUI::Window::EventDestructionStarted, CEGUI::Event::Subscriber(&GameUImanager::OnSpriteWndDestroy, this));
-				m_mapWindowSprite[sprite] = pWnd;
+			XPRenderEffect* pXPRenderEffect = new XPRenderEffect;
+			pXPRenderEffect->setType(2);
+			if (clip)
+			{
+				pXPRenderEffect->setClip(true);
 			}
+			pGB.setRenderEffect(pXPRenderEffect);
+
+			pWnd->subscribeEvent(CEGUI::Window::EventDestructionStarted, CEGUI::Event::Subscriber(&GameUImanager::OnSpriteWndDestroy, this));
+			m_mapWindowSprite[sprite] = pWnd;
 		}
 		return sprite;
 	}
@@ -1272,21 +1264,19 @@ Nuclear::IEffect* GameUImanager::AddUIEffect(CEGUI::Window* pWnd, const std::wst
 				pEffect->AddNotify(pNotify);
 			}
 
-			CEGUI::GeometryBuffer* pGB = pWnd->getGeometryBuffer();
-			if (pGB)
+			CEGUI::GeometryBuffer& pGB = pWnd->getGeometryBuffer();
+
+			XPRenderEffect* pXPRenderEffect = new XPRenderEffect;
+			pXPRenderEffect->setType(1);
+			if (clip)
 			{
-				XPRenderEffect* pXPRenderEffect = new XPRenderEffect;
-				pXPRenderEffect->setType(1);
-				if (clip)
-				{
-					pXPRenderEffect->setClip(true);
-				}
-				pGB->setRenderEffect(pXPRenderEffect);
-				pWnd->subscribeEvent(CEGUI::Window::EventDestructionStarted, CEGUI::Event::Subscriber(&GameUImanager::OnWndDestroy, this));
-				pWnd->subscribeEvent(CEGUI::Window::EventScreenAreaChange, CEGUI::Event::Subscriber(&GameUImanager::OnWndMove, this));
-				m_mapUIEffect[pEffect] = pWnd;
-				m_mapUIEffectLocation[pEffect] = Nuclear::NuclearLocation(x, y);
+				pXPRenderEffect->setClip(true);
 			}
+			pGB.setRenderEffect(pXPRenderEffect);
+			pWnd->subscribeEvent(CEGUI::Window::EventDestructionStarted, CEGUI::Event::Subscriber(&GameUImanager::OnWndDestroy, this));
+			pWnd->subscribeEvent(CEGUI::Window::EventScreenAreaChange, CEGUI::Event::Subscriber(&GameUImanager::OnWndMove, this));
+			m_mapUIEffect[pEffect] = pWnd;
+			m_mapUIEffectLocation[pEffect] = Nuclear::NuclearLocation(x, y);
 		}
 		return pEffect;
 	}
@@ -2629,7 +2619,7 @@ void GameUImanager::AddSystemBoard(const std::wstring &systemBoard, bool bAddToC
 	{
 		m_pSysBoardMes = static_cast<CEGUI::MessageTip*>(winMgr.createWindow("TaharezLook/MessageTip"));
 		SystemMsgRenderEffect* pRenderEffect = new SystemMsgRenderEffect;
-		m_pSysBoardMes->getGeometryBuffer()->setRenderEffect(pRenderEffect);
+		m_pSysBoardMes->getGeometryBuffer().setRenderEffect(pRenderEffect);
 
 		InitMessageTip(m_pSysBoardMes, systemBoard, CEGUI::eSystemTip, bAddToChat);
 	}

@@ -8,6 +8,8 @@
 #include "CEGUIImagesetManager.h"
 #include "CEGUITexture.h"
 #include "CEGUIImageset.h"
+#include "CCScriptSupport.h"
+#include <mmsystem.h>
 #include "oggenc/oggenc.h"
 #include "Utils/Voice.h"
 
@@ -154,7 +156,7 @@ void SpaceManager::ClearCurFileData()
 	m_strFileData.clear();
 }
 
-std::string SpaceManager::SaveImageToCurString(cocos2d::CCImage* pImage, bool bIsToRGB, std::string strFilePath)
+std::string SpaceManager::SaveImageToCurString(cocos2d::Image* pImage, bool bIsToRGB, std::string strFilePath)
 {
 	bool bSaveRet = pImage->saveToFile(strFilePath.c_str(), bIsToRGB);
 	if (!bSaveRet)
@@ -282,13 +284,13 @@ std::string SpaceManager::SaveImageToCurString(cocos2d::CCImage* pImage, bool bI
 	 return m_fSoundTime;
  }
 
-int SpaceManager::GetCocosImageWidth(cocos2d::CCImage* pCocosImage)
+int SpaceManager::GetCocosImageWidth(cocos2d::Image* pCocosImage)
 {
     int nWidth = pCocosImage->getWidth();
     return nWidth;
 }
 
-int SpaceManager::GetCocosImageHeight(cocos2d::CCImage* pCocosImage)
+int SpaceManager::GetCocosImageHeight(cocos2d::Image* pCocosImage)
 {
     int nHeight = pCocosImage->getHeight();
     return nHeight;
@@ -368,18 +370,18 @@ unsigned int SpaceManager::GetCurStringLength()
 CEGUI::Image* SpaceManager::SaveCeguiImageWithUrl(std::string strFilePath, bool bAutoDelete,bool bSaveCocosImage,std::string strUrl, std::string strImageName, std::string strImageSetName, int nImageType, bool bUseCurString)
 {
     bool bSaveRet = SaveStringToFile(m_strFileData, strFilePath);
-    cocos2d::CCImage* pCocoImage = new cocos2d::CCImage();
+    cocos2d::Image* pCocoImage = new cocos2d::Image();
     
-    int nImageFormat = cocos2d::CCImage::EImageFormat::kFmtJpg;
+    int nImageFormat = (int)cocos2d::Image::Format::JPG;
     if (nImageType == CEGUI::Texture::PixelFormat::PF_RGB)
     {
-        nImageFormat = cocos2d::CCImage::EImageFormat::kFmtJpg;
+        nImageFormat = (int)cocos2d::Image::Format::JPG;
 	 }
 	 else
 	 {
-		 nImageFormat = cocos2d::CCImage::EImageFormat::kFmtPng;
+		 nImageFormat = (int)cocos2d::Image::Format::PNG;
 	 }
-	bool bRet = pCocoImage->initWithImageFile(strFilePath.c_str(), (cocos2d::CCImage::EImageFormat) nImageFormat);
+	bool bRet = pCocoImage->initWithImageFile(strFilePath);
 	 if (!bRet)
 	 {
 		 delete pCocoImage;
@@ -405,7 +407,7 @@ CEGUI::Image* SpaceManager::SaveCeguiImageWithUrl(std::string strFilePath, bool 
 
 	 CEGUI::Texture::PixelFormat pixelFormat = pCocoImage->hasAlpha() ? CEGUI::Texture::PF_RGBA : CEGUI::Texture::PF_RGB;
 
-	 pTexture->loadFromMemory(pBuffer, CEGUI::Size(nWidth, nHeight), pixelFormat, false);
+	 pTexture->loadFromMemory(pBuffer, CEGUI::Size(nWidth, nHeight), pixelFormat);
 	 CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingleton().create(imageSetName, *pTexture);
      imageSet.defineImage(imageName, rect, CEGUI::Point(0, 0));
 	 const CEGUI::Image& ceguiImage = imageSet.getImage(imageName);
@@ -442,7 +444,7 @@ CEGUI::Image* SpaceManager::SaveCeguiImageWithUrl(std::string strFilePath, bool 
 	 return NULL;
  }
 
- cocos2d::CCImage* SpaceManager::GetCocosImageWithUrl(std::string strUrl)
+ cocos2d::Image* SpaceManager::GetCocosImageWithUrl(std::string strUrl)
  {
 	 for (size_t nIndex = 0; nIndex < m_vCeguiImage.size(); ++nIndex)
 	 {
@@ -692,20 +694,21 @@ CEGUI::Image* SpaceManager::SaveCeguiImageWithUrl(std::string strFilePath, bool 
 
  }
 
- bool SpaceManager::ImageScaleToRect(cocos2d::CCImage* pImage, int nWidth, int nHeight)
+ bool SpaceManager::ImageScaleToRect(cocos2d::Image* pImage, int nWidth, int nHeight)
  {
 	 if (!pImage)
 	 {
 		 return false;
 	 }
-	 return pImage->scaleToRect(nWidth, nHeight);
+	 return false; // TODO: scaleToRect removed in Cocos2d-x 3.0-oh, need alternative
+	 // return pImage->scaleToRect(nWidth, nHeight);
  }
 
 
  //-----------------------------------
- cocos2d::CCImage* SpaceManager::getTestCocos2dImage(std::string strFileName)
+ cocos2d::Image* SpaceManager::getTestCocos2dImage(std::string strFileName)
  {
-	 cocos2d::CCImage* pImage = new cocos2d::CCImage();
+	 cocos2d::Image* pImage = new cocos2d::Image();
 	 std::string strFilePath = GetTempFilePath() + strFileName.c_str();
 	 pImage->initWithImageFile(strFilePath.c_str());
 	 return pImage;
@@ -716,7 +719,7 @@ CEGUI::Image* SpaceManager::SaveCeguiImageWithUrl(std::string strFilePath, bool 
  {
 	 /*
 	 std::string strFilePath = GetTempFilePath() + strFileName.c_str();
-	 cocos2d::CCImage* pImage = new cocos2d::CCImage();
+	 cocos2d::Image* pImage = new cocos2d::Image();
 	 pImage->initWithImageFile(strFilePath.c_str());
 
 	 //----------------------------

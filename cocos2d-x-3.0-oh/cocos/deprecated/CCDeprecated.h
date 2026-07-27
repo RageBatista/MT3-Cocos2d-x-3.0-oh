@@ -31,6 +31,7 @@
 
 #include <math.h>
 #include "CCGeometry.h"
+#include "CCAffineTransform.h"
 #include "ccTypes.h"
 
 NS_CC_BEGIN

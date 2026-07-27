@@ -293,6 +293,13 @@ public:
 
     //! Destructor.
     virtual ~Renderer() {}
+
+    // MT3: Save/Restore XP render state (custom extension)
+    virtual void SaveXPRenderState() {}
+    virtual void SaveUIRenderState() {}
+    virtual void RestoreXPRenderState() {}
+    virtual void RestorUIRenderState() {}
+    virtual void Reset() {}
 };
 
 } // End of  CEGUI namespace section

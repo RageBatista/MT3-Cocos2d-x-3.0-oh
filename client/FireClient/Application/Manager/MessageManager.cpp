@@ -621,7 +621,7 @@ void MessageManager::MessageBoxRun(int now, int delta)
 		else
 		{
 			CEGUI::Window* pCancelBtn = m_pCurrentMessageBox->pWindow->getChildAtIdx(0)->getChildAtIdx(1);
-			pCancelBtn->setText(m_pCurrentMessageBox->okstring + L"(" + StringCover::intTowstring(m_pCurrentMessageBox->life / 1000) + L")");
+			pCancelBtn->setText(StringCover::to_string(m_pCurrentMessageBox->okstring + L"(" + StringCover::intTowstring(m_pCurrentMessageBox->life / 1000) + L")"));
 		}
 
 
@@ -657,7 +657,7 @@ stMessageBoxInfo* MessageManager::AddMessageBox(const std::wstring& title, const
 				pOKBtn->setText(CEGUI::PFSResourceProvider::WStringToGUIString(oktext));			//自定义的ok按钮文字，默认为“确定”
 				CEGUI::PushButton* pCancelBtn = static_cast<CEGUI::PushButton*>(pBgWindow->getChildAtIdx(1));
 				pCancelBtn->subscribeEvent(CEGUI::PushButton::EventClicked, cancleEvent);
-				pCancelBtn->setText(canceltext);	//自定义的cancel按钮文字，默认为“取消”
+				pCancelBtn->setText(StringCover::to_string(canceltext));	//自定义的cancel按钮文字，默认为“取消”
 				CEGUI::PushButton* pMiniBtn = static_cast<CEGUI::PushButton*>(pBgWindow->getChildAtIdx(3));
 				
 				CEGUI::Font* fnt = m_pText->getFont();
@@ -669,7 +669,7 @@ stMessageBoxInfo* MessageManager::AddMessageBox(const std::wstring& title, const
 				float wd = m_pText->getPixelSize().d_width;
 				for (size_t i = 0; i < splits.size(); i++)
 				{
-					float fLen = fnt->getTextExtent(splits[i]);
+					float fLen = fnt->getTextExtent(StringCover::to_string(splits[i]));
 					int ct = int(fLen / wd);
 					lineCount += ct;
 				}
@@ -799,7 +799,7 @@ stConfirmBoxInfo* MessageManager::AddConfirmBox(eConfirmType type, const std::ws
 				pOKBtn->setXPosition(CEGUI::UDim(0.5f, width / 2.0f));
 			} else {
 				pCancelBtn->setUserData(pConfirmBoxInfo);
-				pCancelBtn->setText(canceltext);	//自定义的cancel按钮文字，默认为“取消”
+				pCancelBtn->setText(StringCover::to_string(canceltext));	//自定义的cancel按钮文字，默认为“取消”
 			}
 			pCancelBtn->subscribeEvent(CEGUI::PushButton::EventClicked, cancleEvent);
 			pCancelWindow = static_cast<CEGUI::Window*>(pCancelBtn);

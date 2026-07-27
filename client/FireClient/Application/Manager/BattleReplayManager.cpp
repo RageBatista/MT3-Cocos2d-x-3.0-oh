@@ -13,7 +13,7 @@
 #include "ljfmopen.h"
 using namespace LJFM;
 
-#include "support/zip_support/ZipUtils.h"
+#include "ZipUtils.h"
 
 void fire::pb::battle::SSendCameraUrl::Process(Manager * manager, Manager::Session::ID sid)
 {
@@ -237,7 +237,7 @@ bool BattleReplayManager::UnCompressReplayFile()
 	FS.write((const char*)(&ResultData[0]), RealSize);
 	FS.close();
 
-	//CopyFileByFS(m_wsDstFileNameFullCompress, m_wsDstFileNameFullUnCompress);//ÁÙÊ±´úÂë
+	//CopyFileByFS(m_wsDstFileNameFullCompress, m_wsDstFileNameFullUnCompress);//ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 
 	return true;
 }
