@@ -1,6 +1,9 @@
 #include "main.h"
 #include "CrashDump.h"
-#include "CCEGLView.h"
+#include "platform/desktop/CCGLView.h"
+#define GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WGL
+#include "glfw3native.h"
 
 #include "GameApplication.h"
 #include "Resource.h"
@@ -152,18 +155,18 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	int isPointServer = IniFile::read_profile_int("ClientSetting", "bIsPointVersion", 0, "clientsetting_win.ini");
 	bool bIsPoint = isPointServer > 0 ? true : false;
 
-    CCEGLView* eglView = CCEGLView::sharedOpenGLView();
+    GLView* eglView = Director::getInstance()->getOpenGLView();
     eglView->setViewName("Welcome to MT3");
     eglView->setFrameSize(w, h);
 	if (!bIsPoint)
 	{
 		HICON icon_dk = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
-		SendMessage(eglView->getHWnd(), WM_SETICON, TRUE, (LPARAM)icon_dk);//´óÍ¼±ê
+		SendMessage(glfwGetWin32Window(eglView->getWindow()), WM_SETICON, TRUE, (LPARAM)icon_dk);//ï¿½ï¿½Í¼ï¿½ï¿½
 	}
 	else
 	{
 		HICON icon_free = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON2));
-		SendMessage(eglView->getHWnd(), WM_SETICON, TRUE, (LPARAM)icon_free);//´óÍ¼±ê
+		SendMessage(glfwGetWin32Window(eglView->getWindow()), WM_SETICON, TRUE, (LPARAM)icon_free);//ï¿½ï¿½Í¼ï¿½ï¿½
 	}
     // set the design resolution screen size, if you want to use Design Resoulution scaled to current screen, please uncomment next line.
     // eglView.setDesignResolutionSize(1136, 640);
