@@ -36,7 +36,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-class GameIMEDelegate : public cocos2d::IMEDelegate
+class GameIMEDelegate : public cocos2d::CCIMEDelegate
 {
 public:
     GameIMEDelegate();
@@ -85,11 +85,11 @@ protected:
     virtual bool canDetachWithIME();
     virtual void insertText(const char * text, int len);
     virtual void deleteBackward();
-    virtual const std::string& getContentText();
+    virtual const char* getContentText();
     
-    virtual void keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info);
-    virtual void keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info);
-    virtual void keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info);
+    virtual void keyboardWillShow(cocos2d::CCIMEKeyboardNotificationInfo& info);
+    virtual void keyboardWillHide(cocos2d::CCIMEKeyboardNotificationInfo& info);
+    virtual void keyboardDidHide(cocos2d::CCIMEKeyboardNotificationInfo& info);
 };
 
 

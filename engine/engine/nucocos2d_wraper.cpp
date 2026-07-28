@@ -159,7 +159,7 @@ namespace Nuclear
         
     }
     
-    bool EngineTicker::isDone(void)
+    bool EngineTicker::isDone() const
     {
         return false;
     }

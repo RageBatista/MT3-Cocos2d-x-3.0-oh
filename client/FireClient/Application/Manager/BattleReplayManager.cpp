@@ -13,7 +13,7 @@
 #include "ljfmopen.h"
 using namespace LJFM;
 
-#include "ZipUtils.h"
+#include "cocos2d.h"
 
 void fire::pb::battle::SSendCameraUrl::Process(Manager * manager, Manager::Session::ID sid)
 {

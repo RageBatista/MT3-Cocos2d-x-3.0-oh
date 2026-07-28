@@ -57,6 +57,8 @@ CompileFlags:
     - -IE:/MT3/cocos2d-x-3.0-oh/external/curl/include
     - -IE:/MT3/cocos2d-x-3.0-oh/external/openssl/include
     - -IE:/MT3/cocos2d-x-3.0-oh/external/unzip
+    # glfw3 (Win32)
+    - -IE:/MT3/cocos2d-x-3.0-oh/external/glfw3/include/win32
     # CEGUI 0.7.9-r5 (replaces dependencies/cegui)
     - -IE:/MT3/tools/CEGUI-0.7.9-r5/cegui/include
     - -IE:/MT3/tools/CEGUI-0.7.9-r5/cegui/include/elements
@@ -170,6 +172,13 @@ Diagnostics:
 # CEGUI 0.7.9-r5 源码（第三方库，避免 clangd 误报）
 If:
   PathMatch: tools/CEGUI-0.7.9-r5/cegui/src/.*
+Diagnostics:
+  Suppress:
+    - "*"
+---
+# CEGUI 0.7.9-r5 头文件（第三方库，避免级联误报）
+If:
+  PathMatch: tools/CEGUI-0.7.9-r5/cegui/include/.*
 Diagnostics:
   Suppress:
     - "*"

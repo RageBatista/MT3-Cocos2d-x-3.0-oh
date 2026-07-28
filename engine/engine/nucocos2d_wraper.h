@@ -42,10 +42,10 @@ namespace Nuclear
     public:
         EngineTicker(EngineLayer* aPEngine);
         
-        virtual bool isDone(void);
-        virtual void step(float dt);
-        virtual EngineTicker* clone() const;
-        virtual EngineTicker* reverse() const;
+        virtual bool isDone() const override;
+        virtual void step(float dt) override;
+        virtual EngineTicker* clone() const override;
+        virtual EngineTicker* reverse() const override;
     };
     
     class EngineLayer : public cocos2d::Layer
