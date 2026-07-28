@@ -173,6 +173,25 @@ namespace CEGUI
         return val;
     }
 
+	int64_t XMLAttributes::getValueAsInt64(const String& attrName, int64_t def) const
+	{
+		if (!exists(attrName))
+		{
+			return def;
+		}
+
+		int64_t val;
+		std::istringstream strm(getValue(attrName).c_str());
+
+		strm >> val;
+
+		if (strm.fail())
+		{
+			CEGUI_THROW(InvalidRequestException("XMLAttributes::getValueAsInt64 - failed to convert attribute '" + attrName + "' with value '" + getValue(attrName) + "' to int64."));
+		}
+
+		return val;
+	}
 
 
 } // End of  CEGUI namespace section

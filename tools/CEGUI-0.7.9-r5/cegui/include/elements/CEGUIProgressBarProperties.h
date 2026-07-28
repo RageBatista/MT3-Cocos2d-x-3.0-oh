@@ -93,6 +93,19 @@ public:
 	void	set(PropertyReceiver* receiver, const String& value);
 };
 
+class FrameEnable : public Property
+{
+public:
+	FrameEnable() : Property(
+		"FrameEnable",
+		"Property to get/set the FrameEnable for the progress bar.  Value is a bool value.",
+		"False")
+	{}
+
+	String	get(const PropertyReceiver* receiver) const;
+	void	set(PropertyReceiver* receiver, const String& value);
+};
+
 
 } // End of  ProgressBarProperties namespace section
 

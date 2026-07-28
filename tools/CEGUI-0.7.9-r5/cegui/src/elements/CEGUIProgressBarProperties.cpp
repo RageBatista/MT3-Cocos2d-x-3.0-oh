@@ -62,6 +62,16 @@ void StepSize::set(PropertyReceiver* receiver, const String& value)
 	static_cast<ProgressBar*>(receiver)->setStepSize(PropertyHelper::stringToFloat(value));
 }
 
+String FrameEnable::get(const PropertyReceiver* receiver) const
+{
+	return PropertyHelper::boolToString(static_cast<const ProgressBar*>(receiver)->isFrameEnable());
+}
+
+void FrameEnable::set(PropertyReceiver* receiver, const String& value)
+{
+	static_cast<ProgressBar*>(receiver)->SetFrameEnable(PropertyHelper::stringToBool(value));
+}
+
 } // End of  ProgressBarProperties namespace section
 
 } // End of  CEGUI namespace section

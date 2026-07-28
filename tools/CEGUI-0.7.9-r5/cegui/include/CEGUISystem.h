@@ -1570,6 +1570,7 @@ public:
     // MT3: Check shield callback
     void SetCheckShiedFunc(OnCheckShied* pFunc) { d_CheckShiedFunc = pFunc; }
     OnCheckShied* GetCheckShiedFunc() { return d_CheckShiedFunc; }
+    bool CheckShied(String& inText);
 
     // MT3: Open dialog callback
     void setDefaultOpenDialog(OpenDialog* pFunc) { d_OpenDialogFunc = pFunc; }

@@ -41,6 +41,7 @@ const String ProgressBar::EventNamespace("ProgressBar");
 *************************************************************************/
 ProgressBarProperties::CurrentProgress	ProgressBar::d_currentProgressProperty;
 ProgressBarProperties::StepSize			ProgressBar::d_stepSizeProperty;
+ProgressBarProperties::FrameEnable		ProgressBar::d_FrameEnableProperty;
 
 
 /*************************************************************************
@@ -56,7 +57,9 @@ const String ProgressBar::EventProgressDone( "ProgressDone" );
 ProgressBar::ProgressBar(const String& type, const String& name) :
 	Window(type, name),
 	d_progress(0),
-	d_step(0.01f)
+	d_step(0.01f),
+	d_type(GreenBar),
+	d_FrameEnable(false)
 {
 	addProgressBarProperties();
 }
@@ -122,6 +125,16 @@ void ProgressBar::addProgressBarProperties(void)
 {
 	addProperty(&d_stepSizeProperty);
 	addProperty(&d_currentProgressProperty);
+	addProperty(&d_FrameEnableProperty);
+}
+
+void ProgressBar::SetFrameEnable(bool bFrameEnable)
+{
+	if (bFrameEnable != d_FrameEnable)
+	{
+		d_FrameEnable = bFrameEnable;
+		invalidate();
+	}
 }
 
 

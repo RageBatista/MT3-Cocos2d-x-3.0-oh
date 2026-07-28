@@ -55,6 +55,7 @@ namespace CEGUI
 
         // Implementation of public abstract interface
         void parseXMLFile(XMLHandler& handler, const String& filename, const String& schemaName, const String& resourceGroup);
+        void parseXMLContent(XMLHandler& handler, const String& content);
 
     protected:
         // Implementation of abstract interface.

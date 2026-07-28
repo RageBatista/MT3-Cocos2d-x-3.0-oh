@@ -55,6 +55,7 @@ namespace CEGUI
     {
     public:
         TinyXMLDocument(XMLHandler& handler, const String& filename, const String& schemaName, const String& resourceGroup);
+        TinyXMLDocument(XMLHandler& handler, const String& parseText);
         ~TinyXMLDocument()
         {}
     protected:
@@ -119,6 +120,30 @@ namespace CEGUI
         System::getSingleton().getResourceProvider()->unloadRawDataContainer(rawXMLData);
     }
 
+    TinyXMLDocument::TinyXMLDocument(XMLHandler& handler, const String& parseText)
+    {
+        d_handler = &handler;
+
+        CEGUI_TINYXML_NAMESPACE::TiXmlDocument doc;
+        if (!doc.Parse(parseText.c_str()))
+        {
+            return;
+        }
+
+        const CEGUI_TINYXML_NAMESPACE::TiXmlElement* currElement = doc.RootElement();
+        if (currElement)
+        {
+            CEGUI_TRY
+            {
+                processElement(currElement);
+            }
+            CEGUI_CATCH(...)
+            {
+                CEGUI_RETHROW;
+            }
+        }
+    }
+
 
     void TinyXMLDocument::processElement(const CEGUI_TINYXML_NAMESPACE::TiXmlElement* element)
     {
@@ -170,6 +195,25 @@ namespace CEGUI
     void TinyXMLParser::parseXMLFile(XMLHandler& handler, const String& filename, const String& schemaName, const String& resourceGroup)
     {
       TinyXMLDocument doc(handler, filename, schemaName, resourceGroup);
+    }
+
+    void TinyXMLParser::parseXMLContent(XMLHandler& handler, const String& content)
+    {
+        try
+        {
+            TinyXMLDocument doc(handler, content);
+        }
+        catch(...)
+        {
+            std::wstring errorInfo(content.length(), 0);
+            for (CEGUI::String::size_type i = 0; i != content.length(); ++i)
+            {
+                errorInfo[i] = content[i];
+            }
+            errorInfo.append(L" parseXMLContent error");
+
+            Logger::getSingleton().logEvent(errorInfo.c_str());
+        }
     }
 
 

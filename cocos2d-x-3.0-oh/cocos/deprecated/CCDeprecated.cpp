@@ -48,14 +48,16 @@ const Color3B ccGRAY = Color3B::GRAY;
 
 const BlendFunc kCCBlendFuncDisable = BlendFunc::DISABLE;
 
-const char* kCCShader_PositionTextureColor = GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR;
-const char* kCCShader_PositionTextureColorAlphaTest = GLProgram::SHADER_NAME_POSITION_TEXTURE_ALPHA_TEST;
-const char* kCCShader_PositionColor = GLProgram::SHADER_NAME_POSITION_COLOR;
-const char* kCCShader_PositionTexture = GLProgram::SHADER_NAME_POSITION_TEXTURE;
-const char* kCCShader_PositionTexture_uColor = GLProgram::SHADER_NAME_POSITION_TEXTURE_U_COLOR;
-const char* kCCShader_PositionTextureA8Color = GLProgram::SHADER_NAME_POSITION_TEXTURE_A8_COLOR;
-const char* kCCShader_Position_uColor = GLProgram::SHADER_NAME_POSITION_U_COLOR;
-const char* kCCShader_PositionLengthTexureColor = GLProgram::SHADER_NAME_POSITION_LENGTH_TEXTURE_COLOR;
+// kCCShader_Position* are now defined as macros in CCShaderCache.h;
+// the global-const versions below conflict with those macros.
+// const char* kCCShader_PositionTextureColor = GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR;
+// const char* kCCShader_PositionTextureColorAlphaTest = GLProgram::SHADER_NAME_POSITION_TEXTURE_ALPHA_TEST;
+// const char* kCCShader_PositionColor = GLProgram::SHADER_NAME_POSITION_COLOR;
+// const char* kCCShader_PositionTexture = GLProgram::SHADER_NAME_POSITION_TEXTURE;
+// const char* kCCShader_PositionTexture_uColor = GLProgram::SHADER_NAME_POSITION_TEXTURE_U_COLOR;
+// const char* kCCShader_PositionTextureA8Color = GLProgram::SHADER_NAME_POSITION_TEXTURE_A8_COLOR;
+// const char* kCCShader_Position_uColor = GLProgram::SHADER_NAME_POSITION_U_COLOR;
+// const char* kCCShader_PositionLengthTexureColor = GLProgram::SHADER_NAME_POSITION_LENGTH_TEXTURE_COLOR;
 
 // uniform names
 const char* kCCUniformPMatrix_s = GLProgram::UNIFORM_NAME_P_MATRIX;

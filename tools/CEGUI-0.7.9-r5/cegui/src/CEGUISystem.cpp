@@ -237,7 +237,8 @@ System::System(Renderer& renderer,
   d_RequestTeamLinkFunc(NULL),
   d_AnswerQuestionLinkFunc(NULL),
   d_CommonLinkFunc(NULL),
-  d_requestOtherQuestFunc(NULL)
+  d_requestOtherQuestFunc(NULL),
+  d_CheckShiedFunc(NULL)
 {
     // Start out by fixing the numeric locale to C (we depend on this behaviour)
     // consider a UVector2 as a property {{0.5,0},{0.5,0}} could become {{0,5,0},{0,5,0}}
@@ -2084,6 +2085,19 @@ void System::PlayUISound(const String& soundRes)
     {
         (*d_UIPlaySoundFunc)(soundRes);
     }
+}
+
+//----------------------------------------------------------------------------//
+// MT3: Check shield via registered callback
+//----------------------------------------------------------------------------//
+bool System::CheckShied(String& inText)
+{
+    if (d_CheckShiedFunc)
+    {
+        return (*d_CheckShiedFunc)(inText);
+    }
+
+    return false;
 }
 
 } // End of  CEGUI namespace section

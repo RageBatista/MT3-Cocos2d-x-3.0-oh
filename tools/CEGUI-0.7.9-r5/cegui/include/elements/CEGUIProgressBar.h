@@ -70,6 +70,15 @@ public:
      */
 	static const String EventProgressDone;
 
+	enum ProgressBarType
+	{
+		RedBar = 0,
+		GreenBar = 1,
+		BuleBar = 2,
+		YellowBar = 3,
+		ColorfulBar = 4
+	};
+
 
 	/************************************************************************
 		Accessor Functions
@@ -142,6 +151,9 @@ public:
 	*/
 	void	adjustProgress(float delta)		{setProgress(d_progress + delta);}
 
+	void	setBarType(ProgressBarType type) { d_type = type; }
+	ProgressBarType getBarType() { return d_type; }
+
 
 	/*************************************************************************
 		Construction / Destruction
@@ -204,6 +216,9 @@ protected:
 	float	d_progress;		//!< current progress (from 0.0f to 1.0f)
 	float	d_step;			//!< amount to 'step' progress by on a call to step()
 
+	ProgressBarType		d_type;
+	bool    d_FrameEnable;
+
 
 private:
 	/*************************************************************************
@@ -211,12 +226,15 @@ private:
 	*************************************************************************/
 	static ProgressBarProperties::CurrentProgress	d_currentProgressProperty;
 	static ProgressBarProperties::StepSize			d_stepSizeProperty;
-
+	static ProgressBarProperties::FrameEnable		d_FrameEnableProperty;
 
 	/*************************************************************************
 		Private methods
 	*************************************************************************/
 	void	addProgressBarProperties(void);
+public:
+	bool    isFrameEnable()const { return d_FrameEnable; }
+	void    SetFrameEnable(bool bFrameEnable);
 };
 
 } // End of  CEGUI namespace section

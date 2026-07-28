@@ -101,6 +101,7 @@ namespace CEGUI
             Nothing.
          */
         virtual void parseXMLFile(XMLHandler& handler, const String& filename, const String& schemaName, const String& resourceGroup) = 0;
+        virtual void parseXMLContent(XMLHandler& handler, const String& content) = 0;
 
         /*!
         \brief

@@ -31,6 +31,7 @@
 #include "CEGUIBase.h"
 #include "CEGUIString.h"
 #include <map>
+#include <cstdint>
 
 #if defined(_MSC_VER)
 #	pragma warning(push)
@@ -232,6 +233,8 @@ namespace CEGUI
         \exception IllegalRequestException  thrown if the attribute value string coul dnot be converted to the requested type.
         */
         float getValueAsFloat(const String& attrName, float def = 0.0f) const;
+
+        int64_t getValueAsInt64(const String& attrName, int64_t def = 0) const;
 
     protected:
         typedef std::map<String, String, String::FastLessCompare> AttributeMap;
