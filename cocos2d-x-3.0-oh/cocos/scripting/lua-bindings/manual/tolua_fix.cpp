@@ -8,8 +8,6 @@ using namespace cocos2d;
 
 static int s_function_ref_id = 0;
 
-extern "C" {
-
 TOLUA_API void toluafix_open(lua_State* L)
 {
     lua_pushstring(L, TOLUA_REFID_PTR_MAPPING);
