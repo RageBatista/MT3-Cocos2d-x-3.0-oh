@@ -4,6 +4,7 @@ param(
     [ValidateSet("Win32")][string]$Platform = "Win32",
     [switch]$Clean,
     [ValidateSet("SafeChain", "Incremental")][string]$BuildMode = "SafeChain",
+    [ValidateSet("Legacy226", "Upgrade30")][string]$EngineProfile = "Legacy226",
     [switch]$AllowUnsafeAbiIncremental,
     [int]$MaxParallelJobs = 0,
     [int]$MaxCompilerProcesses = 0,
@@ -363,6 +364,13 @@ function Get-BuildTarget {
 }
 
 function Get-CeguiLibraryName {
+    if ($script:EngineProfile -eq "Upgrade30") {
+        if ($script:Configuration -eq "Debug") {
+            return "cegui-0.7.9_d.lib"
+        }
+        return "cegui-0.7.9.lib"
+    }
+
     if ($script:Configuration -eq "Debug") {
         return "cegui_d.lib"
     }
@@ -372,6 +380,17 @@ function Get-CeguiLibraryName {
 
 function Get-LinkInputMap {
     $ceguiLibraryName = Get-CeguiLibraryName
+    if ($script:EngineProfile -eq "Upgrade30") {
+        $map = [ordered]@{
+            "platform.lib" = Join-Path $script:RepoRoot ("common\platform\{0}.win32\platform.lib" -f $script:Configuration)
+            "ljfm.lib" = Join-Path $script:RepoRoot ("common\ljfm\{0}.win32\ljfm.lib" -f $script:Configuration)
+            "cauthc.lib" = Join-Path $script:RepoRoot ("common\cauthc\projects\windows\{0}.win32\cauthc.lib" -f $script:Configuration)
+            "engine.lib" = Join-Path $script:RepoRoot ("engine\{0}.win32\engine.lib" -f $script:Configuration)
+        }
+        $map[$ceguiLibraryName] = Join-Path $script:RepoRoot ("tools\CEGUI-0.7.9-r5\{0}.win32\{1}" -f $script:Configuration, $ceguiLibraryName)
+        return $map
+    }
+
     $map = [ordered]@{
         "platform.lib"         = Join-Path $script:RepoRoot ("common\platform\{0}.win32\platform.lib" -f $script:Configuration)
         "ljfm.lib"             = Join-Path $script:RepoRoot ("common\ljfm\{0}.win32\ljfm.lib" -f $script:Configuration)
@@ -812,6 +831,20 @@ function Invoke-RuntimeSync {
         )
     }
 
+    if ($script:EngineProfile -eq "Upgrade30") {
+        $runtimeMap["websockets.dll"] = @(
+            "cocos2d-x-3.0-oh\external\websockets\prebuilt\win32\websockets.dll"
+        )
+        $runtimeMap["libcurld.dll"] = @(
+            "dependencies\third-party-rebuild\curl-7.48.0\build\Win32\VC12\DLL Debug - DLL Windows SSPI\libcurld.dll"
+        )
+        $runtimeMap["msvcr110.dll"] = @(
+            "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\redist\x86\Microsoft.VC110.CRT\msvcr110.dll",
+            "D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\redist\x86\Microsoft.VC110.CRT\msvcr110.dll",
+            "C:\Windows\SysWOW64\msvcr110.dll"
+        )
+    }
+
     if ($isDebug) {
         $runtimeMap["msvcp120.dll"] = @(
             "D:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcp120.dll",
@@ -896,7 +929,11 @@ function Invoke-RuntimeSync {
         }
     }
 
-    foreach ($obsoleteName in @("sqlite3.dll", "websockets.dll", "libxml2.dll")) {
+    $obsoleteRuntimeNames = @("sqlite3.dll", "libxml2.dll")
+    if ($script:EngineProfile -ne "Upgrade30") {
+        $obsoleteRuntimeNames += "websockets.dll"
+    }
+    foreach ($obsoleteName in $obsoleteRuntimeNames) {
         $obsoletePath = Join-Path $runtimeDir $obsoleteName
         if (Test-Path $obsoletePath) {
             Remove-Item -LiteralPath $obsoletePath -Force
@@ -916,6 +953,13 @@ function Invoke-RuntimeSync {
     if ($missing.Count -gt 0) {
         $suffix = if ($script:AllowArchiveRuntimeFallback) { "" } else { " (you can retry with -AllowArchiveRuntimeFallback)" }
         Write-Warning ("runtime-sync missing: {0}{1}" -f (($missing | Sort-Object) -join ", "), $suffix)
+    }
+    if ($script:EngineProfile -eq "Upgrade30") {
+        $requiredRuntimeNames = @("MT3.exe", "websockets.dll", "libcurld.dll", "msvcr110.dll")
+        $requiredMissing = @($missing | Where-Object { $requiredRuntimeNames -contains $_ })
+        if ($requiredMissing.Count -gt 0) {
+            throw ("Upgrade30 runtime-sync missing required dependencies: {0}" -f (($requiredMissing | Sort-Object) -join ", "))
+        }
     }
     if ($notSynchronized.Count -gt 0) {
         throw ("runtime-sync failed to update: {0}. Close running MT3.exe or locked files and retry." -f (($notSynchronized | Sort-Object) -join ", "))
@@ -1061,6 +1105,39 @@ $buildSteps = @(
     @{ Name = "FireClient"; Path = (Join-Path $ClientRoot "MT3Win32App\FireClient.win32.vcxproj"); DisableProjectReferences = $true }
 )
 
+if ($EngineProfile -eq "Upgrade30") {
+    $cocosBuildRoot = Join-Path $RepoRoot "cocos2d-x-3.0-oh\build"
+    $buildSteps = @(
+        @{ Name = "platform"; Path = (Join-Path $RepoRoot "common\platform\platform.win32.vcxproj") },
+        @{ Name = "ljfm"; Path = (Join-Path $RepoRoot "common\ljfm\ljfm.win32.vcxproj") },
+        @{ Name = "cauthc"; Path = (Join-Path $RepoRoot "common\cauthc\projects\windows\cauthc.win32.vcxproj") },
+        @{ Name = "cocos30_kazmath"; Path = (Join-Path $cocosBuildRoot "cocos\math\kazmath\kazmath\kazmath.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_tinyxml2"; Path = (Join-Path $cocosBuildRoot "external\tinyxml2\tinyxml2.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_unzip"; Path = (Join-Path $cocosBuildRoot "external\unzip\unzip.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_xxhash"; Path = (Join-Path $cocosBuildRoot "external\xxhash\xxhash.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_chipmunk"; Path = (Join-Path $cocosBuildRoot "external\chipmunk\src\chipmunk_static.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_box2d"; Path = (Join-Path $cocosBuildRoot "external\Box2D\box2d.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_lua"; Path = (Join-Path $cocosBuildRoot "external\lua\lua\lua.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_tolua"; Path = (Join-Path $cocosBuildRoot "external\lua\tolua\tolua.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_luasocket"; Path = (Join-Path $cocosBuildRoot "external\lua\luasocket\ext_luasocket.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_base"; Path = (Join-Path $cocosBuildRoot "cocos\base\cocosbase.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_core"; Path = (Join-Path $cocosBuildRoot "cocos\2d\cocos2d.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_audio"; Path = (Join-Path $cocosBuildRoot "cocos\audio\audio.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_spine"; Path = (Join-Path $cocosBuildRoot "cocos\editor-support\spine\spine.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_extensions"; Path = (Join-Path $cocosBuildRoot "extensions\extensions.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_network"; Path = (Join-Path $cocosBuildRoot "cocos\network\network.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_sqlite3"; Path = (Join-Path $cocosBuildRoot "external\sqlite3\sqlite3.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_storage"; Path = (Join-Path $cocosBuildRoot "cocos\storage\storage.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_ui"; Path = (Join-Path $cocosBuildRoot "cocos\ui\ui.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_cocostudio"; Path = (Join-Path $cocosBuildRoot "cocos\editor-support\cocostudio\cocostudio.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_cocosbuilder"; Path = (Join-Path $cocosBuildRoot "cocos\editor-support\cocosbuilder\cocosbuilder.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "cocos30_luabinding"; Path = (Join-Path $cocosBuildRoot "cocos\scripting\lua-bindings\luabinding.vcxproj"); DisableProjectReferences = $true },
+        @{ Name = "CEGUI079"; Path = (Join-Path $RepoRoot "tools\CEGUI-0.7.9-r5\cegui-0.7.9.win32.vcxproj") },
+        @{ Name = "engine"; Path = (Join-Path $RepoRoot "engine\engine.win32.vcxproj") },
+        @{ Name = "FireClient"; Path = (Join-Path $ClientRoot "MT3Win32App\FireClient.win32.vcxproj"); DisableProjectReferences = $true }
+    )
+}
+
 $mt3ProjectPath = Join-Path $ClientRoot "MT3Win32App\\mt3.win32.vcxproj"
 $linkInputRequiredLibraries = @(
     "platform.lib",
@@ -1077,12 +1154,22 @@ $linkInputRequiredLibraries = @(
     "silly.lib",
     "engine.lib"
 )
+if ($EngineProfile -eq "Upgrade30") {
+    $linkInputRequiredLibraries = @(
+        "platform.lib",
+        "ljfm.lib",
+        "cauthc.lib",
+        (Get-CeguiLibraryName),
+        "engine.lib"
+    )
+}
 
 if ($ConciseOutput) {
     Write-Host ("MT3 build: {0}|{1} | {2}" -f $Configuration, $Platform, $BuildMode)
 } else {
     Write-Host "MT3 build: $Configuration|$Platform"
     Write-Host "Build mode: $BuildMode"
+    Write-Host "Engine profile: $EngineProfile"
     Write-Host "Logs: $LogDir"
 }
 $script:StepTimings = New-Object System.Collections.Generic.List[object]
@@ -1098,9 +1185,11 @@ foreach ($step in $buildSteps) {
     }
 }
 
-Invoke-StepTimed -Name "lua51-output-sync" -Action {
-    Invoke-Lua51OutputSync
-} -SuppressTimingOutput:$ConciseOutput
+if ($EngineProfile -eq "Legacy226") {
+    Invoke-StepTimed -Name "lua51-output-sync" -Action {
+        Invoke-Lua51OutputSync
+    } -SuppressTimingOutput:$ConciseOutput
+}
 Invoke-StepTimed -Name "link-input-sync" -Action {
     Invoke-LinkInputSync -RequiredLibraries $linkInputRequiredLibraries
 } -SuppressTimingOutput:$ConciseOutput
@@ -1132,6 +1221,7 @@ if ($CalledFromCanonical) {
         Success       = $true
         Configuration = $Configuration
         Platform      = $Platform
+        EngineProfile = $EngineProfile
         LogDir        = $LogDir
     }
 }

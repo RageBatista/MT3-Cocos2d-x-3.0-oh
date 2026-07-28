@@ -23,7 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "platform/platform.h"
-#include "platform/CCStdC.h"
+#include "CCStdC.h"
 
 NS_CC_BEGIN
 

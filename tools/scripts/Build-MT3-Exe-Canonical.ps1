@@ -6,6 +6,8 @@ param(
     [string]$Platform = "Win32",
     [ValidateSet("SafeChain", "Incremental")]
     [string]$BuildMode = "SafeChain",
+    [ValidateSet("Legacy226", "Upgrade30")]
+    [string]$EngineProfile = "Legacy226",
     [switch]$Clean,
     [int]$MaxParallelJobs = 0,
     [int]$MaxCompilerProcesses = 0,
@@ -106,7 +108,8 @@ function Invoke-LinkDependencyRepair {
     param(
         [Parameter(Mandatory = $true)][string]$RepoRoot,
         [Parameter(Mandatory = $true)][string]$Configuration,
-        [Parameter(Mandatory = $true)][string]$Platform
+        [Parameter(Mandatory = $true)][string]$Platform,
+        [Parameter(Mandatory = $true)][string]$EngineProfile
     )
 
     $repairScript = Join-Path $RepoRoot "tools\\scripts\\Ensure-MT3-Win32-LinkDeps.ps1"
@@ -118,7 +121,7 @@ function Invoke-LinkDependencyRepair {
         Write-Host "Running Win32 link dependency repair: $repairScript"
     }
     $psExe = Resolve-PowerShellExe
-    $output = @(& $psExe -NoProfile -ExecutionPolicy Bypass -File $repairScript -RepoRoot $RepoRoot -Configuration $Configuration -Platform $Platform -Json 2>&1)
+    $output = @(& $psExe -NoProfile -ExecutionPolicy Bypass -File $repairScript -RepoRoot $RepoRoot -Configuration $Configuration -Platform $Platform -EngineProfile $EngineProfile -Json 2>&1)
     $exitCode = if ($null -ne $LASTEXITCODE) { [int]$LASTEXITCODE } else { 0 }
     if ($exitCode -ne 0) {
         $joinedOutput = ($output | Out-String).Trim()
@@ -535,13 +538,14 @@ try {
         $effectiveSkipRuntimeAudit = $true
     }
 
-    Invoke-LinkDependencyRepair -RepoRoot $repoRoot -Configuration $Configuration -Platform $Platform
+    Invoke-LinkDependencyRepair -RepoRoot $repoRoot -Configuration $Configuration -Platform $Platform -EngineProfile $EngineProfile
     Assert-NoGitLfsPointers -RepoRoot $repoRoot
 
     $buildParams = @{
         Configuration = $Configuration
         Platform = $Platform
         BuildMode = $effectiveBuildMode
+        EngineProfile = $EngineProfile
         CalledFromCanonical = $true
         SkipSourceNulScan = $true
     }
@@ -571,6 +575,7 @@ try {
     }
 
     Write-Host "MT3 canonical build: $Configuration|$Platform"
+    Write-Host "EngineProfile: $EngineProfile"
     Write-Host "BuildMode: $effectiveBuildMode"
     if ($FastLocal) {
         $buildParams.ConciseOutput = $true

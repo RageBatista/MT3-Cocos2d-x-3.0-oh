@@ -3,6 +3,7 @@ param(
     [string]$RepoRoot = "",
     [ValidateSet("Release", "Debug")][string]$Configuration = "Debug",
     [ValidateSet("Win32")][string]$Platform = "Win32",
+    [ValidateSet("Legacy226", "Upgrade30")][string]$EngineProfile = "Legacy226",
     [switch]$ForceRebuild,
     [switch]$Json
 )
@@ -240,6 +241,70 @@ function Resolve-SpecPathCandidates {
     return $resolved.ToArray()
 }
 
+function Ensure-Upgrade30WebSocketsPackage {
+    param(
+        [Parameter(Mandatory = $true)][string]$RepoRootPath,
+        [Parameter(Mandatory = $true)][System.Collections.Generic.List[string]]$DetailList
+    )
+
+    $packageDir = Resolve-RepoPath -BaseRoot $RepoRootPath -PathValue "cocos2d-x-3.0-oh\external\websockets\prebuilt\win32"
+    $expected = [ordered]@{
+        "websockets.dll" = "9E2B30F881E3A6EF2567C21EDC7D322323E4EAFAC730C6272308323544B834E8"
+        "websockets.lib" = "E7B8ABC97ABC0DA46D3C592E36915F9A2FBE8DBC807DD89C1258E487AB416AF8"
+    }
+
+    $restore = $false
+    foreach ($entry in $expected.GetEnumerator()) {
+        $path = Join-Path $packageDir $entry.Key
+        if (-not (Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -ne $entry.Value) {
+            $restore = $true
+            break
+        }
+    }
+
+    if ($restore) {
+        $archivePath = Join-Path $env:TEMP "cocos2d-x-v3-deps-1.zip"
+        Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/cocos2d/cocos2d-x-3rd-party-libs-bin/archive/v3-deps-1.zip" -OutFile $archivePath
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        New-Item -ItemType Directory -Force -Path $packageDir | Out-Null
+        $archive = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
+        try {
+            foreach ($fileName in $expected.Keys) {
+                $suffix = "/websockets/prebuilt/win32/$fileName"
+                $zipEntry = $archive.Entries | Where-Object { $_.FullName.EndsWith($suffix, [System.StringComparison]::OrdinalIgnoreCase) } | Select-Object -First 1
+                if (-not $zipEntry) {
+                    throw "Official cocos2d-x v3-deps-1 package is missing $fileName."
+                }
+                $input = $zipEntry.Open()
+                $output = [System.IO.File]::Create((Join-Path $packageDir $fileName))
+                try {
+                    $input.CopyTo($output)
+                }
+                finally {
+                    $output.Dispose()
+                    $input.Dispose()
+                }
+            }
+        }
+        finally {
+            $archive.Dispose()
+        }
+        [void]$DetailList.Add("restored=official cocos2d-x v3-deps-1 WebSocket package")
+    }
+
+    foreach ($entry in $expected.GetEnumerator()) {
+        $path = Join-Path $packageDir $entry.Key
+        if (-not (Test-Path -LiteralPath $path)) {
+            throw "Upgrade30 WebSocket dependency is missing: $path"
+        }
+        $actualHash = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
+        if ($actualHash -ne $entry.Value) {
+            throw "Upgrade30 WebSocket dependency hash mismatch: $path"
+        }
+        [void]$DetailList.Add("verified=" + (Get-RepoRelativePath -BaseRoot $RepoRootPath -PathValue $path) + " sha256=" + $actualHash)
+    }
+}
+
 function Write-Result {
     param(
         [string]$Status,
@@ -296,6 +361,11 @@ try {
     $msbuildPath = Resolve-MSBuildPath -ProgramFilesX86 ${env:ProgramFiles(x86)}
     [void]$details.Add("msbuild12=" + $msbuildPath)
     [void]$details.Add("vs120tools=" + $env:VS120COMNTOOLS)
+    [void]$details.Add("engine_profile=" + $EngineProfile)
+
+    if ($EngineProfile -eq "Upgrade30") {
+        Ensure-Upgrade30WebSocketsPackage -RepoRootPath $RepoRoot -DetailList $details
+    }
 
     $stageDirs = @(
         $(Resolve-RepoPath -BaseRoot $RepoRoot -PathValue ("client\MT3Win32App\{0}.win32" -f $Configuration)),
@@ -366,6 +436,10 @@ try {
             BeforeBuild = ""
         }
     )
+
+    if ($Configuration -eq "Debug") {
+        $specs = @($specs | Where-Object { $_.Name -notin @("esUtil.lib", "freetype.lib") })
+    }
 
     foreach ($spec in $specs) {
         $resolvedSource = Get-ExistingPath -Candidates (Resolve-SpecPathCandidates -Spec $spec -RepoRootPath $RepoRoot)
@@ -456,6 +530,7 @@ $payload = [pscustomobject][ordered]@{
     repo_root = $RepoRoot
     configuration = $Configuration
     platform = $Platform
+    engine_profile = $EngineProfile
     built = @($built)
     staged = @($staged)
     verified = @($verified)
