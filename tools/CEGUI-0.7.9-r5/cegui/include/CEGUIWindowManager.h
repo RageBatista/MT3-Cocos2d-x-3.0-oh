@@ -37,6 +37,7 @@
 #include "CEGUIIteratorBase.h"
 #include "CEGUIEventSet.h"
 #include <map>
+#include <set>
 #include <vector>
 
 #if defined(_MSC_VER)

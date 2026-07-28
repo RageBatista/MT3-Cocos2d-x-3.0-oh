@@ -55,6 +55,9 @@ namespace CEGUI
 //! Implementation struct that tracks and controls multiclick for mouse buttons.
 struct MouseClickTrackerImpl;
 
+// MT3: Forward declaration of CompnentTip
+class CompnentTip;
+
 // MT3: Function pointer typedefs for RichEditbox components
 typedef void (GoToFunction)(const int& mapid, const int& xpos, const int& ypos, const int& npcid, const int& chefu, const int gotodirectly, const int64_t npckey);
 typedef void (TipsLinkClick)(const String& name, int64_t roleID, int type, const String& key, int baseid, int64_t shopID, int counterID, const CEGUI::colour& nameColor, int bind, int64_t loseeffecttime);
@@ -702,7 +705,7 @@ public:
     Tooltip* getDefaultTooltip(void) const;
 
     // MT3: Get default component tip
-    const String& getDefaultCompnenttip(void) const  { return d_defaultCompnenttip;}
+    CompnentTip* getDefaultCompnenttip(void) const  { return d_defaultCompnenttip;}
 
 	/*!
 	\brief
@@ -1406,7 +1409,7 @@ private:
     bool d_generateMouseClickEvents;
 
     // MT3: Custom member variables
-    String d_defaultCompnenttip;              //!< System default component tip object.
+    CompnentTip* d_defaultCompnenttip;              //!< System default component tip object.
     GoToFunction* d_DefaultGoToFunction;            //!< Default go to function callback.
     ShowItemTips* d_DefaultShowItemTips;            //!< Default show item tips callback.
     LinkHttpFunction* d_DefaultLinkHttpFunction;    //!< Default link HTTP callback.
@@ -1562,7 +1565,7 @@ public:
     const Image* GetTextBrushImage() { return d_TextBrushImage; }
 
     // MT3: Default component tip window type
-    void setDefaultCompnenttip(const String& tip) { d_defaultCompnenttip = tip; }
+    void setDefaultCompnenttip(const String& windowType);
 
     // MT3: Check shield callback
     void SetCheckShiedFunc(OnCheckShied* pFunc) { d_CheckShiedFunc = pFunc; }

@@ -177,6 +177,7 @@ set(COCOS2D_SRC
   platform/CCGLViewProtocol.cpp
   platform/CCFileUtils.cpp
   platform/CCImage.cpp
+  platform/platform.cpp
   renderer/CCCustomCommand.cpp
   renderer/CCFrustum.cpp
   renderer/CCGroupCommand.cpp

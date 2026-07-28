@@ -216,7 +216,7 @@ System::System(Renderer& renderer,
   d_ourLogger(Logger::getSingletonPtr() == 0),
   d_customRenderedStringParser(0),
   d_generateMouseClickEvents(true),
-  d_defaultCompnenttip(NULL),
+  d_defaultCompnenttip(0),
   d_DefaultGoToFunction(NULL),
   d_DefaultShowItemTips(NULL),
   d_DefaultLinkHttpFunction(NULL),
@@ -758,7 +758,7 @@ bool System::injectMouseLeaves(void)
 /*************************************************************************
 	Method that injects a mouse button down event into the system.
 *************************************************************************/
-bool System::injectMouseButtonDown(MouseButton button)
+bool System::injectMouseButtonDown(MouseButton button, int eventId)
 {
     // update system keys
     d_sysKeys |= mouseButtonToSyskey(button);
@@ -1419,6 +1419,27 @@ void System::setDefaultTooltip(const String& tooltipType)
     destroySystemOwnedDefaultTooltipWindow();
 
     d_defaultTooltipType = tooltipType;
+}
+
+//----------------------------------------------------------------------------//
+void System::setDefaultCompnenttip(const String& windowType)
+{
+    if (windowType.empty())
+    {
+        d_defaultCompnenttip = 0;
+    }
+    else
+    {
+        try
+        {
+            d_defaultCompnenttip = static_cast<CompnentTip*>(WindowManager::getSingleton().createWindow(windowType, "CEGUI::System::default__CompnentTip__"));
+            d_defaultCompnenttip->setWritingXMLAllowed(false);
+        }
+        catch (UnknownObjectException&)
+        {
+            d_defaultCompnenttip = 0;
+        }
+    }
 }
 
 //----------------------------------------------------------------------------//
