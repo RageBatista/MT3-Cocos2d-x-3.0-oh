@@ -155,9 +155,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	int isPointServer = IniFile::read_profile_int("ClientSetting", "bIsPointVersion", 0, "clientsetting_win.ini");
 	bool bIsPoint = isPointServer > 0 ? true : false;
 
-    GLView* eglView = Director::getInstance()->getOpenGLView();
-    eglView->setViewName("Welcome to MT3");
-    eglView->setFrameSize(w, h);
+    Director* director = Director::getInstance();
+    GLView* eglView = GLView::createWithRect("Welcome to MT3", Rect(0, 0, static_cast<float>(w), static_cast<float>(h)));
+    if (!eglView)
+    {
+        MessageBoxA(0, "Failed to create the OpenGL window.", "MT3", MB_OK | MB_ICONERROR);
+        ReleaseSemaphore(hSemaphoreOneInstance, 1, 0);
+        return FALSE;
+    }
+    director->setOpenGLView(eglView);
 	if (!bIsPoint)
 	{
 		HICON icon_dk = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
