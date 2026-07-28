@@ -767,62 +767,79 @@ function Invoke-RuntimeSync {
     New-Item -ItemType Directory -Force -Path $runtimeDir | Out-Null
 
     $runtimeMap = [ordered]@{
-        "MT3.exe"             = @(
+        "MT3.exe" = @(
             "client\MT3Win32App\$configName.win32\MT3.exe"
         )
-        "libcocos2d.dll"      = @(
+    }
+
+    if ($script:EngineProfile -eq "Upgrade30") {
+        $runtimeMap["websockets.dll"] = @(
+            "cocos2d-x-3.0-oh\external\websockets\prebuilt\win32\websockets.dll"
+        )
+        if ($isDebug) {
+            $runtimeMap["libcurld.dll"] = @(
+                "dependencies\third-party-rebuild\curl-7.48.0\build\Win32\VC12\DLL Debug - DLL Windows SSPI\libcurld.dll"
+            )
+        }
+        $runtimeMap["msvcr110.dll"] = @(
+            "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\redist\x86\Microsoft.VC110.CRT\msvcr110.dll",
+            "D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\redist\x86\Microsoft.VC110.CRT\msvcr110.dll",
+            "C:\Windows\SysWOW64\msvcr110.dll"
+        )
+    } else {
+        $runtimeMap["libcocos2d.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\libcocos2d.dll",
             "client\FireClient\$configName.win32\libcocos2d.dll"
         )
-        "libCocosDenshion.dll" = @(
+        $runtimeMap["libCocosDenshion.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\libCocosDenshion.dll",
             "client\MT3Win32App\$configName.win32\libCocosDenshion.dll",
             "client\FireClient\$configName.win32\libCocosDenshion.dll"
         )
-        "fmodex.dll"          = @(
+        $runtimeMap["fmodex.dll"] = @(
             $FmodDll,
             "cocos2d-x-2.2.6\external\fmod\win32\bin\fmodex.dll",
             "client\resource\bin\$configNameLower-Archive\fmodex.dll",
             "client\resource\bin\Release\fmodex.dll",
             "client\resource\res1\Update\bin\release\fmodex.dll"
         )
-        "libExtensions.dll"   = @(
+        $runtimeMap["libExtensions.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\libExtensions.dll"
         )
-        "lua51.dll"           = @(
+        $runtimeMap["lua51.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\lua51.dll"
         )
-        "libcurl.dll"         = @(
+        $runtimeMap["libcurl.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\libcurl.dll"
         )
-        "libtiff.dll"         = @(
+        $runtimeMap["libtiff.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\libtiff.dll"
         )
-        "glew32.dll"          = @(
+        $runtimeMap["glew32.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\glew32.dll",
             "client\\resource\\tools\\glew32.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\debug\\glew32.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\release\\glew32.dll"
         )
-        "pthreadVCE2.dll"     = @(
+        $runtimeMap["pthreadVCE2.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\pthreadVCE2.dll",
             "client\\resource\\tools\\pthreadVCE2.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\debug\\pthreadVCE2.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\release\\pthreadVCE2.dll"
         )
-        "iconv.dll"           = @(
+        $runtimeMap["iconv.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\iconv.dll",
             "client\\resource\\tools\\iconv.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\debug\\iconv.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\release\\iconv.dll"
         )
-        "zlib1.dll"           = @(
+        $runtimeMap["zlib1.dll"] = @(
             "cocos2d-x-2.2.6\$configName.win32\zlib1.dll",
             "client\\resource\\tools\\zlib1.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\debug\\zlib1.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\release\\zlib1.dll"
         )
-        "msvcr120.dll"        = @(
+        $runtimeMap["msvcr120.dll"] = @(
             "D:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcr120.dll",
             "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcr120.dll",
             "client\\resource\\tools\\msvcr120.dll",
@@ -831,28 +848,16 @@ function Invoke-RuntimeSync {
         )
     }
 
-    if ($script:EngineProfile -eq "Upgrade30") {
-        $runtimeMap["websockets.dll"] = @(
-            "cocos2d-x-3.0-oh\external\websockets\prebuilt\win32\websockets.dll"
-        )
-        $runtimeMap["libcurld.dll"] = @(
-            "dependencies\third-party-rebuild\curl-7.48.0\build\Win32\VC12\DLL Debug - DLL Windows SSPI\libcurld.dll"
-        )
-        $runtimeMap["msvcr110.dll"] = @(
-            "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\redist\x86\Microsoft.VC110.CRT\msvcr110.dll",
-            "D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\redist\x86\Microsoft.VC110.CRT\msvcr110.dll",
-            "C:\Windows\SysWOW64\msvcr110.dll"
-        )
-    }
-
     if ($isDebug) {
-        $runtimeMap["msvcp120.dll"] = @(
-            "D:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcp120.dll",
-            "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcp120.dll",
-            "client\\resource\\tools\\msvcp120.dll",
-            "tools\\CEImagesetEditor-0.7.1\\bin\\debug\\msvcp120.dll",
-            "tools\\CEImagesetEditor-0.7.1\\bin\\release\\msvcp120.dll"
-        )
+        if ($script:EngineProfile -eq "Legacy226") {
+            $runtimeMap["msvcp120.dll"] = @(
+                "D:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcp120.dll",
+                "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcp120.dll",
+                "client\\resource\\tools\\msvcp120.dll",
+                "tools\\CEImagesetEditor-0.7.1\\bin\\debug\\msvcp120.dll",
+                "tools\\CEImagesetEditor-0.7.1\\bin\\release\\msvcp120.dll"
+            )
+        }
         $runtimeMap["msvcp120d.dll"] = @(
             "tools\\CEImagesetEditor-0.7.1\\bin\\debug\\msvcp120d.dll"
         )
@@ -866,9 +871,17 @@ function Invoke-RuntimeSync {
             "client\\resource\\tools\\msvcp120.dll",
             "tools\\CEImagesetEditor-0.7.1\\bin\\release\\msvcp120.dll"
         )
+        if ($script:EngineProfile -eq "Upgrade30") {
+            $runtimeMap["msvcr120.dll"] = @(
+                "D:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcr120.dll",
+                "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcr120.dll",
+                "client\\resource\\tools\\msvcr120.dll",
+                "tools\\CEImagesetEditor-0.7.1\\bin\\release\\msvcr120.dll"
+            )
+        }
     }
 
-    if ($script:AllowArchiveRuntimeFallback) {
+    if ($script:AllowArchiveRuntimeFallback -and $script:EngineProfile -eq "Legacy226") {
         # Keep zlib ABI aligned with archived runtime when available.
         $runtimeMap["zlib1.dll"] = @(
             "client\\resource\\bin\\$configNameLower-Archive\\zlib1.dll"
@@ -930,8 +943,19 @@ function Invoke-RuntimeSync {
     }
 
     $obsoleteRuntimeNames = @("sqlite3.dll", "libxml2.dll")
-    if ($script:EngineProfile -ne "Upgrade30") {
-        $obsoleteRuntimeNames += "websockets.dll"
+    if ($script:EngineProfile -eq "Upgrade30") {
+        $obsoleteRuntimeNames += @(
+            "libcocos2d.dll", "libCocosDenshion.dll", "fmodex.dll", "libExtensions.dll",
+            "lua51.dll", "libcurl.dll", "libtiff.dll", "glew32.dll", "pthreadVCE2.dll",
+            "iconv.dll", "zlib1.dll"
+        )
+        if ($isDebug) {
+            $obsoleteRuntimeNames += @("msvcp120.dll", "msvcr120.dll")
+        } else {
+            $obsoleteRuntimeNames += @("msvcp120d.dll", "msvcr120d.dll", "libcurld.dll")
+        }
+    } else {
+        $obsoleteRuntimeNames += @("websockets.dll", "libcurld.dll", "msvcr110.dll")
     }
     foreach ($obsoleteName in $obsoleteRuntimeNames) {
         $obsoletePath = Join-Path $runtimeDir $obsoleteName
@@ -955,7 +979,12 @@ function Invoke-RuntimeSync {
         Write-Warning ("runtime-sync missing: {0}{1}" -f (($missing | Sort-Object) -join ", "), $suffix)
     }
     if ($script:EngineProfile -eq "Upgrade30") {
-        $requiredRuntimeNames = @("MT3.exe", "websockets.dll", "libcurld.dll", "msvcr110.dll")
+        $requiredRuntimeNames = @("MT3.exe", "websockets.dll", "msvcr110.dll")
+        if ($isDebug) {
+            $requiredRuntimeNames += @("libcurld.dll", "msvcp120d.dll", "msvcr120d.dll")
+        } else {
+            $requiredRuntimeNames += @("msvcp120.dll", "msvcr120.dll")
+        }
         $requiredMissing = @($missing | Where-Object { $requiredRuntimeNames -contains $_ })
         if ($requiredMissing.Count -gt 0) {
             throw ("Upgrade30 runtime-sync missing required dependencies: {0}" -f (($requiredMissing | Sort-Object) -join ", "))
@@ -1050,6 +1079,27 @@ function Invoke-SourceNulScan {
     }
 }
 
+function Invoke-Upgrade30CMakeConfigure {
+    if ($script:EngineProfile -ne "Upgrade30") {
+        return
+    }
+
+    $cmake = Get-Command cmake.exe -ErrorAction SilentlyContinue
+    if (-not $cmake) {
+        throw "Upgrade30 requires cmake.exe to refresh the VS2013 generated projects."
+    }
+
+    $sourceDir = Join-Path $script:RepoRoot "cocos2d-x-3.0-oh"
+    $buildDir = Join-Path $sourceDir "build"
+    $output = @(& $cmake.Source -S $sourceDir -B $buildDir -G "Visual Studio 12 2013" 2>&1)
+    if ($LASTEXITCODE -ne 0) {
+        throw ("Upgrade30 CMake configure failed:`n" + (($output | Out-String).Trim()))
+    }
+    if (-not $script:ConciseOutput) {
+        Write-Host "Upgrade30 CMake projects refreshed."
+    }
+}
+
 Ensure-WindowsEnvDefaults
 Clear-InheritedToolchainEnv
 $programFilesX86 = Resolve-ProgramFilesX86
@@ -1089,6 +1139,7 @@ if ($SkipSourceNulScan) {
 Assert-IncrementalBuildSafety
 
 Ensure-FmodImportLibrary
+Invoke-Upgrade30CMakeConfigure
 
 $buildSteps = @(
     @{ Name = "platform"; Path = (Join-Path $RepoRoot "common\platform\platform.win32.vcxproj") },
