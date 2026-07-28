@@ -952,6 +952,75 @@ bool System::injectChar(utf32 code_point)
     return args.handled != 0;
 }
 
+//----------------------------------------------------------------------------//
+// MT3: injectChar with String parameter for FireClient compatibility
+//----------------------------------------------------------------------------//
+bool System::injectChar(const String& strText)
+{
+    if (strText.empty()) {
+        return false;
+    }
+
+    utf32 code_point = 0;
+
+    if (strText.length() == 1) {
+        code_point = strText[0];
+    }
+
+    if (code_point == 8 || code_point == 9) // Backspace or Tab
+    {
+        return true;
+    }
+
+    utf32 QuanJiao0 = 48 + 65248; // Full-width 0
+    utf32 QuanJiao9 = 57 + 65248; // Full-width 9
+
+    if (code_point >= QuanJiao0 && code_point <= QuanJiao9) // Full-width digits to half-width
+    {
+        code_point -= 65248;
+    }
+
+    KeyEventArgs args(getKeyboardTargetWindow());
+
+    // if there's no destination window, input can't be handled.
+    if (!args.window)
+        return false;
+
+    if (code_point != 0)
+    {
+        args.codepoint = code_point;
+        args.sysKeys = d_sysKeys;
+
+        args.window->onCharacter(args);
+    }
+    else
+    {
+        args.window->setText(strText);
+        args.handled++;
+    }
+
+    args.window->activate();
+    return args.handled != 0;
+}
+
+//----------------------------------------------------------------------------//
+// MT3: injectString for legacy FireClient code compatibility
+//----------------------------------------------------------------------------//
+bool System::injectString(const String& strText)
+{
+    KeyEventArgs args(getKeyboardTargetWindow());
+
+    // if there's no destination window, input can't be handled.
+    if (!args.window)
+        return false;
+
+    args.window->setText(strText);
+    args.handled++;
+
+    args.window->activate();
+    return args.handled != 0;
+}
+
 
 /*************************************************************************
 	Method that injects a mouse-wheel / scroll-wheel event into the system.

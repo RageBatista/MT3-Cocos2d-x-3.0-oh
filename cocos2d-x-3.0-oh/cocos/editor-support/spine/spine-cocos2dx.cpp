@@ -34,6 +34,7 @@
 #include <spine/spine-cocos2dx.h>
 #include <spine/extension.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 USING_NS_CC;
 
@@ -110,6 +111,108 @@ static void createTextureFromMap (spAtlasPage* page, const char* path, const Pat
 
 	_spAtlasPage_createTexture(page, path);
 }
+
+// ---- Atlas parsing helpers (from 2.2.6 spine) ----
+typedef struct {
+	const char* begin;
+	const char* end;
+} Str;
+
+static void trim (Str* str) {
+	while (isspace((unsigned char)*str->begin) && str->begin < str->end)
+		(str->begin)++;
+	if (str->begin == str->end) return;
+	str->end--;
+	while (isspace((unsigned char)*str->end) && str->end >= str->begin)
+		str->end--;
+	str->end++;
+}
+
+static int readLine (const char* begin, const char* end, Str* str) {
+	static const char* nextStart;
+	if (begin) {
+		nextStart = begin;
+		return 1;
+	}
+	if (nextStart == end) return 0;
+	str->begin = nextStart;
+
+	while (nextStart != end && *nextStart != '\n')
+		nextStart++;
+
+	str->end = nextStart;
+	trim(str);
+
+	if (nextStart != end) nextStart++;
+	return 1;
+}
+
+static int beginPast (Str* str, char c) {
+	const char* begin = str->begin;
+	while (1) {
+		char lastSkippedChar = *begin;
+		if (begin == str->end) return 0;
+		begin++;
+		if (lastSkippedChar == c) break;
+	}
+	str->begin = begin;
+	return 1;
+}
+
+static int readValue (const char* end, Str* str) {
+	readLine(0, end, str);
+	if (!beginPast(str, ':')) return 0;
+	trim(str);
+	return 1;
+}
+
+static int readTuple (const char* end, Str tuple[]) {
+	int i;
+	Str str = {NULL, NULL};
+	readLine(0, end, &str);
+	if (!beginPast(&str, ':')) return 0;
+
+	for (i = 0; i < 3; ++i) {
+		tuple[i].begin = str.begin;
+		if (!beginPast(&str, ',')) {
+			break;
+		}
+		tuple[i].end = str.begin - 2;
+		trim(&tuple[i]);
+	}
+	tuple[i].begin = str.begin;
+	tuple[i].end = str.end;
+	trim(&tuple[i]);
+	return i + 1;
+}
+
+static char* mallocString (Str* str) {
+	int length = (int)(str->end - str->begin);
+	char* string = (char*)malloc(length + 1);
+	memcpy(string, str->begin, length);
+	string[length] = '\0';
+	return string;
+}
+
+static int indexOf (const char** array, int count, Str* str) {
+	int length = (int)(str->end - str->begin);
+	int i;
+	for (i = count - 1; i >= 0; i--)
+		if (strncmp(array[i], str->begin, length) == 0) return i;
+	return -1;
+}
+
+static int equals (Str* str, const char* other) {
+	return strncmp(other, str->begin, str->end - str->begin) == 0;
+}
+
+static int toInt (Str* str) {
+	return (int)strtol(str->begin, (char**)&str->end, 10);
+}
+
+static const char* formatNames[] = {"Alpha", "Intensity", "LuminanceAlpha", "RGB565", "RGBA4444", "RGB888", "RGBA8888"};
+static const char* textureFilterNames[] = {"Nearest", "Linear", "MipMap", "MipMapNearestNearest", "MipMapLinearNearest",
+		"MipMapNearestLinear", "MipMapLinearLinear"};
 
 // Internal helper: read atlas data using a custom texture map if provided
 static spAtlas* spAtlas_readAtlasInternal (const char* begin, int length, const char* dir, const PathToTextureMap* textureMap) {
