@@ -32,6 +32,7 @@
 #include "CEGUIExceptions.h"
 #include "CEGUIPropertyHelper.h"
 #include "CEGUILua.h"
+#include "CEGUIWindow.h"
 
 // include Lua libs and tolua++
 extern "C" {
@@ -429,6 +430,138 @@ void LuaFunctor::invalidateLuaRefs()
     index = LUA_NOREF;
     self = LUA_NOREF;
     d_errFuncIndex = LUA_NOREF;
+}
+
+//----------------------------------------------------------------------------//
+// MT3: SubscribeGestureEvent - generic gesture event subscription
+//----------------------------------------------------------------------------//
+void LuaFunctor::SubscribeGestureEvent(Window* self,
+                                       const String& eventName,
+                                       const int funcIndex,
+                                       const int selfIndex,
+                                       const int error_handler,
+                                       lua_State* L)
+{
+    int err_idx = LUA_NOREF;
+    String err_str;
+    if (error_handler != LUA_NOREF)
+    {
+        int err_handler_type = lua_type(L, -1);
+        switch (err_handler_type)
+        {
+        case LUA_TFUNCTION:
+            // reference function
+            err_idx = luaL_ref(L, LUA_REGISTRYINDEX);
+            break;
+        case LUA_TSTRING:
+            err_str = lua_tostring(L, -1);
+            lua_pop(L, 1);
+            break;
+        default:
+            CEGUI_LOGERR("bad error handler function passed to subscribe "
+                "function. must be a real function, or a string for "
+                "late binding:" + eventName + "\n");
+            luaL_error(L, "bad error handler function passed to subscribe "
+                "function. must be a real function, or a string for "
+                "late binding");
+            break;
+        }
+    }
+
+    // should we pass a self to the callback?
+    int thisIndex = LUA_NOREF;
+    if (selfIndex != LUA_NOREF)
+    {
+        // reference self
+        thisIndex = luaL_ref(L, LUA_REGISTRYINDEX);
+    }
+
+    // do the real subscription
+    int type = lua_type(L, -1);
+    if (type == LUA_TFUNCTION)
+    {
+        // reference function
+        int index = luaL_ref(L, LUA_REGISTRYINDEX);
+
+        if (err_idx != LUA_NOREF)
+        {
+            LuaFunctor functor(L, index, thisIndex, err_idx);
+            self->subscribeEvent(String(eventName),
+                                 Event::Subscriber(functor));
+            functor.invalidateLuaRefs();
+        }
+        else if (!err_str.empty())
+        {
+            LuaFunctor functor(L, index, thisIndex, err_str);
+            self->subscribeEvent(String(eventName),
+                                 Event::Subscriber(functor));
+            functor.invalidateLuaRefs();
+        }
+        else
+        {
+            LuaFunctor functor(L, index, thisIndex);
+            self->subscribeEvent(String(eventName),
+                                 Event::Subscriber(functor));
+            functor.invalidateLuaRefs();
+        }
+    }
+    else if (type == LUA_TSTRING)
+    {
+        const char* str = lua_tostring(L, -1);
+
+        if (err_idx != LUA_NOREF)
+        {
+            LuaFunctor functor(L, String(str), thisIndex, err_idx);
+            self->subscribeEvent(String(eventName),
+                                 Event::Subscriber(functor));
+            functor.invalidateLuaRefs();
+        }
+        else if (!err_str.empty())
+        {
+            LuaFunctor functor(L, String(str), thisIndex, err_str);
+            self->subscribeEvent(String(eventName),
+                                 Event::Subscriber(functor));
+            functor.invalidateLuaRefs();
+        }
+        else
+        {
+            LuaFunctor functor(L, String(str), thisIndex);
+            self->subscribeEvent(String(eventName),
+                                 Event::Subscriber(functor));
+            functor.invalidateLuaRefs();
+        }
+    }
+    else
+    {
+        CEGUI_LOGERR("bad function passed to subscribe function. must be a "
+            "real function, or a string for late binding:" + eventName + "\n");
+        luaL_error(L, "bad function passed to subscribe function. must be a "
+                   "real function, or a string for late binding");
+    }
+}
+
+//----------------------------------------------------------------------------//
+// MT3: SubscribeDragEvent - convenience wrapper for drag gesture events
+//----------------------------------------------------------------------------//
+void LuaFunctor::SubscribeDragEvent(Window* self,
+                                    const int funcIndex,
+                                    const int selfIndex,
+                                    const int error_handler,
+                                    lua_State* L)
+{
+    SubscribeGestureEvent(self, CEGUI::String("Drag"), funcIndex, selfIndex, error_handler, L);
+}
+
+//----------------------------------------------------------------------------//
+// MT3: SubscribeLongpressEvent - convenience wrapper for long press gesture events
+//----------------------------------------------------------------------------//
+void LuaFunctor::SubscribeLongpressEvent(Window* self,
+                                         const int funcIndex,
+                                         const int selfIndex,
+                                         const int error_handler,
+                                         lua_State* L)
+{
+    SubscribeGestureEvent(self, CEGUI::String("LongPress"), funcIndex, selfIndex, error_handler, L);
 }
 
 //----------------------------------------------------------------------------//

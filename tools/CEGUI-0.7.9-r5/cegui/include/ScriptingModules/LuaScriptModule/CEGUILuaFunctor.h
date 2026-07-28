@@ -40,6 +40,7 @@ namespace CEGUI
 
 // forward declaration
 class LuaScriptModule;
+class Window;
 
 /*!
 \brief
@@ -77,6 +78,24 @@ public:
                                             const int selfIndex,
                                             const int error_handler,
                                             lua_State* L);
+
+    // MT3: Subscribe to gesture events (drag, longpress)
+    static void SubscribeDragEvent(Window* self,
+                                   const int funcIndex,
+                                   const int selfIndex,
+                                   const int error_handler,
+                                   lua_State* L);
+    static void SubscribeLongpressEvent(Window* self,
+                                        const int funcIndex,
+                                        const int selfIndex,
+                                        const int error_handler,
+                                        lua_State* L);
+    static void SubscribeGestureEvent(Window* self,
+                                      const String& eventName,
+                                      const int funcIndex,
+                                      const int selfIndex,
+                                      const int error_handler,
+                                      lua_State* L);
 
     /*!
     \brief

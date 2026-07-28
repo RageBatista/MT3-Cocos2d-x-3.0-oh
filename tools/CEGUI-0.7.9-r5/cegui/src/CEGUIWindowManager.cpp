@@ -485,5 +485,96 @@ void WindowManager::saveWindowLayout(const Window& window,
 }
 
 //----------------------------------------------------------------------------//
+// MT3: setLoading - controls layout loading state
+//----------------------------------------------------------------------------//
+void WindowManager::setLoading(bool val)
+{
+    if (val)
+    {
+        ++d_layoutLoading;
+    }
+    else
+    {
+        if (--d_layoutLoading < 0)
+        {
+            d_layoutLoading = 0;
+        }
+    }
+}
+
+//----------------------------------------------------------------------------//
+// MT3: cloneWindow - clone a window tree with name prefix
+//----------------------------------------------------------------------------//
+Window* WindowManager::cloneWindow(Window* rootWnd, const String& name_prefix)
+{
+    Window* cloneWnd = rootWnd->clone("", true);
+
+    // Rename template prefix: remove "@template@" from name and prepend user prefix
+    static size_t templateNameSize = strlen("@template@");
+    const String& wndName = cloneWnd->getName();
+    if (wndName.length() >= templateNameSize &&
+        strncmp(wndName.c_str(), "@template@", templateNameSize) == 0)
+    {
+        String newName = name_prefix + String(&(wndName.c_str()[templateNameSize]));
+        cloneWnd->rename(newName);
+    }
+
+    cloneWnd->onRenameTemplatePrefix(name_prefix);
+    cloneWnd->onSetTemplateLookNFeel();
+    cloneWnd->onZChange_impl();
+
+    return cloneWnd;
+}
+
+//----------------------------------------------------------------------------//
+// MT3: cloneWindowFromTemplate - clone window from a cached template
+//----------------------------------------------------------------------------//
+Window* WindowManager::cloneWindowFromTemplate(const String& filename, const String& name_prefix)
+{
+    Window* rootWnd = NULL;
+
+    String templateFilename = "@template@" + filename;
+    std::map<String, Window*>::iterator it = d_templateWindows.find(templateFilename);
+    if (it != d_templateWindows.end())
+    {
+        rootWnd = it->second;
+    }
+
+    if (rootWnd)
+    {
+        return cloneWindow(rootWnd, name_prefix);
+    }
+
+    return NULL;
+}
+
+//----------------------------------------------------------------------------//
+// MT3: addTemplateWindow - cache a window as a template
+//----------------------------------------------------------------------------//
+void WindowManager::addTemplateWindow(const String& filename, Window* rootWnd)
+{
+    if (rootWnd)
+    {
+        d_templateWindows["@template@" + filename] = rootWnd;
+    }
+}
+
+//----------------------------------------------------------------------------//
+// MT3: setupCacheLayout - add a layout name to the cache set
+//----------------------------------------------------------------------------//
+void WindowManager::setupCacheLayout(const char* layoutName)
+{
+    d_cacheLayouts.insert(layoutName);
+}
+
+//----------------------------------------------------------------------------//
+// MT3: getCacheLayout - get the set of cached layout names
+//----------------------------------------------------------------------------//
+const std::set<String>& WindowManager::getCacheLayout()
+{
+    return d_cacheLayouts;
+}
+
+//----------------------------------------------------------------------------//
 
 } // End of  CEGUI namespace section

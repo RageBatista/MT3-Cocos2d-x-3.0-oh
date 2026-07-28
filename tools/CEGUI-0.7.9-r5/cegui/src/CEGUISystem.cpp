@@ -889,6 +889,47 @@ bool System::injectMouseButtonUp(MouseButton button, int eventId)
     return (ma.handled + upHandled) != 0;
 }
 
+//----------------------------------------------------------------------------//
+// MT3: injectLongPress for FireClient touch compatibility
+//----------------------------------------------------------------------------//
+bool System::injectLongPress(MouseButton button, int state)
+{
+    d_sysKeys |= mouseButtonToSyskey(button);
+
+    MouseEventArgs ma(0);
+    ma.position = MouseCursor::getSingleton().getPosition();
+    ma.moveDelta = Vector2(0.0f, 0.0f);
+    ma.button = button;
+    ma.sysKeys = d_sysKeys;
+    ma.wheelChange = 0;
+    ma.window = getTargetWindow(ma.position, false);
+    ma.clickCount = state;
+
+    // make mouse position sane for this target window
+    if (ma.window)
+        ma.position = ma.window->getUnprojectedPosition(ma.position);
+
+    if (ma.window)
+    {
+        if (ma.window->IsCanEdit()) {
+            String str("");
+            if (ma.window->getType() == "TaharezLook/RichEditbox")
+            {
+                str = static_cast<RichEditbox*>(ma.window)->GenerateAllPureText();
+            }
+            else
+            {
+                str = ma.window->getText();
+            }
+
+            if (d_OnClickEditAreaFunc)
+                (*d_OnClickEditAreaFunc)(str);
+        }
+    }
+
+    return ma.handled != 0;
+}
+
 
 /*************************************************************************
 	Method that injects a key down event into the system.
@@ -1075,6 +1116,94 @@ bool System::injectMousePosition(float x_pos, float y_pos)
     ma.position = mouse.getPosition();
 
     return mouseMoveInjection_impl(ma);
+}
+
+//----------------------------------------------------------------------------//
+// MT3: injectMouseSlide for FireClient touch gesture compatibility
+//----------------------------------------------------------------------------//
+bool System::injectMouseSlide(int dir, float xPos, float yPos, float vol)
+{
+    const Point new_position(xPos, yPos);
+    MouseCursor& mouse(MouseCursor::getSingleton());
+
+    // setup mouse movement event args object.
+    MouseEventArgs ma(0);
+
+    ma.sysKeys = d_sysKeys;
+    ma.wheelChange = vol;
+    ma.clickCount = dir;
+    ma.button = NoButton;
+
+    // move mouse cursor to new position
+    mouse.setPosition(new_position);
+    // update position in args (since actual position may be constrained)
+    ma.position = mouse.getPosition();
+    ma.window = getTargetWindow(ma.position, false);
+
+    if (ma.window)
+    {
+        if (ma.window->IsCanEdit()) {
+            String str("");
+            if (ma.window->getType() == "TaharezLook/RichEditbox")
+            {
+                str = static_cast<RichEditbox*>(ma.window)->GenerateAllPureText();
+            }
+            else
+            {
+                str = ma.window->getText();
+            }
+
+            if (d_OnClickEditAreaFunc)
+                (*d_OnClickEditAreaFunc)(str);
+        }
+    }
+
+    return ma.handled != 0;
+}
+
+//----------------------------------------------------------------------------//
+// MT3: injectMouseDrag for FireClient touch gesture compatibility
+//----------------------------------------------------------------------------//
+bool System::injectMouseDrag(int state, float xPos, float yPos, float vol)
+{
+    const Point new_position(xPos, yPos);
+    MouseCursor& mouse(MouseCursor::getSingleton());
+
+    // setup mouse movement event args object.
+    MouseEventArgs ma(0);
+
+    ma.sysKeys = d_sysKeys;
+    ma.wheelChange = vol;
+    ma.clickCount = state;
+    ma.button = NoButton;
+
+    if (state == 3) {
+        ma.moveDelta.d_x = xPos;
+        ma.moveDelta.d_y = yPos;
+    }
+    else
+    {
+        const Point oldPos = mouse.getPosition();
+        ma.moveDelta.d_x = xPos - oldPos.d_x;
+        ma.moveDelta.d_y = yPos - oldPos.d_y;
+        // move mouse cursor to new position
+        mouse.setPosition(new_position);
+    }
+
+    // update position in args (since actual position may be constrained)
+    ma.position = mouse.getPosition();
+    ma.window = getTargetWindow(ma.position, false);
+
+    if (ma.window && ma.window != d_activeSheet && !ma.window->isMousePassThroughEnabled())
+    {
+        printf("name:%s\n", ma.window->getName().c_str());
+    }
+
+    if (state == 3 && ma.window) {
+        ma.window->onMouseLeaves(ma);
+    }
+
+    return ma.handled != 0;
 }
 
 

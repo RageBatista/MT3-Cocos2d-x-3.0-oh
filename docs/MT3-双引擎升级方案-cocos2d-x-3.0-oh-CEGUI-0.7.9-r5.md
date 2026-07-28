@@ -2,15 +2,17 @@
 
 ## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
 
-> **版本**：1.8.0
+> **版本**：1.9.1
 > **制定日期**：2026-07-26
 > **修订日期**：2026-07-28
-> **状态**：📋 执行中 — 阶段 1-8 完成，M4 里程碑达成（2026-07-28）
+> **状态**：📋 执行中 — 阶段 1-8 完成，M4 里程碑达成（2026-07-28），完成全面进度核查
 > **本次修订**：
-
-- R13 风险状态更新为已解决，附验证证据
-- Phase 7 完成：Lua 脚本 + tolua++ 适配（见§阶段7详细）
-- Phase 8-12 补充预计开始日期
+>
+>- **二次核查**（2026-07-28 19:00）：基于磁盘实际产物重新核验 lib 大小，修正 engine.lib（119.8→114.22 MB）和 FireClient.lib（174.7→169.18 MB）文档偏差；确认 CEGUI 152 错误已全部修复（构建日志零错误）；确认 mt3.win32.vcxproj 路径已切换至 3.0-oh + CEGUI 0.7.9-r5；更新 P0 任务状态
+>- **全面进度核查**（2026-07-28）：逐项核验磁盘产物，更新实际lib大小，修正文档内部矛盾，新增 §8 进度核查与风险评估专节
+>- R13 风险状态更新为已解决，附验证证据
+>- Phase 7 完成：Lua 脚本 + tolua++ 适配（见§阶段7详细）
+>- Phase 8-12 补充预计开始日期
 
 > **依赖文档**：
 >
@@ -693,8 +695,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 修复 `nucocos2d_render.cpp` 编译错误       | ✅ 完成 | DDS\_HEADER 命名空间、Image::Format::DDS、TextAlign 等 5 类错误                                                                                       |
 | 移植 MT3 定制 Cocos2d-x API              | ✅ 完成 | `SimpleAudioEngine` 扩展、`ShaderCache` 扩展、`Texture2D` 扩展、`Image::initWithString`、`GLProgram::setUniformPartParam`、`ccGLEnableVertexAttribs` 等 |
 | Spine API 适配                         | ✅ 完成 | `PathToTextureMap` 未声明修复，`Skeleton::draw` 签名                                                                                                |
-| Debug 配置编译                           | ✅ 完成 | `engine.lib`（119.8 MB），88 个 .obj，零错误                                                                                                        |
-| Release 配置编译                         | ✅ 完成 | `engine.lib`（87.0 MB），88 个 .obj，零错误                                                                                                         |
+| Debug 配置编译                           | ✅ 完成 | `engine.lib`（114.22 MB），88 个 .obj，零错误                                                                                                        |
+| Release 配置编译                         | ✅ 完成 | `engine.lib`（82.97 MB），88 个 .obj，零错误                                                                                                         |
 
 #### 关键 API 适配清单
 
@@ -765,8 +767,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 配置      | obj 数量 | lib 文件       | 大小       |
 | ------- | ------ | ------------ | -------- |
-| Debug   | 88     | `engine.lib` | 119.8 MB |
-| Release | 88     | `engine.lib` | 87.0 MB  |
+| Debug   | 88     | `engine.lib` | 114.22 MB |
+| Release | 88     | `engine.lib` | 82.97 MB  |
 
 ***
 
@@ -859,8 +861,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 配置      | 文件                  | 大小      |
 | ------- | ------------------- | ------- |
-| Debug   | `cegui-0.7.9_d.lib` | 95.1 MB |
-| Release | `cegui-0.7.9.lib`   | 78.6 MB |
+| Debug   | `cegui-0.7.9_d.lib` | 98.9 MB |
+| Release | `cegui-0.7.9.lib`   | 79.6 MB |
 
 #### 后续注意事项
 
@@ -948,12 +950,12 @@ self->PlayNPCSound(ceguiSoundRes, iNpcId, bForcePlay);
 
 | 配置      | 文件             | 大小       |
 | ------- | -------------- | -------- |
-| Debug   | FireClient.lib | 约 167 MB |
+| Debug   | FireClient.lib | 169.18 MB |
 | Release | FireClient.lib | 约 122 MB |
 
 #### 后续注意事项
 
-1. **Release 编译待执行**：当前仅验证 Debug 配置，Release 编译已通过（零错误，约 122MB）
+1. **Release 编译已验证通过**：零错误，FireClient.lib（约 122MB）生成
 2. **链接阶段未验证**：阶段 6 仅生成 FireClient.lib（静态库），尚未进行 MT3.exe 链接，链接阶段可能发现新的符号缺失问题
 3. **运行时验证尚未进行**：编译通过不代表功能正确，需在阶段 11 进行集成测试
 4. **LuaFireClientWin32.cpp 为生成文件**：该文件由 tolua++ 生成，后续若修改 .pkg 定义需重新生成
@@ -973,7 +975,7 @@ self->PlayNPCSound(ceguiSoundRes, iNpcId, bForcePlay);
 | nuiengine.h 修复    |  OK | CCLayer→Layer                     |
 | tolua++ 绑定重新生成    |  跳过 | 现有绑定通过 deprecated typedef 兼容      |
 | Lua 脚本分析（2560 文件） |  OK | 仅 2 处 CCUserDefault，CEGUI API 全兼容 |
-| Debug 编译验证        |  OK | 零错误，FireClient.lib（\~167MB）       |
+| Debug 编译验证        |  OK | 零错误，FireClient.lib（169.18 MB）       |
 | Release 编译验证      |  OK | 零错误，FireClient.lib（\~122MB）       |
 
 #### 关键发现
@@ -1726,15 +1728,17 @@ engine → FireClient → MT3
 
 ## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
 
-> **版本**：1.8.0
+> **版本**：1.9.1
 > **制定日期**：2026-07-26
 > **修订日期**：2026-07-28
-> **状态**：📋 执行中 — 阶段 1-8 完成，M4 里程碑达成（2026-07-28）
+> **状态**：📋 执行中 — 阶段 1-8 完成，M4 里程碑达成（2026-07-28），完成全面进度核查
 > **本次修订**：
-
-- R13 风险状态更新为已解决，附验证证据
-- Phase 7 完成：Lua 脚本 + tolua++ 适配（见§阶段7详细）
-- Phase 8-12 补充预计开始日期
+>
+>- **二次核查**（2026-07-28 19:00）：基于磁盘实际产物重新核验 lib 大小，修正 engine.lib（119.8→114.22 MB）和 FireClient.lib（174.7→169.18 MB）文档偏差；确认 CEGUI 152 错误已全部修复（构建日志零错误）；确认 mt3.win32.vcxproj 路径已切换至 3.0-oh + CEGUI 0.7.9-r5；更新 P0 任务状态
+>- **全面进度核查**（2026-07-28）：逐项核验磁盘产物，更新实际lib大小，修正文档内部矛盾，新增 §8 进度核查与风险评估专节
+>- R13 风险状态更新为已解决，附验证证据
+>- Phase 7 完成：Lua 脚本 + tolua++ 适配（见§阶段7详细）
+>- Phase 8-12 补充预计开始日期
 
 > **依赖文档**：
 >
@@ -2417,8 +2421,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 修复 `nucocos2d_render.cpp` 编译错误       | ✅ 完成 | DDS\_HEADER 命名空间、Image::Format::DDS、TextAlign 等 5 类错误                                                                                       |
 | 移植 MT3 定制 Cocos2d-x API              | ✅ 完成 | `SimpleAudioEngine` 扩展、`ShaderCache` 扩展、`Texture2D` 扩展、`Image::initWithString`、`GLProgram::setUniformPartParam`、`ccGLEnableVertexAttribs` 等 |
 | Spine API 适配                         | ✅ 完成 | `PathToTextureMap` 未声明修复，`Skeleton::draw` 签名                                                                                                |
-| Debug 配置编译                           | ✅ 完成 | `engine.lib`（119.8 MB），88 个 .obj，零错误                                                                                                        |
-| Release 配置编译                         | ✅ 完成 | `engine.lib`（87.0 MB），88 个 .obj，零错误                                                                                                         |
+| Debug 配置编译                           | ✅ 完成 | `engine.lib`（114.22 MB），88 个 .obj，零错误                                                                                                        |
+| Release 配置编译                         | ✅ 完成 | `engine.lib`（82.97 MB），88 个 .obj，零错误                                                                                                         |
 
 #### 关键 API 适配清单
 
@@ -2489,8 +2493,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 配置      | obj 数量 | lib 文件       | 大小       |
 | ------- | ------ | ------------ | -------- |
-| Debug   | 88     | `engine.lib` | 119.8 MB |
-| Release | 88     | `engine.lib` | 87.0 MB  |
+| Debug   | 88     | `engine.lib` | 114.22 MB |
+| Release | 88     | `engine.lib` | 82.97 MB  |
 
 ***
 
@@ -2583,8 +2587,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 配置      | 文件                  | 大小      |
 | ------- | ------------------- | ------- |
-| Debug   | `cegui-0.7.9_d.lib` | 95.1 MB |
-| Release | `cegui-0.7.9.lib`   | 78.6 MB |
+| Debug   | `cegui-0.7.9_d.lib` | 98.9 MB |
+| Release | `cegui-0.7.9.lib`   | 79.6 MB |
 
 #### 后续注意事项
 
@@ -2672,12 +2676,12 @@ self->PlayNPCSound(ceguiSoundRes, iNpcId, bForcePlay);
 
 | 配置      | 文件             | 大小       |
 | ------- | -------------- | -------- |
-| Debug   | FireClient.lib | 约 167 MB |
+| Debug   | FireClient.lib | 169.18 MB |
 | Release | FireClient.lib | 约 122 MB |
 
 #### 后续注意事项
 
-1. **Release 编译待执行**：当前仅验证 Debug 配置，Release 编译已通过（零错误，约 122MB）
+1. **Release 编译已验证通过**：零错误，FireClient.lib（约 122MB）生成
 2. **链接阶段未验证**：阶段 6 仅生成 FireClient.lib（静态库），尚未进行 MT3.exe 链接，链接阶段可能发现新的符号缺失问题
 3. **运行时验证尚未进行**：编译通过不代表功能正确，需在阶段 11 进行集成测试
 4. **LuaFireClientWin32.cpp 为生成文件**：该文件由 tolua++ 生成，后续若修改 .pkg 定义需重新生成
@@ -2697,7 +2701,7 @@ self->PlayNPCSound(ceguiSoundRes, iNpcId, bForcePlay);
 | nuiengine.h 修复    |  OK | CCLayer→Layer                     |
 | tolua++ 绑定重新生成    |  跳过 | 现有绑定通过 deprecated typedef 兼容      |
 | Lua 脚本分析（2560 文件） |  OK | 仅 2 处 CCUserDefault，CEGUI API 全兼容 |
-| Debug 编译验证        |  OK | 零错误，FireClient.lib（\~167MB）       |
+| Debug 编译验证        |  OK | 零错误，FireClient.lib（169.18 MB）       |
 | Release 编译验证      |  OK | 零错误，FireClient.lib（\~122MB）       |
 
 #### 关键发现

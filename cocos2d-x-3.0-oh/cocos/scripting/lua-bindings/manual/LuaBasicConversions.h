@@ -26,8 +26,8 @@
 
 extern "C" {
 #include "lua.h"
-#include "tolua++.h"
 }
+#include "tolua++.h"
 #include "tolua_fix.h"
 #include "cocos2d.h"
 
