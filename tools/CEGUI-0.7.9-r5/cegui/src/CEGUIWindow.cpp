@@ -283,6 +283,7 @@ Window::Window(const String& type, const String& name) :
     d_horzAlign(HA_LEFT),
     d_vertAlign(VA_TOP),
     d_rotation(0.0f, 0.0f, 0.0f),
+    d_scale(1.0f, 1.0f, 1.0f),
 
     // initialise area cache rects
     d_outerUnclippedRect(0, 0, 0, 0),
@@ -302,7 +303,44 @@ Window::Window(const String& type, const String& name) :
     d_updateMode(WUM_VISIBLE),
 
     // Don't propagate mouse inputs by default.
-    d_propagateMouseInputs(false)
+    d_propagateMouseInputs(false),
+
+    // MT3 compatibility state
+    d_DragMoveEnable(false),
+    d_SoundEnable(true),
+    d_SoundResource(""),
+    d_CloseSoundResource(""),
+    d_CanEdit(false),
+    d_SlideEnable(false),
+    d_EscClose(false),
+    d_HandleDragMove(false),
+    d_CloseIsHide(false),
+    d_CreateWndType(CreateWndEffect_None),
+    d_CloseWndType(CloseWndEffect_None),
+    d_EffectState(WndEffectState_None),
+    d_WndEffectElaseTime(0.0f),
+    d_ModalStateAfterShow(false),
+    d_AllowShowWithModalState(false),
+    d_IsPixelDecide(false),
+    d_Flash(false),
+    d_EnableFlash(true),
+    d_RButtonCloseEnable(true),
+    d_AlignWindow(0),
+    d_AlignType(0),
+    d_InChatOutWnd(false),
+    d_HasGuide(false),
+    d_oldSize(0.0f, 0.0f),
+    d_AutoSizeWithParent(false),
+    d_ClickStateScale(1.0f),
+    d_IsLoadedDraw(false),
+    d_TimeAutoClose(false),
+    d_OnShiedRootWnd(true),
+    d_AllowModalSate(false),
+    d_ModalStateDrawEffect(true),
+    d_OldVisable(true),
+    d_escCloseWindow(0),
+    d_textColor(0xFFFFFFFF),
+    d_topMost(false)
 {
     // add properties
     addStandardProperties();
@@ -1668,6 +1706,9 @@ void Window::update(float elapsed)
 {       
     // perform update for 'this' Window
     updateSelf(elapsed);
+
+    // MT3: Update window effect
+    UpdateWndEffect(elapsed);
 
     // update underlying RenderingWinodw if needed
     if (d_surface && d_surface->isRenderingWindow())
@@ -3709,6 +3750,12 @@ const Vector3& Window::getRotation() const
 }
 
 //----------------------------------------------------------------------------//
+const Vector3& Window::getScale() const
+{
+    return d_scale;
+}
+
+//----------------------------------------------------------------------------//
 void Window::setRotation(const Vector3& rotation)
 {
     if (rotation == d_rotation)
@@ -3718,6 +3765,28 @@ void Window::setRotation(const Vector3& rotation)
 
     WindowEventArgs args(this);
     onRotated(args);
+}
+
+//----------------------------------------------------------------------------//
+void Window::setScale(const Vector3& scale)
+{
+    if (d_scale == scale)
+        return;
+
+    d_scale = scale;
+
+    if (!d_surface)
+        setUsingAutoRenderingSurface(true);
+
+    if (!d_surface || !d_surface->isRenderingWindow())
+    {
+        Logger::getSingleton().logEvent(
+            "Window::setScale - Failed to obtain a RenderingWindow surface for Window '" +
+            d_name + "'. Scaling will not be available.", Errors);
+        return;
+    }
+
+    static_cast<RenderingWindow*>(d_surface)->setScale(d_scale);
 }
 
 //----------------------------------------------------------------------------//
@@ -4435,6 +4504,247 @@ void Window::cleanupAllEvent(void)
     {
         d_children[i]->cleanupAllEvent();
     }
+}
+
+//----------------------------------------------------------------------------//
+// MT3: Window effect methods
+//----------------------------------------------------------------------------//
+void Window::SetWndCenterInParentXPos(float xPos)
+{
+    Size pixSize = getPixelSize();
+    setXPosition(cegui_absdim(xPos - pixSize.d_width / 2.0f));
+}
+
+void Window::SetWndCenterInParentYPos(float yPos)
+{
+    Size pixSize = getPixelSize();
+    setYPosition(cegui_absdim(yPos - pixSize.d_height / 2.0f));
+}
+
+void Window::BeginCreateEffect()
+{
+    d_EffectState = WndEffectState_Ready;
+    setAlpha(0.0f);
+    d_WndEffectElaseTime = 0.0f;
+}
+
+void Window::EndCreateEffect()
+{
+    WindowEventArgs e(this);
+    fireEvent(EventCreateWndEffectEnd, e, EventNamespace);
+    d_EffectState = WndEffectState_None;
+    d_WndEffectElaseTime = 0.0f;
+    if (d_CreateWndType == CreateWndEffect_ZoomOut)
+    {
+        Vector3 vScale(1.0f, 1.0f, 1.0f);
+        setScale(vScale);
+        setUsingAutoRenderingSurface(false);
+    }
+    CenterInParent();
+}
+
+void Window::BeginCloseEffect()
+{
+    d_EffectState = WndEffectState_Close;
+    d_WndEffectElaseTime = 0.0f;
+}
+
+void Window::EndCloseEffect()
+{
+    WindowEventArgs e(this);
+    fireEvent(EventCloseWndEffectEnd, e, EventNamespace);
+    d_EffectState = WndEffectState_None;
+    d_WndEffectElaseTime = 0.0f;
+    if (d_CloseWndType == CloseWndEffect_ZoomIn)
+    {
+        Vector3 vScale(1.0f, 1.0f, 1.0f);
+        setScale(vScale);
+        setUsingAutoRenderingSurface(false);
+    }
+}
+
+void Window::UpdateWndEffect(float elapse)
+{
+    switch (d_EffectState) {
+    case WndEffectState_Create:
+        UpdateCreateEffect(elapse);
+        break;
+    case WndEffectState_Close:
+        UpdateCloseEffect(elapse);
+        break;
+    case WndEffectState_Ready:
+        d_EffectState = WndEffectState_Go;
+        break;
+    case WndEffectState_Go:
+        d_EffectState = WndEffectState_Create;
+        break;
+    default:
+        break;
+    }
+}
+
+void Window::UpdateCreateEffect(float elapse)
+{
+    if (d_alpha < 0.99f)
+    {
+        setAlpha(1.0f);
+    }
+    float totalTime = 0.6f;
+    if (d_CreateWndType == CreateWndEffect_ZoomOut)
+    {
+        totalTime = 0.4f;
+    }
+
+    d_WndEffectElaseTime += elapse;
+    if (d_WndEffectElaseTime > totalTime) {
+        EndCreateEffect();
+        return;
+    }
+
+    if (d_CreateWndType == CreateWndEffect_ZoomOut)
+    {
+        float angle = (d_WndEffectElaseTime / totalTime) * 0.5f * 3.1415926f;
+        float time1 = totalTime * 0.5f;
+
+        float maxScale = 1.2f;
+        float minScale = 0.1f;
+        float scale = minScale + (maxScale - minScale) * (sinf(angle));
+        if (d_WndEffectElaseTime > time1)
+        {
+            angle = 0.5f * 3.1415626f * (d_WndEffectElaseTime - time1) / (totalTime - time1);
+            scale = 1.0f + (maxScale - 1.0f) * (1.0f - sinf(angle));
+        }
+        Vector3 vScale(scale, scale, 1.0f);
+
+        float width = getPixelSize().d_width * scale;
+        float height = getPixelSize().d_height * scale;
+
+        float parentWidth = getParentPixelWidth();
+        float parentHeight = getParentPixelHeight();
+
+        float xPos = (parentWidth - width) / 2.0f;
+        float yPos = (parentHeight - height) / 2.0f;
+        setXPosition(cegui_absdim(xPos));
+        setYPosition(cegui_absdim(yPos));
+
+        setScale(vScale);
+        return;
+    }
+
+    float v0 = 100.0f;
+    float time1 = totalTime * 0.5f;
+    float height = getPixelSize().d_height;
+    float parentHeight = getParentPixelHeight();
+    if (d_CreateWndType != CreateWndEffect_Drop) {
+        height = getPixelSize().d_width;
+        parentHeight = getParentPixelWidth();
+    }
+
+    float g = ((height + parentHeight) - 2.0f * v0 * time1) / (time1 * time1);
+
+    if (d_WndEffectElaseTime < time1)
+    {
+        float yOffset1 = v0 * d_WndEffectElaseTime + 0.5f * g * d_WndEffectElaseTime * d_WndEffectElaseTime;
+        float newPos = parentHeight + height / 2.0f - yOffset1;
+        if (d_CreateWndType == CreateWndEffect_Drop || d_CreateWndType == CreateWndEffect_FlyFromLeft)
+        {
+            newPos = yOffset1 - height / 2.0f;
+        }
+        if (d_CreateWndType == CreateWndEffect_Drop) {
+            SetWndCenterInParentYPos(newPos);
+        }
+        else
+        {
+            SetWndCenterInParentXPos(newPos);
+        }
+        return;
+    }
+
+    float time = d_WndEffectElaseTime - time1;
+    float angle = (time / (totalTime - time1)) * 3.1415926f;
+    float yOffset = parentHeight / 2.0f - sinf(angle) * 50.0f;
+    if (d_CreateWndType == CreateWndEffect_Drop || d_CreateWndType == CreateWndEffect_FlyFromLeft)
+    {
+        yOffset = parentHeight / 2.0f + sinf(angle) * 50.0f;
+    }
+
+    if (d_CreateWndType == CreateWndEffect_Drop)
+    {
+        SetWndCenterInParentYPos(yOffset);
+    }
+    else
+    {
+        SetWndCenterInParentXPos(yOffset);
+    }
+}
+
+void Window::UpdateCloseEffect(float elapse)
+{
+    float totalTime = 0.5f * 0.6f;
+    d_WndEffectElaseTime += elapse;
+    if (d_WndEffectElaseTime > totalTime) {
+        EndCloseEffect();
+        return;
+    }
+
+    if (d_CloseWndType == CloseWndEffect_ZoomIn)
+    {
+        float angle = (d_WndEffectElaseTime / totalTime) * 0.5f * 3.1415926f;
+
+        float maxScale = 1.0f;
+        float minScale = 0.1f;
+        float scale = minScale + (maxScale - minScale) * (1.0f - sinf(angle));
+        Vector3 vScale(scale, scale, 1.0f);
+        float width = getPixelSize().d_width * scale;
+        float height = getPixelSize().d_height * scale;
+
+        float parentWidth = getParentPixelWidth();
+        float parentHeight = getParentPixelHeight();
+
+        float xPos = (parentWidth - width) / 2.0f;
+        float yPos = (parentHeight - height) / 2.0f;
+        setXPosition(cegui_absdim(xPos));
+        setYPosition(cegui_absdim(yPos));
+        setScale(vScale);
+        return;
+    }
+
+    float time1 = 0.0f;
+    float height = getPixelSize().d_height;
+    float parentHeight = getParentPixelHeight();
+    if (d_CloseWndType != CloseWndEffect_FlyUp && d_CloseWndType != CloseWndEffect_FlyDown) {
+        height = getPixelSize().d_width;
+        parentHeight = getParentPixelWidth();
+    }
+
+    float time = d_WndEffectElaseTime - time1;
+    float time2 = totalTime - time1;
+
+    float v0 = 100.0f;
+    float g = ((height + parentHeight) - 2.0f * v0 * time2) / (time2 * time2);
+    float newPos = parentHeight / 2.0f - 0.5f * g * time * time;
+    if (d_CloseWndType == CloseWndEffect_FlyRight || d_CloseWndType == CloseWndEffect_FlyDown) {
+        newPos = parentHeight / 2.0f + 0.5f * g * time * time;
+    }
+    if (d_CloseWndType == CloseWndEffect_FlyUp || d_CloseWndType == CloseWndEffect_FlyDown) {
+        SetWndCenterInParentYPos(newPos);
+    }
+    else
+    {
+        SetWndCenterInParentXPos(newPos);
+    }
+}
+
+void Window::CenterInParent()
+{
+    Size parentSize = getParentPixelSize();
+    Size curSize = getPixelSize();
+
+    float x_offset = (parentSize.d_width - curSize.d_width) / 2.0f;
+    float y_offset = (parentSize.d_height - curSize.d_height) / 2.0f;
+
+    setXPosition(cegui_absdim(x_offset));
+    setYPosition(cegui_absdim(y_offset));
 }
 
 } // End of  CEGUI namespace section

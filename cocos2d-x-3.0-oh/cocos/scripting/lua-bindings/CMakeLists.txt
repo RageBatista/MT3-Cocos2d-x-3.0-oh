@@ -38,13 +38,19 @@ include_directories(
 )
 
 
-if(OHOS)
+if(OHOS OR WIN32)
   list(APPEND LUABINDING_SRC 
 	  manual/LuaBasicConversions.h 
 	  manual/Lua_web_socket.cpp
 	  manual/lua_extensions.c
 	  manual/tolua_fix.h
 	  )
+  include_directories(
+    ../../../external/lua
+  )
+endif()
+
+if(OHOS)
   include_directories(
     ../../../cocos/2d
     ../../../cocos/2d/platform/ohos 
@@ -76,12 +82,14 @@ target_link_libraries(luabinding
   ext_luajit
   spine
 )
+if(OHOS OR WIN32)
+  target_link_libraries(luabinding ext_luasocket)
+endif()
 if(OHOS)
-  target_link_libraries(luabinding cocos2d ${GLES-lib} ${EGL-lib} ext_luasocket)
+  target_link_libraries(luabinding cocos2d ${GLES-lib} ${EGL-lib})
 endif()
 set_target_properties(luabinding
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
-

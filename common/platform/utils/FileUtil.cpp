@@ -1,4 +1,4 @@
-﻿//  FileUtil.cpp
+//  FileUtil.cpp
 //  share
 
 #include "FileUtil.h"
@@ -8,6 +8,27 @@
 
 #ifndef ISEDITOR
 #include "cocos2d.h"
+
+// MT3: Compatibility layer for Cocos2d-x 3.0-oh API changes
+// 2.2.6 methods that don't exist in 3.0-oh FileUtils
+namespace cocos2d {
+    // getResDir() → returns the first search path as the resource root
+    inline std::string CCFileUtils_getResDir(FileUtils* self) {
+        const auto& paths = self->getSearchPaths();
+        if (!paths.empty()) {
+            return paths.front();
+        }
+        return "";
+    }
+    // getCachePath() → construct from writable path
+    inline std::string CCFileUtils_getCachePath(FileUtils* self) {
+        return self->getWritablePath() + "cache";
+    }
+    // getTempPath() → construct from writable path
+    inline std::string CCFileUtils_getTempPath(FileUtils* self) {
+        return self->getWritablePath() + "temp";
+    }
+}
 #endif
 
 #if (defined WIN7_32)
@@ -79,7 +100,7 @@ namespace
 std::string CFileUtil::GetRootDir()
 {
 #ifdef ANDROID
-    std::string ret = std::string(cocos2d::CCFileUtils::sharedFileUtils()->getResDir());
+    std::string ret = std::string(CCFileUtils_getResDir(cocos2d::CCFileUtils::sharedFileUtils()));
 	CCLOG("[Res Path:]%s", ret);
     return ret;
 #elif (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
@@ -89,7 +110,7 @@ std::string CFileUtil::GetRootDir()
 #elif (defined ISEDITOR)
 	return "";
 #else
-    std::string ret = cocos2d::CCFileUtils::sharedFileUtils()->fullPathFromRelativePath("");
+    std::string ret = cocos2d::CCFileUtils::sharedFileUtils()->fullPathForFilename("");
     ret = ret.substr(0, ret.rfind("/"));
     return ret;
 #endif
@@ -127,7 +148,7 @@ std::string CFileUtil::GetWin32PackedResourceRoot()
 std::string CFileUtil::GetDocDir()
 {
 #ifdef ANDROID
-    std::string ret = std::string(cocos2d::CCFileUtils::sharedFileUtils()->getResDir());
+    std::string ret = std::string(CCFileUtils_getResDir(cocos2d::CCFileUtils::sharedFileUtils()));
     return ret;
 #elif (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 	std::wstring root(Windows::Storage::ApplicationData::Current->LocalFolder->Path->Data());
@@ -137,7 +158,7 @@ std::string CFileUtil::GetDocDir()
 #elif (defined WIN7_32)
 	return GetRootDir();
 #else
-	std::string ret = std::string(cocos2d::CCFileUtils::sharedFileUtils()->getWriteablePath());
+	std::string ret = std::string(cocos2d::CCFileUtils::sharedFileUtils()->getWritablePath());
 	ret = ret.substr(0, ret.rfind("/"));
 	return ret;
 #endif
@@ -172,12 +193,12 @@ std::string CFileUtil::MakePath(const char* strPre, const char* strSub)
 std::string CFileUtil::GetCacheDir()
 {
 #ifdef ANDROID
-    std::string ret = std::string(cocos2d::CCFileUtils::sharedFileUtils()->getResDir())+"/cache";
+    std::string ret = std::string(CCFileUtils_getResDir(cocos2d::CCFileUtils::sharedFileUtils()))+"/cache";
     return ret;
 #elif (defined WIN7_32) || (defined ISEDITOR)
 	return GetRootDir() + "cache";
 #else
-    std::string ret = std::string(cocos2d::CCFileUtils::sharedFileUtils()->getCachePath());
+    std::string ret = std::string(CCFileUtils_getCachePath(cocos2d::CCFileUtils::sharedFileUtils()));
     ret = ret.substr(0, ret.rfind("/"));
     return ret;
 #endif
@@ -186,11 +207,11 @@ std::string CFileUtil::GetCacheDir()
 std::string CFileUtil::GetTempDir()
 {
 #ifdef ANDROID
-	return std::string(cocos2d::CCFileUtils::sharedFileUtils()->getResDir()) + "/temp";
+	return std::string(CCFileUtils_getResDir(cocos2d::CCFileUtils::sharedFileUtils())) + "/temp";
 #elif (defined WIN7_32)
 	return GetRootDir() + "temp";
 #else
-    std::string ret = std::string(cocos2d::CCFileUtils::sharedFileUtils()->getTempPath());
+    std::string ret = std::string(CCFileUtils_getTempPath(cocos2d::CCFileUtils::sharedFileUtils()));
     ret = ret.substr(0, ret.rfind("/"));
     return ret;
 #endif

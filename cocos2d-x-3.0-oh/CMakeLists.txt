@@ -204,6 +204,7 @@ if(WIN32)
     ${CMAKE_CURRENT_SOURCE_DIR}/external/png/prebuilt/${PLATFORM_FOLDER}
     ${CMAKE_CURRENT_SOURCE_DIR}/external/freetype2/prebuilt/${PLATFORM_FOLDER}
     ${CMAKE_CURRENT_SOURCE_DIR}/external/curl/prebuilt/${PLATFORM_FOLDER}
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/websockets/prebuilt/${PLATFORM_FOLDER}
     ${CMAKE_CURRENT_SOURCE_DIR}/external/${PLATFORM_FOLDER}-specific/icon/prebuilt
     ${CMAKE_CURRENT_SOURCE_DIR}/external/${PLATFORM_FOLDER}-specific/zlib/prebuilt
   )
@@ -251,6 +252,10 @@ add_subdirectory(external/xxhash)
 add_subdirectory(external/sqlite3)
 
 # pvmp3dec  tremolo  library
+if(OHOS OR WIN32)
+  add_subdirectory(external/lua/luasocket)
+endif()
+
 if(OHOS)
   add_subdirectory(external/webp)
   add_subdirectory(external/freetype2)
@@ -261,7 +266,6 @@ if(OHOS)
   add_subdirectory(external/websockets)
   add_subdirectory(external/lua/luajit)
   
-  add_subdirectory(external/lua/luasocket)
   add_subdirectory(external/curl)
   add_subdirectory(external/openssl)
 endif()

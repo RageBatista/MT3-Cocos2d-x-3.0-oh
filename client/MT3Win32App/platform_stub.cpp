@@ -3,7 +3,7 @@
 // but cannot be compiled directly due to include path issues
 
 #include "platform/platform.h"
-#include "platform/CCPlatformConfig.h"
+#include "CCPlatformConfig.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 #include <WinSock2.h>  // for struct timeval

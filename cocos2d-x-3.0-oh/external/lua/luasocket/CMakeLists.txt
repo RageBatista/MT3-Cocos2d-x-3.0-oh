@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 
+include(../../cmake/CocosExternalConfig.cmake)
+
 set(lib_name luasocket)
 set(target_name ext_${lib_name})
 

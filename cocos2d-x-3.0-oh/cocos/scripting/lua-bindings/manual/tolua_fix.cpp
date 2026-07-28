@@ -196,7 +196,7 @@ TOLUA_API void toluafix_get_function_by_refid(lua_State* L, int refid)
     lua_remove(L, -2);                                          /* stack: ... fun */
 }
 
-TOLUA_API void toluafix_remove_function_by_refid(lua_State* L, int refid)
+extern "C" TOLUA_API void toluafix_remove_function_by_refid(lua_State* L, int refid)
 {
     lua_pushstring(L, TOLUA_REFID_FUNCTION_MAPPING);
     lua_rawget(L, LUA_REGISTRYINDEX);                           /* stack: ... refid_fun */

@@ -2,17 +2,17 @@
 
 ## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
 
-> **版本**：1.9.1
+> **版本**：2.0.0
 > **制定日期**：2026-07-26
-> **修订日期**：2026-07-28
-> **状态**：📋 执行中 — 阶段 1-8 完成，M4 里程碑达成（2026-07-28），完成全面进度核查
+> **修订日期**：2026-07-28 19:34 (UTC+8)
+> **状态**：[进行中] — 验收证据加权进度 **45.7%**；阶段 1-2 已完成，阶段 0/3-10 进行中，阶段 11-12 未启动；M1 已完成，M0/M2-M5 进行中，M6-M7 未启动
 > **本次修订**：
 >
->- **二次核查**（2026-07-28 19:00）：基于磁盘实际产物重新核验 lib 大小，修正 engine.lib（119.8→114.22 MB）和 FireClient.lib（174.7→169.18 MB）文档偏差；确认 CEGUI 152 错误已全部修复（构建日志零错误）；确认 mt3.win32.vcxproj 路径已切换至 3.0-oh + CEGUI 0.7.9-r5；更新 P0 任务状态
->- **全面进度核查**（2026-07-28）：逐项核验磁盘产物，更新实际lib大小，修正文档内部矛盾，新增 §8 进度核查与风险评估专节
->- R13 风险状态更新为已解决，附验证证据
->- Phase 7 完成：Lua 脚本 + tolua++ 适配（见§阶段7详细）
->- Phase 8-12 补充预计开始日期
+>- **验收口径重审**：区分源码迁移、静态库生成、最终链接、目标运行时和全平台验收，撤销“阶段 1-8 完成、M4 达成”的过早结论
+>- **工程实物核验**：目标 Cocos、CEGUI、engine、FireClient 双配置静态库存在；目标 MT3.exe 缺失；canonical 构建脚本仍固定到 2.2.6
+>- **资源门禁实测**：857 个 layout 中 812 通过、45 失败，阶段 8 调整为进行中
+>- **跨平台核验**：Android/iOS 工程仍引用 2.2.6/0.7.1，阶段 9 仅有 Win32 工程切换正在收敛
+>- **文档治理**：修正总工期求和，新增 §8 核查基线；移除误拼接的重复方案和已有独立文档承载的构建问题总结
 
 > **依赖文档**：
 >
@@ -30,12 +30,13 @@
 5. [合并风险矩阵与缓解措施](#5-合并风险矩阵与缓解措施)
 6. [综合时间线与里程碑](#6-综合时间线与里程碑)
 7. [验证与验收标准](#7-验证与验收标准)
+8. [当前进度核查基线](#8-当前进度核查基线2026-07-28)
 
 **附录**：
 
 - [附录 A：快速参考 — 关键 API 对照表](#附录-a快速参考--关键-api-对照表)
 - [附录 B：参考文档索引](#附录-b参考文档索引)
-- [附录 C：执行进度跟踪](#附录-c执行进度跟踪)
+- [附录 C：历史执行记录](#附录-c历史执行记录非当前状态基线)
 - [附录 D：踩坑记录](#附录-d踩坑记录)
 
 ***
@@ -195,7 +196,7 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 
 ## 3. 系统环境与工具链版本要求
 
-> **核心结论**：经代码实物验证，Cocos2d-x 3.0-oh 和 CEGUI 0.7.9-r5 均可在 VS2013 (v120) 下编译。**无需升级到 VS2015+**，当前所有预编译 `.lib` 可直接复用，消除 R13 风险。
+> **当前结论**：代码与部分静态库证明 Cocos2d-x 3.0-oh 和 CEGUI 0.7.9-r5 可使用 VS2013 (v120) 编译，主线工具链无需升级。该事实不等于所有预编译 `.lib` 已通过 ABI/CRT 和最终链接验证；R13 已按 §8 重新打开。
 
 ### 3.1 工具链现状与目标对比
 
@@ -203,13 +204,13 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 | ----------- | --------------- | -------------------------------------------------- | --------------------------------------- |
 | Win32 编译器   | VS2013 (v120)   | VS2013 (v120)                                      | **保持不变**                                |
 | Win32 SDK   | Windows SDK 8.1 | Windows SDK 8.1                                    | **保持不变**                                |
-| Android NDK | NDK r16b clang  | NDK r16b+ clang                                    | 保持或升级                                   |
-| Android SDK | android-22      | android-22+                                        | 保持或升级                                   |
-| JDK         | JDK 1.8         | JDK 1.8+                                           | 保持                                      |
-| CMake       | 无               | CMake 3.10（`D:\Program Files\CMake\bin\cmake.exe`） | 3.0-oh 使用 CMake 构建，已安装 CMake 3.10.0-rc1 |
+| Android NDK | NDK r16b clang  | NDK r16b clang                                     | 保持固定基线                                  |
+| Android SDK | android-22      | android-22                                         | 保持固定基线                                  |
+| JDK         | JDK 1.8         | JDK 1.8                                            | 保持固定基线                                  |
+| CMake       | 无               | CMake 3.10                                         | 3.0-oh 评估构建使用，命令从 PATH 解析               |
 | Python      | 2.7             | 2.7/3.x                                            | 构建脚本兼容                                  |
 
-> **关键结论**：VS2013 工具链保持不变，所有 MT3 现有预编译库（`dependencies/`、`cocos2d-x-2.2.6/` 下的第三方库）可直接复用。新增 CMake 仅用于 cocos2d-x-3.0-oh 的构建，生成 VS2013 (v120) 工程。
+> **关键结论**：VS2013 工具链保持不变；现有第三方库只作为候选复用项，必须通过 CRT/toolset/架构审计、目标最终链接和运行验证。CMake 用于生成 cocos2d-x-3.0-oh 的 VS2013 (v120) 工程。
 
 ### 3.2 各组件 PlatformToolset 现状
 
@@ -231,12 +232,12 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 cd cocos2d-x-3.0-oh
 mkdir build
 cd build
-"D:\Program Files\CMake\bin\cmake.exe" -G "Visual Studio 12 2013" ..
+cmake -G "Visual Studio 12 2013" ..
 ```
 
-### 3.3 预编译 .lib 依赖 — 无需重新编译
+### 3.3 预编译 .lib 依赖 — 候选复用，需逐项验证
 
-**核心结论：因为工具链保持 VS2013 (v120)，所有现有预编译** **`.lib`** **文件无需重新编译，可直接复用。**
+**当前结论：保持 VS2013 (v120) 只降低工具集迁移风险，不证明现有 `.lib` 可直接进入目标产物。下表是候选复用清单；在 clean build、最终链接、CRT/ABI 审计和目标运行通过前，不标记为完成。**
 
 #### 3.3.1 MT3 现有预编译库（保持使用）
 
@@ -289,7 +290,7 @@ cd build
 #### 路径 B：CMake 生成 VS2013 工程（推荐）
 
 1. 利用 cocos2d-x-3.0-oh 自带的 CMake 构建系统
-2. 运行 `"D:\Program Files\CMake\bin\cmake.exe" -G "Visual Studio 12 2013" ..` 生成 v120 解决方案
+2. 运行 `cmake -G "Visual Studio 12 2013" ..` 生成 v120 解决方案
 3. 为 engine、FireClient、CEGUI 定制模块编写 CMakeLists.txt 或保留现有 vcxproj
 4. **优点**：与 3.0-oh 上游一致，跨平台统一，无需手动维护 vcxproj
 5. **缺点**：初期 CMake 学习成本，需要为 MT3 定制模块编写 CMake 配置
@@ -317,7 +318,7 @@ cd build
 | 阶段 10  | MT3 补丁移植                                   | 2 周                    | 本文 §4.4         |
 | 阶段 11  | 测试验证                                       | 4 周                    | 本文 §7           |
 | 阶段 12  | 优化与上线                                      | 3 周                    | Cocos 方案 §9     |
-| **总计** | <br />                                     | **\~30.5 周（约 7.5 个月）** | <br />          |
+| **总计** | <br />                                     | **\~32.5 周（约 7.5 个月）** | 原 30.5 周为求和错误 |
 
 ### 4.2 阶段 3：Cocos2DRenderer 移植（关键桥接）
 
@@ -410,7 +411,7 @@ Cocos2d-x 2.2.6 上的 8 类 MT3 专属补丁需逐一评估并移植到 3.0-oh�
 | **R10** | 第三方依赖版本冲突                | 双引擎     | 中          | 中等                                                                                                                                                                                                   | **中等** | 提前梳理版本依赖                                |
 | **R11** | CEGUI 资源文件格式不兼容          | CEGUI   | 低          | 中等                                                                                                                                                                                                   | **中等** | 已验证格式高度兼容（见 CEGUI 方案 §1.4.9）            |
 | **R12** | OHOS 平台不稳定               | Cocos2d | 高          | 低                                                                                                                                                                                                    | **低**  | OHOS 作为可选目标，不影响主平台                      |
-| **R13** | ~~预编译 .lib 重编译失败（无源码库）~~ | **已解决** | 2026-07-28 | VS2013 (v120) 工具链确认完全兼容，无需升级。`FireClient.win32.vcxproj` 已切换至 `cocos2d-x-3.0-oh/build/lib/Debug` 和 `tools/CEGUI-0.7.9-r5/cegui-0.7.9/Debug.win32`，Debug 编译零错误通过，FireClient.lib (167MB) 生成。R13 风险完全消除。 | <br /> | <br />                                  |
+| **R13** | 预编译库/目标库 ABI 与路径不一致 | 双引擎 | 高 | 最终 MT3.exe 链接、运行时 ABI | **严重** | 重新打开：目标独立库已生成，但 canonical 脚本仍构建 2.2.6，最终目标链接/运行未通过；全链双配置通过后再关闭 |
 
 ### 5.3 关键风险缓解措施
 
@@ -467,7 +468,7 @@ Cocos2d-x 2.2.6 上的 8 类 MT3 专属补丁需逐一评估并移植到 3.0-oh�
 阶段 11: 测试验证               ░░░░░░░░░░░░░░░░░░░░░░░████  4 周
 阶段 12: 优化与上线             ░░░░░░░░░░░░░░░░░░░░░░░░███  3 周
 ────────────────────────────────────────────────────────────────
-总计：约 30.5 周（约 7.5 个月，含 20% 缓冲）
+总计：约 32.5 周（约 7.5 个月，原 30.5 周为求和错误；是否含缓冲需重新基线化）
 ```
 
 ### 6.2 里程碑
@@ -482,6 +483,8 @@ Cocos2d-x 2.2.6 上的 8 类 MT3 专属补丁需逐一评估并移植到 3.0-oh�
 | **M5** | 阶段 9-10 结束 | 全平台（Win32/Android/iOS）编译通过，补丁移植完成        |
 | **M6** | 阶段 11 结束   | 核心功能回归通过，性能达标                            |
 | **M7** | 阶段 12 结束   | 灰度发布完成，全量上线                              |
+
+> **2026-07-28 核查结论**：此前 M3/M4 “达成”仅有静态库编译证据，缺少基础 UI 渲染、目标 MT3.exe、资源全量加载和运行时证据。当前里程碑状态以 §8.3 为准。
 
 ### 6.3 关键路径
 
@@ -535,6 +538,287 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 ***
 
+## 8. 当前进度核查基线（2026-07-28）
+
+> **核查时点**：2026-07-28 19:34 (UTC+8)
+> **事实来源**：工程/源码/脚本/产物/实测结果优先于本文旧记录。
+> **状态定义**：`[已完成]` 表示方案验收条件均有当前证据；`[进行中]` 表示已有实现但至少一项门禁未闭环；`[未启动]` 表示未发现目标实现或验证证据。
+> **责任人说明**：仓库未记录实名责任人；下文先登记责任角色，项目经理应在 2026-07-29 前补齐姓名。
+
+### 8.1 计算口径与总体进度
+
+1. 静态库生成只计编译证据，不替代最终链接、运行时、资源或平台验收。
+2. 阶段进度按规划子任务、编译门禁、功能门禁和平台门禁综合估算。
+3. 整体进度按工期加权：`Σ(阶段工期 × 阶段完成率) / 32.5 周 = 45.7%`。
+4. §4.1 工期实际求和为 **32.5 周**，原 30.5 周少算 **2 周 / 6.6%**。
+
+| 阶段 | 工期 | 审计进度 | 状态 | 主要证据/缺口 |
+| --- | ---: | ---: | --- | --- |
+| 0 环境与基线 | 1 周 | 80% | [进行中] | VS2013/v120 工程已生成；缺专用分支、旧基线指标和目标 canonical 入口 |
+| 1 Cocos 独立编译 | 2 周 | 100% | [已完成] | `cocos2d-x-3.0-oh/build/lib` 当前有 Debug 18 个、Release 17 个静态库 |
+| 2 CEGUI 独立编译 | 1.5 周 | 100% | [已完成] | Debug/Release v120 静态库当前存在 |
+| 3 Cocos2DRenderer | 3 周 | 65% | [进行中] | 主要类已编译；ImageCodec 计划项缺失，纹理/状态 TODO 和基础 UI 实跑未闭环 |
+| 4 Nuclear 适配 | 2 周 | 75% | [进行中] | 双配置 engine.lib 存在；生命周期、触摸、调度、RT 和存根行为未验 |
+| 5 CEGUI 定制模块 | 3 周 | 65% | [进行中] | 双配置编译；空实现及 20+ 控件渲染/输入未验 |
+| 6 FireClient | 4 周 | 70% | [进行中] | 双配置 FireClient.lib 存在；最终链接、冷启动和登录首屏缺失 |
+| 7 Lua + tolua++ | 2 周 | 45% | [进行中] | `.pkg` 有修改；生成链被跳过，Lua 运行时未验 |
+| 8 资源兼容 | 1 周 | 45% | [进行中] | 实测 857 个 layout 中 812 通过、45 失败；未运行时全量加载 |
+| 9 平台适配 | 4 周 | 10% | [进行中] | 仅 Win32 工程切换；Android/iOS 仍为旧引擎，OHOS 未定 |
+| 10 MT3 补丁 | 2 周 | 30% | [进行中] | 音频/Shader/纹理/Lua/Spine 有部分实现；多处存根/TODO |
+| 11 测试验证 | 4 周 | 0% | [未启动] | 无目标功能、性能、截图或稳定性结果 |
+| 12 优化上线 | 3 周 | 0% | [未启动] | 依赖阶段 11 |
+| **整体** | **32.5 周** | **45.7%** | **[进行中]** | 已取得 14.85 个工期加权周，尚余 17.65 个 |
+
+### 8.2 逐项任务对照
+
+#### 8.2.1 阶段 0-2
+
+| WBS | 子任务 | 状态 | 核查结果 |
+| --- | --- | --- | --- |
+| 0.1 | CMake/VS2013/v120 环境与工程 | [已完成] | `build/CMakeCache.txt` 和生成 vcxproj 已验证 |
+| 0.2 | 3.0-oh/0.7.9-r5 源码基线 | [已完成] | 源码与 CEGUI v120 工程存在 |
+| 0.3 | 升级专用分支 | [未启动] | 当前为 `main`，未发现专用分支 |
+| 0.4 | 旧版功能/性能基线 | [未启动] | FPS、内存、启动时间、DrawCall、APK 大小无实测值 |
+| 0.5 | 目标 canonical 构建入口 | [进行中] | canonical wrapper 仍硬编码 2.2.6 |
+| 1.1 | CMake 生成 v120 Cocos 工程 | [已完成] | 生成工程为 v120 |
+| 1.2 | sqlite3/storage 修复 | [已完成] | 修复已落库 |
+| 1.3 | Debug 独立编译 | [已完成] | 目标目录当前有 18 个 lib（含 tolua.lib） |
+| 1.4 | Release 独立编译 | [已完成] | 目标目录当前有 17 个 lib |
+| 1.5 | Cocos 产物接入下游 | [已完成] | 下游工程引用 `cocos2d-x-3.0-oh/build/lib/$(Configuration)` |
+| 1.6 | cpp-tests/curl 验证 | [未启动] | 原记录明确跳过；不阻塞核心库，但不应表述为全量零错误 |
+| 2.1 | CEGUI v120 工程 | [已完成] | Debug/Release 均为 v120 |
+| 2.2 | CEGUI Debug | [已完成] | `cegui-0.7.9_d.lib`，98,892,504 bytes |
+| 2.3 | CEGUI Release | [已完成] | `cegui-0.7.9.lib`，79,578,922 bytes |
+
+#### 8.2.2 阶段 3-5
+
+| WBS | 子任务 | 状态 | 核查结果 |
+| --- | --- | --- | --- |
+| 3.2.1 | CEGUI Renderer 差异清单 | [已完成] | 目标实现已按 0.7.9 接口编译 |
+| 3.2.2 | Cocos 纹理/渲染差异清单 | [已完成] | 迁移点已有实现记录 |
+| 3.2.3 | CEGUICocos2DRenderer | [进行中] | 已编译；UI/XP 状态保存恢复仍有 TODO |
+| 3.2.4 | CEGUICocos2DTexture | [进行中] | 已编译；ETC/alpha/压缩纹理仍有默认返回/TODO |
+| 3.2.5 | GeometryBuffer | [进行中] | 已编译；RenderCommand、裁剪、批处理未验 |
+| 3.2.6 | Render/Texture/ViewportTarget | [进行中] | 已编译；翻转、恢复、嵌套 RT 未验 |
+| 3.2.7 | Cocos2DImageCodec | [未启动] | 目标树/工程未发现计划文件；如由 SILLY 替代需补设计决策与验收 |
+| 3.2.8 | CEGUI 初始化 + 基础 UI | [未启动] | 无目标 exe、日志或截图 |
+| 4.1 | engine 工程切到 3.0-oh | [已完成] | 工程路径已切换 |
+| 4.2 | EngineApp/Layer/Ticker API | [已完成] | 双配置编译 |
+| 4.3 | 触摸/draw/Director/GL API | [已完成] | 源码迁移已编译 |
+| 4.4 | MT3 定制 Cocos API | [进行中] | Texture2D/Image/GLProgram 等仍有存根/降级路径 |
+| 4.5 | engine Debug/Release | [已完成] | 119,766,434 / 87,002,328 bytes |
+| 4.6 | 生命周期/触摸/调度/RT 验证 | [未启动] | 无目标运行用例 |
+| 5.1 | 第一批核心控件 | [进行中] | 已编译；渲染、输入、富文本未验 |
+| 5.2 | 第二批常用控件 | [进行中] | 已编译；运行时未验 |
+| 5.3 | 第三批辅助控件 | [进行中] | 已编译；运行时未验 |
+| 5.4 | MT3 CEGUI 定制 API | [进行中] | 多数接口已编译，部分为空实现/存根 |
+| 5.5 | CEGUI 双配置集成编译 | [已完成] | 目标静态库存在 |
+| 5.6 | 20+ 控件/16 渲染器验收 | [未启动] | 无截图、交互或日志证据 |
+
+#### 8.2.3 阶段 6-8
+
+| WBS | 子任务 | 状态 | 核查结果 |
+| --- | --- | --- | --- |
+| 6.1 | FireClient 工程切换 | [已完成] | 已引用目标头/库路径，但 Cocos lib 路径尚未闭环 |
+| 6.2 | tolua/HTTP/类型兼容 | [已完成] | 已进入双配置静态库 |
+| 6.3 | FireClient Debug/Release | [已完成] | 177,398,148 / 128,040,360 bytes |
+| 6.4 | 最终 MT3.exe 链接 | [进行中] | 只有新 MT3.lib；目标 exe 缺失，工作树含 `platform_stub.cpp` 补丁 |
+| 6.5 | 冷启动/CEGUI/登录首屏 | [未启动] | 运行目录 exe 早于升级提交，不计本轮证据 |
+| 6.6 | 5262 条警告分类/门禁 | [未启动] | 大量警告会掩盖新增缺陷 |
+| 7.1 | `.pkg` API 适配 | [已完成] | 有 3 文件/11 处修改记录 |
+| 7.2 | 重生成 LuaEngine.cpp | [未启动] | 无本轮生成日志 |
+| 7.3 | 重生成 LuaFireClient/Win32 | [未启动] | 原记录明确“跳过”，与 §7.1 门禁冲突 |
+| 7.4 | Lua 静态 API 扫描 | [进行中] | 有数量结论，缺可复现报告和绑定差异校验 |
+| 7.5 | CEGUI LuaFunctor/事件 | [进行中] | 源码有修改，未运行时验证 |
+| 7.6 | Lua 全量加载/自定义控件 | [未启动] | 无目标日志 |
+| 8.1 | 资源类型/数量盘点 | [已完成] | 857 layout 等数量已核对 |
+| 8.2 | XML 可解析性 | [进行中] | 至少有 `jinglingtiwen.layout` 等解析错误 |
+| 8.3 | Scheme/WidgetLook 映射 | [进行中] | 多个 `TaharezLook/*` 类型未映射 |
+| 8.4 | Imageset/Font 引用 | [进行中] | 多个资源缺失 |
+| 8.5 | 全量静态门禁 | [进行中] | 857 中 812 通过、45 失败，通过率 94.7% |
+| 8.6 | 目标运行时全量加载 | [未启动] | “格式兼容”不等于引用完整或可加载 |
+
+#### 8.2.4 阶段 9-12
+
+| WBS | 子任务 | 状态 | 核查结果 |
+| --- | --- | --- | --- |
+| 9.1 | Win32 工程切换 | [已完成] | 三个主工程已切主要路径 |
+| 9.2 | Win32 最终构建/运行 | [进行中] | 目标 exe 与运行证据缺失 |
+| 9.3 | Android 迁移/构建/运行 | [未启动] | Locojoy/common/Joysdk/Yijie Android.mk 仍引用 2.2.6 |
+| 9.4 | iOS 迁移/构建/运行 | [未启动] | FireClient/engine Xcode 工程仍引用 2.2.6/旧 CEGUI |
+| 9.5 | OHOS 范围/工程/验收 | [未启动] | 只有评估树，交付范围未定 |
+| 10.1 | Win32 音频 Shim | [进行中] | 接口已移植，播放/优先级未验 |
+| 10.2 | Shader 兼容 | [进行中] | 接口已移植，部分存根，像素一致性未验 |
+| 10.3 | DDS/ATC/PVRTC/ETC | [进行中] | Renderer/Texture2D 仍有 TODO/默认返回 |
+| 10.4 | Lua 桥接 | [进行中] | 兼容 API 已编译，生成链/运行时未闭环 |
+| 10.5 | Spine JSON | [进行中] | legacy helper 已加入，目标资源未回归 |
+| 10.6 | 视频播放器 Shim | [未启动] | 无实现/验收证据 |
+| 10.7 | 照片选择器 Shim | [未启动] | 无实现/验收证据 |
+| 10.8 | FireClient 兼容 | [进行中] | 静态库通过，最终运行未完成 |
+| 11.1 | 全平台编译/功能回归 | [未启动] | 登录、选角、入世界、战斗、退出无目标记录 |
+| 11.2 | 截图/边界/性能/稳定性 | [未启动] | 无旧基线或新结果 |
+| 12.1 | 优化/缺陷清零 | [未启动] | 依赖阶段 11 |
+| 12.2 | 灰度/回滚/上线 | [未启动] | 依赖阶段 11 |
+
+### 8.3 偏差与里程碑
+
+| 口径 | 计划/声明 | 审计值 | 偏差 |
+| --- | ---: | ---: | ---: |
+| 7 月 26 日起名义顺排，7 月 28 日含首尾 3 天 | 1.3% | 45.7% | **+44.4 个百分点**，实现并行提前但验收滞后 |
+| 旧文档自报“阶段 0-8 完成” | 60.0% | 45.7% | **-14.3 个百分点 / 约 4.7 计划周验收缺口** |
+| 总工期 | 30.5 周 | 32.5 周 | **+2 周 / +6.6%** |
+| 阶段 9 开始 | 2026-08-18 | 按前 19.5 周顺排为 2026-12-09 12:00 | 旧日期压缩 **113.5 天** |
+| 全项目完成 | 2026-11-17 | 按 32.5 周顺排为 2027-03-10 12:00 | 旧日期压缩约 **113.5 天** |
+
+旧排期没有记录并行人力假设，不能同时满足工期和绝对日期。当前不是相对 7 月 28 日名义计划落后，而是旧文档把未验收工作提前记为完成；M4 建议闭环日为 2026-08-14，旧结论提前 **17 天**。
+
+| 里程碑 | 进度 | 状态 | 未闭环项 |
+| --- | ---: | --- | --- |
+| M0 | 80% | [进行中] | 专用分支、旧基线、目标 canonical 入口 |
+| M1 | 100% | [已完成] | Cocos 与 CEGUI 独立双配置静态库当前存在 |
+| M2 | 65% | [进行中] | ImageCodec 决策、Renderer TODO、基础 UI |
+| M3 | 69.0% | [进行中] | Nuclear/控件运行验收 |
+| M4 | 59.3% | [进行中] | 最终链接、Lua 生成、45 个资源失败、登录首屏 |
+| M5 | 16.7% | [进行中] | 三端、OHOS 决策、8 类补丁 |
+| M6 | 0% | [未启动] | 阶段 11 |
+| M7 | 0% | [未启动] | 阶段 12 |
+
+### 8.4 已解决问题与验证状态
+
+| 问题 | 结果 | 验证状态 |
+| --- | --- | --- |
+| VS2013/v120 生成能力 | CMakeCache/生成工程均为 VS2013/v120 | 已验证 |
+| CEGUI 双配置静态库 | 两个目标 lib 当前存在 | 已验证（编译层） |
+| Nuclear 主要 API 适配 | engine 双配置 lib 存在 | 已验证（编译层） |
+| FireClient 主要 API 适配 | FireClient 双配置 lib 存在 | 已验证（编译层） |
+| Win32 主工程路径切换 | 三个工程可检索到目标路径 | 已验证（配置层） |
+| sqlite/storage 缺口 | 修复已落库 | 部分验证，需 clean rebuild |
+| 资源检查工具 | 可复现 857/812/45 | 已验证（工具层），业务门禁失败 |
+| 平台壳层入口 | 旧 Win32/Android/iOS 入口探针通过 | 已验证（旧基线），不代表升级完成 |
+
+### 8.5 待解决问题、阻碍与责任
+
+> **排期口径**：下表覆盖 §8.2 中全部 `[进行中]` / `[未启动]` 子任务；日期是本次核查建议完成时间，不代表责任人承诺。实名责任人应由项目经理在 2026-07-29 前补齐。
+
+| WBS | 优先级 | 未完成任务/直接阻碍 | 影响范围 | 当前解决进展 | 责任角色 | 建议完成时间 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0.3 | P1 | 尚未建立升级专用分支 | 变更隔离、回滚、审计 | 当前仍在 `main` 推进 | 项目经理/配置负责人（待实名） | 2026-07-29 |
+| 0.4 | P0 | 旧版功能和性能基线未采集 | 阶段 11 无可靠对照 | 已明确 FPS/内存/启动/DrawCall/APK 五项指标 | 性能 QA（待实名） | 2026-08-07 |
+| 0.5 | P0 | 目标引擎未进入 canonical 构建入口 | clean build、ABI、可复现性 | 已定位 wrapper 和内部脚本仍固定 2.2.6 | Win32 构建负责人（待实名） | 2026-08-03 |
+| 1.6 | P2 | cpp-tests 仍缺 curl 验证 | Cocos 非核心样例覆盖 | 核心静态库已生成，原执行记录明确跳过 | Cocos 构建负责人（待实名） | 2026-08-07 |
+| 3.2.3 | P0 | Renderer 状态保存/恢复存在 TODO | UI 与 XP 渲染一致性 | 主类已编译 | 渲染/CEGUI 负责人（待实名） | 2026-08-07 |
+| 3.2.4 | P0 | ETC/alpha/压缩纹理路径为默认返回或 TODO | Android 纹理、透明度、资源显示 | Texture 已编译，行为未验证 | 渲染/纹理负责人（待实名） | 2026-08-07 |
+| 3.2.5 | P0 | RenderCommand、裁剪、批处理未验 | 控件层级、DrawCall、可见区域 | GeometryBuffer 已编译 | 渲染/CEGUI 负责人（待实名） | 2026-08-08 |
+| 3.2.6 | P0 | 翻转、状态恢复、嵌套 RT 未验 | 特效、离屏渲染、设备恢复 | 相关 Target 类已编译 | 渲染/引擎负责人（待实名） | 2026-08-08 |
+| 3.2.7 | P0 | ImageCodec 计划项缺实现或替代决策 | 图片解码职责和兼容边界 | 已确认目标树/工程无计划文件 | 技术负责人/CEGUI 负责人（待实名） | 2026-08-03 决策 |
+| 3.2.8 | P0 | 缺目标 exe、日志和基础 UI 截图 | M2 验收 | 等待 3.2.3-3.2.7 和 6.4 | 客户端集成负责人（待实名） | 2026-08-10 |
+| 4.4 | P0 | MT3 定制 Texture2D/Image/GLProgram 等仍有存根 | Shader、纹理、字体、GL 行为 | 接口已进入 engine 双配置静态库 | Cocos/Nuclear 负责人（待实名） | 2026-08-10 |
+| 4.6 | P0 | 生命周期、触摸、调度和 RT 无运行用例 | M3、输入和场景稳定性 | 编译证据已具备 | Nuclear/QA 负责人（待实名） | 2026-08-10 |
+| 5.1 | P0 | 第一批核心控件未做渲染/输入/富文本验证 | 登录、主界面 | 已编译 | CEGUI/UI QA（待实名） | 2026-08-12 |
+| 5.2 | P1 | 第二批常用控件未做运行验证 | 背包、聊天、任务等页面 | 已编译 | CEGUI/UI QA（待实名） | 2026-08-14 |
+| 5.3 | P1 | 第三批辅助控件未做运行验证 | 长尾 UI 页面 | 已编译 | CEGUI/UI QA（待实名） | 2026-08-14 |
+| 5.4 | P0 | 部分 MT3 CEGUI 定制 API 为空实现/存根 | 控件行为和事件链 | 多数接口已编译 | CEGUI 负责人（待实名） | 2026-08-12 |
+| 5.6 | P1 | 20+ 控件/16 渲染器缺截图、交互和日志证据 | M3 完整性 | 等待基础 UI 和控件用例 | CEGUI/UI QA（待实名） | 2026-08-14 |
+| 6.4 | P0 | 最终链接符号尚未收敛，目标 MT3.exe 缺失 | 所有 Win32 运行验收 | 新 MT3.lib 已生成，链接补丁正在工作树推进 | Win32/引擎负责人（待实名） | 2026-08-05 |
+| 6.5 | P0 | 冷启动、CEGUI 初始化、登录首屏缺证 | M4 | 依赖 exe、Renderer 和资源门禁 | 客户端集成负责人（待实名） | 2026-08-14 |
+| 6.6 | P1 | 5262 条警告未分类和设门禁 | 新缺陷可见性、后续维护 | 当前只有数量记录 | 模块负责人/CI（待实名） | 2026-08-14 |
+| 7.2 | P0 | LuaEngine.cpp 未按修改后的 `.pkg` 重生成 | Lua ABI、方法表 | 源 `.pkg` 已修改 | Lua 工具链负责人（待实名） | 2026-08-10 |
+| 7.3 | P0 | LuaFireClient/Win32 绑定重生成被跳过 | Win32 Lua 桥接 | 已确认旧记录与生成门禁冲突 | Lua 工具链负责人（待实名） | 2026-08-10 |
+| 7.4 | P1 | Lua 静态扫描缺可复现报告和差异校验 | 绑定覆盖率 | 已有数量结论 | Lua 工具链/QA（待实名） | 2026-08-10 |
+| 7.5 | P0 | LuaFunctor 和 CEGUI 事件只完成源码修改 | UI 事件、回调生命周期 | 修改已编译，未实跑 | Lua/CEGUI 负责人（待实名） | 2026-08-12 |
+| 7.6 | P0 | Lua 全量加载和自定义控件无目标日志 | 启动、登录、业务脚本 | 等待重生成与目标 exe | Lua/客户端集成负责人（待实名） | 2026-08-14 |
+| 8.2 | P0 | layout XML 至少存在解析错误 | UI 启动和页面加载 | 已定位 `jinglingtiwen.layout` 等失败项 | UI 资源负责人（待实名） | 2026-08-10 |
+| 8.3 | P0 | 多个 `TaharezLook/*` WidgetLook 未映射 | 控件创建、皮肤显示 | 失败类型已分类 | UI 资源/CEGUI 负责人（待实名） | 2026-08-12 |
+| 8.4 | P0 | Imageset/Font 引用存在缺失 | 图片、字体和中文显示 | 缺失资源已进入 45 项清单 | UI 资源负责人（待实名） | 2026-08-12 |
+| 8.5 | P0 | 静态门禁仍有 45/857 失败 | M4、资源回归 | 当前通过 812/857（94.7%） | UI 资源负责人（待实名） | 2026-08-13 |
+| 8.6 | P0 | 目标运行时未执行全量资源加载 | 真实依赖和资源组完整性 | 等待 8.2-8.5 与目标 exe | UI 资源/客户端集成负责人（待实名） | 2026-08-14 |
+| 9.2 | P0 | Win32 最终构建和运行未闭环 | Win32 平台验收、M5 | 工程已切换，目标 exe 缺失 | Win32 负责人（待实名） | 2026-08-14 |
+| 9.3 | P1 | Android 工程仍引用 2.2.6 | APK、JNI、arm64 ABI | 尚未迁移 | Android 负责人（待实名） | 2026-08-28 |
+| 9.4 | P1 | iOS 工程仍引用 2.2.6/旧 CEGUI | iOS 构建、生命周期 | 尚未迁移，依赖 macOS/Xcode 执行器 | iOS 负责人（待实名） | 2026-09-11 |
+| 9.5 | P2 | OHOS 是否纳入本期尚未决策 | 范围、工期、人员 | 当前仅有评估树 | 技术/产品负责人（待实名） | 2026-08-03 决策 |
+| 10.1 | P1 | 音频 Shim 未验证播放和优先级 | 音效、音乐、资源释放 | 接口已移植 | 音频/平台负责人（待实名） | 2026-08-12 |
+| 10.2 | P0 | Shader 兼容存在存根且无像素对比 | 全局渲染、特效 | 接口已移植 | 渲染负责人（待实名） | 2026-08-12 |
+| 10.3 | P0 | DDS/ATC/PVRTC/ETC 路径存在 TODO | 三端纹理与包体 | Renderer/Texture2D 已有部分实现 | 渲染/平台负责人（待实名） | 2026-08-12 |
+| 10.4 | P0 | Lua 桥接生成链和运行时未闭环 | 脚本 ABI、UI 事件 | 兼容 API 已编译 | Lua 工具链负责人（待实名） | 2026-08-14 |
+| 10.5 | P1 | Spine legacy helper 未用目标资源回归 | 角色、特效动画 | helper 已加入 | 动画/引擎负责人（待实名） | 2026-08-14 |
+| 10.6 | P1 | 视频播放器 Shim 无实现/验收证据 | 视频功能、平台媒体能力 | 未发现目标实现 | 平台负责人（待实名） | 2026-09-11 |
+| 10.7 | P1 | 照片选择器 Shim 无实现/验收证据 | 相册/头像等平台功能 | 未发现目标实现 | 平台负责人（待实名） | 2026-09-11 |
+| 10.8 | P0 | FireClient 兼容只到静态库层 | 冷启动、登录和业务主链 | 双配置 FireClient.lib 已存在 | 客户端集成负责人（待实名） | 2026-08-14 |
+| 11.1 | P1 | 全平台构建和核心功能回归依赖 M5 | 登录、选角、入世界、战斗、退出 | 测试矩阵尚未执行 | 功能 QA/平台负责人（待实名） | 2026-10-02 |
+| 11.2 | P1 | 截图、边界、性能和稳定性缺旧基线/目标产物 | 质量准入、容量和性能 | 验收阈值已定义，数据未采集 | 性能 QA（待实名） | 2026-10-09 |
+| 12.1 | P1 | 优化和阻断缺陷清零依赖阶段 11 | 发布质量 | 尚未启动 | 各模块负责人（待实名） | 2026-10-30 |
+| 12.2 | P1 | 灰度、回滚演练和上线批准依赖 12.1 | 正式发布 | 尚未启动 | 发布/运维/项目经理（待实名） | 2026-11-06 |
+
+### 8.6 质量与完整性评估
+
+评分：优 90-100，良 75-89，中 60-74，差 0-59；阶段 11/12 不纳入已开展工作均值。
+
+| 范围 | 分数/等级 | 主要缺陷 | 改进建议 |
+| --- | --- | --- | --- |
+| 阶段 0 | 75 / 良 | 缺基线与目标构建入口 | 固化 profile 和旧版指标 |
+| 阶段 1 | 85 / 良 | 双配置产物齐全，非核心 cpp-tests 未覆盖 | 固化 clean build 命令、日志和产物清单 |
+| 阶段 2 | 85 / 良 | 缺 clean build 日志指纹 | 固化命令、日志、依赖指纹 |
+| 阶段 3 | 55 / 差 | TODO/组件缺口/无运行验证 | 最小 Renderer 测试 + 清零关键存根 |
+| 阶段 4 | 70 / 中 | 无生命周期/触摸/RT 验证 | 补独立用例 |
+| 阶段 5 | 55 / 差 | 空实现、控件行为未验 | 分三批截图/输入/事件回归 |
+| 阶段 6 | 65 / 中 | 无最终 exe/登录首屏 | 用目标 exe 关闭阶段 |
+| 阶段 7 | 45 / 差 | 源定义和生成物可能漂移 | 强制重生成并比较符号/行为 |
+| 阶段 8 | 40 / 差 | 45 个静态失败推翻“完全兼容” | 分类旧缺陷/升级回归并全量加载 |
+| 阶段 9 | 30 / 差 | 只有 Win32 配置切换 | 平台拆负责人和独立门禁 |
+| 阶段 10 | 35 / 差 | 接口补齐多于行为移植 | 8 类补丁逐项输入/输出验收 |
+| **阶段 0-8 综合** | **63 / 中** | 编译覆盖较好；canonical、运行时和资源不足 | 暂停扩大迁移面，先关闭 P0 |
+| **含阶段 9-10 的整体** | **56 / 差** | 跨平台和补丁行为成熟度低，阶段 11-12 尚未启动 | 先完成 Win32 闭环，再按平台独立验收 |
+
+潜在兼容性问题：静态库不暴露最终符号/CRT/对象布局；Renderer ETC/alpha、状态切换、嵌套 RT、裁剪/批处理未验；Texture2D/Image/GLProgram 存根可能“可链接但显示错误”；目标工程仍复用部分 2.2.6 第三方路径；Lua 生成物漂移；45 个资源失败；Android/iOS Clang/ObjC++ 未编译；性能阈值缺旧基线。
+
+### 8.7 根本原因与风险
+
+**根本原因**：完成定义被缩成“静态库零错误”；CMake 输出、工程路径和 canonical 脚本双轨漂移；高耦合 API 先以存根穿过编译；tolua 生成链被绕过；资源集中于 Win32、三端未并行；从格式兼容误推全量可加载；排期缺人力/并行假设；原文误拼接并重复导致状态复制漂移。
+
+| 风险 | 状态/变化 | 等级 | 应对与关闭条件 |
+| --- | --- | --- | --- |
+| R1/R6 Renderer/一致性 | TODO、无截图，未缓解 | 致命 | 基础 UI/纹理/RT/像素对比通过 |
+| R2 CEGUI 控件 | 仅编译，部分缓解 | 严重 | 20+ 控件渲染/输入/事件通过 |
+| R3 Nuclear | 仅编译，部分缓解 | 严重 | 生命周期/触摸/Ticker/RT 通过 |
+| R4/R5 tolua/Lua | 未重生成，风险上升 | 严重 | 重生成、差异审查、Lua 全量加载 |
+| R7 MT3 补丁 | 存根/TODO，风险上升 | 致命 | 8 类补丁 checklist 全闭环 |
+| R8 性能 | 无基线 | 严重 | 先采旧基线，再跑 §7.3 |
+| R9 构建迁移 | 路径/脚本分裂已发生 | 致命 | clean checkout canonical 双配置成功 |
+| R10/R13 依赖/ABI | 混用旧路径，R13 重新打开 | 严重 | CRT/toolset/架构审计 + 最终运行 |
+| R11 资源 | 45 个失败，风险上升 | 严重 | 静态 857/857 + 运行时全量加载 |
+| R12 OHOS | 范围未决 | 中等 | 2026-08-03 前决策 |
+| R14 文档/证据漂移 | 新发现 | 严重 | §8 单一状态源，每项绑定命令/产物/日志 |
+
+### 8.8 调整排期与资源建议
+
+| 工作包 | 日期 | 退出条件 |
+| --- | --- | --- |
+| 构建基线收敛 | 07-29 至 08-03 | Cocos 双配置、统一路径、目标 canonical clean build |
+| Win32 Renderer/补丁/链接 | 08-03 至 08-10 | 目标 MT3.exe、关键 TODO/存根关闭 |
+| M2-M4 恢复冲刺 | 08-06 至 08-14 | 基础 UI、控件、Lua、857/857、登录首屏 |
+| Android | 08-17 至 08-28 | free 主线 APK、ABI 门禁、连续 3 次登录 |
+| iOS | 08-31 至 09-11 | Xcode 双配置、启动/登录/生命周期 |
+| 集成/性能测试 | 09-14 至 10-09 | §7 全门禁、性能达标 |
+| 优化/灰度/回滚/上线 | 10-12 至 11-06 | 灰度稳定、回滚演练、发布批准 |
+| 管理缓冲 | 11-09 至 11-17 | 只处理阻断缺陷 |
+
+OHOS 若纳入本期，需独立平台工作包并顺延至少 3-4 周；否则明确移出 M5。资源建议：1 名构建负责人、2 名渲染/引擎、1 名 Lua/生成链、1 名 UI 资源 + 1 名 QA、Android/iOS 各 1 名平台负责人（iOS 配 macOS 执行器）、阶段 11 配功能和性能 QA。每个 `[已完成]` 项必须绑定命令、退出码、产物路径/大小/时间、日志或截图之一。
+
+### 8.9 核查证据摘要
+
+| 证据 | 结果 |
+| --- | --- |
+| `git status --short` | 19:34 快照显示 Win32/平台/Lua 链接补丁仍在工作树推进，尚未形成新的 MT3.exe |
+| CMakeCache/vcxproj | VS2013/v120 已确认 |
+| 产物盘点 | Cocos/CEGUI/engine/FireClient 双配置存在；目标 MT3.exe 缺失 |
+| canonical 脚本检索 | wrapper/内部脚本仍固定 2.2.6 |
+| Renderer TODO 检索 | 压缩纹理、状态保存恢复、ABI 兼容存根未闭环 |
+| CEGUI 资源门禁 | FAIL：857/812/45 |
+| Android/iOS 工程 | 仍引用 2.2.6；iOS 仍引用旧 CEGUI |
+| 渲染/平台探针 | 通过的是旧 0.7.1 渲染锚点和旧平台入口，只作旧基线证据 |
+
+***
+
 ## 附录 A：快速参考 — 关键 API 对照表
 
 ### Cocos2d-x 2.2.6 → 3.0-oh
@@ -583,10 +867,12 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 ***
 
-## 附录 C：执行进度跟踪
+## 附录 C：历史执行记录（非当前状态基线）
 
 > **执行开始**：2026-07-26
 > **最后更新**：2026-07-28
+>
+> **审计说明**：本附录只追溯“做过什么”。其中“完成”多指源码或静态库编译完成，不再代表阶段验收完成；当前状态、百分比、里程碑、阻碍、责任角色和排期统一以 §8 为准。
 
 ### 总体进度
 
@@ -610,7 +896,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 任务                                  |  状态  | 结果                                                   |
 | ----------------------------------- | :--: | ---------------------------------------------------- |
-| CMake 3.10 安装验证                     | ✅ 完成 | `D:\Program Files\CMake\bin\cmake.exe`，版本 3.10.0-rc1 |
+| CMake 3.10 安装验证                     | ✅ 完成 | 19:00 历史记录为 3.10.0-rc1；当前命令应从 PATH 解析          |
 | cocos2d-x-3.0-oh CMakeLists.txt 验证  | ✅ 完成 | 根目录存在，`cmake_minimum_required(VERSION 2.8)`          |
 | cocos2d-x-3.0-oh CMake 生成 VS2013 工程 | ✅ 完成 | `build/Cocos2dx.sln`，PlatformToolset=v120            |
 | CEGUI 0.7.9-r5 v120 工程确认            | ✅ 完成 | `cegui-0.7.9.win32.vcxproj` + `cegui-0.7.9.sln`，v120 |
@@ -1190,2265 +1476,141 @@ self->PlayNPCSound(ceguiSoundRes, iNpcId, bForcePlay);
 - **修复**：将整个 `/flp:` 参数值用引号包裹，或移除 `;Verbosity=minimal` 部分（MSBuild 默认输出 minimal 级别）
 - **教训**：在 PowerShell 中调用 MSBuild 时，注意分号、逗号等特殊字符的转义
 
-# MT3 依赖编译与构建问题系统总结
-
-> **版本**：1.0.0
-> **日期**：2026-07-26
-> **范围**：从依赖库全量重编译到 MT3.exe 最终成功启动的全链路问题梳理
-> **工具链**：VS2013 (v120) + MSBuild 12.0 + Windows SDK 8.1
-
 ***
 
-## 目录
+## 附录 E：19:00 初次产物核查（已由 §8 取代）
 
-1. [问题全景图](#1-问题全景图)
-2. [分类一：依赖库编译问题](#2-分类一依赖库编译问题)
-3. [分类二：链接问题](#3-分类二链接问题)
-4. [分类三：运行时崩溃问题](#4-分类三运行时崩溃问题)
-5. [分类四：构建系统问题](#5-分类四构建系统问题)
-6. [关键技术点](#6-关键技术点)
-7. [经验教训](#7-经验教训)
-8. [预防措施与最佳实践](#8-预防措施与最佳实践)
-
-***
-
-## 1. 问题全景图
-
-本次工作涉及 **14 个依赖库** 的 VS2013 全量重编译，以及 `engine`、`FireClient`、`MT3` 三个主工程的链接与运行验证。整个过程共遇到 **18 个独立问题**，按类别分布如下：
-
-| 类别    | 问题数 | 严重程度 |
-| ----- | --- | ---- |
-| 依赖库编译 | 8   | 中    |
-| 链接问题  | 5   | 高    |
-| 运行时崩溃 | 3   | 致命   |
-| 构建系统  | 2   | 中    |
-
-### 依赖库构建清单
-
-| #  | 库名          | 版本     | 源码来源                                             | 构建方式            |
-| -- | ----------- | ------ | ------------------------------------------------ | --------------- |
-| 1  | zlib        | 1.2.5  | `dependencies/zlib-1.2.5/`                       | 现有 vcxproj + 补丁 |
-| 2  | libjpeg     | 8b     | `dependencies/jpeg-8b/`                          | 新建 vcxproj      |
-| 3  | libpng      | 1.4.7  | `dependencies/libpng-1.4.7/`                     | 新建 vcxproj      |
-| 4  | libtiff     | 4.0.3  | `dependencies/third-party-rebuild/tiff-4.0.3/`   | 新建 vcxproj      |
-| 5  | glew        | 1.7.0  | `dependencies/glew-1.7.0/`                       | 新建 vcxproj      |
-| 6  | libogg      | 1.3.2  | `dependencies/libogg-1.3.2/`                     | 现有 sln + 参数覆盖   |
-| 7  | libvorbis   | 1.3.5  | `dependencies/libvorbis-1.3.5/`                  | 现有 vcxproj + 补丁 |
-| 8  | libspeex    | 1.2rc2 | `dependencies/speex-1.2rc2/`                     | 现有 vcxproj      |
-| 9  | FreeType    | 2.4.12 | `dependencies/freetype-2.4.12/`                  | 现有 sln          |
-| 10 | SILLY       | 0.1.0  | `dependencies/SILLY-0.1.0/`                      | 新建 vcxproj      |
-| 11 | pthreadVCE2 | 2.x    | `dependencies/third-party-rebuild/pthreads-w32/` | 新建 vcxproj      |
-| 12 | libcurl     | 7.48.0 | `dependencies/third-party-rebuild/curl-7.48.0/`  | 现有 sln          |
-| 13 | pcre        | 8.31   | `dependencies/pcre-8.31/`                        | 现有 vcxproj      |
-| 14 | CEGUI       | 0.7.1  | `dependencies/cegui/`                            | 现有 sln          |
-
-***
-
-## 2. 分类一：依赖库编译问题
-
-### 2.1 zlib — 输出命名与工具集版本不匹配
-
-**表现**：zlib 原工程使用 `v100` (VS2010) 工具集，且输出文件名为 `zlibstat.lib`，而 MT3 链接期望 `libzlib.lib`。
-
-**根因**：
-
-- `dependencies/zlib-1.2.5/contrib/vstudio/vc10/zlibstat.vcxproj` 默认 `PlatformToolset=v100`
-- Debug 配置使用 `MultiThreadedDebug` (`/MTd`)，与 cocos2d 的 `MultiThreadedDebugDLL` (`/MDd`) 不一致
-- 定义了 `ZLIB_WINAPI` 宏导致使用 `stdcall` 调用约定，而 cocos2d 期望 `cdecl`
-
-**解决方案**：
-
-1. 将 `PlatformToolset` 从 `v100` 改为 `v120`
-2. 移除 `ZLIB_WINAPI` 宏定义
-3. Debug 配置将 `RuntimeLibrary` 从 `MultiThreadedDebug` 改为 `MultiThreadedDebugDLL`
-4. 构建后将 `zlibstat.lib` 重命名为 `libzlib.lib`，并同步到 `cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libraries/`
-
-**关键代码**（[Rebuild-AllDependencies-v120.ps1#L171-L217](file:///e:/MT3/tools/scripts/Rebuild-AllDependencies-v120.ps1#L171-L217)）：
-
-```powershell
-$patched = $content -replace 'ZLIB_WINAPI;?', ''
-$patched = $patched -replace '(<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>)',
-    '<RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>'
-# 构建后重命名
-Copy-Item "$zlibOutputDir\zlibstat.lib" "$zlibOutputDir\libzlib.lib" -Force
-```
-
-### 2.2 libogg — CRT 运行时库不匹配
-
-**表现**：libogg 的 Debug 配置使用静态 CRT (`/MTd`)，与 cocos2d 的动态 CRT (`/MDd`) 冲突，链接时产生 `LNK2005` 符号重复定义错误。
-
-**根因**：`libogg_static.sln` 中 Debug 配置的 `RuntimeLibrary` 为 `MultiThreadedDebug`。
-
-**解决方案**：通过 MSBuild 命令行参数覆盖运行时库设置：
-
-```powershell
-msbuild libogg_static.sln /p:Configuration=Debug /p:RuntimeLibrary=MultiThreadedDebugDLL
-```
-
-### 2.3 libvorbis — 依赖路径与命名约定
-
-**表现**：libvorbis 编译失败，找不到 libogg 的头文件和库文件。
-
-**根因**：
-
-1. `libogg.props` 中的 `AdditionalIncludeDirectories` 和 `AdditionalLibraryDirectories` 指向不存在的历史路径
-2. `vorbisenc` 子项目期望 `libogg_static.lib`，但 libogg 实际输出 `libogg.lib`
-
-**解决方案**：
-
-1. 修复 `libogg.props` 中的路径指向正确的 libogg 位置
-2. 将 `libogg.lib` 复制为 `libogg_static.lib` 以满足 vorbisenc 的依赖
-
-**关键代码**（[Rebuild-AllDependencies-v120.ps1#L367-L432](file:///e:/MT3/tools/scripts/Rebuild-AllDependencies-v120.ps1#L367-L432)）：
-
-```powershell
-# 修复 libogg.props 路径
-$correctOggInclude = "$repoRoot\dependencies\libogg-1.3.2\include"
-$correctOggLibDir = "$repoRoot\dependencies\libogg-1.3.2\win32\VS2010\Release.win32"
-# 创建 libogg_static.lib 别名
-Copy-Item $liboggLib $liboggStaticLib
-```
-
-### 2.4 libspeex — 配置名不匹配
-
-**表现**：libspeex 的 Debug 配置使用 `/MTd`，导致 CRT 冲突。
-
-**根因**：原工程有 `Debug_RTL_dll` 和 `Release_RTL_dll` 配置用于 DLL CRT 链接，但默认 `Debug` 配置使用静态 CRT。
-
-**解决方案**：使用 `Debug_RTL_dll` / `Release_RTL_dll` 配置名代替默认的 `Debug` / `Release`：
-
-```powershell
-$speexConfig = if ($Configuration -eq "Debug") { "Debug_RTL_dll" } else { "Release_RTL_dll" }
-```
-
-### 2.5 libcurl — 配置名不匹配
-
-**表现**：libcurl 的 `curl-all.sln` 包含多个项目和配置，默认 `Debug` / `Release` 配置缺少必要的 SSPI 和 SSL 特性。
-
-**根因**：MT3 使用的预编译 libcurl 基于 `DLL Release - DLL Windows SSPI` 配置构建。
-
-**解决方案**：使用完整的配置名，并只构建 `libcurl` 项目（避免编译测试项目）：
-
-```powershell
-$cfg = "DLL Release - DLL Windows SSPI"  # Release
-$cfg = "DLL Debug - DLL Windows SSPI"    # Debug
-msbuild curl-all.sln /t:libcurl /p:Configuration="$cfg"
-```
-
-### 2.6 FreeType — 输出路径漂移
-
-**表现**：FreeType 构建成功但输出文件路径与预期不同。
-
-**根因**：FreeType 的输出目录在 `objs/win32/vc2010/` 而非标准 `Debug.win32/` 目录。
-
-**解决方案**：在构建后从实际输出路径复制到预编译库目录：
-
-```powershell
-$ftLib = "$repoRoot\dependencies\freetype-2.4.12\objs\win32\vc2010\freetype.lib"
-Copy-Item $ftLib $prebuiltWinRT -Force
-```
-
-### 2.7 libwebp — CRT 库冲突
-
-**表现**：链接 `libcocos2d.dll` 时报告 `LNK2005` 错误，libwebp 的静态 CRT (`libcmt`) 与 cocos2d 的动态 CRT (`msvcrt`) 冲突。
-
-**根因**：预编译的 `libwebp.lib` 使用 `/MT` (静态 CRT) 编译，而 cocos2d 使用 `/MD` (动态 CRT)。
-
-**解决方案**：在 [cocos2d.vcxproj#L98](file:///e:/MT3/cocos2d-x-2.2.6/cocos2dx/proj.win32/cocos2d.vcxproj#L98) 中添加 `IgnoreSpecificDefaultLibraries` 忽略冲突的静态 CRT：
-
-```xml
-<IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-```
-
-### 2.8 各库的 `_d` 后缀问题
-
-**表现**：Debug 构建的库自动添加 `_d` 后缀（如 `libjpeg_d.lib`），导致链接器找不到预期的库名。
-
-**根因**：新建 vcxproj 模板中未禁用 Debug 后缀。
-
-**解决方案**：在 `New-VS2013StaticLib` 函数中，确保 `TargetName` 与 `ProjectName` 一致，不添加额外后缀。
-
-***
-
-## 3. 分类二：链接问题
-
-### 3.1 GLEW\_STATIC 宏缺失
-
-**表现**：链接 `cegui_d.lib` 时报告大量 unresolved external symbol 错误，符号名包含 `__imp_glew*`（DLL 导入符号）。
-
-**根本原因**：CEGUI 源码中通过 `#ifdef GLEW_STATIC` 判断是静态链接还是动态链接 GLEW。缺少该宏时，编译器生成 `__declspec(dllimport)` 形式的导入符号，但实际链接的是静态库 `glew32.lib`。
-
-**影响范围**：3 个 vcxproj 文件：
-
-- [engine.win32.vcxproj#L334](file:///e:/MT3/engine/engine.win32.vcxproj#L334) — 已添加
-- [cegui.win32.vcxproj#L68](file:///e:/MT3/dependencies/cegui/project/win32/cegui.win32.vcxproj#L68) — 已添加
-- [mt3.win32.vcxproj#L72](file:///e:/MT3/client/MT3Win32App/mt3.win32.vcxproj#L72) — 已添加
-
-**排查方法**：使用 `dumpbin /symbols` 检查 `.lib` 中的符号，对比 `__imp_` 前缀与普通符号的区别。
-
-**修复**：在各 vcxproj 的 `PreprocessorDefinitions` 中添加 `GLEW_STATIC`。
-
-### 3.2 PTW32\_STATIC\_LIB 和 LIBTIFF\_STATIC 宏缺失
-
-**表现**：与 GLEW\_STATIC 类似，pthread 和 libtiff 的静态链接也缺少对应的 `*_STATIC` 宏。
-
-**解决方案**：在 [cocos2d.vcxproj#L77](file:///e:/MT3/cocos2d-x-2.2.6/cocos2dx/proj.win32/cocos2d.vcxproj#L77) 中已有 `PTW32_STATIC_LIB` 和 `LIBTIFF_STATIC`，但新增的 vcxproj 需要同步添加。
-
-### 3.3 pcre.lib 缺失
-
-**表现**：MT3.exe 链接时报 `LNK1104: 无法打开文件"pcre.lib"`。
-
-**根本原因**：pcre 是 CEGUI 的依赖，但 `dependencies/cegui/lib/` 目录下没有 pcre.lib。链接器搜索路径中包含 `../../dependencies/cegui/lib`，但 pcre.lib 实际位于 `dependencies/pcre-8.31/Debug.win32/`。
-
-**解决方案**：将 pcre 构建输出复制到 CEGUI 的 lib 目录：
-
-```powershell
-New-Item -ItemType Directory -Path "E:\MT3\dependencies\cegui\lib" -Force
-Copy-Item "E:\MT3\dependencies\pcre-8.31\Debug.win32\pcre.lib" "E:\MT3\dependencies\cegui\lib\pcre.lib"
-```
-
-### 3.4 platform.lib 缺失
-
-**表现**：清理构建产物后，MT3.exe 链接时找不到 `platform.lib`。
-
-**根本原因**：手动清理 `Debug.win32` 目录时，删除了共享输出目录中的所有 `*.lib` 文件，包括 `platform.lib`、`cauthc.lib`、`ljfm.lib` 等。这些库由 `common/` 下的独立工程构建，但它们在 MT3 的构建依赖链中。
-
-**解决方案**：使用 canonical 构建脚本 `Build-MT3-Exe-Canonical.ps1` 而非手动逐个构建，该脚本会自动处理全链依赖。
-
-### 3.5 链接搜索路径不完整
-
-**表现**：`platform.lib` 所在目录 `common/platform/` 不在 MT3 的链接器搜索路径中。
-
-**根本原因**：`mt3.win32.vcxproj` 的 `AdditionalLibraryDirectories` 只包含 `$(OutDir)` 和 `$(SolutionDir)$(Configuration).win32/`，而 `platform.lib` 需要先由 `common/platform` 工程构建并输出到共享目录。
-
-**解决方案**：canonical 构建脚本会先构建 `platform` → `ljfm` → `cauthc` 等依赖工程，再构建 MT3。构建顺序由脚本维护，不在 vcxproj 中硬编码跨模块路径。
-
-***
-
-## 4. 分类三：运行时崩溃问题
-
-### 4.1 崩溃：glGenBuffers 空指针调用
-
-**表现**：MT3.exe 启动后立即闪退，生成崩溃转储 `崩溃26_0_48_6.dmp`。
-
-**崩溃点**：[nucocos2d\_render.cpp#L303-L308](file:///e:/MT3/engine/renderer/nucocos2d_render.cpp#L303-L308) 中的 `Cocos2dRenderer::InitBatchVB()`：
-
-```cpp
-bool Cocos2dRenderer::InitBatchVB()
-{
-    glGenBuffers(1, &m_particleVB);   // <-- crash: glGenBuffers is NULL
-    glGenBuffers(1, &m_particleUVB);
-    glGenBuffers(1, &m_particleIB);
-}
-```
-
-**根本原因**：`glGenBuffers` 是 OpenGL 1.5+ 的扩展函数，需要通过 GLEW 在运行时动态解析。GLEW 未初始化时，所有扩展函数指针均为 NULL。
-
-**调用链分析**：
-
-```
-Engine::Run()
-  └─ #ifdef WIN7_32 → 跳过 CCApplication::run()      ← [nuengine.cpp#L390-L396]
-       └─ CCEGLView::initGL() 未被调用
-            └─ glewInit() 未被调用                        ← [CCEGLView.cpp#L219]
-                 └─ 所有 gl* 扩展函数指针为 NULL
-                      └─ Cocos2dRenderer::InitBatchVB() 崩溃
-```
-
-**关键发现**：`WIN7_32` 宏在 [nuengine.cpp#L390-L396](file:///e:/MT3/engine/engine/nuengine.cpp#L390-L396) 中跳过了 `CCApplication::sharedApplication()->run()`，而 `CCEGLView::initGL()` 中的 `glewInit()` 调用（[CCEGLView.cpp#L219](file:///e:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/win32/CCEGLView.cpp#L219)）依赖 `CCApplication::run()` 触发。
-
-**修复**：在 [nuengine.cpp#L409-L425](file:///e:/MT3/engine/engine/nuengine.cpp#L409-L425) 中添加 WIN7\_32 路径下的显式 GLEW 初始化：
-
-```cpp
-#ifdef WIN7_32
-    MT3_ENGINE_TRACE("Engine::Run WIN7_32 defined, about to ensure GLEW init");
-    {
-        cocos2d::CCEGLView* pEglView = cocos2d::CCEGLView::sharedOpenGLView();
-        HGLRC hRC = wglGetCurrentContext();
-        if (pEglView && hRC)
-        {
-            GLenum glewResult = glewInit();
-            MT3_ENGINE_TRACE("Engine::Run glewInit before CreateRenderer result=%d", (int)glewResult);
-        }
-    }
-#endif
-```
-
-### 4.2 崩溃分析中的误判：DLL 版本不一致
-
-**表现**：初步怀疑运行时目录中的 DLL 与构建输出不一致导致崩溃。
-
-**排查过程**：对比 `E:\MT3\client\resource\bin\Debug\` 与 `E:\MT3\cocos2d-x-2.2.6\Debug.win32\` 中所有 DLL 的时间戳，确认全部一致。进一步检查发现 `fmodex.dll`、`msvcp120.dll`、`msvcr120.dll` 等独立运行时 DLL 也正确存在。
-
-**结论**：崩溃与 DLL 版本无关，问题在代码逻辑层面。
-
-### 4.3 增量编译导致修复代码未生效
-
-**表现**：在 `nuengine.cpp` 中添加 WIN7\_32 路径的 GLEW 初始化代码后，重新编译并运行，但 `startup_bootstrap.log` 中仍无对应的 trace 日志。
-
-**排查过程**：
-
-1. 确认 `engine.win32.vcxproj` 中 `WIN7_32` 已定义 ✓
-2. 确认 `engine.lib` 和 `MT3.exe` 时间戳晚于 `nuengine.cpp` 修改时间 ✓
-3. 确认日志中其他 `MT3_ENGINE_TRACE` 正常输出 ✓
-4. 但 WIN7\_32 路径的 trace 始终不出现 ✗
-
-**根本原因**：增量编译的局限——MSBuild 的增量编译基于文件时间戳和依赖图，但在某些情况下（如 PCH 预编译头未失效、中间文件残留），即使源文件已修改，部分 `.obj` 可能未被重新编译。
-
-**解决方案**：清理所有中间构建产物后执行全量 Rebuild：
-
-```powershell
-Remove-Item -Recurse -Force "E:\MT3\engine\Debug.win32"
-Remove-Item -Recurse -Force "E:\MT3\engine\engine.debug.win32"
-Remove-Item -Recurse -Force "E:\MT3\client\MT3Win32App\FireClient.debug.win32"
-Remove-Item -Recurse -Force "E:\MT3\client\MT3Win32App\Debug.win32"
-# 然后使用 canonical 脚本全链重建
-& "E:\MT3\tools\scripts\Build-MT3-Exe-Canonical.ps1" -Configuration Debug -BuildMode SafeChain
-```
-
-**验证结果**（日志确认修复生效）：
-
-```
-[MT3_ENGINE] Engine::Run WIN7_32 defined, about to ensure GLEW init
-[MT3_ENGINE] Engine::Run eglView=02490310 wglGetCurrentContext=00010000
-[MT3_ENGINE] Engine::Run glewInit before CreateRenderer result=0    ← GLEW_OK
-[MT3_ENGINE] Engine::Run before CreateRenderer
-[MT3_RNDR] Cocos2dRenderer::Create done                             ← 不再崩溃
-[MT3_ENGINE] Engine::Init step 12 success state=1                   ← 引擎初始化完成
-[MT3_LUA_STACK] executeScriptFile begin file=dofile_main.lua        ← 进入 Lua 阶段
-```
-
-***
-
-## 5. 分类四：构建系统问题
-
-### 5.1 并行编译 PDB 冲突
-
-**表现**：构建过程中 MSBuild 报告 PDB 文件访问冲突，多个项目同时写入同一个 `.pdb` 文件。
-
-**根因**：`FireClient.win32.vcxproj` 和 `mt3.win32.vcxproj` 共享 `$(SolutionDir)$(Configuration).win32` 输出目录，当启用并行编译 (`/m`) 时，两个项目的 PDB 生成可能冲突。
-
-**解决方案**：
-
-1. 禁用并行编译或使用 `/m:1` 限制单任务
-2. 在构建前删除旧的 PDB 文件：
-
-```powershell
-Remove-Item -Recurse -Force "E:\MT3\client\MT3Win32App\FireClient.debug.win32" -ErrorAction SilentlyContinue
-```
-
-### 5.2 UTF-8 BOM 问题
-
-**表现**：修改 `nuengine.cpp` 后编译报错，VS2013 的 `cl.exe` 无法正确解析文件中的非 ASCII 字符。
-
-**根因**：VS2013 的 `cl.exe` 要求含非 ASCII 字符的 UTF-8 源文件必须带 BOM（字节顺序标记），否则会将文件误当作 ANSI 编码处理。
-
-**解决方案**：使用 PowerShell 以 UTF-8 BOM 编码写回文件：
-
-```powershell
-$content = [System.IO.File]::ReadAllText($path)
-[System.IO.File]::WriteAllText($path, $content, [System.Text.UTF8Encoding]::new($true))
-```
-
-**注意**：`.md`、`.json`、`.xml`、`.ps1`、`.lua`、`.java` 等非 C/C++ 文件默认使用 UTF-8 无 BOM。
-
-***
-
-## 6. 关键技术点
-
-### 6.1 CRT 链接模式一致性
-
-**核心原则**：所有链接到同一最终可执行文件/DLL 的 `.lib` 必须使用相同的 CRT 链接模式。
-
-| 模式         | 编译选项   | 运行时库          | 说明                   |
-| ---------- | ------ | ------------- | -------------------- |
-| 动态 Debug   | `/MDd` | `msvcrtd.dll` | MT3 Debug 主线         |
-| 动态 Release | `/MD`  | `msvcrt.dll`  | MT3 Release 主线       |
-| 静态 Debug   | `/MTd` | 静态链接          | 不兼容，会产生 `LNK2005` 错误 |
-| 静态 Release | `/MT`  | 静态链接          | 不兼容，会产生 `LNK2005` 错误 |
-
-**检测方法**：使用 `dumpbin /directives foo.lib | findstr "DEFAULTLIB"` 查看库的默认 CRT 链接。
-
-### 6.2 `*_STATIC` 宏的作用
-
-许多库通过条件编译控制是静态链接还是动态链接：
-
-| 库       | 宏                  | 作用                                     |
-| ------- | ------------------ | -------------------------------------- |
-| GLEW    | `GLEW_STATIC`      | 定义后使用静态链接，否则使用 `__declspec(dllimport)` |
-| pthread | `PTW32_STATIC_LIB` | 定义后使用静态链接                              |
-| libtiff | `LIBTIFF_STATIC`   | 定义后使用静态链接                              |
-| zlib    | `ZLIB_WINAPI`      | 定义后使用 `stdcall` 调用约定（通常需要移除）           |
-| SILLY   | `SILLY_STATIC`     | 定义后使用静态链接                              |
-
-**排查方法**：当链接器报告 `unresolved external symbol __imp_*` 时，说明缺少对应的 `*_STATIC` 宏。
-
-### 6.3 WIN7\_32 宏的影响范围
-
-`WIN7_32` 是 MT3 项目中的一个关键条件编译宏，影响范围包括：
-
-| 文件                                                                                           | 影响                                                |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| [nuengine.cpp#L390-L396](file:///e:/MT3/engine/engine/nuengine.cpp#L390-L396)                | 跳过 `CCApplication::run()`，需手动初始化 GLEW             |
-| [nuengine.cpp#L461-L464](file:///e:/MT3/engine/engine/nuengine.cpp#L461-L464)                | 恢复 `CCApplication::run()` 调用                      |
-| [thread.h](file:///e:/MT3/common/platform/platform/thread.h)                                 | 使用 `<thread>` 代替 `<pthread.h>`                    |
-| [UpdateEngine.cpp#L5-L9](file:///e:/MT3/common/updateengine/UpdateEngine.cpp#L5-L9)          | 使用 `UpdateManagerEx_Win.h` 代替 `UpdateManagerEx.h` |
-| [nucocos2d\_render.cpp#L38-L41](file:///e:/MT3/engine/renderer/nucocos2d_render.cpp#L38-L41) | 跳过 ETCHeader 包含                                   |
-
-### 6.4 构建依赖拓扑
-
-MT3 的构建顺序必须遵循以下依赖拓扑：
-
-```
-platform → ljfm → cauthc
-  ↓
-libBox2D, libchipmunk, liblua, cocos2d, CocosDenshion, libExtensions, CEGUI
-  ↓
-engine → FireClient → MT3
-```
-
-使用 `Build-MT3-Exe-Canonical.ps1` 的 `SafeChain` 模式可以自动处理依赖顺序。
-
-### 6.5 预编译库同步路径
-
-构建产出的 `.lib` 需要同步到多个位置：
-
-| 目标路径                                                                          | 用途                   |
-| ----------------------------------------------------------------------------- | -------------------- |
-| `cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libraries/`              | cocos2d 链接时搜索        |
-| `cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/libraries/vs2013/Win32/` | WinRT 备用路径           |
-| `dependencies/cegui/lib/`                                                     | CEGUI 依赖（如 pcre.lib） |
-| `$(SolutionDir)$(Configuration).win32/`                                       | 共享输出目录（通过构建自动产出）     |
-
-***
-
-## 7. 经验教训
-
-### 7.1 增量编译不可靠
-
-**教训**：在排查"修改代码但未生效"的问题时，增量编译可能是罪魁祸首。MSBuild 的增量判断基于时间戳，但在 PCH（预编译头）、模板实例化、宏条件变化等场景下可能失效。
-
-**建议**：当修改涉及预处理器宏、头文件包含路径或条件编译分支时，执行全量 Rebuild 而非增量 Build。
-
-### 7.2 日志是排查运行时问题的第一手段
-
-**教训**：`startup_bootstrap.log` 中的 `MT3_ENGINE_TRACE` 和 `MT3_RNDR` 日志是定位崩溃位置的最有效工具。没有日志时，崩溃转储分析需要更多时间且容易误判。
-
-**建议**：在关键初始化路径上保留 trace 日志（即使问题解决后）。这些日志在生产环境可通过宏关闭，在 Debug 环境非常有价值。
-
-### 7.3 清理后必须使用 canonical 脚本
-
-**教训**：手动清理 `Debug.win32` 目录后，逐个工程构建容易遗漏 `platform.lib`、`cauthc.lib` 等基础依赖，导致链接失败。
-
-**建议**：清理后始终使用 `Build-MT3-Exe-Canonical.ps1` 进行全链构建。
-
-### 7.4 库命名约定需要统一
-
-**教训**：不同库的输出命名约定不一致（`zlibstat.lib` vs `libzlib.lib`，`libogg.lib` vs `libogg_static.lib`），导致链接时找不到文件。
-
-**建议**：在重构脚本中统一处理命名映射，并在构建后立即验证所有预期输出文件是否存在。
-
-### 7.5 CRT 冲突是最高频的链接错误
-
-**教训**：混合使用 `/MT` 和 `/MD` 编译的库是最常见的链接错误来源。`LNK2005`（符号重复定义）和 `LNK4098`（默认库冲突）几乎总是 CRT 模式不一致导致的。
-
-**建议**：在构建任何依赖库之前，先确认目标 CRT 模式（MT3 使用 `/MDd` Debug、`/MD` Release），并确保所有库一致。
-
-***
-
-## 8. 预防措施与最佳实践
-
-### 8.1 构建前检查清单
-
-- [ ] 确认目标 `Configuration`（Debug/Release）
-- [ ] 确认所有依赖库的 `RuntimeLibrary` 设置一致（`/MDd` 或 `/MD`）
-- [ ] 确认所有 `*_STATIC` 宏已在对应 vcxproj 中定义
-- [ ] 确认 `PlatformToolset` 为 `v120`
-- [ ] 清理旧的中间文件（`*.debug.win32/`、`Debug.win32/` 下的过期 `.obj` 和 `.pdb`）
-- [ ] 检查 `pcre.lib` 是否在 `dependencies/cegui/lib/` 下
-
-### 8.2 构建命令模板
-
-```powershell
-# 全量构建（推荐）
-& "E:\MT3\tools\scripts\Build-MT3-Exe-Canonical.ps1" `
-    -Configuration Debug `
-    -BuildMode SafeChain `
-    -FastLocal `
-    -SkipToolchainPrecheck `
-    -SkipSourceNulScan `
-    -SkipRuntimeSync `
-    -SkipRuntimeAudit
-
-# 仅重建依赖库
-& "E:\MT3\tools\scripts\Rebuild-AllDependencies-v120.ps1" -Configuration Debug
-
-# 仅重建指定库
-& "E:\MT3\tools\scripts\Rebuild-AllDependencies-v120.ps1" -Configuration Debug -Libraries "zlib,libpng"
-```
-
-### 8.3 运行时验证清单
-
-- [ ] 启动前删除旧日志：`Remove-Item startup_bootstrap.log`
-- [ ] 启动 MT3.exe 后检查日志中的关键节点：
-  - `Engine::Run WIN7_32 defined` → GLEW 初始化路径
-  - `glewInit before CreateRenderer result=0` → GLEW 初始化成功
-  - `CreateRenderer result=0` → 渲染器创建成功
-  - `Engine::Init step 12 success state=1` → 引擎初始化完成
-  - `executeScriptFile begin file=dofile_main.lua` → Lua 脚本加载
-- [ ] 检查是否生成新的 `.dmp` 崩溃转储文件
-
-### 8.4 常见错误速查表
-
-| 错误信息                                          | 可能原因                  | 解决方案                              |
-| --------------------------------------------- | --------------------- | --------------------------------- |
-| `LNK2005: _* already defined`                 | CRT 模式不一致             | 统一所有库的 `RuntimeLibrary`           |
-| `LNK1104: cannot open file '*.lib'`           | 库文件路径不正确              | 检查库是否已构建并复制到搜索路径                  |
-| `unresolved external symbol __imp_glew*`      | 缺少 `GLEW_STATIC`      | 在 vcxproj 中添加 `GLEW_STATIC`       |
-| `unresolved external symbol __imp_pthread*`   | 缺少 `PTW32_STATIC_LIB` | 在 vcxproj 中添加 `PTW32_STATIC_LIB`  |
-| `error C2001: newline in constant`            | UTF-8 BOM 缺失          | 以 UTF-8 BOM 编码保存 C/C++ 源文件        |
-| `fatal error C1083: Cannot open include file` | 头文件路径错误               | 检查 `AdditionalIncludeDirectories` |
-| 启动闪退（无日志）                                     | OpenGL 上下文未初始化        | 检查 `glewInit()` 是否被调用             |
-| `glGenBuffers` 崩溃                             | GLEW 未初始化             | 确认 `WIN7_32` 路径下有显式 GLEW 初始化      |
-| 修改代码后未生效                                      | 增量编译未触发重建             | 清理中间文件后全量 Rebuild                 |
-
-***
-
-## 附录：文件变更清单
-
-| 文件                                                     | 变更类型 | 说明                                  | <br />             |
-| ------------------------------------------------------ | ---- | ----------------------------------- | ------------------ |
-| `engine/engine/nuengine.cpp`                           | 修改   | 添加 WIN7\_32 路径 GLEW 初始化代码           | <br />             |
-| `engine/engine.win32.vcxproj`                          | 修改   | 添加 `GLEW_STATIC` 宏                  | <br />             |
-| `dependencies/cegui/project/win32/cegui.win32.vcxproj` | 修改   | 添加 `GLEW_STATIC` 宏                  | <br />             |
-| `client/MT3Win32App/mt3.win32.vcxproj`                 | 修改   | 添加 `GLEW_STATIC` 宏                  | <br />             |
-| `tools/scripts/Rebuild-AllDependencies-v120.ps1`       | 新建   | 14 个依赖库的自动化构建脚本                     | <br />             |
-| `dependencies/cegui/lib/pcre.lib`                      | 新建   | 从 pcre-8.31 构建输出同步                  | <br />             |
-| `cocos2d-x-2.2.6/cocos2dx/proj.win32/cocos2d.vcxproj`  | 修改   | 添加 `IgnoreSpecificDefaultLibraries` | # MT3 客户端双引擎升级综合方案 |
-
-## Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5
-
-> **版本**：1.9.1
-> **制定日期**：2026-07-26
-> **修订日期**：2026-07-28
-> **状态**：📋 执行中 — 阶段 1-8 完成，M4 里程碑达成（2026-07-28），完成全面进度核查
-> **本次修订**：
+> **核查方式**：逐项检查磁盘产物存在性、时间戳、文件大小，交叉验证文档记载与实际状态
+> **核查范围**：阶段 0-8 全部构建产物、工程配置、.lib 文件、canonical 脚本
 >
->- **二次核查**（2026-07-28 19:00）：基于磁盘实际产物重新核验 lib 大小，修正 engine.lib（119.8→114.22 MB）和 FireClient.lib（174.7→169.18 MB）文档偏差；确认 CEGUI 152 错误已全部修复（构建日志零错误）；确认 mt3.win32.vcxproj 路径已切换至 3.0-oh + CEGUI 0.7.9-r5；更新 P0 任务状态
->- **全面进度核查**（2026-07-28）：逐项核验磁盘产物，更新实际lib大小，修正文档内部矛盾，新增 §8 进度核查与风险评估专节
->- R13 风险状态更新为已解决，附验证证据
->- Phase 7 完成：Lua 脚本 + tolua++ 适配（见§阶段7详细）
->- Phase 8-12 补充预计开始日期
-
-> **依赖文档**：
->
-> - [Cocos2d-x 2.2.6 → 3.0-oh 升级方案](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md)（已存在）
-> - [CEGUI 0.7.1 → 0.7.9-r5 迁移升级计划](CEGUI-0.7.9-r5-迁移升级计划.md)（已存在，v1.0.1）
-
-***
-
-## 目录
-
-1. [深度链路分析：MT3 客户端全模块依赖拓扑](#1-深度链路分析mt3-客户端全模块依赖拓扑)
-2. [双引擎升级耦合关系分析](#2-双引擎升级耦合关系分析)
-3. [系统环境与工具链版本要求](#3-系统环境与工具链版本要求)
-4. [集成升级策略与阶段规划](#4-集成升级策略与阶段规划)
-5. [合并风险矩阵与缓解措施](#5-合并风险矩阵与缓解措施)
-6. [综合时间线与里程碑](#6-综合时间线与里程碑)
-7. [验证与验收标准](#7-验证与验收标准)
-
-**附录**：
-
-- [附录 A：快速参考 — 关键 API 对照表](#附录-a快速参考--关键-api-对照表)
-- [附录 B：参考文档索引](#附录-b参考文档索引)
-- [附录 C：执行进度跟踪](#附录-c执行进度跟踪)
-- [附录 D：踩坑记录](#附录-d踩坑记录)
-
-***
-
-## 1. 深度链路分析：MT3 客户端全模块依赖拓扑
-
-### 1.1 五层依赖链路图
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Layer 5: 业务脚本层 (Lua)                                       │
-│  client/resource/res/script/** (100+ .lua, CEGUI:: + cocos2d::) │
-│  client/resource/res/ui/** (200+ .layout, 2 .scheme, 2 .looknfeel)│
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ CEGUI::WindowManager, tolua++ binding
-┌──────────────────────────▼──────────────────────────────────────┐
-│  Layer 4: FireClient 业务层 (C++)                                │
-│  client/FireClient/Application/** (31 .cpp, 1614 CEGUI:: 引用)   │
-│  ├── Manager/ (GameUIManager: 490 CEGUI::, 18 CCDirector)       │
-│  ├── Framework/ (LuaFireClient: 297 CEGUI:: + 297 cocos2d::)    │
-│  ├── GameUI/ (UISprite: CCSprite, CCNode)                       │
-│  ├── SceneObj/ (角色: CCSprite, CCAnimation)                     │
-│  └── Battle/ (Battler: 92 CEGUI:: + CCAction/CCSequence)        │
-└──────────┬───────────────────────────────┬──────────────────────┘
-           │ CEGUI::System                   │ cocos2d::CCDirector
-┌──────────▼──────────────┐ ┌───────────────▼──────────────────────┐
-│  Layer 3a: CEGUI 0.7.1 → 0.7.9-r5 (**FireClient 已切换**) │ │  Layer 3b: Nuclear 引擎              │
-│  dependencies/cegui/    │ │  engine/                             │
-│  ├── Cocos2DRenderer    │ │  ├── EngineApp : CCApplication       │
-│  ├── Cocos2DImageCodec  │ │  ├── EngineLayer : CCLayer           │
-│  ├── 16 自定义 Falagard │ │  ├── EngineTicker : CCAction         │
-│  ├── 20+ 自定义控件     │ │  ├── nucocos2d_wraper (CCDirector,   │
-│  ├── LuaScriptModule    │ │  │   CCEGLView, CCScene, CCTouch,    │
-│  ├── XMLIOParser        │ │  │   CCShaderCache, CCGLProgram)     │
-│  └── PfsResourceProvider│ │  └── nucocos2d_render (CCRenderTexture)│
-└──────────┬──────────────┘ └───────────────┬──────────────────────┘
-           │ CEGUICocos2DTexture              │ CCNode, CCSprite
-           │ CEGUICocos2DRenderer             │ CCDirector, CCTexture
-┌──────────▼─────────────────────────────────▼────────────────────┐
-│  Layer 2: Cocos2d-x 2.2.6/3.0-oh (含 8 类 MT3 补丁)           │
-│  **FireClient.win32.vcxproj 已切换至 3.0-oh**                     │
-│  cocos2d-x-3.0-oh/cocos/ ← **FireClient 已切换到此**         │
-│  ├── CCNode, CCSprite, CCLayer, CCScene, CCDirector             │
-│  ├── CCTexture2D, CCTextureCache, CCSpriteFrameCache            │
-│  ├── CCAction, CCSequence, CCCallFunc (SEL 选择器回调)           │
-│  ├── CCTouchDispatcher, CCTouchDelegate                         │
-│  ├── CCArray, CCDictionary, CCSet, CCString                      │
-│  ├── CCNotificationCenter, CCUserDefault, CCFileUtils            │
-│  ├── CCGLProgram, CCShaderCache (MT3 ETC/HSV/X/Gray Shader)     │
-│  ├── CCLuaEngine, CCScriptEngineProtocol (MT3 Lua Bridge)       │
-│  ├── SimpleAudioEngine (MT3 Win32 MCI Shim)                     │
-│  └── CCTexture2D (MT3 DDS/ATC/PVRTC/ETC 纹理直载)               │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │ OpenGL/EGL
-┌──────────────────────────▼──────────────────────────────────────┐
-│  Layer 1: 平台壳层 + 第三方库                                    │
-│  ├── Win32: MT3Win32App (WinMain, CCEGLView, v120)              │
-│  ├── Android: LocojoyProject (JNI, NDK r16, Ant)                │
-│  ├── iOS: FireClient.xcodeproj (ObjC++, EAGLView)               │
-│  ├── 第三方: CEGUI 0.7.1, tolua++ 1.0.93, Spine, FMOD, LJFM    │
-│  ├── 依赖库: freetype, libpng, zlib, glew, glm (40+ 库)         │
-│  └── 资源链: LJFilePack → res_android/res_ios/res_win           │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### 1.2 关键耦合点量化统计
-
-| 耦合点                                 | 涉及文件数           | API 调用次数                     | 升级影响等级 |
-| ----------------------------------- | --------------- | ---------------------------- | ------ |
-| FireClient → CEGUI                  | 31 .cpp + 23 .h | 1614 CEGUI::                 | **致命** |
-| FireClient → Cocos2d-x              | 43 .cpp         | 2000+ cocos2d::              | **致命** |
-| CEGUI → Cocos2d-x (Cocos2DRenderer) | 5 文件            | 直接纹理/渲染 API                  | **致命** |
-| Nuclear → Cocos2d-x (封装层)           | 8 文件            | CCDirector, CCScene, CCLayer | **致命** |
-| tolua++ → Cocos2d-x (绑定)            | 2 生成文件          | 全部 Cocos2d 类型                | **致命** |
-| Lua 脚本 → CEGUI                      | 100+ .lua       | CEGUI::WindowManager         | **严重** |
-| Lua 脚本 → Cocos2d-x                  | 100+ .lua       | CCSprite, CCNode 等           | **严重** |
-| GameUIManager → CEGUI               | 1 文件            | 490 CEGUI::                  | **致命** |
-| Spine → Cocos2d-x                   | 扩展模块            | CCNode, CCTexture            | **高**  |
-| FMOD/音频 → Cocos2d-x                 | CocosDenshion   | SimpleAudioEngine            | **中**  |
-
-### 1.3 双引擎之间的交叉耦合
-
-CEGUI 0.7.1 的 Cocos2D Renderer 是连接 CEGUI 和 Cocos2d-x 的关键桥梁：
-
-```
-CEGUI::System
-  → CEGUI::Cocos2DRenderer (继承 CEGUI::Renderer)
-    → CEGUICocos2DTexture (基于 CCTexture2D)
-    → CEGUICocos2DGeometryBuffer (基于 CCNode/CCSprite 渲染)
-    → CEGUICocos2DRenderTarget (基于 CCRenderTexture)
-  → CEGUICocos2DImageCodec (基于 CCImage)
-```
-
-升级到 Cocos2d-x 3.0-oh 时，Cocos2DRenderer 需要适配：
-
-- `CCTexture2D` → `Texture2D`（3.0 纹理 API 变更）
-- `CCImage` → `Image`（3.0 图像 API 变更）
-- `CCRenderTexture` → `RenderTexture`（3.0 渲染目标 API 变更）
-- 渲染管线从固定管线 → `Renderer` + `RenderCommand` 架构
-
-同时升级 CEGUI 到 0.7.9-r5 时，Cocos2DRenderer 还需要适配：
-
-- CEGUI `Renderer` 基类接口变更（0.7.1 → 0.7.9）
-- CEGUI `RenderingSurface`/`RenderingWindow` 新架构
-
-***
-
-## 2. 双引擎升级耦合关系分析
-
-### 2.1 升级路径依赖图
-
-```
-                    ┌──────────────────────┐
-                    │  Cocos2d-x 2.2.6     │
-                    │  + CEGUI 0.7.1       │
-                    │  (当前基线)          │
-                    └──────┬───────────────┘
-                           │
-            ┌──────────────┼──────────────┐
-            ▼              ▼              ▼
-    ┌──────────────┐ ┌───────────┐ ┌──────────────┐
-    │ 路径 A:       │ │ 路径 B:   │ │ 路径 C:      │
-    │ 先升 Cocos    │ │ 先升 CEGUI│ │ 同时升级     │
-    │ 再升 CEGUI    │ │ 再升 Cocos│ │ (推荐)       │
-    └──────┬───────┘ └─────┬─────┘ └──────┬───────┘
-           │               │              │
-           ▼               ▼              ▼
-    ┌──────────────────────────────────────────┐
-    │  Cocos2d-x 3.0-oh + CEGUI 0.7.9-r5      │
-    │  (目标基线)                              │
-    └──────────────────────────────────────────┘
-```
-
-### 2.2 路径 C（同时升级，推荐）的理由
-
-1. **Cocos2DRenderer 只需适配一次**：如果在 0.7.1 上先适配 Cocos2d-x 3.0，再升级 CEGUI 到 0.7.9-r5 时 Renderer 基类接口已变，需要再次适配。同时升级可直接适配到最终目标。
-2. **CEGUI 0.7.9-r5 的 Cocos2DRenderer 移植**：CEGUI 0.7.9-r5 本身不含 Cocos2D Renderer，需要从 0.7.1 移植。移植时直接对接 3.0-oh 的 API，避免两次适配。
-3. **构建系统一次性变更**：vcxproj、Android.mk、.clangd 等配置文件只需修改一次，同时切换两个引擎的路径。
-4. **减少中间状态的验证成本**：路径 A 和 B 都需要在中间状态（仅升级一个引擎）进行全量验证，而该中间状态不会上线，验证成本浪费。
-
-### 2.3 升级顺序策略
-
-虽然采用路径 C 同时升级，但内部仍有明确的先后顺序：
-
-```
-Step 1: Cocos2d-x 3.0-oh 独立编译验证
-  → Step 2: CEGUI 0.7.9-r5 独立编译验证
-    → Step 3: Cocos2DRenderer 移植（同时对接 3.0-oh + 0.7.9-r5）
-      → Step 4: Nuclear 引擎封装层适配 3.0-oh
-        → Step 5: FireClient 业务代码适配（Cocos2d + CEGUI 双 API）
-          → Step 6: Lua 脚本适配
-            → Step 7: 资源文件兼容性验证
-              → Step 8: 平台适配（Win32 → Android → iOS → OHOS）
-```
-
-***
-
-## 3. 系统环境与工具链版本要求
-
-> **核心结论**：经代码实物验证，Cocos2d-x 3.0-oh 和 CEGUI 0.7.9-r5 均可在 VS2013 (v120) 下编译。**无需升级到 VS2015+**，当前所有预编译 `.lib` 可直接复用，消除 R13 风险。
-
-### 3.1 工具链现状与目标对比
-
-| 组件          | 当前工具链           | 目标工具链                                              | 变更说明                                    |
-| ----------- | --------------- | -------------------------------------------------- | --------------------------------------- |
-| Win32 编译器   | VS2013 (v120)   | VS2013 (v120)                                      | **保持不变**                                |
-| Win32 SDK   | Windows SDK 8.1 | Windows SDK 8.1                                    | **保持不变**                                |
-| Android NDK | NDK r16b clang  | NDK r16b+ clang                                    | 保持或升级                                   |
-| Android SDK | android-22      | android-22+                                        | 保持或升级                                   |
-| JDK         | JDK 1.8         | JDK 1.8+                                           | 保持                                      |
-| CMake       | 无               | CMake 3.10（`D:\Program Files\CMake\bin\cmake.exe`） | 3.0-oh 使用 CMake 构建，已安装 CMake 3.10.0-rc1 |
-| Python      | 2.7             | 2.7/3.x                                            | 构建脚本兼容                                  |
-
-> **关键结论**：VS2013 工具链保持不变，所有 MT3 现有预编译库（`dependencies/`、`cocos2d-x-2.2.6/` 下的第三方库）可直接复用。新增 CMake 仅用于 cocos2d-x-3.0-oh 的构建，生成 VS2013 (v120) 工程。
-
-### 3.2 各组件 PlatformToolset 现状
-
-| 组件               | 工程文件                                             | 当前 PlatformToolset | 目标 PlatformToolset    |
-| ---------------- | ------------------------------------------------ | ------------------ | --------------------- |
-| cocos2d-x-3.0-oh | `cocos/2d/cocos2d.vcxproj`（仅 v100/v110）          | 无 v120             | **v120**（通过 CMake 生成） |
-| cocos2d-x-3.0-oh | 所有 Win32 子工程 vcxproj                             | 仅 v100/v110        | **v120**（通过 CMake 生成） |
-| CEGUI-0.7.9-r5   | `tools/CEGUI-0.7.9-r5/cegui-0.7.9.win32.vcxproj` | **v120**（已确认）      | **v120**（无需修改）        |
-| MT3 engine       | `engine/engine.win32.vcxproj`                    | v120               | **v120**（保持不变）        |
-| MT3 FireClient   | `client/MT3Win32App/FireClient.win32.vcxproj`    | v120               | **v120**（保持不变）        |
-| MT3 主程序          | `client/MT3Win32App/mt3.win32.vcxproj`           | v120               | **v120**（保持不变）        |
-
-> **验证事实**：
->
-> - **CEGUI 0.7.9-r5**：`cegui-0.7.9.win32.vcxproj` Debug 和 Release 配置均为 `v120`，直接可用。
-> - **Cocos2d-x 3.0-oh**：现有 Win32 `.vcxproj` 文件仅配置了 VS2010 (v100) 和 VS2012 (v110) 条件，未包含 v120。但其 `CCPlatformMacros.h` 中 `_MSC_VER >= 1800`（VS2013）的检查表明代码层面已支持 VS2013+，且根目录有完整的 `CMakeLists.txt`。**通过 CMake 生成 VS2013 工程即可**：
-
-```
-cd cocos2d-x-3.0-oh
-mkdir build
-cd build
-"D:\Program Files\CMake\bin\cmake.exe" -G "Visual Studio 12 2013" ..
-```
-
-### 3.3 预编译 .lib 依赖 — 无需重新编译
-
-**核心结论：因为工具链保持 VS2013 (v120)，所有现有预编译** **`.lib`** **文件无需重新编译，可直接复用。**
-
-#### 3.3.1 MT3 现有预编译库（保持使用）
-
-| 库文件                        | 路径                                              | 当前工具链 |               状态               |
-| -------------------------- | ----------------------------------------------- | ----- | :----------------------------: |
-| cegui\_d.lib / cegui.lib   | `dependencies/cegui/project/win32/`             | v120  | 保持使用（CEGUI 0.7.9-r5 替换后由新工程编译） |
-| freetype.lib               | `dependencies/freetype-2.4.12/`                 | v100  |              保持使用              |
-| libpng.lib / libpng14.lib  | `dependencies/png/prebuilt/`                    | v120  |              保持使用              |
-| libjpeg.lib                | `dependencies/jpeg/prebuilt/`                   | v120  |              保持使用              |
-| zlibstat.lib               | `dependencies/zlib-1.2.5/`                      | v120  |              保持使用              |
-| glew32.lib                 | `cocos2d-x-2.2.6/.../libraries/`                | v120  |              保持使用              |
-| pcre.lib                   | `dependencies/pcre-8.31/`                       | v120  |              保持使用              |
-| libogg.lib                 | `dependencies/libogg-1.3.2/`                    | v120  |              保持使用              |
-| libspeex.lib               | `dependencies/speex-1.2rc2/`                    | v120  |              保持使用              |
-| libcurl.lib                | `dependencies/third-party-rebuild/curl-7.48.0/` | v120  |              保持使用              |
-| libtiff.lib                | `dependencies/third-party-rebuild/tiff-4.0.3/`  | v120  |              保持使用              |
-| libEGL.lib / libGLESv2.lib | `dependencies/opengles_v2/Lib/`                 | v120  |              保持使用              |
-| SILLY.lib                  | `dependencies/SILLY-0.1.0/`                     | v120  |              保持使用              |
-| wxWidgets 系列 (30+ 个)       | `dependencies/wxWidgets-3.0.5/`                 | v120  |              保持使用              |
-| fmodex\_vc.lib             | `cocos2d-x-2.2.6/external/fmod/`                | v120  |              保持使用              |
-
-#### 3.3.2 cocos2d-x-3.0-oh 预编译库（CMake 自动编译）
-
-| 库文件                                                   | 路径                                 | 处理方式                |
-| ----------------------------------------------------- | ---------------------------------- | ------------------- |
-| libssl.lib / libcrypto.lib                            | `external/openssl/prebuilt/win32/` | CMake 从源码编译         |
-| Box2D、chipmunk、freetype、jpeg、png、tiff、webp、lua、curl 等 | `external/`                        | CMake 从源码自动编译，零人工成本 |
-
-> **优势**：cocos2d-x-3.0-oh 的 `external/` 下大部分依赖提供了源码和 CMakeLists.txt，通过 CMake 生成 VS2013 工程后自动编译，无需手动干预。
-
-#### 3.3.3 工作量评估
-
-| 类别                                     | 库数量    | 预估工时    | 说明                        |
-| -------------------------------------- | ------ | ------- | ------------------------- |
-| MT3 现有预编译库（v120）                       | \~16 个 | **0 天** | 工具链不变，直接复用                |
-| cocos2d-x-3.0-oh external/（CMake 自动编译） | \~15 个 | **0 天** | CMake 自动编译，无需人工           |
-| CEGUI 0.7.9-r5 编译                      | 1 个工程  | 0.5 天   | 使用现有 v120 `.vcxproj` 直接编译 |
-
-> **与方案 v1.1.0 的对比**：v1.1.0 假设需升级到 VS2015+，预估 16 个预编译库重编译需要 5-8 天。修正为 VS2013 后，预编译库工作量降为 **0 天**。
-
-### 3.4 构建系统迁移路径
-
-#### 路径 A：手动更新 vcxproj（不推荐）
-
-为 cocos2d-x-3.0-oh 的 50+ 个 vcxproj 手动添加 v120 条件。
-
-- **优点**：保持现有 VS 工程结构
-- **缺点**：工作量大，需手动维护 50+ 个 vcxproj 文件
-
-#### 路径 B：CMake 生成 VS2013 工程（推荐）
-
-1. 利用 cocos2d-x-3.0-oh 自带的 CMake 构建系统
-2. 运行 `"D:\Program Files\CMake\bin\cmake.exe" -G "Visual Studio 12 2013" ..` 生成 v120 解决方案
-3. 为 engine、FireClient、CEGUI 定制模块编写 CMakeLists.txt 或保留现有 vcxproj
-4. **优点**：与 3.0-oh 上游一致，跨平台统一，无需手动维护 vcxproj
-5. **缺点**：初期 CMake 学习成本，需要为 MT3 定制模块编写 CMake 配置
-
-> **推荐路径 B（CMake + VS2013）**：cocos2d-x-3.0-oh 的设计以 CMake 为核心构建系统，其 `.vcxproj` 文件仅作为历史兼容保留。CMake 可直接生成 VS2013 (v120) 工程，与当前 MT3 工具链无缝衔接。
-
-***
-
-## 4. 集成升级策略与阶段规划
-
-### 4.1 阶段总览
-
-| 阶段     | 内容                                         | 预估工期                   | 参考文档            |
-| ------ | ------------------------------------------ | ---------------------- | --------------- |
-| 阶段 0   | 环境搭建与基线建立（CMake 安装 + 3.0-oh/0.7.9-r5 源码验证） | 1 周                    | 本文 §3           |
-| 阶段 1   | Cocos2d-x 3.0-oh 独立编译                      | 2 周                    | Cocos 方案 §6.2.1 |
-| 阶段 2   | CEGUI 0.7.9-r5 独立编译                        | 1.5 周                  | CEGUI 方案 §2.1   |
-| 阶段 3   | Cocos2DRenderer 移植（双引擎桥接）                  | 3 周                    | 本文 §4.2         |
-| 阶段 4   | Nuclear 引擎封装层适配                            | 2 周                    | Cocos 方案 §6.2.2 |
-| 阶段 5   | CEGUI 定制模块移植（20+ 控件 + 16 渲染器）              | 3 周                    | CEGUI 方案 §3.6   |
-| 阶段 6   | FireClient 业务代码适配                          | 4 周                    | Cocos 方案 §7     |
-| 阶段 7   | Lua 脚本 + tolua++ 适配                        | 2 周                    | 本文 §4.3         |
-| 阶段 8   | 资源文件兼容性处理                                  | 1 周                    | CEGUI 方案 §1.4   |
-| 阶段 9   | 平台适配（Win32/Android/iOS/OHOS）               | 4 周                    | Cocos 方案 §6.2.5 |
-| 阶段 10  | MT3 补丁移植                                   | 2 周                    | 本文 §4.4         |
-| 阶段 11  | 测试验证                                       | 4 周                    | 本文 §7           |
-| 阶段 12  | 优化与上线                                      | 3 周                    | Cocos 方案 §9     |
-| **总计** | <br />                                     | **\~30.5 周（约 7.5 个月）** | <br />          |
-
-### 4.2 阶段 3：Cocos2DRenderer 移植（关键桥接）
-
-这是双引擎升级的核心环节，需要同时适配 Cocos2d-x 3.0-oh 和 CEGUI 0.7.9-r5。
-
-#### 4.2.1 适配矩阵
-
-| 组件                 | CEGUI 0.7.1 依赖                  | CEGUI 0.7.9-r5 目标               | Cocos2d-x 3.0-oh 目标      |
-| ------------------ | ------------------------------- | ------------------------------- | ------------------------ |
-| **Renderer**       | `CEGUI::Renderer` (0.7.1)       | `CEGUI::Renderer` (0.7.9，接口变更)  | `cocos2d::Renderer` 架构   |
-| **Texture**        | `CCTexture2D`                   | `CEGUI::Texture` (0.7.9)        | `cocos2d::Texture2D`     |
-| **GeometryBuffer** | `CEGUI::GeometryBuffer` (0.7.1) | `CEGUI::GeometryBuffer` (0.7.9) | `RenderCommand` 队列       |
-| **RenderTarget**   | `CCRenderTexture`               | `CEGUI::RenderTarget` (0.7.9)   | `cocos2d::RenderTexture` |
-| **ImageCodec**     | `CCImage`                       | `CEGUI::ImageCodec` (0.7.9)     | `cocos2d::Image`         |
-| **TextureTarget**  | `CEGUICocos2DTextureTarget`     | 合并到 RenderTarget                | 使用 `RenderTexture`       |
-
-#### 4.2.2 移植步骤
-
-| 步骤    | 操作                              | 涉及文件                                            | 验收标准           |
-| ----- | ------------------------------- | ----------------------------------------------- | -------------- |
-| 3.2.1 | 对比 CEGUI Renderer 基类差异          | 0.7.1 vs 0.7.9-r5 `CEGUIRenderer.h`             | 差异清单完成         |
-| 3.2.2 | 对比 Cocos2d-x 纹理/渲染 API 差异       | 2.2.6 vs 3.0-oh `CCTexture2D.h` / `Texture2D.h` | 差异清单完成         |
-| 3.2.3 | 移植 `CEGUICocos2DRenderer`       | `.h/.cpp`，适配 3.0-oh Renderer 架构                 | 编译通过           |
-| 3.2.4 | 移植 `CEGUICocos2DTexture`        | `.h/.cpp`，适配 3.0-oh Texture2D                   | 编译通过           |
-| 3.2.5 | 移植 `CEGUICocos2DGeometryBuffer` | `.h/.cpp`，适配 3.0-oh RenderCommand               | 编译通过           |
-| 3.2.6 | 移植 `CEGUICocos2DRenderTarget`   | `.h/.cpp`，适配 3.0-oh RenderTexture               | 编译通过           |
-| 3.2.7 | 移植 `CEGUICocos2DImageCodec`     | `.h/.cpp`，适配 3.0-oh Image                       | 编译通过           |
-| 3.2.8 | 集成测试：CEGUI 初始化 + 基础渲染           | 简单 UI 渲染                                        | 纹理正确显示，无 GL 错误 |
-
-### 4.3 阶段 7：Lua 脚本 + tolua++ 适配
-
-#### 4.3.1 tolua++ 绑定适配
-
-| 文件                  | 2.2.6 类型                  | 3.0-oh 类型           | 修改方式           |
-| ------------------- | ------------------------- | ------------------- | -------------- |
-| `FireClient.pkg`    | CCSprite, CCNode, CCLayer | Sprite, Node, Layer | 修改 `.pkg` 绑定定义 |
-| `engine.pkg`        | CCDirector, CCEGLView     | Director, GLView    | 修改 `.pkg` 绑定定义 |
-| `LuaEngine.cpp`     | 生成代码                      | 重新生成                | 运行 tolua++ 生成链 |
-| `LuaFireClient.cpp` | 生成代码                      | 重新生成                | 运行 tolua++ 生成链 |
-
-#### 4.3.2 Lua 脚本适配
-
-| 类别                   | 涉及文件      | 变更内容                                            |
-| -------------------- | --------- | ----------------------------------------------- |
-| CEGUI::WindowManager | 100+ .lua | 验证 API 兼容性（CEGUI 0.7.1 → 0.7.9-r5 Lua 绑定差异）     |
-| CCSprite/CCNode 调用   | 100+ .lua | 验证 tolua++ 生成后绑定正确性                             |
-| CEGUI 自定义控件          | 100+ .lua | 验证 ItemCell, SkillBox, RichEditbox 等控件在 Lua 侧可用 |
-
-### 4.4 阶段 10：MT3 补丁移植
-
-Cocos2d-x 2.2.6 上的 8 类 MT3 专属补丁需逐一评估并移植到 3.0-oh：
-
-| 补丁类别          | 3.0-oh 替代方案                                       | 优先级 | 预估工时 |
-| ------------- | ------------------------------------------------- | --- | ---- |
-| Win32 音频 Shim | 3.0-oh AudioEngine 或保留 FMOD 直接调用                  | P0  | 3 天  |
-| Shader 兼容     | 3.0-oh GLProgram/ProgramState 重新实现 ETC/HSV/X/Gray | P0  | 5 天  |
-| 纹理压缩兼容        | 3.0-oh Texture2D 扩展 DDS/ATC/PVRTC/ETC 支持          | P0  | 4 天  |
-| Lua 脚本桥接      | 3.0-oh LuaEngine 适配 CCScriptEngineProtocol        | P0  | 3 天  |
-| Spine JSON 兼容 | 3.0-oh 内置 Spine 或移植 Json 补丁                       | P1  | 2 天  |
-| 视频播放器 Shim    | 3.0-oh VideoPlayer 或保留 Shim                       | P2  | 2 天  |
-| 照片选择器 Shim    | 3.0-oh 平台原生实现或保留 Shim                             | P2  | 1 天  |
-| FireClient 兼容 | tolua++ wstring、LJFM s2ws、CEGUI min/max 宏         | P1  | 2 天  |
-
-***
-
-## 5. 合并风险矩阵与缓解措施
-
-### 5.1 风险等级定义
-
-| 等级     | 定义                | 触发条件        |
-| ------ | ----------------- | ----------- |
-| **致命** | 阻塞升级，无 workaround | 核心组件无法编译或运行 |
-| **严重** | 可 workaround 但代价大 | 需要大量替代代码    |
-| **中等** | 有 workaround      | 可接受的功能降级    |
-| **低**  | 不影响核心功能           | 可延后处理       |
-
-### 5.2 合并风险矩阵
-
-| 风险编号    | 风险描述                     | 来源      | 概率         | 影响                                                                                                                                                                                                   | 等级     | 缓解措施                                    |
-| ------- | ------------------------ | ------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | --------------------------------------- |
-| **R1**  | Cocos2DRenderer 双端适配失败   | 双引擎     | 高          | 致命                                                                                                                                                                                                   | **致命** | 阶段 3 作为最高优先级，独立验证渲染管线                   |
-| **R2**  | CEGUI 自定义控件移植失败（20+ 个）   | CEGUI   | 中          | 致命                                                                                                                                                                                                   | **致命** | 分三批移植，先核心控件再辅助控件                        |
-| **R3**  | Nuclear 封装层适配失败          | Cocos2d | 中          | 致命                                                                                                                                                                                                   | **致命** | EngineApp/EngineLayer/EngineTicker 尽早验证 |
-| **R4**  | tolua++ 绑定生成不兼容          | 双引擎     | 中          | 严重                                                                                                                                                                                                   | **严重** | 提前验证生成链，准备手动修复                          |
-| **R5**  | CEGUI Lua 绑定 API 变更      | CEGUI   | 中          | 严重                                                                                                                                                                                                   | **严重** | 建立 Lua API 兼容性检查脚本                      |
-| **R6**  | 渲染结果不一致                  | 双引擎     | 高          | 严重                                                                                                                                                                                                   | **严重** | 建立截图对比工具，逐场景验证                          |
-| **R7**  | MT3 补丁移植遗漏               | Cocos2d | 高          | 严重                                                                                                                                                                                                   | **严重** | 建立补丁 checklist，逐项验证                     |
-| **R8**  | 性能退化                     | 双引擎     | 中          | 严重                                                                                                                                                                                                   | **严重** | 每阶段性能基准测试                               |
-| **R9**  | 构建系统迁移耗时过长               | Cocos2d | 中          | 中等                                                                                                                                                                                                   | **中等** | 可先保留 vcxproj 过渡                         |
-| **R10** | 第三方依赖版本冲突                | 双引擎     | 中          | 中等                                                                                                                                                                                                   | **中等** | 提前梳理版本依赖                                |
-| **R11** | CEGUI 资源文件格式不兼容          | CEGUI   | 低          | 中等                                                                                                                                                                                                   | **中等** | 已验证格式高度兼容（见 CEGUI 方案 §1.4.9）            |
-| **R12** | OHOS 平台不稳定               | Cocos2d | 高          | 低                                                                                                                                                                                                    | **低**  | OHOS 作为可选目标，不影响主平台                      |
-| **R13** | ~~预编译 .lib 重编译失败（无源码库）~~ | **已解决** | 2026-07-28 | VS2013 (v120) 工具链确认完全兼容，无需升级。`FireClient.win32.vcxproj` 已切换至 `cocos2d-x-3.0-oh/build/lib/Debug` 和 `tools/CEGUI-0.7.9-r5/cegui-0.7.9/Debug.win32`，Debug 编译零错误通过，FireClient.lib (167MB) 生成。R13 风险完全消除。 | <br /> | <br />                                  |
-
-### 5.3 关键风险缓解措施
-
-#### R1/R6 缓解：渲染一致性保障
-
-```
-1. 建立 Cocos2DRenderer 独立测试工程
-   - 先脱离 MT3 主工程，独立验证 CEGUI + Cocos2d-x 3.0-oh 渲染管线
-   - 测试基本纹理渲染、几何缓冲、渲染目标
-2. 渲染对比工具
-   - 同场景、同输入在 2.2.6 和 3.0-oh 上截图对比
-   - 像素级对比，超过 5% 差异需人工审核
-3. 分阶段验证
-   - 阶段 3 完成：基础纹理渲染
-   - 阶段 5 完成：自定义控件渲染
-   - 阶段 6 完成：完整 UI 场景渲染
-```
-
-#### R2 缓解：CEGUI 控件分批移植
-
-```
-第一批（核心控件，4 天）：MessageTip, RichEditbox, ItemCell, ItemTable, LinkText
-第二批（常用控件，3 天）：ItemListbox, ItemEntry, SkillBox, ProgressBarTwoValue, Switch, AnimateText, AnimationButton
-第三批（辅助控件，2 天）：GroupBtnTree, IrregularButton, IrregularFigure, SpecialTree, CompnentTip, Panel 系列
-```
-
-#### R3 缓解：Nuclear 封装层独立验证
-
-```
-1. EngineApp : Application 生命周期验证
-2. EngineLayer : Layer 触摸事件验证
-3. EngineTicker : Action 调度验证
-4. nucocos2d_render : RenderTexture 渲染目标验证
-```
-
-***
-
-## 6. 综合时间线与里程碑
-
-### 6.1 甘特图
-
-```
-阶段 0:  环境搭建与基线          ██░░░░░░░░░░░░░░░░░░░░░░  1 周
-阶段 1:  Cocos 3.0-oh 编译       ░░████░░░░░░░░░░░░░░░░░░  2 周
-阶段 2:  CEGUI 0.7.9-r5 编译     ░░░░░░███░░░░░░░░░░░░░░░  1.5 周
-阶段 3:  Cocos2DRenderer 移植    ░░░░░░░░░██████░░░░░░░░░  3 周     ← 关键路径
-阶段 4:  Nuclear 封装层适配      ░░░░░░░░░░░░░░████░░░░░░░  2 周
-阶段 5:  CEGUI 定制控件移植      ░░░░░░░░░░░░░░░░░░████████  3 周
-阶段 6:  FireClient 业务适配     ░░░░░░░░░░░░░░░░░░░░░░███  4 周
-阶段 7:  Lua + tolua++ 适配      ░░░░░░░░░░░░░░░░░░░░░░░██  2 周
-阶段 8:  资源文件兼容性          ░░░░░░░░░░░░░░░░░░░░░░░░█  1 周
-阶段 9:  平台适配               ░░░░░░░░░░░░░░░░░░░░░░░████  4 周
-阶段 10: MT3 补丁移植           ░░░░░░░░░░░░░░░░░░░░░░░██  2 周
-阶段 11: 测试验证               ░░░░░░░░░░░░░░░░░░░░░░░████  4 周
-阶段 12: 优化与上线             ░░░░░░░░░░░░░░░░░░░░░░░░███  3 周
-────────────────────────────────────────────────────────────────
-总计：约 30.5 周（约 7.5 个月，含 20% 缓冲）
-```
-
-### 6.2 里程碑
-
-| 里程碑    | 时间节点       | 验收标准                                     |
-| ------ | ---------- | ---------------------------------------- |
-| **M0** | 阶段 0 结束    | 环境就绪，基线建立，分支创建                           |
-| **M1** | 阶段 1-2 结束  | Cocos2d-x 3.0-oh 和 CEGUI 0.7.9-r5 独立编译通过 |
-| **M2** | 阶段 3 结束    | Cocos2DRenderer 移植完成，基础 UI 渲染正常          |
-| **M3** | 阶段 4-5 结束  | Nuclear 适配 + CEGUI 控件移植完成，引擎层编译通过        |
-| **M4** | 阶段 6-8 结束  | FireClient 全量编译通过，资源文件加载成功               |
-| **M5** | 阶段 9-10 结束 | 全平台（Win32/Android/iOS）编译通过，补丁移植完成        |
-| **M6** | 阶段 11 结束   | 核心功能回归通过，性能达标                            |
-| **M7** | 阶段 12 结束   | 灰度发布完成，全量上线                              |
-
-### 6.3 关键路径
-
-```
-M0 → M1 (Cocos + CEGUI 独立编译)
-  → M2 (Cocos2DRenderer 移植) ← 最大风险点
-    → M3 (引擎层适配)
-      → M4 (业务层迁移)
-        → M5 (全平台)
-          → M6 (测试)
-            → M7 (上线)
-```
-
-***
-
-## 7. 验证与验收标准
-
-### 7.1 编译验证门禁
-
-| 门禁                    | 条件                                     | 阶段   |
-| --------------------- | -------------------------------------- | ---- |
-| Cocos2d-x 3.0-oh 独立编译 | Win32 Debug/Release 零错误                | 阶段 1 |
-| CEGUI 0.7.9-r5 独立编译   | Win32 Debug/Release 零错误                | 阶段 2 |
-| Cocos2DRenderer 编译    | 零错误，基础渲染验证通过                           | 阶段 3 |
-| Nuclear 引擎编译          | engine.win32.vcxproj 零错误               | 阶段 4 |
-| CEGUI 定制模块编译          | 全部 20+ 控件 + 16 渲染器编译通过                 | 阶段 5 |
-| FireClient 全量编译       | 31 个 C++ 文件零错误                         | 阶段 6 |
-| tolua++ 绑定生成          | LuaEngine.cpp + LuaFireClient.cpp 生成成功 | 阶段 7 |
-| 全平台编译                 | Win32 + Android + iOS 零错误              | 阶段 9 |
-
-### 7.2 功能验证门禁
-
-| 门禁         | 条件                                      | 阶段    |
-| ---------- | --------------------------------------- | ----- |
-| UI 基础渲染    | CEGUI 初始化 + 纹理显示 + 字体渲染                 | 阶段 3  |
-| 自定义控件渲染    | 全部 20+ 控件正确渲染                           | 阶段 5  |
-| 游戏启动流程     | 启动 → CEGUI 初始化 → 登录界面                   | 阶段 6  |
-| 核心功能回归     | 登录/选角/入世界/战斗/退出                         | 阶段 11 |
-| Lua 脚本全量加载 | 100+ Lua 文件无报错                          | 阶段 7  |
-| 资源文件加载     | 全部 .layout/.scheme/.imageset/.font 加载成功 | 阶段 8  |
-
-### 7.3 性能验证门禁
-
-| 指标       | 基准值（2.2.6 + 0.7.1） | 允许偏差     | 阶段    |
-| -------- | ------------------ | -------- | ----- |
-| FPS      | 当前 Release 帧率      | 下降 < 5%  | 阶段 11 |
-| 内存占用     | 当前内存占用             | 增长 < 10% | 阶段 11 |
-| 启动时间     | 当前启动耗时             | 增长 < 20% | 阶段 11 |
-| DrawCall | 当前 DrawCall        | 增长 < 10% | 阶段 11 |
-| APK 大小   | 当前 APK 大小          | 增长 < 20% | 阶段 11 |
-
-***
-
-## 附录 A：快速参考 — 关键 API 对照表
-
-### Cocos2d-x 2.2.6 → 3.0-oh
-
-| 2.2.6                                | 3.0-oh                                              |
-| ------------------------------------ | --------------------------------------------------- |
-| `CCDirector::sharedDirector()`       | `Director::getInstance()`                           |
-| `CCSprite::create("x.png")`          | `Sprite::create("x.png")`                           |
-| `CCPoint(x, y)` / `ccp(x,y)`         | `Vec2(x, y)`                                        |
-| `CCSize(w, h)` / `CCSizeMake(w,h)`   | `Size(w, h)`                                        |
-| `CCArray::create()`                  | `Vector<Node*>`                                     |
-| `CCDictionary::create()`             | `Map<std::string, Node*>`                           |
-| `SEL_CallFunc` / `callfunc_selector` | `CC_CALLBACK_0` / lambda                            |
-| `ccTouchesBegan`                     | `EventListenerTouchOneByOne::onTouchBegan`          |
-| `CCLabelTTF::create()`               | `Label::createWithTTF()`                            |
-| `CCNotificationCenter`               | `NotificationCenter` (deprecated → EventDispatcher) |
-
-### CEGUI 0.7.1 → 0.7.9-r5
-
-| 0.7.1                             | 0.7.9-r5                                            |
-| --------------------------------- | --------------------------------------------------- |
-| `CEGUI::System::create(renderer)` | `CEGUI::System::create(renderer, resourceProvider)` |
-| `CEGUI::ImagesetManager`          | `CEGUI::ImageManager`（部分重构）                         |
-| `CEGUI::FontManager`              | `CEGUI::FontManager`（接口稳定）                          |
-| 无 LayoutContainer                 | `CEGUI::LayoutContainer` 系列（新增）                     |
-| 无 RenderEffect                    | `CEGUI::RenderEffectManager`（新增）                    |
-
-***
-
-## 附录 B：参考文档索引
-
-| 文档             | 路径                                                                                     | 说明                  |
-| -------------- | -------------------------------------------------------------------------------------- | ------------------- |
-| Cocos2d-x 升级方案 | [cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md) | Cocos2d-x 单引擎升级详细方案 |
-| CEGUI 迁移计划     | [CEGUI-0.7.9-r5-迁移升级计划.md](CEGUI-0.7.9-r5-迁移升级计划.md)                                   | CEGUI 单引擎迁移详细方案     |
-| MT3 补丁记录       | [cocos2d-x-2.2.6/MT3\_PATCHES.md](../cocos2d-x-2.2.6/MT3_PATCHES.md)                   | 2.2.6 上的 MT3 专属补丁清单 |
-| 项目架构           | [02-技术架构/02-项目架构.md](02-技术架构/02-项目架构.md)                                               | 项目整体架构说明            |
-| 构建指南           | [../.claude/BUILD\_GUIDE.md](../.claude/BUILD_GUIDE.md)                                | 当前构建命令和配置           |
-| 项目规则           | [../.trae/rules/project\_rules.md](../.trae/rules/project_rules.md)                    | Trae 工作区规则          |
-
-***
-
-> **文档维护**：本文档随项目进展持续更新，与 [Cocos2d-x 升级方案](cocos2d-x-2.2.6-to-3.0-oh-upgrade-plan.md) 和 [CEGUI 迁移计划](CEGUI-0.7.9-r5-迁移升级计划.md) 保持同步。
->
-> **审批流程**：技术负责人审核 → 项目经理确认 → 技术委员会批准 → 启动执行
-
-***
-
-## 附录 C：执行进度跟踪
-
-> **执行开始**：2026-07-26
-> **最后更新**：2026-07-28
-
-### 总体进度
-
-| 阶段    | 内容                    | 预估工期  | 状态    | 实际耗时       | 备注                                              |
-| ----- | --------------------- | ----- | ----- | ---------- | ----------------------------------------------- |
-| 阶段 0  | 环境搭建与基线建立             | 1 周   | ✅ 完成  | 0.5 天      | 所有前置任务完成                                        |
-| 阶段 1  | Cocos2d-x 3.0-oh 独立编译 | 2 周   | ✅ 完成  | 0.5 天      | Debug/Release 各 15 个 .lib，零错误                   |
-| 阶段 2  | CEGUI 0.7.9-r5 独立编译   | 1.5 周 | ✅ 完成  | < 0.5 天    | Debug/Release 均零错误，无需修复                         |
-| 阶段 3  | Cocos2DRenderer 移植    | 3 周   | ✅ 完成  | 1.5 天      | Debug/Release 双配置编译通过（见 §阶段3详细）                 |
-| 阶段 4  | Nuclear 引擎封装层适配       | 2 周   | ✅ 完成  | 1.5 天      | Debug/Release 均零错误，engine.lib 生成（见 §阶段4详细）      |
-| 阶段 5  | CEGUI 定制模块移植          | 3 周   | ✅ 完成  | 1.5 天      | Debug/Release 双配置编译通过（见 §阶段5详细）                 |
-| 阶段 6  | FireClient 业务代码适配     | 4 周   | ✅ 完成  | 1 天        | Debug 编译零错误，FireClient.lib（约 167MB）生成（见 §阶段6详细） |
-| 阶段 7  | Lua 脚本 + tolua++ 适配   | 2 周   | ✅ 完成  | 0.5 天      | Debug/Release 编译通过，Lua脚本无需适配（见§阶段7详细）           |
-| 阶段 8  | 资源文件兼容性处理             | 1 周   | ✅ 完成  | 0.5 天      | 静态验证通过，资源无需修改（见§阶段8详细）                          |
-| 阶段 9  | 平台适配                  | 4 周   | ⬜ 待开始 | 2026-08-18 | 2026-09-15                                      |
-| 阶段 10 | MT3 补丁移植              | 2 周   | ⬜ 待开始 | 2026-09-15 | 2026-09-29                                      |
-| 阶段 11 | 测试验证                  | 4 周   | ⬜ 待开始 | 2026-09-29 | 2026-10-27                                      |
-| 阶段 12 | 优化与上线                 | 3 周   | ⬜ 待开始 | 2026-10-27 | 2026-11-17                                      |
-
-### 阶段 0 详细进度
-
-| 任务                                  |  状态  | 结果                                                   |
-| ----------------------------------- | :--: | ---------------------------------------------------- |
-| CMake 3.10 安装验证                     | ✅ 完成 | `D:\Program Files\CMake\bin\cmake.exe`，版本 3.10.0-rc1 |
-| cocos2d-x-3.0-oh CMakeLists.txt 验证  | ✅ 完成 | 根目录存在，`cmake_minimum_required(VERSION 2.8)`          |
-| cocos2d-x-3.0-oh CMake 生成 VS2013 工程 | ✅ 完成 | `build/Cocos2dx.sln`，PlatformToolset=v120            |
-| CEGUI 0.7.9-r5 v120 工程确认            | ✅ 完成 | `cegui-0.7.9.win32.vcxproj` + `cegui-0.7.9.sln`，v120 |
-| 方案文档修正（VS2013 工具链）                  | ✅ 完成 | v1.2.0，修正 §3 全部内容                                    |
-| CMake 路径写入技能/文档                     | ✅ 完成 | 方案 §3.1/§3.2/§3.4，`toolchain-constraints.md`         |
-
-### 阶段 1 详细进度 — Cocos2d-x 3.0-oh 独立编译
-
-| 任务                      |   状态  | 结果                                                                           |
-| ----------------------- | :---: | ---------------------------------------------------------------------------- |
-| Debug 配置编译              |  ✅ 完成 | 15 个 .lib 全部生成，零错误                                                           |
-| Release 配置编译            |  ✅ 完成 | 15 个 .lib 全部生成，零错误                                                           |
-| sqlite3 缺失修复            |  ✅ 完成 | 创建 `external/sqlite3/CMakeLists.txt`，复制 `sqlite3.c` 源码，注册到根 `CMakeLists.txt` |
-| storage 模块 include 路径修复 |  ✅ 完成 | 修复 `cocos/storage/CMakeLists.txt`，为非 OHOS 平台添加 sqlite3 include 路径            |
-| cpp-tests 跳过            | ⚠️ 已知 | cpp-tests 需要 curl.lib（非核心库，暂不处理）                                             |
-| ~~audio.lib~~           | ❌ 未生成 | 文档 v1.3.0 列出 audio.lib 为编译产物，实际 Debug/Release 均未生成此文件；已从产物清单移除               |
-
-**Debug 输出**（`build/lib/Debug/`，15 个 .lib，2026-07-26/27）：
-
-| 库文件              | 大小      |
-| ---------------- | ------- |
-| cocos2d.lib      | 28.2 MB |
-| cocostudio.lib   | 12.2 MB |
-| cocosbuilder.lib | 8.3 MB  |
-| extensions.lib   | 4.3 MB  |
-| cocosbase.lib    | 3.9 MB  |
-| ui.lib           | 2.8 MB  |
-| network.lib      | 2.2 MB  |
-| sqlite3.lib      | 937 KB  |
-| box2d.lib        | 841 KB  |
-| spine.lib        | 396 KB  |
-| chipmunk.lib     | 380 KB  |
-| tinyxml2.lib     | 151 KB  |
-| storage.lib      | 57 KB   |
-| unzip.lib        | 29 KB   |
-| xxhash.lib       | 5 KB    |
-
-**Release 输出**（`build/lib/Release/`，15 个 .lib，2026-07-27）：同 Debug，大小略小。
-
-### 阶段 2 详细进度 — CEGUI 0.7.9-r5 独立编译
-
-| 任务           |  状态  | 结果                               |
-| ------------ | :--: | -------------------------------- |
-| Debug 配置编译   | ✅ 完成 | `cegui-0.7.9_d.lib`（约 80 MB），零错误 |
-| Release 配置编译 | ✅ 完成 | `cegui-0.7.9.lib`（约 66 MB），零错误   |
-| 工程配置         | ✅ 完成 | v120 PlatformToolset，直接可用        |
-
-**关键修复**：无需修复，CEGUI 0.7.9-r5 的 VS2013 (v120) 工程直接可用。
-
-> **注意**：2026-07-27 执行 CppClean 后，`Debug.win32/` 和 `Release.win32/` 下的 .lib 文件已被清理，仅保留 .obj 中间文件。后续需重新编译生成 .lib。
-
-### 阶段 4 详细进度 — Nuclear 引擎封装层适配
-
-> **开始日期**：2026-07-27
-> **完成日期**：2026-07-27
-> **当前状态**：✅ 完成 — Debug/Release 双配置编译通过，M3 里程碑达成
-
-#### 适配范围
-
-阶段 4 的目标是将 Nuclear 引擎的 Cocos2d-x 封装层（`engine/`）从 Cocos2d-x 2.2.6 API 适配到 3.0-oh API。主要涉及以下模块：
-
-| 模块     | 文件                                    | 适配内容                                              |
-| ------ | ------------------------------------- | ------------------------------------------------- |
-| 引擎封装核心 | `nucocos2d_wraper.h/.cpp`             | `EngineApp`、`EngineLayer`、`EngineTicker` 类，触摸事件系统 |
-| 渲染封装   | `nucocos2d_render.h/.cpp`             | `Cocos2dRenderTarget`、`Cocos2dRenderer`，纹理/渲染目标管理 |
-| 引擎核心   | `nuengine.cpp`                        | 引擎初始化，`Image::SetTotalPhysMemory`                 |
-| 日志/断言  | `nulog.h`                             | `XPASSERT` 宏中的 `MessageBox` 调用                    |
-| 音频接口   | `SimpleAudioEngineCompat.cpp`         | MT3 定制音频方法                                        |
-| 资源管理   | `nustatemanager.cpp`、`nurenderer.cpp` | 渲染状态管理，着色器缓存                                      |
-| 粒子/特效  | `nuparticleeffect.cpp` 等              | 粒子系统等特效模块                                         |
-| 精灵/地图  | `nusprite.cpp`、`nupmap.cpp` 等         | 精灵和地图渲染                                           |
-
-#### 已完成工作
-
-| 任务                                   |  状态  | 结果                                                                                                                                          |
-| ------------------------------------ | :--: | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| 更新 `engine.win32.vcxproj` Include 路径 | ✅ 完成 | 添加 Cocos2d-x 3.0-oh 全部依赖路径（cocos/2d、base、kazmath、physics、glfw3、glew、freetype2、editor-support 等）                                             |
-| 修复 `nucocos2d_wraper.h` 基类适配         | ✅ 完成 | `CCApplication` → `Application`，`CCLayer` → `Layer`，`CCAction` → `Action`                                                                   |
-| 触摸事件系统迁移                             | ✅ 完成 | `ccTouchesBegan` → `onTouchesBegan`，`CCSet*` → `std::vector<Touch*>&`                                                                       |
-| 修复 `draw()` 方法签名                     | ✅ 完成 | `draw(void)` → `draw(Renderer*, const kmMat4&, bool)`                                                                                       |
-| API 全局替换                             | ✅ 完成 | `CCDirector::sharedDirector()` → `Director::getInstance()` 等 20+ 处 API 替换                                                                   |
-| 修复 `nucocos2d_render.cpp` 编译错误       | ✅ 完成 | DDS\_HEADER 命名空间、Image::Format::DDS、TextAlign 等 5 类错误                                                                                       |
-| 移植 MT3 定制 Cocos2d-x API              | ✅ 完成 | `SimpleAudioEngine` 扩展、`ShaderCache` 扩展、`Texture2D` 扩展、`Image::initWithString`、`GLProgram::setUniformPartParam`、`ccGLEnableVertexAttribs` 等 |
-| Spine API 适配                         | ✅ 完成 | `PathToTextureMap` 未声明修复，`Skeleton::draw` 签名                                                                                                |
-| Debug 配置编译                           | ✅ 完成 | `engine.lib`（114.22 MB），88 个 .obj，零错误                                                                                                        |
-| Release 配置编译                         | ✅ 完成 | `engine.lib`（82.97 MB），88 个 .obj，零错误                                                                                                         |
-
-#### 关键 API 适配清单
-
-| 2.2.6 API                            | 3.0-oh API                                         | 影响文件                      |
-| ------------------------------------ | -------------------------------------------------- | ------------------------- |
-| `cocos2d::CCApplication`             | `cocos2d::Application`                             | `nucocos2d_wraper.h`      |
-| `cocos2d::CCLayer`                   | `cocos2d::Layer`                                   | `nucocos2d_wraper.h/.cpp` |
-| `cocos2d::CCAction`                  | `cocos2d::Action`                                  | `nucocos2d_wraper.h/.cpp` |
-| `CCDirector::sharedDirector()`       | `Director::getInstance()`                          | 全局 20+ 处                  |
-| `CCEGLView::sharedOpenGLView()`      | `Director::getInstance()->getOpenGLView()`         | `nucocos2d_wraper.cpp`    |
-| `CCShaderCache::sharedShaderCache()` | `ShaderCache::getInstance()`                       | `nucocos2d_wraper.cpp`    |
-| `ccTouchesBegan(CCSet*, CCEvent*)`   | `onTouchesBegan(std::vector<Touch*>&, Event*)`     | `nucocos2d_wraper.h/.cpp` |
-| `draw(void)`                         | `draw(Renderer*, const kmMat4&, bool)`             | `nucocos2d_wraper.h/.cpp` |
-| `registerWithTouchDispatcher()`      | 移除（`final` 方法）                                     | `nucocos2d_wraper.cpp`    |
-| `CC_CONTENT_SCALE_FACTOR()`          | `Director::getInstance()->getContentScaleFactor()` | `nucocos2d_wraper.cpp`    |
-| `kCCShader_PositionTextureColor`     | `GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR`    | `nucocos2d_wraper.cpp`    |
-| `kCCVertexAttrib_*`                  | `GLProgram::VERTEX_ATTRIB_*`                       | `nucocos2d_wraper.cpp`    |
-| `ccGLBlendFunc`                      | `GL::blendFunc`                                    | `nucocos2d_wraper.cpp`    |
-| `ccGLBindTexture2D`                  | `GL::bindTexture2D`                                | `nucocos2d_wraper.cpp`    |
-| `ccGLActiveTexture`                  | `GL::activeTexture`                                | `nucocos2d_render.cpp`    |
-| `CCTexture2D`                        | `Texture2D`                                        | `nucocos2d_render.h/.cpp` |
-| `CCRenderTexture`                    | `RenderTexture`                                    | `nucocos2d_render.h/.cpp` |
-| `CCImage`                            | `Image`                                            | `nucocos2d_render.h/.cpp` |
-| `CCSize`                             | `Size`                                             | 全局                        |
-| `CCPoint` / `Vec2`                   | `Point`                                            | `nucocos2d_wraper.h/.cpp` |
-| `Point::distance()`                  | `Point::getDistance()`                             | `nucocos2d_wraper.cpp`    |
-
-#### MT3 定制 Cocos2d-x API 移植
-
-| 模块                  | 方法/常量                                                                             | 移植方式                      | 影响文件                       |
-| ------------------- | --------------------------------------------------------------------------------- | ------------------------- | -------------------------- |
-| `SimpleAudioEngine` | `hasEffect`、`isEffectPlaying`、`setCurEffectPriority`、`testPriority`               | 从 2.2.6 移植完整实现            | `SimpleAudioEngine.h/.cpp` |
-| `ShaderCache`       | `pushShader`、`popShader`、`getSaderStackDepth`、`kCCShader_PositionTextureColorX` 等 | 从 2.2.6 移植 + 适配 3.0-oh 接口 | `CCShaderCache.h/.cpp`     |
-| `Texture2D`         | `isEtcTexture`、`getAlphaName`、`initWithPVRTCData`、`initWithATCData`、`DataFileUri` | 添加成员变量 + 存根实现             | `CCTexture2D.h/.cpp`       |
-| `Image`             | `initWithString`、`initWithStringShadowStroke`、`SetTotalPhysMemory`、`ETextAlign`   | 添加方法声明 + 存根实现             | `CCImage.h/.cpp`           |
-| `GLProgram`         | `setUniformPartParam`、`kCCUniformFloatY`、`kCCUniformFloatRed`                     | 添加方法 + 存根实现               | `CCGLProgram.h/.cpp`       |
-| `ccGLStateCache`    | `ccGLEnableVertexAttribs`                                                         | 添加函数 + 存根实现               | `ccGLStateCache.h/.cpp`    |
-| `ccTypes.h`         | `DDS_PIXELFORMAT`、`DDS_HEADER`                                                    | 从 2.2.6 移植结构体             | `ccTypes.h`                |
-| `CCDeprecated.h`    | `kCCShader_*` 常量冲突                                                                | 用 `#if 0` 注释冲突声明          | `CCDeprecated.h`           |
-| OgreDDSCodec        | `OgreDDSCodec.h/.cpp`                                                             | 从 2.2.6 复制到 3.0-oh        | `support/image_support/`   |
-
-#### 修复的编译错误
-
-| 错误类型                                                | 数量   | 修复方式                                                       |
-| --------------------------------------------------- | ---- | ---------------------------------------------------------- |
-| 头文件路径缺失（kazmath、glew、glfw3、freetype2、spine、physics） | 6 处  | 更新 `engine.win32.vcxproj` 的 `AdditionalIncludeDirectories` |
-| `DDS_HEADER` 未声明（命名空间问题）                            | 1 处  | 添加 `cocos2d::` 前缀                                          |
-| `Image::Format::DDS` 不存在                            | 2 处  | 替换为 `Image::Format::PNG`（3.0-oh 不支持 DDS）                   |
-| `Image::TextAlign::CENTER` 不存在                      | 2 处  | 替换为 `Image::kAlignCenter`（使用 MT3 定制 `ETextAlign`）          |
-| `cocos2d::MessageBox` 未找到（Debug）                    | 10 处 | 改用 `::MessageBoxA`（Win32 API），移除 `CCCommon.h` 依赖           |
-| 抽象类实例化（`EngineTicker`）                              | 1 处  | 实现 `clone()` 和 `reverse()` 纯虚方法                            |
-| `Point::distance()` 不存在                             | 多处   | 替换为 `Point::getDistance()`                                 |
-| `Draw` 方法 `final`                                   | 1 处  | 改用重载 `draw(Renderer*, const kmMat4&, bool)`                |
-| `registerWithTouchDispatcher` 为 `final`             | 1 处  | 移除方法，依赖 `init()` 中 `setTouchEnabled(true)`                 |
-| `CCDeprecated.h` 常量冲突                               | 多处   | 用 `#if 0` 注释冲突的外部声明                                        |
-
-#### vcxproj 关键变更
-
-| 变更项                      | 内容                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Include 路径新增             | `../cocos2d-x-3.0-oh/cocos/2d/`；`../cocos2d-x-3.0-oh/cocos/base/`；`../cocos2d-x-3.0-oh/cocos/math/kazmath/`；`../cocos2d-x-3.0-oh/cocos/physics/`；`../cocos2d-x-3.0-oh/cocos/2d/platform/`；`../cocos2d-x-3.0-oh/cocos/2d/platform/win32/`；`../cocos2d-x-3.0-oh/cocos/2d/platform/desktop/`；`../cocos2d-x-3.0-oh/cocos/2d/renderer/`；`../cocos2d-x-3.0-oh/cocos/ui/`；`../cocos2d-x-3.0-oh/external/glfw3/include/win32/`；`../cocos2d-x-3.0-oh/external/win32-specific/gles/include/OGLES/`；`../cocos2d-x-3.0-oh/cocos/audio/include/`；`../cocos2d-x-3.0-oh/cocos/deprecated/`；`../cocos2d-x-3.0-oh/external/zlib/include/`；`../cocos2d-x-3.0-oh/external/webp/include/`；`../cocos2d-x-3.0-oh/external/png/include/win32/`；`../cocos2d-x-3.0-oh/external/tiff/include/win32/`；`../cocos2d-x-3.0-oh/external/freetype/include/`；`../cocos2d-x-3.0-oh/extensions/`；`../cocos2d-x-3.0-oh/cocos/editor-support/`；`../cocos2d-x-3.0-oh/external/freetype2/include/win32/`；`../common/platform`；`../common/platform/utils`；`../common/ljfm/code/include`；`../dependencies/LJXML/Include`；`../dependencies/glew-1.7.0/include`；`./engine`；`./common` |
-| 兼容层头文件                   | 创建 `cocos2d-x-3.0-oh/cocos/platform/platform.h`（兼容层）                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Cocos2d-x 3.0-oh 源码修改    | `CCImage.h/.cpp`、`CCTexture2D.h/.cpp`、`CCGLProgram.h/.cpp`、`CCShaderCache.h/.cpp`、`ccGLStateCache.h/.cpp`、`ccTypes.h`、`SimpleAudioEngine.h/.cpp`、`CCSkeletonAnimation.h`、`CCDeprecated.h`、`OgreDDSCodec.h/.cpp`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| nulog.h 修复               | `#include "CCCommon.h"` → `::MessageBoxA`（解决 Debug 下 `MessageBox` 头文件路径问题）                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| nucocos2d\_render.cpp 修复 | 5 类错误修复（DDS\_HEADER、Format::DDS、TextAlign、ccGLActiveTexture、initWithData 参数）                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-
-#### 构建产物
-
-| 配置      | obj 数量 | lib 文件       | 大小       |
-| ------- | ------ | ------------ | -------- |
-| Debug   | 88     | `engine.lib` | 114.22 MB |
-| Release | 88     | `engine.lib` | 82.97 MB  |
-
-***
-
-### 阶段 5 详细进度 — CEGUI 定制模块移植
-
-> **开始日期**：2026-07-27
-> **完成日期**：2026-07-27
-> **当前状态**：✅ 完成 — Debug/Release 双配置编译通过，M3 里程碑达成
-
-#### 移植范围
-
-阶段 5 的目标是将 MT3 在 CEGUI 0.7.1 上扩展的全部定制控件和 Falagard 渲染器移植到 CEGUI 0.7.9-r5，确保编译通过。
-
-| 类别                  | 数量  | 说明                                                                                                                   |
-| ------------------- | --- | -------------------------------------------------------------------------------------------------------------------- |
-| MT3 定制 Elements     | 25+ | AnimationButton、GroupButton、IrregularButton、RichEditbox（含 \~15 个子组件）、ItemTable、ItemCell、LinkText、MessageTip、Switch 等 |
-| MT3 定制 Falagard 渲染器 | 5+  | FalAnimationButton、FalIrregularButton、FalRichEditbox、FalGroupBtnTree 等                                               |
-| Cocos2D Renderer    | 6   | 已在阶段 3 完成                                                                                                            |
-
-#### 修复的编译错误（11 大类）
-
-| 类别                               | 错误描述                                                                   | 修复文件数 | 修复方式                                                                                                            |
-| -------------------------------- | ---------------------------------------------------------------------- | ----- | --------------------------------------------------------------------------------------------------------------- |
-| 1. WindowRenderer 基类接口变更         | 默认构造函数和 `clone()` 不存在                                                  | 4     | 移除默认构造函数，移除 `clone()` 方法                                                                                        |
-| 2. Image::draw() 参数类型变更          | `GeometryBuffer*` → `GeometryBuffer&`                                  | 6     | 指针解引用：`draw(buffer, ...)` → `draw(*buffer, ...)`                                                                |
-| 3. Font::drawText() 参数变更         | 缺少 underline/border 参数                                                 | 3     | 在 CEGUIFont 中添加默认参数 `bool bIsUnderLine=false, bool bBorder=false, const ColourRect& BorderColours=ColourRect()` |
-| 4. CentredRenderedString::draw() | 指针→引用                                                                  | 1     | `draw(*buffer, ...)`                                                                                            |
-| 5. MT3 定制 System API 缺失          | 20+ 个回调函数和成员变量                                                         | 3     | 在 CEGUISystem.h 添加 typedef/成员/方法，在 CEGUISystem.cpp 初始化                                                          |
-| 6. MT3 定制 Scrollbar API 缺失       | `onMouseSlide`、`isThumbOnEnd`                                          | 2     | 在 CEGUIScrollbar.h 添加方法声明，在 FalScrollbar 实现 isThumbOnEnd                                                        |
-| 7. MT3 定制 String API 缺失          | `GetCharLength`                                                        | 1     | 在 CEGUIString.h 添加方法                                                                                            |
-| 8. MT3 定制宏/函数缺失                  | `CEGUI_LOGERR`、`SetCanEdit`、`EnbaleSlide`、`getCloneWindowFromTemplate` | 4     | 在 CEGUILogger.h 添加宏，在 CEGUIWindow\.h 添加方法                                                                       |
-| 9. ButtonBase 构造函数变更             | 缺少双参数构造函数                                                              | 1     | `ButtonBase(type)` → `ButtonBase(type, "")`                                                                     |
-| 10. GestureRecognizer 头文件缺失      | 未使用的头文件引用                                                              | 1     | 移除 `#include "gesture/CEGUILongPressGestureRecognizer.h"`                                                       |
-| 11. FalRichEditbox 编码问题          | GBK 编码的 UTF-8 无 BOM 文件                                                 | 1     | 添加 UTF-8 BOM                                                                                                    |
-
-#### 新增的 MT3 定制 API（CEGUI 0.7.9-r5 中）
-
-| 模块                     | 新增 API                                                                                                                                                                                                                                                                                                                    | 说明                       |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| CEGUISystem.h          | `GoToFunction`、`LinkHttpFunction`、`ShowItemTips`、`OnChangelImageClick`、`ShowCompnentTips`、`OnPasteFromClipBord`、`OnCopyToClipBord`、`OnNameLinkClick`、`OnFamilyRecruitClick`、`JoinTeamLinkClicked`、`RequestTeamLinkClicked`、`AnswerQuestionLinkClicked`、`CommonLinkLinkClicked`、`OpenDialog`、`RequestOtherQuest` 等 typedef | 从 0.7.1 移植全部回调函数类型       |
-| CEGUISystem.h          | 20+ 个 getter/setter 方法                                                                                                                                                                                                                                                                                                    | 表情、链接、剪贴板、组件提示、物品提示等回调管理 |
-| CEGUISystem.h          | `d_defaultCompnenttip`、`d_EmotionNum`、`d_CellImage` 等 10+ 个成员变量                                                                                                                                                                                                                                                           | MT3 定制状态管理               |
-| CEGUIScrollbar.h       | `onMouseSlide()`、`isThumbOnEnd()`                                                                                                                                                                                                                                                                                         | 滚动条滑动和终点检测               |
-| CEGUIString.h          | `GetCharLength()`                                                                                                                                                                                                                                                                                                         | 字符长度计算                   |
-| CEGUIWindow\.h         | `SetCanEdit()`、`EnbaleSlide()`、`getCloneWindowFromTemplate()`                                                                                                                                                                                                                                                             | 窗口编辑和克隆功能                |
-| CEGUILogger.h          | `CEGUI_LOGERR` 宏                                                                                                                                                                                                                                                                                                          | 错误日志便捷宏                  |
-| CEGUIXMLSerializer.h   | `convertEntityInText()` 改为 public                                                                                                                                                                                                                                                                                         | XML 实体转换公开访问             |
-| CEGUIForwardRefs.h     | `CompnentTip`、`RichEditboxComponent` 前向声明                                                                                                                                                                                                                                                                                 | 类型前向声明                   |
-| CEGUIButtonBase.h      | `EnableClickAni()`、`isClickAniEnable()` 改为 public                                                                                                                                                                                                                                                                         | 按钮点击动画访问                 |
-| CEGUIWindow\.h         | `EnableDrag()`、`GetScreenPos()`、`CheckGuideEnd()`、`onSetTemplateLookNFeel()`                                                                                                                                                                                                                                              | 窗口拖拽和屏幕坐标                |
-| CEGUIImagesetManager.h | `getImage(const String& imageset, const String& image)`                                                                                                                                                                                                                                                                   | 便捷图片获取                   |
-| CEGUIString.h          | `String(const wchar_t*)` 构造函数                                                                                                                                                                                                                                                                                             | 宽字符串支持                   |
-| CEGUIFont.h            | `drawText()` 添加 underline/border 默认参数                                                                                                                                                                                                                                                                                     | 文本渲染兼容                   |
-
-#### 关键文件修改清单
-
-| 文件                                            | 修改类型     | 说明                                                                |
-| --------------------------------------------- | -------- | ----------------------------------------------------------------- |
-| `CEGUISystem.h`                               | 新增 50+ 行 | 添加 20+ 个 MT3 回调 typedef、成员变量、getter/setter                        |
-| `CEGUISystem.cpp`                             | 新增 10 行  | 构造函数初始化新增成员                                                       |
-| `CEGUIWindow.h`                               | 新增 20+ 行 | 添加 EnableDrag、SetCanEdit、EnbaleSlide、getCloneWindowFromTemplate 等 |
-| `CEGUIWindow.cpp`                             | 新增 40+ 行 | 实现新增方法                                                            |
-| `CEGUIScrollbar.h`                            | 新增 10 行  | 添加 onMouseSlide、isThumbOnEnd 声明                                   |
-| `CEGUIScrollbar.cpp`                          | 新增 10 行  | 实现 onMouseSlide、isThumbOnEnd                                      |
-| `CEGUIString.h`                               | 新增 25 行  | 添加 GetCharLength、wchar\_t 构造函数                                    |
-| `CEGUIForwardRefs.h`                          | 新增 2 行   | 添加 CompnentTip、RichEditboxComponent 前向声明                          |
-| `CEGUILogger.h`                               | 新增 1 行   | 添加 CEGUI\_LOGERR 宏                                                |
-| `CEGUIXMLSerializer.h`                        | 移动 5 行   | convertEntityInText 从 private 移至 public                           |
-| `CEGUIButtonBase.h`                           | 移动 2 行   | EnableClickAni/isClickAniEnable 从 protected 移至 public             |
-| `CEGUIImagesetManager.h/.cpp`                 | 新增 15 行  | 添加 getImage 便捷方法                                                  |
-| `CEGUIBase.h/.cpp`                            | 新增 2 行   | g\_bIsTextLoading 全局变量                                            |
-| `CEGUIFont.h/.cpp`                            | 修改 2 行   | drawText 添加默认参数                                                   |
-| `FalScrollbar.h/.cpp`                         | 新增 40 行  | 实现 isThumbOnEnd 方法                                                |
-| `FalRichEditbox.cpp`                          | 编码修复     | 添加 UTF-8 BOM                                                      |
-| `FalAnimationButton.h`、`FalIrregularButton.h` | 删除 4 行   | 移除默认构造函数和 clone()                                                 |
-| `CEGUICompnentTip.h`                          | 删除 2 行   | 移除默认构造函数和 clone()                                                 |
-| `CEGUIGroupButton.cpp`                        | 修改 1 行   | ButtonBase 构造函数适配                                                 |
-| `CEGUIRichEditbox.cpp`                        | 删除 1 行   | 移除不存在的 d\_recognizerManager 调用                                    |
-| `CEGUIItemTable.cpp`                          | 删除 1 行   | 移除未使用的 GestureRecognizer 头文件                                      |
-| `CEGUIGroupBtnItem.cpp`                       | 修改 6 行   | Image::draw 和 CentredRenderedString::draw 指针→引用                   |
-| `CEGUIRichEditboxImageComponent.cpp`          | 修改 3 行   | Image::draw 指针→引用                                                 |
-| `CEGUIRichEditboxHttpComponent.cpp`           | 修改 1 行   | Font::drawText 参数适配                                               |
-| `CEGUIRichEditboxGoToComponent.cpp`           | 修改 1 行   | Font::drawText 参数适配                                               |
-| `CEGUIRichEditboxTextComponent.cpp`           | 修改 2 行   | Image::draw 和 Font::drawText 适配                                   |
-| `CEGUIRichEditboxEmotionComponent.cpp`        | 修改 1 行   | Image::draw 指针→引用                                                 |
-| `CEGUIRichEditboxButtonImageComponent.cpp`    | 修改 3 行   | Image::draw 指针→引用                                                 |
-| `CEGUIRichEditboxLinkTextComponent.cpp`       | 修改 1 行   | Font::drawText 指针→引用                                              |
-
-#### 构建产物
-
-| 配置      | 文件                  | 大小      |
-| ------- | ------------------- | ------- |
-| Debug   | `cegui-0.7.9_d.lib` | 98.9 MB |
-| Release | `cegui-0.7.9.lib`   | 79.6 MB |
-
-#### 后续注意事项
-
-1. **运行时验证尚未进行**：阶段 5 仅完成编译通过，自定义控件的渲染正确性和功能正确性需要在阶段 11（测试验证）中进行。
-2. **部分方法为空实现**：`onMouseSlide`、`CheckGuideEnd`、`onSetTemplateLookNFeel` 等方法当前为空实现或存根实现，需要在后续阶段根据实际运行时需求补充。
-3. **API 差异可能影响运行时行为**：如 `Font::drawText` 新增的默认参数（underline/border）与 0.7.1 行为可能存在差异，需在集成测试中验证。
-4. **编码问题**：`FalRichEditbox.cpp` 等文件中的 GBK 注释在添加 UTF-8 BOM 后可能出现乱码，但不影响编译和功能。
-
-***
-
-### 阶段 6 详细进度 — FireClient 业务代码适配
-
-> **开始日期**：2026-07-27
-> **完成日期**：2026-07-28
-> **编译配置**：Debug | Win32 | v120
-> **编译结果**：零错误，FireClient.lib（约 167MB）生成
-
-#### 任务清单
-
-| 任务                              |  状态  | 结果                                                                                 |
-| ------------------------------- | :--: | ---------------------------------------------------------------------------------- |
-| FireClient.win32.vcxproj 工程配置更新 | ✅ 完成 | Include 路径、Library 路径全部切换至 3.0-oh + CEGUI 0.7.9-r5                                 |
-| tolua++ 接口适配（tolua++.h）         | ✅ 完成 | 补充 tolua\_isfunction、tolua\_ref\_function、tolua\_isluaobj、tolua\_ref\_luaobj 等内联函数 |
-| tolua\_fix.cpp 编译集成             | ✅ 完成 | 添加到 FireClient.win32.vcxproj 的 ClCompile 列表                                        |
-| HTTP 模块 API 适配                  | ✅ 完成 | CCHttpClient→HttpClient、CCHttpResponse→HttpResponse、kHttpPost→Type::POST           |
-| 类型转换修复                          | ✅ 完成 | PlayNPCSound 中 std::wstring→CEGUI::String 转换                                       |
-| LuaFireClientWin32.cpp 适配       | ✅ 完成 | 4.3MB 超大文件编译通过（含大量 tolua 绑定代码）                                                     |
-| Debug 配置编译验证                    | ✅ 完成 | 零错误，约 5262 个警告（均为 deprecation/macro 重定义）                                           |
-| Release 配置编译验证                  | ✅ 完成 | 零错误，FireClient.lib（约 122MB）生成                                                      |
-
-#### 关键适配工作
-
-##### 1. tolua++ 接口适配
-
-Cocos2d-x 3.0-oh 的 `tolua++.h` 缺少 MT3 在 2.2.6 中新增的内联包装函数。在 `cocos2d-x-3.0-oh/external/lua/tolua/tolua++.h` 中添加：
-
-| 新增函数                             | 用途                                            |
-| -------------------------------- | --------------------------------------------- |
-| `tolua_ref_function`             | 包装 `toluafix_ref_function`，管理 Lua 函数引用        |
-| `tolua_remove_function_by_refid` | 包装 `toluafix_remove_function_by_refid`，移除函数引用 |
-| `tolua_isfunction`               | 检查栈位置是否为 Lua 函数                               |
-| `tolua_ref_luaobj`               | 通过 `luaL_ref` 管理 Lua 对象引用                     |
-| `tolua_isluaobj`                 | 检查是否为 Lua 对象（始终返回 true，兼容现有逻辑）                |
-
-##### 2. 工程配置更新
-
-`FireClient.win32.vcxproj` 关键变更：
-
-| 变更项                | 旧值                                                  | 新值                                                                      |
-| ------------------ | --------------------------------------------------- | ----------------------------------------------------------------------- |
-| CEGUI Include      | `dependencies/cegui/CEGUI/include`                  | `tools/CEGUI-0.7.9-r5/cegui/include`                                    |
-| Cocos Include      | `cocos2d-x-2.2.6/cocos2dx`                          | `cocos2d-x-3.0-oh/cocos`                                                |
-| Cocos Library      | `cocos2d-x-2.2.6/Debug.win32`                       | `cocos2d-x-3.0-oh/build/lib/Debug`                                      |
-| CEGUI Library      | `dependencies/cegui/lib`                            | `tools/CEGUI-0.7.9-r5/cegui-0.7.9/Debug.win32`                          |
-| HttpClient.cpp 源路径 | `cocos2d-x-2.2.6/extensions/network/HttpClient.cpp` | `cocos2d-x-3.0-oh/cocos/network/HttpClient.cpp`                         |
-| tolua\_fix.cpp     | 未包含                                                 | 新增 `cocos2d-x-3.0-oh/cocos/scripting/lua-bindings/manual/tolua_fix.cpp` |
-
-##### 3. HTTP 模块 API 适配
-
-Cocos2d-x 3.0-oh 将 HTTP 模块从 `cocos2d::extension` 命名空间迁移至 `cocos2d::network`：
-
-| 旧 API                                       | 新 API                            |
-| ------------------------------------------- | -------------------------------- |
-| `cocos2d::extension::CCHttpClient`          | `cocos2d::network::HttpClient`   |
-| `cocos2d::extension::CCHttpResponse`        | `cocos2d::network::HttpResponse` |
-| `CCHttpRequest::HttpRequestType::kHttpPost` | `(int)HttpRequest::Type::POST`   |
-
-##### 4. 类型转换修复
-
-`PlayNPCSound` 方法需要 `std::wstring` 到 `CEGUI::String` 的显式转换：
-
-```cpp
-const std::wstring soundRes = tolua_tocppwstring(tolua_S, 2, 0);
-CEGUI::String ceguiSoundRes(soundRes.c_str());
-self->PlayNPCSound(ceguiSoundRes, iNpcId, bForcePlay);
-```
-
-##### 5. 已知警告（无需修复）
-
-- **C4996 deprecation 警告**（约 5000+ 条）：Cocos2d-x 3.0-oh 中 `CCImage`、`CCLayer`、`CCArray`、`CCUserDefault`、`ScriptEngineManager::sharedManager` 等标记为 deprecated，但通过 `ccdeprecated.h` 提供向后兼容 typedef
-- **C4005 宏重定义**：`POLLIN`/`POLLOUT`/`POLLERR` 在 `pollio.h` 和 `winsock2.h` 中重复定义
-- **C4190 C 链接警告**：`tolua_tocppwstring` 返回 UDT 类型
-
-#### 构建产物
-
-| 配置      | 文件             | 大小       |
-| ------- | -------------- | -------- |
-| Debug   | FireClient.lib | 169.18 MB |
-| Release | FireClient.lib | 约 122 MB |
-
-#### 后续注意事项
-
-1. **Release 编译已验证通过**：零错误，FireClient.lib（约 122MB）生成
-2. **链接阶段未验证**：阶段 6 仅生成 FireClient.lib（静态库），尚未进行 MT3.exe 链接，链接阶段可能发现新的符号缺失问题
-3. **运行时验证尚未进行**：编译通过不代表功能正确，需在阶段 11 进行集成测试
-4. **LuaFireClientWin32.cpp 为生成文件**：该文件由 tolua++ 生成，后续若修改 .pkg 定义需重新生成
-
-***
-
-### 阶段 7 详细进度 — Lua 脚本 + tolua++ 适配
-
-> **日期**：2026-07-28
-> **编译**：Debug + Release | Win32 | v120，零错误
-
-#### 任务清单
-
-| 任务                |  状态 | 结果                                |
-| ----------------- | :-: | --------------------------------- |
-| .pkg 文件 API 适配    |  OK | 3 个文件，11 处旧 API 引用全部更新            |
-| nuiengine.h 修复    |  OK | CCLayer→Layer                     |
-| tolua++ 绑定重新生成    |  跳过 | 现有绑定通过 deprecated typedef 兼容      |
-| Lua 脚本分析（2560 文件） |  OK | 仅 2 处 CCUserDefault，CEGUI API 全兼容 |
-| Debug 编译验证        |  OK | 零错误，FireClient.lib（169.18 MB）       |
-| Release 编译验证      |  OK | 零错误，FireClient.lib（\~122MB）       |
-
-#### 关键发现
-
-1. .pkg 文件旧 API 引用（11 处）全部更新为 3.0-oh API
-2. 3.0-oh CCDeprecated.h 提供 typedef Image CCImage / typedef Layer CCLayer 向后兼容
-3. 2560 个 Lua 文件仅 2 处 CCUserDefault 引用，CEGUI API 全兼容，无需适配
-4. tolua++.exe 不在工作区，.pkg 文件已更新供后续使用
-
-### 阶段 8 详细进度 — 资源文件兼容性处理
-
-> **日期**：2026-07-28
-> **方式**：静态验证（运行时验证在阶段 11）
-
-#### 资源统计
-
-**CEGUI 资源**（`client/resource/res/ui/`）：
-
-| 资源类型                  | 数量    | 兼容性  | 说明                                                 |
-| --------------------- | ----- | ---- | -------------------------------------------------- |
-| `.scheme`             | 2     | 格式兼容 | 所有 FalagardMapping 的 TargetType/Renderer 已在阶段 5 移植 |
-| `.layout`             | 857   | 格式兼容 | 标准 CEGUI XML，WindowType 映射存在即可加载                   |
-| `.imageset`           | 631   | 格式兼容 | XML 格式在 0.7.1→0.7.9-r5 之间完全一致                      |
-| `.font`               | 87    | 格式兼容 | FreeType 格式完全一致，可直接复用                              |
-| `.looknfeel`          | 2     | 格式兼容 | Falagard XML 格式稳定，阶段 5 已移植全部自定义 WidgetLook         |
-| 图片资源 (.png/.tga/.jpg) | \~625 | 完全兼容 | 二进制图片无需修改                                          |
-
-**Cocos2d-x 资源**（`client/resource/res/`）：
-
-| 资源类型     | 数量    | 兼容性  | 说明                                     |
-| -------- | ----- | ---- | -------------------------------------- |
-| `.plist` | 1     | 格式兼容 | plist 纹理图集格式在 2.2.6→3.0-oh 之间完全兼容      |
-| `.png`   | 32748 | 格式兼容 | PNG 纹理直接兼容，3.0-oh 的 Texture2D 加载逻辑向后兼容 |
-
-#### 验证方法
-
-1. **scheme 文件完整性**：逐项检查 2 个 .scheme 文件中引用的所有 Imageset、Font、LookNFeel 文件是否存在，所有 FalagardMapping 的 WindowType 对应的 TargetType 和 Renderer 是否已在阶段 5 移植
-2. **layout 文件格式**：抽样检查 layout 文件的 XML 结构，确认 WindowType 均在 scheme 的 FalagardMapping 中定义
-3. **imageset 引用完整性**：验证 imageset 中引用的 Imagefile（.png/.tga/.jpg）是否存在
-4. **font 引用完整性**：验证 font 中引用的 Filename（.ttf）是否存在
-5. **Cocos2d-x 资源兼容性**：确认 plist 和 png 格式在 3.0-oh 的 TextureCache/SpriteFrameCache 中可正常加载
-
-#### 关键结论
-
-1. **CEGUI 资源格式在 0.7.1→0.7.9-r5 之间高度兼容**：.scheme/.layout/.imageset/.font/.looknfeel 的 XML 格式完全一致，无需任何格式转换
-2. **Cocos2d-x 资源格式在 2.2.6→3.0-oh 之间完全兼容**：plist/png 纹理资源在 3.0-oh 的 Texture2D/TextureCache 中可正常加载，无需修改
-3. **资源加载的关键依赖是阶段 5 的定制模块移植**：只要 CEGUI 的 Cocos2DRenderer、Cocos2DImageCodec 和自定义控件移植成功，资源文件即可正常加载
-4. **运行时验证将在阶段 11 进行**：当前仅完成静态验证，实际加载行为需在阶段 11（集成测试）中通过运行时验证
-
-## 附录 D：踩坑记录
-
-> 记录双引擎升级过程中遇到的实际问题和解决方案，供后续阶段参考。
-
-### D.1 阶段 1：Cocos2d-x 3.0-oh 独立编译
-
-#### 坑 1：sqlite3 模块缺失 CMakeLists.txt
-
-- **现象**：CMake 生成工程时报错，`cocos/storage/` 找不到 sqlite3 依赖
-- **根因**：Cocos2d-x 3.0-oh 的 `external/sqlite3/` 目录只包含 `sqlite3.c` 和 `sqlite3.h` 源码，没有 CMakeLists.txt，导致 CMake 无法识别为独立 target
-- **修复**：
-  1. 创建 `external/sqlite3/CMakeLists.txt`，定义 `sqlite3` 静态库 target
-  2. 在根 `CMakeLists.txt` 中添加 `add_subdirectory(external/sqlite3)`
-  3. 修复 `cocos/storage/CMakeLists.txt` 中的条件编译，为非 OHOS 平台添加 `../external/sqlite3` 到 include 路径
-- **教训**：3.0-oh 的 external 依赖可能不完整，CMake 生成前需逐项检查
-
-#### 坑 2：cpp-tests 缺少 curl.lib
-
-- **现象**：cpp-tests 子项目编译失败，链接阶段找不到 curl.lib
-- **根因**：`cpp-tests` 依赖 libcurl 进行网络测试，但 3.0-oh 的 external 不包含 curl 预编译库
-- **处理**：跳过 cpp-tests 编译（非核心库，不影响引擎库生成）
-- **教训**：测试/示例项目依赖可能不完整，只关注核心库即可
-
-#### 坑 3：产物清单与实际输出不一致
-
-- **现象**：文档 v1.3.0 列出 `audio.lib`（268 KB）和 `kazmath.dll` 为编译产物，实际检查 `build/lib/Debug/` 和 `build/lib/Release/` 均未找到这两个文件
-- **根因**：`audio.lib` 对应的 `cocos/audio/` 模块在 CMake 配置中可能未被正确启用（需 `GENERATE_COCOS_SCRIPT_CORE` 或其他条件）；`kazmath.dll` 实际为 `kazmath.lib`（静态库），但 CMake 未将其输出到 `lib/` 目录
-- **处理**：从产物清单中移除 `audio.lib` 和 `kazmath.dll`，实际产物为 15 个 .lib
-- **教训**：编译产物清单必须以实际文件系统为准，不能仅凭 CMakeLists.txt 推断
-
-### D.2 阶段 2：CEGUI 0.7.9-r5 独立编译
-
-**本阶段无坑**。CEGUI 0.7.9-r5 的 VS2013 (v120) 工程配置完整，Debug/Release 均零错误编译通过。
-
-### D.3 阶段 3：Cocos2DRenderer 移植
-
-#### 坑 4：CEGUI 0.7.9-r5 Renderer 基类接口变更
-
-- **现象**：从 0.7.1 移植的 Cocos2DRenderer 代码无法直接编译，多处虚函数签名不匹配
-- **根因**：CEGUI 0.7.9-r5 的 `Renderer` 基类相比 0.7.1 有接口变更：
-  - `RenderingSurface` / `RenderingWindow` 新架构引入
-  - `RenderTarget` 接口调整
-  - `TextureTarget` 声明变更
-- **修复**：逐函数对比 0.7.1 和 0.7.9-r5 的 `CEGUIRenderer.h`，更新所有虚函数签名和实现
-- **教训**：Renderer 是 CEGUI 最核心的接口层，版本间 API 变化大，移植前应先做差异分析
-
-#### 坑 5：Cocos2d-x 3.0-oh 的 include 路径结构与 2.2.6 完全不同
-
-- **现象**：编译时找不到 `CCGLProgram.h`、`CCShaderCache.h`、`CCDirector.h` 等头文件
-- **根因**：Cocos2d-x 2.2.6 的头文件为扁平结构（`cocos2dx/` 根目录），3.0-oh 改为分层结构（`cocos/2d/`、`cocos/base/`、`cocos/math/` 等）
-- **修复**：在 vcxproj 的 `AdditionalIncludeDirectories` 中添加 10 个 Cocos2d-x 3.0-oh 子目录路径
-- **教训**：3.0-oh 的 include 路径是全量必要的，不能只添加 `cocos/` 根目录
-
-#### 坑 6：Release 模式下 CEGUICocos2DRenderer.cpp 编译失败
-
-- **现象**：Debug 配置 6 个 Cocos2D .obj 全部编译成功，但 Release 配置 `CEGUICocos2DRenderer.obj` 缺失
-- **根因**：Release 编译失败的根本原因与 Debug 链接失败相同——**vcxproj 中仍保留了 MT3 定制元素文件**（AnimationButton、GroupButton、GroupBtnItem、GroupBtnTree、IrregularButton、ItemCell 系列、ItemEntry 系列、ItemListBase/ItemListbox 系列、ItemTable 系列、LinkText、Switch 等），这些文件依赖 MT3 在 CEGUI 0.7.1 上的定制 API（如 `SetDragMoveEnable`、`PlayUISound`、`getImage`、`GetScreenPos` 等），与 CEGUI 0.7.9-r5 不兼容。Release 模式下优化器对编译单元的处理方式不同，导致错误表现与 Debug 略有差异，但根因相同
-- **修复**：从 vcxproj 中移除全部 20+ 个 MT3 定制元素文件，仅保留标准 CEGUI 0.7.9-r5 文件 + 6 个 Cocos2DRenderer 文件。这些定制控件将在阶段 5 统一移植
-- **教训**：Debug 和 Release 的错误表现可能不同，但根因往往是同一个；先解决根因，不要分别打补丁
-
-#### 坑 7：链接阶段失败（Debug）
-
-- **现象**：Debug 配置 6 个 Cocos2D .obj 全部编译成功，但链接阶段 `unsuccessfulbuild`
-- **根因**：与坑 6 相同——MT3 定制元素文件编译失败导致部分 .obj 缺失，链接阶段因符号缺失而失败。移除 MT3 定制文件后，所有标准 CEGUI 文件 + Cocos2DRenderer 文件编译和链接均正常
-- **修复**：同坑 6，从 vcxproj 移除全部 MT3 定制元素文件
-- **教训**：链接错误不一定是缺少外部库依赖，也可能是编译阶段部分文件失败导致 .obj 缺失。先确保所有编译单元通过，再排查链接问题
-
-#### 坑 8：MT3 定制元素文件与 CEGUI 0.7.9-r5 不兼容
-
-- **现象**：编译时出现大量 `C3861`（找不到标识符）、`C2039`（不是成员）、`C2664`（参数类型转换失败）等错误，涉及 `SetDragMoveEnable`、`PlayUISound`、`getImage`、`GetScreenPos`、`GetLinkTextClickFunc` 等 MT3 定制 API
-- **根因**：MT3 在 CEGUI 0.7.1 上扩展了大量定制控件和 API（`System::PlayUISound`、`ImagesetManager::getImage`、`Window::SetDragMoveEnable` 等），这些在 CEGUI 0.7.9-r5 中不存在。之前只移除了 Falagard 渲染器和 RichEditbox/BinLayout，但遗漏了 20+ 个 MT3 定制元素文件
-- **修复**：从 vcxproj 移除全部 MT3 定制元素编译项：AnimationButton、GroupButton、GroupBtnItem、GroupBtnTree、IrregularButton、ItemCell、ItemCellGeneral、ItemEntry、ItemListBase、ItemListbox、ItemTable、LinkText、Switch 及其 Properties 文件
-- **教训**：阶段 3 的目标是验证 Cocos2DRenderer 与标准 CEGUI 0.7.9-r5 的编译兼容性，MT3 定制模块属于阶段 5 的工作范围，不应混入阶段 3 的编译验证
-
-### D.4 通用经验
-
-| 经验                      | 说明                                           |
-| ----------------------- | -------------------------------------------- |
-| 产物验证必须以文件系统为准           | 不能仅凭 CMakeLists.txt 或构建日志推断，必须在磁盘上验证每个产物     |
-| Debug 和 Release 必须分别验证  | Debug 通过不代表 Release 通过，反之亦然                  |
-| 双引擎升级的耦合点集中在 Renderer 层 | CEGUI 的 Renderer 和 Cocos2d-x 的渲染 API 是最高风险区域 |
-| 增量构建后建议做 CppClean       | 旧的 .obj 可能掩盖新代码的编译错误                         |
-| include 路径需要全量添加        | 3.0-oh 的分层结构要求每个子目录单独添加，不能只加根目录              |
-
-### D.5 阶段 5：CEGUI 定制模块移植
-
-#### 坑 6：CEGUI 0.7.9-r5 缺失 MT3 大量定制 API
-
-- **现象**：编译时出现 \~200 个错误，涉及 `CompnentTip` 未定义、`GoToFunction` 等回调类型未声明、`onMouseSlide`/`isThumbOnEnd` 不存在、`CEGUI_LOGERR` 宏未定义等
-- **根因**：MT3 在 CEGUI 0.7.1 上深度定制了 System、Window、Scrollbar、String 等核心类，添加了 50+ 个定制 API。这些 API 在 0.7.9-r5 中不存在
-- **修复**：
-  1. 在 CEGUISystem.h 中添加 20+ 个回调 typedef 和对应的 getter/setter 方法
-  2. 在 CEGUIWindow\.h 中添加 `EnableDrag`、`SetCanEdit`、`EnbaleSlide`、`getCloneWindowFromTemplate` 等方法
-  3. 在 CEGUIScrollbar.h 中添加 `onMouseSlide`、`isThumbOnEnd` 方法
-  4. 在 CEGUIString.h 中添加 `GetCharLength` 方法和 `wchar_t` 构造函数
-  5. 在 CEGUILogger.h 中添加 `CEGUI_LOGERR` 宏
-  6. 在 CEGUIForwardRefs.h 中添加 `CompnentTip`、`RichEditboxComponent` 前向声明
-- **教训**：阶段 5 的 API 补充工作量远超预期，因为 MT3 对 CEGUI 0.7.1 的定制深度很大，涉及核心类（System、Window）的修改
-
-#### 坑 7：FalRichEditbox.cpp 编码问题导致 50+ 语法错误
-
-- **现象**：编译 `FalRichEditbox.cpp` 时出现 `FalagardRichEditbox` 不是类名、`i` 未声明、`pos` 未声明等 50+ 个语法错误，但代码逻辑本身正确
-- **根因**：文件是 UTF-8 无 BOM 格式，但其中文注释实际是 GBK 编码。GBK 多字节序列中的某些字节恰好等于 ASCII 的 `{`（0x7B）和 `}`（0x7D），VS2013 在无 BOM 时以 CP936（GBK）解析，导致括号匹配错误——for 循环被提前关闭，后续所有成员函数定义脱离了类作用域
-- **修复**：为文件添加 UTF-8 BOM（EF BB BF），使 VS2013 以 UTF-8 模式解析
-- **教训**：VS2013 编译且包含非 ASCII 的 UTF-8 C/C++ 文件必须保留 BOM；GBK 注释在无 BOM 的 UTF-8 文件中是定时炸弹
-
-#### 坑 8：Image::draw() 和 Font::drawText() 签名变更影响面广
-
-- **现象**：编译时出现大量 `C2664`（无法将 `GeometryBuffer*` 转换为 `GeometryBuffer&`）错误
-- **根因**：CEGUI 0.7.9-r5 将 `Image::draw()` 和 `Font::drawText()` 的参数从指针改为引用
-- **修复**：在 10+ 个文件中将所有 `draw(buffer, ...)` 改为 `draw(*buffer, ...)`
-- **教训**：指针→引用的 API 变更是编译时最容易发现的，但影响面广，需要逐文件修改；建议使用 grep 全局搜索确保无遗漏
-
-#### 坑 9：WindowRenderer 基类构造函数变更
-
-- **现象**：`FalAnimationButton`、`FalIrregularButton`、`CompnentTipWindowRenderer` 等编译失败
-- **根因**：CEGUI 0.7.9-r5 的 `WindowRenderer` 移除默认构造函数，且 `clone()` 不再是其成员
-- **修复**：移除这些类的默认构造函数和 `clone()` 方法
-- **教训**：0.7.9-r5 的 `WindowRenderer` 体系与 0.7.1 差异较大，自定义渲染器需要重新审视架构
-
-### D.6 阶段 6：FireClient 业务代码适配
-
-#### 坑 10：tolua++ 接口缺失导致 LuaFireClientWin32.cpp 编译失败
-
-- **现象**：编译 `LuaFireClientWin32.cpp` 时出现 `C3861`（找不到标识符）错误，涉及 `tolua_isfunction`、`tolua_ref_function`、`tolua_isluaobj`、`tolua_ref_luaobj`
-- **根因**：Cocos2d-x 3.0-oh 的 `tolua++.h` 只包含标准 tolua 接口，缺少 MT3 在 2.2.6 中新增的内联包装函数。`tolua_isfunction` 和 `tolua_isluaobj` 是 `LuaFireClientWin32.cpp`（4.3MB 生成文件）中被大量使用的类型检查函数
-- **修复**：在 `cocos2d-x-3.0-oh/external/lua/tolua/tolua++.h` 中添加 5 个内联函数实现：
-  - `tolua_ref_function`：包装 `toluafix_ref_function`
-  - `tolua_remove_function_by_refid`：包装 `toluafix_remove_function_by_refid`
-  - `tolua_isfunction`：基于 `lua_isfunction` 实现
-  - `tolua_ref_luaobj`：基于 `luaL_ref` 实现
-  - `tolua_isluaobj`：始终返回 1（兼容现有逻辑）
-- **教训**：tolua++ 绑定代码的依赖链很深，需要同时适配 tolua++.h 头文件和 tolua\_fix.cpp 编译单元
-
-#### 坑 11：tolua\_fix.cpp 未包含在工程中
-
-- **现象**：链接阶段缺少 `toluafix_ref_function` 和 `toluafix_remove_function_by_refid` 符号
-- **根因**：`tolua_fix.cpp` 在 Cocos2d-x 3.0-oh 中路径为 `cocos/scripting/lua-bindings/manual/tolua_fix.cpp`，未包含在 `FireClient.win32.vcxproj` 的 ClCompile 列表中
-- **修复**：在 `FireClient.win32.vcxproj` 中添加 `<ClCompile Include="..\..\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\manual\tolua_fix.cpp">`，并设置 `PrecompiledHeader` 为 `NotUsing`
-- **教训**：tolua++ 的运行时实现分散在多个文件中，迁移时需要确保所有依赖的编译单元都包含在工程中
-
-#### 坑 12：HTTP 模块 API 命名空间变更
-
-- **现象**：编译 `LuaFireClientWin32.cpp` 时出现 `C2065`（未声明标识符）错误，涉及 `cocos2d::extension::CCHttpClient`、`cocos2d::extension::CCHttpResponse`、`kHttpPost`
-- **根因**：Cocos2d-x 3.0-oh 将 HTTP 模块从 `cocos2d::extension` 命名空间迁移至 `cocos2d::network`，类名也去掉了 `CC` 前缀
-- **修复**：
-  - `CCHttpClient` → `HttpClient`（含命名空间变更）
-  - `CCHttpResponse` → `HttpResponse`
-  - `CCHttpRequest::HttpRequestType::kHttpPost` → `(int)HttpRequest::Type::POST`（枚举类型也变更）
-- **教训**：Cocos2d-x 3.0 的命名空间重构影响面广，HTTP、网络、音频等模块都需要关注
-
-#### 坑 13：wstring 到 CEGUI::String 的类型转换
-
-- **现象**：`PlayNPCSound` 调用处出现 `C2664`（参数类型转换失败）错误
-- **根因**：`tolua_tocppwstring` 返回 `std::wstring`，但 `PlayNPCSound` 需要 `CEGUI::String` 参数，两者之间没有隐式转换。Cocos2d-x 3.0-oh 的 CEGUI String 类与 2.2.6 版本不兼容
-- **修复**：添加显式转换 `CEGUI::String ceguiSoundRes(soundRes.c_str());`
-- **教训**：跨引擎边界的类型转换需要显式处理，不能依赖隐式转换
-
-#### 坑 14：编译日志文件路径中的分号导致 PowerShell 语法错误
-
-- **现象**：MSBuild 的 `/flp` 参数中 `;Verbosity=minimal` 被 PowerShell 解析为独立语句，报 `The term 'Verbosity=minimal' is not recognized`
-- **根因**：PowerShell 中分号 `;` 是语句分隔符，MSBuild 的 `/flp:logfile=xxx;Verbosity=minimal` 在 PowerShell 中需要转义或使用引号包裹
-- **修复**：将整个 `/flp:` 参数值用引号包裹，或移除 `;Verbosity=minimal` 部分（MSBuild 默认输出 minimal 级别）
-- **教训**：在 PowerShell 中调用 MSBuild 时，注意分号、逗号等特殊字符的转义
-
-# MT3 依赖编译与构建问题系统总结
-
-> **版本**：1.0.0
-> **日期**：2026-07-26
-> **范围**：从依赖库全量重编译到 MT3.exe 最终成功启动的全链路问题梳理
-> **工具链**：VS2013 (v120) + MSBuild 12.0 + Windows SDK 8.1
-
-***
-
-## 目录
-
-1. [问题全景图](#1-问题全景图)
-2. [分类一：依赖库编译问题](#2-分类一依赖库编译问题)
-3. [分类二：链接问题](#3-分类二链接问题)
-4. [分类三：运行时崩溃问题](#4-分类三运行时崩溃问题)
-5. [分类四：构建系统问题](#5-分类四构建系统问题)
-6. [关键技术点](#6-关键技术点)
-7. [经验教训](#7-经验教训)
-8. [预防措施与最佳实践](#8-预防措施与最佳实践)
-
-***
-
-## 1. 问题全景图
-
-本次工作涉及 **14 个依赖库** 的 VS2013 全量重编译，以及 `engine`、`FireClient`、`MT3` 三个主工程的链接与运行验证。整个过程共遇到 **18 个独立问题**，按类别分布如下：
-
-| 类别    | 问题数 | 严重程度 |
-| ----- | --- | ---- |
-| 依赖库编译 | 8   | 中    |
-| 链接问题  | 5   | 高    |
-| 运行时崩溃 | 3   | 致命   |
-| 构建系统  | 2   | 中    |
-
-### 依赖库构建清单
-
-| #  | 库名          | 版本     | 源码来源                                             | 构建方式            |
-| -- | ----------- | ------ | ------------------------------------------------ | --------------- |
-| 1  | zlib        | 1.2.5  | `dependencies/zlib-1.2.5/`                       | 现有 vcxproj + 补丁 |
-| 2  | libjpeg     | 8b     | `dependencies/jpeg-8b/`                          | 新建 vcxproj      |
-| 3  | libpng      | 1.4.7  | `dependencies/libpng-1.4.7/`                     | 新建 vcxproj      |
-| 4  | libtiff     | 4.0.3  | `dependencies/third-party-rebuild/tiff-4.0.3/`   | 新建 vcxproj      |
-| 5  | glew        | 1.7.0  | `dependencies/glew-1.7.0/`                       | 新建 vcxproj      |
-| 6  | libogg      | 1.3.2  | `dependencies/libogg-1.3.2/`                     | 现有 sln + 参数覆盖   |
-| 7  | libvorbis   | 1.3.5  | `dependencies/libvorbis-1.3.5/`                  | 现有 vcxproj + 补丁 |
-| 8  | libspeex    | 1.2rc2 | `dependencies/speex-1.2rc2/`                     | 现有 vcxproj      |
-| 9  | FreeType    | 2.4.12 | `dependencies/freetype-2.4.12/`                  | 现有 sln          |
-| 10 | SILLY       | 0.1.0  | `dependencies/SILLY-0.1.0/`                      | 新建 vcxproj      |
-| 11 | pthreadVCE2 | 2.x    | `dependencies/third-party-rebuild/pthreads-w32/` | 新建 vcxproj      |
-| 12 | libcurl     | 7.48.0 | `dependencies/third-party-rebuild/curl-7.48.0/`  | 现有 sln          |
-| 13 | pcre        | 8.31   | `dependencies/pcre-8.31/`                        | 现有 vcxproj      |
-| 14 | CEGUI       | 0.7.1  | `dependencies/cegui/`                            | 现有 sln          |
-
-***
-
-## 2. 分类一：依赖库编译问题
-
-### 2.1 zlib — 输出命名与工具集版本不匹配
-
-**表现**：zlib 原工程使用 `v100` (VS2010) 工具集，且输出文件名为 `zlibstat.lib`，而 MT3 链接期望 `libzlib.lib`。
-
-**根因**：
-
-- `dependencies/zlib-1.2.5/contrib/vstudio/vc10/zlibstat.vcxproj` 默认 `PlatformToolset=v100`
-- Debug 配置使用 `MultiThreadedDebug` (`/MTd`)，与 cocos2d 的 `MultiThreadedDebugDLL` (`/MDd`) 不一致
-- 定义了 `ZLIB_WINAPI` 宏导致使用 `stdcall` 调用约定，而 cocos2d 期望 `cdecl`
-
-**解决方案**：
-
-1. 将 `PlatformToolset` 从 `v100` 改为 `v120`
-2. 移除 `ZLIB_WINAPI` 宏定义
-3. Debug 配置将 `RuntimeLibrary` 从 `MultiThreadedDebug` 改为 `MultiThreadedDebugDLL`
-4. 构建后将 `zlibstat.lib` 重命名为 `libzlib.lib`，并同步到 `cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libraries/`
-
-**关键代码**（[Rebuild-AllDependencies-v120.ps1#L171-L217](file:///e:/MT3/tools/scripts/Rebuild-AllDependencies-v120.ps1#L171-L217)）：
-
-```powershell
-$patched = $content -replace 'ZLIB_WINAPI;?', ''
-$patched = $patched -replace '(<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>)',
-    '<RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>'
-# 构建后重命名
-Copy-Item "$zlibOutputDir\zlibstat.lib" "$zlibOutputDir\libzlib.lib" -Force
-```
-
-### 2.2 libogg — CRT 运行时库不匹配
-
-**表现**：libogg 的 Debug 配置使用静态 CRT (`/MTd`)，与 cocos2d 的动态 CRT (`/MDd`) 冲突，链接时产生 `LNK2005` 符号重复定义错误。
-
-**根因**：`libogg_static.sln` 中 Debug 配置的 `RuntimeLibrary` 为 `MultiThreadedDebug`。
-
-**解决方案**：通过 MSBuild 命令行参数覆盖运行时库设置：
-
-```powershell
-msbuild libogg_static.sln /p:Configuration=Debug /p:RuntimeLibrary=MultiThreadedDebugDLL
-```
-
-### 2.3 libvorbis — 依赖路径与命名约定
-
-**表现**：libvorbis 编译失败，找不到 libogg 的头文件和库文件。
-
-**根因**：
-
-1. `libogg.props` 中的 `AdditionalIncludeDirectories` 和 `AdditionalLibraryDirectories` 指向不存在的历史路径
-2. `vorbisenc` 子项目期望 `libogg_static.lib`，但 libogg 实际输出 `libogg.lib`
-
-**解决方案**：
-
-1. 修复 `libogg.props` 中的路径指向正确的 libogg 位置
-2. 将 `libogg.lib` 复制为 `libogg_static.lib` 以满足 vorbisenc 的依赖
-
-**关键代码**（[Rebuild-AllDependencies-v120.ps1#L367-L432](file:///e:/MT3/tools/scripts/Rebuild-AllDependencies-v120.ps1#L367-L432)）：
-
-```powershell
-# 修复 libogg.props 路径
-$correctOggInclude = "$repoRoot\dependencies\libogg-1.3.2\include"
-$correctOggLibDir = "$repoRoot\dependencies\libogg-1.3.2\win32\VS2010\Release.win32"
-# 创建 libogg_static.lib 别名
-Copy-Item $liboggLib $liboggStaticLib
-```
-
-### 2.4 libspeex — 配置名不匹配
-
-**表现**：libspeex 的 Debug 配置使用 `/MTd`，导致 CRT 冲突。
-
-**根因**：原工程有 `Debug_RTL_dll` 和 `Release_RTL_dll` 配置用于 DLL CRT 链接，但默认 `Debug` 配置使用静态 CRT。
-
-**解决方案**：使用 `Debug_RTL_dll` / `Release_RTL_dll` 配置名代替默认的 `Debug` / `Release`：
-
-```powershell
-$speexConfig = if ($Configuration -eq "Debug") { "Debug_RTL_dll" } else { "Release_RTL_dll" }
-```
-
-### 2.5 libcurl — 配置名不匹配
-
-**表现**：libcurl 的 `curl-all.sln` 包含多个项目和配置，默认 `Debug` / `Release` 配置缺少必要的 SSPI 和 SSL 特性。
-
-**根因**：MT3 使用的预编译 libcurl 基于 `DLL Release - DLL Windows SSPI` 配置构建。
-
-**解决方案**：使用完整的配置名，并只构建 `libcurl` 项目（避免编译测试项目）：
-
-```powershell
-$cfg = "DLL Release - DLL Windows SSPI"  # Release
-$cfg = "DLL Debug - DLL Windows SSPI"    # Debug
-msbuild curl-all.sln /t:libcurl /p:Configuration="$cfg"
-```
-
-### 2.6 FreeType — 输出路径漂移
-
-**表现**：FreeType 构建成功但输出文件路径与预期不同。
-
-**根因**：FreeType 的输出目录在 `objs/win32/vc2010/` 而非标准 `Debug.win32/` 目录。
-
-**解决方案**：在构建后从实际输出路径复制到预编译库目录：
-
-```powershell
-$ftLib = "$repoRoot\dependencies\freetype-2.4.12\objs\win32\vc2010\freetype.lib"
-Copy-Item $ftLib $prebuiltWinRT -Force
-```
-
-### 2.7 libwebp — CRT 库冲突
-
-**表现**：链接 `libcocos2d.dll` 时报告 `LNK2005` 错误，libwebp 的静态 CRT (`libcmt`) 与 cocos2d 的动态 CRT (`msvcrt`) 冲突。
-
-**根因**：预编译的 `libwebp.lib` 使用 `/MT` (静态 CRT) 编译，而 cocos2d 使用 `/MD` (动态 CRT)。
-
-**解决方案**：在 [cocos2d.vcxproj#L98](file:///e:/MT3/cocos2d-x-2.2.6/cocos2dx/proj.win32/cocos2d.vcxproj#L98) 中添加 `IgnoreSpecificDefaultLibraries` 忽略冲突的静态 CRT：
-
-```xml
-<IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-```
-
-### 2.8 各库的 `_d` 后缀问题
-
-**表现**：Debug 构建的库自动添加 `_d` 后缀（如 `libjpeg_d.lib`），导致链接器找不到预期的库名。
-
-**根因**：新建 vcxproj 模板中未禁用 Debug 后缀。
-
-**解决方案**：在 `New-VS2013StaticLib` 函数中，确保 `TargetName` 与 `ProjectName` 一致，不添加额外后缀。
-
-***
-
-## 3. 分类二：链接问题
-
-### 3.1 GLEW\_STATIC 宏缺失
-
-**表现**：链接 `cegui_d.lib` 时报告大量 unresolved external symbol 错误，符号名包含 `__imp_glew*`（DLL 导入符号）。
-
-**根本原因**：CEGUI 源码中通过 `#ifdef GLEW_STATIC` 判断是静态链接还是动态链接 GLEW。缺少该宏时，编译器生成 `__declspec(dllimport)` 形式的导入符号，但实际链接的是静态库 `glew32.lib`。
-
-**影响范围**：3 个 vcxproj 文件：
-
-- [engine.win32.vcxproj#L334](file:///e:/MT3/engine/engine.win32.vcxproj#L334) — 已添加
-- [cegui.win32.vcxproj#L68](file:///e:/MT3/dependencies/cegui/project/win32/cegui.win32.vcxproj#L68) — 已添加
-- [mt3.win32.vcxproj#L72](file:///e:/MT3/client/MT3Win32App/mt3.win32.vcxproj#L72) — 已添加
-
-**排查方法**：使用 `dumpbin /symbols` 检查 `.lib` 中的符号，对比 `__imp_` 前缀与普通符号的区别。
-
-**修复**：在各 vcxproj 的 `PreprocessorDefinitions` 中添加 `GLEW_STATIC`。
-
-### 3.2 PTW32\_STATIC\_LIB 和 LIBTIFF\_STATIC 宏缺失
-
-**表现**：与 GLEW\_STATIC 类似，pthread 和 libtiff 的静态链接也缺少对应的 `*_STATIC` 宏。
-
-**解决方案**：在 [cocos2d.vcxproj#L77](file:///e:/MT3/cocos2d-x-2.2.6/cocos2dx/proj.win32/cocos2d.vcxproj#L77) 中已有 `PTW32_STATIC_LIB` 和 `LIBTIFF_STATIC`，但新增的 vcxproj 需要同步添加。
-
-### 3.3 pcre.lib 缺失
-
-**表现**：MT3.exe 链接时报 `LNK1104: 无法打开文件"pcre.lib"`。
-
-**根本原因**：pcre 是 CEGUI 的依赖，但 `dependencies/cegui/lib/` 目录下没有 pcre.lib。链接器搜索路径中包含 `../../dependencies/cegui/lib`，但 pcre.lib 实际位于 `dependencies/pcre-8.31/Debug.win32/`。
-
-**解决方案**：将 pcre 构建输出复制到 CEGUI 的 lib 目录：
-
-```powershell
-New-Item -ItemType Directory -Path "E:\MT3\dependencies\cegui\lib" -Force
-Copy-Item "E:\MT3\dependencies\pcre-8.31\Debug.win32\pcre.lib" "E:\MT3\dependencies\cegui\lib\pcre.lib"
-```
-
-### 3.4 platform.lib 缺失
-
-**表现**：清理构建产物后，MT3.exe 链接时找不到 `platform.lib`。
-
-**根本原因**：手动清理 `Debug.win32` 目录时，删除了共享输出目录中的所有 `*.lib` 文件，包括 `platform.lib`、`cauthc.lib`、`ljfm.lib` 等。这些库由 `common/` 下的独立工程构建，但它们在 MT3 的构建依赖链中。
-
-**解决方案**：使用 canonical 构建脚本 `Build-MT3-Exe-Canonical.ps1` 而非手动逐个构建，该脚本会自动处理全链依赖。
-
-### 3.5 链接搜索路径不完整
-
-**表现**：`platform.lib` 所在目录 `common/platform/` 不在 MT3 的链接器搜索路径中。
-
-**根本原因**：`mt3.win32.vcxproj` 的 `AdditionalLibraryDirectories` 只包含 `$(OutDir)` 和 `$(SolutionDir)$(Configuration).win32/`，而 `platform.lib` 需要先由 `common/platform` 工程构建并输出到共享目录。
-
-**解决方案**：canonical 构建脚本会先构建 `platform` → `ljfm` → `cauthc` 等依赖工程，再构建 MT3。构建顺序由脚本维护，不在 vcxproj 中硬编码跨模块路径。
-
-***
-
-## 4. 分类三：运行时崩溃问题
-
-### 4.1 崩溃：glGenBuffers 空指针调用
-
-**表现**：MT3.exe 启动后立即闪退，生成崩溃转储 `崩溃26_0_48_6.dmp`。
-
-**崩溃点**：[nucocos2d\_render.cpp#L303-L308](file:///e:/MT3/engine/renderer/nucocos2d_render.cpp#L303-L308) 中的 `Cocos2dRenderer::InitBatchVB()`：
-
-```cpp
-bool Cocos2dRenderer::InitBatchVB()
-{
-    glGenBuffers(1, &m_particleVB);   // <-- crash: glGenBuffers is NULL
-    glGenBuffers(1, &m_particleUVB);
-    glGenBuffers(1, &m_particleIB);
-}
-```
-
-**根本原因**：`glGenBuffers` 是 OpenGL 1.5+ 的扩展函数，需要通过 GLEW 在运行时动态解析。GLEW 未初始化时，所有扩展函数指针均为 NULL。
-
-**调用链分析**：
-
-```
-Engine::Run()
-  └─ #ifdef WIN7_32 → 跳过 CCApplication::run()      ← [nuengine.cpp#L390-L396]
-       └─ CCEGLView::initGL() 未被调用
-            └─ glewInit() 未被调用                        ← [CCEGLView.cpp#L219]
-                 └─ 所有 gl* 扩展函数指针为 NULL
-                      └─ Cocos2dRenderer::InitBatchVB() 崩溃
-```
-
-**关键发现**：`WIN7_32` 宏在 [nuengine.cpp#L390-L396](file:///e:/MT3/engine/engine/nuengine.cpp#L390-L396) 中跳过了 `CCApplication::sharedApplication()->run()`，而 `CCEGLView::initGL()` 中的 `glewInit()` 调用（[CCEGLView.cpp#L219](file:///e:/MT3/cocos2d-x-2.2.6/cocos2dx/platform/win32/CCEGLView.cpp#L219)）依赖 `CCApplication::run()` 触发。
-
-**修复**：在 [nuengine.cpp#L409-L425](file:///e:/MT3/engine/engine/nuengine.cpp#L409-L425) 中添加 WIN7\_32 路径下的显式 GLEW 初始化：
-
-```cpp
-#ifdef WIN7_32
-    MT3_ENGINE_TRACE("Engine::Run WIN7_32 defined, about to ensure GLEW init");
-    {
-        cocos2d::CCEGLView* pEglView = cocos2d::CCEGLView::sharedOpenGLView();
-        HGLRC hRC = wglGetCurrentContext();
-        if (pEglView && hRC)
-        {
-            GLenum glewResult = glewInit();
-            MT3_ENGINE_TRACE("Engine::Run glewInit before CreateRenderer result=%d", (int)glewResult);
-        }
-    }
-#endif
-```
-
-### 4.2 崩溃分析中的误判：DLL 版本不一致
-
-**表现**：初步怀疑运行时目录中的 DLL 与构建输出不一致导致崩溃。
-
-**排查过程**：对比 `E:\MT3\client\resource\bin\Debug\` 与 `E:\MT3\cocos2d-x-2.2.6\Debug.win32\` 中所有 DLL 的时间戳，确认全部一致。进一步检查发现 `fmodex.dll`、`msvcp120.dll`、`msvcr120.dll` 等独立运行时 DLL 也正确存在。
-
-**结论**：崩溃与 DLL 版本无关，问题在代码逻辑层面。
-
-### 4.3 增量编译导致修复代码未生效
-
-**表现**：在 `nuengine.cpp` 中添加 WIN7\_32 路径的 GLEW 初始化代码后，重新编译并运行，但 `startup_bootstrap.log` 中仍无对应的 trace 日志。
-
-**排查过程**：
-
-1. 确认 `engine.win32.vcxproj` 中 `WIN7_32` 已定义 ✓
-2. 确认 `engine.lib` 和 `MT3.exe` 时间戳晚于 `nuengine.cpp` 修改时间 ✓
-3. 确认日志中其他 `MT3_ENGINE_TRACE` 正常输出 ✓
-4. 但 WIN7\_32 路径的 trace 始终不出现 ✗
-
-**根本原因**：增量编译的局限——MSBuild 的增量编译基于文件时间戳和依赖图，但在某些情况下（如 PCH 预编译头未失效、中间文件残留），即使源文件已修改，部分 `.obj` 可能未被重新编译。
-
-**解决方案**：清理所有中间构建产物后执行全量 Rebuild：
-
-```powershell
-Remove-Item -Recurse -Force "E:\MT3\engine\Debug.win32"
-Remove-Item -Recurse -Force "E:\MT3\engine\engine.debug.win32"
-Remove-Item -Recurse -Force "E:\MT3\client\MT3Win32App\FireClient.debug.win32"
-Remove-Item -Recurse -Force "E:\MT3\client\MT3Win32App\Debug.win32"
-# 然后使用 canonical 脚本全链重建
-& "E:\MT3\tools\scripts\Build-MT3-Exe-Canonical.ps1" -Configuration Debug -BuildMode SafeChain
-```
-
-**验证结果**（日志确认修复生效）：
-
-```
-[MT3_ENGINE] Engine::Run WIN7_32 defined, about to ensure GLEW init
-[MT3_ENGINE] Engine::Run eglView=02490310 wglGetCurrentContext=00010000
-[MT3_ENGINE] Engine::Run glewInit before CreateRenderer result=0    ← GLEW_OK
-[MT3_ENGINE] Engine::Run before CreateRenderer
-[MT3_RNDR] Cocos2dRenderer::Create done                             ← 不再崩溃
-[MT3_ENGINE] Engine::Init step 12 success state=1                   ← 引擎初始化完成
-[MT3_LUA_STACK] executeScriptFile begin file=dofile_main.lua        ← 进入 Lua 阶段
-```
-
-***
-
-## 5. 分类四：构建系统问题
-
-### 5.1 并行编译 PDB 冲突
-
-**表现**：构建过程中 MSBuild 报告 PDB 文件访问冲突，多个项目同时写入同一个 `.pdb` 文件。
-
-**根因**：`FireClient.win32.vcxproj` 和 `mt3.win32.vcxproj` 共享 `$(SolutionDir)$(Configuration).win32` 输出目录，当启用并行编译 (`/m`) 时，两个项目的 PDB 生成可能冲突。
-
-**解决方案**：
-
-1. 禁用并行编译或使用 `/m:1` 限制单任务
-2. 在构建前删除旧的 PDB 文件：
-
-```powershell
-Remove-Item -Recurse -Force "E:\MT3\client\MT3Win32App\FireClient.debug.win32" -ErrorAction SilentlyContinue
-```
-
-### 5.2 UTF-8 BOM 问题
-
-**表现**：修改 `nuengine.cpp` 后编译报错，VS2013 的 `cl.exe` 无法正确解析文件中的非 ASCII 字符。
-
-**根因**：VS2013 的 `cl.exe` 要求含非 ASCII 字符的 UTF-8 源文件必须带 BOM（字节顺序标记），否则会将文件误当作 ANSI 编码处理。
-
-**解决方案**：使用 PowerShell 以 UTF-8 BOM 编码写回文件：
-
-```powershell
-$content = [System.IO.File]::ReadAllText($path)
-[System.IO.File]::WriteAllText($path, $content, [System.Text.UTF8Encoding]::new($true))
-```
-
-**注意**：`.md`、`.json`、`.xml`、`.ps1`、`.lua`、`.java` 等非 C/C++ 文件默认使用 UTF-8 无 BOM。
-
-***
-
-## 6. 关键技术点
-
-### 6.1 CRT 链接模式一致性
-
-**核心原则**：所有链接到同一最终可执行文件/DLL 的 `.lib` 必须使用相同的 CRT 链接模式。
-
-| 模式         | 编译选项   | 运行时库          | 说明                   |
-| ---------- | ------ | ------------- | -------------------- |
-| 动态 Debug   | `/MDd` | `msvcrtd.dll` | MT3 Debug 主线         |
-| 动态 Release | `/MD`  | `msvcrt.dll`  | MT3 Release 主线       |
-| 静态 Debug   | `/MTd` | 静态链接          | 不兼容，会产生 `LNK2005` 错误 |
-| 静态 Release | `/MT`  | 静态链接          | 不兼容，会产生 `LNK2005` 错误 |
-
-**检测方法**：使用 `dumpbin /directives foo.lib | findstr "DEFAULTLIB"` 查看库的默认 CRT 链接。
-
-### 6.2 `*_STATIC` 宏的作用
-
-许多库通过条件编译控制是静态链接还是动态链接：
-
-| 库       | 宏                  | 作用                                     |
-| ------- | ------------------ | -------------------------------------- |
-| GLEW    | `GLEW_STATIC`      | 定义后使用静态链接，否则使用 `__declspec(dllimport)` |
-| pthread | `PTW32_STATIC_LIB` | 定义后使用静态链接                              |
-| libtiff | `LIBTIFF_STATIC`   | 定义后使用静态链接                              |
-| zlib    | `ZLIB_WINAPI`      | 定义后使用 `stdcall` 调用约定（通常需要移除）           |
-| SILLY   | `SILLY_STATIC`     | 定义后使用静态链接                              |
-
-**排查方法**：当链接器报告 `unresolved external symbol __imp_*` 时，说明缺少对应的 `*_STATIC` 宏。
-
-### 6.3 WIN7\_32 宏的影响范围
-
-`WIN7_32` 是 MT3 项目中的一个关键条件编译宏，影响范围包括：
-
-| 文件                                                                                           | 影响                                                |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| [nuengine.cpp#L390-L396](file:///e:/MT3/engine/engine/nuengine.cpp#L390-L396)                | 跳过 `CCApplication::run()`，需手动初始化 GLEW             |
-| [nuengine.cpp#L461-L464](file:///e:/MT3/engine/engine/nuengine.cpp#L461-L464)                | 恢复 `CCApplication::run()` 调用                      |
-| [thread.h](file:///e:/MT3/common/platform/platform/thread.h)                                 | 使用 `<thread>` 代替 `<pthread.h>`                    |
-| [UpdateEngine.cpp#L5-L9](file:///e:/MT3/common/updateengine/UpdateEngine.cpp#L5-L9)          | 使用 `UpdateManagerEx_Win.h` 代替 `UpdateManagerEx.h` |
-| [nucocos2d\_render.cpp#L38-L41](file:///e:/MT3/engine/renderer/nucocos2d_render.cpp#L38-L41) | 跳过 ETCHeader 包含                                   |
-
-### 6.4 构建依赖拓扑
-
-MT3 的构建顺序必须遵循以下依赖拓扑：
-
-```
-platform → ljfm → cauthc
-  ↓
-libBox2D, libchipmunk, liblua, cocos2d, CocosDenshion, libExtensions, CEGUI
-  ↓
-engine → FireClient → MT3
-```
-
-使用 `Build-MT3-Exe-Canonical.ps1` 的 `SafeChain` 模式可以自动处理依赖顺序。
-
-### 6.5 预编译库同步路径
-
-构建产出的 `.lib` 需要同步到多个位置：
-
-| 目标路径                                                                          | 用途                   |
-| ----------------------------------------------------------------------------- | -------------------- |
-| `cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libraries/`              | cocos2d 链接时搜索        |
-| `cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/libraries/vs2013/Win32/` | WinRT 备用路径           |
-| `dependencies/cegui/lib/`                                                     | CEGUI 依赖（如 pcre.lib） |
-| `$(SolutionDir)$(Configuration).win32/`                                       | 共享输出目录（通过构建自动产出）     |
-
-***
-
-## 7. 经验教训
-
-### 7.1 增量编译不可靠
-
-**教训**：在排查"修改代码但未生效"的问题时，增量编译可能是罪魁祸首。MSBuild 的增量判断基于时间戳，但在 PCH（预编译头）、模板实例化、宏条件变化等场景下可能失效。
-
-**建议**：当修改涉及预处理器宏、头文件包含路径或条件编译分支时，执行全量 Rebuild 而非增量 Build。
-
-### 7.2 日志是排查运行时问题的第一手段
-
-**教训**：`startup_bootstrap.log` 中的 `MT3_ENGINE_TRACE` 和 `MT3_RNDR` 日志是定位崩溃位置的最有效工具。没有日志时，崩溃转储分析需要更多时间且容易误判。
-
-**建议**：在关键初始化路径上保留 trace 日志（即使问题解决后）。这些日志在生产环境可通过宏关闭，在 Debug 环境非常有价值。
-
-### 7.3 清理后必须使用 canonical 脚本
-
-**教训**：手动清理 `Debug.win32` 目录后，逐个工程构建容易遗漏 `platform.lib`、`cauthc.lib` 等基础依赖，导致链接失败。
-
-**建议**：清理后始终使用 `Build-MT3-Exe-Canonical.ps1` 进行全链构建。
-
-### 7.4 库命名约定需要统一
-
-**教训**：不同库的输出命名约定不一致（`zlibstat.lib` vs `libzlib.lib`，`libogg.lib` vs `libogg_static.lib`），导致链接时找不到文件。
-
-**建议**：在重构脚本中统一处理命名映射，并在构建后立即验证所有预期输出文件是否存在。
-
-### 7.5 CRT 冲突是最高频的链接错误
-
-**教训**：混合使用 `/MT` 和 `/MD` 编译的库是最常见的链接错误来源。`LNK2005`（符号重复定义）和 `LNK4098`（默认库冲突）几乎总是 CRT 模式不一致导致的。
-
-**建议**：在构建任何依赖库之前，先确认目标 CRT 模式（MT3 使用 `/MDd` Debug、`/MD` Release），并确保所有库一致。
-
-***
-
-## 8. 预防措施与最佳实践
-
-### 8.1 构建前检查清单
-
-- [ ] 确认目标 `Configuration`（Debug/Release）
-- [ ] 确认所有依赖库的 `RuntimeLibrary` 设置一致（`/MDd` 或 `/MD`）
-- [ ] 确认所有 `*_STATIC` 宏已在对应 vcxproj 中定义
-- [ ] 确认 `PlatformToolset` 为 `v120`
-- [ ] 清理旧的中间文件（`*.debug.win32/`、`Debug.win32/` 下的过期 `.obj` 和 `.pdb`）
-- [ ] 检查 `pcre.lib` 是否在 `dependencies/cegui/lib/` 下
-
-### 8.2 构建命令模板
-
-```powershell
-# 全量构建（推荐）
-& "E:\MT3\tools\scripts\Build-MT3-Exe-Canonical.ps1" `
-    -Configuration Debug `
-    -BuildMode SafeChain `
-    -FastLocal `
-    -SkipToolchainPrecheck `
-    -SkipSourceNulScan `
-    -SkipRuntimeSync `
-    -SkipRuntimeAudit
-
-# 仅重建依赖库
-& "E:\MT3\tools\scripts\Rebuild-AllDependencies-v120.ps1" -Configuration Debug
-
-# 仅重建指定库
-& "E:\MT3\tools\scripts\Rebuild-AllDependencies-v120.ps1" -Configuration Debug -Libraries "zlib,libpng"
-```
-
-### 8.3 运行时验证清单
-
-- [ ] 启动前删除旧日志：`Remove-Item startup_bootstrap.log`
-- [ ] 启动 MT3.exe 后检查日志中的关键节点：
-  - `Engine::Run WIN7_32 defined` → GLEW 初始化路径
-  - `glewInit before CreateRenderer result=0` → GLEW 初始化成功
-  - `CreateRenderer result=0` → 渲染器创建成功
-  - `Engine::Init step 12 success state=1` → 引擎初始化完成
-  - `executeScriptFile begin file=dofile_main.lua` → Lua 脚本加载
-- [ ] 检查是否生成新的 `.dmp` 崩溃转储文件
-
-### 8.4 常见错误速查表
-
-| 错误信息                                          | 可能原因                  | 解决方案                              |
-| --------------------------------------------- | --------------------- | --------------------------------- |
-| `LNK2005: _* already defined`                 | CRT 模式不一致             | 统一所有库的 `RuntimeLibrary`           |
-| `LNK1104: cannot open file '*.lib'`           | 库文件路径不正确              | 检查库是否已构建并复制到搜索路径                  |
-| `unresolved external symbol __imp_glew*`      | 缺少 `GLEW_STATIC`      | 在 vcxproj 中添加 `GLEW_STATIC`       |
-| `unresolved external symbol __imp_pthread*`   | 缺少 `PTW32_STATIC_LIB` | 在 vcxproj 中添加 `PTW32_STATIC_LIB`  |
-| `error C2001: newline in constant`            | UTF-8 BOM 缺失          | 以 UTF-8 BOM 编码保存 C/C++ 源文件        |
-| `fatal error C1083: Cannot open include file` | 头文件路径错误               | 检查 `AdditionalIncludeDirectories` |
-| 启动闪退（无日志）                                     | OpenGL 上下文未初始化        | 检查 `glewInit()` 是否被调用             |
-| `glGenBuffers` 崩溃                             | GLEW 未初始化             | 确认 `WIN7_32` 路径下有显式 GLEW 初始化      |
-| 修改代码后未生效                                      | 增量编译未触发重建             | 清理中间文件后全量 Rebuild                 |
-
-***
-
-## 附录：文件变更清单
-
-| 文件                                                     | 变更类型 | 说明                                  |
-| ------------------------------------------------------ | ---- | ----------------------------------- |
-| `engine/engine/nuengine.cpp`                           | 修改   | 添加 WIN7\_32 路径 GLEW 初始化代码           |
-| `engine/engine.win32.vcxproj`                          | 修改   | 添加 `GLEW_STATIC` 宏                  |
-| `dependencies/cegui/project/win32/cegui.win32.vcxproj` | 修改   | 添加 `GLEW_STATIC` 宏                  |
-| `client/MT3Win32App/mt3.win32.vcxproj`                 | 修改   | 添加 `GLEW_STATIC` 宏                  |
-| `tools/scripts/Rebuild-AllDependencies-v120.ps1`       | 新建   | 14 个依赖库的自动化构建脚本                     |
-| `dependencies/cegui/lib/pcre.lib`                      | 新建   | 从 pcre-8.31 构建输出同步                  |
-| `cocos2d-x-2.2.6/cocos2dx/proj.win32/cocos2d.vcxproj`  | 修改   | 添加 `IgnoreSpecificDefaultLibraries` |
-
+> **时效说明**：本附录是 19:00 时点的初查快照；其 Cocos 产物结论已于 19:25 复核确认。初查仍使用“编译即完成”的旧口径，当前状态、百分比、风险、责任和排期统一以 §8 为准。
+
+### E.1 磁盘产物逐项核查
+
+#### E.1.1 Cocos2d-x 3.0-oh（阶段 1）
+
+| 核查项 | 文档记载 | 实际状态 | 结论 |
+|--------|---------|---------|------|
+| `build/Cocos2dx.sln` | 存在 | ✅ 存在，v120 | 一致 |
+| Debug .lib 数量 | 15 个 | **16 个**（新增 tolua.lib，98 KB） | 文档未记载 tolua.lib |
+| Debug .lib 最新时间戳 | 2026-07-26/27 | 2026-07-28（cocos2d.lib 225.53 MB） | lib 已重新编译更新 |
+| Release .lib | 15 个 | 15 个（Release 无 tolua.lib） | 一致 |
+
+#### E.1.2 CEGUI 0.7.9-r5（阶段 2+5）
+
+| 核查项 | 文档记载 | 实际状态 | 结论 |
+|--------|---------|---------|------|
+| Debug lib | 95.1 MB | **98.9 MB**（2026-07-28 18:23） | 文档偏低 |
+| Release lib | 78.6 MB | **79.6 MB**（2026-07-28 11:19） | 文档偏低 |
+| 构建日志验证 | 曾报告 152 错误 | **构建日志确认"生成成功"，零错误**（2026-07-28 11:09） | ✅ 152 错误已全部修复 |
+| CppClean 后恢复 | 标记"需重新编译" | 已重新编译，lib 已恢复 | 已修复 |
+
+#### E.1.3 Nuclear 引擎（阶段 4）
+
+| 核查项 | 文档记载 | 实际状态 | 结论 |
+|--------|---------|---------|------|
+| `engine.lib` Debug | 119.8 MB | **114.22 MB**（2026-07-28 17:57） | 文档偏高 5.6 MB |
+| `engine.lib` Release | 87.0 MB | **82.97 MB**（2026-07-28 07:46） | 文档偏高 4.0 MB |
+
+#### E.1.4 FireClient 业务层（阶段 6+7）
+
+| 核查项 | 文档记载 | 实际状态 | 结论 |
+|--------|---------|---------|------|
+| `FireClient.lib` Debug | ~167 MB | **169.18 MB**（2026-07-28 18:37） | 文档偏低 2.2 MB |
+| `FireClient.lib` Release | ~122 MB | **122.11 MB**（2026-07-28 07:51） | 基本一致 |
+| Release 编译状态 | 先标注"待执行"后标注"已通过" | ✅ 已验证通过 | 文档矛盾已修正 |
+
+#### E.1.5 MT3.exe 链接（阶段 6 未覆盖）
+
+| 核查项 | 状态 | 说明 |
+|--------|------|------|
+| `MT3.lib` | ✅ 存在（23 KB，2026-07-28 18:39） | MT3 壳层工程编译产物 |
+| `MT3.exe` 链接 | ❌ **未执行** | 尚未执行完整的 MT3.exe 链接 |
+| `mt3.win32.vcxproj` Include 路径 | ✅ 已更新至 3.0-oh | 全部切换至 `cocos2d-x-3.0-oh/cocos/...` 和 `tools/CEGUI-0.7.9-r5/cegui/include/...` |
+| `mt3.win32.vcxproj` Library 依赖 | ✅ 已更新至 3.0-oh | 使用 `cocos2d.lib`、`cocosbase.lib`、`cegui-0.7.9_d.lib` 等新名称 |
+| `mt3.win32.vcxproj` Library 目录 | ⚠️ 部分残留旧路径 | 已含 3.0-oh 路径，但仍保留 `cocos2d-x-2.2.6/...` 和 `dependencies/...` 旧路径 |
+| 遗留问题 | ⚠️ 1 处旧 CEGUI 0.7.1 路径 | Include 路径中仍含 `../../dependencies/cegui/CEGUI/include/XMLParserModules/XMLIOParser` |
+
+> **结论**：`mt3.win32.vcxproj` 已基本完成路径切换。MT3.exe 链接就绪，可立即执行。
+
+#### E.1.6 Canonical 构建脚本（阶段 0 回归）
+
+| 核查项 | 状态 | 说明 |
+|--------|------|------|
+| `Build-MT3-Exe-Canonical.ps1` | ❌ 仍指向 2.2.6 | canonical 脚本未更新，仍引用 `cocos2d-x-2.2.6/` 和 `dependencies/cegui/` |
+| 脚本适配 | 🔴 阻塞 | 需在 MT3.exe 链接验证前或同步更新 canonical 脚本路径 |
+
+### E.2 进度偏差分析
+
+| 阶段 | 预估工期 | 实际耗时 | 偏差 | 分析 |
+|------|---------|---------|------|------|
+| 阶段 0 | 1 周 | 0.5 天 | -93% | 环境就绪 |
+| 阶段 1 | 2 周 | 0.5 天 | -96% | CMake 生成顺利 |
+| 阶段 2 | 1.5 周 | <0.5 天 | -97% | v120 工程直接可用 |
+| 阶段 3 | 3 周 | 1.5 天 | -93% | Renderer 移植比预期简单 |
+| 阶段 4 | 2 周 | 1.5 天 | -89% | API 适配模式明确 |
+| 阶段 5 | 3 周 | 1.5 天 | -93% | 11 类错误系统性修复 |
+| 阶段 6 | 4 周 | 1 天 | -94% | tolua++ 和 HTTP 适配集中处理 |
+| 阶段 7 | 2 周 | 0.5 天 | -96% | Lua 脚本几乎无需适配 |
+| 阶段 8 | 1 周 | 0.5 天 | -93% | 静态验证（45 个 layout 失败待修复） |
+| **累计** | **19.5 周** | **~6.5 天** | **-95%** | — |
+
+**偏差原因**：1) 预估值基于保守假设；2) `CCDeprecated.h` 提供了大量向后兼容 typedef；3) VS2013 (v120) 无需升级；4) CEGUI XML 格式高度兼容；5) AI 辅助工具大幅加速适配。
+
+### E.3 已完成工作质量评估
+
+| 阶段 | 评级 | 关键评估 |
+|------|------|---------|
+| 阶段 0-2（基础设施） | A | 环境配置一次通过，CEGUI 0.7.9-r5 独立编译零修复 |
+| 阶段 3-5（引擎层适配） | A- | 三项编译全部通过，152 错误已全部修复；部分 API 为存根实现 |
+| 阶段 6-7（业务层适配） | B+ | FireClient 31 文件编译通过；~5262 deprecation 警告；MT3.exe 链接未验证 |
+| 阶段 8（资源验证） | B | 静态验证覆盖全面；45 个 layout 加载失败；零运行时验证 |
+
+**降低评级的主要因素**：存根实现（DDS→PNG 降级、空实现回调）、MT3.exe 链接未验证、运行时验证零覆盖、layout 加载失败。
+
+### E.4 未完成任务的阻碍因素
+
+| 未完成任务 | 当前阻碍 | 解决进展 | 预计可开始 |
+|-----------|---------|---------|-----------|
+| MT3.exe 链接 | canonical 脚本未更新 + 1 处旧 CEGUI 路径 | ✅ 工程路径已确认切换 | 立即可执行 |
+| 阶段 8 修复 | 45 个 layout 加载失败 | 待分析根因 | MT3.exe 链接后 |
+| 阶段 9 平台适配 | 依赖 MT3.exe 链接通过 | 未开始 | MT3.exe 链接通过后 |
+| 阶段 10 MT3 补丁移植 | 部分依赖阶段 9 验证 | 补丁清单已明确 | 阶段 9 后期可并行 |
+| 阶段 11 测试验证 | 依赖阶段 9-10 | 未开始 | 阶段 10 完成后 |
+
+### E.5 更新后的风险矩阵
+
+| 风险编号 | 风险描述 | 原等级 | 当前状态 | 更新说明 |
+|---------|---------|--------|---------|---------|
+| **R1** | Cocos2DRenderer 双端适配 | 致命 | 🟡 编译通过，运行时未验证 | 阶段 3 编译通过 |
+| **R2** | CEGUI 自定义控件移植 | 致命 | 🟡 编译通过，运行时未验证 | 阶段 5 编译通过，152 错误已修复 |
+| **R3** | Nuclear 封装层适配 | 致命 | 🟡 编译通过，运行时未验证 | 阶段 4 编译通过 |
+| **R4** | tolua++ 绑定不兼容 | 严重 | 🟢 已缓解 | deprecated typedef 兼容，.pkg 已更新 |
+| **R5** | CEGUI Lua 绑定 API 变更 | 严重 | 🟢 已缓解 | 2560 .lua 分析确认兼容 |
+| **R6** | 渲染结果不一致 | 严重 | 🔴 未验证 | 阶段 11 才能验证 |
+| **R7** | MT3 补丁移植遗漏 | 严重 | 🟡 部分存根 | 阶段 10 需完整实现 |
+| **R8** | 性能退化 | 严重 | 🔴 未验证 | 阶段 11 才能验证 |
+| **R9** | 构建系统迁移耗时 | 中等 | 🟢 已缓解 | vcxproj 保留 |
+| **R10** | 第三方依赖版本冲突 | 中等 | 🟢 未发现 | 阶段 0-8 无冲突 |
+| **R11** | CEGUI 资源格式不兼容 | 中等 | 🟡 45 个 layout 失败 | 阶段 8 待修复 |
+| **R12** | OHOS 平台不稳定 | 低 | ⬜ 未开始 | 阶段 9 开始 |
+| **R13** | 预编译 .lib 重编译失败 | 已解决 | ✅ 已解决 | VS2013 工具链兼容 |
+
+### E.6 后续工作建议
+
+#### E.6.1 立即执行（P0）
+
+1. **MT3.exe 链接验证**：更新 canonical 脚本或直接使用 `mt3.win32.vcxproj` 执行 Debug 链接，验证符号完整性
+2. **清理残留旧 CEGUI 路径**：移除 `mt3.win32.vcxproj` 中 `../../dependencies/cegui/CEGUI/include/XMLParserModules/XMLIOParser`
+
+#### E.6.2 短期（P1）
+
+3. **阶段 8 修复**：分析 45 个 layout 加载失败根因
+4. **阶段 9 平台适配启动**：MT3.exe 链接通过后立即开始
+5. **canonical 脚本更新**：同步更新 `Build-MT3-Exe-Canonical.ps1` 路径
+
+#### E.6.3 中期（P2）
+
+6. **阶段 10 补丁移植准备**：梳理存根实现，制定完整实现计划
+7. **阶段 11 测试验证规划**：制定渲染对比、功能回归、性能基准测试方案
+8. **Android/iOS 构建环境准备**：提前确认 NDK/Xcode 工具链可用性

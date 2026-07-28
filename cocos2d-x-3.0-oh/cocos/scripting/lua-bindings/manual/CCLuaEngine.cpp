@@ -26,7 +26,7 @@
 #include "CCLuaEngine.h"
 #include "tolua_fix.h"
 #include "cocos2d.h"
-#include "extensions/GUI/CCControlExtension/CCControl.h"
+#include "GUI/CCControlExtension/CCControl.h"
 #include "LuaOpengl.h"
 #include "lua_cocos2dx_manual.hpp"
 #include "lua_cocos2dx_extension_manual.h"
@@ -1394,17 +1394,14 @@ int LuaEngine::executeGlobalFunctionWith2Int(const char* functionName, int param
 
 bool LuaEngine::executeProtocolHandler(int nHandler, const aio::Protocol& e)
 {
-    // MT3: stub - protocol handler is implemented in generated LuaFireClient.cpp
-    CC_UNUSED_PARAM(nHandler);
-    CC_UNUSED_PARAM(e);
-    return false;
+    tolua_pushusertype(getLuaState(), (void*)&e, "const aio::Protocol");
+    return executeFunctionByHandler(nHandler, 1) != 0;
 }
 
 void LuaEngine::executeLuaProtocolHandler(int nHandler, const aio::LuaProtocol& lp)
 {
-    // MT3: stub - protocol handler is implemented in generated LuaFireClient.cpp
-    CC_UNUSED_PARAM(nHandler);
-    CC_UNUSED_PARAM(lp);
+    tolua_pushusertype(getLuaState(), (void*)&lp, "const aio::LuaProtocol");
+    executeFunctionByHandler(nHandler, 1);
 }
 
 void LuaEngine::collectMemory()

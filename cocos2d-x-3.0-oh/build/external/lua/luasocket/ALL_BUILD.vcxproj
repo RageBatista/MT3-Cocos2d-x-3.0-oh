@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{89B5BDF4-1284-3960-AA4F-3D4B27AF2D84}</ProjectGuid>
+    <ProjectGuid>{9654349C-0F66-3730-AA58-6A060826AA44}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
-    <ProjectName>INSTALL</ProjectName>
+    <ProjectName>ALL_BUILD</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -69,18 +69,6 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <PostBuildEvent>
-      <Message></Message>
-      <Command>setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -DBUILD_TYPE=$(Configuration) -P cmake_install.cmake
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -91,18 +79,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <PostBuildEvent>
-      <Message></Message>
-      <Command>setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -DBUILD_TYPE=$(Configuration) -P cmake_install.cmake
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <Midl>
@@ -113,18 +89,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <PostBuildEvent>
-      <Message></Message>
-      <Command>setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -DBUILD_TYPE=$(Configuration) -P cmake_install.cmake
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
     <Midl>
@@ -135,24 +99,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
-    <PostBuildEvent>
-      <Message></Message>
-      <Command>setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -DBUILD_TYPE=$(Configuration) -P cmake_install.cmake
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="E:\MT3\cocos2d-x-3.0-oh\build\CMakeFiles\38dcae54f8556674d5de3074604f09cb\INSTALL_force.rule">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> </Message>
+    <CustomBuild Include="E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule E:/MT3/cocos2d-x-3.0-oh/external/lua/luasocket/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
-cd .
+"D:\Program Files\CMake\bin\cmake.exe" -HE:/MT3/cocos2d-x-3.0-oh -BE:/MT3/cocos2d-x-3.0-oh/build --check-stamp-file E:/MT3/cocos2d-x-3.0-oh/build/external/lua/luasocket/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -160,12 +112,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:/MT3/cocos2d-x-3.0-oh/build/CMakeFiles/38dcae54f8556674d5de3074604f09cb/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\MT3\cocos2d-x-3.0-oh\build\cocos\math\kazmath\kazmath\CMakeFiles\INSTALL_force</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:/MT3/cocos2d-x-3.0-oh/external/lua/luasocket/CMakeLists.txt;E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt;E:\MT3\cocos2d-x-3.0-oh\external\cmake\CocosExternalConfig.cmake;E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\MT3\cocos2d-x-3.0-oh\build\external\lua\luasocket\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> </Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule E:/MT3/cocos2d-x-3.0-oh/external/lua/luasocket/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
-cd .
+"D:\Program Files\CMake\bin\cmake.exe" -HE:/MT3/cocos2d-x-3.0-oh -BE:/MT3/cocos2d-x-3.0-oh/build --check-stamp-file E:/MT3/cocos2d-x-3.0-oh/build/external/lua/luasocket/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -173,12 +125,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:/MT3/cocos2d-x-3.0-oh/build/CMakeFiles/38dcae54f8556674d5de3074604f09cb/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:\MT3\cocos2d-x-3.0-oh\build\cocos\math\kazmath\kazmath\CMakeFiles\INSTALL_force</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:/MT3/cocos2d-x-3.0-oh/external/lua/luasocket/CMakeLists.txt;E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt;E:\MT3\cocos2d-x-3.0-oh\external\cmake\CocosExternalConfig.cmake;E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:\MT3\cocos2d-x-3.0-oh\build\external\lua\luasocket\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'"> </Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule E:/MT3/cocos2d-x-3.0-oh/external/lua/luasocket/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
-cd .
+"D:\Program Files\CMake\bin\cmake.exe" -HE:/MT3/cocos2d-x-3.0-oh -BE:/MT3/cocos2d-x-3.0-oh/build --check-stamp-file E:/MT3/cocos2d-x-3.0-oh/build/external/lua/luasocket/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -186,12 +138,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:/MT3/cocos2d-x-3.0-oh/build/CMakeFiles/38dcae54f8556674d5de3074604f09cb/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:\MT3\cocos2d-x-3.0-oh\build\cocos\math\kazmath\kazmath\CMakeFiles\INSTALL_force</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:/MT3/cocos2d-x-3.0-oh/external/lua/luasocket/CMakeLists.txt;E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt;E:\MT3\cocos2d-x-3.0-oh\external\cmake\CocosExternalConfig.cmake;E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:\MT3\cocos2d-x-3.0-oh\build\external\lua\luasocket\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'"> </Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule E:/MT3/cocos2d-x-3.0-oh/external/lua/luasocket/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
-cd .
+"D:\Program Files\CMake\bin\cmake.exe" -HE:/MT3/cocos2d-x-3.0-oh -BE:/MT3/cocos2d-x-3.0-oh/build --check-stamp-file E:/MT3/cocos2d-x-3.0-oh/build/external/lua/luasocket/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -199,19 +151,21 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:/MT3/cocos2d-x-3.0-oh/build/CMakeFiles/38dcae54f8556674d5de3074604f09cb/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:\MT3\cocos2d-x-3.0-oh\build\cocos\math\kazmath\kazmath\CMakeFiles\INSTALL_force</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:/MT3/cocos2d-x-3.0-oh/external/lua/luasocket/CMakeLists.txt;E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt;E:\MT3\cocos2d-x-3.0-oh\external\cmake\CocosExternalConfig.cmake;E:\MT3\cocos2d-x-3.0-oh\external\lua\luasocket\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:\MT3\cocos2d-x-3.0-oh\build\external\lua\luasocket\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="E:\MT3\cocos2d-x-3.0-oh\build\ZERO_CHECK.vcxproj">
       <Project>{9ADBE587-4B95-36C8-9B99-4CC113892D88}</Project>
       <Name>ZERO_CHECK</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\MT3\cocos2d-x-3.0-oh\build\external\lua\luasocket\ALL_BUILD.vcxproj">
-      <Project>{9654349C-0F66-3730-AA58-6A060826AA44}</Project>
-      <Name>ALL_BUILD</Name>
+    <ProjectReference Include="E:\MT3\cocos2d-x-3.0-oh\build\external\lua\luasocket\ext_luasocket.vcxproj">
+      <Project>{6D87037F-F9BC-3DDA-AE4F-D45E749888E0}</Project>
+      <Name>ext_luasocket</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

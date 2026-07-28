@@ -73,6 +73,17 @@ public:
 
     /*!
     \brief
+        Set the scale to be applied to the buffered geometry.
+
+    \note
+        The default implementation preserves source compatibility for renderer
+        modules that do not support scaling.  The MT3 Cocos2D renderer
+        overrides this method.
+    */
+    virtual void setScale(const Vector3&) {}
+
+    /*!
+    \brief
         Set the pivot point to be used when applying the rotations.
 
     \param p

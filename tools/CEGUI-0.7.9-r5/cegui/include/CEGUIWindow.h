@@ -1682,6 +1682,9 @@ public:
     //! return the rotations set for this window.
     const Vector3& getRotation() const;
 
+    //! return the scale factors set for this window.
+    const Vector3& getScale() const;
+
     /*!
     \brief
         Return whether the Window is a non-client window.
@@ -3316,6 +3319,9 @@ public:
     //! set the rotations for this window.
     void setRotation(const Vector3& rotation);
 
+    //! set the scale factors for this window.
+    void setScale(const Vector3& scale);
+
     /*!
     \brief
         Set whether the Window is a non-client window.
@@ -4585,6 +4591,8 @@ protected:
     VerticalAlignment d_vertAlign;
     //! Rotation angles for this window
     Vector3 d_rotation;
+    //! Scale factors for this window
+    Vector3 d_scale;
 
     //! outer area rect in screen pixels
     mutable Rect d_outerUnclippedRect;
@@ -4634,6 +4642,8 @@ protected:
     CloseWndEffect d_CloseWndType;
     // MT3: Effect state
     WndEffectState d_EffectState;
+    // MT3: Elapsed time of the current window effect
+    float d_WndEffectElaseTime;
     // MT3: Modal state after show
     bool d_ModalStateAfterShow;
     // MT3: Allow show with modal state
@@ -4715,4 +4725,3 @@ protected:
 #endif
 
 #endif  // end of guard _CEGUIWindow_h_
-

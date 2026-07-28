@@ -47,7 +47,8 @@ RenderingWindow::RenderingWindow(TextureTarget& target, RenderingSurface& owner)
     d_geometryValid(false),
     d_position(0, 0),
     d_size(0, 0),
-    d_rotation(0, 0, 0)
+    d_rotation(0, 0, 0),
+    d_scale(1, 1, 1)
 {
     d_geometry->setBlendMode(BM_RTT_PREMULTIPLIED);
 }
@@ -107,6 +108,13 @@ void RenderingWindow::setRotation(const Vector3& rotation)
 {
     d_rotation = rotation;
     d_geometry->setRotation(d_rotation);
+}
+
+//----------------------------------------------------------------------------//
+void RenderingWindow::setScale(const Vector3& scale)
+{
+    d_scale = scale;
+    d_geometry->setScale(d_scale);
 }
 
 //----------------------------------------------------------------------------//

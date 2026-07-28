@@ -152,6 +152,17 @@ TOLUA_API int class_gc_event (lua_State* L);
 #ifdef __cplusplus
 } // extern "C"
 
+#if defined(_WIN32) || defined(WIN32)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+#endif
+
+// Some generated binding headers include tolua++.h from an outer C linkage
+// block.  Explicitly restore C++ linkage before including the STL helpers.
+extern "C++" {
+
 #include <string>
 
 static inline const char* tolua_tocppstring (lua_State* L, int narg, const char* def) {
@@ -167,9 +178,6 @@ static inline const char* tolua_tofieldcppstring (lua_State* L, int lo, int inde
 };
 
 // MT3: wstring support for CEGUI Lua bindings
-#if defined(_WIN32) || defined(WIN32)
-#include <windows.h>
-#endif
 static inline void tolua_pushwstring(lua_State* L, const wchar_t* value)
 {
     if (value == NULL)
@@ -211,6 +219,8 @@ static inline std::wstring tolua_tocppwstring(lua_State* L, int narg, const wcha
     }
 }
 
+} // extern "C++"
+
 #else
 #define tolua_tocppstring tolua_tostring
 #define tolua_tofieldcppstring tolua_tofieldstring
@@ -243,8 +253,14 @@ TOLUA_API int tolua_fast_isa(lua_State *L, int mt_indexa, int mt_indexb, int sup
 #endif
 
 // MT3: Forward declarations for toluafix functions (implemented in tolua_fix.cpp)
+#ifdef __cplusplus
+extern "C" {
+#endif
 TOLUA_API int toluafix_ref_function(lua_State* L, int lo, int def);
 TOLUA_API void toluafix_remove_function_by_refid(lua_State* L, int refid);
+#ifdef __cplusplus
+}
+#endif
 
 // MT3: Inline wrappers for Lua function reference management (compatible with 2.2.6 tolua++.h)
 static inline int tolua_ref_function(lua_State* L, int lo, int def)

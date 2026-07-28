@@ -124,6 +124,9 @@ public:
     */
     void setRotation(const Vector3& rotation);
 
+    //! Set the scale factors used when drawing this RenderingWindow.
+    void setScale(const Vector3& scale);
+
     /*!
     \brief
         Set the location of the pivot point around which the RenderingWindow
@@ -304,6 +307,8 @@ protected:
     Size d_size;
     //! Rotaions for this RenderingWindow
     Vector3 d_rotation;
+    //! Scale factors for this RenderingWindow
+    Vector3 d_scale;
     //! Pivot point used for the rotation.
     Vector3 d_pivot;
 };
