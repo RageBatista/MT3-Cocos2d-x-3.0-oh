@@ -1115,6 +1115,8 @@ void SceneMovieManager::HandleReturn(const std::wstring& strParserText)
 	case ReturnSection::TYPE_RETURN_TO_SCHOOL:
 		GetMainCharacter()->GetSchoolMapIdAndPos(&mapId, &x, &y);
 		break;
+	case ReturnSection::TYPE_RETURN_TO_FIGHT:
+		break;
 	}
 
 	ReturnSection* pSection = new ReturnSection(time, type, mapId, x, y);

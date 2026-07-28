@@ -475,7 +475,7 @@ bool CMyWebBrowser::updateUrl()
 	std::string strSpli("?");
 	size_t pos = strintRealUrl.find_first_of(strSpli);
 	if (pos == std::string::npos) {
-		delete szPath;
+		delete[] szPath;
 		return false;
 	}
 	strintRealUrl = strintRealUrl.substr(pos + 1);
@@ -505,10 +505,10 @@ bool CMyWebBrowser::updateUrl()
 	if( t_platform_str.size() > 0 && t_session_str.size() > 0 )
 	{
 		WinSDK::getInstance()->onLoginSuccess(t_platform_str, t_session_str);
-		delete szPath;
+		delete[] szPath;
 		return true;
 	}
-	delete szPath;
+	delete[] szPath;
 	return false;
 }
 

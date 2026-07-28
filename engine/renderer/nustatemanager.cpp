@@ -31,7 +31,7 @@ namespace
                 return GL_ONE_MINUS_DST_COLOR;
             default:
                 assert(false && "unknown blend type");
-                break;
+                return GL_ZERO;
         }
     }
 }
