@@ -3,7 +3,7 @@
 #include "GameApplication.h"
 #define GLFW_EXPOSE_NATIVE_WIN32
 #define GLFW_EXPOSE_NATIVE_WGL
-#include "glfw3/include/win32/glfw3native.h"
+#include "glfw3native.h"
 #include "cocos2d.h"
 
 gWebBrowser* gWebBrowser::m_Inst = NULL;

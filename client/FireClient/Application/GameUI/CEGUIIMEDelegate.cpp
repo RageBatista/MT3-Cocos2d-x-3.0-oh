@@ -41,9 +41,9 @@ GameIMEDelegate::~GameIMEDelegate()
 // CCIMEDelegate
 //////////////////////////////////////////////////////////////////////////
 
-const char* GameIMEDelegate::getContentText()
+const std::string& GameIMEDelegate::getContentText()
 {
-	return m_InputText.c_str();
+	return m_InputText;
 }
 
 void GameIMEDelegate::deleteBackward()
@@ -53,10 +53,10 @@ void GameIMEDelegate::deleteBackward()
 	}
 }
 
-void GameIMEDelegate::insertText(const char * text, int len)
+void GameIMEDelegate::insertText(const char * text, size_t len)
 {
 	std::string sInsert(text, len);
-	SDLOG_INFO(L"[IME][DelegateInsertText] len=%d firstByte=%d", len, len > 0 ? (unsigned char)sInsert[0] : -1);
+	SDLOG_INFO(L"[IME][DelegateInsertText] len=%d firstByte=%d", (int)len, len > 0 ? (unsigned char)sInsert[0] : -1);
 
 #ifdef ANDROID
 	// insert \n means input end
@@ -91,7 +91,7 @@ bool GameIMEDelegate::canAttachWithIME()
 bool GameIMEDelegate::detachWithIME()
 {
 	SDLOG_INFO(L"[IME][DelegateDetach] begin textLen=%d", (int)m_InputText.length());
-	bool bRet = CCIMEDelegate::detachWithIME();
+	bool bRet = IMEDelegate::detachWithIME();
 	if (bRet)
 	{
 		// close keyboard
@@ -109,7 +109,7 @@ bool GameIMEDelegate::detachWithIME()
 bool GameIMEDelegate::attachWithIME()
 {
 	SDLOG_INFO(L"[IME][DelegateAttach] begin textLen=%d", (int)m_InputText.length());
-    bool bRet = CCIMEDelegate::attachWithIME();
+    bool bRet = IMEDelegate::attachWithIME();
     if (bRet)
     {
 #if (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
@@ -144,7 +144,7 @@ bool GameIMEDelegate::attachWithIME()
 // properties
 //////////////////////////////////////////////////////////////////////////
 
-void GameIMEDelegate::keyboardDidHide(cocos2d::CCIMEKeyboardNotificationInfo& info)
+void GameIMEDelegate::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
 {
 #ifndef ANDROID
 #if !((defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP))
@@ -153,7 +153,7 @@ void GameIMEDelegate::keyboardDidHide(cocos2d::CCIMEKeyboardNotificationInfo& in
 #endif
 }
 
-void GameIMEDelegate::keyboardWillHide(cocos2d::CCIMEKeyboardNotificationInfo& info)
+void GameIMEDelegate::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
 {
 #ifndef ANDROID
 #if !((defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP))
@@ -164,7 +164,7 @@ void GameIMEDelegate::keyboardWillHide(cocos2d::CCIMEKeyboardNotificationInfo& i
 #endif
 }
 
-void GameIMEDelegate::keyboardWillShow(cocos2d::CCIMEKeyboardNotificationInfo& info)
+void GameIMEDelegate::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
 {
 	float bottom = gGetGameUIManager()->GetCurEditBoxBottom();
 #ifndef ANDROID

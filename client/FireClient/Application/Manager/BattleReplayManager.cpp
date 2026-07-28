@@ -14,6 +14,7 @@
 using namespace LJFM;
 
 #include "cocos2d.h"
+#include "ZipUtils.h"
 
 void fire::pb::battle::SSendCameraUrl::Process(Manager * manager, Manager::Session::ID sid)
 {
@@ -232,7 +233,7 @@ bool BattleReplayManager::UnCompressReplayFile()
 	unsigned char* ResultData;
 	ResultData = new unsigned char[m_iSizeOriginal];
 	memset(ResultData, 0, m_iSizeOriginal);
-	int RealSize = cocos2d::ZipUtils::ccInflateGZipFile(ws2s(m_wsDstFileNameFullCompress).c_str(), &ResultData);
+	int RealSize = cocos2d::ZipUtils::inflateGZipFile(ws2s(m_wsDstFileNameFullCompress).c_str(), &ResultData);
 	std::ofstream FS(ws2s(m_wsDstFileNameFullUnCompress).c_str(), std::ios_base::binary);
 	FS.write((const char*)(&ResultData[0]), RealSize);
 	FS.close();
@@ -247,7 +248,7 @@ void BattleReplayManager::PlayAndUnGZipReplay(std::wstring wsGZipFileNameFull)
 	m_iSizeOriginal = 1024 * 1024;
 	ResultData = new unsigned char[m_iSizeOriginal];
 	memset(ResultData, 0, m_iSizeOriginal);
-	int RealSize = cocos2d::ZipUtils::ccInflateGZipFile(ws2s(wsGZipFileNameFull).c_str(), &ResultData);
+	int RealSize = cocos2d::ZipUtils::inflateGZipFile(ws2s(wsGZipFileNameFull).c_str(), &ResultData);
 	m_iSizeOriginal = RealSize;
 	m_wsDstFileNameFullUnCompress = wsGZipFileNameFull + L".ungz";
 	std::ofstream FS(ws2s(m_wsDstFileNameFullUnCompress).c_str(), std::ios_base::binary);
