@@ -45,7 +45,7 @@ SceneMovieManager::~SceneMovieManager()
 {
 	if (m_pMovieAniSheet)
 	{
-		CEGUI::WindowManager::getSingleton().destroyWindow(m_pMovieAniSheet);
+		CEGUI::WindowManager::getSingletonPtr()->destroyWindow(m_pMovieAniSheet);
 	}
 }
 
@@ -411,9 +411,9 @@ void SceneMovieManager::ExitMovieScene()   //?à≥?≥°?∞??a≠
 	m_bIsMovieSceneEnding = false;
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("ScriptNpcTalkDialog.DestroyDialog");
 
-	if (CEGUI::WindowManager::getSingleton().isWindowPresent("root_wnd"))
+	if (CEGUI::WindowManager::getSingletonPtr()->isWindowPresent("root_wnd"))
 	{
-		CEGUI::Window *rootWnd = CEGUI::WindowManager::getSingleton().getWindow("root_wnd");
+		CEGUI::Window *rootWnd = CEGUI::WindowManager::getSingletonPtr()->getWindow("root_wnd");
 		if (CEGUI::System::getSingleton().getGUISheet() != rootWnd)
 		{
 			CEGUI::System::getSingleton().setGUISheet(rootWnd);
@@ -605,13 +605,13 @@ void SceneMovieManager::EnterMovieScene(int movieID) //???oΩˉ??≥°?∞??a≠
 
 	if (m_pMovieAniSheet==NULL)
 	{
-		CEGUI::WindowManager& winMgr = CEGUI::WindowManager::getSingleton();
-		m_pMovieAniSheet=winMgr.loadWindowLayout("SceneAniBack.layout");
+		CEGUI::WindowManager* winMgr = CEGUI::WindowManager::getSingletonPtr();
+		m_pMovieAniSheet=winMgr->loadWindowLayout("SceneAniBack.layout");
         m_pMovieAniSheet->EnableAllowModalState(true);
-		m_pTopPanel=winMgr.getWindow("SceneAniBack/TopPanel");
-		m_pBottomPanel=winMgr.getWindow("SceneAniBack/BottomPanel");
+		m_pTopPanel=winMgr->getWindow("SceneAniBack/TopPanel");
+		m_pBottomPanel=winMgr->getWindow("SceneAniBack/BottomPanel");
 
-		m_pBottomBreakText = winMgr.getWindow("SceneAniBack/TopPanel/dianjicichutiaoguojuqing");//new add
+		m_pBottomBreakText = winMgr->getWindow("SceneAniBack/TopPanel/dianjicichutiaoguojuqing");//new add
 
 		m_pBottomBreakText->subscribeEvent(CEGUI::Window::EventMouseClick, CEGUI::Event::Subscriber(&SceneMovieManager::HandleBreakMovieBtnClick, this));
 

@@ -22,11 +22,11 @@ void IconManager::InitImagesetSizeInfo(std::vector<int>& vec, CEGUI::String pref
 	{
 		CEGUI::String strImageSetName = prefix + CEGUI::PropertyHelper::intToString(i);
 		
-		if (!CEGUI::ImagesetManager::getSingleton().isDefined(strImageSetName))
+		if (!CEGUI::ImagesetManager::getSingletonPtr()->isDefined(strImageSetName))
 		{
 			CreateImageSet(strImageSetName);
 		}
-		const CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingleton().get(strImageSetName);
+		const CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingletonPtr()->get(strImageSetName);
 		vec.push_back(imageSet.getImageCount());
 	}
 }
@@ -40,9 +40,9 @@ const CEGUI::Image* IconManager::GetImageByID(int id)  //����ͼƬ��i
 	}
 	if (std::find(m_vecIconImageSet.begin(), m_vecIconImageSet.end(), strImageSetName) != m_vecIconImageSet.end())
 	{
-		if (CEGUI::ImagesetManager::getSingleton().isDefined(strImageSetName))
+		if (CEGUI::ImagesetManager::getSingletonPtr()->isDefined(strImageSetName))
 		{
-			const CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingleton().get(strImageSetName);
+			const CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingletonPtr()->get(strImageSetName);
 			if (imageSet.isImageDefined(CEGUI::PropertyHelper::intToString(id)))
 			{
 				return &imageSet.getImage(CEGUI::PropertyHelper::intToString(id));
@@ -51,7 +51,7 @@ const CEGUI::Image* IconManager::GetImageByID(int id)  //����ͼƬ��i
 	}
 	else
 	{
-		if (CEGUI::ImagesetManager::getSingleton().isDefined(strImageSetName))
+		if (CEGUI::ImagesetManager::getSingletonPtr()->isDefined(strImageSetName))
 		{
 			m_vecIconImageSet.push_back(strImageSetName);
 		}
@@ -118,7 +118,7 @@ void IconManager::CreateImageSet(const CEGUI::String& name)  //����һ�
 {
 	if (std::find(m_vecIconImageSet.begin(), m_vecIconImageSet.end(), name) == m_vecIconImageSet.end())
 	{
-		CEGUI::ImagesetManager::getSingleton().create(name + ".imageset");
+		CEGUI::ImagesetManager::getSingletonPtr()->create(name + ".imageset");
 		m_vecIconImageSet.push_back(name);
 	}
 
@@ -126,7 +126,7 @@ void IconManager::CreateImageSet(const CEGUI::String& name)  //����һ�
 
 void IconManager::DestroyImageSet(const CEGUI::String& name) //����һ��imageset
 {
-	CEGUI::ImagesetManager::getSingleton().destroy(name);
+	CEGUI::ImagesetManager::getSingletonPtr()->destroy(name);
 	IconImageSetListIt it = std::find(m_vecIconImageSet.begin(), m_vecIconImageSet.end(), name);
 	if (it != m_vecIconImageSet.end())
 	{
@@ -257,9 +257,9 @@ const CEGUI::Image* IconManager::GetEmotionImageByFrame(int aniID, int frame)
 
 	if (std::find(m_vecIconImageSet.begin(), m_vecIconImageSet.end(), strEmotionImageSetName) != m_vecIconImageSet.end())
 	{
-		if (CEGUI::ImagesetManager::getSingleton().isDefined(strEmotionImageSetName))
+		if (CEGUI::ImagesetManager::getSingletonPtr()->isDefined(strEmotionImageSetName))
 		{
-			const CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingleton().get(strEmotionImageSetName);
+			const CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingletonPtr()->get(strEmotionImageSetName);
 			CEGUI::String strImageName("");
 			int imageID = 90000 + aniID * 100 + frame;
 			strImageName += CEGUI::PropertyHelper::intToString(imageID);
@@ -292,10 +292,10 @@ void IconManager::AddCardImageSet()
 
 const CEGUI::Image& IconManager::GetTraceIcon()
 {
-	return CEGUI::ImagesetManager::getSingleton().get("common").getImage("common_biaoshi_cc");
+	return CEGUI::ImagesetManager::getSingletonPtr()->get("common").getImage("common_biaoshi_cc");
 }
 
 const CEGUI::Image& IconManager::getDefaultIcon()
 {
-	return CEGUI::ImagesetManager::getSingleton().get("common").getImage("common_biaoshi_cc");
+	return CEGUI::ImagesetManager::getSingletonPtr()->get("common").getImage("common_biaoshi_cc");
 }

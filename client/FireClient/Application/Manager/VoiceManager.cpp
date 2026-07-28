@@ -924,8 +924,8 @@ void VoiceManager::RoleAccusationCallBack(cocos2d::network::HttpClient* client, 
 
 CEGUI::Window* VoiceManager::getYuyinAniWnd()
 {
-	if (CEGUI::WindowManager::getSingleton().isWindowPresent(m_YuYinAniWndName)) {
-		return CEGUI::WindowManager::getSingleton().getWindow(m_YuYinAniWndName);
+	if (CEGUI::WindowManager::getSingletonPtr()->isWindowPresent(m_YuYinAniWndName)) {
+		return CEGUI::WindowManager::getSingletonPtr()->getWindow(m_YuYinAniWndName);
 	}
 	return NULL;
 }

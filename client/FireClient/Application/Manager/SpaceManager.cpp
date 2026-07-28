@@ -312,7 +312,7 @@ void SpaceManager::DeleteImageWithUrlKey(std::string strUrlKey)
             {
                 delete picData.pCocosImage;
             }
-            CEGUI::ImagesetManager::getSingleton().destroy(picData.strImageSetName);
+            CEGUI::ImagesetManager::getSingletonPtr()->destroy(picData.strImageSetName);
             m_vCeguiImage.erase(m_vCeguiImage.begin() + nIndex);
             return;
         }
@@ -331,7 +331,7 @@ void SpaceManager::DeleteAllImage()
             {
                 delete pPicData->pCocosImage;
             }
-            CEGUI::ImagesetManager::getSingleton().destroy(pPicData->strImageSetName);
+            CEGUI::ImagesetManager::getSingletonPtr()->destroy(pPicData->strImageSetName);
         }
         ++it;
     }
@@ -350,7 +350,7 @@ void SpaceManager::DeleteTopImage()
         {
             delete picData.pCocosImage;
         }
-        CEGUI::ImagesetManager::getSingleton().destroy(picData.strImageSetName);
+        CEGUI::ImagesetManager::getSingletonPtr()->destroy(picData.strImageSetName);
         m_vCeguiImage.erase(m_vCeguiImage.begin()+nIndex);
         return;
     }
@@ -398,7 +398,7 @@ CEGUI::Image* SpaceManager::SaveCeguiImageWithUrl(std::string strFilePath, bool 
 	 CEGUI::String imageName = CEGUI::String(strImageName);
 	 CEGUI::String imageSetName = CEGUI::String(strImageSetName);
 
-	 CEGUI::Texture* pTexture = &CEGUI::System::getSingleton().getRenderer()->createTexture();
+	 CEGUI::Texture* pTexture = &CEGUI::System::getSingletonPtr()->getRenderer()->createTexture();
 
 	 if (!pTexture)
 	 {
@@ -408,7 +408,7 @@ CEGUI::Image* SpaceManager::SaveCeguiImageWithUrl(std::string strFilePath, bool 
 	 CEGUI::Texture::PixelFormat pixelFormat = pCocoImage->hasAlpha() ? CEGUI::Texture::PF_RGBA : CEGUI::Texture::PF_RGB;
 
 	 pTexture->loadFromMemory(pBuffer, CEGUI::Size(nWidth, nHeight), pixelFormat);
-	 CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingleton().create(imageSetName, *pTexture);
+	 CEGUI::Imageset& imageSet = CEGUI::ImagesetManager::getSingletonPtr()->create(imageSetName, *pTexture);
      imageSet.defineImage(imageName, rect, CEGUI::Point(0, 0));
 	 const CEGUI::Image& ceguiImage = imageSet.getImage(imageName);
 	 const CEGUI::Image* pCeguiImage = &ceguiImage; //new CEGUI::Image((const char*)pBuffer, imageName, imageSetName, rect, (CEGUI::Texture::PixelFormat) nImageType);
