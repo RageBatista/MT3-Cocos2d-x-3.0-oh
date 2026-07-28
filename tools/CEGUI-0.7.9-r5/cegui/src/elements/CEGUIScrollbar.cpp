@@ -190,6 +190,35 @@ void Scrollbar::setScrollPosition(float position)
 }
 
 //----------------------------------------------------------------------------//
+// MT3: Overloaded setScrollPosition with checkPos parameter
+void Scrollbar::setScrollPosition(float position, bool checkPos)
+{
+    float old_pos = d_position;
+
+    // max position is (docSize - pageSize), but must be at least 0 (in case doc size is very small)
+    float max_pos = ceguimax((d_documentSize - d_pageSize), 0.0f);
+
+    // limit position to valid range:  0 <= position <= max_pos
+    if (checkPos)
+    {
+        d_position = (position >= 0) ? ((position <= max_pos) ? position : max_pos) : 0.0f;
+    }
+    else
+    {
+        d_position = position;
+    }
+
+    updateThumb();
+
+    // notification if required
+    if (d_position != old_pos)
+    {
+        WindowEventArgs args(this);
+        onScrollPositionChanged(args);
+    }
+}
+
+//----------------------------------------------------------------------------//
 void Scrollbar::onScrollPositionChanged(WindowEventArgs& e)
 {
     fireEvent(EventScrollPositionChanged, e, EventNamespace);
@@ -510,6 +539,12 @@ bool Scrollbar::isEndLockEnabled() const
 }
 
 //----------------------------------------------------------------------------//
+
+// MT3: Stop scrolling
+void Scrollbar::Stop()
+{
+    setScrollPosition(getScrollPosition(), true);
+}
 
 } // End of  CEGUI namespace section
 
