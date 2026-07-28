@@ -481,7 +481,14 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
 			m_userTasks.clear();
 			m_userTasksList.clear();
 #ifdef WIN7_32
-			m_pApp->OnExit();
+			if (m_InitState == 2)
+			{
+				m_pApp->OnExit();
+			}
+			else
+			{
+				MT3_ENGINE_TRACE("Engine::Exit skip app OnExit state=%d step=%d", m_InitState, m_nInitStep);
+			}
 #endif
 			if (m_SpriteHandle != INVALID_PICTURE_HANDLE)
 				m_pRenderer->FreeRenderTarget(m_SpriteHandle);
