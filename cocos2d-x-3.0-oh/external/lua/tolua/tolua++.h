@@ -26,6 +26,11 @@
 extern "C" {
 #endif
 
+/* MSVC C compiler does not support C99 inline */
+#if defined(_MSC_VER) && !defined(__cplusplus) && !defined(inline)
+#define inline __inline
+#endif
+
 #define tolua_pushcppstring(x,y)                tolua_pushstring(x,y.c_str())
 #define tolua_iscppstring                       tolua_isstring
 

@@ -1,4 +1,4 @@
-﻿/* zconf.h -- configuration of the zlib compression library
+/* zconf.h -- configuration of the zlib compression library
  * Copyright (C) 1995-2010 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
@@ -7,6 +7,8 @@
 
 #ifndef ZCONF_H
 #define ZCONF_H
+/* #undef Z_PREFIX */
+/* #undef Z_HAVE_UNISTD_H */
 
 /*
  * If you *really* need a unique prefix for all types and library functions,
