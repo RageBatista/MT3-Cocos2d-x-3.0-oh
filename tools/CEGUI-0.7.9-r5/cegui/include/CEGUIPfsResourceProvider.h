@@ -9,6 +9,7 @@
 
 #include "CEGUIBase.h"
 #include "CEGUIResourceProvider.h"
+#include <map>
 
 // MT3: Forward declarations for LJFM types (used only in PUBLISHED_VERSION builds)
 namespace LJFM { class LJFMF; class LJFMID; }

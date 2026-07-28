@@ -839,7 +839,7 @@ bool System::injectMouseButtonDown(MouseButton button, int eventId)
 /*************************************************************************
 	Method that injects a mouse button up event into the system.
 *************************************************************************/
-bool System::injectMouseButtonUp(MouseButton button)
+bool System::injectMouseButtonUp(MouseButton button, int eventId)
 {
     // update system keys
     d_sysKeys &= ~mouseButtonToSyskey(button);
