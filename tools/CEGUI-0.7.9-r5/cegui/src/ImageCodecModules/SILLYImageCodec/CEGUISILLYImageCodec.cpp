@@ -52,6 +52,13 @@ SILLYImageCodec::~SILLYImageCodec()
 
 Texture* SILLYImageCodec::load(const RawDataContainer& data, Texture* result)
 {
+    if (!data.getDataPtr() || data.getSize() == 0)
+    {
+        Logger::getSingletonPtr()->logEvent(
+            "SILLYImageCodec::load - Empty image data", Errors);
+        return 0;
+    }
+
     SILLY::MemoryDataSource md(static_cast<const SILLY::byte*>(data.getDataPtr()), data.getSize());
     SILLY::Image img(md);
     if (!img.loadImageHeader())

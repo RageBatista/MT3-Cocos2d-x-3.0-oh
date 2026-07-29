@@ -5,6 +5,7 @@
 #include "CEGUISystem.h"
 #include "CEGUIImageCodec.h"
 #include "CEGUIImageset.h"
+#include "CEGUILogger.h"
 
 #include "2d/platform/win32/CCGL.h"
 #include "2d/ccGLStateCache.h"
@@ -153,6 +154,16 @@ void Cocos2DTexture::loadFromFile(const String& filename,
 
     RawDataContainer texFile;
     System::getSingleton().getResourceProvider()->loadRawDataContainer(filename, texFile, resourceGroup);
+
+    if (!texFile.getDataPtr() || texFile.getSize() == 0)
+    {
+        Logger::getSingleton().logEvent(
+            "Cocos2DTexture::loadFromFile - Resource provider returned no data for image '" +
+            filename + "' in group '" + resourceGroup + "'.",
+            Errors);
+        m_bLoadFailed = true;
+        return;
+    }
 
     Texture* res = sys->getImageCodec().load(texFile, this);
 

@@ -95,11 +95,12 @@ void PFSResourceProvider::loadRawDataContainer(const String& filename, RawDataCo
     LJFM::LJFMF Afile;
     if (!Afile.Open(pfsname, LJFM::FM_EXCL, LJFM::FA_RDONLY))
     {
-        // Log: file open failed
+        // Log: file open failed, throw exception
         CEGUI::Logger::getSingleton().logEvent(
             "[PFSResourceProvider::loadRawDataContainer] File open failed - path: " + final_filename,
             CEGUI::Errors);
-        return;
+        throw FileIOException(
+            "PFSResourceProvider::loadRawDataContainer - Cannot open file: " + final_filename);
     }
 
     // Log: file opened successfully
@@ -114,13 +115,26 @@ void PFSResourceProvider::loadRawDataContainer(const String& filename, RawDataCo
         CEGUI::Logger::getSingleton().logEvent(
             "[PFSResourceProvider::loadRawDataContainer] File size is 0 - path: " + final_filename,
             CEGUI::Errors);
-        return;
+        throw FileIOException(
+            "PFSResourceProvider::loadRawDataContainer - File is empty: " + final_filename);
     }
 
-    CEGUI::uint8* data = new CEGUI::uint8[Afile.GetImage().GetSize()];
-    memcpy(data, Afile.GetImage().GetData(), Afile.GetSize());
+    const LJFM::LJFMID image = Afile.GetImage();
+    const size_t image_size = static_cast<size_t>(image.GetSize());
+    const void* const image_data = image.GetData();
+    if (!image_data || image_size == 0)
+    {
+        CEGUI::Logger::getSingleton().logEvent(
+            "[PFSResourceProvider::loadRawDataContainer] File image is empty - path: " + final_filename,
+            CEGUI::Errors);
+        throw FileIOException(
+            "PFSResourceProvider::loadRawDataContainer - File image data is empty: " + final_filename);
+    }
+
+    CEGUI::uint8* data = new CEGUI::uint8[image_size];
+    memcpy(data, image_data, image_size);
     output.setData(data);
-    output.setSize(Afile.GetImage().GetSize());
+    output.setSize(image_size);
 
     // Log: file read successfully
     CEGUI::Logger::getSingleton().logEvent(
@@ -164,11 +178,12 @@ void PFSResourceProvider::loadRawDataContainer(const String& filename, LJFM::LJF
     LJFM::LJFMF Afile;
     if (!Afile.Open(pfsname, LJFM::FM_EXCL, LJFM::FA_RDONLY))
     {
-        // Log: file open failed
+        // Log: file open failed, throw exception
         CEGUI::Logger::getSingleton().logEvent(
             "[PFSResourceProvider::loadRawDataContainer] File open failed - path: " + final_filename,
             CEGUI::Errors);
-        return;
+        throw FileIOException(
+            "PFSResourceProvider::loadRawDataContainer - Cannot open file: " + final_filename);
     }
 
     // Log: file opened successfully
@@ -183,10 +198,19 @@ void PFSResourceProvider::loadRawDataContainer(const String& filename, LJFM::LJF
         CEGUI::Logger::getSingleton().logEvent(
             "[PFSResourceProvider::loadRawDataContainer] File size is 0 - path: " + final_filename,
             CEGUI::Errors);
-        return;
+        throw FileIOException(
+            "PFSResourceProvider::loadRawDataContainer - File is empty: " + final_filename);
     }
 
     output = Afile.GetImage();
+    if (!output.GetData() || output.GetSize() == 0)
+    {
+        CEGUI::Logger::getSingleton().logEvent(
+            "[PFSResourceProvider::loadRawDataContainer] File image is empty - path: " + final_filename,
+            CEGUI::Errors);
+        throw FileIOException(
+            "PFSResourceProvider::loadRawDataContainer - File image data is empty: " + final_filename);
+    }
     CEGUI_PROBE_LOG("PFS load filename=%s group=%s final=%s afileSize=%d imageSize=%llu head=%s",
         filename.c_str(),
         resourceGroup.empty() ? "" : resourceGroup.c_str(),
@@ -206,11 +230,13 @@ void PFSResourceProvider::loadRawDataContainer(const String& filename, LJFM::LJF
 //----------------------------------------------------------------------------//
 void PFSResourceProvider::unloadRawDataContainer(RawDataContainer& data)
 {
-    // Data is managed externally; no-op for now
-    // uint8* ptr = data.getDataPtr();
-    // delete ptr;
-    // data.setData(0);
-    // data.setSize(0);
+    uint8* const ptr = data.getDataPtr();
+    if (ptr)
+    {
+        delete[] ptr;
+        data.setData(0);
+        data.setSize(0);
+    }
 }
 
 //----------------------------------------------------------------------------//
