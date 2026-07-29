@@ -7,7 +7,7 @@ param(
     [ValidateSet("SafeChain", "Incremental")]
     [string]$BuildMode = "SafeChain",
     [ValidateSet("Legacy226", "Upgrade30")]
-    [string]$EngineProfile = "Legacy226",
+    [string]$EngineProfile = "Upgrade30",
     [switch]$Clean,
     [int]$MaxParallelJobs = 0,
     [int]$MaxCompilerProcesses = 0,
@@ -104,6 +104,65 @@ function Resolve-PowerShellExe {
     return "powershell.exe"
 }
 
+function Assert-EngineProfileProjectConfiguration {
+    param(
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [Parameter(Mandatory = $true)][string]$EngineProfile
+    )
+
+    $expectedCocosRoot = if ($EngineProfile -eq "Upgrade30") { "cocos2d-x-3.0-oh" } else { "cocos2d-x-2.2.6" }
+    $unexpectedCocosRoot = if ($EngineProfile -eq "Upgrade30") { "cocos2d-x-2.2.6" } else { "cocos2d-x-3.0-oh" }
+    $expectedCeguiRoot = if ($EngineProfile -eq "Upgrade30") { "tools\CEGUI-0.7.9-r5" } else { "dependencies\cegui" }
+    $unexpectedCeguiRoot = if ($EngineProfile -eq "Upgrade30") { "dependencies\cegui" } else { "tools\CEGUI-0.7.9-r5" }
+
+    $checks = @(
+        @{ Path = "engine\engine.win32.vcxproj"; Expected = @($expectedCocosRoot); Unexpected = @($unexpectedCocosRoot) },
+        @{ Path = "client\MT3Win32App\FireClient.win32.vcxproj"; Expected = @($expectedCocosRoot, $expectedCeguiRoot); Unexpected = @($unexpectedCocosRoot, $unexpectedCeguiRoot) },
+        @{ Path = "client\MT3Win32App\mt3.win32.vcxproj"; Expected = @($expectedCocosRoot, $expectedCeguiRoot); Unexpected = @($unexpectedCocosRoot, $unexpectedCeguiRoot) }
+    )
+
+    if ($EngineProfile -eq "Upgrade30") {
+        $checks += @{
+            Path = "tools\CEGUI-0.7.9-r5\cegui-0.7.9.win32.vcxproj"
+            Expected = @($expectedCocosRoot)
+            Unexpected = @($unexpectedCocosRoot)
+        }
+    } else {
+        $checks += @{
+            Path = "dependencies\cegui\project\win32\cegui.win32.vcxproj"
+            Expected = @($expectedCocosRoot)
+            Unexpected = @($unexpectedCocosRoot)
+        }
+    }
+
+    $violations = New-Object System.Collections.Generic.List[string]
+    foreach ($check in $checks) {
+        $projectPath = Join-Path $RepoRoot $check.Path
+        if (-not (Test-Path -LiteralPath $projectPath -PathType Leaf)) {
+            [void]$violations.Add("missing project: $($check.Path)")
+            continue
+        }
+
+        $content = [System.IO.File]::ReadAllText($projectPath).Replace('/', '\')
+        foreach ($marker in $check.Expected) {
+            if ($content.IndexOf($marker, [System.StringComparison]::OrdinalIgnoreCase) -lt 0) {
+                [void]$violations.Add("$($check.Path) does not reference $marker")
+            }
+        }
+        foreach ($marker in $check.Unexpected) {
+            if ($content.IndexOf($marker, [System.StringComparison]::OrdinalIgnoreCase) -ge 0) {
+                [void]$violations.Add("$($check.Path) still references $marker")
+            }
+        }
+    }
+
+    if ($violations.Count -gt 0) {
+        throw ("EngineProfile {0} does not match the Win32 project configuration:`n{1}" -f $EngineProfile, ($violations -join "`n"))
+    }
+
+    Write-Host "Engine profile project configuration: ok ($EngineProfile)"
+}
+
 function Invoke-LinkDependencyRepair {
     param(
         [Parameter(Mandatory = $true)][string]$RepoRoot,
@@ -192,7 +251,9 @@ function Test-GitLfsPointerFile {
 
 function Assert-NoGitLfsPointers {
     param(
-        [Parameter(Mandatory = $true)][string]$RepoRoot
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [Parameter(Mandatory = $true)][string]$Configuration,
+        [Parameter(Mandatory = $true)][string]$EngineProfile
     )
 
     $checks = @(
@@ -210,18 +271,41 @@ function Assert-NoGitLfsPointers {
             Root = "client\resource\bin\Debug"
             Patterns = @("*.dll", "*.exe", "*.lib", "*.pdb")
             Fix = 'git lfs checkout "client/resource/bin/Debug"'
-        },
-        @{
-            Root = "cocos2d-x-2.2.6\Release.win32"
-            Patterns = @("*.dll", "*.exe", "*.lib", "*.pdb")
-            Fix = 'git lfs checkout "cocos2d-x-2.2.6/Release.win32"'
-        },
-        @{
-            Root = "cocos2d-x-2.2.6\Debug.win32"
-            Patterns = @("*.dll", "*.exe", "*.lib", "*.pdb")
-            Fix = 'git lfs checkout "cocos2d-x-2.2.6/Debug.win32"'
         }
     )
+
+    if ($EngineProfile -eq "Upgrade30") {
+        $checks += @(
+            @{
+                Root = "cocos2d-x-3.0-oh\build\lib\$Configuration"
+                Patterns = @("*.lib")
+                Fix = 'rebuild the Cocos2d-x 3.0-oh static libraries'
+            },
+            @{
+                Root = "cocos2d-x-3.0-oh\build\cocos\audio\$Configuration"
+                Patterns = @("*.lib")
+                Fix = 'rebuild the Cocos2d-x 3.0-oh audio static library'
+            },
+            @{
+                Root = "tools\CEGUI-0.7.9-r5\$Configuration.win32"
+                Patterns = @("*.lib")
+                Fix = 'rebuild the CEGUI 0.7.9-r5 static library'
+            }
+        )
+    } else {
+        $checks += @(
+            @{
+                Root = "cocos2d-x-2.2.6\Release.win32"
+                Patterns = @("*.dll", "*.exe", "*.lib", "*.pdb")
+                Fix = 'git lfs checkout "cocos2d-x-2.2.6/Release.win32"'
+            },
+            @{
+                Root = "cocos2d-x-2.2.6\Debug.win32"
+                Patterns = @("*.dll", "*.exe", "*.lib", "*.pdb")
+                Fix = 'git lfs checkout "cocos2d-x-2.2.6/Debug.win32"'
+            }
+        )
+    }
 
     $violations = New-Object System.Collections.Generic.List[string]
     foreach ($check in $checks) {
@@ -538,8 +622,9 @@ try {
         $effectiveSkipRuntimeAudit = $true
     }
 
+    Assert-EngineProfileProjectConfiguration -RepoRoot $repoRoot -EngineProfile $EngineProfile
     Invoke-LinkDependencyRepair -RepoRoot $repoRoot -Configuration $Configuration -Platform $Platform -EngineProfile $EngineProfile
-    Assert-NoGitLfsPointers -RepoRoot $repoRoot
+    Assert-NoGitLfsPointers -RepoRoot $repoRoot -Configuration $Configuration -EngineProfile $EngineProfile
 
     $buildParams = @{
         Configuration = $Configuration

@@ -3,7 +3,7 @@ param(
     [string]$RepoRoot = "",
     [ValidateSet("Release", "Debug")][string]$Configuration = "Debug",
     [ValidateSet("Win32")][string]$Platform = "Win32",
-    [ValidateSet("Legacy226", "Upgrade30")][string]$EngineProfile = "Legacy226",
+    [ValidateSet("Legacy226", "Upgrade30")][string]$EngineProfile = "Upgrade30",
     [switch]$ForceRebuild,
     [switch]$Json
 )
@@ -516,7 +516,7 @@ foreach ($item in $failures) {
 
 $status = "PASS"
 $summary = "Win32 link dependencies are ready for MT3.exe build."
-$next = "Run powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration $Configuration"
+$next = "Run powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration $Configuration -EngineProfile $EngineProfile"
 
 if ($failures.Count -gt 0) {
     $status = "FAIL"

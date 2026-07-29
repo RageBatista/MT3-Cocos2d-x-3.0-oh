@@ -19,16 +19,16 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1 -
 
 ```powershell
 # Debug 日常开发
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Debug -Platform Win32 -FastLocal -MaxParallelJobs 8
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Debug -Platform Win32 -EngineProfile Upgrade30 -FastLocal -MaxParallelJobs 8
 
 # Release 日常验证
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -BuildMode Incremental -MaxParallelJobs 8
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -EngineProfile Upgrade30 -BuildMode Incremental -MaxParallelJobs 8
 
 # Release ABI/发版安全构建
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -BuildMode SafeChain -MaxParallelJobs 8 -StrictRuntimeAudit
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -EngineProfile Upgrade30 -BuildMode SafeChain -MaxParallelJobs 8 -StrictRuntimeAudit
 
 # Debug + Release 里程碑验证
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidation.ps1 -Configuration Both -MaxParallelJobs 8 -StrictRuntimeAudit
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidation.ps1 -Configuration Both -EngineProfile Upgrade30 -MaxParallelJobs 8 -StrictRuntimeAudit
 ```
 
 ## 3. 常用参数
@@ -37,6 +37,7 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidatio
 | --- | --- |
 | `-Configuration Debug|Release` | 选择配置 |
 | `-Platform Win32` | 固定主线平台 |
+| `-EngineProfile Upgrade30` | 固定 Win32 新引擎链（默认值，验收命令显式记录） |
 | `-BuildMode Incremental|SafeChain` | 选择增量或安全链 |
 | `-FastLocal` | Debug 快速本地模式 |
 | `-Clean` | 清理并强制 SafeChain |
@@ -49,10 +50,10 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidatio
 
 ```powershell
 # 校验并按需补齐 Debug 链接输入
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Ensure-MT3-Win32-LinkDeps.ps1 -Configuration Debug -Platform Win32 -Json
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Ensure-MT3-Win32-LinkDeps.ps1 -Configuration Debug -Platform Win32 -EngineProfile Upgrade30 -Json
 
 # 强制重建脚本可构建的 Release 依赖
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Ensure-MT3-Win32-LinkDeps.ps1 -Configuration Release -Platform Win32 -ForceRebuild -Json
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Ensure-MT3-Win32-LinkDeps.ps1 -Configuration Release -Platform Win32 -EngineProfile Upgrade30 -ForceRebuild -Json
 ```
 
 canonical wrapper 会自动调用该脚本，通常不需要提前单独执行。

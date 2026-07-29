@@ -41,10 +41,10 @@
 
 ## 3. ABI 与二进制约束
 
-- `FireClient.lib`、`engine.lib`、`libcocos2d.lib`、`libCocosDenshion.lib` 等是构建产物，禁止手工编辑或跨工具集替换。
+- `FireClient.lib`、`engine.lib`、`cocos2d.lib`、`cegui-0.7.9.lib` 等是构建产物，禁止手工编辑或跨工具集替换。
 - 第一方源码允许修改，但必须使用主线工具链重编对应产物。
 - 禁止把“二进制 ABI 不能乱动”误写成“对应源码不可修改”。
-- 禁止主线直接升级 `Cocos2d-x` 大版本、Lua 主版本、CEGUI 主版本或用新二进制覆盖旧链路；如需升级，必须单独立项评估 ABI、API、资源与构建链影响。
+- 后续升级 `Cocos2d-x`、Lua 或 CEGUI 版本时，必须单独立项评估 ABI、API、资源与构建链影响；禁止用新二进制直接覆盖当前 `Upgrade30` 链路。
 - 禁止使用 `/FORCE` 掩盖符号冲突、CRT 冲突或链接错误。
 - 禁止跨 CRT 边界分配/释放内存。
 - 禁止把不同对象布局、不同公共头文件版本、不同宏分支展开结果的 `.obj/.lib` 链接进同一份 Win32 交付产物。
@@ -65,24 +65,22 @@
 
 ## 4. 主线 Win32 构建依赖顺序
 
-Win32 主线构建顺序固定如下：
+Win32 canonical 默认使用 `EngineProfile=Upgrade30`，构建顺序固定如下：
 
 1. `common/platform`
 2. `common/ljfm`
-3. `common/lua`
-4. `common/cauthc`
-5. `Box2D`
-6. `liblua`
-7. `libcocos2d`
-8. `libCocosDenshion`
-9. `engine`
-10. `FireClient`
-11. `MT3`
+3. `common/cauthc`
+4. `cocos2d-x-3.0-oh` 的 v120 静态项目（基础依赖、core、audio、extensions、network、UI、Lua bindings）
+5. `CEGUI-0.7.9-r5`
+6. `engine`
+7. `FireClient`
+8. `MT3`
 
 ### 4.1 MT3.exe 固定入口脚本（唯一）
 
 - 面向“执行编译构建 `MT3.exe` 并返回成功退出码”的场景，固定入口脚本为 `tools/scripts/Build-MT3-Exe-Canonical.ps1`。
 - Agent、人工命令和 CI 手工触发均应优先调用该脚本，不再直接把 `client/Build-MT3-v120.ps1` 作为外部入口。
+- canonical 默认 `EngineProfile=Upgrade30`，并在构建前拒绝 Cocos 2.2.6/3.0-oh 或 CEGUI 0.7.1/0.7.9-r5 的混合工程配置；验收命令仍应显式记录 `-EngineProfile Upgrade30`。
 - 该脚本内部仍调用 `client/Build-MT3-v120.ps1` 的 ABI 安全链路，并默认启用 `-RuntimeAuditWarnOnly -AllowArchiveRuntimeFallback`，保证“编译成功即返回 `0`；编译失败返回非 `0`”。
 - 如需把 runtime audit 的 High 问题升级为失败，显式传入 `-StrictRuntimeAudit`。
 
@@ -90,7 +88,7 @@ Win32 主线构建顺序固定如下：
 
 - 修改 `client/FireClient/Application/**` 后，至少重编 `FireClient`，再重链 `MT3`。
 - 修改 `engine/**` 后，至少重编 `engine`，再重编 `FireClient` 或重链 `MT3`（视链接关系而定）。
-- 修改 `cocos2dx/**` 或 `CocosDenshion/**` 后，必须重编对应库并继续重编下游。
+- 修改 `cocos2d-x-3.0-oh/**` 或 `tools/CEGUI-0.7.9-r5/**` 后，必须重编对应库并继续重编 `engine -> FireClient -> MT3`。
 - 若改动涉及第 3.1 节定义的 ABI 敏感头文件，以上“至少”一律提升为强制 `Rebuild`，不得以增量 `Build` 替代。
 
 共享输出目录约束：
@@ -148,6 +146,7 @@ $text = [System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
 | `client/FireClient/Application/**` | 以 `UTF-8 with BOM` 为主，但修改既有文件时必须保持原编码 |
 | `engine/**` | 以 `UTF-8 with BOM` 为主，保持现有 BOM/换行 |
 | `client/MT3Win32App/**` | 保持原编码优先；该目录存在历史 `CP936/ANSI`、`UTF-8 no BOM`、`UTF-16` 文件 |
+| `cocos2d-x-3.0-oh/**`、`tools/CEGUI-0.7.9-r5/**` | 保持原编码；Win32 主线补丁必须重编全部受影响下游 |
 | `cocos2d-x-2.2.6/**` | 保持原编码；允许补丁，但禁止顺手转码 |
 | `cocos2d-2.0-rc2-x-2.0.1/**` | 历史回滚/差异基线（目录已不存在于工作区）；保持原编码；禁止顺手转码 |
 | `dependencies/**` | 保持原编码；禁止做全仓统一编码改造 |
@@ -177,6 +176,7 @@ $text = [System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
 | `client/FireClient/Application/**` | 允许 | 保持原编码；新增/收敛优先 `UTF-8 BOM` | `FireClient` -> `MT3` |
 | `client/MT3Win32App/**` | 允许 | 保持原编码优先 | `MT3` |
 | `engine/**` | 允许 | 保持 `UTF-8 BOM` 现状 | `engine` -> 下游 |
+| `cocos2d-x-3.0-oh/**`、`tools/CEGUI-0.7.9-r5/**` | 允许补丁，但高风险 | 保持原编码 | 对应库 -> `engine` -> `FireClient` -> `MT3` |
 | `cocos2d-x-2.2.6/**` | 允许补丁，但高风险 | 保持原编码 | 对应库 -> 下游 |
 | `cocos2d-2.0-rc2-x-2.0.1/**` | 目录已不存在于工作区 | 保持原编码 | 仅概念回滚/差异核对 |
 | `dependencies/**` | 原则上不改 | 不套用全仓规则 | 仅专项任务 |

@@ -4,6 +4,8 @@ param(
     [string]$Configuration = "Both",
     [ValidateSet("Win32")]
     [string]$Platform = "Win32",
+    [ValidateSet("Legacy226", "Upgrade30")]
+    [string]$EngineProfile = "Upgrade30",
     [switch]$Clean,
     [int]$MaxParallelJobs = 0,
     [switch]$StrictRuntimeAudit,
@@ -137,6 +139,7 @@ $report = [ordered]@{
     RepoRoot = $repoRoot
     Host = $env:COMPUTERNAME
     Platform = $Platform
+    EngineProfile = $EngineProfile
     RequestedConfiguration = $Configuration
     StrictRuntimeAudit = [bool]$StrictRuntimeAudit
     ToolchainCheck = [ordered]@{
@@ -164,7 +167,7 @@ try {
         $cfg = $configs[$idx]
 
         Write-Host ("==> build {0}|{1}" -f $cfg, $Platform)
-        $buildArgs = @("-Configuration", $cfg, "-Platform", $Platform)
+        $buildArgs = @("-Configuration", $cfg, "-Platform", $Platform, "-EngineProfile", $EngineProfile)
         if ($Clean -and $idx -eq 0) {
             $buildArgs += "-Clean"
         }
@@ -188,6 +191,7 @@ try {
         $exeHash = (Get-FileHash -Path $exePath -Algorithm SHA256).Hash
         $report.Builds += [PSCustomObject]@{
             Configuration = $cfg
+            EngineProfile = $EngineProfile
             Status = "pass"
             ExePath = $exeInfo.FullName
             ExeLength = $exeInfo.Length

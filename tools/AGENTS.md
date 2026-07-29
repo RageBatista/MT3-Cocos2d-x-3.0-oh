@@ -19,7 +19,7 @@
 ## 首轮验证入口
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File .\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -EngineProfile Upgrade30
 powershell -ExecutionPolicy Bypass -File .\scripts\Build-Android-Locojoy-WithGate.ps1 -ProjectDir "client/android/LocojoyProject" -BuildType Debug -Channel free -Jobs 4 -CleanIntermediates -RequireArm64InApk
 Get-Item .\Tools.sln
 ```

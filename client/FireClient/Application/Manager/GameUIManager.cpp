@@ -1749,11 +1749,7 @@ void GameUImanager::initialiseResourceGroupDirectories()
 	rp->setResourceGroupDirectory("animations", "/ui/animations/");
 #else
 	CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>(CEGUI::System::getSingleton().getResourceProvider());
-#if defined WIN7_32 && defined NoPack
-	std::string pathPrefix = (CFileUtil::GetRootDir() + "../../res1/").c_str();
-#else
 	std::string pathPrefix = (CFileUtil::GetRootDir() + "../../res/").c_str();
-#endif
 
 	rp->setResourceGroupDirectory("schemes", (pathPrefix + "ui/schemes/").c_str());
 	rp->setResourceGroupDirectory("imagesets", (pathPrefix + "ui/imagesets/").c_str());

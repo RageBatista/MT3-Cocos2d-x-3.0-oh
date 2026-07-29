@@ -4,7 +4,7 @@ param(
     [ValidateSet("Win32")][string]$Platform = "Win32",
     [switch]$Clean,
     [ValidateSet("SafeChain", "Incremental")][string]$BuildMode = "SafeChain",
-    [ValidateSet("Legacy226", "Upgrade30")][string]$EngineProfile = "Legacy226",
+    [ValidateSet("Legacy226", "Upgrade30")][string]$EngineProfile = "Upgrade30",
     [switch]$AllowUnsafeAbiIncremental,
     [int]$MaxParallelJobs = 0,
     [int]$MaxCompilerProcesses = 0,

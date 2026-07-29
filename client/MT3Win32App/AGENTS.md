@@ -18,7 +18,7 @@
 ## 首轮验证入口
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ..\..\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File ..\..\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -EngineProfile Upgrade30
 Get-Item .\Release.win32\MT3.exe, ..\resource\bin\Release\MT3.exe | Select-Object FullName, Length, LastWriteTime
 ```
 

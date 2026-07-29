@@ -3,6 +3,7 @@
 > **适用范围**：MT3 Win32 客户端 `Debug|Win32` 与 `Release|Win32`
 > **外部固定入口**：`tools/scripts/Build-MT3-Exe-Canonical.ps1`
 > **内部构建链**：`client/Build-MT3-v120.ps1`
+> **默认引擎配置**：`Upgrade30`（`cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`）
 
 ## 1. 构建原则
 
@@ -20,10 +21,10 @@ git lfs status
 git status --short
 ```
 
-`Check-v120Toolset.ps1` 的 `Mainline` 清单包含 `common/lua/lua.win32.vcxproj`，但没有包含内部真实构建步骤中的 `dependencies/cegui/project/win32/cegui.win32.vcxproj`。因此它不能单独证明全部实际构建工程均为 `v120`；CEGUI 需额外核对：
+`Check-v120Toolset.ps1` 不能单独证明 Upgrade30 的 CEGUI 工程为 `v120`；需额外核对：
 
 ```powershell
-$ceguiProject = '.\dependencies\cegui\project\win32\cegui.win32.vcxproj'
+$ceguiProject = '.\tools\CEGUI-0.7.9-r5\cegui-0.7.9.win32.vcxproj'
 $ceguiXml = Get-Content -Raw -Encoding UTF8 -LiteralPath $ceguiProject
 $ceguiToolsets = @(
     [regex]::Matches($ceguiXml, '<PlatformToolset>\s*(?<toolset>[^<]+)\s*</PlatformToolset>') |
@@ -42,17 +43,18 @@ canonical wrapper 在正式构建前还会：
 
 1. 扫描核心源码是否含 NUL 字节；
 2. 执行 v120 主线预检（`FastLocal` 默认跳过）；
-3. 调用 `Ensure-MT3-Win32-LinkDeps.ps1` 补齐/校验链接输入；
-4. 检查关键资源和运行时文件是否仍是 Git LFS pointer；
-5. 收敛 `ProgramFiles(x86)`、`VS120COMNTOOLS` 与 `MT3_MSBUILD_PATH`；
-6. 调用内部构建链并检查 `MT3.exe` 是否实际生成。
+3. 校验 `EngineProfile` 与 Cocos/CEGUI 工程路径完全一致；
+4. 调用 `Ensure-MT3-Win32-LinkDeps.ps1` 补齐/校验链接输入；
+5. 检查关键资源和运行时文件是否仍是 Git LFS pointer；
+6. 收敛 `ProgramFiles(x86)`、`VS120COMNTOOLS` 与 `MT3_MSBUILD_PATH`；
+7. 调用内部构建链并检查 `MT3.exe` 是否实际生成。
 
 ## 3. 构建模式
 
 ### 3.1 Debug 日常开发
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Debug -Platform Win32 -FastLocal -MaxParallelJobs 8
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Debug -Platform Win32 -EngineProfile Upgrade30 -FastLocal -MaxParallelJobs 8
 ```
 
 `-FastLocal` 会把默认 `SafeChain` 收敛为 `Incremental`，并默认跳过工具链预检和 runtime audit。首次配置环境、工具链变更后或准备交付时不要只依赖该模式。
@@ -60,7 +62,7 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical
 ### 3.2 Release 日常验证
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -BuildMode Incremental -MaxParallelJobs 8
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -EngineProfile Upgrade30 -BuildMode Incremental -MaxParallelJobs 8
 ```
 
 若内部 ABI 防护拒绝增量，切换到 `SafeChain`，不要传入内部的 `-AllowUnsafeAbiIncremental`。
@@ -68,13 +70,13 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical
 ### 3.3 ABI/发版安全构建
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -BuildMode SafeChain -MaxParallelJobs 8 -StrictRuntimeAudit
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -EngineProfile Upgrade30 -BuildMode SafeChain -MaxParallelJobs 8 -StrictRuntimeAudit
 ```
 
 ### 3.4 Debug + Release 里程碑验证
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidation.ps1 -Configuration Both -MaxParallelJobs 8 -StrictRuntimeAudit
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidation.ps1 -Configuration Both -EngineProfile Upgrade30 -MaxParallelJobs 8 -StrictRuntimeAudit
 ```
 
 日常构建默认不加 `-Clean`。显式 `-Clean` 会强制回到 `SafeChain`。
@@ -202,7 +204,7 @@ git status --short
 4. 回退后使用 canonical wrapper 的 `SafeChain` 重新生成一致产物并执行严格 runtime audit：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -BuildMode SafeChain -MaxParallelJobs 8 -StrictRuntimeAudit
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -EngineProfile Upgrade30 -BuildMode SafeChain -MaxParallelJobs 8 -StrictRuntimeAudit
 ```
 
 5. 复核 `engine.lib -> FireClient.lib -> MT3.exe` 时间戳、runtime audit、运行目录和实际启动；验证失败时保留新证据并继续回退到更早的已知可用配置。
