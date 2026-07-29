@@ -21,6 +21,7 @@
 #include "2d/CCDirector.h"
 #include "2d/platform/win32/CCGL.h"
 #include "math/kazmath/kazmath/kazmath.h"
+#include "math/kazmath/kazmath/GL/matrix.h"
 
 #include <algorithm>
 
@@ -261,6 +262,21 @@ void Cocos2DRenderer::beginRendering()
     if (m_program)
     {
         m_program->use();
+
+        // CEGUI 2D UI needs orthographic projection; EngineLayer::draw() sets 3D perspective.
+        // Save current projection and switch to 2D ortho so UI is visible.
+        kmGLMatrixMode(KM_GL_PROJECTION);
+        kmGLPushMatrix();
+        kmGLLoadIdentity();
+
+        const Size& displaySize = getDisplaySize();
+        kmMat4 ortho;
+        kmMat4OrthographicProjection(&ortho,
+            0.0f, displaySize.d_width,
+            displaySize.d_height, 0.0f,
+            -1.0f, 1.0f);
+        kmGLMultMatrix(&ortho);
+
         m_program->setUniformsForBuiltins();
 
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION);
@@ -272,8 +288,14 @@ void Cocos2DRenderer::beginRendering()
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::endRendering()
 {
-    // Simplified state restoration for 3.0-oh.
-    // The Cocos2d-x engine will restore its own state after CEGUI rendering.
+    // Restore the projection matrix saved in beginRendering() only when a
+    // valid program was set (otherwise beginRendering did not push).
+    if (m_program)
+    {
+        kmGLMatrixMode(KM_GL_PROJECTION);
+        kmGLPopMatrix();
+    }
+
     glDisable(GL_SCISSOR_TEST);
     glDisable(GL_BLEND);
 }
