@@ -1490,7 +1490,7 @@ bool GameApplication::InitLuaScriptModule()
     Game::ProtocolLuaFunManager::NewInstance();
     USING_NS_CC;
     // register lua engine
-	cocos2d::ScriptEngineProtocol* pEngine = cocos2d::LuaEngine::getInstance();
+	cocos2d::LuaEngine* pEngine = cocos2d::LuaEngine::getInstance();
 	if (pEngine)
 	{
 		cocos2d::ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
@@ -1522,8 +1522,7 @@ bool GameApplication::InitLuaScriptModule()
 		std::string path = "/script/";
 #endif
     
-		// MT3: Cocos2d-x 3.0 ScriptEngineManager doesn't have addSearchPath, use FileUtils instead
-		cocos2d::FileUtils::getInstance()->addSearchPath(path.c_str());
+		pEngine->addSearchPath(path.c_str());
 
 		int dofileResult = pEngine->executeScriptFile("dofile_main.lua");
 		MT3_TRACE("GameApplication::InitLuaScriptModule executeScriptFile dofile_main.lua path=%s result=%d", path.c_str(), dofileResult);
