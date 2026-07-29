@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -49,7 +49,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;../../CEGUI/include;../../../pcre-8.31/prj2;../../../SILLY-0.1.0/include;../../CEGUI/include/RendererModules/Cocos2D;../../CEGUI/include/WindowRendererSets/Falagard;../../CEGUI/include/ImageCodecModules/SILLYImageCodec;../../CEGUI/include/XMLParserModules/LJXMLParser;../../CEGUI/include/ScriptingModules/LuaScriptModule;../../../../cocos2d-x-2.2.6/cocos2dx;../../../../cocos2d-x-2.2.6/cocos2dx/include;../../../../cocos2d-x-2.2.6/cocos2dx/platform;../../../../cocos2d-x-2.2.6/cocos2dx/platform/win32;../../../../cocos2d-x-2.2.6/cocos2dx/platform/winrt;../../../../cocos2d-x-2.2.6/cocos2dx/kazmath/include;../../../../cocos2d-x-2.2.6/cocos2dx/kazmath/include/GL;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/zlib;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libpng;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libjpeg;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libtiff;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libwebp;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/OGLES;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/freetype/include;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/angle/include;../../../../cocos2d-x-2.2.6/scripting/lua/tolua;../../../../cocos2d-x-2.2.6/scripting/lua/lua;../../../../common/platform;../../../../common/pfs/pfs</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -57,7 +57,7 @@
       <DisableSpecificWarnings>4996;4244</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -87,13 +87,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;../../CEGUI/include;../../../pcre-8.31/prj2;../../../SILLY-0.1.0/include;../../CEGUI/include/RendererModules/Cocos2D;../../CEGUI/include/WindowRendererSets/Falagard;../../CEGUI/include/ImageCodecModules/SILLYImageCodec;../../CEGUI/include/XMLParserModules/LJXMLParser;../../CEGUI/include/ScriptingModules/LuaScriptModule;../../../../cocos2d-x-2.2.6/cocos2dx;../../../../cocos2d-x-2.2.6/cocos2dx/include;../../../../cocos2d-x-2.2.6/cocos2dx/platform;../../../../cocos2d-x-2.2.6/cocos2dx/platform/win32;../../../../cocos2d-x-2.2.6/cocos2dx/platform/winrt;../../../../cocos2d-x-2.2.6/cocos2dx/kazmath/include;../../../../cocos2d-x-2.2.6/cocos2dx/kazmath/include/GL;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/zlib;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libpng;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libjpeg;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libtiff;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/libwebp;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/OGLES;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/freetype/include;../../../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/winrt/angle/include;../../../../cocos2d-x-2.2.6/scripting/lua/tolua;../../../../cocos2d-x-2.2.6/scripting/lua/lua;../../../../common/platform;../../../../common/pfs/pfs</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <DisableSpecificWarnings>4996;4244</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

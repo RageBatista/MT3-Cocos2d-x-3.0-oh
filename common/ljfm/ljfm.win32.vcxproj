@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -137,14 +137,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>code;code/include;../platform;../platform/log;../../cocos2d-x-2.2.6/cocos2dx;../../cocos2d-x-2.2.6/cocos2dx/include;../../cocos2d-x-2.2.6/cocos2dx/platform;../../cocos2d-x-2.2.6/cocos2dx/platform/win32;../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/OGLES</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -171,12 +171,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>code;code/include;../platform;../platform/log;../../cocos2d-x-2.2.6/cocos2dx;../../cocos2d-x-2.2.6/cocos2dx/include;../../cocos2d-x-2.2.6/cocos2dx/platform;../../cocos2d-x-2.2.6/cocos2dx/platform/win32;../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/OGLES</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -204,12 +204,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>../../cocos2d-x-2.2.6/cocos2dx;../../cocos2d-x-2.2.6/cocos2dx/include;../../cocos2d-x-2.2.6/cocos2dx/platform;../../cocos2d-x-2.2.6/cocos2dx/platform/win32;../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/OGLES</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -237,13 +237,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>../../cocos2d-x-2.2.6/cocos2dx;../../cocos2d-x-2.2.6/cocos2dx/include;../../cocos2d-x-2.2.6/cocos2dx/platform;../../cocos2d-x-2.2.6/cocos2dx/platform/win32;../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/OGLES</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -269,14 +269,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Version|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>../../cocos2d-x-2.2.6/cocos2dx;../../cocos2d-x-2.2.6/cocos2dx/include;../../cocos2d-x-2.2.6/cocos2dx/platform;../../cocos2d-x-2.2.6/cocos2dx/platform/win32;../../cocos2d-x-2.2.6/cocos2dx/platform/third_party/win32/OGLES</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>

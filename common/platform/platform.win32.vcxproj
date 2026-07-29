@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -129,14 +129,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>./;./platform;../cauthc/include;../../cocos2d-x-3.0-oh/cocos;../../cocos2d-x-3.0-oh/cocos/2d;../../cocos2d-x-3.0-oh/cocos/base;../../cocos2d-x-3.0-oh/cocos/math/kazmath;../../cocos2d-x-3.0-oh/cocos/math/kazmath/GL;../../cocos2d-x-3.0-oh/cocos/2d/platform;../../cocos2d-x-3.0-oh/cocos/2d/platform/win32;../../cocos2d-x-3.0-oh/cocos/2d/platform/desktop;../../cocos2d-x-3.0-oh/cocos/2d/renderer;../../cocos2d-x-3.0-oh/cocos/ui;../../cocos2d-x-3.0-oh/cocos/deprecated;../../cocos2d-x-3.0-oh/cocos/physics;../../cocos2d-x-3.0-oh/cocos/editor-support;../../cocos2d-x-3.0-oh/cocos/editor-support/spine;../../cocos2d-x-3.0-oh/cocos/scripting/lua-bindings;../../cocos2d-x-3.0-oh/cocos/scripting/lua-bindings/manual;../../cocos2d-x-3.0-oh/cocos/audio/include;../../cocos2d-x-3.0-oh/external;../../cocos2d-x-3.0-oh/external/glfw3/include/win32;../../cocos2d-x-3.0-oh/external/curl/include/win32;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include/OGLES;../../cocos2d-x-3.0-oh/external/zlib/include;../../cocos2d-x-3.0-oh/external/png/include/win32;../../cocos2d-x-3.0-oh/external/tiff/include/win32;../../cocos2d-x-3.0-oh/external/freetype2/include/win32;../../cocos2d-x-3.0-oh/external/lua/lua;../../cocos2d-x-3.0-oh/external/lua/tolua;../../cocos2d-x-3.0-oh/extensions</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -162,12 +162,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>./;./platform;../cauthc/include;../../cocos2d-x-3.0-oh/cocos;../../cocos2d-x-3.0-oh/cocos/2d;../../cocos2d-x-3.0-oh/cocos/base;../../cocos2d-x-3.0-oh/cocos/math/kazmath;../../cocos2d-x-3.0-oh/cocos/math/kazmath/GL;../../cocos2d-x-3.0-oh/cocos/2d/platform;../../cocos2d-x-3.0-oh/cocos/2d/platform/win32;../../cocos2d-x-3.0-oh/cocos/2d/platform/desktop;../../cocos2d-x-3.0-oh/cocos/2d/renderer;../../cocos2d-x-3.0-oh/cocos/ui;../../cocos2d-x-3.0-oh/cocos/deprecated;../../cocos2d-x-3.0-oh/cocos/physics;../../cocos2d-x-3.0-oh/cocos/editor-support;../../cocos2d-x-3.0-oh/cocos/editor-support/spine;../../cocos2d-x-3.0-oh/cocos/scripting/lua-bindings;../../cocos2d-x-3.0-oh/cocos/scripting/lua-bindings/manual;../../cocos2d-x-3.0-oh/cocos/audio/include;../../cocos2d-x-3.0-oh/external;../../cocos2d-x-3.0-oh/external/glfw3/include/win32;../../cocos2d-x-3.0-oh/external/curl/include/win32;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include/OGLES;../../cocos2d-x-3.0-oh/external/zlib/include;../../cocos2d-x-3.0-oh/external/png/include/win32;../../cocos2d-x-3.0-oh/external/tiff/include/win32;../../cocos2d-x-3.0-oh/external/freetype2/include/win32;../../cocos2d-x-3.0-oh/external/lua/lua;../../cocos2d-x-3.0-oh/external/lua/tolua;../../cocos2d-x-3.0-oh/extensions</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -194,12 +194,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>../../cocos2d-x-3.0-oh/cocos;../../cocos2d-x-3.0-oh/cocos/base;../../cocos2d-x-3.0-oh/cocos/2d/platform;../../cocos2d-x-3.0-oh/cocos/2d/platform/win32;../../cocos2d-x-3.0-oh/cocos/2d/platform/winrt;../../cocos2d-x-3.0-oh/cocos/math/kazmath;../../cocos2d-x-3.0-oh/cocos/math/kazmath/include/GL;../../cocos2d-x-3.0-oh/external;../../cocos2d-x-3.0-oh/external/win32-specific/pthread;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include/OGLES;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -227,13 +227,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>../../cocos2d-x-3.0-oh/cocos;../../cocos2d-x-3.0-oh/cocos/base;../../cocos2d-x-3.0-oh/cocos/2d/platform;../../cocos2d-x-3.0-oh/cocos/2d/platform/win32;../../cocos2d-x-3.0-oh/cocos/2d/platform/winrt;../../cocos2d-x-3.0-oh/cocos/math/kazmath;../../cocos2d-x-3.0-oh/cocos/math/kazmath/include/GL;../../cocos2d-x-3.0-oh/external;../../cocos2d-x-3.0-oh/external/win32-specific/pthread;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include/OGLES;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -259,14 +259,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Version|Win32'">
     <ClCompile>
-      <AdditionalOptions> /Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>../../cocos2d-x-3.0-oh/cocos;../../cocos2d-x-3.0-oh/cocos/base;../../cocos2d-x-3.0-oh/cocos/2d/platform;../../cocos2d-x-3.0-oh/cocos/2d/platform/win32;../../cocos2d-x-3.0-oh/cocos/2d/platform/winrt;../../cocos2d-x-3.0-oh/cocos/math/kazmath;../../cocos2d-x-3.0-oh/cocos/math/kazmath/include/GL;../../cocos2d-x-3.0-oh/external;../../cocos2d-x-3.0-oh/external/win32-specific/pthread;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include/OGLES;../../cocos2d-x-3.0-oh/external/win32-specific/gles/include</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
