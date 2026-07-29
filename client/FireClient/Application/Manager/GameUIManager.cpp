@@ -2493,7 +2493,8 @@ bool GameUImanager::InitGameUI()
 	CEGUI::System::getSingleton().SetAddSelectEffectToItemCell((CEGUI::AddSelectEffectToItemCell*)&HandleAddSelectEffectToItemCell);
 	CEGUI::System::getSingleton().SetDefaultCommonLinkLinkFunc((CEGUI::CommonLinkLinkClicked*)&HandleCommonLinkClick);
 
-	CEGUI::AnimationManager::getSingleton().loadAnimationsFromXML("sample.xml");
+	// MT3: sample.xml 不存在，注释掉动画加载避免崩溃
+	// CEGUI::AnimationManager::getSingleton().loadAnimationsFromXML("sample.xml");
 
 	CEGUI::Window* pRootWindow = winMgr.createWindow("DefaultWindow", "root_wnd");
 
