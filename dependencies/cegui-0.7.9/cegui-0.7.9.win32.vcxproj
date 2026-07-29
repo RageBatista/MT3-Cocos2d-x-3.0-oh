@@ -49,15 +49,15 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions>/Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;../../tools/CEGUI-0.7.9-r5/cegui/include;../../tools/CEGUI-0.7.9-r5/cegui/include/WindowRendererSets/Falagard;../../tools/CEGUI-0.7.9-r5/cegui/include/ImageCodecModules/SILLYImageCodec;../../tools/CEGUI-0.7.9-r5/cegui/include/XMLParserModules/TinyXMLParser;../../tools/CEGUI-0.7.9-r5/cegui/src/XMLParserModules/TinyXMLParser;../pcre-8.31;../SILLY-0.1.0/include;../SILLY-0.1.0/include/loaders;../freetype-2.4.12/include;../zlib-1.2.5;../libpng-1.4.7;../jpeg/include/win32;../wxWidgets-3.0.5/src/jpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>Default</CompileAs>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <DisableSpecificWarnings>4996;4244;4100;4127;4512;4702;4005;4018;4267;4311;4312;4334;4456;4457;4458;4459;4701;4703;4819</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -71,20 +71,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalOptions>/Zm1000 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zm1000 /FS %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;../../tools/CEGUI-0.7.9-r5/cegui/include;../../tools/CEGUI-0.7.9-r5/cegui/include/WindowRendererSets/Falagard;../../tools/CEGUI-0.7.9-r5/cegui/include/ImageCodecModules/SILLYImageCodec;../../tools/CEGUI-0.7.9-r5/cegui/include/XMLParserModules/TinyXMLParser;../../tools/CEGUI-0.7.9-r5/cegui/src/XMLParserModules/TinyXMLParser;../pcre-8.31;../SILLY-0.1.0/include;../SILLY-0.1.0/include/loaders;../freetype-2.4.12/include;../zlib-1.2.5;../libpng-1.4.7;../jpeg/include/win32;../wxWidgets-3.0.5/src/jpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;4244;4100;4127;4512;4702;4005;4018;4267;4311;4312;4334;4456;4457;4458;4459;4701;4703;4819</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <PreprocessorDefinitions>WIN32;WIN7_32;_WINDOWS;NDEBUG;CEGUI_STATIC;HAVE_CONFIG_H;PCRE_STATIC;SILLY_HAVE_JPG;SILLY_HAVE_PNG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
