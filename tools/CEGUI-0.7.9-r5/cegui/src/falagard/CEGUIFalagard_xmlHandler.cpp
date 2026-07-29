@@ -85,6 +85,11 @@ namespace CEGUI
     const String Falagard_xmlHandler::TextPropertyElement("TextProperty");
     const String Falagard_xmlHandler::FontPropertyElement("FontProperty");
     const String Falagard_xmlHandler::ColourElement("Colour");
+    // MT3 custom TextComponent extension elements
+    const String Falagard_xmlHandler::BorderEnablePropertyElement("BorderEnableProperty");
+    const String Falagard_xmlHandler::BorderColourPropertyElement("BorderColourProperty");
+    const String Falagard_xmlHandler::DefaultColourEnablePropertyElement("DefaultColourEnableProperty");
+    const String Falagard_xmlHandler::DefaultBorderEnablePropertyElement("DefaultBorderEnableProperty");
     // attribute names
     const String Falagard_xmlHandler::TopLeftAttribute("topLeft");
     const String Falagard_xmlHandler::TopRightAttribute("topRight");
@@ -173,6 +178,11 @@ namespace CEGUI
         registerElementStartHandler(DimOperatorElement, &Falagard_xmlHandler::elementDimOperatorStart);
         registerElementStartHandler(VertFormatPropertyElement, &Falagard_xmlHandler::elementVertFormatPropertyStart);
         registerElementStartHandler(HorzFormatPropertyElement, &Falagard_xmlHandler::elementHorzFormatPropertyStart);
+        // MT3 custom TextComponent extension elements - registered as no-op to suppress errors
+        registerElementStartHandler(BorderEnablePropertyElement, &Falagard_xmlHandler::elementBorderEnablePropertyStart);
+        registerElementStartHandler(BorderColourPropertyElement, &Falagard_xmlHandler::elementBorderColourPropertyStart);
+        registerElementStartHandler(DefaultColourEnablePropertyElement, &Falagard_xmlHandler::elementDefaultColourEnablePropertyStart);
+        registerElementStartHandler(DefaultBorderEnablePropertyElement, &Falagard_xmlHandler::elementDefaultBorderEnablePropertyStart);
         registerElementStartHandler(AreaPropertyElement, &Falagard_xmlHandler::elementAreaPropertyStart);
         registerElementStartHandler(ImagePropertyElement, &Falagard_xmlHandler::elementImagePropertyStart);
         registerElementStartHandler(TextPropertyElement, &Falagard_xmlHandler::elementTextPropertyStart);
@@ -822,6 +832,31 @@ namespace CEGUI
             d_imagerycomponent->setHorzFormattingPropertySource(attributes.getValueAsString(NameAttribute));
         else if (d_textcomponent)
             d_textcomponent->setHorzFormattingPropertySource(attributes.getValueAsString(NameAttribute));
+    }
+
+    /*************************************************************************
+        MT3 custom TextComponent extension elements
+        These are no-op handlers to suppress "unknown XML element" errors for
+        MT3's custom border/colour properties used in TextComponent.
+    *************************************************************************/
+    void Falagard_xmlHandler::elementBorderEnablePropertyStart(const XMLAttributes& attributes)
+    {
+        // MT3 custom: no-op (border enable property name stored in attributes)
+    }
+
+    void Falagard_xmlHandler::elementBorderColourPropertyStart(const XMLAttributes& attributes)
+    {
+        // MT3 custom: no-op (border colour property name stored in attributes)
+    }
+
+    void Falagard_xmlHandler::elementDefaultColourEnablePropertyStart(const XMLAttributes& attributes)
+    {
+        // MT3 custom: no-op (default colour enable property name stored in attributes)
+    }
+
+    void Falagard_xmlHandler::elementDefaultBorderEnablePropertyStart(const XMLAttributes& attributes)
+    {
+        // MT3 custom: no-op (default border enable property name stored in attributes)
     }
 
     /*************************************************************************

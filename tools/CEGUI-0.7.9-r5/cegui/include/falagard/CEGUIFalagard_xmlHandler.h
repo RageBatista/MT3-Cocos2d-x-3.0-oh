@@ -137,6 +137,12 @@ namespace CEGUI
         static const String TextPropertyElement;        //!< Tag name for element that specifies an Text property.
         static const String FontPropertyElement;        //!< Tag name for element that specifies an Font property.
         static const String ColourElement;              //!< Tag name for Colour elements.
+        // MT3 custom TextComponent extension elements (supported as no-op for compatibility)
+        static const String BorderEnablePropertyElement;       //!< MT3 custom: border enable property.
+        static const String BorderColourPropertyElement;       //!< MT3 custom: border colour property.
+        static const String DefaultColourEnablePropertyElement; //!< MT3 custom: default colour enable property.
+        static const String DefaultBorderEnablePropertyElement; //!< MT3 custom: default border enable property.
+
         // attribute names
         static const String TopLeftAttribute;           //!< Attribute name that stores colour for top-left corner.
         static const String TopRightAttribute;          //!< Attribute name that stores colour for top-right corner.
@@ -393,6 +399,16 @@ namespace CEGUI
             Method that handles the opening HorzFormatProperty XML element.
         */
         void elementHorzFormatPropertyStart(const XMLAttributes& attributes);
+
+        /*!
+        \brief
+            MT3 custom extension elements - handled as no-op to suppress
+            "unknown XML element" errors for TextComponent border/colour properties.
+        */
+        void elementBorderEnablePropertyStart(const XMLAttributes& attributes);
+        void elementBorderColourPropertyStart(const XMLAttributes& attributes);
+        void elementDefaultColourEnablePropertyStart(const XMLAttributes& attributes);
+        void elementDefaultBorderEnablePropertyStart(const XMLAttributes& attributes);
 
         /*!
         \brief
