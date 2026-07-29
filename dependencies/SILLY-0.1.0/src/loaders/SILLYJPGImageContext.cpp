@@ -88,8 +88,13 @@ void JPG_emit_message(j_common_ptr cinfo, int msg_level)
 
 
 JPGImageContext::JPGImageContext()
-    : ImageContext(0, 0)
+    : ImageContext(0, 0),
+      d_source(0)
 {
+    memset(&src_mgr, 0, sizeof(src_mgr));
+    memset(&cinfo, 0, sizeof(cinfo));
+    memset(&d_error_mgr, 0, sizeof(d_error_mgr));
+
     src_mgr.bytes_in_buffer = 0;
     src_mgr.next_input_byte = 0;
     src_mgr.init_source = JPG_init_source;
@@ -99,7 +104,6 @@ JPGImageContext::JPGImageContext()
     src_mgr.term_source = JPG_term_source;
     cinfo.err = jpeg_std_error(&d_error_mgr);
     d_error_mgr.error_exit = JPG_error_exit;
-    jpeg_create_decompress(&cinfo);
     cinfo.src = &src_mgr;
     cinfo.client_data = this;
 }
@@ -107,7 +111,8 @@ JPGImageContext::JPGImageContext()
 
 JPGImageContext::~JPGImageContext()
 {
-    jpeg_destroy_decompress(&cinfo);
+    if (cinfo.mem)
+        jpeg_destroy_decompress(&cinfo);
 }
 
 void JPGImageContext::setImageSize() 

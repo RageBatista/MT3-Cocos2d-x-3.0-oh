@@ -56,17 +56,21 @@ JPGImageLoader::~JPGImageLoader()
 ImageContext* JPGImageLoader::loadHeader(PixelFormat& formatSource, DataSource* data)
 {
     JPGImageContext* jpg = new JPGImageContext();
-    jpg->d_source = data;
-    
     if (! jpg)
         return 0;
-    
+
+    jpg->d_source = data;
+
     if (setjmp(jpg->setjmp_buffer))
     {
         delete jpg;
         return 0;
     }
-    
+
+    jpeg_create_decompress(&(jpg->cinfo));
+    jpg->cinfo.src = &(jpg->src_mgr);
+    jpg->cinfo.client_data = jpg;
+
     jpeg_read_header(&(jpg->cinfo), TRUE);
     if (! jpeg_start_decompress(&(jpg->cinfo)))
     {
@@ -94,7 +98,10 @@ bool JPGImageLoader::loadImageData(PixelOrigin origin,
                                    ImageContext* context)
 {
     JPGImageContext* jpg = static_cast<JPGImageContext*>(context);
-    
+
+    if (setjmp(jpg->setjmp_buffer))
+        return false;
+
     // Allocate a buffer 
     int row_stride = jpg->getWidth() * jpg->cinfo.output_components;
     JSAMPARRAY buffer = (* jpg->cinfo.mem->alloc_sarray)(
