@@ -55,9 +55,10 @@ void spAtlas_parseTextureMap (const char* begin, int length, const char* dir, Pa
 	const char* pos = begin;
 	while (pos < end) {
 		// Find end of line
-		const char* lineEnd = pos;
-		while (lineEnd < end && *lineEnd != '\n' && *lineEnd != '\r')
-			lineEnd++;
+		const char* lineBreak = pos;
+		while (lineBreak < end && *lineBreak != '\n' && *lineBreak != '\r')
+			lineBreak++;
+		const char* lineEnd = lineBreak;
 
 		// Trim whitespace
 		while (lineStart < lineEnd && isspace((unsigned char)*lineStart))
@@ -87,9 +88,11 @@ void spAtlas_parseTextureMap (const char* begin, int length, const char* dir, Pa
 			free(path);
 		}
 
-		// Advance to next line
-		pos = lineEnd;
-		while (pos < end && (*pos == '\n' || *pos == '\r'))
+		// Consume one logical line ending so blank lines still delimit atlas pages.
+		pos = lineBreak;
+		if (pos < end && *pos == '\r')
+			pos++;
+		if (pos < end && *pos == '\n')
 			pos++;
 		lineStart = pos;
 	}
@@ -463,4 +466,98 @@ void spRegionAttachment_updateQuad (spRegionAttachment* self, spSlot* slot, V3F_
 	quad->tr.texCoords.v = self->uvs[VERTEX_Y3];
 	quad->br.texCoords.u = self->uvs[VERTEX_X4];
 	quad->br.texCoords.v = self->uvs[VERTEX_Y4];
+}
+
+static void setQuadColor (V3F_C4B_T2F_Quad* quad, GLubyte r, GLubyte g, GLubyte b, GLubyte a) {
+	quad->bl.colors.r = r;
+	quad->bl.colors.g = g;
+	quad->bl.colors.b = b;
+	quad->bl.colors.a = a;
+	quad->br.colors = quad->bl.colors;
+	quad->tl.colors = quad->bl.colors;
+	quad->tr.colors = quad->bl.colors;
+}
+
+int spMeshAttachment_updateQuad (spMeshAttachment* self, spSlot* slot, const float* vertices, const int* triangle, V3F_C4B_T2F_Quad* quad,
+		bool premultipliedAlpha) {
+	if (!self || !slot || !vertices || !triangle || !quad || self->verticesCount <= 0 || !self->uvs) return 0;
+
+	int i0 = triangle[0] * 2;
+	int i1 = triangle[1] * 2;
+	int i2 = triangle[2] * 2;
+	if (i0 < 0 || i1 < 0 || i2 < 0 || i0 + 1 >= self->verticesCount || i1 + 1 >= self->verticesCount
+			|| i2 + 1 >= self->verticesCount) return 0;
+
+	GLubyte r = static_cast<GLubyte>(slot->skeleton->r * slot->r * self->r * 255);
+	GLubyte g = static_cast<GLubyte>(slot->skeleton->g * slot->g * self->g * 255);
+	GLubyte b = static_cast<GLubyte>(slot->skeleton->b * slot->b * self->b * 255);
+	float normalizedAlpha = slot->skeleton->a * slot->a * self->a;
+	if (premultipliedAlpha) {
+		r = static_cast<GLubyte>(r * normalizedAlpha);
+		g = static_cast<GLubyte>(g * normalizedAlpha);
+		b = static_cast<GLubyte>(b * normalizedAlpha);
+	}
+	setQuadColor(quad, r, g, b, static_cast<GLubyte>(normalizedAlpha * 255));
+
+	quad->bl.vertices.x = vertices[i0];
+	quad->bl.vertices.y = vertices[i0 + 1];
+	quad->br.vertices.x = vertices[i1];
+	quad->br.vertices.y = vertices[i1 + 1];
+	quad->tl.vertices.x = vertices[i2];
+	quad->tl.vertices.y = vertices[i2 + 1];
+	quad->tr.vertices.x = vertices[i2];
+	quad->tr.vertices.y = vertices[i2 + 1];
+
+	quad->bl.texCoords.u = self->uvs[i0];
+	quad->bl.texCoords.v = self->uvs[i0 + 1];
+	quad->br.texCoords.u = self->uvs[i1];
+	quad->br.texCoords.v = self->uvs[i1 + 1];
+	quad->tl.texCoords.u = self->uvs[i2];
+	quad->tl.texCoords.v = self->uvs[i2 + 1];
+	quad->tr.texCoords.u = self->uvs[i2];
+	quad->tr.texCoords.v = self->uvs[i2 + 1];
+
+	return 1;
+}
+
+int spSkinnedMeshAttachment_updateQuad (spSkinnedMeshAttachment* self, spSlot* slot, const float* vertices, const int* triangle,
+		V3F_C4B_T2F_Quad* quad, bool premultipliedAlpha) {
+	if (!self || !slot || !vertices || !triangle || !quad || self->uvsCount <= 0 || !self->uvs) return 0;
+
+	int i0 = triangle[0] * 2;
+	int i1 = triangle[1] * 2;
+	int i2 = triangle[2] * 2;
+	if (i0 < 0 || i1 < 0 || i2 < 0 || i0 + 1 >= self->uvsCount || i1 + 1 >= self->uvsCount
+			|| i2 + 1 >= self->uvsCount) return 0;
+
+	GLubyte r = static_cast<GLubyte>(slot->skeleton->r * slot->r * self->r * 255);
+	GLubyte g = static_cast<GLubyte>(slot->skeleton->g * slot->g * self->g * 255);
+	GLubyte b = static_cast<GLubyte>(slot->skeleton->b * slot->b * self->b * 255);
+	float normalizedAlpha = slot->skeleton->a * slot->a * self->a;
+	if (premultipliedAlpha) {
+		r = static_cast<GLubyte>(r * normalizedAlpha);
+		g = static_cast<GLubyte>(g * normalizedAlpha);
+		b = static_cast<GLubyte>(b * normalizedAlpha);
+	}
+	setQuadColor(quad, r, g, b, static_cast<GLubyte>(normalizedAlpha * 255));
+
+	quad->bl.vertices.x = vertices[i0];
+	quad->bl.vertices.y = vertices[i0 + 1];
+	quad->br.vertices.x = vertices[i1];
+	quad->br.vertices.y = vertices[i1 + 1];
+	quad->tl.vertices.x = vertices[i2];
+	quad->tl.vertices.y = vertices[i2 + 1];
+	quad->tr.vertices.x = vertices[i2];
+	quad->tr.vertices.y = vertices[i2 + 1];
+
+	quad->bl.texCoords.u = self->uvs[i0];
+	quad->bl.texCoords.v = self->uvs[i0 + 1];
+	quad->br.texCoords.u = self->uvs[i1];
+	quad->br.texCoords.v = self->uvs[i1 + 1];
+	quad->tl.texCoords.u = self->uvs[i2];
+	quad->tl.texCoords.v = self->uvs[i2 + 1];
+	quad->tr.texCoords.u = self->uvs[i2];
+	quad->tr.texCoords.v = self->uvs[i2 + 1];
+
+	return 1;
 }

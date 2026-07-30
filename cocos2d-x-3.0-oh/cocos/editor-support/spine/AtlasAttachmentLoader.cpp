@@ -33,21 +33,67 @@
 
 #include <spine/AtlasAttachmentLoader.h>
 #include <spine/extension.h>
+#include <spine/MeshAttachment.h>
 
 spAttachment* _spAtlasAttachmentLoader_newAttachment (spAttachmentLoader* loader, spSkin* skin, spAttachmentType type,
-		const char* name) {
+		const char* name, const char* path) {
 	spAtlasAttachmentLoader* self = SUB_CAST(spAtlasAttachmentLoader, loader);
+	if (!path) path = name;
 	switch (type) {
 	case ATTACHMENT_REGION: {
 		spRegionAttachment* attachment;
-		spAtlasRegion* region = spAtlas_findRegion(self->atlas, name);
+		spAtlasRegion* region = spAtlas_findRegion(self->atlas, path);
 		if (!region) {
-			_spAttachmentLoader_setError(loader, "Region not found: ", name);
+			_spAttachmentLoader_setError(loader, "Region not found: ", path);
 			return 0;
 		}
 		attachment = spRegionAttachment_create(name);
 		attachment->rendererObject = region;
 		spRegionAttachment_setUVs(attachment, region->u, region->v, region->u2, region->v2, region->rotate);
+		attachment->regionOffsetX = region->offsetX;
+		attachment->regionOffsetY = region->offsetY;
+		attachment->regionWidth = region->width;
+		attachment->regionHeight = region->height;
+		attachment->regionOriginalWidth = region->originalWidth;
+		attachment->regionOriginalHeight = region->originalHeight;
+		return SUPER(attachment);
+	}
+	case ATTACHMENT_MESH: {
+		spMeshAttachment* attachment;
+		spAtlasRegion* region = spAtlas_findRegion(self->atlas, path);
+		if (!region) {
+			_spAttachmentLoader_setError(loader, "Region not found: ", path);
+			return 0;
+		}
+		attachment = spMeshAttachment_create(name);
+		attachment->rendererObject = region;
+		attachment->regionU = region->u;
+		attachment->regionV = region->v;
+		attachment->regionU2 = region->u2;
+		attachment->regionV2 = region->v2;
+		attachment->regionRotate = region->rotate;
+		attachment->regionOffsetX = region->offsetX;
+		attachment->regionOffsetY = region->offsetY;
+		attachment->regionWidth = region->width;
+		attachment->regionHeight = region->height;
+		attachment->regionOriginalWidth = region->originalWidth;
+		attachment->regionOriginalHeight = region->originalHeight;
+		return SUPER(attachment);
+	}
+	case ATTACHMENT_SKINNED_MESH: {
+		spSkinnedMeshAttachment* attachment;
+		spAtlasRegion* region = spAtlas_findRegion(self->atlas, path);
+		if (!region) {
+			_spAttachmentLoader_setError(loader, "Region not found: ", path);
+			return 0;
+		}
+		attachment = spSkinnedMeshAttachment_create(name);
+		attachment->rendererObject = region;
+		attachment->regionU = region->u;
+		attachment->regionV = region->v;
+		attachment->regionU2 = region->u2;
+		attachment->regionV2 = region->v2;
+		attachment->regionRotate = region->rotate;
 		attachment->regionOffsetX = region->offsetX;
 		attachment->regionOffsetY = region->offsetY;
 		attachment->regionWidth = region->width;

@@ -858,6 +858,15 @@ function Invoke-RuntimeSync {
                 "tools\\CEImagesetEditor-0.7.1\\bin\\release\\msvcp120.dll"
             )
         }
+        if ($script:EngineProfile -eq "Upgrade30") {
+            # MT3.exe links a release-built third-party static library in Debug and imports MSVCR120.dll directly.
+            $runtimeMap["msvcr120.dll"] = @(
+                "D:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcr120.dll",
+                "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvcr120.dll",
+                "client\\resource\\tools\\msvcr120.dll",
+                "tools\\CEImagesetEditor-0.7.1\\bin\\release\\msvcr120.dll"
+            )
+        }
         $runtimeMap["msvcp120d.dll"] = @(
             "tools\\CEImagesetEditor-0.7.1\\bin\\debug\\msvcp120d.dll"
         )
@@ -950,7 +959,7 @@ function Invoke-RuntimeSync {
             "iconv.dll", "zlib1.dll"
         )
         if ($isDebug) {
-            $obsoleteRuntimeNames += @("msvcp120.dll", "msvcr120.dll")
+            $obsoleteRuntimeNames += @("msvcp120.dll")
         } else {
             $obsoleteRuntimeNames += @("msvcp120d.dll", "msvcr120d.dll", "libcurld.dll")
         }
@@ -981,7 +990,7 @@ function Invoke-RuntimeSync {
     if ($script:EngineProfile -eq "Upgrade30") {
         $requiredRuntimeNames = @("MT3.exe", "websockets.dll", "msvcr110.dll")
         if ($isDebug) {
-            $requiredRuntimeNames += @("libcurld.dll", "msvcp120d.dll", "msvcr120d.dll")
+            $requiredRuntimeNames += @("libcurld.dll", "msvcp120d.dll", "msvcr120d.dll", "msvcr120.dll")
         } else {
             $requiredRuntimeNames += @("msvcp120.dll", "msvcr120.dll")
         }

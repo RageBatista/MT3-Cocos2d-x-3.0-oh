@@ -43,6 +43,7 @@
 #include <spine/AttachmentLoader.h>
 #include <spine/Bone.h>
 #include <spine/BoneData.h>
+#include <spine/MeshAttachment.h>
 #include <spine/RegionAttachment.h>
 #include <spine/BoundingBoxAttachment.h>
 #include <spine/Skeleton.h>

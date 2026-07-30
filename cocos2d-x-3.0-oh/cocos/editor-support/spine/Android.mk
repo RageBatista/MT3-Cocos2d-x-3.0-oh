@@ -17,6 +17,7 @@ BoneData.cpp \
 CCSkeleton.cpp \
 CCSkeletonAnimation.cpp \
 Json.cpp \
+MeshAttachment.cpp \
 RegionAttachment.cpp \
 Skeleton.cpp \
 SkeletonData.cpp \

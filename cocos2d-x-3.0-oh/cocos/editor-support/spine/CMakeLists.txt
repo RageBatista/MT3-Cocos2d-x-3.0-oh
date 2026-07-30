@@ -12,6 +12,7 @@ set(SPINE_SRC
   Event.cpp
   EventData.cpp
   Json.cpp
+  MeshAttachment.cpp
   RegionAttachment.cpp
   Skeleton.cpp
   SkeletonBounds.cpp
@@ -45,4 +46,3 @@ set_target_properties(spine
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
-

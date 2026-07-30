@@ -65,6 +65,14 @@ SkeletonAnimation* SkeletonAnimation::createWithFile (const char* skeletonDataFi
 }
 
 SkeletonAnimation* SkeletonAnimation::createWithTextureMap (const char* skeletonRawData, int skeletonRawDataLen, const char* atlasRawData, int atlasRawDataLen, const char* dir, const PathToTextureMap& textureMap, float scale) {
+	PathToTextureMap atlasTextures;
+	spAtlas_parseTextureMap(atlasRawData, atlasRawDataLen, dir, &atlasTextures);
+	for (PathToTextureMap::const_iterator iter = atlasTextures.begin(); iter != atlasTextures.end(); ++iter) {
+		PathToTextureMap::const_iterator texture = textureMap.find(iter->first);
+		if (texture == textureMap.end() || !texture->second) return 0;
+	}
+	if (atlasTextures.empty()) return 0;
+
 	SkeletonAnimation* node = new SkeletonAnimation(skeletonRawData, skeletonRawDataLen, atlasRawData, atlasRawDataLen, dir, textureMap, scale);
 	node->autorelease();
 	return node;

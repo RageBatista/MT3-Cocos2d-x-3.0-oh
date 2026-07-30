@@ -55,5 +55,9 @@ spAtlas* Atlas_readAtlasWithTextureMap (const char* begin, int length, const cha
 }
 
 void spRegionAttachment_updateQuad (spRegionAttachment* self, spSlot* slot, cocos2d::V3F_C4B_T2F_Quad* quad, bool premultiplied = false);
+int spMeshAttachment_updateQuad (spMeshAttachment* self, spSlot* slot, const float* worldVertices, const int* triangle,
+		cocos2d::V3F_C4B_T2F_Quad* quad, bool premultiplied = false);
+int spSkinnedMeshAttachment_updateQuad (spSkinnedMeshAttachment* self, spSlot* slot, const float* worldVertices, const int* triangle,
+		cocos2d::V3F_C4B_T2F_Quad* quad, bool premultiplied = false);
 
 #endif /* SPINE_COCOS2DX_H_ */

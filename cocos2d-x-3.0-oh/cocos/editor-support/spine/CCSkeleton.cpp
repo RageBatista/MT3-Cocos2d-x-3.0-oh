@@ -33,6 +33,9 @@
 
 #include <spine/CCSkeleton.h>
 #include <spine/spine-cocos2dx.h>
+#include <float.h>
+#include <stdlib.h>
+#include <vector>
 
 USING_NS_CC;
 using std::min;
@@ -153,39 +156,76 @@ void Skeleton::onDraw(const kmMat4 &transform, bool transformUpdated)
 	int additive = 0;
 	TextureAtlas* textureAtlas = 0;
 	V3F_C4B_T2F_Quad quad;
+	std::vector<float> worldVertices;
 	quad.tl.vertices.z = 0;
 	quad.tr.vertices.z = 0;
 	quad.bl.vertices.z = 0;
 	quad.br.vertices.z = 0;
 	for (int i = 0, n = skeleton->slotCount; i < n; i++) {
 		spSlot* slot = skeleton->drawOrder[i];
-		if (!slot->attachment || slot->attachment->type != ATTACHMENT_REGION) continue;
-		spRegionAttachment* attachment = (spRegionAttachment*)slot->attachment;
-		TextureAtlas* regionTextureAtlas = getTextureAtlas(attachment);
+		if (!slot->attachment) continue;
 
-		if (slot->data->additiveBlending != additive) {
+		spRegionAttachment* regionAttachment = 0;
+		spMeshAttachment* meshAttachment = 0;
+		spSkinnedMeshAttachment* skinnedMeshAttachment = 0;
+		TextureAtlas* regionTextureAtlas = 0;
+		if (slot->attachment->type == ATTACHMENT_REGION) {
+			regionAttachment = (spRegionAttachment*)slot->attachment;
+			regionTextureAtlas = getTextureAtlas(regionAttachment);
+		} else if (slot->attachment->type == ATTACHMENT_MESH) {
+			meshAttachment = (spMeshAttachment*)slot->attachment;
+			regionTextureAtlas = getTextureAtlas(meshAttachment);
+		} else if (slot->attachment->type == ATTACHMENT_SKINNED_MESH) {
+			skinnedMeshAttachment = (spSkinnedMeshAttachment*)slot->attachment;
+			regionTextureAtlas = getTextureAtlas(skinnedMeshAttachment);
+		} else {
+			continue;
+		}
+		if (!regionTextureAtlas) continue;
+
+		int nextAdditive = slot->data->additiveBlending ? 1 : 0;
+		if (nextAdditive != additive) {
 			if (textureAtlas) {
 				textureAtlas->drawQuads();
 				textureAtlas->removeAllQuads();
 			}
-			additive = !additive;
-            GL::blendFunc(blendFunc.src, additive ? GL_ONE : blendFunc.dst);
+			additive = nextAdditive;
 		} else if (regionTextureAtlas != textureAtlas && textureAtlas) {
 			textureAtlas->drawQuads();
 			textureAtlas->removeAllQuads();
 		}
 		textureAtlas = regionTextureAtlas;
-        setFittedBlendingFunc(textureAtlas);
+		setFittedBlendingFunc(textureAtlas);
+		if (additive) GL::blendFunc(blendFunc.src, GL_ONE);
 
-		ssize_t quadCount = textureAtlas->getTotalQuads();
-		if (textureAtlas->getCapacity() == quadCount) {
-			textureAtlas->drawQuads();
-			textureAtlas->removeAllQuads();
-			if (!textureAtlas->resizeCapacity(textureAtlas->getCapacity() * 2)) return;
+		if (regionAttachment) {
+			ssize_t quadCount = textureAtlas->getTotalQuads();
+			if (textureAtlas->getCapacity() == quadCount
+					&& !textureAtlas->resizeCapacity(textureAtlas->getCapacity() * 2)) return;
+			spRegionAttachment_updateQuad(regionAttachment, slot, &quad, premultipliedAlpha);
+			textureAtlas->updateQuad(&quad, quadCount);
+		} else if (meshAttachment) {
+			worldVertices.resize(meshAttachment->verticesCount);
+			spMeshAttachment_computeWorldVertices(meshAttachment, slot, &worldVertices[0]);
+			for (int triangleIndex = 0; triangleIndex < meshAttachment->trianglesCount; triangleIndex += 3) {
+				ssize_t quadCount = textureAtlas->getTotalQuads();
+				if (textureAtlas->getCapacity() == quadCount
+						&& !textureAtlas->resizeCapacity(textureAtlas->getCapacity() * 2)) return;
+				if (spMeshAttachment_updateQuad(meshAttachment, slot, &worldVertices[0], meshAttachment->triangles + triangleIndex, &quad,
+						premultipliedAlpha)) textureAtlas->updateQuad(&quad, quadCount);
+			}
+		} else if (skinnedMeshAttachment) {
+			worldVertices.resize(skinnedMeshAttachment->uvsCount);
+			spSkinnedMeshAttachment_computeWorldVertices(skinnedMeshAttachment, slot, &worldVertices[0]);
+			for (int triangleIndex = 0; triangleIndex < skinnedMeshAttachment->trianglesCount; triangleIndex += 3) {
+				ssize_t quadCount = textureAtlas->getTotalQuads();
+				if (textureAtlas->getCapacity() == quadCount
+						&& !textureAtlas->resizeCapacity(textureAtlas->getCapacity() * 2)) return;
+				if (spSkinnedMeshAttachment_updateQuad(skinnedMeshAttachment, slot, &worldVertices[0],
+						skinnedMeshAttachment->triangles + triangleIndex, &quad, premultipliedAlpha))
+					textureAtlas->updateQuad(&quad, quadCount);
+			}
 		}
-
-		spRegionAttachment_updateQuad(attachment, slot, &quad, premultipliedAlpha);
-		textureAtlas->updateQuad(&quad, quadCount);
 	}
 	if (textureAtlas) {
 		textureAtlas->drawQuads();
@@ -242,34 +282,62 @@ TextureAtlas* Skeleton::getTextureAtlas (spRegionAttachment* regionAttachment) c
 	return (TextureAtlas*)((spAtlasRegion*)regionAttachment->rendererObject)->page->rendererObject;
 }
 
+TextureAtlas* Skeleton::getTextureAtlas (spMeshAttachment* meshAttachment) const {
+	return (TextureAtlas*)((spAtlasRegion*)meshAttachment->rendererObject)->page->rendererObject;
+}
+
+TextureAtlas* Skeleton::getTextureAtlas (spSkinnedMeshAttachment* skinnedMeshAttachment) const {
+	return (TextureAtlas*)((spAtlasRegion*)skinnedMeshAttachment->rendererObject)->page->rendererObject;
+}
+
 Rect Skeleton::getBoundingBox () const {
-	float minX = FLT_MAX, minY = FLT_MAX, maxX = FLT_MIN, maxY = FLT_MIN;
+	float minX = FLT_MAX, minY = FLT_MAX, maxX = -FLT_MAX, maxY = -FLT_MAX;
 	float scaleX = getScaleX();
 	float scaleY = getScaleY();
-	float vertices[8];
+	bool hasVertices = false;
 	for (int i = 0; i < skeleton->slotCount; ++i) {
 		spSlot* slot = skeleton->slots[i];
-		if (!slot->attachment || slot->attachment->type != ATTACHMENT_REGION) continue;
-		spRegionAttachment* attachment = (spRegionAttachment*)slot->attachment;
-		spRegionAttachment_computeWorldVertices(attachment, slot->skeleton->x, slot->skeleton->y, slot->bone, vertices);
-		minX = min(minX, vertices[VERTEX_X1] * scaleX);
-		minY = min(minY, vertices[VERTEX_Y1] * scaleY);
-		maxX = max(maxX, vertices[VERTEX_X1] * scaleX);
-		maxY = max(maxY, vertices[VERTEX_Y1] * scaleY);
-		minX = min(minX, vertices[VERTEX_X4] * scaleX);
-		minY = min(minY, vertices[VERTEX_Y4] * scaleY);
-		maxX = max(maxX, vertices[VERTEX_X4] * scaleX);
-		maxY = max(maxY, vertices[VERTEX_Y4] * scaleY);
-		minX = min(minX, vertices[VERTEX_X2] * scaleX);
-		minY = min(minY, vertices[VERTEX_Y2] * scaleY);
-		maxX = max(maxX, vertices[VERTEX_X2] * scaleX);
-		maxY = max(maxY, vertices[VERTEX_Y2] * scaleY);
-		minX = min(minX, vertices[VERTEX_X3] * scaleX);
-		minY = min(minY, vertices[VERTEX_Y3] * scaleY);
-		maxX = max(maxX, vertices[VERTEX_X3] * scaleX);
-		maxY = max(maxY, vertices[VERTEX_Y3] * scaleY);
+		if (!slot->attachment) continue;
+
+		float* vertices = 0;
+		int verticesCount = 0;
+		float regionVertices[8];
+		if (slot->attachment->type == ATTACHMENT_REGION) {
+			spRegionAttachment* attachment = (spRegionAttachment*)slot->attachment;
+			spRegionAttachment_computeWorldVertices(attachment, slot->skeleton->x, slot->skeleton->y, slot->bone, regionVertices);
+			vertices = regionVertices;
+			verticesCount = 8;
+		} else if (slot->attachment->type == ATTACHMENT_MESH) {
+			spMeshAttachment* attachment = (spMeshAttachment*)slot->attachment;
+			verticesCount = attachment->verticesCount;
+			if (verticesCount > 0) {
+				vertices = (float*)malloc(sizeof(float) * verticesCount);
+				if (vertices) spMeshAttachment_computeWorldVertices(attachment, slot, vertices);
+			}
+		} else if (slot->attachment->type == ATTACHMENT_SKINNED_MESH) {
+			spSkinnedMeshAttachment* attachment = (spSkinnedMeshAttachment*)slot->attachment;
+			verticesCount = attachment->uvsCount;
+			if (verticesCount > 0) {
+				vertices = (float*)malloc(sizeof(float) * verticesCount);
+				if (vertices) spSkinnedMeshAttachment_computeWorldVertices(attachment, slot, vertices);
+			}
+		}
+
+		if (vertices) {
+			for (int vertexIndex = 0; vertexIndex < verticesCount; vertexIndex += 2) {
+				float x = vertices[vertexIndex] * scaleX;
+				float y = vertices[vertexIndex + 1] * scaleY;
+				minX = min(minX, x);
+				minY = min(minY, y);
+				maxX = max(maxX, x);
+				maxY = max(maxY, y);
+				hasVertices = true;
+			}
+		}
+		if (vertices && vertices != regionVertices) free(vertices);
 	}
 	Point position = getPosition();
+	if (!hasVertices) return Rect(position.x, position.y, 0, 0);
 	return Rect(position.x + minX, position.y + minY, maxX - minX, maxY - minY);
 }
 

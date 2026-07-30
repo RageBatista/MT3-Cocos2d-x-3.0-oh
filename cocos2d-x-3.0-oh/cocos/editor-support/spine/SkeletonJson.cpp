@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include "Json.h"
 #include <spine/extension.h>
+#include <spine/MeshAttachment.h>
 #include <spine/RegionAttachment.h>
 #include <spine/AtlasAttachmentLoader.h>
 
@@ -416,6 +417,7 @@ spSkeletonData* spSkeletonJson_readSkeletonData (spSkeletonJson* self, const cha
 					spAttachment* attachment;
 					const char* skinAttachmentName = attachmentMap->name;
 					const char* attachmentName = Json_getString(attachmentMap, "name", skinAttachmentName);
+					const char* path = Json_getString(attachmentMap, "path", attachmentName);
 
 					const char* typeString = Json_getString(attachmentMap, "type", "region");
 					spAttachmentType type;
@@ -425,13 +427,17 @@ spSkeletonData* spSkeletonJson_readSkeletonData (spSkeletonJson* self, const cha
 						type = ATTACHMENT_BOUNDING_BOX;
 					else if (strcmp(typeString, "regionsequence") == 0)
 						type = ATTACHMENT_REGION_SEQUENCE;
+					else if (strcmp(typeString, "mesh") == 0)
+						type = ATTACHMENT_MESH;
+					else if (strcmp(typeString, "skinnedmesh") == 0)
+						type = ATTACHMENT_SKINNED_MESH;
 					else {
 						spSkeletonData_dispose(skeletonData);
 						_spSkeletonJson_setError(self, root, "Unknown attachment type: ", typeString);
 						return 0;
 					}
 
-					attachment = spAttachmentLoader_newAttachment(self->attachmentLoader, skin, type, attachmentName);
+					attachment = spAttachmentLoader_newAttachment(self->attachmentLoader, skin, type, attachmentName, path);
 					if (!attachment) {
 						if (self->attachmentLoader->error1) {
 							spSkeletonData_dispose(skeletonData);
@@ -464,6 +470,168 @@ spSkeletonData* spSkeletonJson_readSkeletonData (spSkeletonJson* self, const cha
 						box->vertices = MALLOC(float, verticesArray->size);
 						for (vertex = verticesArray->child, j = 0; vertex; vertex = vertex->next, ++j)
 							box->vertices[j] = vertex->valueFloat * self->scale;
+						break;
+					}
+					case ATTACHMENT_MESH: {
+						spMeshAttachment* mesh = (spMeshAttachment*)attachment;
+						Json* vertices = Json_getItem(attachmentMap, "vertices");
+						Json* uvs = Json_getItem(attachmentMap, "uvs");
+						Json* triangles = Json_getItem(attachmentMap, "triangles");
+						Json* item;
+						int j;
+
+						if (!vertices || !uvs || !triangles || vertices->size <= 0 || vertices->size != uvs->size
+								|| vertices->size % 2 != 0 || triangles->size <= 0 || triangles->size % 3 != 0) {
+							spAttachment_dispose(attachment);
+							spSkeletonData_dispose(skeletonData);
+							_spSkeletonJson_setError(self, root, "Invalid mesh attachment: ", attachmentName);
+							return 0;
+						}
+
+						mesh->verticesCount = vertices->size;
+						mesh->vertices = MALLOC(float, mesh->verticesCount);
+						mesh->regionUVs = MALLOC(float, uvs->size);
+						for (item = vertices->child, j = 0; item; item = item->next, ++j)
+							mesh->vertices[j] = item->valueFloat * self->scale;
+						for (item = uvs->child, j = 0; item; item = item->next, ++j)
+							mesh->regionUVs[j] = item->valueFloat;
+
+						mesh->trianglesCount = triangles->size;
+						mesh->triangles = MALLOC(int, mesh->trianglesCount);
+						for (item = triangles->child, j = 0; item; item = item->next, ++j) {
+							if (item->valueInt < 0 || item->valueInt >= mesh->verticesCount / 2) {
+								spAttachment_dispose(attachment);
+								spSkeletonData_dispose(skeletonData);
+								_spSkeletonJson_setError(self, root, "Invalid mesh triangle index: ", attachmentName);
+								return 0;
+							}
+							mesh->triangles[j] = item->valueInt;
+						}
+
+						mesh->hullLength = Json_getInt(attachmentMap, "hull", 0) * 2;
+						mesh->width = Json_getFloat(attachmentMap, "width", 0) * self->scale;
+						mesh->height = Json_getFloat(attachmentMap, "height", 0) * self->scale;
+						MALLOC_STR(mesh->path, path);
+
+						const char* color = Json_getString(attachmentMap, "color", 0);
+						if (color) {
+							mesh->r = toColor(color, 0);
+							mesh->g = toColor(color, 1);
+							mesh->b = toColor(color, 2);
+							mesh->a = toColor(color, 3);
+						}
+
+						spMeshAttachment_updateUVs(mesh);
+						break;
+					}
+					case ATTACHMENT_SKINNED_MESH: {
+						spSkinnedMeshAttachment* mesh = (spSkinnedMeshAttachment*)attachment;
+						Json* vertices = Json_getItem(attachmentMap, "vertices");
+						Json* uvs = Json_getItem(attachmentMap, "uvs");
+						Json* triangles = Json_getItem(attachmentMap, "triangles");
+						Json* item;
+						float* weightedVertices;
+						int j;
+						int worldVerticesCount = 0;
+
+						if (!vertices || !uvs || !triangles || vertices->size <= 0 || uvs->size <= 0 || uvs->size % 2 != 0
+								|| triangles->size <= 0 || triangles->size % 3 != 0) {
+							spAttachment_dispose(attachment);
+							spSkeletonData_dispose(skeletonData);
+							_spSkeletonJson_setError(self, root, "Invalid skinned mesh attachment: ", attachmentName);
+							return 0;
+						}
+
+						weightedVertices = MALLOC(float, vertices->size);
+						for (item = vertices->child, j = 0; item; item = item->next, ++j)
+							weightedVertices[j] = item->valueFloat;
+
+						for (j = 0; j < vertices->size;) {
+							float boneCountValue = weightedVertices[j++];
+							int boneCount = (int)boneCountValue;
+							int end;
+							int vertexIndex;
+							if (boneCountValue != boneCount || boneCount <= 0 || boneCount > (vertices->size - j) / 4) {
+								FREE(weightedVertices);
+								spAttachment_dispose(attachment);
+								spSkeletonData_dispose(skeletonData);
+								_spSkeletonJson_setError(self, root, "Invalid skinned mesh vertices: ", attachmentName);
+								return 0;
+							}
+							end = j + boneCount * 4;
+							for (vertexIndex = j; vertexIndex < end; vertexIndex += 4) {
+								float boneIndexValue = weightedVertices[vertexIndex];
+								int boneIndex = (int)boneIndexValue;
+								if (boneIndexValue != boneIndex || boneIndex < 0 || boneIndex >= skeletonData->boneCount) {
+									FREE(weightedVertices);
+									spAttachment_dispose(attachment);
+									spSkeletonData_dispose(skeletonData);
+									_spSkeletonJson_setError(self, root, "Invalid skinned mesh bone index: ", attachmentName);
+									return 0;
+								}
+							}
+							mesh->bonesCount += boneCount + 1;
+							mesh->weightsCount += boneCount * 3;
+							worldVerticesCount += 2;
+							j = end;
+						}
+
+						if (worldVerticesCount != uvs->size) {
+							FREE(weightedVertices);
+							spAttachment_dispose(attachment);
+							spSkeletonData_dispose(skeletonData);
+							_spSkeletonJson_setError(self, root, "Invalid skinned mesh weights: ", attachmentName);
+							return 0;
+						}
+
+						mesh->bones = MALLOC(int, mesh->bonesCount);
+						mesh->weights = MALLOC(float, mesh->weightsCount);
+						int boneIndex = 0;
+						int weightIndex = 0;
+						for (j = 0; j < vertices->size;) {
+							int boneCount = (int)weightedVertices[j++];
+							int end = j + boneCount * 4;
+							mesh->bones[boneIndex++] = boneCount;
+							for (; j < end; j += 4) {
+								mesh->bones[boneIndex++] = (int)weightedVertices[j];
+								mesh->weights[weightIndex++] = weightedVertices[j + 1] * self->scale;
+								mesh->weights[weightIndex++] = weightedVertices[j + 2] * self->scale;
+								mesh->weights[weightIndex++] = weightedVertices[j + 3];
+							}
+						}
+						FREE(weightedVertices);
+
+						mesh->uvsCount = uvs->size;
+						mesh->regionUVs = MALLOC(float, mesh->uvsCount);
+						for (item = uvs->child, j = 0; item; item = item->next, ++j)
+							mesh->regionUVs[j] = item->valueFloat;
+
+						mesh->trianglesCount = triangles->size;
+						mesh->triangles = MALLOC(int, mesh->trianglesCount);
+						for (item = triangles->child, j = 0; item; item = item->next, ++j) {
+							if (item->valueInt < 0 || item->valueInt >= mesh->uvsCount / 2) {
+								spAttachment_dispose(attachment);
+								spSkeletonData_dispose(skeletonData);
+								_spSkeletonJson_setError(self, root, "Invalid skinned mesh triangle index: ", attachmentName);
+								return 0;
+							}
+							mesh->triangles[j] = item->valueInt;
+						}
+
+						mesh->hullLength = Json_getInt(attachmentMap, "hull", 0) * 2;
+						mesh->width = Json_getFloat(attachmentMap, "width", 0) * self->scale;
+						mesh->height = Json_getFloat(attachmentMap, "height", 0) * self->scale;
+						MALLOC_STR(mesh->path, path);
+
+						const char* color = Json_getString(attachmentMap, "color", 0);
+						if (color) {
+							mesh->r = toColor(color, 0);
+							mesh->g = toColor(color, 1);
+							mesh->b = toColor(color, 2);
+							mesh->a = toColor(color, 3);
+						}
+
+						spSkinnedMeshAttachment_updateUVs(mesh);
 						break;
 					}
 					}

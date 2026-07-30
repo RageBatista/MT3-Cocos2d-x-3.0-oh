@@ -103,6 +103,8 @@ protected:
 	Skeleton ();
 	void setSkeletonData (spSkeletonData* skeletonData, bool ownsSkeletonData);
 	virtual cocos2d::TextureAtlas* getTextureAtlas (spRegionAttachment* regionAttachment) const;
+	virtual cocos2d::TextureAtlas* getTextureAtlas (spMeshAttachment* meshAttachment) const;
+	virtual cocos2d::TextureAtlas* getTextureAtlas (spSkinnedMeshAttachment* skinnedMeshAttachment) const;
 
 private:
 	bool ownsSkeletonData;
