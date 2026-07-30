@@ -34,6 +34,8 @@
 #include <spine/CCSkeletonAnimation.h>
 #include <spine/extension.h>
 #include <spine/spine-cocos2dx.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 USING_NS_CC;
 using std::min;
@@ -41,6 +43,26 @@ using std::max;
 using std::vector;
 
 namespace spine {
+
+// Diagnostic log: output to spine_draw_debug.log, only first 5 frames and frame 60/180/600
+static int g_spineDrawLogCount = 0;
+static void MT3SpineDrawTrace(const char* fmt, ...)
+{
+	FILE* fp = NULL;
+	if (fopen_s(&fp, "spine_draw_debug.log", "ab") != 0 || !fp)
+		return;
+	va_list args;
+	va_start(args, fmt);
+	vfprintf(fp, fmt, args);
+	va_end(args);
+	fputs("\n", fp);
+	fclose(fp);
+}
+static bool MT3SpineDrawShouldLog()
+{
+	++g_spineDrawLogCount;
+	return (g_spineDrawLogCount <= 5 || g_spineDrawLogCount == 60 || g_spineDrawLogCount == 180 || g_spineDrawLogCount == 600);
+}
 
 static void callback (spAnimationState* state, int trackIndex, spEventType type, spEvent* event, int loopCount) {
 	((SkeletonAnimation*)state->context)->onAnimationStateEvent(trackIndex, type, event, loopCount);
@@ -210,21 +232,51 @@ float SkeletonAnimation::getAnimationDuration (int stateIndex, const char* name)
 }
 
 void SkeletonAnimation::draw (float vpLeft, float vpTop, float drawAlpha) {
+	bool shouldLog = MT3SpineDrawShouldLog();
 	GLubyte oldOpacity = getOpacity();
 	if (drawAlpha < 0) drawAlpha = 0;
 	if (drawAlpha > 1) drawAlpha = 1;
 	setOpacity((GLubyte)(oldOpacity * drawAlpha));
+
+	if (shouldLog)
+	{
+		Point pos = getPosition();
+		MT3SpineDrawTrace("=== SkeletonAnimation::draw #%d vpLeft=%f vpTop=%f drawAlpha=%f pos=(%f,%f) scale=(%f,%f) opacity=%d/%d ===",
+			g_spineDrawLogCount, vpLeft, vpTop, drawAlpha, pos.x, pos.y, getScaleX(), getScaleY(), oldOpacity, getOpacity());
+	}
+
+	// Diagnostic: record PROJECTION and MODELVIEW before push
+	kmMat4 projBefore, mvBefore;
+	kmGLGetMatrix(KM_GL_PROJECTION, &projBefore);
+	kmGLGetMatrix(KM_GL_MODELVIEW, &mvBefore);
+	if (shouldLog)
+	{
+		MT3SpineDrawTrace("  PROJ before: [0]=%.2f [5]=%.2f [10]=%.2f [12]=%.2f [13]=%.2f [14]=%.2f [15]=%.2f",
+			projBefore.mat[0], projBefore.mat[5], projBefore.mat[10], projBefore.mat[12], projBefore.mat[13], projBefore.mat[14], projBefore.mat[15]);
+		MT3SpineDrawTrace("  MV before:   [0]=%.2f [5]=%.2f [12]=%.2f [13]=%.2f",
+			mvBefore.mat[0], mvBefore.mat[5], mvBefore.mat[12], mvBefore.mat[13]);
+	}
 
 	kmGLPushMatrix();
 	kmGLTranslatef(-vpLeft, -vpTop, 0);
 
 	// Apply node's own transform (position, scale, rotation)
 	kmMat4 nodeTransform = getNodeToParentTransform();
+	if (shouldLog)
+	{
+		MT3SpineDrawTrace("  nodeTransform: [0]=%.4f [5]=%.4f [12]=%.2f [13]=%.2f",
+			nodeTransform.mat[0], nodeTransform.mat[5], nodeTransform.mat[12], nodeTransform.mat[13]);
+	}
 	kmGLMultMatrix(&nodeTransform);
 
 	// Get the current modelview matrix for the shader
 	kmMat4 currentMV;
 	kmGLGetMatrix(KM_GL_MODELVIEW, &currentMV);
+	if (shouldLog)
+	{
+		MT3SpineDrawTrace("  currentMV: [0]=%.4f [5]=%.4f [12]=%.2f [13]=%.2f",
+			currentMV.mat[0], currentMV.mat[5], currentMV.mat[12], currentMV.mat[13]);
+	}
 
 	onDraw(currentMV, true);
 

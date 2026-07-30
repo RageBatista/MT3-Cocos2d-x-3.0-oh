@@ -35,6 +35,8 @@
 #include <spine/spine-cocos2dx.h>
 #include <float.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
 #include <vector>
 
 USING_NS_CC;
@@ -42,6 +44,21 @@ using std::min;
 using std::max;
 
 namespace spine {
+
+// Diagnostic log: share spine_draw_debug.log with CCSkeletonAnimation.cpp
+static int g_spineOnDrawLogCount = 0;
+static void MT3SpineOnDrawTrace(const char* fmt, ...)
+{
+	FILE* fp = NULL;
+	if (fopen_s(&fp, "spine_draw_debug.log", "ab") != 0 || !fp)
+		return;
+	va_list args;
+	va_start(args, fmt);
+	vfprintf(fp, fmt, args);
+	va_end(args);
+	fputs("\n", fp);
+	fclose(fp);
+}
 
 Skeleton* Skeleton::createWithData (spSkeletonData* skeletonData, bool isOwnsSkeletonData) {
 	Skeleton* node = new Skeleton(skeletonData, isOwnsSkeletonData);
@@ -138,6 +155,11 @@ void Skeleton::draw(cocos2d::Renderer *renderer, const kmMat4 &transform, bool t
     
 void Skeleton::onDraw(const kmMat4 &transform, bool transformUpdated)
 {
+    ++g_spineOnDrawLogCount;
+    bool shouldLog = (g_spineOnDrawLogCount <= 5 || g_spineOnDrawLogCount == 60 || g_spineOnDrawLogCount == 180 || g_spineOnDrawLogCount == 600);
+    int drawnSlots = 0;
+    int skippedNoAtlas = 0;
+
     getShaderProgram()->use();
     getShaderProgram()->setUniformsForBuiltins(transform);
 
@@ -151,6 +173,13 @@ void Skeleton::onDraw(const kmMat4 &transform, bool transformUpdated)
 		skeleton->r *= skeleton->a;
 		skeleton->g *= skeleton->a;
 		skeleton->b *= skeleton->a;
+	}
+
+	if (shouldLog)
+	{
+		GLProgram* prog = getShaderProgram();
+		MT3SpineOnDrawTrace("  onDraw #%d slotCount=%d rgba=(%.2f,%.2f,%.2f,%.2f) prog=%p premul=%d",
+			g_spineOnDrawLogCount, skeleton->slotCount, skeleton->r, skeleton->g, skeleton->b, skeleton->a, prog, premultipliedAlpha);
 	}
 
 	int additive = 0;
@@ -181,7 +210,8 @@ void Skeleton::onDraw(const kmMat4 &transform, bool transformUpdated)
 		} else {
 			continue;
 		}
-		if (!regionTextureAtlas) continue;
+		if (!regionTextureAtlas) { ++skippedNoAtlas; continue; }
+		++drawnSlots;
 
 		int nextAdditive = slot->data->additiveBlending ? 1 : 0;
 		if (nextAdditive != additive) {
@@ -230,6 +260,12 @@ void Skeleton::onDraw(const kmMat4 &transform, bool transformUpdated)
 	if (textureAtlas) {
 		textureAtlas->drawQuads();
 		textureAtlas->removeAllQuads();
+	}
+
+	if (shouldLog)
+	{
+		MT3SpineOnDrawTrace("  onDraw #%d done drawnSlots=%d skippedNoAtlas=%d",
+			g_spineOnDrawLogCount, drawnSlots, skippedNoAtlas);
 	}
 
     if(debugBones || debugSlots) {
