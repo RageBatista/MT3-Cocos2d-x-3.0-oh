@@ -1,6 +1,6 @@
 /*
 ** Lua binding: CEGUI
-** Generated automatically by tolua++-1.0.92 on 07/30/26 21:49:51.
+** Generated automatically by tolua++-1.0.92 on 07/30/26 21:57:29.
 */
 
 #ifndef __cplusplus
@@ -19678,6 +19678,38 @@ static int tolua_CEGUI_CEGUI_Window_isMousePassThroughEnabled00(lua_State* tolua
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'isMousePassThroughEnabled'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isParentMousePassThroughEnabled of class  CEGUI::Window */
+#ifndef TOLUA_DISABLE_tolua_CEGUI_CEGUI_Window_isParentMousePassThroughEnabled00
+static int tolua_CEGUI_CEGUI_Window_isParentMousePassThroughEnabled00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"const CEGUI::Window",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  const CEGUI::Window* self = (const CEGUI::Window*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isParentMousePassThroughEnabled'",NULL);
+#endif
+ {
+  bool tolua_ret = (bool)  self->isParentMousePassThroughEnabled();
+ tolua_pushboolean(tolua_S,(bool)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isParentMousePassThroughEnabled'.",&tolua_err);
  return 0;
 #endif
 }
@@ -65867,6 +65899,7 @@ int tolua_CEGUI_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getMaxSize",tolua_CEGUI_CEGUI_Window_getMaxSize00);
    tolua_function(tolua_S,"getMinSize",tolua_CEGUI_CEGUI_Window_getMinSize00);
    tolua_function(tolua_S,"isMousePassThroughEnabled",tolua_CEGUI_CEGUI_Window_isMousePassThroughEnabled00);
+   tolua_function(tolua_S,"isParentMousePassThroughEnabled",tolua_CEGUI_CEGUI_Window_isParentMousePassThroughEnabled00);
    tolua_function(tolua_S,"setMousePassThroughEnabled",tolua_CEGUI_CEGUI_Window_setMousePassThroughEnabled00);
    tolua_function(tolua_S,"isWritingXMLAllowed",tolua_CEGUI_CEGUI_Window_isWritingXMLAllowed00);
    tolua_function(tolua_S,"setWritingXMLAllowed",tolua_CEGUI_CEGUI_Window_setWritingXMLAllowed00);

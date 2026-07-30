@@ -1557,6 +1557,9 @@ public:
     */
     bool isMousePassThroughEnabled(void) const  {return d_mousePassThroughEnabled;}
 
+    // MT3: Check mouse pass-through on this window and its parent chain.
+    bool isParentMousePassThroughEnabled(void) const;
+
     /*!
     \brief
         Returns whether this window is an auto-child window.

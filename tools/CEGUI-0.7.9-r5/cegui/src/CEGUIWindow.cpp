@@ -4785,4 +4785,22 @@ void Window::CenterInParent()
     setYPosition(cegui_absdim(y_offset));
 }
 
+bool Window::isParentMousePassThroughEnabled(void) const
+{
+    if (d_mousePassThroughEnabled)
+        return true;
+
+    const Window* parent = d_parent;
+    const Window* guiSheet = System::getSingleton().getGUISheet();
+    while (parent && parent != guiSheet)
+    {
+        if (parent->isMousePassThroughEnabled())
+            return true;
+
+        parent = parent->getParent();
+    }
+
+    return false;
+}
+
 } // End of  CEGUI namespace section
