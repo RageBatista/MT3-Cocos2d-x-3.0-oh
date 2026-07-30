@@ -69,6 +69,19 @@ public:
     void    set(PropertyReceiver* receiver, const String& value);
 };
 
+class ImageSizeEnable : public Property
+{
+public:
+    ImageSizeEnable() : Property(
+        "ImageSizeEnable",
+        "Property to get/set whether the FalagardStaticImage window size is independent of its image.",
+        "True")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 } // End of  FalagardStaticImageProperties namespace section
 
 } // End of  CEGUI namespace section

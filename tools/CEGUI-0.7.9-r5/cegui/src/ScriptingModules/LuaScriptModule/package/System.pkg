@@ -33,6 +33,7 @@ class System : public EventSet
 	const Image* getDefaultMouseCursor() const;
 
 	Window* getWindowContainingMouse() const;
+	Window* getTargetWindow(const Point& pt, const bool allow_disabled) const;
 
 	void executeScriptFile(utf8string filename) const;
 	int executeScriptGlobal(utf8string global_name) const;

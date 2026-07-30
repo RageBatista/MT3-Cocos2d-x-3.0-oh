@@ -22428,6 +22428,42 @@ static int tolua_CEGUI_CEGUI_System_getWindowContainingMouse00(lua_State* tolua_
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getTargetWindow of class  CEGUI::System */
+#ifndef TOLUA_DISABLE_tolua_CEGUI_CEGUI_System_getTargetWindow00
+static int tolua_CEGUI_CEGUI_System_getTargetWindow00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"const CEGUI::System",0,&tolua_err) ||
+ !tolua_isusertype(tolua_S,2,"const CEGUI::Vector2",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,3,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  const CEGUI::System* self = (const CEGUI::System*)  tolua_tousertype(tolua_S,1,0);
+  const CEGUI::Vector2* pt = ((const CEGUI::Vector2*)  tolua_tousertype(tolua_S,2,0));
+  const bool allow_disabled = ((const bool)  tolua_toboolean(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getTargetWindow'",NULL);
+#endif
+ {
+  CEGUI::Window* tolua_ret = (CEGUI::Window*)  self->getTargetWindow(*pt,allow_disabled);
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"CEGUI::Window");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getTargetWindow'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: executeScriptFile of class  CEGUI::System */
 #ifndef TOLUA_DISABLE_tolua_CEGUI_CEGUI_System_executeScriptFile00
 static int tolua_CEGUI_CEGUI_System_executeScriptFile00(lua_State* tolua_S)
@@ -59379,6 +59415,7 @@ int tolua_CEGUI_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setDefaultMouseCursor",tolua_CEGUI_CEGUI_System_setDefaultMouseCursor02);
    tolua_function(tolua_S,"getDefaultMouseCursor",tolua_CEGUI_CEGUI_System_getDefaultMouseCursor00);
    tolua_function(tolua_S,"getWindowContainingMouse",tolua_CEGUI_CEGUI_System_getWindowContainingMouse00);
+   tolua_function(tolua_S,"getTargetWindow",tolua_CEGUI_CEGUI_System_getTargetWindow00);
    tolua_function(tolua_S,"executeScriptFile",tolua_CEGUI_CEGUI_System_executeScriptFile00);
    tolua_function(tolua_S,"executeScriptGlobal",tolua_CEGUI_CEGUI_System_executeScriptGlobal00);
    tolua_function(tolua_S,"executeScriptString",tolua_CEGUI_CEGUI_System_executeScriptString00);
@@ -61443,4 +61480,3 @@ int tolua_CEGUI_open (lua_State* tolua_S)
  return tolua_CEGUI_open(tolua_S);
 };
 #endif
-

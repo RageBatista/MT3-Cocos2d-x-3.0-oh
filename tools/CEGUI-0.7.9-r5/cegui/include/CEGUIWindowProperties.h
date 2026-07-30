@@ -1088,6 +1088,59 @@ public:
     void set(PropertyReceiver* receiver, const String& value);
 };
 
+class Scale : public Property
+{
+public:
+    Scale() : Property(
+        "Scale",
+        "Property to get/set the window scale factors. Value is "
+        "\"x:[x_float] y:[y_float] z:[z_float]\".",
+        "x:1 y:1 z:1")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class EnableSound : public Property
+{
+public:
+    EnableSound() : Property(
+        "EnableSound",
+        "Property to get/set whether sounds are enabled for the Window.",
+        "True")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class LuaForDialog : public Property
+{
+public:
+    LuaForDialog() : Property(
+        "LuaForDialog",
+        "Legacy MT3 editor metadata indicating whether a Window is a dialog.",
+        "True")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class DragMoveEnable : public Property
+{
+public:
+    DragMoveEnable() : Property(
+        "DragMoveEnable",
+        "Property to get/set whether drag movement is handled by the Window.",
+        "False")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 /*!
 \brief
     Property to access the rotation factors of the window.

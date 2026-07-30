@@ -621,6 +621,59 @@ void AutoRenderingSurface::set(PropertyReceiver* receiver, const String& value)
 }
 
 //----------------------------------------------------------------------------//
+String Scale::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::vector3ToString(
+        static_cast<const Window*>(receiver)->getScale());
+}
+
+//----------------------------------------------------------------------------//
+void Scale::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->setScale(
+        PropertyHelper::stringToVector3(value));
+}
+
+//----------------------------------------------------------------------------//
+String EnableSound::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const Window*>(receiver)->isSoundEable());
+}
+
+//----------------------------------------------------------------------------//
+void EnableSound::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->SetSoundEnable(
+        PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
+String LuaForDialog::get(const PropertyReceiver*) const
+{
+    return PropertyHelper::boolToString(true);
+}
+
+//----------------------------------------------------------------------------//
+void LuaForDialog::set(PropertyReceiver*, const String&)
+{
+}
+
+//----------------------------------------------------------------------------//
+String DragMoveEnable::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const Window*>(receiver)->isHandleDragMove());
+}
+
+//----------------------------------------------------------------------------//
+void DragMoveEnable::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->SetHandleDragMove(
+        PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
 String Rotation::get(const PropertyReceiver* receiver) const
 {
     return PropertyHelper::vector3ToString(

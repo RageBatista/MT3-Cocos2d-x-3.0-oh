@@ -35,12 +35,15 @@ namespace CEGUI
     const utf8 FalagardStaticImage::TypeName[] = "Falagard/StaticImage";
     
     FalagardStaticImageProperties::Image    FalagardStaticImage::d_imageProperty;
+    FalagardStaticImageProperties::ImageSizeEnable FalagardStaticImage::d_imageSizeEnableProperty;
 
     FalagardStaticImage::FalagardStaticImage(const String& type) :
         FalagardStatic(type),
-        d_image(0)
+        d_image(0),
+        d_imageSizeEnabled(true)
     {
         registerProperty(&d_imageProperty);
+        registerProperty(&d_imageSizeEnableProperty);
     }
 
     void FalagardStaticImage::render()
@@ -61,6 +64,31 @@ namespace CEGUI
     void FalagardStaticImage::setImage(const Image* img)
     {
         d_image = img;
+        d_window->invalidate();
+    }
+
+    void FalagardStaticImage::setImageSizeEnabled(bool enabled)
+    {
+        if (enabled == d_imageSizeEnabled)
+            return;
+
+        d_imageSizeEnabled = enabled;
+        if (d_imageSizeEnabled)
+        {
+            d_window->setMaxSize(UVector2(cegui_reldim(1.0f), cegui_reldim(1.0f)));
+            d_window->setMinSize(UVector2(cegui_reldim(0.0f), cegui_reldim(0.0f)));
+        }
+        else if (d_image)
+        {
+            const float frameWidth = d_frameEnabled ? 16.0f : 0.0f;
+            const float frameHeight = d_frameEnabled ? 13.0f : 0.0f;
+            const UVector2 windowSize(
+                cegui_absdim(d_image->getWidth() + frameWidth),
+                cegui_absdim(d_image->getHeight() + frameHeight));
+            d_window->setMaxSize(windowSize);
+            d_window->setMinSize(windowSize);
+        }
+
         d_window->invalidate();
     }
 

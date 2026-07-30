@@ -52,6 +52,20 @@ void    Image::set(PropertyReceiver* receiver, const String& value)
     wr->setImage(PropertyHelper::stringToImage(value));
 }
 
+String ImageSizeEnable::get(const PropertyReceiver* receiver) const
+{
+    FalagardStaticImage* wr = static_cast<FalagardStaticImage*>(
+        static_cast<const Window*>(receiver)->getWindowRenderer());
+    return PropertyHelper::boolToString(wr->isImageSizeEnabled());
+}
+
+void ImageSizeEnable::set(PropertyReceiver* receiver, const String& value)
+{
+    FalagardStaticImage* wr = static_cast<FalagardStaticImage*>(
+        static_cast<Window*>(receiver)->getWindowRenderer());
+    wr->setImageSizeEnabled(PropertyHelper::stringToBool(value));
+}
+
 } // End of  FalagardStaticImageProperties namespace section
 
 } // End of  CEGUI namespace section

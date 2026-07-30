@@ -1297,8 +1297,7 @@ namespace CEGUI
 			bool val;
 			stream >> val;
 
-			// MT3: API not available in CEGUI-0.7.9-r5
-			// PROP_SET_RENDERER_b(ImageSizeEnable, FalagardStaticImage);
+			PROP_SET_RENDERER(FalagardStaticImage, setImageSizeEnabled);
 
 			PROP_SET_TARGET_PROP(ImageSizeEnable);
 

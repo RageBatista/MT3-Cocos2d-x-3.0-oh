@@ -4419,6 +4419,10 @@ protected:
     static  WindowProperties::LookNFeel         d_lookNFeelProperty;
     static  WindowProperties::DragDropTarget    d_dragDropTargetProperty;
     static  WindowProperties::AutoRenderingSurface d_autoRenderingSurfaceProperty;
+    static  WindowProperties::Scale d_scaleProperty;
+    static  WindowProperties::EnableSound d_soundEnableProperty;
+    static  WindowProperties::LuaForDialog d_luaForDialogProperty;
+    static  WindowProperties::DragMoveEnable d_dragMoveEnableProperty;
     static  WindowProperties::Rotation d_rotationProperty;
     static  WindowProperties::XRotation d_xRotationProperty;
     static  WindowProperties::YRotation d_yRotationProperty;

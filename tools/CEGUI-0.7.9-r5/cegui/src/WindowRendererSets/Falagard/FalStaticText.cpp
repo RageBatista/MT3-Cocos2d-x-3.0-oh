@@ -116,7 +116,7 @@ namespace CEGUI
 
         // see if we may need to adjust horizontal position
         const Scrollbar* const horzScrollbar = getHorzScrollbar();
-        if (horzScrollbar->isVisible())
+        if (horzScrollbar && horzScrollbar->isVisible())
         {
             switch(d_horzFormatting)
             {
@@ -146,12 +146,13 @@ namespace CEGUI
         switch(d_vertFormatting)
         {
         case VTF_TOP_ALIGNED:
-            absarea.d_top -= vertScrollbar->getScrollPosition();
+            if (vertScrollbar)
+                absarea.d_top -= vertScrollbar->getScrollPosition();
             break;
 
         case VTF_CENTRE_ALIGNED:
             // if scroll bar is in use, act like TopAligned
-            if (vertScrollbar->isVisible())
+            if (vertScrollbar && vertScrollbar->isVisible())
                 absarea.d_top -= vertScrollbar->getScrollPosition();
             // no scroll bar, so centre text instead.
             else
@@ -161,7 +162,8 @@ namespace CEGUI
 
         case VTF_BOTTOM_ALIGNED:
             absarea.d_top = absarea.d_bottom - textHeight;
-            absarea.d_top += vertScrollbar->getScrollPosition();
+            if (vertScrollbar)
+                absarea.d_top += vertScrollbar->getScrollPosition();
             break;
         }
 
@@ -179,8 +181,11 @@ namespace CEGUI
     *************************************************************************/
     Scrollbar* FalagardStaticText::getVertScrollbar(void) const
     {
-        // return component created by look'n'feel assignment.
-        return static_cast<Scrollbar*>(WindowManager::getSingleton().getWindow(d_window->getName() + VertScrollbarNameSuffix));
+        const String name(d_window->getName() + VertScrollbarNameSuffix);
+        WindowManager& windowManager = WindowManager::getSingleton();
+        return windowManager.isWindowPresent(name)
+            ? static_cast<Scrollbar*>(windowManager.getWindow(name))
+            : 0;
     }
 
     /************************************************************************
@@ -188,8 +193,11 @@ namespace CEGUI
     *************************************************************************/
     Scrollbar* FalagardStaticText::getHorzScrollbar(void) const
     {
-        // return component created by look'n'feel assignment.
-        return static_cast<Scrollbar*>(WindowManager::getSingleton().getWindow(d_window->getName() + HorzScrollbarNameSuffix));
+        const String name(d_window->getName() + HorzScrollbarNameSuffix);
+        WindowManager& windowManager = WindowManager::getSingleton();
+        return windowManager.isWindowPresent(name)
+            ? static_cast<Scrollbar*>(windowManager.getWindow(name))
+            : 0;
     }
 
     /************************************************************************
@@ -199,8 +207,8 @@ namespace CEGUI
     {
         Scrollbar* vertScrollbar = getVertScrollbar();
         Scrollbar* horzScrollbar = getHorzScrollbar();
-        bool v_visible = vertScrollbar->isVisible(true);
-        bool h_visible = horzScrollbar->isVisible(true);
+        bool v_visible = vertScrollbar && vertScrollbar->isVisible(true);
+        bool h_visible = horzScrollbar && horzScrollbar->isVisible(true);
 
         // get WidgetLookFeel for the assigned look.
         const WidgetLookFeel& wlf = getLookNFeel();
@@ -304,6 +312,8 @@ namespace CEGUI
         // get the scrollbars
         Scrollbar* vertScrollbar = getVertScrollbar();
         Scrollbar* horzScrollbar = getHorzScrollbar();
+        if (!vertScrollbar || !horzScrollbar)
+            return;
 
         // get the sizes we need
         Rect renderArea(getTextRenderArea());
@@ -396,11 +406,13 @@ namespace CEGUI
 
         Scrollbar* vertScrollbar = getVertScrollbar();
         Scrollbar* horzScrollbar = getHorzScrollbar();
-        if (vertScrollbar->isVisible() && (vertScrollbar->getDocumentSize() > vertScrollbar->getPageSize()))
+        if (vertScrollbar && vertScrollbar->isVisible() &&
+            (vertScrollbar->getDocumentSize() > vertScrollbar->getPageSize()))
         {
             vertScrollbar->setScrollPosition(vertScrollbar->getScrollPosition() + vertScrollbar->getStepSize() * -e.wheelChange);
         }
-        else if (horzScrollbar->isVisible() && (horzScrollbar->getDocumentSize() > horzScrollbar->getPageSize()))
+        else if (horzScrollbar && horzScrollbar->isVisible() &&
+                 (horzScrollbar->getDocumentSize() > horzScrollbar->getPageSize()))
         {
             horzScrollbar->setScrollPosition(horzScrollbar->getScrollPosition() + horzScrollbar->getStepSize() * -e.wheelChange);
         }
@@ -427,16 +439,19 @@ namespace CEGUI
         Scrollbar* vertScrollbar = getVertScrollbar();
         Scrollbar* horzScrollbar = getHorzScrollbar();
 
-        vertScrollbar->hide();
-        horzScrollbar->hide();
+        if (vertScrollbar && horzScrollbar)
+        {
+            vertScrollbar->hide();
+            horzScrollbar->hide();
 
-        d_window->performChildWindowLayout();
+            d_window->performChildWindowLayout();
 
-        // scrollbar events
-        vertScrollbar->subscribeEvent(Scrollbar::EventScrollPositionChanged,
-            Event::Subscriber(&FalagardStaticText::handleScrollbarChange, this));
-        horzScrollbar->subscribeEvent(Scrollbar::EventScrollPositionChanged,
-            Event::Subscriber(&FalagardStaticText::handleScrollbarChange, this));
+            // scrollbar events
+            vertScrollbar->subscribeEvent(Scrollbar::EventScrollPositionChanged,
+                Event::Subscriber(&FalagardStaticText::handleScrollbarChange, this));
+            horzScrollbar->subscribeEvent(Scrollbar::EventScrollPositionChanged,
+                Event::Subscriber(&FalagardStaticText::handleScrollbarChange, this));
+        }
 
         // events that scrollbars should react to
         d_connections.push_back(

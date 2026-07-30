@@ -82,14 +82,19 @@ namespace CEGUI
         */
         const Image* getImage(void) const   {return d_image;}
 
+        bool isImageSizeEnabled() const { return d_imageSizeEnabled; }
+        void setImageSizeEnabled(bool enabled);
+
         void render();
 
     protected:
         // static properties
         static FalagardStaticImageProperties::Image d_imageProperty;
+        static FalagardStaticImageProperties::ImageSizeEnable d_imageSizeEnableProperty;
 
         // implementation data
         const Image* d_image;
+        bool d_imageSizeEnabled;
     };
 
 } // End of  CEGUI namespace section
