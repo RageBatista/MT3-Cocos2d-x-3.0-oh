@@ -2440,6 +2440,12 @@ public:
     void SetIsPixelDecide(bool b) { d_IsPixelDecide = b; }
     bool GetIsPixelDecide() const { return d_IsPixelDecide; }
 
+    // MT3: Legacy display-size position adjustment switch
+    void SetDisplaySizeChangePosEnable(bool enabled)
+    { d_displaySizeChangePosEnabled = enabled; }
+    bool GetDisplaySizeChangePosEnable() const
+    { return d_displaySizeChangePosEnabled; }
+
     // MT3: Click animation scale
     void SetClickAniScale(float scale);
     float GetClickAniScale() const { return d_ClickStateScale; }
@@ -4421,7 +4427,10 @@ protected:
     static  WindowProperties::AutoRenderingSurface d_autoRenderingSurfaceProperty;
     static  WindowProperties::Scale d_scaleProperty;
     static  WindowProperties::EnableSound d_soundEnableProperty;
+    static  WindowProperties::SoundResource d_soundResourceProperty;
     static  WindowProperties::LuaForDialog d_luaForDialogProperty;
+    static  WindowProperties::LuaMemberName d_luaMemberNameProperty;
+    static  WindowProperties::LuaEventOnClicked d_luaEventOnClickedProperty;
     static  WindowProperties::DragMoveEnable d_dragMoveEnableProperty;
     static  WindowProperties::Rotation d_rotationProperty;
     static  WindowProperties::XRotation d_xRotationProperty;
@@ -4429,6 +4438,10 @@ protected:
     static  WindowProperties::ZRotation d_zRotationProperty;
     static  WindowProperties::NonClient d_nonClientProperty;
     static  WindowProperties::TextParsingEnabled d_textParsingEnabledProperty;
+    static  WindowProperties::DisplaySizeChangePosEnabled d_displaySizeChangePosEnabledProperty;
+    static  WindowProperties::AllowModalStateClick d_allowModalStateClickProperty;
+    static  WindowProperties::ModalState d_modalStateProperty;
+    static  WindowProperties::IsPixelDecide d_isPixelDecideProperty;
     static  WindowProperties::Margin d_marginProperty;
     static  WindowProperties::UpdateMode d_updateModeProperty;
     static  WindowProperties::MouseInputPropagationEnabled d_mouseInputPropagationProperty;
@@ -4654,6 +4667,8 @@ protected:
     bool d_AllowShowWithModalState;
     // MT3: Pixel decide
     bool d_IsPixelDecide;
+    // MT3: Preserve the legacy layout flag even when no display resize occurs.
+    bool d_displaySizeChangePosEnabled;
     // MT3: Flash
     bool d_Flash;
     bool d_EnableFlash;

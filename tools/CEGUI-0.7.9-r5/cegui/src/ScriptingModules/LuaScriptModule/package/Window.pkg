@@ -203,7 +203,10 @@ class Window //: public EventSet
     string getWindowRendererName() const;
 
 	bool getModalState() const;
+	bool isModalAfterShow() const;
 	void setModalState(bool state);
+	bool IsCanEdit();
+	void SetCanEdit(bool bCanEdit);
 
     tolua_throws|CEGUI::UnknownObjectException,nil| string getUserString(utf8string name) const;
     bool isUserStringDefined(utf8string name) const;

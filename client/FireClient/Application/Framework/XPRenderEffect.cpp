@@ -3,7 +3,12 @@
 #include "GameUIManager.h"
 
 XPRenderEffect::XPRenderEffect()
-	:m_bClip(false)
+	:m_iType(0)
+	,m_bClip(false)
+	,scissor_w(0)
+	,scissor_h(0)
+	,scissor_x(0)
+	,scissor_y(0)
 { }
 
 XPRenderEffect::~XPRenderEffect()

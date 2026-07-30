@@ -88,6 +88,10 @@ function CEGUI.toEditbox(w)
     return tolua.cast(w,"CEGUI::Editbox")
 end
 
+function CEGUI.toRichEditbox(w)
+    return tolua.cast(w,"CEGUI::RichEditbox")
+end
+
 function CEGUI.toFrameWindow(w)
     return tolua.cast(w,"CEGUI::FrameWindow")
 end
@@ -230,6 +234,7 @@ CEGUI.Window.toCombobox = CEGUI.toCombobox
 CEGUI.Window.toComboDropList = CEGUI.toComboDropList
 CEGUI.Window.toDragContainer = CEGUI.toDragContainer
 CEGUI.Window.toEditbox = CEGUI.toEditbox
+CEGUI.Window.toRichEditbox = CEGUI.toRichEditbox
 CEGUI.Window.toFrameWindow = CEGUI.toFrameWindow
 CEGUI.Window.toGridLayoutContainer = CEGUI.toGridLayoutContainer
 CEGUI.Window.toGUISheet = CEGUI.toGUISheet
@@ -278,4 +283,3 @@ ListboxTextItem* ceguiLua_createListboxTextItem @ createListboxTextItem(utf8stri
 	Mimics the constructor
 *****************************************************/
 TreeItem* ceguiLua_createTreeItem @ createTreeItem(utf8string text, unsigned int item_id=0, void* item_data=0, bool disabled=false, bool auto_delete=true);
-

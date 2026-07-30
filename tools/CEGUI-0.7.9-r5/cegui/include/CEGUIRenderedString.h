@@ -167,6 +167,9 @@ public:
     //! Assignment.
     RenderedString& operator=(const RenderedString& rhs);
 
+    //! Apply MT3 text border settings to every compatible component.
+    void SetBorderInf(bool border, const colour& borderColour) const;
+
 protected:
     //! Collection type used to hold the string components.
     typedef std::vector<RenderedStringComponent*> ComponentList;

@@ -1717,6 +1717,7 @@ void System::addStandardWindowFactories()
     WindowFactoryManager::addFactory< TplWindowFactory<Combobox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<ComboDropList> >();
     WindowFactoryManager::addFactory< TplWindowFactory<Editbox> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<RichEditbox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<FrameWindow> >();
     WindowFactoryManager::addFactory< TplWindowFactory<ItemEntry> >();
     WindowFactoryManager::addFactory< TplWindowFactory<Listbox> >();
@@ -2299,4 +2300,3 @@ bool System::CheckShied(String& inText)
 }
 
 } // End of  CEGUI namespace section
-

@@ -229,6 +229,32 @@ public:
     void set(PropertyReceiver* receiver, const String& value);
 };
 
+class BorderEnable : public Property
+{
+public:
+    BorderEnable() : Property(
+        "BorderEnable",
+        "Property to get/set the MT3 static text border state.",
+        "False")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class BorderColour : public Property
+{
+public:
+    BorderColour() : Property(
+        "BorderColour",
+        "Property to get/set the MT3 static text border colour.",
+        "FF003454")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 } // End of  FalagardStaticTextProperties namespace section
 
 } // End of  CEGUI namespace section

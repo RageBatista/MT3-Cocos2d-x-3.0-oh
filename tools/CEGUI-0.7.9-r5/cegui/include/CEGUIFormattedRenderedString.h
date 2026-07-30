@@ -57,6 +57,9 @@ public:
 
     const RenderedString& getRenderedString() const;
 
+    //! Apply MT3 text border settings to the wrapped rendered string.
+    void SetBorderInf(bool border, const colour& borderColour);
+
 protected:
     //! Constructor.
     FormattedRenderedString(const RenderedString& string);

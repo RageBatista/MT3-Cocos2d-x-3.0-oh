@@ -88,7 +88,9 @@ Editbox::Editbox(const String& type, const String& name) :
     d_selectionStart(0),
     d_selectionEnd(0),
     d_validator(0),
-    d_dragging(false)
+    d_dragging(false),
+    d_normalColourRect(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF),
+    d_hasNormalColourRectOverride(false)
 {
     addEditboxProperties();
 
@@ -843,6 +845,26 @@ void Editbox::onTextChanged(WindowEventArgs& e)
         setCaratIndex(getText().length());
 
     ++e.handled;
+}
+
+//----------------------------------------------------------------------------//
+void Editbox::SetNormalColourRect(argb_t color)
+{
+    SetNormalColourRect(colour(color));
+}
+
+//----------------------------------------------------------------------------//
+void Editbox::SetNormalColourRect(const ColourRect& colour_rect)
+{
+    d_normalColourRect = colour_rect;
+    d_hasNormalColourRectOverride = true;
+    invalidate();
+}
+
+//----------------------------------------------------------------------------//
+void Editbox::SetNormalColourRect(const colour& col)
+{
+    SetNormalColourRect(ColourRect(col));
 }
 
 //----------------------------------------------------------------------------//

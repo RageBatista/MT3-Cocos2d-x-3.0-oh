@@ -227,10 +227,10 @@ String HorzExtent::get(const PropertyReceiver* receiver) const
 //----------------------------------------------------------------------------//
 void HorzExtent::set(PropertyReceiver* receiver, const String& value)
 {
-    Logger::getSingleton().logEvent("Attempt to set value of '" + value + "' "
-        " to read only property 'HorzExtent' on window: " +
-        static_cast<Window*>(receiver)->getName(),
-        Errors);
+    // Legacy MT3 layouts persist this calculated value. 0.7.1 accepted and
+    // ignored the write, so retain that behaviour during layout loading.
+    (void)receiver;
+    (void)value;
 }
 
 //----------------------------------------------------------------------------//
@@ -244,10 +244,41 @@ String VertExtent::get(const PropertyReceiver* receiver) const
 //----------------------------------------------------------------------------//
 void VertExtent::set(PropertyReceiver* receiver, const String& value)
 {
-    Logger::getSingleton().logEvent("Attempt to set value of '" + value + "' "
-        " to read only property 'VertExtent' on window: " +
-        static_cast<Window*>(receiver)->getName(),
-        Errors);
+    // See HorzExtent::set.
+    (void)receiver;
+    (void)value;
+}
+
+//----------------------------------------------------------------------------//
+String BorderEnable::get(const PropertyReceiver* receiver) const
+{
+    const FalagardStaticText* renderer = static_cast<const FalagardStaticText*>(
+        static_cast<const Window*>(receiver)->getWindowRenderer());
+    return PropertyHelper::boolToString(renderer->isBorderEnabled());
+}
+
+//----------------------------------------------------------------------------//
+void BorderEnable::set(PropertyReceiver* receiver, const String& value)
+{
+    FalagardStaticText* renderer = static_cast<FalagardStaticText*>(
+        static_cast<Window*>(receiver)->getWindowRenderer());
+    renderer->setBorderEnabled(PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
+String BorderColour::get(const PropertyReceiver* receiver) const
+{
+    const FalagardStaticText* renderer = static_cast<const FalagardStaticText*>(
+        static_cast<const Window*>(receiver)->getWindowRenderer());
+    return PropertyHelper::colourToString(renderer->getBorderColour());
+}
+
+//----------------------------------------------------------------------------//
+void BorderColour::set(PropertyReceiver* receiver, const String& value)
+{
+    FalagardStaticText* renderer = static_cast<FalagardStaticText*>(
+        static_cast<Window*>(receiver)->getWindowRenderer());
+    renderer->setBorderColour(PropertyHelper::stringToColour(value));
 }
 
 //----------------------------------------------------------------------------//

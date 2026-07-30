@@ -91,26 +91,16 @@ function loginBg:new()
 end
 
 function loginBg:OnCreate()
-	LogErr("loginBg.OnCreate step=enter")
 	Dialog.OnCreate(self)
-	LogErr("loginBg.OnCreate step=after Dialog.OnCreate")
 	local winMgr = CEGUI.WindowManager:getSingleton()
-	LogErr("loginBg.OnCreate step=after WindowManager")
 
 	self.bg = winMgr:getWindow("gugedonghua") -- 旧逻辑同样挂到登录背景窗口
-	LogErr("loginBg.OnCreate step=after getWindow")
 	local pos = self.bg:GetScreenPosOfCenter()
-	LogErr("loginBg.OnCreate step=after GetScreenPosOfCenter")
 	local loc = Nuclear.NuclearPoint(pos.x, pos.y)
-	LogErr("loginBg.OnCreate step=after NuclearPoint")
 	self.spine = UISpineSprite:new("denglu") -- 旧流程仍使用默认登录 Spine
-	LogErr("loginBg.OnCreate step=after UISpineSprite.new")
 	self.spine:SetUILocation(loc)
-	LogErr("loginBg.OnCreate step=after SetUILocation")
 	self.bg:getGeometryBuffer():setRenderEffect(GameUImanager:createXPRenderEffect(0, loginBg.performPostRenderFunctions)) -- 维持同一套后处理渲染入口
-	LogErr("loginBg.OnCreate step=after setRenderEffect")
 	self.spine:SetUIScale(calcLoginSpineScale())
-	LogErr("loginBg.OnCreate step=leave")
 end
 
 function loginBg:showOld()

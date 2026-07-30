@@ -41,6 +41,47 @@
 // Start of CEGUI namespace section
 namespace CEGUI
 {
+enum PushButtonSizeType
+{
+    ePushButtonSizeType_Small,
+    ePushButtonSizeType_Normal,
+    ePushButtonSizeType_Big,
+    ePushButtonSizeType_Image,
+    ePushButtonSizeType_Auto,
+    ePushButtonSizeType_Num
+};
+
+class PushButton;
+
+namespace PushButtonProperties
+{
+class SizeType : public Property
+{
+public:
+    SizeType() : Property(
+        "SizeType",
+        "Property to get/set the MT3 push button sizing mode.",
+        "Auto")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class EnableClickAni : public Property
+{
+public:
+    EnableClickAni() : Property(
+        "EnableClickAni",
+        "Property to get/set the MT3 push button click animation.",
+        "False")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+}
+
 /*!
 \brief
     Base class to provide logic for push button type widgets.
@@ -69,6 +110,9 @@ public:
 		Constructor for base PushButton class
 	*/
 	PushButton(const String& type, const String& name);
+
+    void SetSizeType(PushButtonSizeType type);
+    PushButtonSizeType GetSizeType() const { return d_sizeType; }
 
 
 	/*!
@@ -113,6 +157,13 @@ protected:
 		if (class_name=="PushButton")	return true;
 		return ButtonBase::testClassName_impl(class_name);
 	}
+
+private:
+    void addPushButtonProperties();
+
+    PushButtonSizeType d_sizeType;
+    static PushButtonProperties::SizeType d_sizeTypeProperty;
+    static PushButtonProperties::EnableClickAni d_enableClickAniProperty;
 
 };
 

@@ -422,6 +422,9 @@ public:
     // MT3: Overloaded setScrollPosition with checkPos parameter
     void setScrollPosition(float position, bool checkPos);
 
+    // MT3 compatibility: 0.7.9 Scrollbar has no pan recognizer to disable.
+    void EnbalePanGuesture(bool) {}
+
     // MT3: Stop scrolling
     void Stop();
 

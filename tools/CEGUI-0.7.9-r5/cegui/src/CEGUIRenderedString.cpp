@@ -302,6 +302,14 @@ void RenderedString::draw(const size_t line, GeometryBuffer& buffer,
 }
 
 //----------------------------------------------------------------------------//
+void RenderedString::SetBorderInf(bool border,
+                                  const colour& borderColour) const
+{
+    for (size_t i = 0; i < d_components.size(); ++i)
+        d_components[i]->SetBorderInf(border, borderColour);
+}
+
+//----------------------------------------------------------------------------//
 float RenderedString::getHorizontalExtent() const
 {
     float w = 0.0f;

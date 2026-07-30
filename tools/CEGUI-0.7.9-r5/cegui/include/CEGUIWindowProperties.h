@@ -1115,6 +1115,19 @@ public:
     void set(PropertyReceiver* receiver, const String& value);
 };
 
+class SoundResource : public Property
+{
+public:
+    SoundResource() : Property(
+        "SoundResource",
+        "Property to get/set the sound resource used by the Window.",
+        "")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 class LuaForDialog : public Property
 {
 public:
@@ -1122,6 +1135,32 @@ public:
         "LuaForDialog",
         "Legacy MT3 editor metadata indicating whether a Window is a dialog.",
         "True")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class LuaMemberName : public Property
+{
+public:
+    LuaMemberName() : Property(
+        "LuaMemberName",
+        "Legacy MT3 editor metadata for the generated Lua member name.",
+        "")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class LuaEventOnClicked : public Property
+{
+public:
+    LuaEventOnClicked() : Property(
+        "LuaEventOnClicked",
+        "Legacy MT3 editor metadata for the generated click handler.",
+        "")
     {}
 
     String get(const PropertyReceiver* receiver) const;
@@ -1306,6 +1345,59 @@ public:
 
     String  get(const PropertyReceiver* receiver) const;
     void    set(PropertyReceiver* receiver, const String& value);
+};
+
+// MT3 compatibility properties retained by legacy layout files.
+class DisplaySizeChangePosEnabled : public Property
+{
+public:
+    DisplaySizeChangePosEnabled() : Property(
+        "DisplaySizeChangePosEnabled",
+        "Property to get/set whether display size changes may adjust the window position.",
+        "True")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class AllowModalStateClick : public Property
+{
+public:
+    AllowModalStateClick() : Property(
+        "AllowModalStateClick",
+        "Property to get/set whether the window remains clickable while a modal window is active.",
+        "False")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class ModalState : public Property
+{
+public:
+    ModalState() : Property(
+        "ModalState",
+        "Property to get/set whether the Window becomes modal after being shown.",
+        "False")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class IsPixelDecide : public Property
+{
+public:
+    IsPixelDecide() : Property(
+        "IsPixelDecide",
+        "Property to get/set pixel based hit testing for the window.",
+        "False")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
 };
 
 /*!

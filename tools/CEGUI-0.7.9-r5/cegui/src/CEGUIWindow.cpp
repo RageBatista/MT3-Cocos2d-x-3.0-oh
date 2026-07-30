@@ -178,7 +178,10 @@ WindowProperties::DragDropTarget    Window::d_dragDropTargetProperty;
 WindowProperties::AutoRenderingSurface Window::d_autoRenderingSurfaceProperty;
 WindowProperties::Scale Window::d_scaleProperty;
 WindowProperties::EnableSound Window::d_soundEnableProperty;
+WindowProperties::SoundResource Window::d_soundResourceProperty;
 WindowProperties::LuaForDialog Window::d_luaForDialogProperty;
+WindowProperties::LuaMemberName Window::d_luaMemberNameProperty;
+WindowProperties::LuaEventOnClicked Window::d_luaEventOnClickedProperty;
 WindowProperties::DragMoveEnable Window::d_dragMoveEnableProperty;
 WindowProperties::Rotation Window::d_rotationProperty;
 WindowProperties::XRotation Window::d_xRotationProperty;
@@ -186,6 +189,10 @@ WindowProperties::YRotation Window::d_yRotationProperty;
 WindowProperties::ZRotation Window::d_zRotationProperty;
 WindowProperties::NonClient Window::d_nonClientProperty;
 WindowProperties::TextParsingEnabled Window::d_textParsingEnabledProperty;
+WindowProperties::DisplaySizeChangePosEnabled Window::d_displaySizeChangePosEnabledProperty;
+WindowProperties::AllowModalStateClick Window::d_allowModalStateClickProperty;
+WindowProperties::ModalState Window::d_modalStateProperty;
+WindowProperties::IsPixelDecide Window::d_isPixelDecideProperty;
 WindowProperties::Margin Window:: d_marginProperty;
 WindowProperties::UpdateMode Window::d_updateModeProperty;
 WindowProperties::MouseInputPropagationEnabled Window::d_mouseInputPropagationProperty;
@@ -326,6 +333,7 @@ Window::Window(const String& type, const String& name) :
     d_ModalStateAfterShow(false),
     d_AllowShowWithModalState(false),
     d_IsPixelDecide(false),
+    d_displaySizeChangePosEnabled(true),
     d_Flash(false),
     d_EnableFlash(true),
     d_RButtonCloseEnable(true),
@@ -1603,7 +1611,10 @@ void Window::addStandardProperties(void)
     addProperty(&d_autoRenderingSurfaceProperty);
     addProperty(&d_scaleProperty);
     addProperty(&d_soundEnableProperty);
+    addProperty(&d_soundResourceProperty);
     addProperty(&d_luaForDialogProperty);
+    addProperty(&d_luaMemberNameProperty);
+    addProperty(&d_luaEventOnClickedProperty);
     addProperty(&d_dragMoveEnableProperty);
     addProperty(&d_rotationProperty);
     addProperty(&d_xRotationProperty);
@@ -1611,6 +1622,10 @@ void Window::addStandardProperties(void)
     addProperty(&d_zRotationProperty);
     addProperty(&d_nonClientProperty);
     addProperty(&d_textParsingEnabledProperty);
+    addProperty(&d_displaySizeChangePosEnabledProperty);
+    addProperty(&d_allowModalStateClickProperty);
+    addProperty(&d_modalStateProperty);
+    addProperty(&d_isPixelDecideProperty);
     addProperty(&d_marginProperty);
     addProperty(&d_updateModeProperty);
     addProperty(&d_mouseInputPropagationProperty);
@@ -2310,6 +2325,21 @@ void Window::setModalState(bool state)
     // clear the modal target
     else
         System::getSingleton().setModalTarget(0);
+}
+
+//----------------------------------------------------------------------------//
+bool Window::isAllowModalState(bool) const
+{
+    if (d_AllowModalSate)
+        return true;
+
+    for (Window* parent = d_parent; parent; parent = parent->getParent())
+    {
+        if (parent->d_AllowModalSate)
+            return true;
+    }
+
+    return false;
 }
 
 //----------------------------------------------------------------------------//

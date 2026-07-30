@@ -38,7 +38,9 @@ namespace CEGUI
 //----------------------------------------------------------------------------//
 RenderedStringTextComponent::RenderedStringTextComponent() :
     d_font(0),
-    d_colours(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF)
+    d_colours(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF),
+    d_border(false),
+    d_borderColours(0xFFFFFFFF)
 {
 }
 
@@ -46,7 +48,9 @@ RenderedStringTextComponent::RenderedStringTextComponent() :
 RenderedStringTextComponent::RenderedStringTextComponent(const String& text) :
     d_text(text),
     d_font(0),
-    d_colours(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF)
+    d_colours(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF),
+    d_border(false),
+    d_borderColours(0xFFFFFFFF)
 {
 }
 
@@ -55,7 +59,9 @@ RenderedStringTextComponent::RenderedStringTextComponent(
         const String& text, const String& font_name) :
     d_text(text),
     d_font(font_name.empty() ? 0 : &FontManager::getSingleton().get(font_name)),
-    d_colours(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF)
+    d_colours(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF),
+    d_border(false),
+    d_borderColours(0xFFFFFFFF)
 {
 }
 
@@ -64,7 +70,9 @@ RenderedStringTextComponent::RenderedStringTextComponent(const String& text,
                                                          Font* font) :
     d_text(text),
     d_font(font),
-    d_colours(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF)
+    d_colours(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF),
+    d_border(false),
+    d_borderColours(0xFFFFFFFF)
 {
 }
 
@@ -167,7 +175,8 @@ void RenderedStringTextComponent::draw(GeometryBuffer& buffer,
 
     // draw the text string.
     fnt->drawText(buffer, d_text, final_pos, clip_rect, final_cols,
-                  space_extra, 1.0f, y_scale);
+                  space_extra, 1.0f, y_scale, false,
+                  d_border, d_borderColours);
 }
 
 //----------------------------------------------------------------------------//
@@ -212,6 +221,8 @@ RenderedStringTextComponent* RenderedStringTextComponent::split(
     lhs->d_verticalFormatting = d_verticalFormatting;
     lhs->d_font = d_font;
     lhs->d_colours = d_colours;
+    lhs->d_border = d_border;
+    lhs->d_borderColours = d_borderColours;
 
     // calculate the 'best' place to split the text
     size_t left_len = 0;
@@ -302,6 +313,14 @@ size_t RenderedStringTextComponent::getSpaceCount() const
             ++space_count;
 
     return space_count;
+}
+
+//----------------------------------------------------------------------------//
+void RenderedStringTextComponent::SetBorderInf(bool borderEnable,
+                                               colour borderColour)
+{
+    d_border = borderEnable;
+    d_borderColours.setColours(borderColour);
 }
 
 //----------------------------------------------------------------------------//

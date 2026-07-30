@@ -54,5 +54,13 @@ const RenderedString& FormattedRenderedString::getRenderedString() const
 }
 
 //----------------------------------------------------------------------------//
+void FormattedRenderedString::SetBorderInf(bool border,
+                                           const colour& borderColour)
+{
+    if (d_renderedString)
+        d_renderedString->SetBorderInf(border, borderColour);
+}
+
+//----------------------------------------------------------------------------//
     
 } // End of  CEGUI namespace section

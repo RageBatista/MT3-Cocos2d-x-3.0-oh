@@ -161,6 +161,11 @@ namespace CEGUI
         //! return the current vertical formatted text extent in pixels.
         float getVerticalTextExtent() const;
 
+        bool isBorderEnabled() const { return d_borderEnabled; }
+        void setBorderEnabled(bool enabled);
+        colour getBorderColour() const { return d_borderColour; }
+        void setBorderColour(colour borderColour);
+
         void render(void);
 
     protected:
@@ -199,6 +204,8 @@ namespace CEGUI
         static FalagardStaticTextProperties::HorzScrollbar  d_horzScrollbarProperty;
         static FalagardStaticTextProperties::HorzExtent     d_horzExtentProperty;
         static FalagardStaticTextProperties::VertExtent     d_vertExtentProperty;
+        static FalagardStaticTextProperties::BorderEnable   d_borderEnableProperty;
+        static FalagardStaticTextProperties::BorderColour   d_borderColourProperty;
 
         // implementation data
         //! Horizontal formatting to be applied to the text.
@@ -217,6 +224,8 @@ namespace CEGUI
 
         //! true when string formatting is up to date.
         mutable bool d_formatValid;
+        bool d_borderEnabled;
+        colour d_borderColour;
     };
 
 } // End of  CEGUI namespace section

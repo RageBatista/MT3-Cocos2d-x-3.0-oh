@@ -28,10 +28,22 @@
  *   OTHER DEALINGS IN THE SOFTWARE.
  ***************************************************************************/
 #include "elements/CEGUIPushButton.h"
+#include "CEGUIImage.h"
+#include "CEGUIPropertyHelper.h"
 
 // Start of CEGUI namespace section
 namespace CEGUI
 {
+namespace
+{
+const float MT3ButtonWidthSmall = 40.0f;
+const float MT3ButtonWidthNormal = 80.0f;
+const float MT3ButtonWidthBig = 120.0f;
+const float MT3ButtonHeight = 22.0f;
+}
+
+PushButtonProperties::SizeType PushButton::d_sizeTypeProperty;
+PushButtonProperties::EnableClickAni PushButton::d_enableClickAniProperty;
 
 /*************************************************************************
 	constants
@@ -46,8 +58,10 @@ const String PushButton::EventClicked( "Clicked" );
 	Constructor
 *************************************************************************/
 PushButton::PushButton(const String& type, const String& name) :
-	ButtonBase(type, name)
+	ButtonBase(type, name),
+    d_sizeType(ePushButtonSizeType_Auto)
 {
+    addPushButtonProperties();
 }
 
 
@@ -56,6 +70,113 @@ PushButton::PushButton(const String& type, const String& name) :
 *************************************************************************/
 PushButton::~PushButton(void)
 {
+}
+
+//----------------------------------------------------------------------------//
+void PushButton::SetSizeType(PushButtonSizeType type)
+{
+    if (type == d_sizeType)
+        return;
+
+    d_sizeType = type;
+    UVector2 size(cegui_absdim(0), cegui_absdim(MT3ButtonHeight));
+
+    switch (d_sizeType)
+    {
+    case ePushButtonSizeType_Small:
+        size.d_x = cegui_absdim(MT3ButtonWidthSmall);
+        setMinSize(size);
+        setMaxSize(size);
+        break;
+    case ePushButtonSizeType_Normal:
+        size.d_x = cegui_absdim(MT3ButtonWidthNormal);
+        setMinSize(size);
+        setMaxSize(size);
+        break;
+    case ePushButtonSizeType_Big:
+        size.d_x = cegui_absdim(MT3ButtonWidthBig);
+        setMinSize(size);
+        setMaxSize(size);
+        break;
+    case ePushButtonSizeType_Image:
+        if (isPropertyPresent("NormalImage"))
+        {
+            const Image* image = PropertyHelper::stringToImage(
+                getProperty("NormalImage"));
+            if (image)
+            {
+                size.d_x = cegui_absdim(image->getWidth());
+                size.d_y = cegui_absdim(image->getHeight());
+                setMinSize(size);
+                setMaxSize(size);
+                break;
+            }
+        }
+        SetSizeType(ePushButtonSizeType_Auto);
+        break;
+    case ePushButtonSizeType_Auto:
+        setMinSize(UVector2(cegui_absdim(0), cegui_absdim(0)));
+        setMaxSize(UVector2(cegui_reldim(1), cegui_reldim(1)));
+        break;
+    default:
+        SetSizeType(ePushButtonSizeType_Auto);
+        break;
+    }
+}
+
+//----------------------------------------------------------------------------//
+void PushButton::addPushButtonProperties()
+{
+    addProperty(&d_sizeTypeProperty);
+    addProperty(&d_enableClickAniProperty);
+}
+
+//----------------------------------------------------------------------------//
+String PushButtonProperties::SizeType::get(
+    const PropertyReceiver* receiver) const
+{
+    switch (static_cast<const PushButton*>(receiver)->GetSizeType())
+    {
+    case ePushButtonSizeType_Small: return "Small";
+    case ePushButtonSizeType_Normal: return "Normal";
+    case ePushButtonSizeType_Big: return "Big";
+    case ePushButtonSizeType_Image: return "Image";
+    case ePushButtonSizeType_Auto: return "Auto";
+    default: return "Auto";
+    }
+}
+
+//----------------------------------------------------------------------------//
+void PushButtonProperties::SizeType::set(PropertyReceiver* receiver,
+                                         const String& value)
+{
+    PushButtonSizeType type = ePushButtonSizeType_Auto;
+    if (value == "Small")
+        type = ePushButtonSizeType_Small;
+    else if (value == "Normal")
+        type = ePushButtonSizeType_Normal;
+    else if (value == "Big")
+        type = ePushButtonSizeType_Big;
+    else if (value == "Image")
+        type = ePushButtonSizeType_Image;
+
+    static_cast<PushButton*>(receiver)->SetSizeType(type);
+}
+
+//----------------------------------------------------------------------------//
+String PushButtonProperties::EnableClickAni::get(
+    const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const PushButton*>(receiver)->isClickAniEnable());
+}
+
+//----------------------------------------------------------------------------//
+void PushButtonProperties::EnableClickAni::set(PropertyReceiver* receiver,
+                                               const String& value)
+{
+    static_cast<PushButton*>(receiver)->EnableClickAni(
+        PropertyHelper::stringToBool(value));
 }
 
 

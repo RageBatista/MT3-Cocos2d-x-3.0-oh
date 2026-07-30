@@ -256,7 +256,10 @@ void FalagardEditbox::renderTextNoBidi(const WidgetLookFeel& wlf,
 
     // draw pre-highlight text
     String sect = text.substr(0, w->getSelectionStartIndex());
-    colours.setColours(unselectedColour);
+    if (w->HasNormalColourRectOverride())
+        colours = w->GetNormalColourRect();
+    else
+        colours.setColours(unselectedColour);
     colours.modulateAlpha(alpha_comp);
     font->drawText(w->getGeometryBuffer(), sect, text_part_rect.getPosition(),
                    &text_area, colours);
@@ -276,7 +279,10 @@ void FalagardEditbox::renderTextNoBidi(const WidgetLookFeel& wlf,
 
     // draw post-highlight text
     sect = text.substr(w->getSelectionEndIndex());
-    colours.setColours(unselectedColour);
+    if (w->HasNormalColourRectOverride())
+        colours = w->GetNormalColourRect();
+    else
+        colours.setColours(unselectedColour);
     colours.modulateAlpha(alpha_comp);
     font->drawText(w->getGeometryBuffer(), sect, text_part_rect.getPosition(),
                    &text_area, colours);
@@ -309,7 +315,10 @@ void FalagardEditbox::renderTextBidi(const WidgetLookFeel& wlf,
     if (w->getSelectionLength() == 0)
     {
         // no highlighted text - we can draw the whole thing
-        colours.setColours(unselectedColour);
+        if (w->HasNormalColourRectOverride())
+            colours = w->GetNormalColourRect();
+        else
+            colours.setColours(unselectedColour);
         colours.modulateAlpha(alpha_comp);
         font->drawText(w->getGeometryBuffer(), text,
                        text_part_rect.getPosition(), &text_area, colours);
@@ -365,7 +374,10 @@ void FalagardEditbox::renderTextBidi(const WidgetLookFeel& wlf,
             }
             else
             {
-                colours.setColours(unselectedColour);
+                if (w->HasNormalColourRectOverride())
+                    colours = w->GetNormalColourRect();
+                else
+                    colours.setColours(unselectedColour);
                 colours.modulateAlpha(alpha_comp);
             }
             font->drawText(w->getGeometryBuffer(), currChar,

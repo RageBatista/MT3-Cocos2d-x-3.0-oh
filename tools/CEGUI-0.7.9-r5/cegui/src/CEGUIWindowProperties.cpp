@@ -649,6 +649,18 @@ void EnableSound::set(PropertyReceiver* receiver, const String& value)
 }
 
 //----------------------------------------------------------------------------//
+String SoundResource::get(const PropertyReceiver* receiver) const
+{
+    return static_cast<const Window*>(receiver)->GetSoundResource();
+}
+
+//----------------------------------------------------------------------------//
+void SoundResource::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->SetSoundResource(value);
+}
+
+//----------------------------------------------------------------------------//
 String LuaForDialog::get(const PropertyReceiver*) const
 {
     return PropertyHelper::boolToString(true);
@@ -656,6 +668,28 @@ String LuaForDialog::get(const PropertyReceiver*) const
 
 //----------------------------------------------------------------------------//
 void LuaForDialog::set(PropertyReceiver*, const String&)
+{
+}
+
+//----------------------------------------------------------------------------//
+String LuaMemberName::get(const PropertyReceiver*) const
+{
+    return String();
+}
+
+//----------------------------------------------------------------------------//
+void LuaMemberName::set(PropertyReceiver*, const String&)
+{
+}
+
+//----------------------------------------------------------------------------//
+String LuaEventOnClicked::get(const PropertyReceiver*) const
+{
+    return String();
+}
+
+//----------------------------------------------------------------------------//
+void LuaEventOnClicked::set(PropertyReceiver*, const String&)
 {
 }
 
@@ -761,6 +795,63 @@ void TextParsingEnabled::set(PropertyReceiver* receiver, const String& value)
 {
     static_cast<Window*>(receiver)->
         setTextParsingEnabled(PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
+String DisplaySizeChangePosEnabled::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const Window*>(receiver)->GetDisplaySizeChangePosEnable());
+}
+
+//----------------------------------------------------------------------------//
+void DisplaySizeChangePosEnabled::set(PropertyReceiver* receiver,
+                                      const String& value)
+{
+    static_cast<Window*>(receiver)->SetDisplaySizeChangePosEnable(
+        PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
+String AllowModalStateClick::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const Window*>(receiver)->isAllowModalState(true));
+}
+
+//----------------------------------------------------------------------------//
+void AllowModalStateClick::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->EnableAllowModalState(
+        PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
+String ModalState::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const Window*>(receiver)->isModalAfterShow());
+}
+
+//----------------------------------------------------------------------------//
+void ModalState::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->EnableModalStateAfterShow(
+        PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
+String IsPixelDecide::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const Window*>(receiver)->GetIsPixelDecide());
+}
+
+//----------------------------------------------------------------------------//
+void IsPixelDecide::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->SetIsPixelDecide(
+        PropertyHelper::stringToBool(value));
 }
 
 //----------------------------------------------------------------------------//

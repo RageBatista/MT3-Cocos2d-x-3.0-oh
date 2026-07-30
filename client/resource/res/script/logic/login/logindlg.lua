@@ -14,14 +14,12 @@ function LoginQuickDialog.getInstance()
 end
 
 function LoginQuickDialog.getInstanceAndShow()
-	LogErr("LoginQuickDialog.getInstanceAndShow enter")
 	if not _instance then
 		_instance = LoginQuickDialog:new()
 		_instance:OnCreate()
 	else
 		_instance:SetVisible(true)
 	end
-	LogErr("LoginQuickDialog.getInstanceAndShow leave")
 	return _instance
 end
 
@@ -65,12 +63,10 @@ function LoginQuickDialog:new()
 end
 
 function LoginQuickDialog:OnCreate()
-	LogErr("LoginQuickDialog.OnCreate enter")
 	Dialog.OnCreate(self)
 	local winMgr = CEGUI.WindowManager:getSingleton()
 	self.m_pLogin = CEGUI.toPushButton(winMgr:getWindow("loginquick/LoginBtn1"))
     self.m_pLogin:subscribeEvent("Clicked", LoginQuickDialog.HandleLoginMouseClicked, self)
-	LogErr("LoginQuickDialog.OnCreate LoginBtn1 bound")
    -- self.smokeBg = winMgr:getWindow("loginquick/Back/flagbg/smoke")
 	--local s = self.smokeBg:getPixelSize()
 	--local flagSmoke = gGetGameUIManager():AddUIEffect(self.smokeBg, "geffect/ui/mt_shengqishi/mt_shengqishi5", true, s.width*0.5, s.height)
@@ -81,10 +77,8 @@ function LoginQuickDialog:OnCreate()
 end
 
 function LoginQuickDialog:HandleLoginMouseClicked(args)
-	LogErr("LoginQuickDialog.HandleLoginMouseClicked enter")
 	require('logic.switchaccountdialog').getInstanceAndShow()
 	self.DestroyDialog()
-	LogErr("LoginQuickDialog.HandleLoginMouseClicked leave")
 end
 
 return LoginQuickDialog

@@ -30,6 +30,7 @@
 
 #include "CEGUISize.h"
 #include "CEGUIRect.h"
+#include "CEGUIcolour.h"
 #include "falagard/CEGUIFalEnums.h"
 
 // Start of CEGUI namespace section
@@ -74,6 +75,9 @@ public:
     void setAspectLock(const bool setting);
     //! return the aspect-lock state
     bool getAspectLock() const;
+
+    //! Apply MT3 text border settings to text components; other components ignore it.
+    virtual void SetBorderInf(bool, colour) {}
 
     //! draw the component.
     virtual void draw(GeometryBuffer& buffer, const Vector2& position,

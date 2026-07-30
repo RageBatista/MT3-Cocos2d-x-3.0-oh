@@ -53,6 +53,8 @@ namespace CEGUI
     FalagardStaticTextProperties::HorzScrollbar     FalagardStaticText::d_horzScrollbarProperty;
     FalagardStaticTextProperties::HorzExtent        FalagardStaticText::d_horzExtentProperty;
     FalagardStaticTextProperties::VertExtent        FalagardStaticText::d_vertExtentProperty;
+    FalagardStaticTextProperties::BorderEnable      FalagardStaticText::d_borderEnableProperty;
+    FalagardStaticTextProperties::BorderColour      FalagardStaticText::d_borderColourProperty;
 
     /*************************************************************************
         Child Widget name suffix constants
@@ -71,7 +73,9 @@ namespace CEGUI
         d_enableVertScrollbar(false),
         d_enableHorzScrollbar(false),
         d_formattedRenderedString(0),
-        d_formatValid(false)
+        d_formatValid(false),
+        d_borderEnabled(false),
+        d_borderColour(0xFF003454)
     {
         registerProperty(&d_textColoursProperty);
         registerProperty(&d_vertFormattingProperty);
@@ -80,6 +84,8 @@ namespace CEGUI
         registerProperty(&d_horzScrollbarProperty);
         registerProperty(&d_horzExtentProperty, true);
         registerProperty(&d_vertExtentProperty, true);
+        registerProperty(&d_borderEnableProperty);
+        registerProperty(&d_borderColourProperty);
     }
 
 //----------------------------------------------------------------------------//
@@ -580,8 +586,28 @@ void FalagardStaticText::updateFormatting(const Size& sz) const
     // 'touch' the window's rendered string to ensure it's re-parsed if needed.
     d_window->getRenderedString();
 
+    d_formattedRenderedString->SetBorderInf(d_borderEnabled, d_borderColour);
+
     d_formattedRenderedString->format(sz);
     d_formatValid = true;
+}
+
+//----------------------------------------------------------------------------//
+void FalagardStaticText::setBorderEnabled(bool enabled)
+{
+    d_borderEnabled = enabled;
+    d_formatValid = false;
+    if (d_window)
+        d_window->invalidate();
+}
+
+//----------------------------------------------------------------------------//
+void FalagardStaticText::setBorderColour(colour borderColour)
+{
+    d_borderColour = borderColour;
+    d_formatValid = false;
+    if (d_window)
+        d_window->invalidate();
 }
 
 //----------------------------------------------------------------------------//

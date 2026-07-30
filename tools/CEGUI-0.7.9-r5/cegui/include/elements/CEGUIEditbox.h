@@ -282,6 +282,14 @@ public:
     size_t getMaxTextLength(void) const
         {return d_maxTextLen;}
 
+    const ColourRect& GetNormalColourRect() const
+        {return d_normalColourRect;}
+    bool HasNormalColourRectOverride() const
+        {return d_hasNormalColourRectOverride;}
+    void SetNormalColourRect(argb_t color);
+    void SetNormalColourRect(const ColourRect& colour_rect);
+    void SetNormalColourRect(const colour& col);
+
     /*!
     \brief
         Specify whether the Editbox is read-only.
@@ -587,6 +595,10 @@ protected:
     bool d_dragging;
     //! Selection index for drag selection anchor point.
     size_t d_dragAnchorIdx;
+    //! Legacy MT3 per-corner text colour override.
+    ColourRect d_normalColourRect;
+    //! True after SetNormalColourRect has explicitly overridden looknfeel colour.
+    bool d_hasNormalColourRectOverride;
 
 private:
     static EditboxProperties::ReadOnly         d_readOnlyProperty;

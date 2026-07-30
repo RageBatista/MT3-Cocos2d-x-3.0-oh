@@ -26,6 +26,30 @@ $lookDir = Join-Path $uiRoot "looknfeel"
 $imagesetDir = Join-Path $uiRoot "imagesets"
 $fontDir = Join-Path $uiRoot "fonts"
 
+# Layout Font properties use the internal Font Name, which may differ from
+# the .font filename (for example num-round in num-huihecount.font).
+$fontDefinitions = New-Object 'System.Collections.Generic.Dictionary[string,string]' ([StringComparer]::Ordinal)
+$fontIssues = @()
+if (Test-Path -LiteralPath $fontDir -PathType Container) {
+    $fontFiles = @(Get-ChildItem -LiteralPath $fontDir -File -Filter *.font -ErrorAction SilentlyContinue)
+    foreach ($fontFile in $fontFiles) {
+        try {
+            $fontXml = [xml](Read-TextFileSmart -Path $fontFile.FullName)
+            $fontNode = $fontXml.SelectSingleNode("/Font")
+            $fontName = if ($fontNode) { [string]$fontNode.GetAttribute("Name") } else { "" }
+            if ([string]::IsNullOrWhiteSpace($fontName)) {
+                $fontIssues += "$($fontFile.Name): Font Name is missing"
+            } elseif ($fontDefinitions.ContainsKey($fontName)) {
+                $fontIssues += "$($fontFile.Name): duplicate Font Name '$fontName' also defined by $($fontDefinitions[$fontName])"
+            } else {
+                $fontDefinitions.Add($fontName, $fontFile.Name)
+            }
+        } catch {
+            $fontIssues += "$($fontFile.Name): XML parse failed: $($_.Exception.Message)"
+        }
+    }
+}
+
 # Load all LookNFeel WidgetLook declarations.
 $widgetLooks = @{}
 $lookIssues = @()
@@ -122,11 +146,10 @@ foreach ($lf in $layoutFiles) {
             }
         }
 
-        # Check font files exist
+        # Check runtime Font names declared inside .font files.
         foreach ($f in $fontSet.Keys) {
-            $ff = Join-Path $fontDir "$f.font"
-            if (-not (Test-Path $ff)) {
-                $layoutFailures += "$($lf.Name): font '$f.font' not found"
+            if (-not $fontDefinitions.ContainsKey($f)) {
+                $layoutFailures += "$($lf.Name): font '$f' not defined by any .font file"
             }
         }
 
@@ -153,6 +176,7 @@ foreach ($lf in $layoutFiles) {
 # Add unreferenced XML issues as warnings. Referenced missing mappings/looks fail above.
 $allWarnings += $schemeIssues
 $allWarnings += $lookIssues
+$allWarnings += $fontIssues
 
 # Output
 $summary = "CEGUI resource chain validation: Layouts=$totalLayouts Passed=$totalPassed Failed=$totalFailed WidgetLooks=$($widgetLooks.Count)"
