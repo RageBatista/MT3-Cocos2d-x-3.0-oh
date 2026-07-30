@@ -136,6 +136,24 @@ static void MT3Win32TraceToFile(const char* fmt, ...)
 #define MT3_TRACE(...)
 #endif
 
+// Helper macro to catch CEGUI/std exceptions from injectMouse* calls in OnWindowsMessage.
+// Requires static counters sCeguiEventErrorCount and sStdEventErrorCount in scope.
+#define MT3_CATCH_CEGUI_EVENT_EXCEPTION(label) \
+	catch (const CEGUI::Exception& e) { \
+		++sCeguiEventErrorCount; \
+		if (sCeguiEventErrorCount <= 3) { \
+			MT3_TRACE("GameUImanager::OnWindowsMessage CEGUI event exception (%s) #%d: %s", \
+				label, sCeguiEventErrorCount, e.getMessage().c_str()); \
+		} \
+	} \
+	catch (const std::exception& e) { \
+		++sStdEventErrorCount; \
+		if (sStdEventErrorCount <= 3) { \
+			MT3_TRACE("GameUImanager::OnWindowsMessage std event exception (%s) #%d: %s", \
+				label, sStdEventErrorCount, e.what()); \
+		} \
+	}
+
 #include "MusicSoundVolumeMixer.h"
 #ifdef ANDROID
 #include "ChannelManager.h"
@@ -2032,7 +2050,28 @@ void GameUImanager::Draw()
 	{
 		MT3_TRACE("GameUImanager::Draw #%d before renderGUI", sDrawCount);
 	}
-	guiSystem.renderGUI();
+	try
+	{
+		guiSystem.renderGUI();
+	}
+	catch (const CEGUI::Exception& e)
+	{
+		static int sCeguiRenderErrorCount = 0;
+		++sCeguiRenderErrorCount;
+		if (sCeguiRenderErrorCount <= 3)
+		{
+			MT3_TRACE("GameUImanager::Draw CEGUI renderGUI exception #%d: %s", sCeguiRenderErrorCount, e.getMessage().c_str());
+		}
+	}
+	catch (const std::exception& e)
+	{
+		static int sStdRenderErrorCount = 0;
+		++sStdRenderErrorCount;
+		if (sStdRenderErrorCount <= 3)
+		{
+			MT3_TRACE("GameUImanager::Draw std exception in renderGUI #%d: %s", sStdRenderErrorCount, e.what());
+		}
+	}
 	if (sDrawCount <= 5)
 	{
 		MT3_TRACE("GameUImanager::Draw #%d after renderGUI", sDrawCount);
@@ -2948,6 +2987,9 @@ bool GameUImanager::OnWindowsMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 {
 	if (!m_bUIInited) return false;
 
+	static int sCeguiEventErrorCount = 0;
+	static int sStdEventErrorCount = 0;
+
 	CEGUI::System& guiSystem = CEGUI::System::getSingleton();
 	switch (msg)
 	{
@@ -2990,23 +3032,30 @@ bool GameUImanager::OnWindowsMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 		}
 
-		guiSystem.injectMousePosition(x, y);
-		if (guiSystem.injectMouseButtonDown(CEGUI::LeftButton, (int)hWnd) || isDialogShow)
+		try
 		{
-			return true;
+			guiSystem.injectMousePosition(x, y);
+			if (guiSystem.injectMouseButtonDown(CEGUI::LeftButton, (int)hWnd) || isDialogShow)
+			{
+				return true;
+			}
 		}
+		MT3_CATCH_CEGUI_EVENT_EXCEPTION("LBUTTONDOWN")
 	}
 	break;
 	case Nuclear::WM_CLICK:
 	{
 		float x = (float)wParam;
 		float y = (float)lParam;
-		guiSystem.injectMousePosition(x, y);
-
-		if (guiSystem.injectMouseButtonUp(CEGUI::LeftButton))
+		try
 		{
-			return true;
+			guiSystem.injectMousePosition(x, y);
+			if (guiSystem.injectMouseButtonUp(CEGUI::LeftButton))
+			{
+				return true;
+			}
 		}
+		MT3_CATCH_CEGUI_EVENT_EXCEPTION("CLICK")
 	}
 	break;
 #ifndef WIN32
@@ -3017,26 +3066,34 @@ bool GameUImanager::OnWindowsMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 	{
 		float x = (float)wParam;
 		float y = (float)lParam;
-		guiSystem.injectMousePosition(x, y);
-		if (guiSystem.injectMouseButtonUp(CEGUI::LeftButton, (int)hWnd))
+		try
 		{
+			guiSystem.injectMousePosition(x, y);
+			if (guiSystem.injectMouseButtonUp(CEGUI::LeftButton, (int)hWnd))
+			{
+				if (gGetNewRoleGuideManager() && !gGetNewRoleGuideManager()->NeedLockScreen())
+					cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CheckTipsWnd.OnLButtonUp");
+				return true;
+			}
 			if (gGetNewRoleGuideManager() && !gGetNewRoleGuideManager()->NeedLockScreen())
 				cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CheckTipsWnd.OnLButtonUp");
-			return true;
 		}
-		if (gGetNewRoleGuideManager() && !gGetNewRoleGuideManager()->NeedLockScreen())
-			cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CheckTipsWnd.OnLButtonUp");
+		MT3_CATCH_CEGUI_EVENT_EXCEPTION("LBUTTONUP")
 	}
 	break;
 	case Nuclear::WM_DOUBLECLICK:
 	{
 		float x = (float)wParam;
 		float y = (float)lParam;
-		guiSystem.injectMousePosition(x, y);
-		if (guiSystem.injectMouseButtonUp(CEGUI::LeftButton))
+		try
 		{
-			return true;
+			guiSystem.injectMousePosition(x, y);
+			if (guiSystem.injectMouseButtonUp(CEGUI::LeftButton))
+			{
+				return true;
+			}
 		}
+		MT3_CATCH_CEGUI_EVENT_EXCEPTION("DOUBLECLICK")
 	}
 	break;
 #ifndef WIN32
@@ -3060,7 +3117,12 @@ bool GameUImanager::OnWindowsMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 		float del_Y = y - m_LastMousePoint.y;//oldPos.d_y;
 		m_LastMousePoint.x = x;
 		m_LastMousePoint.y = y;
-		bool b = guiSystem.injectMouseMove(del_X, del_Y);
+		bool b = false;
+		try
+		{
+			b = guiSystem.injectMouseMove(del_X, del_Y);
+		}
+		MT3_CATCH_CEGUI_EVENT_EXCEPTION("MOUSEMOVE")
 
 		CEGUI::WindowManager& winMgr = CEGUI::WindowManager::getSingleton();
 		CEGUI::Window* pWindow = guiSystem.getTargetWindow(CEGUI::Point(x, y), false);
@@ -3103,11 +3165,15 @@ bool GameUImanager::OnWindowsMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			printf("drag offset:%3.2f %2.2f \n", x_offset, y_offset);
 		}
 
-		bool b = guiSystem.injectMouseDrag(state, x, y, 0.0f);
-		if (b)
+		try
 		{
-			return true;
+			bool b = guiSystem.injectMouseDrag(state, x, y, 0.0f);
+			if (b)
+			{
+				return true;
+			}
 		}
+		MT3_CATCH_CEGUI_EVENT_EXCEPTION("DRAG")
 	}
 	break;
 	case Nuclear::WM_SLIDE:
@@ -3119,11 +3185,15 @@ bool GameUImanager::OnWindowsMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 		float y = (float)lParam;
 
 		int dir = (int)hWnd;
-		bool b = guiSystem.injectMouseSlide(dir, x, y, 30.0f);
-		if (b)
+		try
 		{
-			return true;
+			bool b = guiSystem.injectMouseSlide(dir, x, y, 30.0f);
+			if (b)
+			{
+				return true;
+			}
 		}
+		MT3_CATCH_CEGUI_EVENT_EXCEPTION("SLIDE")
 	}
 	break;
 	case Nuclear::WM_LONGPRESS:
@@ -3131,25 +3201,29 @@ bool GameUImanager::OnWindowsMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 		int state = (int)hWnd;
 		float x = (float)wParam;
 		float y = (float)lParam;
-		guiSystem.injectMousePosition(x, y);
-		if (state == 2) {
-			if (moveFloatItem(x, y)) {
+		try
+		{
+			guiSystem.injectMousePosition(x, y);
+			if (state == 2) {
+				if (moveFloatItem(x, y)) {
+					return true;
+				}
+			}
+			else if (state == 3)
+			{
+				CEGUI::Window* pWindow = guiSystem.getTargetWindow(CEGUI::MouseCursor::getSingleton().getPosition(), false);
+				if (pWindow == NULL || pWindow->getType() != CEGUI::String("TaharezLook/ItemCell"))
+				{
+					if (gGetRoleItemManager()->DestroyItem())
+						return true;
+				}
+			}
+			if (guiSystem.injectLongPress(CEGUI::LeftButton, state))
+			{
 				return true;
 			}
 		}
-		else if (state == 3)
-		{
-			CEGUI::Window* pWindow = guiSystem.getTargetWindow(CEGUI::MouseCursor::getSingleton().getPosition(), false);
-			if (pWindow == NULL || pWindow->getType() != CEGUI::String("TaharezLook/ItemCell"))
-			{
-				if (gGetRoleItemManager()->DestroyItem())
-					return true;
-			}
-		}
-		if (guiSystem.injectLongPress(CEGUI::LeftButton, state))
-		{
-			return true;
-		}
+		MT3_CATCH_CEGUI_EVENT_EXCEPTION("LONGPRESS")
 	}
 	break;
 	case 990:
