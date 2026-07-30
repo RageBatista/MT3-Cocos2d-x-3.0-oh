@@ -83,7 +83,9 @@ Cocos2DRenderer::Cocos2DRenderer() :
     d_SeparateAlphaBlendCap(false),
     m_program(NULL),
     d_pDebugTexture(NULL),
-    d_pParent(0)
+    d_pParent(0),
+    m_savedDepthTest(false),
+    m_savedCullFace(false)
 {
     GLint max_tex_size;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
@@ -252,6 +254,24 @@ void Cocos2DRenderer::destroyAllTextures()
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::beginRendering()
 {
+    static int sRenderCount = 0;
+    ++sRenderCount;
+    if (sRenderCount <= 5)
+    {
+        char buf[256];
+        sprintf(buf, "CEGUICocos2DRenderer::beginRendering #%d geoBuf=%d tex=%d\n",
+            sRenderCount, (int)d_geometryBuffers.size(), (int)d_textures.size());
+        OutputDebugStringA(buf);
+    }
+
+    // Save GL state that may be altered by CEGUI rendering or 3D engine
+    m_savedDepthTest = (glIsEnabled(GL_DEPTH_TEST) == GL_TRUE);
+    m_savedCullFace = (glIsEnabled(GL_CULL_FACE) == GL_TRUE);
+
+    // CEGUI is 2D UI overlay: disable depth test so UI is never culled by 3D depth buffer
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -298,6 +318,12 @@ void Cocos2DRenderer::endRendering()
 
     glDisable(GL_SCISSOR_TEST);
     glDisable(GL_BLEND);
+
+    // Restore depth test and cull face state
+    if (m_savedDepthTest)
+        glEnable(GL_DEPTH_TEST);
+    if (m_savedCullFace)
+        glEnable(GL_CULL_FACE);
 }
 
 //----------------------------------------------------------------------------//

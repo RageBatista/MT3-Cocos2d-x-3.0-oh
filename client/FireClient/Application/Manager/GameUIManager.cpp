@@ -113,6 +113,29 @@ extern "C"
 #define LOGD
 #endif
 
+#if defined(ANDROID) && defined(LOGCAT)
+#define MT3_TRACE(...) __android_log_print(ANDROID_LOG_ERROR, "MT3Trace", __VA_ARGS__)
+#elif defined(WIN32) && (defined(_DEBUG) || defined(DEBUG))
+static void MT3Win32TraceToFile(const char* fmt, ...)
+{
+	FILE* fp = NULL;
+	if (fopen_s(&fp, "startup_bootstrap.log", "ab") != 0 || !fp)
+	{
+		return;
+	}
+	fputs("[MT3_TRACE] ", fp);
+	va_list args;
+	va_start(args, fmt);
+	vfprintf(fp, fmt, args);
+	va_end(args);
+	fputs("\r\n", fp);
+	fclose(fp);
+}
+#define MT3_TRACE(...) MT3Win32TraceToFile(__VA_ARGS__)
+#else
+#define MT3_TRACE(...)
+#endif
+
 #include "MusicSoundVolumeMixer.h"
 #ifdef ANDROID
 #include "ChannelManager.h"
@@ -1954,14 +1977,30 @@ void GameUImanager::DrawFPS()
 
 void GameUImanager::Draw()
 {
+	static int sDrawCount = 0;
+	++sDrawCount;
+
 	if (!m_bShowGameUI)
 	{
+		if (sDrawCount <= 5)
+			MT3_TRACE("GameUImanager::Draw #%d skip: m_bShowGameUI=false", sDrawCount);
 		return;
 	}
 
 	if (gGetScene() && gGetScene()->isLoadMaping())
 	{
+		if (sDrawCount <= 5)
+			MT3_TRACE("GameUImanager::Draw #%d skip: isLoadMaping=true scene=%p", sDrawCount, gGetScene());
 		return;
+	}
+
+	if (sDrawCount <= 5)
+	{
+		CEGUI::System* pSys = CEGUI::System::getSingletonPtr();
+		CEGUI::Window* pRoot = pSys ? pSys->getGUISheet() : NULL;
+		int childCount = pRoot ? pRoot->getChildCount() : -1;
+		MT3_TRACE("GameUImanager::Draw #%d begin renderGUI=%p root=%p childCount=%d",
+			sDrawCount, pSys, pRoot, childCount);
 	}
 
 	Nuclear::Engine* pEngine = static_cast<Nuclear::Engine*>(Nuclear::GetEngine());
@@ -1989,7 +2028,15 @@ void GameUImanager::Draw()
 
 	CEGUI::System& guiSystem = CEGUI::System::getSingleton();
 	//guiSystem.signalRedraw();
+	if (sDrawCount <= 5)
+	{
+		MT3_TRACE("GameUImanager::Draw #%d before renderGUI", sDrawCount);
+	}
 	guiSystem.renderGUI();
+	if (sDrawCount <= 5)
+	{
+		MT3_TRACE("GameUImanager::Draw #%d after renderGUI", sDrawCount);
+	}
 
 	drawScreenEffect();
 

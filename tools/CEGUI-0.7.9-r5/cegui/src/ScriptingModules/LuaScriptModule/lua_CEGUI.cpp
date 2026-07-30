@@ -18650,6 +18650,38 @@ static int tolua_CEGUI_CEGUI_Window_getModalState00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: isModalAfterShow of class  CEGUI::Window - MT3 compatibility */
+#ifndef TOLUA_DISABLE_tolua_CEGUI_CEGUI_Window_isModalAfterShow00
+static int tolua_CEGUI_CEGUI_Window_isModalAfterShow00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"const CEGUI::Window",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  const CEGUI::Window* self = (const CEGUI::Window*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isModalAfterShow'",NULL);
+#endif
+ {
+  bool tolua_ret = (bool)  self->isModalAfterShow();
+ tolua_pushboolean(tolua_S,(bool)tolua_ret);
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isModalAfterShow'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: setModalState of class  CEGUI::Window */
 #ifndef TOLUA_DISABLE_tolua_CEGUI_CEGUI_Window_setModalState00
 static int tolua_CEGUI_CEGUI_Window_setModalState00(lua_State* tolua_S)
@@ -59228,6 +59260,7 @@ int tolua_CEGUI_open (lua_State* tolua_S)
    tolua_function(tolua_S,"setWindowRenderer",tolua_CEGUI_CEGUI_Window_setWindowRenderer00);
    tolua_function(tolua_S,"getWindowRendererName",tolua_CEGUI_CEGUI_Window_getWindowRendererName00);
    tolua_function(tolua_S,"getModalState",tolua_CEGUI_CEGUI_Window_getModalState00);
+   tolua_function(tolua_S,"isModalAfterShow",tolua_CEGUI_CEGUI_Window_isModalAfterShow00);
    tolua_function(tolua_S,"setModalState",tolua_CEGUI_CEGUI_Window_setModalState00);
    tolua_function(tolua_S,"getUserString",tolua_CEGUI_CEGUI_Window_getUserString00);
    tolua_function(tolua_S,"isUserStringDefined",tolua_CEGUI_CEGUI_Window_isUserStringDefined00);

@@ -295,13 +295,62 @@ int LuaStack::executeScriptFile(const char* filename)
 #endif
 }
 
+// MT3 Compatibility: resolve dotted global function names like "loginBg.getInstanceAndShow"
+// by walking table fields. Returns true if a function was pushed onto the stack.
+static bool mt3PushDottedGlobalFunction(lua_State* L, const char* functionName)
+{
+    if (functionName == NULL || functionName[0] == '\0')
+    {
+        return false;
+    }
+
+    const char* dot = strchr(functionName, '.');
+    if (dot == NULL)
+    {
+        lua_getglobal(L, functionName);
+        return lua_isfunction(L, -1) != 0;
+    }
+
+    // Resolve the first segment as a global table
+    std::string firstSegment(functionName, dot);
+    lua_getglobal(L, firstSegment.c_str());
+    if (!lua_istable(L, -1) && !lua_isfunction(L, -1))
+    {
+        lua_pop(L, 1);
+        return false;
+    }
+
+    // Walk remaining dotted segments
+    const char* start = dot + 1;
+    while (true)
+    {
+        const char* nextDot = strchr(start, '.');
+        std::string segment = (nextDot == NULL) ? std::string(start) : std::string(start, nextDot - start);
+
+        if (!lua_istable(L, -1))
+        {
+            lua_pop(L, 1);
+            return false;
+        }
+        lua_getfield(L, -1, segment.c_str());
+        lua_remove(L, -2); // remove the table, keep the field
+
+        if (nextDot == NULL)
+        {
+            break; // last segment
+        }
+        start = nextDot + 1;
+    }
+
+    return lua_isfunction(L, -1) != 0;
+}
+
 int LuaStack::executeGlobalFunction(const char* functionName)
 {
-    lua_getglobal(_state, functionName);       /* query function by name, stack: function */
-    if (!lua_isfunction(_state, -1))
+    if (!mt3PushDottedGlobalFunction(_state, functionName))
     {
         CCLOG("[LUA ERROR] name '%s' does not represent a Lua function", functionName);
-        lua_pop(_state, 1);
+        lua_settop(_state, 0);
         return 0;
     }
     return executeFunction(0);
@@ -310,11 +359,11 @@ int LuaStack::executeGlobalFunction(const char* functionName)
 // MT3 Compatibility: executeGlobalFunction with numArgs parameter
 int LuaStack::executeGlobalFunction(const char* functionName, int numArgs)
 {
-    lua_getglobal(_state, functionName);       /* query function by name, stack: function */
-    if (!lua_isfunction(_state, -1))
+    if (!mt3PushDottedGlobalFunction(_state, functionName))
     {
         CCLOG("[LUA ERROR] name '%s' does not represent a Lua function", functionName);
-        lua_pop(_state, 1);
+        // Remove the pushed arguments along with any leftover stack entries
+        lua_settop(_state, 0);
         return 0;
     }
     return executeFunction(numArgs);

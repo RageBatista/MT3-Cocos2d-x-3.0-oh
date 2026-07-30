@@ -905,6 +905,13 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
 
 	void Engine::Render(bool controlFPS)
 	{
+		static int sRenderCount = 0;
+		++sRenderCount;
+		if (sRenderCount <= 5)
+		{
+			MT3_ENGINE_TRACE("Engine::Render #%d enter renderer=%p world=%p", sRenderCount, m_pRenderer, m_pWorld);
+		}
+
 		if (!m_pRenderer) return;
 #ifdef XP_PERFORMANCE
 		static int64_t accumulateTime = 0;

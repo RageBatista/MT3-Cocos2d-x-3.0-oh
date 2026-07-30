@@ -461,9 +461,18 @@ namespace Nuclear
     
     void EngineLayer::draw(cocos2d::Renderer *renderer, const kmMat4& transform, bool transformUpdated)
     {
+        static int sDrawCount = 0;
+        ++sDrawCount;
+        if (sDrawCount <= 5)
+        {
+            char buf[256];
+            sprintf(buf, "EngineLayer::draw #%d enter\n", sDrawCount);
+            OutputDebugStringA(buf);
+        }
+
         Layer::draw(renderer, transform, transformUpdated);
-        
-        Size size = Director::getInstance()->getWinSizeInPixels();        
+
+        Size size = Director::getInstance()->getWinSizeInPixels();
         Nuclear::IEngine* pEngine = Nuclear::GetEngine();
         
         float lh = pEngine->m_adapter->get_logic_h();

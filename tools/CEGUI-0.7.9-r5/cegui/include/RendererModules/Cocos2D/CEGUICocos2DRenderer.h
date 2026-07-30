@@ -129,6 +129,10 @@ private:
     bool d_supportNonSquareTex;
     bool d_SeparateAlphaBlendCap;
 
+    // Saved GL state for beginRendering/endRendering
+    bool m_savedDepthTest;
+    bool m_savedCullFace;
+
     typedef std::vector<Cocos2DTexture*> RenderTextureList;
     RenderTextureList d_RenderTextures;
 };

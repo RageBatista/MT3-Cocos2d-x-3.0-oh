@@ -17,6 +17,8 @@
 #include "SystemInfo.h"
 #include "MainRoleDataManager.h"
 #include "utils/StringCover.h"
+#include "CCLuaEngine.h"
+#include "tolua++.h"
 #include <cstdlib>
 #include <cstring>
 #include <stdarg.h>
@@ -435,9 +437,179 @@ void LoginManager::Init()
 	m_RoleNum = 0;
 	m_RoleList.clear();
 	m_eLoginState = eLoginState_Enter;
+
+	// 检查CEGUI根窗口状态
+	CEGUI::System* pSys = CEGUI::System::getSingletonPtr();
+	CEGUI::Window* pRoot = pSys ? pSys->getGUISheet() : NULL;
+	int rootChildCount = pRoot ? pRoot->getChildCount() : -1;
+	MT3_LOGIN_TRACE("LoginManager::Init before loginBg root=%p childCount=%d", pRoot, rootChildCount);
+
+	// 检查loginBg Lua表是否存在
+	cocos2d::ScriptEngineProtocol* pEngine = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine();
+	lua_State* L = pEngine->getLuaState();
+
+	// 检查CEGUI Window类的isModalAfterShow方法是否已注册
+	lua_getglobal(L, "CEGUI");
+	if (lua_istable(L, -1))
+	{
+		lua_getfield(L, -1, "Window");
+		if (lua_istable(L, -1))
+		{
+			lua_getfield(L, -1, "isModalAfterShow");
+			bool isModalRegistered = lua_isfunction(L, -1);
+			lua_pop(L, 1);
+			MT3_LOGIN_TRACE("LoginManager::Init CEGUI.Window.isModalAfterShow registered=%d", (int)isModalRegistered);
+
+			// 如果方法未注册，直接注册
+			if (!isModalRegistered)
+			{
+				MT3_LOGIN_TRACE("LoginManager::Init registering isModalAfterShow manually");
+				// 获取Window类的元表
+				lua_pushstring(L, "isModalAfterShow");
+				lua_pushcfunction(L, [](lua_State* S) -> int {
+					CEGUI::Window* self = (CEGUI::Window*)tolua_tousertype(S, 1, 0);
+					if (!self) { luaL_error(S, "invalid 'self' in function 'isModalAfterShow'"); return 0; }
+					bool ret = self->isModalAfterShow();
+					lua_pushboolean(S, ret);
+					return 1;
+				});
+				lua_rawset(L, -3);
+				MT3_LOGIN_TRACE("LoginManager::Init isModalAfterShow registered manually");
+			}
+
+			// 检查并注册 GetScreenPosOfCenter 方法
+			lua_getfield(L, -1, "GetScreenPosOfCenter");
+			bool getScreenPosRegistered = lua_isfunction(L, -1);
+			lua_pop(L, 1);
+			MT3_LOGIN_TRACE("LoginManager::Init CEGUI.Window.GetScreenPosOfCenter registered=%d", (int)getScreenPosRegistered);
+			if (!getScreenPosRegistered)
+			{
+				MT3_LOGIN_TRACE("LoginManager::Init registering GetScreenPosOfCenter manually");
+				lua_pushstring(L, "GetScreenPosOfCenter");
+				lua_pushcfunction(L, [](lua_State* S) -> int {
+					CEGUI::Window* self = (CEGUI::Window*)tolua_tousertype(S, 1, 0);
+					if (!self) { luaL_error(S, "invalid 'self' in function 'GetScreenPosOfCenter'"); return 0; }
+					CEGUI::Point pt = self->GetScreenPosOfCenter();
+					lua_newtable(S);
+					lua_pushnumber(S, pt.d_x);
+					lua_setfield(S, -2, "x");
+					lua_pushnumber(S, pt.d_y);
+					lua_setfield(S, -2, "y");
+					lua_pushnumber(S, pt.d_x);
+					lua_setfield(S, -2, "d_x");
+					lua_pushnumber(S, pt.d_y);
+					lua_setfield(S, -2, "d_y");
+					return 1;
+				});
+				lua_rawset(L, -3);
+				MT3_LOGIN_TRACE("LoginManager::Init GetScreenPosOfCenter registered manually");
+			}
+
+			// 检查并注册 GetScreenPos 方法
+			lua_getfield(L, -1, "GetScreenPos");
+			bool getScreenPosOnlyRegistered = lua_isfunction(L, -1);
+			lua_pop(L, 1);
+			if (!getScreenPosOnlyRegistered)
+			{
+				MT3_LOGIN_TRACE("LoginManager::Init registering GetScreenPos manually");
+				lua_pushstring(L, "GetScreenPos");
+				lua_pushcfunction(L, [](lua_State* S) -> int {
+					CEGUI::Window* self = (CEGUI::Window*)tolua_tousertype(S, 1, 0);
+					if (!self) { luaL_error(S, "invalid 'self' in function 'GetScreenPos'"); return 0; }
+					CEGUI::Point pt = self->GetScreenPos();
+					lua_newtable(S);
+					lua_pushnumber(S, pt.d_x);
+					lua_setfield(S, -2, "x");
+					lua_pushnumber(S, pt.d_y);
+					lua_setfield(S, -2, "y");
+					lua_pushnumber(S, pt.d_x);
+					lua_setfield(S, -2, "d_x");
+					lua_pushnumber(S, pt.d_y);
+					lua_setfield(S, -2, "d_y");
+					return 1;
+				});
+				lua_rawset(L, -3);
+				MT3_LOGIN_TRACE("LoginManager::Init GetScreenPos registered manually");
+			}
+		}
+		lua_pop(L, 1); // pop Window
+	}
+	lua_pop(L, 1); // pop CEGUI
+
+	lua_getglobal(L, "loginBg");
+	bool loginBgExists = !lua_isnil(L, -1);
+	bool funcExists = false;
+	if (loginBgExists)
+	{
+		lua_getfield(L, -1, "getInstanceAndShow");
+		funcExists = lua_isfunction(L, -1);
+		lua_pop(L, 1);
+	}
+	lua_pop(L, 1);
+	MT3_LOGIN_TRACE("LoginManager::Init loginBg table exists=%d funcExists=%d", (int)loginBgExists, (int)funcExists);
+
+	// 直接使用lua_pcall调用loginBg.getInstanceAndShow，捕获错误信息
+	MT3_LOGIN_TRACE("LoginManager::Init before direct lua_pcall loginBg.getInstanceAndShow");
+	lua_settop(L, 0);
+	lua_getglobal(L, "loginBg");
+	lua_getfield(L, -1, "getInstanceAndShow");
+	lua_remove(L, -2); // remove loginBg table, keep function
+	int pcallResult = lua_pcall(L, 0, 1, 0);
+	if (pcallResult != 0)
+	{
+		const char* errorMsg = lua_tostring(L, -1);
+		MT3_LOGIN_TRACE("LoginManager::Init lua_pcall FAILED error=%s", errorMsg ? errorMsg : "unknown");
+		lua_pop(L, 1);
+	}
+	else
+	{
+		MT3_LOGIN_TRACE("LoginManager::Init lua_pcall success, return type=%s", lua_typename(L, lua_type(L, -1)));
+		lua_pop(L, 1);
+	}
+	lua_settop(L, 0);
+
 	MT3_LOGIN_TRACE("LoginManager::Init before loginBg.getInstanceAndShow");
-	int loginBgResult = cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("loginBg.getInstanceAndShow");
+	int loginBgResult = pEngine->executeGlobalFunction("loginBg.getInstanceAndShow");
 	MT3_LOGIN_TRACE("LoginManager::Init after loginBg.getInstanceAndShow result=%d", loginBgResult);
+
+	// 再次检查CEGUI根窗口状态
+	pRoot = pSys ? pSys->getGUISheet() : NULL;
+	rootChildCount = pRoot ? pRoot->getChildCount() : -1;
+	MT3_LOGIN_TRACE("LoginManager::Init after loginBg root=%p childCount=%d", pRoot, rootChildCount);
+
+	// 检查loginBg窗口是否被创建
+	if (pRoot)
+	{
+		CEGUI::WindowManager& winMgr = CEGUI::WindowManager::getSingleton();
+		bool gugedonghuaExists = winMgr.isWindowPresent("gugedonghua");
+		MT3_LOGIN_TRACE("LoginManager::Init gugedonghua window exists=%d", (int)gugedonghuaExists);
+
+		// 如果窗口不存在，直接尝试加载layout来诊断问题
+		if (!gugedonghuaExists)
+		{
+			MT3_LOGIN_TRACE("LoginManager::Init attempting direct layout load for diagnosis");
+			try
+			{
+				CEGUI::Window* pTestWnd = winMgr.loadWindowLayout("gugedonghua.layout");
+				MT3_LOGIN_TRACE("LoginManager::Init direct layout load result=%p", pTestWnd);
+				if (pTestWnd)
+				{
+					MT3_LOGIN_TRACE("LoginManager::Init direct layout load success name=%s type=%s",
+						pTestWnd->getName().c_str(), pTestWnd->getType().c_str());
+					pRoot->addChildWindow(pTestWnd);
+					MT3_LOGIN_TRACE("LoginManager::Init added to root, childCount=%d", pRoot->getChildCount());
+				}
+			}
+			catch (CEGUI::Exception& e)
+			{
+				MT3_LOGIN_TRACE("LoginManager::Init CEGUI Exception: %s", e.getMessage().c_str());
+			}
+			catch (...)
+			{
+				MT3_LOGIN_TRACE("LoginManager::Init unknown exception during layout load");
+			}
+		}
+	}
 }
 
 bool LoginManager::isFirstEnter()
