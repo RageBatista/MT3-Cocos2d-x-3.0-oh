@@ -33,10 +33,10 @@
 
 #include <spine/CCSkeleton.h>
 #include <spine/spine-cocos2dx.h>
+#include "MT3SpineDiagnostic.h"
 #include <float.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdarg.h>
 #include <vector>
 
 USING_NS_CC;
@@ -47,18 +47,6 @@ namespace spine {
 
 // Diagnostic log: share spine_draw_debug.log with CCSkeletonAnimation.cpp
 static int g_spineOnDrawLogCount = 0;
-static void MT3SpineOnDrawTrace(const char* fmt, ...)
-{
-	FILE* fp = NULL;
-	if (fopen_s(&fp, "spine_draw_debug.log", "ab") != 0 || !fp)
-		return;
-	va_list args;
-	va_start(args, fmt);
-	vfprintf(fp, fmt, args);
-	va_end(args);
-	fputs("\n", fp);
-	fclose(fp);
-}
 
 Skeleton* Skeleton::createWithData (spSkeletonData* skeletonData, bool isOwnsSkeletonData) {
 	Skeleton* node = new Skeleton(skeletonData, isOwnsSkeletonData);
@@ -178,7 +166,7 @@ void Skeleton::onDraw(const kmMat4 &transform, bool transformUpdated)
 	if (shouldLog)
 	{
 		GLProgram* prog = getShaderProgram();
-		MT3SpineOnDrawTrace("  onDraw #%d slotCount=%d rgba=(%.2f,%.2f,%.2f,%.2f) prog=%p premul=%d",
+		MT3SpineTrace("  onDraw #%d slotCount=%d rgba=(%.2f,%.2f,%.2f,%.2f) prog=%p premul=%d",
 			g_spineOnDrawLogCount, skeleton->slotCount, skeleton->r, skeleton->g, skeleton->b, skeleton->a, prog, premultipliedAlpha);
 	}
 
@@ -264,7 +252,7 @@ void Skeleton::onDraw(const kmMat4 &transform, bool transformUpdated)
 
 	if (shouldLog)
 	{
-		MT3SpineOnDrawTrace("  onDraw #%d done drawnSlots=%d skippedNoAtlas=%d",
+		MT3SpineTrace("  onDraw #%d done drawnSlots=%d skippedNoAtlas=%d",
 			g_spineOnDrawLogCount, drawnSlots, skippedNoAtlas);
 	}
 

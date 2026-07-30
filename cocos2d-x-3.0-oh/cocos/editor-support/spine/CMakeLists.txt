@@ -27,6 +27,7 @@ set(SPINE_SRC
   spine-cocos2dx.cpp
   CCSkeleton.cpp
   CCSkeletonAnimation.cpp
+  MT3SpineDiagnostic.cpp
   BoundingBoxAttachment.cpp
   Event.cpp
   EventData.cpp

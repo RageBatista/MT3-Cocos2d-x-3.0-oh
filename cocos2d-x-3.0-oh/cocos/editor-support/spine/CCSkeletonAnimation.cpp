@@ -34,8 +34,8 @@
 #include <spine/CCSkeletonAnimation.h>
 #include <spine/extension.h>
 #include <spine/spine-cocos2dx.h>
+#include "MT3SpineDiagnostic.h"
 #include <stdio.h>
-#include <stdarg.h>
 
 USING_NS_CC;
 using std::min;
@@ -46,18 +46,6 @@ namespace spine {
 
 // Diagnostic log: output to spine_draw_debug.log, only first 5 frames and frame 60/180/600
 static int g_spineDrawLogCount = 0;
-static void MT3SpineDrawTrace(const char* fmt, ...)
-{
-	FILE* fp = NULL;
-	if (fopen_s(&fp, "spine_draw_debug.log", "ab") != 0 || !fp)
-		return;
-	va_list args;
-	va_start(args, fmt);
-	vfprintf(fp, fmt, args);
-	va_end(args);
-	fputs("\n", fp);
-	fclose(fp);
-}
 static bool MT3SpineDrawShouldLog()
 {
 	++g_spineDrawLogCount;
@@ -241,30 +229,57 @@ void SkeletonAnimation::draw (float vpLeft, float vpTop, float drawAlpha) {
 	if (shouldLog)
 	{
 		Point pos = getPosition();
-		MT3SpineDrawTrace("=== SkeletonAnimation::draw #%d vpLeft=%f vpTop=%f drawAlpha=%f pos=(%f,%f) scale=(%f,%f) opacity=%d/%d ===",
+		MT3SpineTrace("=== SkeletonAnimation::draw #%d vpLeft=%f vpTop=%f drawAlpha=%f pos=(%f,%f) scale=(%f,%f) opacity=%d/%d ===",
 			g_spineDrawLogCount, vpLeft, vpTop, drawAlpha, pos.x, pos.y, getScaleX(), getScaleY(), oldOpacity, getOpacity());
 	}
 
-	// Diagnostic: record PROJECTION and MODELVIEW before push
+	// FIX: CEGUI's endRendering leaves matrix mode at KM_GL_PROJECTION without restoring
+	// KM_GL_MODELVIEW. Must explicitly switch to MODELVIEW before push/translate/mult,
+	// otherwise nodeTransform gets applied to the wrong stack.
+	kmGLMatrixMode(KM_GL_MODELVIEW);
+
+	// Diagnostic: record matrices before push
 	kmMat4 projBefore, mvBefore;
 	kmGLGetMatrix(KM_GL_PROJECTION, &projBefore);
 	kmGLGetMatrix(KM_GL_MODELVIEW, &mvBefore);
 	if (shouldLog)
 	{
-		MT3SpineDrawTrace("  PROJ before: [0]=%.2f [5]=%.2f [10]=%.2f [12]=%.2f [13]=%.2f [14]=%.2f [15]=%.2f",
+		MT3SpineTrace("  PROJ before: [0]=%.2f [5]=%.2f [10]=%.2f [12]=%.2f [13]=%.2f [14]=%.2f [15]=%.2f",
 			projBefore.mat[0], projBefore.mat[5], projBefore.mat[10], projBefore.mat[12], projBefore.mat[13], projBefore.mat[14], projBefore.mat[15]);
-		MT3SpineDrawTrace("  MV before:   [0]=%.2f [5]=%.2f [12]=%.2f [13]=%.2f",
+		MT3SpineTrace("  MV before:   [0]=%.2f [5]=%.2f [12]=%.2f [13]=%.2f",
 			mvBefore.mat[0], mvBefore.mat[5], mvBefore.mat[12], mvBefore.mat[13]);
 	}
 
+	// FIX: The engine's 3D perspective projection is active when Spine renders
+	// (outside CEGUI's beginRendering/endRendering). Override with a 2D ortho
+	// projection matching the viewport so UI Spine renders in screen space.
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	if (shouldLog)
+	{
+		MT3SpineTrace("  viewport: [%d,%d,%d,%d] vpLeft=%f vpTop=%f",
+			viewport[0], viewport[1], viewport[2], viewport[3], vpLeft, vpTop);
+	}
+	kmGLMatrixMode(KM_GL_PROJECTION);
 	kmGLPushMatrix();
+	kmGLLoadIdentity();
+	kmMat4 ortho;
+	kmMat4OrthographicProjection(&ortho,
+		0.0f, (float)viewport[2],
+		(float)viewport[3], 0.0f,
+		-1.0f, 1.0f);
+	kmGLMultMatrix(&ortho);
+	kmGLMatrixMode(KM_GL_MODELVIEW);
+
+	kmGLPushMatrix();
+	kmGLLoadIdentity(); // Reset MV so engine camera offset doesn't shift UI Spine
 	kmGLTranslatef(-vpLeft, -vpTop, 0);
 
 	// Apply node's own transform (position, scale, rotation)
 	kmMat4 nodeTransform = getNodeToParentTransform();
 	if (shouldLog)
 	{
-		MT3SpineDrawTrace("  nodeTransform: [0]=%.4f [5]=%.4f [12]=%.2f [13]=%.2f",
+		MT3SpineTrace("  nodeTransform: [0]=%.4f [5]=%.4f [12]=%.2f [13]=%.2f",
 			nodeTransform.mat[0], nodeTransform.mat[5], nodeTransform.mat[12], nodeTransform.mat[13]);
 	}
 	kmGLMultMatrix(&nodeTransform);
@@ -272,15 +287,24 @@ void SkeletonAnimation::draw (float vpLeft, float vpTop, float drawAlpha) {
 	// Get the current modelview matrix for the shader
 	kmMat4 currentMV;
 	kmGLGetMatrix(KM_GL_MODELVIEW, &currentMV);
+	kmMat4 currentProj;
+	kmGLGetMatrix(KM_GL_PROJECTION, &currentProj);
 	if (shouldLog)
 	{
-		MT3SpineDrawTrace("  currentMV: [0]=%.4f [5]=%.4f [12]=%.2f [13]=%.2f",
+		MT3SpineTrace("  currentMV: [0]=%.4f [5]=%.4f [12]=%.2f [13]=%.2f",
 			currentMV.mat[0], currentMV.mat[5], currentMV.mat[12], currentMV.mat[13]);
+		MT3SpineTrace("  currentProj: [0]=%.4f [5]=%.4f [10]=%.4f [12]=%.2f [13]=%.2f [15]=%.2f",
+			currentProj.mat[0], currentProj.mat[5], currentProj.mat[10], currentProj.mat[12], currentProj.mat[13], currentProj.mat[15]);
 	}
 
 	onDraw(currentMV, true);
 
 	kmGLPopMatrix();
+
+	// Restore projection to what it was before our 2D ortho override
+	kmGLMatrixMode(KM_GL_PROJECTION);
+	kmGLPopMatrix();
+	kmGLMatrixMode(KM_GL_MODELVIEW);
 
 	// Restore shader program that may have been changed by pushShader/popShader
 	ShaderCache* shaderCache = ShaderCache::getInstance();
