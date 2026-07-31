@@ -1995,79 +1995,43 @@ void GameUImanager::DrawFPS()
 
 void GameUImanager::Draw()
 {
-	static int sDrawCount = 0;
-	++sDrawCount;
-
 	if (!m_bShowGameUI)
 	{
-		if (sDrawCount <= 5)
-			MT3_TRACE("GameUImanager::Draw #%d skip: m_bShowGameUI=false", sDrawCount);
 		return;
 	}
 
 	if (gGetScene() && gGetScene()->isLoadMaping())
 	{
-		if (sDrawCount <= 5)
-			MT3_TRACE("GameUImanager::Draw #%d skip: isLoadMaping=true scene=%p", sDrawCount, gGetScene());
 		return;
-	}
-
-	if (sDrawCount <= 5)
-	{
-		CEGUI::System* pSys = CEGUI::System::getSingletonPtr();
-		CEGUI::Window* pRoot = pSys ? pSys->getGUISheet() : NULL;
-		int childCount = pRoot ? pRoot->getChildCount() : -1;
-		MT3_TRACE("GameUImanager::Draw #%d begin t=%lu renderGUI=%p root=%p childCount=%d",
-			sDrawCount, static_cast<unsigned long>(GetTickCount()), pSys, pRoot, childCount);
 	}
 
 	Nuclear::Engine* pEngine = static_cast<Nuclear::Engine*>(Nuclear::GetEngine());
 
 	const bool bLoginProgress = getLoginProgress();
-	if (sDrawCount <= 5)
-		MT3_TRACE("GameUImanager::Draw #%d after engine lookup t=%lu loginProgress=%d",
-			sDrawCount, static_cast<unsigned long>(GetTickCount()), bLoginProgress ? 1 : 0);
 
 	if (bLoginProgress)
 	{
-		if (sDrawCount <= 5)
-			MT3_TRACE("GameUImanager::Draw #%d before LoginImageAndBar.draw", sDrawCount);
 		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LoginImageAndBar.draw");
-		if (sDrawCount <= 5)
-			MT3_TRACE("GameUImanager::Draw #%d after LoginImageAndBar.draw", sDrawCount);
 	}
 
 	if (gGetScene() && gGetSceneMovieManager())
 	{
-		if (sDrawCount <= 5)
-			MT3_TRACE("GameUImanager::Draw #%d scene effect branch begin hold=%p end=%p", sDrawCount, m_pSysMesHoldEffect, m_pSysMesEndEffect);
 		if (m_pSysMesHoldEffect
 			&& gGetScene()->isOnDreamScene() == false
 			&& gGetSceneMovieManager()->isOnSceneMovie() == false)
 		{
 			pEngine->DrawEffect(m_pSysMesHoldEffect);
-			if (sDrawCount <= 5)
-				MT3_TRACE("GameUImanager::Draw #%d scene hold effect complete", sDrawCount);
 		}
 		else if (m_pSysMesEndEffect
 			&& gGetScene()->isOnDreamScene() == false
 			&& gGetSceneMovieManager()->isOnSceneMovie() == false)
 		{
 			pEngine->DrawEffect(m_pSysMesEndEffect);
-			if (sDrawCount <= 5)
-				MT3_TRACE("GameUImanager::Draw #%d scene end effect complete", sDrawCount);
 		}
-		if (sDrawCount <= 5)
-			MT3_TRACE("GameUImanager::Draw #%d scene effect branch complete", sDrawCount);
 	}
 
 	CEGUI::System& guiSystem = CEGUI::System::getSingleton();
 	//guiSystem.signalRedraw();
-	if (sDrawCount <= 5)
-	{
-		MT3_TRACE("GameUImanager::Draw #%d before renderGUI t=%lu", sDrawCount,
-			static_cast<unsigned long>(GetTickCount()));
-	}
 	try
 	{
 		guiSystem.renderGUI();
@@ -2098,12 +2062,6 @@ void GameUImanager::Draw()
 			m_pCEGUICocos2DRender->endRendering();
 		}
 	}
-	if (sDrawCount <= 5)
-	{
-		MT3_TRACE("GameUImanager::Draw #%d after renderGUI t=%lu", sDrawCount,
-			static_cast<unsigned long>(GetTickCount()));
-	}
-
 	drawScreenEffect();
 
 	if (TaskOnOffEffectManager::GetInstance())
@@ -2436,6 +2394,7 @@ bool GameUImanager::InitGameUIPostInit()
 		return true;
 
 	m_bUIPostInited = true;
+	CEGUI::SchemeManager::getSingleton().append("taharezlook.scheme");
 	CEGUI::SchemeManager::getSingleton().append("taharezlook2.scheme");
 
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CChatCellManager.Initialize_");
@@ -2571,7 +2530,7 @@ bool GameUImanager::InitGameUI()
 
 	CEGUI::WindowManager& winMgr = CEGUI::WindowManager::getSingleton();
 
-	CEGUI::SchemeManager::getSingleton().create("taharezlook.scheme");
+	CEGUI::SchemeManager::getSingleton().create("taharezlook_bootstrap.scheme");
 
 	CEGUI::System::getSingleton().setDefaultMouseCursor("common", "common_biaoshi_cc");
 	CEGUI::System::getSingleton().setDefaultTooltip("TaharezLook/Tooltip");

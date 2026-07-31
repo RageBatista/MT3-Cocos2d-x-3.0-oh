@@ -1,0 +1,971 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow" Name="cashexchange_main">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Text" Value="仙玉交易"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-552},{0.5,-334},{0.5,552},{0.5,348}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/common_line" Name="cashexchange_main/dewe">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,560},{0,58},{0,1050},{0,667}}"/>
+			<Window Type="TaharezLook/GroupButton6" Name="cashexchange_main/ask">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="买入仙玉"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,-20},{0.05,0},{0.05,133},{0.05,63}}"/>
+			</Window>
+			<Window Type="TaharezLook/GroupButton6" Name="cashexchange_main/sell">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="卖出仙玉"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.1,125},{0.05,0},{0.1,278},{0.05,63}}"/>
+			</Window>
+			<Window Type="TaharezLook/common_text2bg" Name="cashexchange_main/OP1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,4},{0,97},{0,481},{0,494}}"/>
+				<Window Type="TaharezLook/common_hengxian" Name="cashexchange_main/OP/line">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,12},{0,113},{0,478},{0,117}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/title1">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="求购说明："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="130.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,5},{0,7},{0,150},{0,42}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuoming1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="最小求购数量为10仙玉，手续费为买入仙玉所支付金钱的3%。如想取消订单，可在挂单区手动取消订单。"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="462.0"/>
+					<Property Name="VertExtent" Value="65.9678"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="WordWrapLeftAligned"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.050916,-20},{0.050916,21},{0.050916,448},{0.050916,90}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuliangwenzi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="买入仙玉数量："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,23},{0.05,107},{0.05,173},{0.05,142}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/fushitu">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:fushi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,196},{0,118},{0,249},{0,171}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/danjiawenzi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="买入仙玉单价："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,23},{0.1,138},{0.05,173},{0.1,173}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_shurukuang" Name="cashexchange_main/OP/shuliangdi/input">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.10387,203},{0.10387,83},{0.10387,362},{0.10387,124}}"/>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuliang">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="VertExtent" Value="34.8987"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.05,-2},{0.05,1},{0.05,148},{0.05,34}}"/>
+						<Property Name="TextParsingEnabled" Value="False"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuliangdi/inoutnotice3">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Text" Value="点击输入数量"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="132.0"/>
+						<Property Name="VertExtent" Value="21.9893"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,2},{0,2},{0,157},{0,37}}"/>
+						<Property Name="MousePassThroughEnabled" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/common_shurukuang" Name="cashexchange_main/OP/danjiadi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.10387,203},{0.152749,114},{0.10387,362},{0.152749,155}}"/>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/danjia">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="VertExtent" Value="34.8987"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.05,-2},{0.05,1},{0.05,149},{0.05,34}}"/>
+						<Property Name="TextParsingEnabled" Value="False"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/danjiadi/inputnotice4">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Text" Value="点击输入单价"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="132.0"/>
+						<Property Name="VertExtent" Value="21.9893"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,159},{0,37}}"/>
+						<Property Name="MousePassThroughEnabled" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/jinbitu">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:jinbi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,196},{0.050916,149},{0,249},{0.050916,202}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/huafei">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="买入花费金币："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,23},{0.15,169},{0.05,173},{0.15,204}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_wenzidi" Name="cashexchange_main/OP/huafeidi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.10387,173},{0.152749,165},{0.10387,388},{0.152749,206}}"/>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/fushinumdi1/huafei">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FFF5E7D2 tr:FFF5E7D2 bl:FFF5E7D2 br:FFF5E7D2"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,213},{0,38}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/huafeidi/countGB3">
+						<Property Name="Font" Value="simhei-10"/>
+						<Property Name="Text" Value="根据仙玉自动计算"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="Visible" Value="False"/>
+						<Property Name="HorzExtent" Value="145.0"/>
+						<Property Name="VertExtent" Value="18.3192"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,213},{0,37}}"/>
+						<Property Name="MousePassThroughEnabled" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shouxufei">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="  交易手续费："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,24},{0.2,199},{0.05,174},{0.2,234}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_wenzidi" Name="cashexchange_main/OP/shouxufeidi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.10387,173},{0.201629,195},{0.10387,388},{0.201629,236}}"/>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/fushinumdi1/shouxufei">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FFF5E7D2 tr:FFF5E7D2 bl:FFF5E7D2 br:FFF5E7D2"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,213},{0,38}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shouxufeidi/countGB4">
+						<Property Name="Font" Value="simhei-10"/>
+						<Property Name="Text" Value="根据金币自动计算"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="Visible" Value="False"/>
+						<Property Name="HorzExtent" Value="145.0"/>
+						<Property Name="VertExtent" Value="18.3192"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,2},{0,2},{0,214},{0,37}}"/>
+						<Property Name="MousePassThroughEnabled" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="cashexchange_main/OP/reset">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="重置"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,8},{0.101833,290},{0,159},{0.101833,353}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="cashexchange_main/OP/add">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="充值"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,140},{0.101833,290},{0.05,291},{0.101833,353}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="cashexchange_main/OP/add1">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="买入"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,274},{0.101833,290},{0.1,425},{0.101833,353}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/jinbitu2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:jinbi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,196},{0.152749,159},{0,249},{0.152749,212}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/jinbitu3">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:jinbi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,196},{0.201629,189},{0,249},{0.201629,242}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/now1">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="拥有"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="52.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="RightAligned"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.15,-74},{0.3,322},{0.15,-12},{0.3,357}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/now2">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="拥有"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="52.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="RightAligned"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.2,-99},{0.35,337},{0.2,-38},{0.35,372}}"/>
+			</Window>
+			<Window Type="TaharezLook/common_wenzidi" Name="cashexchange_main/OP/nowfushidi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.2,-7},{0.2,383},{0.2,255},{0.2,424}}"/>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/nowfushidi/nowfushishu">
+					<Property Name="Font" Value="plantc-15"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFF5E7D2 tr:FFF5E7D2 bl:FFF5E7D2 br:FFF5E7D2"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,6},{0,4},{0,258},{0,36}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_wenzidi" Name="cashexchange_main/OP/nowjinbidi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.25,-31},{0.25,399},{0.25,231},{0.25,440}}"/>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/nowfushidi/nowfushishu1">
+					<Property Name="Font" Value="plantc-15"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFF5E7D2 tr:FFF5E7D2 bl:FFF5E7D2 br:FFF5E7D2"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,6},{0.05,2},{0,258},{0.05,34}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_text2bg" Name="cashexchange_main/OP2">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,4},{0,97},{0,481},{0,494}}"/>
+				<Window Type="TaharezLook/common_hengxian" Name="cashexchange_main/OP/line2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,7},{0,113},{0,473},{0,117}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/title2">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="卖出说明："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="130.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,5},{0,7},{0,150},{0,42}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuoming2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="最小寄卖数量为10仙玉，卖出成功后会收取寄卖所得的3%为交易税。如想取消订单，可在挂单区手动取消订单。"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="462.0"/>
+					<Property Name="VertExtent" Value="65.9678"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="WordWrapLeftAligned"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-20},{0.05,21},{0.05,448},{0.05,90}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuliangwenzi2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="卖出仙玉数量："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,23},{0.05,107},{0.05,173},{0.05,142}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/fushitu2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:fushi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,196},{0,118},{0,249},{0,171}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/danjiawenzi2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="卖出仙玉单价："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,23},{0.1,138},{0.05,173},{0.1,173}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_shurukuang" Name="cashexchange_main/OP/shuliangdi2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,205},{0.1,84},{0.1,364},{0.1,125}}"/>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuliang2">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="VertExtent" Value="34.8987"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.05,-2},{0.05,1},{0.05,147},{0.05,34}}"/>
+						<Property Name="TextParsingEnabled" Value="False"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuliangdi2/inputnotice1">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Text" Value="点击输入数量"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="132.0"/>
+						<Property Name="VertExtent" Value="21.9893"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,2},{0,2},{0,157},{0,37}}"/>
+						<Property Name="MousePassThroughEnabled" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/common_shurukuang" Name="cashexchange_main/OP/danjiadi2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,205},{0.15,115},{0.1,364},{0.15,156}}"/>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/danjia2">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="VertExtent" Value="34.8987"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.05,-2},{0.05,1},{0.05,149},{0.05,34}}"/>
+						<Property Name="TextParsingEnabled" Value="False"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/danjiadi2/inputnotice2">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Text" Value="点击输入单价"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="132.0"/>
+						<Property Name="VertExtent" Value="21.9893"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,158},{0,37}}"/>
+						<Property Name="MousePassThroughEnabled" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/maijinbitu1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:jinbi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,196},{0.05,149},{0,249},{0.05,202}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shouruwenzi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="卖出获得金币："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,23},{0.15,169},{0.05,173},{0.15,204}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_wenzidi" Name="cashexchange_main/OP/shourudi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,175},{0.15,166},{0.1,390},{0.15,207}}"/>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shourudi/shouru">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FFF5E7D2 tr:FFF5E7D2 bl:FFF5E7D2 br:FFF5E7D2"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,213},{0,38}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shourudi/countGB1">
+						<Property Name="Font" Value="simhei-10"/>
+						<Property Name="Text" Value="根据仙玉自动计算"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="Visible" Value="False"/>
+						<Property Name="HorzExtent" Value="145.0"/>
+						<Property Name="VertExtent" Value="18.3192"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,213},{0,37}}"/>
+						<Property Name="MousePassThroughEnabled" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuiwenzi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="  预计交易税："/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,24},{0.2,199},{0.05,174},{0.2,234}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_wenzidi" Name="cashexchange_main/OP/shuidi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,175},{0.2,196},{0.1,390},{0.2,237}}"/>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuidi/shui">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FFF5E7D2 tr:FFF5E7D2 bl:FFF5E7D2 br:FFF5E7D2"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,2},{0,2},{0,213},{0,38}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/shuidi/countGB2">
+						<Property Name="Font" Value="simhei-10"/>
+						<Property Name="Text" Value="根据金币自动计算"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="Visible" Value="False"/>
+						<Property Name="HorzExtent" Value="145.0"/>
+						<Property Name="VertExtent" Value="18.3192"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,3},{0,2},{0,214},{0,37}}"/>
+						<Property Name="MousePassThroughEnabled" Value="True"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="cashexchange_main/OP/reset1">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="重置"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,8},{0.101833,290},{0,159},{0.101833,353}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="cashexchange_main/OP/add2">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="充值"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,140},{0.1,290},{0.05,291},{0.1,353}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="cashexchange_main/OP/add11">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="卖出"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,274},{0.1,290},{0.1,425},{0.1,353}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/jinbitu21">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:jinbi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,196},{0.15,160},{0,249},{0.15,213}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/jinbitu31">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:lifeskillui image:jinbi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,196},{0.2,190},{0,249},{0.2,243}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/nowfushitu">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:lifeskillui image:fushi"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,80},{0,497},{0,133},{0,550}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/OP/nowjinbitu">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:lifeskillui image:jinbi"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.1,30},{0.1,485},{0.1,83},{0.1,538}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/common_text2bg" Name="cashexchange_main/jiaoyiqu">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,63},{0,78},{0,558},{0,652}}"/>
+			<Window Type="TaharezLook/common_baibg" Name="cashexchange_main/jiaoyiqu/qiugoudi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,-16},{0,78},{0.05,463},{0,321}}"/>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/maimai1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="买卖"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="44.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,1},{0.05,-10},{0.05,60},{0.05,19}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/jimai1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="卖出仙玉数量"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="132.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,86},{0.05,-10},{0.1,235},{0.05,19}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/jimai11">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="卖出单价"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="88.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.15,247},{0.05,-10},{0.15,368},{0.05,19}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="cashexchange_main/jiaoyiqu/qiugoudi/kuaijiechengjiao1">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="快捷购买"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,337},{0,184},{0,488},{0,247}}"/>
+					<Property Name="ButtonBorderEnable" Value="False"/>
+				</Window>
+				<Window Type="TaharezLook/ScrollablePane" Name="cashexchange_main/jiaoyiqu/qiugoudi/jimailiebiao">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="HorzStepSize" Value="0.1"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="VertStepSize" Value="0.1"/>
+					<Property Name="HorzOverlapSize" Value="0.01"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,3},{0,27},{0,475},{0,248}}"/>
+					<Property Name="VertOverlapSize" Value="0.01"/>
+					<Property Name="HorzScrollPosition" Value="0.0"/>
+					<Property Name="VertScrollPosition" Value="0.0"/>
+					<AutoWindow NameSuffix="__auto_container__">
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0"/>
+					</AutoWindow>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/jiaoyiqu/qiugoudi/wuxinxi1">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="暂无交易信息"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="156.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,80},{0,93},{0,401},{0,133}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_hengxian" Name="cashexchange_main/jiaoyiqu/qiugoudi/hengxian1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,12},{0,32},{0,462},{0,36}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_baibg" Name="cashexchange_main/jiaoyiqu/qiugoudi1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,-16},{0.05,298},{0.05,463},{0.05,538}}"/>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/maimai11">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="买卖"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="44.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,2},{0.1,-22},{0.05,61},{0.1,7}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/jimai12">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="买入仙玉数量"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="132.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,86},{0.1,-22},{0.1,235},{0.1,7}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/OP/jimai111">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="买入单价"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="88.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.15,247},{0.1,-22},{0.15,368},{0.1,7}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_honganniu" Name="cashexchange_main/jiaoyiqu/qiugoudi/kuaijiechengjiao2">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Text" Value="快捷卖出"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,337},{0.05,169},{0,488},{0.05,232}}"/>
+					<Property Name="ButtonBorderEnable" Value="False"/>
+				</Window>
+				<Window Type="TaharezLook/ScrollablePane" Name="cashexchange_main/jiaoyiqu/qiugoudi/goumailiebiao">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="HorzStepSize" Value="0.1"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="VertStepSize" Value="0.1"/>
+					<Property Name="HorzOverlapSize" Value="0.01"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-21},{0.05,14},{0.05,451},{0.05,232}}"/>
+					<Property Name="VertOverlapSize" Value="0.01"/>
+					<Property Name="HorzScrollPosition" Value="0.0"/>
+					<Property Name="VertScrollPosition" Value="0.0"/>
+					<AutoWindow NameSuffix="__auto_container__">
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0"/>
+					</AutoWindow>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="cashexchange_main/jiaoyiqu/qiugoudi/wuxinxi2">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="暂无交易信息"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="156.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,80},{0.05,89},{0,401},{0.05,129}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_hengxian" Name="cashexchange_main/jiaoyiqu/qiugoudi1/hengxian2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,12},{0,32},{0,462},{0,36}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_baibg" Name="cashexchange_main/jiaoyiqu/jioayijilu">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,11},{0,78},{0,492},{0,567}}"/>
+				<Window Type="DefaultWindow" Name="cashexchange_main/jiaoyiqu/jioayijilu/jiluliebiao">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,4},{0,5},{0,472},{0,479}}"/>
+					<Window Type="DefaultWindow" Name="cashexchange_main/jiaoyiqu/qiugoudi/wuxinxi3">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,1},{0,1},{0,470},{0,474}}"/>
+						<Window Type="TaharezLook/StaticText" Name="cashexchange_main/jiaoyiqu/qiugoudi/wuxinxi31">
+							<Property Name="Font" Value="simhei-14"/>
+							<Property Name="Text" Value="暂无交易信息"/>
+							<Property Name="Scale" Value="x:1 y:1 z:1"/>
+							<Property Name="HorzExtent" Value="156.0"/>
+							<Property Name="VertExtent" Value="25.6593"/>
+							<Property Name="AlwaysOnTop" Value="True"/>
+							<Property Name="EnableSound" Value="True"/>
+							<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+							<Property Name="BorderColour" Value="FF003454"/>
+							<Property Name="LuaForDialog" Value="True"/>
+							<Property Name="HorzFormatting" Value="HorzCentred"/>
+							<Property Name="UnifiedAreaRect" Value="{{0.2,159},{0.2,17},{0.2,333},{0.2,57}}"/>
+						</Window>
+						<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/jiaoyiqu/jioayijilu/wujilutu">
+							<Property Name="Font" Value="simhei-12"/>
+							<Property Name="Image" Value="set:teamui image:tean_icon"/>
+							<Property Name="Scale" Value="x:1 y:1 z:1"/>
+							<Property Name="EnableSound" Value="True"/>
+							<Property Name="LuaForDialog" Value="True"/>
+							<Property Name="UnifiedAreaRect" Value="{{0.1,-88},{0.1,84},{0.1,274},{0.1,446}}"/>
+						</Window>
+						<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/jiaoyiqu/jioayijilu/jiluliebiao/duihuakuang">
+							<Property Name="Font" Value="simhei-12"/>
+							<Property Name="Image" Value="set:teamui image:team_shuohuabg"/>
+							<Property Name="Scale" Value="x:1 y:1 z:1"/>
+							<Property Name="EnableSound" Value="True"/>
+							<Property Name="LuaForDialog" Value="True"/>
+							<Property Name="UnifiedAreaRect" Value="{{0.05,194},{0.05,66},{0.05,435},{0.05,189}}"/>
+						</Window>
+					</Window>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/GroupButton6" Name="cashexchange_main/trade">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="交易区"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.15,-67},{0.05,-20},{0.15,86},{0.05,43}}"/>
+			</Window>
+			<Window Type="TaharezLook/GroupButton6" Name="cashexchange_main/personal">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="个人挂单"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.2,71},{0.05,-20},{0.2,224},{0.05,43}}"/>
+			</Window>
+			<Window Type="TaharezLook/GroupButton6" Name="cashexchange_main/record">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="成交记录"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.25,208},{0.05,-20},{0.25,361},{0.05,43}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="cashexchange_main/tubiao">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:diban image:shangcheng"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="ClippedByParent" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,36},{0,-19},{0,146},{0,89}}"/>
+		</Window>
+	</Window>
+</GUILayout>

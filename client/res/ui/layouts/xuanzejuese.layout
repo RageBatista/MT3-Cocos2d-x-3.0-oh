@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="xuanzejuese" >
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="CCreateRoleDialog" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back" >
+            <Property Name="Image" Value="set:loginback1 image:CharacterCreatedback_r" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/touxiang" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="headImg" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,596},{1,0}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="DefaultWindow" Name="xuanzejuese/back1" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.75,-113},{0,0},{1,0},{1,0}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+                <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/flagbg" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,80},{0,-186},{0,363},{0,371}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/flagbg/smoke" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-117},{1,-71},{1,-116},{1,29}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/back1/" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:guaji2 image:d" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,18},{0,0},{0,425},{0,590}}" />
+                    <Window Type="TaharezLook/ScrollablePane" Name="xuanzejuese/back1//list" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="HorzStepSize" Value="0.1" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="VertStepSize" Value="0.1" />
+                        <Property Name="LuaMemberName" Value="list" />
+                        <Property Name="HorzOverlapSize" Value="0.01" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,47},{0,95},{0,355},{0,558}}" />
+                        <Property Name="VertOverlapSize" Value="0.01" />
+                        <Property Name="HorzScrollPosition" Value="0" />
+                        <Property Name="VertScrollPosition" Value="0" />
+                        <AutoWindow NameSuffix="__auto_container__" >
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                        </AutoWindow>
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/ImageButton" Name="xuanzejuese/Back/OK" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Text" Value="开 始 游 戏" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="HoverImage" Value="set:cc25410 image:tjanxia" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="NormalImage" Value="set:cc25410 image:tjanxia" />
+                    <Property Name="PushedImage" Value="set:cc25410 image:tjanxia" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="DisabledImage" Value="set:cc25410 image:tjanxia" />
+                    <Property Name="LuaMemberName" Value="okBtn" />
+                    <Property Name="SoundResource" Value="button.ogg" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,46},{0.05,522},{0.05,256},{0.05,592}}" />
+                    <Property Name="LuaEventOnClicked" Value="handleOkClicked" />
+                    <Property Name="ButtonBorderColour" Value="FF955F2A" />
+                    <Property Name="ButtonBorderEnable" Value="True" />
+                    <Property Name="ButtonDefaultBorderEnable" Value="False" />
+                    <Property Name="ButtonDefaultColourEnable" Value="False" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="xuanzejuese/Back/roleback" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.75,-104},{1,0}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/rolearea/roleimg2" >
+                    <Property Name="Alpha" Value="0" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="roleImg2" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="LimitWindowSize" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,1043},{0,-32},{0,1589},{0,676}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/spritebg" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="spriteBg" />
+                    <Property Name="ImageSizeEnable" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{1,-173},{1,-234},{1,47},{1,-34}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/spritebg/shadow" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Image" Value="set:character image:character_img_xiaoyingzi" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,37},{0,139},{0,187},{0,189}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="xuanzejuese/lightback" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.5,-142},{1,-61},{0.5,166},{1,-21}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/rolearea/roleimg1" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="roleImg1" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="LimitWindowSize" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.5,-252},{0.5,-355},{0.5,294},{0.5,353}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/dikuang" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:character image:character_img_diban1" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,263},{0,27},{0,703},{0,107}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="xuanzejuese/back/rolename" >
+                    <Property Name="Font" Value="simhei-14" />
+                    <Property Name="Text" Value="名字" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="52" />
+                    <Property Name="VertExtent" Value="25.6593" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="roleNameText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,20},{0,10},{0,155},{0,40}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="xuanzejuese/back/schoolname" >
+                    <Property Name="Font" Value="simhei-14" />
+                    <Property Name="Text" Value="职业" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="52" />
+                    <Property Name="VertExtent" Value="25.6593" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="schoolNameText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,164},{0,10},{0,298},{0,40}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="xuanzejuese/back/enSchoolName" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="圣骑石" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="66" />
+                    <Property Name="VertExtent" Value="21.9893" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="schoolText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,160},{0,37},{0,310},{0,67}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="xuanzejuese/back/enRoleName" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="刘宏达是大尔霍" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="154" />
+                    <Property Name="VertExtent" Value="21.9893" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="roleNameText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-3},{0,37},{0,159},{0,67}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="xuanzejuese/Back/return" >
+                <Property Name="Font" Value="hkhb-14" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:my_window1 image:fanhui" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:my_window1 image:fanhui" />
+                <Property Name="PushedImage" Value="set:my_window1 image:fanhui" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:my_window1 image:fanhui" />
+                <Property Name="LuaMemberName" Value="returnBtn" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,100},{0,96}}" />
+                <Property Name="LuaEventOnClicked" Value="handleReturnClicked" />
+            </Window>
+            <Window Type="DefaultWindow" Name="xuanzejuese/Back/roleback/1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="spinebg" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-475},{0.5,-408},{0.5,71},{0.5,300}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="DefaultWindow" Name="xuanzejuese/slideregion" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,134},{0,106},{1,-555},{1,-72}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,459},{0,195},{0,1168},{0,695}}" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,287},{0,28},{0,423},{0,177}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act1/xx" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Alpha" Value="0.7" />
+                        <Property Name="Image" Value="set:my_window1 image:black" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-30},{0,96},{0,117},{0,146}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act1/name" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="剑侠客剑侠客" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="102" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-18},{0,96},{0,156},{0,124}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act1/lv" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="999级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="42.5" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,9},{0,116},{0,129},{0,148}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act2" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,131},{0,110},{0,267},{0,259}}" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act2/xx" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Alpha" Value="0.7" />
+                        <Property Name="Image" Value="set:my_window1 image:black" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-30},{0,96},{0,117},{0,146}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act2/name" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="剑侠客剑侠客" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="102" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-18},{0,96},{0,156},{0,124}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act2/lv" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="999级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="42.5" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,9},{0,116},{0,129},{0,148}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act3" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,443},{0,110},{0,579},{0,259}}" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act3/xx" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Alpha" Value="0.7" />
+                        <Property Name="Image" Value="set:my_window1 image:black" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-30},{0,96},{0,117},{0,146}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act3/name" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="剑侠客剑侠客" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="102" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-18},{0,96},{0,156},{0,124}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act3/lv" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="999级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="42.5" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,9},{0,116},{0,129},{0,148}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act4" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,288},{0,178},{0,424},{0,327}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act4/xx" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Alpha" Value="0.7" />
+                        <Property Name="Image" Value="set:my_window1 image:black" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-30},{0,96},{0,117},{0,146}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act4/name" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="剑侠客剑侠客" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="102" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-18},{0,96},{0,156},{0,124}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act4/lv" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="999级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="42.5" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,9},{0,116},{0,129},{0,148}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act5" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-3},{0,198},{0,133},{0,347}}" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act5/xx" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Alpha" Value="0.7" />
+                        <Property Name="Image" Value="set:my_window1 image:black" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-30},{0,96},{0,117},{0,146}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act5/name" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="剑侠客剑侠客" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="102" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-20},{0,96},{0,154},{0,124}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act5/lv" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="999级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="42.5" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,8},{0,116},{0,128},{0,148}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act6" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,156},{0,256},{0,292},{0,405}}" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act6/xx" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Alpha" Value="0.7" />
+                        <Property Name="Image" Value="set:my_window1 image:black" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-30},{0,96},{0,117},{0,146}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act6/name" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="剑侠客剑侠客" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="102" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-19},{0,96},{0,155},{0,124}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act6/lv" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="999级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="42.5" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,8},{0,116},{0,128},{0,148}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act7" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,420},{0,256},{0,556},{0,405}}" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act7/xx" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Alpha" Value="0.7" />
+                        <Property Name="Image" Value="set:my_window1 image:black" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-30},{0,96},{0,117},{0,146}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act7/name" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="剑侠客剑侠客" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="102" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-19},{0,96},{0,155},{0,124}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act7/lv" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="999级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="42.5" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,8},{0,116},{0,128},{0,148}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act8" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,578},{0,198},{0,714},{0,347}}" />
+                    <Window Type="TaharezLook/StaticImage" Name="xuanzejuese/Back/actBg/act8/xx" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Alpha" Value="0.7" />
+                        <Property Name="Image" Value="set:my_window1 image:black" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-30},{0,96},{0,117},{0,146}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act8/name" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="剑侠客剑侠客" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="102" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-19},{0,96},{0,155},{0,124}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="xuanzejuese/Back/actBg/act8/lv" >
+                        <Property Name="Font" Value="simhei-9" />
+                        <Property Name="Text" Value="999级" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="42.5" />
+                        <Property Name="VertExtent" Value="16.5" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="BorderColour" Value="FF955F2A" />
+                        <Property Name="BorderEnable" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,8},{0,116},{0,128},{0,148}}" />
+                        <Property Name="HorizontalAlignment" Value="Centre" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                    </Window>
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

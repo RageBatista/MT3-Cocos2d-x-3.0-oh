@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg" >
+        <Property Name="Font" Value="hycyj-20" />
+        <Property Name="Image" Value="set:ccui1 image:tm" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="fubencodef" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/common_ccfubenbg" Name="moshouchuanqi_mtg/bgcc" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,34},{0,54},{0,1203},{0,670}}" />
+            <Property Name="HorizontalAlignment" Value="Centre" />
+            <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/ccdhck" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,981},{0.05,536},{0.05,1031},{0.05,586}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc/makecy" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:ccfuben image:makec1" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,951.2},{0,531.2},{0,1008.45},{0,586.45}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc/ccbtc1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:ccfuben image:biaotic1" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,280.5},{0,-42.5},{0,878.75},{0,64.75}}" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/ScrollablePane" Name="moshouchuanqi_mtg/bg/list" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="LuaMemberName" Value="m_pane" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,106},{0.05,77},{0.05,947},{0.05,555}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                </AutoWindow>
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc/makec2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:ccfuben image:makec2" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,76.2},{0.05,526.2},{0.05,275.45},{0.05,572.45}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_cangku" Name="moshouchuanqi_mtg/bgcc/jiangliyulanc1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,175.4},{0,61.4},{0,327.65},{0,104.65}}" />
+                <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/bgcc/jiangliyulanc1/cczyc1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="奖励预览" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="88" />
+                    <Property Name="VertExtent" Value="22.0001" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF743A0F tr:FF743A0F bl:FF743A0F br:FF743A0F" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-11.7},{0,8.3},{0,160.55},{0,37.55}}" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/bgcc/shijianbs" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,728.5},{0,64.5},{0,998.75},{0,100.75}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+                <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc/shijianbs/zsc1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:ccui image:ccszzs" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,10.3},{0,6.3},{0,36.55},{0,31.55}}" />
+                </Window>
+                <Window Type="TaharezLook/RichEditbox" Name="moshouchuanqi_mtg/bgcc/ccshijianc1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ReadOnly" Value="True" />
+                    <Property Name="LineSpace" Value="1" />
+                    <Property Name="BlinkCaret" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="MaxTextLength" Value="2147483647" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,41.3},{0,-0.700001},{0,263.55},{0,34.55}}" />
+                    <Property Name="BlinkCaretTimeout" Value="0.5" />
+                    <Property Name="TextParsingEnabled" Value="False" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+				                    <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/jianglitips/bscc1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Image" Value="set:itemicon53 image:1863" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,-108.6},{0,-2.6},{0,-73.35},{0,27.65}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/jianglitips/bscc11" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Image" Value="set:itemicon54 image:1879" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,-108.6},{0.05,-2.6},{0.05,-73.35},{0.05,27.65}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="moshouchuanqi_mtg/ccx" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:ccui image:ccxxc1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:ccui image:ccxxc1" />
+                <Property Name="PushedImage" Value="set:ccui image:ccxxc1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:ccui image:ccxxc1" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="LimitWindowSize" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,872},{0.1,-37},{0.1,930},{0.1,83}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="moshouchuanqi_mtg/youfanye" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="HoverImage" Value="set:shiguang image:youfanye" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:cc25411 image:you1" />
+            <Property Name="PushedImage" Value="set:cc25411 image:you1" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="DisabledImage" Value="set:shiguang image:youfanye" />
+            <Property Name="LuaMemberName" Value="forward" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,84},{0,259},{0,156},{0,335}}" />
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="moshouchuanqi_mtg/zuofanye" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="HoverImage" Value="set:cc25411 image:zuo1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:cc25411 image:zuo1" />
+            <Property Name="PushedImage" Value="set:cc25411 image:zuo1" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="DisabledImage" Value="set:cc25411 image:zuo1" />
+            <Property Name="LuaMemberName" Value="back" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,86},{0,338},{0,158},{0,414}}" />
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="moshouchuanqi_mtg/bgcc1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:LoginBack2 image:CommonBack" />
+            <Property Name="PushedImage" Value="set:LoginBack2 image:CommonBack" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="SoundResource" Value="cc.ogg" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Window Type="TaharezLook/common_jsjbtextbg" Name="moshouchuanqi_mtg/bgcc1/cczy" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,284.3},{0,106.3},{0,1002.55},{0,636.55}}" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+                <Window Type="TaharezLook/ScrollablePane" Name="moshouchuanqi_mtg/bgcc1/jlhd" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:-97.5 t:-12.5 r:578.75 b:479.75" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="HorzStepSize" Value="0.1" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="VertStepSize" Value="0.1" />
+                    <Property Name="HorzOverlapSize" Value="0.01" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,17.5},{0,13.5},{0,700.75},{0,515.75}}" />
+                    <Property Name="VertOverlapSize" Value="0.01" />
+                    <Property Name="HorzScrollPosition" Value="0" />
+                    <Property Name="VertScrollPosition" Value="0" />
+                    <AutoWindow NameSuffix="__auto_container__" >
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="ContentArea" Value="l:-97.5 t:-12.5 r:578.75 b:479.75" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="ChildExtentsArea" Value="l:-97.5 t:-12.5 r:578.75 b:479.75" />
+                        <Window Type="TaharezLook/common_huisetext" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1" >
+                            <Property Name="Font" Value="simhei-12" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-97.5},{0,-12.5},{0,578.75},{0,79.75}}" />
+                            <Property Name="MousePassThroughEnabled" Value="True" />
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc1" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,180.5},{0.05,1.5},{0.05,259.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc2" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,270.5},{0.05,1.5},{0.05,349.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc3" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,360.5},{0.05,1.5},{0.05,439.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc4" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,450.5},{0.05,1.5},{0.05,529.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc5" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,540.5},{0.05,1.5},{0.05,619.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/tmkdz" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Image" Value="set:ccfuben image:fubenyuan" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,69.3},{0,-2.7},{0,174.55},{0,100.55}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                                <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/tmkdz/cc1" >
+                                    <Property Name="Font" Value="simhei-12" />
+                                    <Property Name="Image" Value="set:ccfuben image:c1" />
+                                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                    <Property Name="Tooltip" Value="[colour=&apos;fffff2df&apos;]白龙闹海•[colour=&apos;FF00FF00&apos;]50[colour=&apos;fffff2df&apos;]级，可挑战" />
+                                    <Property Name="EnableSound" Value="True" />
+                                    <Property Name="LuaForDialog" Value="True" />
+                                    <Property Name="UnifiedAreaRect" Value="{{0,10.3},{0,10.3},{0,97.55},{0,92.55}}" />
+                                </Window>
+                            </Window>
+                            <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/namec1" >
+                                <Property Name="Font" Value="simhei-11" />
+                                <Property Name="Text" Value="五啊啊啊" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="HorzExtent" Value="20" />
+                                <Property Name="VertExtent" Value="80.6875" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                                <Property Name="BorderColour" Value="FF003454" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,26.4},{0,2.4},{0,54.65},{0,93.65}}" />
+                            </Window>
+                        </Window>
+                        <Window Type="TaharezLook/common_heisetext" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz2" >
+                            <Property Name="Font" Value="simhei-12" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-97.5},{0,87.5},{0,578.75},{0,179.75}}" />
+                            <Property Name="MousePassThroughEnabled" Value="True" />
+                            <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/namec2" >
+                                <Property Name="Font" Value="simhei-11" />
+                                <Property Name="Text" Value="五啊啊啊" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="HorzExtent" Value="20" />
+                                <Property Name="VertExtent" Value="80.6875" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                                <Property Name="BorderColour" Value="FF003454" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,26.4},{0,2.4},{0,54.65},{0,93.65}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                            </Window>
+                            <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz2/tmkdz" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Image" Value="set:ccfuben image:fubenyuan" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,69.3},{0,-2.7},{0,174.55},{0,100.55}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                                <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/tmkdz/cc2" >
+                                    <Property Name="Font" Value="simhei-12" />
+                                    <Property Name="Image" Value="set:ccfuben image:c1" />
+                                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                    <Property Name="Tooltip" Value="[colour=&apos;fffff2df&apos;]天蓬娶亲•[colour=&apos;FF00FF00&apos;]60[colour=&apos;fffff2df&apos;]级，可挑战" />
+                                    <Property Name="EnableSound" Value="True" />
+                                    <Property Name="LuaForDialog" Value="True" />
+                                    <Property Name="UnifiedAreaRect" Value="{{0,10.3},{0,10.3},{0,97.55},{0,92.55}}" />
+                                </Window>
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc6" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,180.5},{0.05,1.5},{0.05,259.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc7" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,270.5},{0.05,1.5},{0.05,349.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc8" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,360.5},{0.05,1.5},{0.05,439.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc9" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,450.5},{0.05,1.5},{0.05,529.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc10" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,540.5},{0.05,1.5},{0.05,619.75},{0.05,78.75}}" />
+                            </Window>
+                        </Window>
+                        <Window Type="TaharezLook/common_huisetext" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz3" >
+                            <Property Name="Font" Value="simhei-12" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-97.5},{0,187.5},{0,578.75},{0,279.75}}" />
+                            <Property Name="MousePassThroughEnabled" Value="True" />
+                            <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/namec3" >
+                                <Property Name="Font" Value="simhei-11" />
+                                <Property Name="Text" Value="五啊啊啊" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="HorzExtent" Value="20" />
+                                <Property Name="VertExtent" Value="80.6875" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                                <Property Name="BorderColour" Value="FF003454" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,26.4},{0,2.4},{0,54.65},{0,93.65}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                            </Window>
+                            <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz3/tmkdz" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Image" Value="set:ccfuben image:fubenyuan" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,69.3},{0,-2.7},{0,174.55},{0,100.55}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                                <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/tmkdz/cc3" >
+                                    <Property Name="Font" Value="simhei-12" />
+                                    <Property Name="Image" Value="set:ccfuben image:c1" />
+                                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                    <Property Name="Tooltip" Value="[colour=&apos;fffff2df&apos;]流沙地狱•[colour=&apos;FF00FF00&apos;]70[colour=&apos;fffff2df&apos;]级，可挑战" />
+                                    <Property Name="EnableSound" Value="True" />
+                                    <Property Name="LuaForDialog" Value="True" />
+                                    <Property Name="UnifiedAreaRect" Value="{{0,10.3},{0,10.3},{0,97.55},{0,92.55}}" />
+                                </Window>
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc11" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,180.5},{0.05,1.5},{0.05,259.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc12" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,270.5},{0.05,1.5},{0.05,349.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc13" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,360.5},{0.05,1.5},{0.05,439.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc14" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,450.5},{0.05,1.5},{0.05,529.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc15" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,540.5},{0.05,1.5},{0.05,619.75},{0.05,78.75}}" />
+                            </Window>
+                        </Window>
+                        <Window Type="TaharezLook/common_heisetext" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz4" >
+                            <Property Name="Font" Value="simhei-12" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-97.5},{0,287.5},{0,578.75},{0,379.75}}" />
+                            <Property Name="MousePassThroughEnabled" Value="True" />
+                            <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/namec4" >
+                                <Property Name="Font" Value="simhei-11" />
+                                <Property Name="Text" Value="五啊啊啊" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="HorzExtent" Value="20" />
+                                <Property Name="VertExtent" Value="80.6875" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                                <Property Name="BorderColour" Value="FF003454" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,26.4},{0,2.4},{0,54.65},{0,93.65}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                            </Window>
+                            <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz4/tmkdz" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Image" Value="set:ccfuben image:fubenyuan" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,69.3},{0,-2.7},{0,174.55},{0,100.55}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                                <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/tmkdz/cc4" >
+                                    <Property Name="Font" Value="simhei-12" />
+                                    <Property Name="Image" Value="set:ccfuben image:c1" />
+                                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                    <Property Name="Tooltip" Value="[colour=&apos;fffff2df&apos;]真假猴王•[colour=&apos;FF00FF00&apos;]80[colour=&apos;fffff2df&apos;]级，可挑战" />
+                                    <Property Name="EnableSound" Value="True" />
+                                    <Property Name="LuaForDialog" Value="True" />
+                                    <Property Name="UnifiedAreaRect" Value="{{0,10.3},{0,10.3},{0,97.55},{0,92.55}}" />
+                                </Window>
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc16" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,180.5},{0.05,1.5},{0.05,259.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc17" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,270.5},{0.05,1.5},{0.05,349.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc18" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,360.5},{0.05,1.5},{0.05,439.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc19" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,450.5},{0.05,1.5},{0.05,529.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc20" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,540.5},{0.05,1.5},{0.05,619.75},{0.05,78.75}}" />
+                            </Window>
+                        </Window>
+                        <Window Type="TaharezLook/common_huisetext" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz5" >
+                            <Property Name="Font" Value="simhei-12" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,-97.5},{0,387.5},{0,578.75},{0,479.75}}" />
+                            <Property Name="MousePassThroughEnabled" Value="True" />
+                            <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/namec5" >
+                                <Property Name="Font" Value="simhei-11" />
+                                <Property Name="Text" Value="五啊啊啊" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="HorzExtent" Value="20" />
+                                <Property Name="VertExtent" Value="80.6875" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                                <Property Name="BorderColour" Value="FF003454" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,26.4},{0,2.4},{0,54.65},{0,93.65}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                            </Window>
+                            <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz5/tmkdz" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Image" Value="set:ccfuben image:fubenyuan" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0,69.3},{0,-2.7},{0,174.55},{0,100.55}}" />
+                                <Property Name="MousePassThroughEnabled" Value="True" />
+                                <Window Type="TaharezLook/StaticImage" Name="moshouchuanqi_mtg/bgcc1/jlhd/ccz1/tmkdz/cc5" >
+                                    <Property Name="Font" Value="simhei-12" />
+                                    <Property Name="Image" Value="set:ccfuben image:c1" />
+                                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                    <Property Name="Tooltip" Value="[colour=&apos;fffff2df&apos;]金蝉转世•[colour=&apos;FF00FF00&apos;]90[colour=&apos;fffff2df&apos;]级，可挑战" />
+                                    <Property Name="EnableSound" Value="True" />
+                                    <Property Name="LuaForDialog" Value="True" />
+                                    <Property Name="UnifiedAreaRect" Value="{{0,10.3},{0,10.3},{0,97.55},{0,92.55}}" />
+                                </Window>
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc21" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,180.5},{0.05,1.5},{0.05,259.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc22" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,270.5},{0.05,1.5},{0.05,349.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc23" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,360.5},{0.05,1.5},{0.05,439.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc24" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,450.5},{0.05,1.5},{0.05,529.75},{0.05,78.75}}" />
+                            </Window>
+                            <Window Type="TaharezLook/ItemCell" Name="moshouchuanqi_mtg/bgcc1/jlhd/itemc25" >
+                                <Property Name="Font" Value="simhei-12" />
+                                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                                <Property Name="EnableSound" Value="True" />
+                                <Property Name="LuaForDialog" Value="True" />
+                                <Property Name="UnifiedAreaRect" Value="{{0.05,540.5},{0.05,1.5},{0.05,619.75},{0.05,78.75}}" />
+                            </Window>
+                        </Window>
+                    </AutoWindow>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="moshouchuanqi_mtg/bgcc1/cczy/tishic1" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="点击空白区域关闭奖励预览" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="240" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,174.3},{0,528.3},{0,573.55},{0,553.55}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

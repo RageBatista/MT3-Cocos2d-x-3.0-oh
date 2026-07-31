@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="zhenfabookcell" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="ZhenfaBookCell" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0,1},{0,0},{0,99},{0,126}}" />
+        <Window Type="TaharezLook/StaticImage" Name="zhenfabookcell/itembg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:common_pack image:kuang94" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="itemBg" />
+            <Property Name="UnifiedAreaRect" Value="{{0,6},{0,12},{0,86},{0,92}}" />
+            <Window Type="TaharezLook/StaticImage" Name="zhenfabookcell/itembg/img" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="image" />
+                <Property Name="UnifiedAreaRect" Value="{{0,7},{0,7},{1,-7},{1,-7}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_text2bgtou" Name="zhenfabookcell/itembg/usenumbg" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Alpha" Value="0.7" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="useNumBg" />
+                <Property Name="UnifiedAreaRect" Value="{{0,1},{0,50},{1,0},{0,80}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="zhenfabookcell/itembg/usenum" >
+                <Property Name="Font" Value="simhei-11" />
+                <Property Name="Text" Value="1/1" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="16" />
+                <Property Name="VertExtent" Value="20.1719" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="useNumText" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-1},{0,53},{1,0},{0,79}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="zhenfabookcell/itembg/totoalnum" >
+                <Property Name="Font" Value="simhei-11" />
+                <Property Name="Text" Value="1" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="7" />
+                <Property Name="VertExtent" Value="20.1719" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="totalNumText" />
+                <Property Name="HorzFormatting" Value="RightAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,32},{0,1},{0,77},{0,27}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zhenfabookcell/name" >
+            <Property Name="Font" Value="simhei-10" />
+            <Property Name="Text" Value="天阵法" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="54" />
+            <Property Name="VertExtent" Value="18.3282" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="name" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0,6},{1,-35},{0,83},{1,-5}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="zhenfabookcell/delbtn" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:ccui1 image:jianhao" />
+            <Property Name="PushedImage" Value="set:ccui1 image:jianhao" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="delBtn" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-2},{0,2},{0,42},{0,46}}" />
+            <Property Name="LuaEventOnClicked" Value="handleDelClicked" />
+        </Window>
+    </Window>
+</GUILayout>

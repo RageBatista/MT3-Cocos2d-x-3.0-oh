@@ -30,14 +30,14 @@
 
 ### 1.1 客户端架构
 
-MT3 客户端当前基于 **Cocos2d-x 2.2.6** 游戏引擎，使用 **Lua 5.1 / LuaJIT 兼容链** 作为主要脚本语言，支持多平台发布。
+MT3 客户端按平台使用不同的 Cocos2d-x 兼容链；Windows canonical 主线基于 **Cocos2d-x 3.0-oh + CEGUI 0.7.9-r5**，其他平台保留各自已验证的 2.2.6 兼容链。
 
 **技术栈**:
-- **游戏引擎**: Cocos2d-x 2.2.6 (当前主线目录 `cocos2d-x-2.2.6`，旧 `cocos2d-2.0-rc2-x-2.0.1` 仅作为历史/回滚基线)
+- **游戏引擎**: Windows canonical 使用 Cocos2d-x 3.0-oh；Android/iOS 兼容链使用 Cocos2d-x 2.2.6
 - **脚本语言**: Lua 5.1 (LuaJIT 2.0.3)
 - **C++绑定**: tolua++ 1.0.93
 - **编程语言**: C++ (引擎层), Lua (逻辑层)
-- **UI 框架**: CEGUI 0.7.1 (自定义 XML 布局)
+- **UI 框架**: Windows canonical 使用 CEGUI 0.7.9-r5；旧 0.7.1 仅保留在 Legacy226 链路
 - **网络协议**: TCP + protobuf 二进制协议
 - **资源格式**: PNG, JPG, PVR, MP3, OGG
 
@@ -216,36 +216,27 @@ FireClient/
 │       ├── Crypto.cpp               # 加密解密
 │       └── ...
 │
-├── FireClient.sln                   # Visual Studio 解决方案（Win32）
+├── FireClient.sln                   # 历史 Legacy226 解决方案（非 Upgrade30 主线）
 ├── FireClient.xcodeproj/            # Xcode 项目（iOS）
 ├── Debug.win32/                     # Win32 Debug 构建输出
 └── Release.win32/                   # Win32 Release 构建输出
 ```
 
 **关键特性**:
-- Cocos2d-x 2.2.6 引擎集成
-- CEGUI 0.7.1 UI 框架集成
+- Windows canonical 集成 Cocos2d-x 3.0-oh
+- Windows canonical 集成 CEGUI 0.7.9-r5，Legacy226 保留 CEGUI 0.7.1
 - Lua 5.1 脚本引擎（LuaJIT 2.0.3）
 - tolua++ 1.0.93 C++ ↔ Lua 绑定
 - TCP 网络通信模块
 - 资源加密与解密
 - 崩溃日志收集
 
-**构建步骤（Windows）**:
-```bash
-# 1. 打开项目
-cd FireClient
-start FireClient.sln
-
-# 2. 在 Visual Studio 中选择配置
-# - 配置: Release
-# - 平台: Win32
-
-# 3. 构建项目
-# 菜单: 生成 → 生成解决方案
-
-# 4. 运行
-# 构建产物: Release.win32/MT3.exe
+**构建步骤（Windows canonical）**:
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 `
+  -Configuration Release -Platform Win32 -EngineProfile Upgrade30 `
+  -BuildMode SafeChain -StrictRuntimeAudit
+# 构建产物: client/resource/bin/Release/MT3.exe
 ```
 
 **构建步骤（iOS）**:
@@ -695,24 +686,17 @@ protodef/                            # 协议定义（自动生成）
 
 #### 6.1.2 构建步骤
 
-```bash
-# 步骤 1: 打开主项目
-cd client/FireClient
-start FireClient.sln
+```powershell
+# 步骤 1: 从仓库根目录调用 canonical wrapper
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 `
+  -Configuration Release -Platform Win32 -EngineProfile Upgrade30 `
+  -BuildMode SafeChain -StrictRuntimeAudit
 
-# 步骤 2: 选择配置
-# - 配置管理器 → Release | Win32
+# 步骤 2: 检查构建产物
+Get-Item .\client\resource\bin\Release\MT3.exe
 
-# 步骤 3: 生成解决方案
-# 菜单: 生成 → 生成解决方案
-# 或按快捷键: Ctrl+Shift+B
-
-# 步骤 4: 检查构建产物
-ls Release.win32/
-# 输出: MT3.exe, *.dll
-
-# 步骤 5: 运行游戏
-Release.win32/MT3.exe
+# 步骤 3: 运行游戏
+Start-Process .\client\resource\bin\Release\MT3.exe
 ```
 
 #### 6.1.3 编译/链接一致性设置（Windows）
@@ -886,8 +870,8 @@ open FireClient.xcodeproj
   1. 安装 Visual Studio 2012/2013/2015
   2. 安装 DirectX SDK (June 2010)
   3. 克隆项目代码: git clone <repo_url>
-  4. 打开 FireClient/FireClient.sln
-  5. 构建并运行（F5）
+  4. 使用 tools/scripts/Build-MT3-Exe-Canonical.ps1 构建 Windows Upgrade30 主线
+  5. 仅在维护 Legacy226 时打开 FireClient/FireClient.sln
 
 常见问题:
   - DirectX SDK 安装失败: 卸载 VC++ 2010 Redistributable
@@ -1051,12 +1035,12 @@ try {
 
 ### Q1: 如何构建 Windows 版本？
 
-**A**: 使用 Visual Studio 打开 FireClient.sln，选择 Release | Win32 配置，然后生成解决方案。
+**A**: Windows 主线使用 canonical wrapper 生成 Upgrade30；FireClient.sln 仅用于 Legacy226 历史链路。
 
-```bash
-cd client/FireClient
-start FireClient.sln
-# Visual Studio: 生成 → 生成解决方案 (Ctrl+Shift+B)
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 `
+  -Configuration Release -Platform Win32 -EngineProfile Upgrade30 `
+  -BuildMode SafeChain -StrictRuntimeAudit
 ```
 
 **详细步骤**: 参见 [6.1 Windows 平台构建](#61-windows-平台构建)
@@ -1972,10 +1956,10 @@ gradle -v
 
 | 技术组件 | 版本 | 位置 | 说明 |
 |---------|------|------|------|
-| **Cocos2d-x** | 2.2.6 | `/cocos2d-x-2.2.6/` | 游戏引擎核心 |
-| **Lua 5.1 / LuaJIT 兼容链** | 5.1 / 2.0.3 | `/cocos2d-x-2.2.6/scripting/lua/` | Win32 主线使用 `liblua` 工程；LuaJIT 相关旧工具路径需按专项核实 |
+| **Cocos2d-x** | 3.0-oh (Win32 canonical) / 2.2.6 (Android/iOS) | `/cocos2d-x-3.0-oh/`、`/cocos2d-x-2.2.6/` | 按平台分层的引擎核心 |
+| **Lua 5.1 / LuaJIT 兼容链** | 5.1 / 2.0.3 | `/cocos2d-x-3.0-oh/external/lua/`、`/cocos2d-x-2.2.6/scripting/lua/` | Win32 canonical 使用 `lua.lib`；其他平台沿用 2.2.6 兼容链 |
 | **tolua++** | 1.0.93 | `/common/tolua++-1.0.93/` | C++ ↔ Lua 绑定工具 |
-| **CEGUI** | 0.7.1 | `/dependencies/cegui/`, `/tools/CEGUI-0.7.1/` | UI 框架 |
+| **CEGUI** | 0.7.9-r5 (Win32 canonical) / 0.7.1 (Legacy226) | `/tools/CEGUI-0.7.9-r5/`、`/dependencies/cegui/` | UI 框架 |
 
 ### 依赖库版本
 
@@ -2036,12 +2020,12 @@ tolua++-pkgs/    1.3 MB   (tolua++ 绑定配置)
 
 ### 技术栈说明
 
-**Cocos2d-x 2.2.6**:
+**Cocos2d-x 3.0-oh（Windows canonical）**:
 - 基于 cocos2d-iphone 移植的 C++ 跨平台游戏引擎
 - 支持 iOS, Android, Windows, Linux 等多平台
 - 使用 OpenGL ES 2.0 进行渲染
 - 内置场景管理、动画系统、粒子系统
-- 当前仓库主线目录为 `cocos2d-x-2.2.6/`，旧 `cocos2d-2.0-rc2-x-2.0.1/` 只作为历史/回滚/差异基线
+- Windows 主线目录为 `cocos2d-x-3.0-oh/`；Android/iOS 仍使用 `cocos2d-x-2.2.6/`
 
 **LuaJIT 2.0.3**:
 - Mike Pall 开发的高性能 Lua JIT 编译器
@@ -2055,7 +2039,7 @@ tolua++-pkgs/    1.3 MB   (tolua++ 绑定配置)
 - 支持 C++ 类、继承、重载
 - 通过 .pkg 文件定义绑定接口
 
-**CEGUI 0.7.1**:
+**CEGUI 0.7.9-r5（Windows canonical）**:
 - Crazy Eddie's GUI System
 - 跨平台 GUI 库
 - 支持 XML 布局定义

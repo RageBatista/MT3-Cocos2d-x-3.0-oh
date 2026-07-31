@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow" Name="npcshopbuyback">
+		<Property Name="Font" Value="hycyj-20"/>
+		<Property Name="Text" Value="珍品找回"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="ZhenPinBuyBackDlg"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-541},{0.5,-339},{0.5,563},{0.5,329}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="DefaultWindow" Name="npcshopbuyback/buyview">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="LuaClass" Value="ZhenPinBuyBack"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,72},{0,104},{0,1040},{0,574}}"/>
+			<Window Type="TaharezLook/GroupBtnTree" Name="npcshopbuyback/tree">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="MaskImage" Value=""/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="tree"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,-6},{0,6},{0,249},{0,457}}"/>
+			</Window>
+			<Window Type="TaharezLook/common_text2bg" Name="npcshopbuyback/textbg">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="listBg"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,255},{0,1},{0,963},{0,457}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="npcshopbuyback/texthuafei">
+			<Property Name="Font" Value="simhei-14"/>
+			<Property Name="Text" Value="花费"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="52.0"/>
+			<Property Name="VertExtent" Value="25.6593"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF492B13 tr:FF492B13 bl:FF492B13 br:FF492B13"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,80},{0,587},{0,148},{0,617}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="npcshopbuyback/textwodeyinbi">
+			<Property Name="Font" Value="simhei-14"/>
+			<Property Name="Text" Value="拥有"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="52.0"/>
+			<Property Name="VertExtent" Value="25.6593"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF492B13 tr:FF492B13 bl:FF492B13 br:FF492B13"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,455},{0,587},{0,524},{0,617}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="npcshopbuyback/textzong">
+			<Property Name="Font" Value="plantc-15"/>
+			<Property Name="Text" Value="0"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="14.0"/>
+			<Property Name="VertExtent" Value="34.8987"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="BorderColour" Value="FFFF0000"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="priceText"/>
+			<Property Name="HorzFormatting" Value="HorzCentred"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,155},{0,584},{0,348},{0,620}}"/>
+			<Property Name="BackgroundEnabled" Value="True"/>
+			<Window Type="TaharezLook/StaticImage" Name="npcshopbuyback/textzong/jinbi1">
+				<Property Name="Font" Value="plantc-15"/>
+				<Property Name="Image" Value="set:common image:common_jinb"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,-20},{0,-5},{0,26},{0,41}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="npcshopbuyback/textdan">
+			<Property Name="Font" Value="plantc-15"/>
+			<Property Name="Text" Value="0"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="14.0"/>
+			<Property Name="VertExtent" Value="34.8987"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="ownMoneyText"/>
+			<Property Name="HorzFormatting" Value="HorzCentred"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,528},{0,585},{0,721},{0,620}}"/>
+			<Property Name="BackgroundEnabled" Value="True"/>
+			<Window Type="TaharezLook/StaticImage" Name="npcshopbuyback/textzong/jinbi2">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:common image:common_jinb"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,-20},{0,-5},{0,26},{0,41}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/dangebutton" Name="npcshopbuyback/btngoumai">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="确认找回"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="okBtn"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,834},{0,571},{0,1029},{0,631}}"/>
+			<Property Name="LuaEventOnClicked" Value="handleBuyClicked"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="npcshopbuyback/huabubg">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:jiangli image:shangdiandi"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,48},{0,57},{0,1055},{0,102}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="npcshopbuyback/shangchengtubiaobg">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:diban image:shangcheng"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="ClippedByParent" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,36},{0,-19},{0,146},{0,89}}"/>
+		</Window>
+	</Window>
+</GUILayout>

@@ -32,7 +32,7 @@ description: MT3 项目中 CEGUI UI 开发技能：编辑布局/皮肤/图片集
 
 > 详细约束请参考 [公共约束](../../references/common-constraints.md)
 
-- 使用 CEGUI 0.x（`dependencies/cegui`），禁止升级或重新编译
+- Win32 canonical 使用 `tools/CEGUI-0.7.9-r5`（CEGUI 0.7.9，静态链接 `CEGUI_STATIC`）；`dependencies/cegui`（0.7.1）仅服务历史/未迁移链路，不作 Win32 canonical 运行时
 - 保持 toolset v120（VS2013），禁止修改预编译库
 - 遵循编码规则：C++/headers UTF-8 with BOM；Lua/MD/XML UTF-8 without BOM
 - 静态链接：启用 `CEGUI_STATIC` 宏
@@ -317,5 +317,5 @@ void releaseWindow(CEGUI::Window* window) {
 - [资源管理指南](../../references/resource-management.md)
 - [错误处理指南](../../references/error-handling.md)
 - [调试命令集合](../../references/debugging-commands.md)
-- CEGUI 文档：`tools/CEGUI-0.7.1/docs/`
+- CEGUI 文档：`tools/CEGUI-0.7.9-r5/`（Win32 canonical 运行时树）
 - 依赖矩阵：`docs/06-工具链/02-依赖矩阵.md`

@@ -25,7 +25,6 @@
 #endif
 
 #ifdef WIN7_32
-#include "win32/ccstdc.h"
 #elif defined ANDROID
 #include "FileDownloader.h"
 #include "android/ccstdc.h"
@@ -82,12 +81,18 @@ namespace UpdateUtil
 	{
 		std::wstring wsResult;
 		wsResult = L"?r=x";
+		long CurSec = 0;
+#ifdef WIN7_32
+		CurSec = static_cast<long>(std::chrono::duration_cast<std::chrono::seconds>(
+			std::chrono::steady_clock::now().time_since_epoch()).count());
+#else
 		struct timeval now;
 		if (gettimeofday(&now, NULL) != 0)
 		{
 			return wsResult;
 		}
-		long CurSec = now.tv_sec + now.tv_usec / 1000000;
+		CurSec = now.tv_sec + now.tv_usec / 1000000;
+#endif
 		if (CurSec < 0)
 		{
 			CurSec = CurSec * -1;

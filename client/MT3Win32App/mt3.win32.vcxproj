@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -148,11 +148,12 @@ exit /b 0</Command>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
-       <AdditionalDependencies>Ws2_32.lib;opengl32.lib;glew32.lib;glfw3.lib;kazmath.lib;box2d.lib;cocos2d.lib;cocosbase.lib;luabinding.lib;ext_luasocket.lib;extensions.lib;spine.lib;network.lib;websockets.lib;ui.lib;cocostudio.lib;cocosbuilder.lib;storage.lib;sqlite3.lib;chipmunk.lib;unzip.lib;tinyxml2.lib;xxhash.lib;libspeex.lib;libogg.lib;libvorbis.lib;esUtil.lib;libpng.lib;libjpeg.lib;libtiff.lib;libwebp.lib;freetype.lib;libzlib.lib;cegui-0.7.9.lib;pcre.lib;silly.lib;liblua.lib;platform.lib;cauthc.lib;ljfm.lib;engine.lib;FireClient.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+       <AdditionalDependencies>Ws2_32.lib;opengl32.lib;glew32.lib;glfw3.lib;kazmath.lib;box2d.lib;cocos2d.lib;cocosbase.lib;audio.lib;tolua.lib;luabinding.lib;ext_luasocket.lib;extensions.lib;spine.lib;network.lib;websockets.lib;ui.lib;cocostudio.lib;cocosbuilder.lib;storage.lib;sqlite3.lib;chipmunk.lib;unzip.lib;tinyxml2.lib;xxhash.lib;libspeex.lib;libogg.lib;libvorbis.lib;libcurl.lib;libpng.lib;libjpeg.lib;libtiff.lib;libwebp.lib;cegui-0.7.9.lib;pcre.lib;silly.lib;lua.lib;platform.lib;cauthc.lib;ljfm.lib;engine.lib;FireClient.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;pthreadVCE2.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT;LIBCMTD</IgnoreSpecificDefaultLibraries>
        <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)$(Configuration).win32/;../../engine/$(Configuration).win32;../FireClient/$(Configuration).win32;../../cocos2d-x-3.0-oh/external/jpeg/prebuilt/win32;../../cocos2d-x-3.0-oh/build/lib/$(Configuration);../../cocos2d-x-3.0-oh/build/cocos/audio/$(Configuration);../../cocos2d-x-3.0-oh/external/websockets/prebuilt/win32;../../lib/vs2013/Win32/$(Configuration);../../tools/CEGUI-0.7.9-r5/$(Configuration).win32;../../tools/CEGUI-0.7.9-r5/dependencies/lib/static;../../dependencies/png/prebuilt/win32;../../dependencies/opengles_v2/Lib;../../dependencies/build_vs2013/out/$(Configuration);../../dependencies/libogg-1.3.2/win32/VS2010/$(Configuration).win32;../../dependencies/libvorbis-1.3.5/win32/VS2010/libvorbis/$(Configuration).win32;../../common/cauthc/projects/windows/$(Configuration).win32;../../common/platform/$(Configuration).win32;../../common/ljfm/$(Configuration).win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)$(Configuration).win32/;../../engine/$(Configuration).win32;../FireClient/$(Configuration).win32;../../cocos2d-x-3.0-oh/external/jpeg/prebuilt/win32;../../cocos2d-x-3.0-oh/build/lib/$(Configuration);../../cocos2d-x-3.0-oh/build/cocos/audio/$(Configuration);../../cocos2d-x-3.0-oh/external/websockets/prebuilt/win32;../../lib/vs2013/Win32/$(Configuration);../../tools/CEGUI-0.7.9-r5/$(Configuration).win32;../../tools/CEGUI-0.7.9-r5/dependencies/lib/static;../../dependencies/png/prebuilt/win32;../../dependencies/opengles_v2/Lib;../../dependencies/build_vs2013/out/$(Configuration);../../dependencies/third-party-rebuild/curl-7.48.0/build/Win32/VC12/DLL Release - DLL Windows SSPI;../../dependencies/libogg-1.3.2/win32/VS2010/$(Configuration).win32;../../dependencies/libvorbis-1.3.5/win32/VS2010/libvorbis/$(Configuration).win32;../../common/cauthc/projects/windows/$(Configuration).win32;../../common/platform/$(Configuration).win32;../../common/ljfm/$(Configuration).win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

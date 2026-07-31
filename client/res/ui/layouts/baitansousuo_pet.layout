@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="baitansousuopet" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="PetSearch" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{0,1052},{0,736}}" />
+        <Property Name="MousePassThroughEnabled" Value="True" />
+        <Window Type="DefaultWindow" Name="baitansousuopet/skilltotal" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,1},{0,292},{0,249},{0,373}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/common_hengxiancc" Name="baitansousuopet/skilltotal/fg" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,15},{0,2},{1,-26},{0,5}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/skilltotal/name" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="技能总数" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="96" />
+                <Property Name="VertExtent" Value="23.828" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="RightAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,11},{0,3},{0,124},{0,33}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_shurukuang1" Name="baitansousuopet/skilltotal/input" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,164},{0,23},{0,231},{0,67}}" />
+                <Window Type="TaharezLook/StaticText" Name="baitansousuopet/skilltotal/input/text" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="priceMinText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,6},{0,64},{0,36}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/skilltotal/sign" >
+                <Property Name="Font" Value="simhei-16" />
+                <Property Name="Text" Value="≥" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="26" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                <Property Name="BorderColour" Value="FF7F4601" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,126},{0,4},{0,156},{0,34}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="baitansousuopet/level" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-27},{0,206},{0,893},{0,287}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/common_hengxiancc" Name="baitansousuopet/level/fg" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,36},{0,2},{1,-5},{0,5}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/level/name" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="等级" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="48" />
+                <Property Name="VertExtent" Value="23.828" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="RightAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-8},{0,5},{0,105},{0,35}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="baitansousuopet/zhanghaoqu/fengecyc" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:ccui image:fenshucz1" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,511.2},{0,11.2},{0,513.45},{0,78.45}}" />
+            </Window>
+            <Window Type="TaharezLook/common_shurukuang1" Name="baitansousuopet/level/min" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,110},{0,25},{0,243},{0,65}}" />
+                <Window Type="TaharezLook/StaticText" Name="baitansousuopet/level/min/text" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="priceMinText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,8},{0,4},{0,129},{0,34}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/level/_" >
+                <Property Name="Font" Value="simhei-11" />
+                <Property Name="Text" Value="——" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="40" />
+                <Property Name="VertExtent" Value="20.1719" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF8C5E2A" />
+                <Property Name="BorderEnable" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,256},{0,3},{0,308},{0,33}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_shurukuang1" Name="baitansousuopet/level/max" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,327},{0,25},{0,460},{0,65}}" />
+                <Window Type="TaharezLook/StaticText" Name="baitansousuopet/level/max/text" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="priceMinText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,8},{0,4},{0,129},{0,34}}" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="baitansousuopet/price" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-27},{0,110},{0,893},{0,191}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/common_hengxiancc" Name="baitansousuopet/price/line" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,36},{0,2},{1,-5},{0,5}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/price/name" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="价格" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="48" />
+                <Property Name="VertExtent" Value="23.828" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="RightAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-8},{0,10},{0,105},{0,40}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_shurukuang1" Name="baitansousuopet/price/min" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,110},{0,31},{0,334},{0,71}}" />
+                <Window Type="TaharezLook/StaticImage" Name="baitansousuopet/price/min/icon" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:ccui1 image:jb" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,6},{0,0},{0,37},{0,30}}" />
+                    <Property Name="VerticalAlignment" Value="Centre" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="baitansousuopet/price/min/text" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="priceMinText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,40},{0,4},{0,194},{0,34}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/price/_" >
+                <Property Name="Font" Value="simhei-11" />
+                <Property Name="Text" Value="——" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="40" />
+                <Property Name="VertExtent" Value="20.1719" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF8C5E2A" />
+                <Property Name="BorderEnable" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,342},{0,10},{0,394},{0,40}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_shurukuang1" Name="baitansousuopet/price/max" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,405},{0,31},{0,629},{0,71}}" />
+                <Window Type="TaharezLook/StaticImage" Name="baitansousuopet/price/max/icon" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:ccui1 image:jb" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,6},{0,0},{0,37},{0,30}}" />
+                    <Property Name="VerticalAlignment" Value="Centre" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="baitansousuopet/price/max/text" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="priceMinText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,40},{0,4},{0,194},{0,34}}" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="baitansousuopet/type" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="LuaClass" Value="EquipSearch" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,2},{0,19},{0,922},{0,100}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/type/name" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="类型" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="48" />
+                <Property Name="VertExtent" Value="23.828" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="RightAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-11},{0,1},{0,99},{0,31}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+                <Window Type="TaharezLook/StaticImage" Name="baitansousuopet/cecyy/cy" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:ccui image:zstanhao" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,37.3},{0,7.3},{0,55.55},{0,25.55}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="baitansousuopet/type/btn" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:ccui1 image:xiangxia" />
+                <Property Name="PushedImage" Value="set:ccui1 image:xiangxia" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="typeBtn" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,248},{0,0},{0,309},{0,61}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="baitansousuopet/type/preview" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:ccui1 image:yulan" />
+                <Property Name="PushedImage" Value="set:ccui1 image:yulan" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="levelBtn" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,605},{0,1},{0,666},{0,62}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="baitansousuopet/ckc1/1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,103.2},{0,24.2},{0,238.45},{0,60.45}}" />
+                <Window Type="TaharezLook/StaticText" Name="baitansousuopet/type/text" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="typeText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,-10},{0.05,-3},{0.05,126},{0.05,37}}" />
+                    <Property Name="VerticalAlignment" Value="Centre" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/Checkbox2" Name="baitansousuopet/type/normal" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="普通" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Selected" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="sellBox" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,273},{0.05,-3},{0.05,382},{0.05,47}}" />
+                <Property Name="NormalTextColour" Value="FF8C5E2A" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+            </Window>
+            <Window Type="TaharezLook/Checkbox2" Name="baitansousuopet/type/bianyi" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="变异&amp;神兽" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="sellBox" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,385},{0.05,-3},{0.05,549},{0.05,47}}" />
+                <Property Name="NormalTextColour" Value="FF8C5E2A" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="baitansousuopet/zizhi" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="zizhiWnd" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,377},{0,920},{0,458}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/common_hengxiancc" Name="baitansousuopet/zizhi/line" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,15},{0,0},{1,-30},{0,3}}" />
+            </Window>
+            <Window Type="TaharezLook/common_jiahao" Name="baitansousuopet/zizhi/add" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="addZizhiBtn" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,737},{1,-69},{0,798},{1,-8}}" />
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="baitansousuopet/skill" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,245},{0,289},{0,1165},{0,376}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/skill/name" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="包含" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="48" />
+                <Property Name="VertExtent" Value="23.828" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="RightAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,3},{0,3},{0,65},{0,33}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="baitansousuopet/skill/btn" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:ccui1 image:xiangxia" />
+                <Property Name="PushedImage" Value="set:ccui1 image:xiangxia" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="skillBtn" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,577},{0,6},{0,638},{0,67}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="baitansousuopet/skill/cczkc1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,73.2},{0,26.2},{0,558.45},{0,70.45}}" />
+                <Window Type="TaharezLook/StaticText" Name="baitansousuopet/skill/text" >
+                    <Property Name="Font" Value="simhei-10" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="skillText" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.1,-46},{0.1,-5},{0.1,434},{0.1,35}}" />
+                    <Property Name="VerticalAlignment" Value="Centre" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_hengxiancc" Name="baitansousuopet/skilltotal/fg1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-32},{0.05,1},{1.05,-332},{0.05,4}}" />
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="baitansousuopet/attr" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="attrWnd" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,466},{0,920},{0,547}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/common_hengxiancc" Name="baitansousuopet/attr/line" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,15},{0,0},{1,-30},{0,3}}" />
+            </Window>
+            <Window Type="TaharezLook/common_jiahao" Name="baitansousuopet/attr/add" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="addAttrBtn" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,738},{1,-69},{0,799},{1,-8}}" />
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="baitansousuopet/sellstate" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,607},{0,120},{0,945},{0,201}}" />
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/sellstate/name" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="RightAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,250},{0,0},{0,360},{0,30}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/Checkbox2" Name="baitansousuopet/sellstate/sell" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="上架中" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Selected" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="onSellCheckBox" />
+                <Property Name="UnifiedAreaRect" Value="{{0,11},{0,-1},{0,141},{0,49}}" />
+                <Property Name="NormalTextColour" Value="FF8C5E2A" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+            </Window>
+            <Window Type="TaharezLook/Checkbox2" Name="baitansousuopet/sellstate/show" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="公示中" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="onShowCheckBox" />
+                <Property Name="UnifiedAreaRect" Value="{{0,145},{0,-1},{0,275},{0,49}}" />
+                <Property Name="NormalTextColour" Value="FF8C5E2A" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="baitansousuopet/score" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,500},{0,211},{0,855},{0,292}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/score/name" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="评分" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="48" />
+                <Property Name="VertExtent" Value="23.828" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="RightAligned" />
+                <Property Name="UnifiedAreaRect" Value="{{0,10},{0,0},{0,80},{0,30}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="baitansousuopet/score/sign" >
+                <Property Name="Font" Value="simhei-16" />
+                <Property Name="Text" Value="≥" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="26" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                <Property Name="BorderColour" Value="FF7F4601" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,86},{0,0},{0,116},{0,30}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_shurukuang1" Name="baitansousuopet/score/input" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,131},{0,-2},{0,298},{0,38}}" />
+                <Property Name="VerticalAlignment" Value="Centre" />
+                <Window Type="TaharezLook/StaticText" Name="baitansousuopet/score/input/text" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF7F4601 tr:FF7F4601 bl:FF7F4601 br:FF7F4601" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="scoreText" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,8},{0,4},{0,194},{0,34}}" />
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

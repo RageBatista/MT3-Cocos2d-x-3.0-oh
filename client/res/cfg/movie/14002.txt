@@ -1,0 +1,105 @@
+﻿Setmap id=1655 pos=32,30
+MoveCam pos=32,30
+ForbiddenAutoPlay
+PlaySound id=1 res=/sound/scene/Music_xinshoucun1.ogg repeat=-1 fadein=1
+SetSE name=map_ygld_1 pos=45,32 type=0
+SetSE name=map_ygld_2 pos=45,32 type=0
+SetSE name=map_ygld_3 pos=45,32 type=0
+Start
+Wait time=1000
+SetSE name=jq02_zhujue_chuchang pos=36,41 repeat=1
+Wait time=475
+Shake id=2 range=20 time=600
+Wait time=600
+CreateNpc id=0 varname=主角 pos=36,41 model=6025 npcname=主角 dir=3 dtAction=16
+SKbegin time =200
+Speak name=？？？ text=试炼果然还是太难了吗！看来得降低一点难度了。 head=9098 pause=1 time=5400
+PlaySDEffect res=/sound/chat/MovieTalk/14002_01_6.ogg
+Wait time=3100
+CreateNpc id=4 varname=TX1 pos=37,44  tile=8 dir=6 effect=geffect/skill/mt_buff/huilan repeat=-1
+Wait time=3000
+
+SKbegin time =200
+Speak name=？？？ text=醒来吧…… head=9098 pause=1 time=2300
+PlaySDEffect res=/sound/chat/MovieTalk/14002_02_3.ogg 
+MoveNPC varname=TX1 pos=37,50 time=2000
+Wait time=2000
+DeleteNPC varname=TX1
+CreateNpc id=2 varname=TX pos=36,42 tile=8 dir=6 effect=geffect/skill/mt3_fs_2/mt3_fs_2_shifa_xia repeat=-1
+Wait time=700
+DeleteNPC varname=TX
+Wait time=250
+PlayAct varname=主角 id=1 dir=3 end=1
+
+SKbegin time =200
+Speak name=主角 text=谁？谁在说话？！ head=0 pause=1 time=2000
+PlaySDEffect res=/sound/chat/MovieTalk/14002_03_2.ogg type=1
+SetDir varname=主角 dir=5
+Wait time=700
+SetDir varname=主角 dir=3
+Wait time=1000
+
+SetSE name=jq01_chuxioan pos=26,19 repeat=1
+Wait time=400
+SetDir varname=主角 dir=7
+Wait time=500
+SetSE name=jq0_chuxian pos=26,19 type=0
+
+CreateNpc id=3 varname=MDW pos=26,27 model=1030009 npcname=试炼老人 dir=3 chengwei=试炼之地指引人
+MoveNPC varname=MDW pos=27,28 time=1000
+Wait time=1000
+
+SKbegin time =200
+Speak name=试炼老人 text=看来你还没有清醒啊。 head=9100 pause=1 time=4100
+PlaySDEffect res=/sound/chat/MovieTalk/14002_04_4.ogg
+Wait time=4100
+
+MoveNPC varname=主角 pos=34,38 time=500
+SKbegin time =200 
+Speak name=主角 text=？？？发生了什么！ head=0 pause=1 time=4700
+PlaySDEffect res=/sound/chat/MovieTalk/14002_05_5.ogg type=1
+Wait time=4700
+
+PlayAct varname=MDW id=8 dir=3 end=1
+SKbegin time =200
+Speak name=试炼老人 text=难道受伤太严重了？导致记忆缺失了！ head=9100 pause=1 time=6500
+PlaySDEffect res=/sound/chat/MovieTalk/14002_06_7.ogg
+Wait time=7000
+
+PlayAct varname=MDW id=9 dir=3 end=1
+SKbegin time =200
+Speak name=试炼老人 text=去吧，去找你的掌门吧，他会有办法的。 head=9100 pause=1 time=3500
+PlaySDEffect res=/sound/chat/MovieTalk/14002_07_4.ogg
+SetSE name=jq02_zhujue_chuansong1 pos=34,38 type=0 repeat=1
+Wait time=800
+SetSE name=jq02_zhujue_chuansong2 pos=34,38 repeat=1
+
+Wait time=1000
+DeleteNPC varname=主角
+Wait time=1700
+
+Return time=500 type=2
+End
+
+
+eActionStand,  1//普通站立
+ eActionStandRandom, 2//站立随机动作
+ eActionBattleStand, 3//战斗警戒
+ eActionWalk,  4//走动
+ eActionRun,  5//跑步，不存在左腿还是右腿先跑
+ eActionBattleRun, 6//战斗中跑
+ eActionOnHit,  7//受击
+ eActionAttack,  8//攻击
+ eActionMagic,  9//施法
+ eActionRunaway,  10//逃跑
+ eActionDefence,  11//防御;
+ eActionDodge,  12//闪避
+ eActionDying,  13//倒地
+ eActionDeath,  14//死亡
+ eActionRoll,  15//击飞
+ 
+ 	//特效遮罩类型参数
+	XPEL_NORMAL_UNDER_SPRITE = 0,		//场景里面，地表之上，精灵之下
+	XPEL_NORMAL_SPRITE_1 = 1,           //场景里面，精灵和中1层，引擎根据底座自动判断遮挡
+	XPEL_NORMAL_ABOVE_SPRITE = 2,       //场景里面，中1精灵之上
+	XPEL_NORMAL_SPRITE_2 = 3,			//场景里面，精灵和中2层，引擎根据底座自动判断遮挡

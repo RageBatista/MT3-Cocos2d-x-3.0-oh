@@ -11,6 +11,7 @@
 
 #include "2d/platform/win32/CCGL.h"
 #include "2d/CCShaderCache.h"
+#include "2d/ccGLStateCache.h"
 #include "math/kazmath/kazmath/kazmath.h"
 #include "math/kazmath/kazmath/GL/matrix.h"
 
@@ -165,6 +166,12 @@ void Cocos2DGeometryBuffer::draw() const
         d_RenderSuccess = false;
         return;
     }
+
+    // CEGUI keeps its vertices in CPU memory. Cocos may leave a VAO/VBO bound,
+    // which would make OpenGL treat these addresses as VBO offsets.
+    cocos2d::GL::bindVAO(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     pRender->m_program->setUniformsForBuiltins();
 

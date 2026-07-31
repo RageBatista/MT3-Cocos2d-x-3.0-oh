@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="chatdiacell" >
+        <Property Name="Font" Value="simhei-10" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="DragMoveEnable" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0,-3},{0,0},{0.000781,381},{0,184}}" />
+        <Window Type="TaharezLook/StaticText" Name="chatdiacell/name" >
+            <Property Name="Font" Value="simhei-11" />
+            <Property Name="Text" Value="名称最长七个字" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="140" />
+            <Property Name="VertExtent" Value="20.1719" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF743A0F tr:FF743A0F bl:FF743A0F br:FF743A0F" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,125},{0,3},{0.001664,277},{0,29}}" />
+        </Window>
+        <Window Type="TaharezLook/common_chatbg_left" Name="chatdiacell/textbg" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{1,-303},{0,34},{1,-7},{0,129}}" />
+            <Window Type="TaharezLook/btn_liaotian_bofang" Name="chatdiacell/textbg/wenben/yuyin" >
+                <Property Name="Font" Value="simhei-10" />
+                <Property Name="Text" Value="30秒" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="HoverTextColour" Value="ff000000" />
+                <Property Name="UnifiedAreaRect" Value="{{0,36},{0,9},{0,282},{0,40}}" />
+                <Property Name="NormalTextColour" Value="FF000000" />
+                <Property Name="PushedTextColour" Value="ff000000" />
+                <Property Name="DisabledTextColour" Value="ff000000" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="chatdiacell/textbg/wenben/yuyin/icon" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:liaotian image:liaotian_yuyin_biaoshi2" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,16},{0,11},{0,36},{0,39}}" />
+            </Window>
+            <Window Type="TaharezLook/RichEditbox" Name="chatdiacell/textbg/wenben" >
+                <Property Name="Font" Value="simhei-10" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ReadOnly" Value="True" />
+                <Property Name="LineSpace" Value="2" />
+                <Property Name="BlinkCaret" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="MaxTextLength" Value="2147483647" />
+                <Property Name="UnifiedAreaRect" Value="{{0,20},{0,48},{1,-10},{0,137}}" />
+                <Property Name="NormalTextColour" Value="FF693F00" />
+                <Property Name="BlinkCaretTimeout" Value="0.5" />
+                <Property Name="SelectedTextColour" Value="FF693F00" />
+                <Property Name="TextParsingEnabled" Value="False" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="chatdiacell/dikuang" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:ccui1 image:kuang1" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,6},{0,3},{0,77},{0,72}}" />
+            <Window Type="TaharezLook/ImageButton" Name="chatdiacell/btnimage" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,6},{0,5},{0,66},{0,64}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="chatdiacell/pindaodikuang" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:liaotian image:liaotian_pindaodiban" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,78},{0,3},{0,129},{0,33}}" />
+            <Window Type="TaharezLook/StaticText" Name="chatdiacell/pindao" >
+                <Property Name="Font" Value="simhei-10" />
+                <Property Name="Text" Value="频道" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="36" />
+                <Property Name="VertExtent" Value="18.3282" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,3},{0,0},{0.001664,50},{0,24}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="chatdiacell/textbg/arrow" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:ccui3 image:zuobianc" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,80},{0,43},{0,99},{0,64}}" />
+        </Window>
+    </Window>
+</GUILayout>

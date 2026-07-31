@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow3" Name="zuoqicell3" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Text" Value="添加纹饰" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="BagTemp" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="LuaMemberName" Value="m_bg" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-289},{0.5,-479},{0.5,94},{0.5,171}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Window Type="TaharezLook/common_text2bg" Name="zuoqicell3/123" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,47},{0,82},{0,345},{0,568}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqicell3/title/textlinshi" >
+            <Property Name="Font" Value="hycyj-20" />
+            <Property Name="Text" Value="临时道具栏" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="HorzExtent" Value="165" />
+            <Property Name="VertExtent" Value="32.9678" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,195},{0.05,-16},{0.05,397},{0.05,26}}" />
+        </Window>
+        <Window Type="TaharezLook/ScrollablePane" Name="zuoqicell3/scrolllabelpane" >
+            <Property Name="Font" Value="simhei-18" />
+            <Property Name="Text" Value="    物 品    " />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="ContentArea" Value="l:0 t:-1 r:288 b:474" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="HorzStepSize" Value="0.1" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="VertStepSize" Value="0.1" />
+            <Property Name="HorzOverlapSize" Value="0.01" />
+            <Property Name="UnifiedAreaRect" Value="{{0,51},{0,86},{0,340},{0,563}}" />
+            <Property Name="VertOverlapSize" Value="0.01" />
+            <Property Name="HorzScrollPosition" Value="0" />
+            <Property Name="VertScrollPosition" Value="0" />
+            <AutoWindow NameSuffix="__auto_container__" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:-1 r:288 b:474" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ChildExtentsArea" Value="l:0 t:-1 r:288 b:474" />
+                <Window Type="TaharezLook/ItemTable" Name="zuoqicell3/table" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SpaceX" Value="8" />
+                    <Property Name="SpaceY" Value="8" />
+                    <Property Name="ColCount" Value="3" />
+                    <Property Name="RowCount" Value="5" />
+                    <Property Name="CellWidth" Value="89" />
+                    <Property Name="CellHeight" Value="89" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="m_itemtabTabA" />
+                    <Property Name="LimitWindowSize" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,3},{0,-1},{0,288},{0,474}}" />
+                </Window>
+            </AutoWindow>
+        </Window>
+        <Window Type="TaharezLook/Button" Name="zuoqicell3/btnyi" >
+            <Property Name="Font" Value="simhei-14" />
+            <Property Name="Text" Value="添加纹饰" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_btnGetBack" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.103082,45},{0.103082,503},{0.103082,265},{0.103082,558}}" />
+            <Property Name="LuaEventOnClicked" Value="HandleBtnGetBackClicked" />
+        </Window>
+    </Window>
+</GUILayout>

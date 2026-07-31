@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="leitai_mtg" >
+        <Property Name="Font" Value="hycyj-20" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="LeiTaiDialog" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-583},{0.5,-334},{0.5,583},{0.5,348}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/StaticImage" Name="leitai_mtg/ccziti" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,263},{0.05,-26},{0.05,772},{0.05,20}}" />
+            <Window Type="TaharezLook/StaticText" Name="leitai_mtg/ccziti/cc254" >
+                <Property Name="Font" Value="simhei-18" />
+                <Property Name="Text" Value="擂台切磋" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="116" />
+                <Property Name="VertExtent" Value="29.3281" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:ff8c5e2a tr:ff8c5e2a bl:ff8c5e2a br:ff8c5e2a" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,167},{0,5},{0,337},{0,43}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/GroupButtoncc1" Name="leitai_mtg/grpbtn2" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="组队对手" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_GroupButton2" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,323},{0,84},{0,547},{0,147}}" />
+            <Property Name="LuaEventOnClicked" Value="OnClickedTabButton" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="leitai_mtg/textbg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_GroupUnder1" />
+            <Property Name="UnifiedAreaRect" Value="{{0,68},{0,156},{0,1094},{0,635}}" />
+        </Window>
+        <Window Type="TaharezLook/common_button60" Name="leitai_mtg/btn1" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="筛选职业" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_ZhiYeShaiXuanBtn" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,100},{0,581},{0,326},{0,641}}" />
+            <Window Type="TaharezLook/StaticImage" Name="leitai_mtg/btn1/up" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:common image:dowm" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="m_Up" />
+                <Property Name="UnifiedAreaRect" Value="{{0,187},{0,23},{0,203},{0,40}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="leitai_mtg/btn1/down" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:common image:up" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="m_Up" />
+                <Property Name="UnifiedAreaRect" Value="{{0,187},{0,23},{0,203},{0,40}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_button60" Name="leitai_mtg/dengjibtn" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="全部" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_AllButton" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,653},{0,581},{0,879},{0,641}}" />
+            <Window Type="TaharezLook/StaticImage" Name="leitai_mtg/dengjibtn/down" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:common image:up" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="m_Up" />
+                <Property Name="UnifiedAreaRect" Value="{{0,187},{0,23},{0,203},{0,40}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="leitai_mtg/dengjibtn/up" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:common image:dowm" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="m_Down" />
+                <Property Name="UnifiedAreaRect" Value="{{0,187},{0,23},{0,203},{0,40}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="leitai_mtg/textbg1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_GroupUnder2" />
+            <Property Name="UnifiedAreaRect" Value="{{0,68},{0,156},{0,1094},{0,635}}" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="leitai_mtg/textbg2" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_GroupUnder3" />
+            <Property Name="UnifiedAreaRect" Value="{{0,68},{0,156},{0,1094},{0,635}}" />
+        </Window>
+        <Window Type="TaharezLook/GroupButtoncc1" Name="leitai_mtg/grpbtn1" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="单人对手" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_GroupButton1" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,89},{0,84},{0,313},{0,147}}" />
+            <Property Name="LuaEventOnClicked" Value="OnClickedTabButton" />
+        </Window>
+        <Window Type="TaharezLook/GroupButtoncc1" Name="leitai_mtg/grpbtn3" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="观战" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_GroupButton3" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,556},{0,84},{0,780},{0,147}}" />
+            <Property Name="LuaEventOnClicked" Value="OnClickedTabButton" />
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="leitai_mtg/tubiao" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:diban image:jian" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,53},{0,-4},{0,133},{0,76}}" />
+        </Window>
+        <Window Type="TaharezLook/ImageButtoncc" Name="leitai_mtg/btnshuaxin" >
+            <Property Name="Font" Value="simhei-13" />
+            <Property Name="Text" Value="刷 新" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:ccui image:an3" />
+            <Property Name="PushedImage" Value="set:ccui image:an3" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="DisabledImage" Value="set:ccui image:an3" />
+            <Property Name="LuaMemberName" Value="m_ShuaXinButton" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,805},{0.1,20},{0.1,948},{0.1,75}}" />
+            <Property Name="NormalTextColour" Value="ff743a0f" />
+            <Property Name="PushedTextColour" Value="ff743a0f" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Property Name="ButtonDefaultBorderEnable" Value="False" />
+            <Property Name="ButtonDefaultColourEnable" Value="False" />
+        </Window>
+        <Window Type="DefaultWindow" Name="leitai_mtg/wuren" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_NoEntrysImage" />
+            <Property Name="UnifiedAreaRect" Value="{{0,72},{0,160},{0,1094},{0,633}}" />
+            <Window Type="TaharezLook/StaticImage" Name="leitai_mtg/wuren/image" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:ccui image:jingling" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,226},{0,106},{0,452},{0,335}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="leitai_mtg/wuren/dikuang" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,413},{0,106},{0,785},{0,301}}" />
+                <Window Type="TaharezLook/StaticText" Name="leitai_mtg/wuren/dikuang/text" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="擂台暂无对手" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="132" />
+                    <Property Name="VertExtent" Value="22.0001" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,17},{0,35},{0,317},{0,159}}" />
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

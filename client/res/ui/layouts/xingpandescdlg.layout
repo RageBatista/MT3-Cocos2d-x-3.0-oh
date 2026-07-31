@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Image" Value="set:xingpan image:bg1"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="XingPanDescDlg"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="AlwaysOnTop" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="IsPixelDecide" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.2,0},{0.45,414},{0.45,273}}"/>
+		<Property Name="HorizontalAlignment" Value="Centre"/>
+		<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/title">
+			<Property Name="Font" Value="mhsy-10-normal"/>
+			<Property Name="Text" Value="万象星盘"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="73.0"/>
+			<Property Name="VertExtent" Value="18.3192"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,296},{0,6},{0,397.25},{0,38.25}}"/>
+		</Window>
+		<Window Type="TaharezLook/ImageButton" Name="xingyinxiangqing/closebtn">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="HoverImage" Value="set:xingpan image:x"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="NormalImage" Value="set:xingpan image:x"/>
+			<Property Name="PushedImage" Value="set:xingpan image:x"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="closeBtn"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,631},{0,-1},{0,684.25},{0,53.25}}"/>
+			<Property Name="LuaEventOnClicked" Value="HandleCloseBtn"/>
+		</Window>
+		<Window Type="TaharezLook/GroupButton" Name="xingyinxiangqing/xingpan">
+			<Property Name="Font" Value="mhsy-9-normal"/>
+			<Property Name="Text" Value="星盘详情"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Selected" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="XingPanBtn"/>
+			<Property Name="EnableClickAni" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,79},{0,61},{0,328.25},{0,88.25}}"/>
+			<Property Name="LuaEventOnClicked" Value="HandleXingPanClicked"/>
+		</Window>
+		<Window Type="TaharezLook/GroupButton" Name="xingyinxiangqing/taozhuang">
+			<Property Name="Font" Value="mhsy-9-normal"/>
+			<Property Name="Text" Value="套装详情"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="TaozhuangBtn"/>
+			<Property Name="EnableClickAni" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,369},{0,61},{0,618.25},{0,88.25}}"/>
+			<Property Name="LuaEventOnClicked" Value="HandleTaozhuangClicked"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="xingpanDesc"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,50},{0,98},{0,643.25},{0,416.25}}"/>
+			<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/text1">
+				<Property Name="Font" Value="mhsy-8-normal"/>
+				<Property Name="Text" Value="   星盘有6个空位可以镶嵌星印。但星盘两轨自身相呼应，星体流转，一点绕另一轨运行，\n则能量恒常。为使能量正常运转，每位玩家同时最多可携带"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="600.0"/>
+				<Property Name="VertExtent" Value="29.3294"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,-13.7},{0,4.3},{0,588.55},{0,47.55}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/xingyinshu">
+				<Property Name="Font" Value="mhsy-8-normal"/>
+				<Property Name="Text" Value="4枚星印"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="52.5"/>
+				<Property Name="VertExtent" Value="14.6647"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,376.3},{0,26.3},{0,440.55},{0,42.55}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/text11">
+				<Property Name="Font" Value="mhsy-8-normal"/>
+				<Property Name="Text" Value="4枚星印彼此组合可以激发不同的门派技能效果；其主要分为以下三类"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="457.5"/>
+				<Property Name="VertExtent" Value="14.6647"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,-23.7},{0.05,42.3},{0.05,578.55},{0.05,67.55}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:bg1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,20.5},{0,91.5},{0,197.75},{0,298.75}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon1">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Text" Value="主\n动"/>
+					<Property Name="Image" Value="set:xingpan image:skillzt2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,41.3},{0.05,2.3},{0.05,65.55},{0.05,42.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:icon1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,64.3},{0,15.3},{0,122.55},{0,73.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name">
+					<Property Name="Font" Value="mhsy-10-normal"/>
+					<Property Name="Text" Value="势如破竹"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="72.0"/>
+					<Property Name="VertExtent" Value="18.3192"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,53.4},{0,75.4},{0,137.65},{0,94.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name1">
+					<Property Name="Font" Value="mhsy-7-normal"/>
+					<Property Name="Text" Value="三枚圆印+一枚方印\n获得自身属性力量、\n魔力、敏捷10%"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="117.0"/>
+					<Property Name="VertExtent" Value="38.4656"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-0.599998},{0.05,80.4},{0.05,168.65},{0.05,145.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,7.3},{0.05,149.3},{0.05,34.55},{0.05,175.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon21">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,61.3},{0.1,138.3},{0.1,87.55},{0.1,164.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon211">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.15,22.3},{0.15,129.3},{0.15,48.55},{0.15,154.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon2111">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp3"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.2,69.3},{0.2,114.3},{0.2,108.55},{0.2,148.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon21111">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.25,95.3},{0.25,107.3},{0.25,123.55},{0.25,134.55}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/11">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:bg1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,189.5},{0.05,77.5},{0.05,366.75},{0.05,284.75}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon11">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Text" Value="被\n动"/>
+					<Property Name="Image" Value="set:xingpan image:skillzt3"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,42.3},{0.05,2.3},{0.05,66.55},{0.05,42.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon3">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:icon2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,64.3},{0,15.3},{0,122.55},{0,73.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name2">
+					<Property Name="Font" Value="mhsy-10-normal"/>
+					<Property Name="Text" Value="退避三舍"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="72.0"/>
+					<Property Name="VertExtent" Value="18.3192"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,53.4},{0,75.4},{0,137.65},{0,94.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name11">
+					<Property Name="Font" Value="mhsy-7-normal"/>
+					<Property Name="Text" Value="一枚圆印+三枚方印\n获得自身属性体质、\n耐力、敏捷10%"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="117.0"/>
+					<Property Name="VertExtent" Value="38.4656"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-0.599998},{0.05,80.4},{0.05,168.65},{0.05,145.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon22">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,7.3},{0.05,149.3},{0.05,34.55},{0.05,175.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon212">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,61.3},{0.1,139.3},{0.1,87.55},{0.1,165.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon2112">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.15,82.3},{0.15,129.3},{0.15,108.55},{0.15,154.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon21112">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp3"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.2,5.3},{0.2,113.3},{0.2,44.55},{0.2,147.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon211111">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.25,95.3},{0.25,108.3},{0.25,123.55},{0.25,134.55}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/111">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:bg1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.1,351.5},{0.1,60.5},{0.1,528.75},{0.1,267.75}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon111">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Text" Value="平\n衡"/>
+					<Property Name="Image" Value="set:xingpan image:skillzt1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,41.3},{0.05,2.3},{0.05,65.55},{0.05,42.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon31">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:icon3"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,64.3},{0,15.3},{0,122.55},{0,73.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name21">
+					<Property Name="Font" Value="mhsy-10-normal"/>
+					<Property Name="Text" Value="平衡之力"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="72.0"/>
+					<Property Name="VertExtent" Value="18.3192"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,53.4},{0,75.4},{0,137.65},{0,94.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name111">
+					<Property Name="Font" Value="mhsy-7-normal"/>
+					<Property Name="Text" Value="两枚圆印+两枚方印\n获得自身属性体质、力量\n魔力、耐力、敏捷5%"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="156.0"/>
+					<Property Name="VertExtent" Value="38.4656"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-0.599998},{0.05,80.4},{0.05,168.65},{0.05,145.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon221">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,7.3},{0.05,149.3},{0.05,34.55},{0.05,175.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon2121">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp3"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,54.3},{0.1,134.3},{0.1,93.55},{0.1,170.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon21121">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.15,22.3},{0.15,129.3},{0.15,48.55},{0.15,154.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon211121">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.2,70.3},{0.2,118.3},{0.2,99.55},{0.2,144.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon2111111">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:tp1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.25,95.3},{0.25,107.3},{0.25,123.55},{0.25,134.55}}"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/taozhuangdesc">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="TaozhuangDesc"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.05,13},{0.05,80},{0.05,606.25},{0.05,398.25}}"/>
+			<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/12">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:bg1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,18.5},{0,3.5},{0,195.75},{0,300.75}}"/>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name3">
+					<Property Name="Font" Value="mhsy-9-normal"/>
+					<Property Name="Text" Value="获得属性"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="68.0"/>
+					<Property Name="VertExtent" Value="16.4919"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFE4DB1E tr:FFE4DB1E bl:FFE4DB1E br:FFE4DB1E"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,54.4},{0,65.4},{0,138.65},{0,84.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name12">
+					<Property Name="Font" Value="mhsy-7-normal"/>
+					<Property Name="Text" Value="自身物理攻击、法术攻击\n治疗强度、封印命中提升百\n分之8%,物理防御，法术防\n御提升8%，速度提升4%"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="156.0"/>
+					<Property Name="VertExtent" Value="51.2874"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-1.6},{0.05,51.4},{0.05,167.65},{0.05,179.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/my">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:wode"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="my1"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-5.7},{0.05,-12.7},{0.05,44.55},{0.05,36.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon121">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Image" Value="set:xingpan image:bg1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,-17.7},{0.1,165.3},{0.1,159.55},{0.1,267.55}}"/>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name31">
+						<Property Name="Font" Value="mhsy-9-normal"/>
+						<Property Name="Text" Value="激活条件"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="68.0"/>
+						<Property Name="VertExtent" Value="16.4919"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FFE4DB1E tr:FFE4DB1E bl:FFE4DB1E br:FFE4DB1E"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.05,43.4},{0.05,9.4},{0.05,127.65},{0.05,28.65}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name121">
+						<Property Name="Font" Value="mhsy-8-normal"/>
+						<Property Name="Text" Value="星盘装备得基础属性\n特技、特效总和"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="150.0"/>
+						<Property Name="VertExtent" Value="29.3294"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.1,-3.6},{0.1,22.4},{0.1,147.65},{0.1,51.65}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/tiaoshu1">
+						<Property Name="Font" Value="mhsy-8-normal"/>
+						<Property Name="Text" Value="0/10条"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="37.5"/>
+						<Property Name="VertExtent" Value="14.6647"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF56CA1C tr:FF56CA1C bl:FF56CA1C br:FF56CA1C"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="LuaMemberName" Value="t1"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.15,-10.6},{0.15,40.4},{0.15,140.65},{0.15,69.65}}"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon12">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Text" Value="寻星踪"/>
+					<Property Name="Image" Value="set:xingpan image:jihuoBG1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,41.3},{0.05,5.3},{0.05,129.55},{0.05,36.55}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/121">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:bg1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,186.5},{0.05,-13.5},{0.05,363.75},{0.05,283.75}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon122">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Text" Value="登星阶"/>
+					<Property Name="Image" Value="set:xingpan image:jihuoBG2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,41.3},{0.05,7.3},{0.05,129.55},{0.05,38.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name32">
+					<Property Name="Font" Value="mhsy-9-normal"/>
+					<Property Name="Text" Value="获得属性"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="68.0"/>
+					<Property Name="VertExtent" Value="16.4919"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFE4DB1E tr:FFE4DB1E bl:FFE4DB1E br:FFE4DB1E"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,53.4},{0,68.4},{0,137.65},{0,87.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name122">
+					<Property Name="Font" Value="mhsy-7-normal"/>
+					<Property Name="Text" Value="自身物理攻击、法术攻击\n治疗强度、封印命中提升\n百分之16%,物理防御，法\n术防御提升16%，速度提升8%"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="156.5"/>
+					<Property Name="VertExtent" Value="51.2874"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-4.6},{0.05,53.4},{0.05,164.65},{0.05,179.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/my1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:wode"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="my2"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-5.7},{0.05,-12.7},{0.05,44.55},{0.05,36.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon1211">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Image" Value="set:xingpan image:bg1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,-17.7},{0.1,165.3},{0.1,159.55},{0.1,267.55}}"/>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name311">
+						<Property Name="Font" Value="mhsy-9-normal"/>
+						<Property Name="Text" Value="激活条件"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="68.0"/>
+						<Property Name="VertExtent" Value="16.4919"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FFE4DB1E tr:FFE4DB1E bl:FFE4DB1E br:FFE4DB1E"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.05,43.4},{0.05,9.4},{0.05,127.65},{0.05,28.65}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name1211">
+						<Property Name="Font" Value="mhsy-8-normal"/>
+						<Property Name="Text" Value="星盘装备得基础属性\n特技、特效总和"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="150.0"/>
+						<Property Name="VertExtent" Value="29.3294"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.1,-3.6},{0.1,22.4},{0.1,147.65},{0.1,51.65}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/tiaoshu11">
+						<Property Name="Font" Value="mhsy-8-normal"/>
+						<Property Name="Text" Value="0/16条"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="45.0"/>
+						<Property Name="VertExtent" Value="14.6647"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF56CA1C tr:FF56CA1C bl:FF56CA1C br:FF56CA1C"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="LuaMemberName" Value="t2"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.15,-10.6},{0.15,40.4},{0.15,140.65},{0.15,69.65}}"/>
+					</Window>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1211">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:bg1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.1,349.5},{0.1,-27.5},{0.1,526.75},{0.1,269.75}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon1221">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Text" Value="揽星海"/>
+					<Property Name="Image" Value="set:xingpan image:jihuoBG3"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,41.3},{0.05,7.3},{0.05,129.55},{0.05,38.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name321">
+					<Property Name="Font" Value="mhsy-9-normal"/>
+					<Property Name="Text" Value="获得属性"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="68.0"/>
+					<Property Name="VertExtent" Value="16.4919"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFE4DB1E tr:FFE4DB1E bl:FFE4DB1E br:FFE4DB1E"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,53.4},{0,68.4},{0,137.65},{0,87.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name1221">
+					<Property Name="Font" Value="mhsy-7-normal"/>
+					<Property Name="Text" Value="自身物理攻击、法术攻击\n治疗强度、封印命中提升\n百分之24%,物理防御\n法术防御提升24%\n速度提升12%"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="156.0"/>
+					<Property Name="VertExtent" Value="64.1093"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-4.6},{0.05,53.4},{0.05,164.65},{0.05,179.65}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/my11">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:wode"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="my3"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-5.7},{0.05,-12.7},{0.05,44.55},{0.05,36.55}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="xingyinxiangqing/xingpandesc/1/icon12111">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Image" Value="set:xingpan image:bg1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,-17.7},{0.1,165.3},{0.1,159.55},{0.1,267.55}}"/>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name3111">
+						<Property Name="Font" Value="mhsy-9-normal"/>
+						<Property Name="Text" Value="激活条件"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="68.0"/>
+						<Property Name="VertExtent" Value="16.4919"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FFE4DB1E tr:FFE4DB1E bl:FFE4DB1E br:FFE4DB1E"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.05,43.4},{0.05,9.4},{0.05,127.65},{0.05,28.65}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/name12111">
+						<Property Name="Font" Value="mhsy-8-normal"/>
+						<Property Name="Text" Value="星盘装备得基础属性\n特技、特效总和"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="150.0"/>
+						<Property Name="VertExtent" Value="29.3294"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.1,-3.6},{0.1,22.4},{0.1,147.65},{0.1,51.65}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="xingyinxiangqing/xingpandesc/1/tiaoshu111">
+						<Property Name="Font" Value="mhsy-8-normal"/>
+						<Property Name="Text" Value="0/20条"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="45.0"/>
+						<Property Name="VertExtent" Value="14.6647"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF56CA1C tr:FF56CA1C bl:FF56CA1C br:FF56CA1C"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="LuaMemberName" Value="t3"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.15,-10.6},{0.15,40.4},{0.15,140.65},{0.15,69.65}}"/>
+					</Window>
+				</Window>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

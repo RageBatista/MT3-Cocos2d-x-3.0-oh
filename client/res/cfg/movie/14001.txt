@@ -1,0 +1,119 @@
+﻿Setmap id=2200 pos=115,95 
+MoveCam pos=115,95 
+ForbiddenAutoPlay
+PlaySound id=1 res=/sound/scene/BOSS_battle.ogg repeat=-1 fadein=1
+Start
+CreateNpc id=20 varname=Ragzo pos=57,36 model=1010170 npcname=魔将 dir=3  
+SetSE name=jq_chuchang_01 pos=119,83 repeat=1
+CreateNpc id=12 varname=luren21 pos=119,83 model=1010102 npcname=三月 dir=7 mountid=601 colorA=4 colorB=3 chengwei=门派联盟 scale=0.85
+Wait time=300
+SetSE name=jq_chuchang_01 pos=104,100 repeat=1
+CreateNpc id=15 varname=luren22 pos=104,100 model=1010103 npcname=一夜知秋 dir=7 mountid=601 colorA=2 colorB=2 chengwei=门派联盟 scale=0.85
+Wait time=300
+SetSE name=jq_chuchang_01 pos=132,91 repeat=1
+CreateNpc id=18 varname=luren24 pos=132,91 model=1010106 npcname=若离 dir=7 mountid=601 colorA=4 colorB=1 chengwei=门派联盟 scale=0.85
+Wait time=300
+SetSE name=jq_chuchang_01 pos=129,100 repeat=1
+CreateNpc id=19 varname=luren25 pos=129,100 model=1010101 npcname=SKY超可爱 dir=7 mountid=601 colorA=1 colorB=1 chengwei=门派联盟 scale=0.7
+Wait time=300
+SetSE name=jq_chuchang_01 pos=115,90 repeat=1
+CreateNpc id=10 varname=zhanshi pos=111,82 model=1010101 npcname=老大 dir=7 mountid=101 colorA=0 colorB=0 chengwei=门派联盟 scale=0.85
+Wait time=300
+SetSE name=jq_chuchang_01 pos=111,82 repeat=1
+CreateNpc id=11 varname=fashi pos=115,90 model=1010105 npcname=Summer追忆 dir=7 mountid=101 colorA=0 colorB=0 chengwei=门派联盟 scale=0.7
+Wait time=300
+SetSE name=jq_chuchang_01 pos=125,84 repeat=1
+CreateNpc id=14 varname=deluyi pos=111,100 model=1010104 npcname=双子 dir=7 mountid=101 colorA=0 colorB=0 chengwei=门派联盟 scale=0.7
+Wait time=300
+SetSE name=jq_chuchang_01 pos=111,100 repeat=1
+CreateNpc id=0 varname=主角 pos=125,84 model=1010105 npcname=主角 dir=7 mountid=101 chengwei=门派联盟 scale=0.7
+Wait time=300
+SetSE name=jq_chuchang_01 pos=106,89 repeat=1
+SetSE name=jq_chuchang_01 pos=120,97 repeat=1
+CreateNpc id=13 varname=mushi pos=106,89 model=1010106 npcname=小悠 dir=7 mountid=501 colorA=0 colorB=0 chengwei=门派联盟 scale=0.9
+CreateNpc id=17 varname=luren23 pos=120,97 model=1010102 npcname=落雪 dir=7 mountid=501 colorA=2 colorB=5 chengwei=门派联盟 scale=0.9
+Wait time=100
+
+SKbegin time =200
+Speak  text=终于来到了这里吗 head=9016 time=6500  pause=1
+Wait time=2000
+
+MoveNPC varname=zhanshi pos=54,36 time=10000
+MoveNPC varname=fashi pos=60,40 time=10000
+MoveNPC varname=luren21 pos=66,36 time=10000
+MoveNPC varname=mushi pos=60,53 time=11000
+MoveNPC varname=deluyi pos=68,48 time=10000
+MoveNPC varname=luren22 pos=54,49 time=10000  
+MoveNPC varname=主角 pos=76,39 time=11000
+MoveNPC varname=luren23 pos=75,51 time=11000
+MoveNPC varname=luren24 pos=86,43 time=11000
+MoveNPC varname=luren25 pos=83,53 time=11000
+
+MoveCam pos=79,59 time=6000
+SKbegin time =200
+Speak varname=追忆 text=快看下面那家伙是啥！ head=9062 time=3000  pause=1
+PlaySDEffect res=/sound/chat/MovieTalk/14001_01_3.ogg
+MoveCam pos=69,41 time=1000
+Wait time=2000
+SKbegin time =200
+Speak varname=双子 text=魔将！ head=9023 time=1300  pause=1
+PlaySDEffect res=/sound/chat/MovieTalk/14001_02_1.ogg
+Wait time=1300
+SKbegin time =200
+Speak varname=小悠 text=老大，这个怪物怎么对付 head=9001 time=2600 pause=1
+PlaySDEffect res=/sound/chat/MovieTalk/14001_03_3.ogg
+Wait time=2600
+SKbegin time =200
+Speak varname=老大 text=一会儿我先上…… head=9024 time=3000  pause=1  
+PlaySDEffect res=/sound/chat/MovieTalk/14001_04_3.ogg
+Wait time=1400
+PlayAct varname=Ragzo id=8 dir=3 end=1
+Wait time=600
+Shake id=2 range=100 time=500
+SetSE name=jq00_bossfashu_yunshi1 pos=71,53 repeat=1
+SetSE name=jq00_bossfashu_yunshi1 pos=64,47 repeat=1
+SetSE name=jq00_bossfashu_yunshi1 pos=56,51 repeat=1
+SetSE name=jq00_bossfashu_yunshi1 pos=85,59 repeat=1
+
+SetSE name=jq00_bossfashu_yunshi2 pos=71,53 repeat=1
+SetSE name=jq00_bossfashu_yunshi2 pos=64,47 repeat=1
+SetSE name=jq00_bossfashu_yunshi2 pos=56,51 repeat=1
+SetSE name=jq00_bossfashu_yunshi2 pos=85,59 repeat=1
+
+SKbegin time =200
+Speak varname=老大 text=啊，没时间了，一会儿该干嘛干嘛吧 head=9024 time=2500  pause=1
+PlaySDEffect res=/sound/chat/MovieTalk/14001_05_3.ogg
+Wait time=300
+
+
+SetSE name=jp40_fashu_shouji pos=54,36 repeat=2 
+SetSE name=jp40_fashu_shouji pos=62,43 repeat=2 
+SetSE name=jp40_fashu_shouji pos=66,36 repeat=2 
+SetSE name=jp40_fashu_shouji pos=59,52 repeat=2
+SetSE name=jp40_fashu_shouji pos=68,48 repeat=2 
+SetSE name=jp40_fashu_shouji pos=54,49 repeat=2
+SetSE name=jp40_fashu_shouji pos=76,39 repeat=2 
+SetSE name=jp40_fashu_shouji pos=75,51 repeat=2
+SetSE name=jp40_fashu_shouji pos=86,43 repeat=2 
+SetSE name=jp40_fashu_shouji pos=83,53 repeat=2   
+
+Wait time=1500
+Return time=1000 type=3
+End
+
+
+eActionStand,		1//普通站立
+	eActionStandRandom,	2//站立随机动作
+	eActionBattleStand,	3//战斗警戒
+	eActionWalk,		4//走动
+	eActionRun,		5//跑步，不存在左腿还是右腿先跑
+	eActionBattleRun,	6//战斗中跑
+	eActionOnHit,		7//受击
+	eActionAttack,		8//攻击
+	eActionMagic,		9//施法
+	eActionRunaway,		10//逃跑
+	eActionDefence,		11//防御;
+	eActionDodge,		12//闪避
+	eActionDying,		13//倒地
+	eActionDeath,		14//死亡
+	eActionRoll,		15//击飞

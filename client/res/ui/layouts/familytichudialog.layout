@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow3" Name="familytichudialog">
+		<Property Name="Font" Value="hycyj-20"/>
+		<Property Name="Text" Value="帮派逐出"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="Familytichudialog"/>
+		<Property Name="AlwaysOnTop" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-331},{0.5,-274},{0.5,331},{0.5,274}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="HorizontalAlignment" Value="Centre"/>
+		<Property Name="AllowModalStateClick" Value="True"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/StaticText" Name="familytichudialog/tishi">
+			<Property Name="Font" Value="simhei-14"/>
+			<Property Name="Text" Value="确定要将XXX逐出帮派？"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="273.0"/>
+			<Property Name="VertExtent" Value="25.6593"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_TitleText"/>
+			<Property Name="HorzFormatting" Value="HorzCentred"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,50},{0,100},{0,663},{0,143}}"/>
+			<Property Name="HorizontalAlignment" Value="Centre"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/dangebutton" Name="familytichudialog/OK">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="确 定"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_OkBtn"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,392},{0,424},{0,587},{0,489}}"/>
+			<Property Name="LuaEventOnClicked" Value="OnClickedOk"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/Checkbox2" Name="familytichudialog/text1">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="人员清理"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_CheckBox_1"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,108},{0,183},{0,309},{0,233}}"/>
+			<Property Name="NormalTextColour" Value="FF482C21"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/Checkbox2" Name="familytichudialog/text2">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="长期不上线"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_CheckBox_2"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,392},{0,183},{0,592},{0,233}}"/>
+			<Property Name="NormalTextColour" Value="FF482C21"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/Checkbox2" Name="familytichudialog/text3">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="表现不积极"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_CheckBox_3"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,108},{0,301},{0,308},{0,351}}"/>
+			<Property Name="NormalTextColour" Value="FF482C21"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/Checkbox2" Name="familytichudialog/text4">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="志趣不合"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_CheckBox_4"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,392},{0,301},{0,592},{0,351}}"/>
+			<Property Name="NormalTextColour" Value="FF482C21"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/dangebutton" Name="familytichudialog/close">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="取 消"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="m_CancelBtn"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,83},{0,424},{0,278},{0,489}}"/>
+			<Property Name="LuaEventOnClicked" Value="OnClickedCancel"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+	</Window>
+</GUILayout>

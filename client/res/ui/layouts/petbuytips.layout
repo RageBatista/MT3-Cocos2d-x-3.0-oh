@@ -1,0 +1,1178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindowbt" Name="petbuytips" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="StallPetTip" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0,247},{0,59},{0,609},{0,557}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="CloseButtonEnabled" Value="False" />
+        <Property Name="AllowModalStateClick" Value="True" />
+        <Window Type="TaharezLook/ItemCell" Name="petbuytips/wupin" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="itemCell" />
+            <Property Name="UnifiedAreaRect" Value="{{0,12},{0,13},{0,95},{0,93}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="petbuytips/mingzi" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="今天天气不错" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="132" />
+            <Property Name="VertExtent" Value="22.0001" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="name" />
+            <Property Name="UnifiedAreaRect" Value="{{0,100},{0,19},{0,322},{0,52}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="petbuytips/dengjitext" >
+            <Property Name="Font" Value="simhei-11" />
+            <Property Name="Text" Value="等级:" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="44" />
+            <Property Name="VertExtent" Value="20.1719" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,100},{0,55},{0,162},{0,91}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="petbuytips/dengji" >
+            <Property Name="Font" Value="hycyj-11" />
+            <Property Name="Text" Value="0" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="10" />
+            <Property Name="VertExtent" Value="20.162" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="levelText" />
+            <Property Name="UnifiedAreaRect" Value="{{0,151},{0,57},{0,259},{0,93}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="petbuytips/di" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,10},{0,171},{0,363},{0,455}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+        </Window>
+        <Window Type="DefaultWindow" Name="petbuytips/fenye1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="skillView" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-2},{0,179},{0,359},{0,488}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/StaticImage" Name="petbuytips/fenye1/dqc1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:cc25413 image:c6" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,46.3},{0,35.3},{0,59.55},{0,44.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/ScrollablePane" Name="petbuytips/fenye1/skillscroll" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:361 b:458" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="LuaMemberName" Value="skillScroll" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-15},{0,-1},{1,-14},{1,1}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:361 b:458" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:361 b:458" />
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,4},{0,103},{0,74}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,4},{0,189},{0,74}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill3" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,4},{0,275},{0,74}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill4" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,4},{0,361},{0,74}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill5" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,80},{0,103},{0,150}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill6" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,80},{0,189},{0,150}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill7" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,80},{0,275},{0,150}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill8" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,80},{0,361},{0,150}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill9" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,157},{0,103},{0,227}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill10" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,157},{0,189},{0,227}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill11" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,157},{0,275},{0,227}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill12" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,157},{0,361},{0,227}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill13" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,234},{0,103},{0,304}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill14" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,234},{0,189},{0,304}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill15" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,234},{0,275},{0,304}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill16" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,234},{0,361},{0,304}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill17" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,311},{0,103},{0,381}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill18" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,311},{0,189},{0,381}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill19" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,311},{0,275},{0,381}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill20" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,311},{0,361},{0,381}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill21" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,388},{0,103},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill22" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,388},{0,189},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill23" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,388},{0,275},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill24" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,388},{0,361},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="petbuytips/fenye1/skillscroll/skill25" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,388},{0,361},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="petbuytips/fenye2" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,4},{0,168},{0,363},{0,485}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="DefaultWindow" Name="petbuytips/fenye2/1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,3},{0.5,200},{0,43}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ProgressBar_chongwu" Name="petbuytips/fenye2/1/jindu" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="gongziBar" />
+                    <Property Name="CurrentProgress" Value="0.5" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,124},{0,12},{0,360},{0,37}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/1/wenben" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="攻击资质：" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="100" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,26},{0.1,3},{0,139},{0.1,36}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="petbuytips/fenye2/2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,42},{0.5,200},{0,82}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ProgressBar_chongwu" Name="petbuytips/fenye2/2/jindu" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="gongziBar" />
+                    <Property Name="CurrentProgress" Value="0.5" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,124},{0,12},{0,360},{0,37}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/2/wenben" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="防御资质：" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="100" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,26},{0.1,3},{0,139},{0.1,36}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="petbuytips/fenye2/4" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,120},{0.5,200},{0,160}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ProgressBar_chongwu" Name="petbuytips/fenye2/4/jindu" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="gongziBar" />
+                    <Property Name="CurrentProgress" Value="0.5" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,124},{0,12},{0,360},{0,37}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/4/wenben" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="法术资质：" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="100" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,26},{0.1,3},{0,139},{0.1,36}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="petbuytips/fenye2/3" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,81},{0.5,200},{0,121}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ProgressBar_chongwu" Name="petbuytips/fenye2/3/jindu" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="gongziBar" />
+                    <Property Name="CurrentProgress" Value="0.5" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,124},{0,12},{0,360},{0,37}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/3/wenben" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="体力资质：" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="100" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,26},{0.1,3},{0,139},{0.1,36}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="petbuytips/fenye2/5" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,159},{0.5,200},{0,199}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ProgressBar_chongwu" Name="petbuytips/fenye2/5/jindu" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="gongziBar" />
+                    <Property Name="CurrentProgress" Value="0.5" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,124},{0,12},{0,360},{0,37}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/5/wenben" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="速度资质：" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="100" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,26},{0.1,3},{0,139},{0.1,36}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="petbuytips/fenye2/6" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,198},{0.5,200},{0,238}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/ProgressBar_tm" Name="petbuytips/fenye2/6/wenben2" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="0" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="StepSize" Value="0.01" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="FrameEnable" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="chengzhangBar" />
+                    <Property Name="CurrentProgress" Value="0.5" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,124},{0,11},{0,360},{0,36}}" />
+                    <Property Name="SelectedTextColour" Value="ffffffff" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/6/wenben1" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="宠物成长：" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="100" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,26},{0.1,3},{0,139},{0.1,36}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="petbuytips/fenye2/7" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,265},{0.5,200},{0,305}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/7/wenben0" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="宠物培养：" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="100" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,26},{0.1,3},{0,139},{0.1,36}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/7/yuanxiao" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="元宵" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="40" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,130.5},{0,11.5},{0,231.75},{0,33.75}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/7/wenben1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="0" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="10" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="LuaMemberName" Value="zizhidanNum" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.1,35},{0.1,-8},{0.1,85},{0.1,26}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/7/yccuanxiao" >
+                    <Property Name="Font" Value="simhei-11" />
+                    <Property Name="Text" Value="炼兽真经" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="80" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,235.5},{0,11.5},{0,371.75},{0,33.75}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye2/7/wenben2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Text" Value="0" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="10" />
+                        <Property Name="VertExtent" Value="22.0001" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                        <Property Name="BorderColour" Value="FFFFFFFF" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="LuaMemberName" Value="zizhidanNum" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.1,71},{0.1,-8},{0.1,121},{0.1,26}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_hengxiancc" Name="petbuytips/window/fengexianc11" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-4.7},{0.05,238.3},{0.05,323.55},{0.05,242.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="DefaultWindow" Name="petbuytips/fenye3" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-3},{0,166},{0,361},{0,491}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenyeccy/cc1" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="体质：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="60" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,198.2},{0,16.2},{0,391.45},{0,40.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi2" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,58.3},{0,4.3},{0,169.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenyeccy/cc2" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="魔力：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="60" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,198.2},{0,59.2},{0,391.45},{0,83.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi4" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,58.3},{0,4.3},{0,169.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenyeccy/cc3" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="力量：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="60" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,198.2},{0,102.2},{0,391.45},{0,126.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi6" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,58.3},{0,4.3},{0,169.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenyeccy/cc4" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="耐力：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="60" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,198.2},{0,145.2},{0,391.45},{0,169.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi8" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,58.3},{0,4.3},{0,169.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenyeccy/cc5" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="敏捷：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="60" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,198.2},{0,186.2},{0,391.45},{0,210.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi10" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,58.3},{0,4.3},{0,169.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenyeccy/cc6" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="潜力点：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="80" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,198.2},{0,231.2},{0,391.45},{0,255.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi12" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="22222" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="50" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,78.3},{0,4.3},{0,189.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenyeccy/cc7" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="寿命：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="60" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,198.2},{0,274.2},{0,391.45},{0,298.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi14" >
+                    <Property Name="Font" Value="simhei-10" />
+                    <Property Name="Text" Value="永生" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="36" />
+                    <Property Name="VertExtent" Value="18.3282" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,58.3},{0,2.3},{0,169.55},{0,25.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/cc1" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="气    血：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="100" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,13.2},{0,16.2},{0,206.45},{0,40.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi1" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,100.3},{0,4.3},{0,211.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/cc2" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="魔    法：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="100" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,13.2},{0,59.2},{0,206.45},{0,83.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi3" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,100.3},{0,4.3},{0,211.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/cc3" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="物理伤害：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="100" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,13.2},{0,102.2},{0,206.45},{0,126.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi5" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,100.3},{0,4.3},{0,211.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/cc4" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="物理防御：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="100" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,13.2},{0,145.2},{0,206.45},{0,169.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi7" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,100.3},{0,4.3},{0,211.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/cc5" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="法术伤害：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="100" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,13.2},{0,188.2},{0,206.45},{0,212.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi9" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,100.3},{0,4.3},{0,211.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/cc6" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="法术防御：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="100" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,13.2},{0,231.2},{0,206.45},{0,255.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi11" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,100.3},{0,4.3},{0,211.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/cc7" >
+                <Property Name="Font" Value="hycyj-11" />
+                <Property Name="Text" Value="速    度：" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="100" />
+                <Property Name="VertExtent" Value="20.162" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,13.2},{0,274.2},{0,206.45},{0,298.45}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye3/zhi13" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="2" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="10" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FFFFFF00 tr:FFFFFF00 bl:FFFFFF00 br:FFFFFF00" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,100.3},{0,4.3},{0,211.55},{0,27.55}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_heisetext" Name="petbuytips/fenye4" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,16},{0,184},{0,348},{0,484}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/ScrollablePane" Name="petbuytips/fenye4/skillscroll" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:331 b:186" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="LuaMemberName" Value="skillScroll" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-23},{0,4},{0,351},{0,294}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:331 b:186" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:331 b:186" />
+                    <Window Type="TaharezLook/SkillBoxnd" Name="petbuytips/fenye4/skillscroll/skill1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,89},{0,31},{0,162},{0,101}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="petbuytips/fenye4/skillscroll/skill2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,173},{0,31},{0,246},{0,101}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="petbuytips/fenye4/skillscroll/skill3" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,258},{0,31},{0,331},{0,101}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="petbuytips/fenye4/skillscroll/skill4" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,89},{0,116},{0,162},{0,186}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="petbuytips/fenye4/skillscroll/skill5" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,173},{0,116},{0,246},{0,186}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="petbuytips/fenye4/skillscroll/skill6" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,258},{0,116},{0,331},{0,186}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticImage" Name="petbuytips/fenye4/skillscroll/wenbenc1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Image" Value="set:cc25413 image:c6" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,36.5},{0,48.5},{0,74.75},{0,167.75}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                        <Window Type="TaharezLook/StaticText" Name="petbuytips/fenye4/skillscroll/wenbenc1/neidanm" >
+                            <Property Name="Font" Value="simhei-12" />
+                            <Property Name="Text" Value="内  丹" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="HorzExtent" Value="25.5" />
+                            <Property Name="VertExtent" Value="44.0001" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF" />
+                            <Property Name="BorderColour" Value="FF003454" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,3.3},{0,9.3},{0,34.55},{0,111.55}}" />
+                            <Property Name="AllowModalStateClick" Value="True" />
+                            <Property Name="MousePassThroughEnabled" Value="True" />
+                        </Window>
+                    </Window>
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/GroupButtontj" Name="petbuytips/jineng" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="技能" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Selected" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="HoverTextColour" Value="ff743a0f" />
+            <Property Name="UnifiedAreaRect" Value="{{0,11.195},{0,108.048},{0,91.445},{0,154.298}}" />
+            <Property Name="NormalTextColour" Value="ff743a0f" />
+            <Property Name="PushedTextColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderEnable" Value="False" />
+            <Property Name="DisabledTextColour" Value="ff743a0f" />
+            <Property Name="SelectedTextColour" Value="ff743a0f" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/GroupButtontj" Name="petbuytips/jineng1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="资质" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="HoverTextColour" Value="ff743a0f" />
+            <Property Name="UnifiedAreaRect" Value="{{0,98.195},{0,108.048},{0,178.445},{0,154.298}}" />
+            <Property Name="NormalTextColour" Value="ff743a0f" />
+            <Property Name="PushedTextColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderEnable" Value="False" />
+            <Property Name="DisabledTextColour" Value="ff743a0f" />
+            <Property Name="SelectedTextColour" Value="ff743a0f" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/GroupButtontj" Name="petbuytips/jineng11" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="属性" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="HoverTextColour" Value="ff743a0f" />
+            <Property Name="UnifiedAreaRect" Value="{{0,184.195},{0,108.048},{0,264.445},{0,154.298}}" />
+            <Property Name="NormalTextColour" Value="ff743a0f" />
+            <Property Name="PushedTextColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderEnable" Value="False" />
+            <Property Name="DisabledTextColour" Value="ff743a0f" />
+            <Property Name="SelectedTextColour" Value="ff743a0f" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/GroupButtontj" Name="petbuytips/jineng112" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="内丹" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="HoverTextColour" Value="ff743a0f" />
+            <Property Name="UnifiedAreaRect" Value="{{0,271.195},{0,108.048},{0,351.445},{0,154.298}}" />
+            <Property Name="NormalTextColour" Value="ff743a0f" />
+            <Property Name="PushedTextColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderEnable" Value="False" />
+            <Property Name="DisabledTextColour" Value="ff743a0f" />
+            <Property Name="SelectedTextColour" Value="ff743a0f" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/common_hengxian" Name="petbuytips/cczy1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,16.0784},{0,166.001},{0,347.328},{0,167.251}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+    </Window>
+</GUILayout>

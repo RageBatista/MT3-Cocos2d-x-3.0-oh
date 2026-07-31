@@ -437,7 +437,8 @@ try {
         }
     )
 
-    if ($Configuration -eq "Debug") {
+    # Upgrade30 links CEGUI 0.7.9 with its bundled FreeType path and has no esUtil dependency.
+    if ($Configuration -eq "Debug" -or $EngineProfile -eq "Upgrade30") {
         $specs = @($specs | Where-Object { $_.Name -notin @("esUtil.lib", "freetype.lib") })
     }
 

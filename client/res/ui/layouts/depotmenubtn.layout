@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="DepotMenuBtn" >
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="ClippedByParent" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,13},{0.15625,0},{0.15625,13}}" />
+        <Property Name="AllowModalStateClick" Value="True" />
+        <Window Type="TaharezLook/CommonCaseFightfunction" Name="DepotMenuBtn/back" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-3},{0,3},{1,-3},{1,-9}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/ScrollablePane" Name="DepotMenuBtn/container" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,6},{0,300},{0,306}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                </AutoWindow>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

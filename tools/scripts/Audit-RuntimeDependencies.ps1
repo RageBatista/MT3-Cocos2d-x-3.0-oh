@@ -5,6 +5,7 @@ param(
         'client\resource\tools',
         'tools'
     ),
+    [string[]]$ExecutableNames = @(),
     [string]$ReportPath = '',
     [switch]$FailOnIssues
 )
@@ -405,7 +406,9 @@ $allExes = New-Object System.Collections.Generic.List[string]
 foreach ($root in $resolvedRoots) {
     Get-ChildItem -Path $root -Recurse -File -Filter *.exe -ErrorAction SilentlyContinue |
         ForEach-Object {
-            $allExes.Add($_.FullName) | Out-Null
+            if ($ExecutableNames.Count -eq 0 -or $ExecutableNames -contains $_.Name) {
+                $allExes.Add($_.FullName) | Out-Null
+            }
         }
 }
 

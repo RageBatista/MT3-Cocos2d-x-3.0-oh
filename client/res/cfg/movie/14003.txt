@@ -1,0 +1,160 @@
+﻿Setmap id=1682 pos=37,32
+MoveCam pos=37,32
+PlaySound id=1 res=/sound/scene/Music_aihao.ogg repeat=-1 fadein=1
+
+CreateNpc id=20 varname=Tailan pos=27,29 model=1030010 npcname=龙子 dir=3 chenghao=<龙王之子>
+CreateNpc id=2 varname=Zuobing pos=29,42 model=1010130 npcname=左侍卫兵 dir=3
+CreateNpc id=3 varname=Youbing pos=39,31 model=1010130 npcname=右侍卫兵 dir=3
+
+Start
+Wait time=1000
+CreateNpc id=4 varname=TX pos=27,29 tile=8 dir=6 effect=geffect/skill/mt_buff/jinmo repeat=-1 
+SetDir varname=Tailan dir=7 
+PlayAct varname=Tailan id=8 dir=7 end=1
+SKbegin time =200
+Speak varname=龙子 text=啊！！！我都做了些什么！ head=9064 pause=1 time=4300
+PlaySDEffect res=/sound/chat/MovieTalk/14003_01_4.ogg
+Wait time=4300
+
+SKbegin time =200
+Speak varname=左侍卫兵 text=长官？ head=9118 pause=1 time=1000
+PlaySDEffect res=/sound/chat/MovieTalk/14003_02_1.ogg
+MoveNPC varname=Zuobing pos=26,38 time=600
+
+CreateNpc id=5 varname=XSBFZ pos=53,57 model=1010131 npcname=血色百夫长 dir=7
+CreateNpc id=6 varname=XSSB1 pos=52,62 model=1010130 npcname=血色士兵  dir=7
+CreateNpc id=7 varname=XSSB2 pos=59,56 model=1010130 npcname=血色士兵  dir=7
+MoveNPC varname=XSBFZ pos=43,42 time=2000
+MoveNPC varname=XSSB1 pos=43,47 time=2000
+MoveNPC varname=XSSB2 pos=49,43 time=2000
+
+Wait time=2000
+SetDir varname=XSBFZ dir=7 
+SetDir varname=XSSB1 dir=7 
+SetDir varname=XSSB2 dir=7 
+SetDir varname=Youbing dir=7
+MoveNPC varname=Youbing pos=34,29 time=1000
+SKbegin time =200
+Speak varname=右侍卫兵 text=先生，你还好吧？先生？？ head=9118 pause=1 time=3000
+PlaySDEffect res=/sound/chat/MovieTalk/14003_03_2.ogg
+SetSE name=jp40_shenshang_yanjing pos=27,29 repeat=1
+Wait time=1000
+DeleteNPC varname=TX
+
+Wait time=1500
+MoveNPC varname=XSBFZ pos=40,40 time=800
+Move//NPC varname=XSSB1 pos=39,45 time=1000
+Move//NPC varname=XSSB2 pos=45,39 time=1000
+Wait time=800
+SKbegin time =200
+Speak varname=百夫长 text=那边发生了什么？你还好吧？ head=9053 pause=1 time=3700
+PlaySDEffect res=/sound/chat/MovieTalk/14003_04_3.ogg
+
+Wait time=2500
+SetDir varname=Tailan dir=3
+SetSE name=jp40_touding_gongji pos=27,29 repeat=10
+
+Wait time=1000
+PlayAct varname=Tailan id=8 dir=3 end=1
+Wait time=200
+SetSE name=jp40_wuli_shouji1 pos=27,36 repeat=1
+PlayAct varname=Zuobing id=7 dir=1 end=1
+PlayAct varname=Zuobing id=14 dir=5 end=1
+Wait time=1500
+
+PlayAct varname=XSBFZ id=8 dir=7 end=1
+SKbegin time =200
+Speak varname=百夫长 text=有些不对劲，快去通知统领！ head=9053 pause=1 time=3800
+PlaySDEffect res=/sound/chat/MovieTalk/14003_05_3.ogg
+Wait time=1800
+SetDir varname=Youbing dir=3
+Wait time=1000
+SetDir varname=Youbing dir=7
+Wait time=1000
+SKbegin time =200
+Speak varname=龙子 text=那么长的时间，我一直是傀儡！长久以来，父亲的记忆我从未丢掉一丝一毫。 head=9064 pause=1 time=9500
+PlaySDEffect res=/sound/chat/MovieTalk/14003_06_9.ogg
+SetDir varname=Youbing dir=7
+Wait time=6000
+MoveNPC varname=Youbing pos=24,37 time=1900
+Wait time=1200
+MoveNPC varname=Tailan pos=26,35 time=1
+Shake id=2 range=20 time=200
+PlayAct varname=Tailan id=8 dir=5 end=1
+Wait time=200
+PlayAct varname=Youbing id=7 dir=5 end=1
+SetSE name=jp40_wuli_shouji2 pos=24,37 repeat=1
+PlayAct varname=Youbing id=14 dir=1 end=1
+Wait time=300
+
+MoveNPC varname=XSSB1 pos=32,39 time=3000
+MoveNPC varname=XSSB2 pos=38,32 time=3000
+Wait time=2000
+SetDir varname=Tailan dir=3
+SKbegin time =200
+Speak varname=龙子 text=我经常梦见父亲骄傲的看着我，我们一起作战。 head=9064 pause=1 time=8500
+PlaySDEffect res=/sound/chat/MovieTalk/14003_07_8.ogg
+Wait time=7000
+PlayAct varname=Tailan id=8 dir=3 end=1
+Wait time=800
+Shake id=2 range=30 time=600
+SetSE name=jp40_wuli_shouji2 pos=40,40 repeat=1
+SetSE name=jp40_wuli_shouji2 pos=32,39 repeat=1
+SetSE name=jp40_wuli_shouji2 pos=38,32 repeat=1
+
+PlayAct varname=XSSB1 id=13 dir=7 end=1
+PlayAct varname=XSSB2 id=13 dir=7 end=1
+PlayAct varname=XSBFZ id=13 dir=7 end=1
+Wait time=300
+PlayAct varname=XSSB1 id=1 dir=7 end=1
+PlayAct varname=XSSB2 id=1 dir=7 end=1
+PlayAct varname=XSBFZ id=1 dir=7 end=1
+
+PlayAct varname=Tailan id=9 dir=3 end=1
+Wait time=200  
+SetSE name=jp40_fashu_gongji pos=40,40 repeat=1  
+SetSE name=jp40_fashu_gongji pos=32,39 repeat=1  
+SetSE name=jp40_fashu_gongji pos=38,32 repeat=1 
+Wait time=500
+Shake id=2 range=80 time=500  
+Wait time=500
+SetSE name=jp40_fashu_shouji pos=40,40 repeat=1
+SetSE name=jp40_fashu_shouji pos=32,39 repeat=1
+SetSE name=jp40_fashu_shouji pos=38,32 repeat=1
+
+Wait time=300
+PlayAct varname=XSSB1 id=13 dir=7 end=1
+PlayAct varname=XSSB2 id=13 dir=7 end=1
+PlayAct varname=XSBFZ id=13 dir=7 end=1
+
+Wait time=300
+PlayAct varname=XSSB1 id=14 dir=7 end=1
+PlayAct varname=XSSB2 id=14 dir=7 end=1
+PlayAct varname=XSBFZ id=14 dir=7 end=1
+Wait time=1000
+SKbegin time =200
+Speak varname=龙子 text=我再也不想做梦了，带我去见我的父亲。 head=9064 pause=1 time=3500
+PlaySDEffect res=/sound/chat/MovieTalk/14003_08_3.ogg
+SetDir varname=Tailan dir=3
+
+Wait time=4000
+Return time=200 type=0
+End
+
+
+ eActionStand,  1//普通站立
+ eActionStandRandom, 2//站立随机动作
+ eActionBattleStand, 3//战斗警戒
+ eActionWalk,  4//走动
+ eActionRun,  5//跑步，不存在左腿还是右腿先跑
+ eActionBattleRun, 6//战斗中跑
+ eActionOnHit,  7//受击
+ eActionAttack,  8//攻击
+ eActionMagic,  9//施法
+ eActionRunaway,  10//逃跑
+ eActionDefence,  11//防御;
+ eActionDodge,  12//闪避
+ eActionDying,  13//倒地 --受击
+ eActionDeath,  14//死亡
+ eActionRoll,  15//击飞
+ eActionRoll,  43//保持死亡动作

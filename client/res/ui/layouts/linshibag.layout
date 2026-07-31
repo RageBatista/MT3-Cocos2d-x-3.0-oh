@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow3" Name="linshibag" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="BagTemp" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="LuaMemberName" Value="m_bg" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-278},{0.5,-255},{0.5,278},{0.5,254}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Window Type="TaharezLook/StaticImage" Name="linshibag/biaoshi" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:ccdiban1 image:biaoshi" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.15,203},{0.15,-70},{0.15,450},{0.15,-17}}" />
+            <Property Name="HorizontalAlignment" Value="Centre" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="linshibag/linshibag/biaoshi/wenzi1" >
+                <Property Name="Font" Value="simhei-16" />
+                <Property Name="Text" Value="临时包裹" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="104" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,35},{0,4},{0,205},{0,42}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="linshibag/123" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,30},{0,75},{0,524},{0,364}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="linshibag/title/textlinshi" >
+            <Property Name="Font" Value="hycyj-20" />
+            <Property Name="Text" Value="临时道具栏" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="HorzExtent" Value="165" />
+            <Property Name="VertExtent" Value="32.9678" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,195},{0.05,-16},{0.05,397},{0.05,26}}" />
+        </Window>
+        <Window Type="TaharezLook/ItemTable" Name="linshibag/table" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SpaceX" Value="19" />
+            <Property Name="SpaceY" Value="18" />
+            <Property Name="ColCount" Value="5" />
+            <Property Name="RowCount" Value="3" />
+            <Property Name="CellWidth" Value="79" />
+            <Property Name="CellHeight" Value="79" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_itemtabTabA" />
+            <Property Name="UnifiedAreaRect" Value="{{0,43},{0,84},{0,533},{0,364}}" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bgtou" Name="linshibag/di2" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,2},{0,381},{0,601},{0,536}}" />
+            <Window Type="TaharezLook/common_text4bg" Name="linshibag/di2/di3" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,38},{0,32},{0,509},{0,112}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/ImageButtoncc" Name="linshibag/btnyi" >
+            <Property Name="Font" Value="simhei-13" />
+            <Property Name="Text" Value="一键取回" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:ccui image:an3" />
+            <Property Name="PushedImage" Value="set:ccui image:an3" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="DisabledImage" Value="set:ccui1 image:an31" />
+            <Property Name="LuaMemberName" Value="m_btnGetBack" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,148},{0.1,368},{0.1,298},{0.1,426}}" />
+            <Property Name="NormalTextColour" Value="ff743a0f" />
+            <Property Name="PushedTextColour" Value="ff743a0f" />
+            <Property Name="LuaEventOnClicked" Value="HandleBtnGetBackClicked" />
+            <Property Name="DisabledTextColour" Value="ff743a0f" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Property Name="ButtonDefaultBorderEnable" Value="False" />
+            <Property Name="ButtonDefaultColourEnable" Value="False" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="linshibag/text" >
+            <Property Name="Font" Value="simhei-13" />
+            <Property Name="Text" Value="双击物品可快速取回" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="216" />
+            <Property Name="VertExtent" Value="23.828" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,109},{0.1,327},{0.1,334},{0.1,357}}" />
+        </Window>
+    </Window>
+</GUILayout>

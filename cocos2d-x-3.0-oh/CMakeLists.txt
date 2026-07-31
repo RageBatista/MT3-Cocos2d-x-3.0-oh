@@ -107,7 +107,7 @@ if(NOT MSVC)# all gcc
   endif()
 endif()
 
-if(MINGW)
+if(WIN32)
   add_definitions(-DGLEW_STATIC)
 endif()
 

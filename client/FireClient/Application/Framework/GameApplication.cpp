@@ -2400,8 +2400,6 @@ void GameApplication::OnRenderInit(int now, int step, int totalstep)
 		strOut += '\n';
 		::OutputDebugStringA(strOut.c_str());
 #endif
-        gGetGameUIManager()->InitGameUIPostInit();
-
         // ycl 播放开场动画。播放完毕再??SDK 初始化或显示快速登录界??
 		cocos2d::CCUserDefault* pUserDefault = cocos2d::CCUserDefault::sharedUserDefault();
 		if(!pUserDefault->getBoolForKey("StartCGPlayed", false))  // ycl 开场动画是否播过，如果没播过，则播放
@@ -2418,7 +2416,7 @@ void GameApplication::OnRenderInit(int now, int step, int totalstep)
 				if (spVideoPlayer)
 				{
 #if defined(WIN32)
-					std::wstring wStr = gGetGameUIManager()->GetFullPathFileName(L"/cfg/video/MT3.wmv");
+					std::wstring wStr = gGetGameUIManager()->GetFullPathFileName(L"/cfg/video/mt3.mp4");
 #else
 					std::wstring wStr = gGetGameUIManager()->GetFullPathFileName(L"/cfg/video/MT3.mp4");
 #endif
@@ -2538,27 +2536,6 @@ void GameApplication::setLoginInfo(std::wstring token ,std::wstring uid)
 
 void GameApplication::OnRenderUI(int now, bool realRender)
 {
-	static int sRenderUICount = 0;
-	++sRenderUICount;
-	if (sRenderUICount <= 20 || sRenderUICount == 60 || sRenderUICount == 180 || sRenderUICount == 600)
-	{
-		MT3_TRACE("GameApplication::OnRenderUI #%d now=%d real=%d ui=%p drawUI=%d drawName=%d waitEnter=%d reconnect=%d",
-			sRenderUICount,
-			now,
-			realRender ? 1 : 0,
-			gGetGameUIManager(),
-			m_bDrawUI ? 1 : 0,
-			m_bDrawName ? 1 : 0,
-			m_bWaitForEnterWorldMessage ? 1 : 0,
-			m_bReconnecting ? 1 : 0);
-	}
-
-	if (gGetGameUIManager())
-	{
-		// MT3: ResetRenderTextures removed in CEGUI 0.7.9-r5
-		// CEGUI::System::getSingleton().getRenderer()->ResetRenderTextures();
-	}
-
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 	if (m_bNeedLogin)
 	{
@@ -2571,7 +2548,7 @@ void GameApplication::OnRenderUI(int now, bool realRender)
 		m_bNeedLogin = false;
 	}
 #endif
-    
+
 	if (m_bDisconnect)
 	{
 		m_bDisconnect = false;
@@ -2594,45 +2571,24 @@ void GameApplication::OnRenderUI(int now, bool realRender)
 		}
 	}
 
-	Nuclear::World * world = static_cast<Nuclear::World*>(Nuclear::GetEngine()->GetWorld());
+	Nuclear::IEngine* pNuclearEngine = Nuclear::GetEngine();
+	Nuclear::World * world = static_cast<Nuclear::World*>(pNuclearEngine->GetWorld());
 	if (!realRender && !world->IsMapLoaded())//没有加载地图的情况下，没有必要限??
 	{
 		return;
 	}
-	if (sRenderUICount <= 20)
-		MT3_TRACE("GameApplication::OnRenderUI #%d map ready t=%lu", sRenderUICount,
-			static_cast<unsigned long>(GetTickCount()));
-
 	if (gGetScene() && m_bDrawName)
 	{
-		if (sRenderUICount <= 20)
-			MT3_TRACE("GameApplication::OnRenderUI #%d before scene Draw t=%lu", sRenderUICount,
-				static_cast<unsigned long>(GetTickCount()));
 		gGetScene()->Draw(now);
-		if (sRenderUICount <= 20)
-			MT3_TRACE("GameApplication::OnRenderUI #%d after scene Draw t=%lu", sRenderUICount,
-				static_cast<unsigned long>(GetTickCount()));
 	}
 	if (GetBattleManager() && GetBattleManager()->IsInBattle())
 	{
-		if (sRenderUICount <= 20)
-			MT3_TRACE("GameApplication::OnRenderUI #%d before DrawUnderUI t=%lu", sRenderUICount,
-				static_cast<unsigned long>(GetTickCount()));
 		GetBattleManager()->DrawUnderUI(now);
-		if (sRenderUICount <= 20)
-			MT3_TRACE("GameApplication::OnRenderUI #%d after DrawUnderUI t=%lu", sRenderUICount,
-				static_cast<unsigned long>(GetTickCount()));
 	}
 
 	if (gGetGameUIManager() && m_bDrawUI)
 	{
-		if (sRenderUICount <= 20)
-			MT3_TRACE("GameApplication::OnRenderUI #%d before GameUIManager::Draw t=%lu", sRenderUICount,
-				static_cast<unsigned long>(GetTickCount()));
 		gGetGameUIManager()->Draw();
-		if (sRenderUICount <= 20)
-			MT3_TRACE("GameApplication::OnRenderUI #%d after GameUIManager::Draw t=%lu", sRenderUICount,
-				static_cast<unsigned long>(GetTickCount()));
 	}
 	if (GetMainCharacter())
 	{

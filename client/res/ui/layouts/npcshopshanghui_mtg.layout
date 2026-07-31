@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindowcc" Name="npcshopshanghui_mtg" >
+        <Property Name="Font" Value="hycyj-20" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="CommerceDlg" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-541},{0.5,-339},{0.5,563},{0.5,329}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="HorizontalAlignment" Value="Centre" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/common_shurukuang1" Name="npcshopshanghui_mtg/shurukuang" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,678},{0,589},{0,750},{0,631}}" />
+            <Window Type="TaharezLook/StaticText" Name="npcshopshanghui_mtg/shurukuang/buynum" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="1" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="8" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF743A0F tr:FF743A0F bl:FF743A0F br:FF743A0F" />
+                <Property Name="BorderColour" Value="FF06CC11" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="buyNumText" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,-4},{1,-2}}" />
+                <Property Name="AllowShowWithModalState" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="npcshopshanghui_mtg/btnjianhao" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:ccui1 image:jianhao" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:ccui1 image:jianhao" />
+                <Property Name="PushedImage" Value="set:ccui1 image:jianhaosx" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="minusBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-64},{0,-8},{0,-7},{0,46}}" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="npcshopshanghui_mtg/jiahao" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:ccui1 image:jiahao" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:ccui1 image:jiahao" />
+                <Property Name="PushedImage" Value="set:ccui1 image:jiahaosx" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="addBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,78},{0,-8},{0,135},{0,46}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="npcshopshanghui_mtg/textgoumai" >
+            <Property Name="Font" Value="simhei-13" />
+            <Property Name="Text" Value="数量" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="HorzExtent" Value="48" />
+            <Property Name="VertExtent" Value="23.828" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,573},{0,592},{0,643},{0,622}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/Buttonccdg" Name="npcshopshanghui_mtg/btngoumai" >
+            <Property Name="Font" Value="hkyt-15" />
+            <Property Name="Text" Value="购  买" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0.050725,771},{0.050725,546},{0.050725,951},{0.050725,602}}" />
+            <Property Name="ButtonBorderColour" Value="ff743a0f" />
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="npcshopshanghui_mtg/huabubg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:jiangli image:shangdiandi" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,49},{0,47},{0,44},{0,46}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="npcshopshanghui_mtg/shangchengtubiaobg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:diban image:shangcheng" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,36},{0,-19},{0,146},{0,89}}" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="npcshopshanghui_mtg/dit1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,343.096},{0,122.044},{0,1007.35},{0,572.294}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+        </Window>
+        <Window Type="DefaultWindow" Name="npcshopshanghui_mtg/buyview" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="buyView" />
+            <Property Name="UnifiedAreaRect" Value="{{0,72},{0,80},{0,1024},{0,574}}" />
+            <Window Type="TaharezLook/GroupBtnTree" Name="npcshopshanghui_mtg/tree" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="MaskImage" Value="" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="tree" />
+                <Property Name="SoundResource" Value="book.ogg" />
+                <Property Name="UnifiedAreaRect" Value="{{0,25},{0,47},{0,258},{0,501}}" />
+            </Window>
+            <Window Type="TaharezLook/common_text2bgtou" Name="npcshopshanghui_mtg/textbg" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="buylistBg" />
+                <Property Name="UnifiedAreaRect" Value="{{0,243},{0,16},{0,963},{0,489}}" />
+            </Window>
+            <Window Type="TaharezLook/common_ccmakertext" Name="npcshopshanghui_mtg/buyview/" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Alpha" Value="0.8" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,273.4},{0,464.4},{0,932.65},{0,490.65}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/cctext_yuandi" Name="npcshopshanghui_mtg/textdan/bg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,172},{0,602},{0,348},{0,624}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="npcshopshanghui_mtg/textdan" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="123456789" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="54" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FF8C5E2A" />
+                <Property Name="BorderEnable" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="ownMoneyText" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-8},{0.05,-5},{0.05,165},{0.05,21}}" />
+                <Window Type="TaharezLook/StaticImage" Name="npcshopshanghui_mtg/textzong/yinbi2" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:ccui1 image:yb" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="currencyIcon" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-22},{0,-2},{0,11},{0,30}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="npcshopshanghui_mtg/textwodeyinbi" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="拥有" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF743A0F tr:FF743A0F bl:FF743A0F br:FF743A0F" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="priceCharText" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,-92},{0.1,-8},{0.1,-24},{0.1,22}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="npcshopshanghui_mtg/ScrollText" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,125.195},{0,64.021},{0,996.445},{0,109.271}}" />
+            <Window Type="TaharezLook/RichEditbox" Name="npcshopshanghui_mtg/shuoming" >
+                <Property Name="Font" Value="simhei-11" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ReadOnly" Value="True" />
+                <Property Name="LineSpace" Value="5" />
+                <Property Name="BlinkCaret" Value="True" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="MaxTextLength" Value="2147483647" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,77.195},{0.05,3.0213},{0.05,710.445},{0.05,42.271}}" />
+                <Property Name="NormalTextColour" Value="ff743a0f" />
+                <Property Name="BlinkCaretTimeout" Value="0.5" />
+                <Property Name="TextParsingEnabled" Value="False" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="npcshopshanghui_mtg/ccziti" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,283},{0.05,-29},{0.05,792},{0.05,38}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="npcshopshanghui_mtg/ccziti/" >
+                <Property Name="Font" Value="plantc-20" />
+                <Property Name="Text" Value="商会" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="74" />
+                <Property Name="VertExtent" Value="41.3991" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FFFAD05F tr:FFFAD05F bl:FFFEF6C7 br:FFFEF6C7" />
+                <Property Name="BorderColour" Value="FFBD8D54" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,126},{0,12},{0,296},{0,50}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/cctext_yuandi" Name="npcshopshanghui_mtg/textdan/bg1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,431},{0,602},{0,607},{0,624}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="npcshopshanghui_mtg/textzong" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="123456789" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="54" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FF8C5E2A" />
+                <Property Name="BorderEnable" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="ownMoneyText" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-8},{0.05,-5},{0.05,165},{0.05,21}}" />
+                <Window Type="TaharezLook/StaticImage" Name="npcshopshanghui_mtg/textzong/yinbi1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:ccui1 image:yb" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="currencyIcon" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-22},{0,-2},{0,11},{0,30}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="npcshopshanghui_mtg/texthuafei" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="花费" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF743A0F tr:FF743A0F bl:FF743A0F br:FF743A0F" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="priceCharText" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,-92},{0.1,-8},{0.1,-24},{0.1,22}}" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

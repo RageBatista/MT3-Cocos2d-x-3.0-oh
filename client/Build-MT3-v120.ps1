@@ -780,6 +780,10 @@ function Invoke-RuntimeSync {
             $runtimeMap["libcurld.dll"] = @(
                 "dependencies\third-party-rebuild\curl-7.48.0\build\Win32\VC12\DLL Debug - DLL Windows SSPI\libcurld.dll"
             )
+        } else {
+            $runtimeMap["libcurl.dll"] = @(
+                "dependencies\third-party-rebuild\curl-7.48.0\build\Win32\VC12\DLL Release - DLL Windows SSPI\libcurl.dll"
+            )
         }
         $runtimeMap["msvcr110.dll"] = @(
             "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\redist\x86\Microsoft.VC110.CRT\msvcr110.dll",
@@ -955,7 +959,7 @@ function Invoke-RuntimeSync {
     if ($script:EngineProfile -eq "Upgrade30") {
         $obsoleteRuntimeNames += @(
             "libcocos2d.dll", "libCocosDenshion.dll", "fmodex.dll", "libExtensions.dll",
-            "lua51.dll", "libcurl.dll", "libtiff.dll", "glew32.dll", "pthreadVCE2.dll",
+            "lua51.dll", "libtiff.dll", "glew32.dll", "pthreadVCE2.dll",
             "iconv.dll", "zlib1.dll"
         )
         if ($isDebug) {
@@ -1019,8 +1023,9 @@ function Invoke-RuntimeAudit {
     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $reportPath) | Out-Null
 
     $auditParams = @{
-        ScanRoots  = $script:RuntimeAuditScanRoots
-        ReportPath = $reportPath
+        ScanRoots       = $script:RuntimeAuditScanRoots
+        ExecutableNames = @("MT3.exe")
+        ReportPath      = $reportPath
     }
     if (-not $script:RuntimeAuditWarnOnly) {
         $auditParams.FailOnIssues = $true

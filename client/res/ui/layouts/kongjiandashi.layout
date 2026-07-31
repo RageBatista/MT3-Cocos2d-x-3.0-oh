@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow" Name="kongjiandashi_mtg">
+		<Property Name="Font" Value="hycyj-20"/>
+		<Property Name="Text" Value="说不得大师的空间"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="Spacedialog"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-552},{0.5,-334},{0.5,552},{0.5,348}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="DefaultWindow" Name="kongjiandashi_mtg/zuo">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,67},{0,75},{0,405},{0,655}}"/>
+			<Window Type="TaharezLook/StaticImage" Name="kongjiandashi_mtg/zuo/zhaopian">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:back image:blank"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,71},{0,5},{0,258},{0,193}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="kongjiandashi_mtg/zuo/moxingditu/static">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:huodong image:dashi"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-9},{0,-11},{0,192},{0,189}}"/>
+					<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/level">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,248},{0,212},{0,342},{0,252}}"/>
+			</Window>
+			<Window Type="TaharezLook/common_textbg" Name="kongjiandashi_mtg/zuo/bg2">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="labelLevel"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,54},{0,207},{0,275},{0,262}}"/>
+				<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/bg2/text1">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="说不得大师"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="130.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="labelFamilyJob"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,222},{0,51}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_wenzidi" Name="kongjiandashi_mtg/zuo/qianmingban">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,5},{0,272},{0,324},{0,363}}"/>
+				<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/qianmingban/shuoming">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="陆续开发中非最终版"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="221.0"/>
+					<Property Name="ModalState" Value="True"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FFFFF2DF tr:FFFFF2DF bl:FFFFF2DF br:FFFFF2DF"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="labelSignName"/>
+					<Property Name="HorzFormatting" Value="WordWrapLeftAligned"/>
+					<Property Name="VertFormatting" Value="TopAligned"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,14},{0,6},{0,314},{0,37}}"/>
+				</Window>
+				<Window Type="TaharezLook/RichEditbox" Name="kongjiandashi_mtg/zuo/qianmingban/dianji">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="ReadOnly" Value="True"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="editboxSignName"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,1},{0,-1},{0,317},{0,90}}"/>
+					<Property Name="NormalTextColour" Value="FF000000"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/shuziid">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="梦幻回合"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="104.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,5},{0,386},{0,118},{0,426}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/gonghui">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="驱虎逐狼"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="104.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,5},{0,446},{0,118},{0,486}}"/>
+			</Window>
+			<Window Type="TaharezLook/common_textbg" Name="kongjiandashi_mtg/zuo/shuzidi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,113},{0,383},{0,324},{0,430}}"/>
+				<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/shuziid1">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="感谢有你"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="195.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="labelRoleId"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-7},{0.05,1},{0.05,197},{0.05,41}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_textbg" Name="kongjiandashi_mtg/zuo/gonghuidi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,113},{0,443},{0,324},{0,490}}"/>
+				<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/gonghui1">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="勇者无敌"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="156.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="familyName"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-7},{0.05,1},{0.05,197},{0.05,41}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/shuziid2">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="呼朋唤友"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="104.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,-12},{0.05,476},{0.05,101},{0.05,516}}"/>
+			</Window>
+			<Window Type="TaharezLook/common_textbg" Name="kongjiandashi_mtg/zuo/gonghuidi1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,113},{0.05,475},{0,324},{0.05,522}}"/>
+				<Window Type="TaharezLook/StaticText" Name="kongjiandashi_mtg/zuo/gonghui11">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="世界同行"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="104.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="LuaMemberName" Value="familyName"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-7},{0.05,1},{0.05,197},{0.05,41}}"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/common_text2bg" Name="kongjiandashi_mtg/1">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="bgRightNode"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,405},{0,81},{0,1033},{0,645}}"/>
+			<Property Name="MousePassThroughEnabled" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="kongjiandashi_mtg/tubiao">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:diban image:jineng"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="ClippedByParent" Value="False"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,35},{0,-18},{0,145},{0,90}}"/>
+		</Window>
+	</Window>
+</GUILayout>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="DefaultWindow" Name="xingpan">
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="XingpanDlg"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="AlwaysOnTop" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0,3},{0,0},{1,3},{1,0}}"/>
+		<Window Type="TaharezLook/StaticImage" Name="xingpan/bg">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="xingpanbg"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,173.219},{0,138.117},{0,899.469},{0,593.367}}"/>
+			<Window Type="TaharezLook/ImageButton" Name="xingpan/bg/closebtn">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="HoverImage" Value="set:xingpan image:x"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="NormalImage" Value="set:xingpan image:x"/>
+				<Property Name="PushedImage" Value="set:xingpan image:x"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="closebtn"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,666.3},{0,-75.7},{0,740.55},{0,-4.45}}"/>
+				<Property Name="LuaEventOnClicked" Value="HandleCloseBtn"/>
+			</Window>
+			<Window Type="TaharezLook/ImageButton" Name="xingpan/bg/xiangqing">
+				<Property Name="Font" Value="mhsy-10-normal"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="HoverImage" Value="set:xingpan image:4"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="NormalImage" Value="set:xingpan image:4"/>
+				<Property Name="PushedImage" Value="set:xingpan image:4"/>
+				<Property Name="BorderColour" Value="FF00FFFF"/>
+				<Property Name="BorderEnable" Value="False"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="xiangqingBtn"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,246.3},{0,463.3},{0,291.55},{0,506.55}}"/>
+				<Property Name="LuaEventOnClicked" Value="HandleXiangQingBtn"/>
+				<Property Name="ButtonBorderColour" Value="FF00ffff"/>
+				<Property Name="DisabledTextColour" Value="FF00ffff"/>
+				<Property Name="ButtonDefaultColourEnable" Value="False"/>
+			</Window>
+			<Window Type="TaharezLook/ImageButton" Name="xingpan/bg/xingyin">
+				<Property Name="Font" Value="mhsy-9-normal"/>
+				<Property Name="Text" Value="星印详情"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="HoverImage" Value="set:xingpan image:btn2"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="NormalImage" Value="set:xingpan image:btn2"/>
+				<Property Name="PushedImage" Value="set:xingpan image:btn2"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="LuaMemberName" Value="xingyinbtn"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="HoverTextColour" Value="FF975931"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,344.4},{0,468.4},{0,449.65},{0,503.65}}"/>
+				<Property Name="NormalTextColour" Value="FF975931"/>
+				<Property Name="PushedTextColour" Value="FF975931"/>
+				<Property Name="LuaEventOnClicked" Value="HandleXingyinBtnClick"/>
+				<Property Name="ButtonBorderColour" Value="FF975931"/>
+				<Property Name="ButtonBorderEnable" Value="True"/>
+				<Property Name="DisabledTextColour" Value="FF975931"/>
+				<Property Name="ButtonDefaultBorderEnable" Value="False"/>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/descbg1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:d1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,28.4},{0,57.4},{0,289.65},{0,139.65}}"/>
+				<Window Type="TaharezLook/RichEditbox" Name="xingpan/bg/desc1">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="ReadOnly" Value="True"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,16.4},{0,4.4},{0,169.65},{0,76.65}}"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/suitnamebg">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:jihuoBG3"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,308.3},{0,291.3},{0,421.55},{0,330.55}}"/>
+				<Window Type="TaharezLook/StaticText" Name="xingpan/bg/suitnamebg/suitname">
+					<Property Name="Font" Value="mhsy-10-normal"/>
+					<Property Name="Text" Value="无套装"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="54.0"/>
+					<Property Name="VertExtent" Value="18.3282"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF990000"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,11.3},{0,9.3},{0,99.55},{0,30.55}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/ItemCellXPFang" Name="xingpan/bg/item6">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,326.3},{0.05,325.3},{0.05,409.55},{0.05,406.55}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="AllowShowWithModalState" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/selected6">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:xz_1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.3,-22.5},{0.3,-23.5},{0.3,54.75},{0.3,52.75}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/ItemCellXPFang" Name="xingpan/bg/item5">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.1,436.3},{0.1,191.3},{0.1,519.55},{0.1,272.55}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="AllowShowWithModalState" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/selected5">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:xz_1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.120482,-7},{0.120482,-8},{0.120482,70},{0.120482,66}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/ItemCellXPFang" Name="xingpan/bg/item4">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.15,463.3},{0.15,65.3},{0.15,546.55},{0.15,146.55}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="AllowShowWithModalState" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/selected4">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:xz_1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.2,-14.5},{0.2,-14.5},{0.2,61.75},{0.2,60.75}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/ItemCellXPYuan" Name="xingpan/bg/item1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,169.3},{0.05,35.3},{0.05,252.55},{0.05,116.55}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="AllowShowWithModalState" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/selected1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:xz_2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,-2.5},{0.05,-2.5},{0.05,76.75},{0.05,71.75}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/ItemCellXPYuan" Name="xingpan/bg/item2">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.1,79.3},{0.1,129.3},{0.1,162.55},{0.1,210.55}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="AllowShowWithModalState" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/selected2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:xz_2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,-5.5},{0.1,-6.5},{0.1,72.75},{0.1,67.75}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/ItemCellXPYuan" Name="xingpan/bg/item3">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.15,90.3},{0.15,234.3},{0.15,173.55},{0.15,315.55}}"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Property Name="AllowShowWithModalState" Value="True"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/selected3">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:xz_2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.15,-10.5},{0.15,-10.5},{0.15,67.75},{0.15,63.75}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/descbg6">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:d2"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.25,177.4},{0.25,235.4},{0.25,438.65},{0.25,317.65}}"/>
+				<Window Type="TaharezLook/RichEditbox" Name="xingpan/bg/desc6">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,93.4},{0,2.4},{0,246.65},{0,76.65}}"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/descbg5">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:d2"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.2,362.4},{0.2,147.4},{0.2,623.65},{0.2,229.65}}"/>
+				<Window Type="TaharezLook/RichEditbox" Name="xingpan/bg/desc5">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,93.4},{0,4.4},{0,246.65},{0,76.65}}"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/descbg4">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:d2"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.15,462.4},{0.15,63.4},{0.15,723.65},{0.15,145.65}}"/>
+				<Window Type="TaharezLook/RichEditbox" Name="xingpan/bg/desc4">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,93.4},{0,4.4},{0,246.65},{0,76.65}}"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/descbg2">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:d1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="ClippedByParent" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,-60.6},{0.05,151.4},{0.05,200.65},{0.05,233.65}}"/>
+				<Window Type="TaharezLook/RichEditbox" Name="xingpan/bg/desc2">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,16.4},{0,3.4},{0,169.65},{0,76.65}}"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/descbg3">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpan image:d1"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.1,-51.6},{0.1,253.4},{0.1,209.65},{0.1,338.65}}"/>
+				<Window Type="TaharezLook/RichEditbox" Name="xingpan/bg/desc3">
+					<Property Name="Font" Value="mhsy-8-normal"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,16.4},{0,4.4},{0,169.65},{0,76.65}}"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/schoolimg">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Image" Value="set:xingpanschool image:11"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,237},{0,89},{0,493},{0,345}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/suit">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:xingpan image:jnbg_1"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,55.2},{0.05,72.2},{0.05,176.45},{0.05,183.45}}"/>
+					<Window Type="TaharezLook/SkillBoxNoBG" Name="xingpan/bg/suit/icon">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,13.3},{0,9.3},{0,115.55},{0,108.55}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticImage" Name="xingpan/bg/zhudong">
+						<Property Name="Font" Value="mhsy-9"/>
+						<Property Name="Text" Value="主\n动"/>
+						<Property Name="Image" Value="set:xingpan image:skillzt2"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="Visible" Value="False"/>
+						<Property Name="AlwaysOnTop" Value="True"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.1,-16.6},{0.1,-10.6},{0.1,10.65},{0.1,48.65}}"/>
+					</Window>
+				</Window>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

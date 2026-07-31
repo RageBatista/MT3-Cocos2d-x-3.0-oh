@@ -618,19 +618,13 @@ void TextureAtlas::drawNumberOfQuads(ssize_t numberOfQuads, ssize_t start)
         if (_dirty) 
         {
             glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
-            // option 1: subdata
-//            glBufferSubData(GL_ARRAY_BUFFER, sizeof(_quads[0])*start, sizeof(_quads[0]) * n , &_quads[start] );
-
-            // option 2: data
-//            glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * (n-start), &quads_[start], GL_DYNAMIC_DRAW);
-
-            // option 3: orphaning + glMapBuffer
-            glBufferData(GL_ARRAY_BUFFER, sizeof(_quads[0]) * (numberOfQuads-start), nullptr, GL_DYNAMIC_DRAW);
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_OHOS)            
-            void *buf = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-            memcpy(buf, _quads, sizeof(_quads[0])* (numberOfQuads-start));
-            glUnmapBuffer(GL_ARRAY_BUFFER);
-#endif            
+            // Update the already allocated VBO in place. The orphaning + map path
+            // retained a driver-side allocation for every Spine texture batch on
+            // the Win32 OpenGL backend, causing unbounded startup memory growth.
+            glBufferSubData(GL_ARRAY_BUFFER,
+                sizeof(_quads[0]) * start,
+                sizeof(_quads[0]) * (numberOfQuads-start),
+                &_quads[start]);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             _dirty = false;
@@ -692,4 +686,3 @@ void TextureAtlas::drawNumberOfQuads(ssize_t numberOfQuads, ssize_t start)
 
 
 NS_CC_END
-

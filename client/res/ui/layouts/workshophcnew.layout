@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow" Name="workshophcnew">
+		<Property Name="Font" Value="hycyj-20"/>
+		<Property Name="Text" Value="宝石合成"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="SoundResource" Value="open.wav"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-552},{0.5,-334},{0.5,552},{0.5,348}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="CloseSoundResource" Value="close.wav"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="DefaultWindow" Name="workshophcnew/Back">
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,408},{0,62},{0,1047},{0,665}}"/>
+			<Window Type="TaharezLook/Button" Name="workshophcnew/Back/hecheng1">
+				<Property Name="Font" Value="simhei-18"/>
+				<Property Name="Text" Value="合 成"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="SoundResource" Value="button.ogg"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,365},{0,512},{0,596},{0,575}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="workshophcnew/Back/di0">
+				<Property Name="Image" Value="set:lifeskillui image:fazhen"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,48},{0,87},{0,248},{0,287}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticImage" Name="workshophcnew/Back/di1">
+				<Property Name="Image" Value="set:lifeskillui image:fazhen"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,399},{0,87},{0,599},{0,287}}"/>
+			</Window>
+			<Window Type="TaharezLook/common_text2bg" Name="workshophcnew/Back/note">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,16},{0,312},{0,622},{0,498}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="workshophcnew/Back/note/juese">
+					<Property Name="Image" Value="set:teamui image:tean_icon"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,10},{0,2},{0,180},{0,172}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="workshophcnew/Back/note/duihua">
+					<Property Name="Image" Value="set:common_equip image:dikuang"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,165},{0,5},{0,537},{0,170}}"/>
+					<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/note/duihua/">
+						<Property Name="Font" Value="simhei-16"/>
+						<Property Name="Text" Value="合宝石需选择右边已有宝石【2合1】高级合成需要额外材料"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="261.0"/>
+						<Property Name="VertExtent" Value="58.6276"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF754930 tr:FF754930 bl:FF754930 br:FF754930"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="WordWrapLeftAligned"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,50},{0,38},{0,337},{0,124}}"/>
+					</Window>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_tittle1" Name="workshophcnew/Back/cailiaodi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,-65},{0,28},{0,362},{0,78}}"/>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/cailiaodi/cailiao">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="材 料"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="65.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,143},{0,2},{0,283},{0,47}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_tittle1" Name="workshophcnew/Back/cailiaodi1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="Visible" Value="False"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,239},{0,28},{0.05,666},{0,78}}"/>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/cailiaodi/cailiao1">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="预 览"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="65.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,144},{0,2},{0,284},{0,47}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_text2bg" Name="workshophcnew/Back/di111">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,6},{0,217},{0,317},{0,491}}"/>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/di111/">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="商会购买宝石"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="132.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,11},{0,2},{0,150},{0,33}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/di111/1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="限购数量"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="88.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,206},{0,2},{0,302},{0,33}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_hengxian" Name="workshophcnew/Back/di111/hengxian">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,10},{0,33},{0,301},{0,37}}"/>
+				</Window>
+				<Window Type="TaharezLook/ScrollablePane" Name="workshophcnew/Back/di111/list">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="HorzStepSize" Value="0.1"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="VertStepSize" Value="0.1"/>
+					<Property Name="HorzOverlapSize" Value="0.01"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,3},{0,40},{0,308},{0,266}}"/>
+					<Property Name="VertOverlapSize" Value="0.01"/>
+					<Property Name="HorzScrollPosition" Value="0.0"/>
+					<Property Name="VertScrollPosition" Value="0.0"/>
+					<AutoWindow NameSuffix="__auto_container__">
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0"/>
+					</AutoWindow>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_text2bg" Name="workshophcnew/Back/di222">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,288},{0,217},{0.05,599},{0,491}}"/>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/di111/2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="选择已有宝石"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="132.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,11},{0,2},{0,150},{0,33}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/di111/11">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="拥有数量"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="88.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,206},{0,2},{0,302},{0,33}}"/>
+				</Window>
+				<Window Type="TaharezLook/common_hengxian" Name="workshophcnew/Back/di111/hengxian1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,10},{0,33},{0,301},{0,37}}"/>
+				</Window>
+				<Window Type="TaharezLook/ScrollablePane" Name="workshophcnew/Back/di111/list1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="HorzStepSize" Value="0.1"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="VertStepSize" Value="0.1"/>
+					<Property Name="HorzOverlapSize" Value="0.01"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,4},{0,40},{0,307},{0,266}}"/>
+					<Property Name="VertOverlapSize" Value="0.01"/>
+					<Property Name="HorzScrollPosition" Value="0.0"/>
+					<Property Name="VertScrollPosition" Value="0.0"/>
+					<AutoWindow NameSuffix="__auto_container__">
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0"/>
+					</AutoWindow>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/tips1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Text" Value="14级宝石无法合成直接合15级即可宝石在活动掉落或商场买"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="550.0"/>
+				<Property Name="VertExtent" Value="21.9893"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,13},{0,185},{0,624},{0,218}}"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/need">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="需要"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="52.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,26},{0,501},{0,91},{0,539}}"/>
+			</Window>
+			<Window Type="TaharezLook/common_textbg" Name="workshophcnew/Back/needdi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,99},{0,501},{0,295},{0,539}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="workshophcnew/Back/needdi/tubiao">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:common image:common_yinb"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-14},{0,-9},{0,39},{0,44}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/needdi/zhi1">
+					<Property Name="Font" Value="plantc-15"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,34},{0,3},{0,191},{0,33}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_textbg" Name="workshophcnew/Back/needdi1">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,99},{0.05,521},{0,295},{0.05,559}}"/>
+				<Window Type="TaharezLook/StaticImage" Name="workshophcnew/Back/needdi/tubiao1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:common image:common_yinb"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ClippedByParent" Value="False"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,-14},{0,-9},{0,39},{0,44}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/needdi/zhi11">
+					<Property Name="Font" Value="plantc-15"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,34},{0,3},{0,191},{0,33}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/need1">
+				<Property Name="Font" Value="simhei-14"/>
+				<Property Name="Text" Value="拥有"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="52.0"/>
+				<Property Name="VertExtent" Value="25.6593"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,26},{0,548},{0,91},{0,586}}"/>
+			</Window>
+			<Window Type="DefaultWindow" Name="workshophcnew/Back/kuang">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,23},{0,13},{0,614},{0,187}}"/>
+				<Window Type="TaharezLook/ItemCell" Name="workshophcnew/Back/di1/equip11">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,3},{0.05,-4},{0.05,92},{0.05,85}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="workshophcnew/Back/pic1">
+					<Property Name="Image" Value="set:common_equip image:leftxx"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,189},{0,10},{0,273},{0,97}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+					<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/pic/txt3">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Text" Value="2"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="14.0"/>
+						<Property Name="VertExtent" Value="34.8987"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF63462C tr:FF63462C bl:FF63462C br:FF63462C"/>
+						<Property Name="BorderColour" Value="FF422D1A"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="ClippedByParent" Value="False"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.00925926,9},{0,87},{0.00925926,31},{0,122}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/pic/txt11">
+						<Property Name="Font" Value="simhei-14"/>
+						<Property Name="Text" Value="合"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="26.0"/>
+						<Property Name="VertExtent" Value="25.6593"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF63462C tr:FF63462C bl:FF63462C br:FF63462C"/>
+						<Property Name="BorderColour" Value="FF422D1A"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="ClippedByParent" Value="False"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.00925926,30},{0,85},{0.00925926,64},{0,120}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/pic/txt21">
+						<Property Name="Font" Value="plantc-15"/>
+						<Property Name="Text" Value="1"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="13.0"/>
+						<Property Name="VertExtent" Value="34.8987"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF63462C tr:FF63462C bl:FF63462C br:FF63462C"/>
+						<Property Name="BorderColour" Value="FF422D1A"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="HorzFormatting" Value="HorzCentred"/>
+						<Property Name="ClippedByParent" Value="False"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.0592593,50},{0,87},{0.0592593,79},{0,122}}"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/ItemCell" Name="workshophcnew/Back/di0/equip01">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,301},{0.05,-4},{0.05,390},{0.05,85}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/name01">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="1级月亮石"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="99.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF5C3B20 tr:FF5C3B20 bl:FF5C3B20 br:FF5C3B20"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.200409,189},{0,95},{0.451943,178},{0,125}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/name11">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="2级月亮石"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="99.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF5C3B20 tr:FF5C3B20 bl:FF5C3B20 br:FF5C3B20"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.300613,-164},{0,95},{0.550102,-184},{0,125}}"/>
+				</Window>
+				<Window Type="TaharezLook/ProgressBar_green" Name="workshophcnew/Back/green1">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="StepSize" Value="0.01"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="FrameEnable" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="CurrentProgress" Value="1.0"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,9},{0,128},{0,145},{0,168}}"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/common_textbg" Name="workshophcnew/Back/text1">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,153},{0,128},{0,319},{0,169}}"/>
+					<Window Type="TaharezLook/StaticText" Name="Workshophcnew/Back/text/0">
+						<Property Name="Font" Value="simhei-13"/>
+						<Property Name="Text" Value="成功率："/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="96.0"/>
+						<Property Name="VertExtent" Value="23.8165"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF472911 tr:FF472911 bl:FF472911 br:FF472911"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.331482,-40},{0.294444,-5},{0.581482,12},{0.544444,10}}"/>
+					</Window>
+					<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/text/1">
+						<Property Name="Font" Value="simhei-13"/>
+						<Property Name="Text" Value="100%"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="HorzExtent" Value="48.0"/>
+						<Property Name="VertExtent" Value="23.8165"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0.557408,4},{0.330555,-6},{0.807408,34},{0.580555,9}}"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="workshophcnew/Back/jiahao">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:diban2 image:add"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,406},{0.05,22},{0.05,443},{0.05,58}}"/>
+				</Window>
+				<Window Type="TaharezLook/ItemCell" Name="workshophcnew/Back/qianghautubiao">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="AlwaysOnTop" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.1,425},{0.1,-12},{0.1,514},{0.1,77}}"/>
+					<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/qianghautubiao/shuliang">
+						<Property Name="Font" Value="simhei-12"/>
+						<Property Name="Text" Value="40/1"/>
+						<Property Name="Scale" Value="x:1 y:1 z:1"/>
+						<Property Name="Visible" Value="False"/>
+						<Property Name="HorzExtent" Value="44.0"/>
+						<Property Name="VertExtent" Value="21.9893"/>
+						<Property Name="EnableSound" Value="True"/>
+						<Property Name="BorderColour" Value="FF003454"/>
+						<Property Name="LuaForDialog" Value="True"/>
+						<Property Name="UnifiedAreaRect" Value="{{0,34},{0,60},{0,82},{0,82}}"/>
+					</Window>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/Back/qianghuadaoju">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="融合剂"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="66.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF5C3B20 tr:FF5C3B20 bl:FF5C3B20 br:FF5C3B20"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="HorzFormatting" Value="HorzCentred"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.350409,269},{0.05,86},{0.601943,225},{0.05,116}}"/>
+				</Window>
+				<Window Type="TaharezLook/Checkbox2" Name="workshophcnew/Back/qianghuaqueren">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,476},{0.05,117},{0.05,520},{0.05,161}}"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/ImageButton" Name="workshophcnew/Back/jiayinbi">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="HoverImage" Value="set:renwuui image:renwu_jiahao1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="NormalImage" Value="set:renwuui image:renwu_jiahao1"/>
+				<Property Name="PushedImage" Value="set:renwuui image:renwu_jiahao1"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="DisabledImage" Value="set:renwuui image:renwu_jiahao1"/>
+				<Property Name="EnableClickAni" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,303},{0,547},{0,349},{0,593}}"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/common_text2bg" Name="workshophcnew/rightback">
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,83},{0,205},{0,385},{0,646}}"/>
+			<Window Type="TaharezLook/common_buttombg" Name="workshophcnew/rightback/diban">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,2},{0,519},{0,309},{0,551}}"/>
+				<Property Name="MousePassThroughEnabled" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/ScrollablePane" Name="workshophcnew/rightback/main">
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="AlwaysOnTop" Value="True"/>
+				<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="HorzStepSize" Value="0.1"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="VertStepSize" Value="0.1"/>
+				<Property Name="HorzOverlapSize" Value="0.01"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,8},{0,5},{0,305},{0.981675,1}}"/>
+				<Property Name="VertOverlapSize" Value="0.01"/>
+				<Property Name="HorzScrollPosition" Value="0.0"/>
+				<Property Name="VertScrollPosition" Value="0.0"/>
+				<AutoWindow NameSuffix="__auto_container__">
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="ContentArea" Value="l:0 t:0 r:0 b:0"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0"/>
+				</AutoWindow>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/AntiqueCase1" Name="workshophcnew/Line">
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.380253,-11},{0.0320724,39},{0.424197,10},{0.953125,20}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="workshophcnew/list">
+			<Property Name="Font" Value="simhei-18"/>
+			<Property Name="Text" Value="选择合成材料"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="HorzExtent" Value="198.0"/>
+			<Property Name="VertExtent" Value="32.9839"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF4B2D15 tr:FF4B2D15 bl:FF4B2D15 br:FF4B2D15"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.0666666,55},{0.0888888,26},{0.316667,78},{0.338889,-95}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="workshophcnew/">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:diban image:qianghua"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,38},{0,-19},{0,148},{0,89}}"/>
+		</Window>
+		<Window Type="TaharezLook/common_text2bg" Name="workshophcnew/rightback1">
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,83},{0,87},{0,385},{0,202}}"/>
+			<Window Type="TaharezLook/CellGroupButton2" Name="workshophcnew/rightback1/btn">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="EnableClickAni" Value="False"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,9},{0,8},{0,296},{0,111}}"/>
+				<Window Type="TaharezLook/ItemCell" Name="workshophcnew/rightback1/btn/item">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,7},{0,5},{0,96},{0,94}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/rightback1/btn/text1">
+					<Property Name="Font" Value="simhei-14"/>
+					<Property Name="Text" Value="宝石名称"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="104.0"/>
+					<Property Name="VertExtent" Value="25.6593"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,96},{0,13},{0,218},{0,53}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="workshophcnew/rightback1/btn/text2">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="宝石功能加攻击"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,96},{0.05,44},{0,257},{0.05,84}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/StaticImage" Name="workshophcnew/rightback1/btn/image">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Image" Value="set:common image:common_xiajiantou2"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,245},{0,41},{0,277},{0,60}}"/>
+					<Property Name="MousePassThroughEnabled" Value="True"/>
+				</Window>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

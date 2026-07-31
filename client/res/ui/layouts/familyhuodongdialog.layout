@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="familyhuodongdialog" >
+        <Property Name="Font" Value="hycyj-20" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="Familyhuodongdialog" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="SoundResource" Value="open.ogg" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-552},{0.5,-334},{0.5,552},{0.5,348}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="CloseSoundResource" Value="close.ogg" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/StaticImage" Name="familyhuodongdialog/cc2541" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,238},{0.05,-26},{0.05,747},{0.05,20}}" />
+            <Window Type="TaharezLook/StaticText" Name="familyhuodongdialog/cc25412c/" >
+                <Property Name="Font" Value="simhei-18" />
+                <Property Name="Text" Value="帮派活动" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="116" />
+                <Property Name="VertExtent" Value="29.3281" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:ff8c5e2a tr:ff8c5e2a bl:ff8c5e2a br:ff8c5e2a" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,167},{0,5},{0,337},{0,43}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="familyhuodongdialog/diban" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="m_HuoDongGroup" />
+            <Property Name="UnifiedAreaRect" Value="{{0,72},{0,83},{0,1030},{0,650}}" />
+            <Window Type="TaharezLook/ScrollablePane" Name="familyhuodongdialog/diban/list" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,956},{0,563}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="familyhuodongdialog/beibaoBg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:diban image:bangpai" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,36},{0,-18},{0,146},{0,90}}" />
+        </Window>
+    </Window>
+</GUILayout>

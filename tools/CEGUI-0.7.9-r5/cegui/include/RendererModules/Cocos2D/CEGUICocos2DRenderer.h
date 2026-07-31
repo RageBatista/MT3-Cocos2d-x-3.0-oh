@@ -8,6 +8,7 @@
 
 #include "base/CCPlatformMacros.h"
 #include "2d/CCNode.h"
+#include "math/kazmath/kazmath/kazmath.h"
 
 #include <vector>
 #include <map>
@@ -132,6 +133,7 @@ private:
     // Saved GL state for beginRendering/endRendering
     bool m_savedDepthTest;
     bool m_savedCullFace;
+    kmMat4 m_savedProjectionMatrix;
 
     typedef std::vector<Cocos2DTexture*> RenderTextureList;
     RenderTextureList d_RenderTextures;

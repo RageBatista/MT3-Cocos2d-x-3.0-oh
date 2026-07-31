@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="friendmailcontent" >
+        <Property Name="Font" Value="simhei-10" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="DragMoveEnable" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,611},{0,570}}" />
+        <Window Type="TaharezLook/RichEditbox" Name="friendmailcontent/textoutput" >
+            <Property Name="Font" Value="simhei-13" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="LineSpace" Value="1" />
+            <Property Name="BlinkCaret" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="MaxTextLength" Value="2147483647" />
+            <Property Name="UnifiedAreaRect" Value="{{0,23},{0,75},{0,577},{0,248}}" />
+            <Property Name="NormalTextColour" Value="ffffffff" />
+            <Property Name="BlinkCaretTimeout" Value="0.5" />
+            <Property Name="TextParsingEnabled" Value="False" />
+        </Window>
+        <Window Type="TaharezLook/common_hengxian" Name="friendmailcontent/separate" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,11},{0,464},{0,600},{0,469}}" />
+        </Window>
+        <Window Type="TaharezLook/ScrollablePane" Name="friendmailcontent/itemoutput" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="HorzStepSize" Value="0.1" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="VertStepSize" Value="0.1" />
+            <Property Name="HorzOverlapSize" Value="0.01" />
+            <Property Name="UnifiedAreaRect" Value="{{0,18},{0,362},{0,595},{0,452}}" />
+            <Property Name="VertOverlapSize" Value="0.01" />
+            <Property Name="HorzScrollPosition" Value="0" />
+            <Property Name="VertScrollPosition" Value="0" />
+            <AutoWindow NameSuffix="__auto_container__" >
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+            </AutoWindow>
+        </Window>
+        <Window Type="TaharezLook/Button" Name="friendmailcontent/get" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="领  取" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,410},{0,491},{0,598},{0,554}}" />
+            <Property Name="ButtonBorderColour" Value="ff743a0f" />
+        </Window>
+        <Window Type="TaharezLook/common_wenzidi" Name="friendmailcontent/wenzidi" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,12},{0,307},{0,129},{0,343}}" />
+            <Window Type="TaharezLook/StaticText" Name="friendmailcontent/itemtext" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Text" Value="相关附件" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="104" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-4},{0.05,0},{0.05,110},{0.05,30}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_tittle1" Name="friendmailcontent/liebiao1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-77},{0,12},{0,313},{0,58}}" />
+            <Window Type="TaharezLook/StaticText" Name="friendmailcontent/itemtext1" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Text" Value="邮件详情" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="104" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,104},{0.1,3},{0.1,218},{0.1,33}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_tittle1" Name="friendmailcontent/liebiao11" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,-109},{0.05,275},{0.05,281},{0.05,321}}" />
+            <Window Type="TaharezLook/StaticText" Name="friendmailcontent/itemtext11" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Text" Value="相关附件" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="104" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,104},{0.1,3},{0.1,218},{0.1,33}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="friendmailcontent/itemtext12" >
+            <Property Name="Font" Value="simhei-14" />
+            <Property Name="Text" Value="发件人:  梦幻西游运营组" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="246" />
+            <Property Name="VertExtent" Value="25.672" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.15,-78},{0.15,419},{0.15,261},{0.15,457}}" />
+        </Window>
+    </Window>
+</GUILayout>

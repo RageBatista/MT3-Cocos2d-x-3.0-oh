@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="friendchatcell" >
+        <Property Name="Font" Value="simhei-10" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="DragMoveEnable" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0,3},{0,1},{0,616},{0,113}}" />
+        <Window Type="TaharezLook/ItemCell" Name="friendchatcell/head" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,8},{0,23},{0,83},{0,96}}" />
+            <Window Type="TaharezLook/StaticImage" Name="friendchatcell/head/icon" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,3},{0,3},{0,72},{0,71}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_chatbg_haoyou" Name="friendchatcell/textbg" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,85},{0,25},{0,607},{0,109}}" />
+            <Window Type="TaharezLook/btn_liaotian_bofang" Name="friendchatcell/textbg/wenben/yuyin" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,7},{0,6},{0,178},{0,31}}" />
+                <Window Type="TaharezLook/StaticText" Name="friendchatcell/textbg/wenben/yuyin/duration" >
+                    <Property Name="Font" Value="simhei-10" />
+                    <Property Name="Text" Value="30秒" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="28" />
+                    <Property Name="VertExtent" Value="18.3282" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,39},{0,2},{0,320},{0,23}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/RichEditbox" Name="friendchatcell/textbg/text" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="LineSpace" Value="1" />
+                <Property Name="BlinkCaret" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="MaxTextLength" Value="2147483647" />
+                <Property Name="UnifiedAreaRect" Value="{{0,9},{0,35},{0,515},{0,607}}" />
+                <Property Name="NormalTextColour" Value="FF693F00" />
+                <Property Name="BlinkCaretTimeout" Value="0.5" />
+                <Property Name="TextParsingEnabled" Value="False" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="friendchatcell/textbg/wenben/yuyin/cell1/icon" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:liaotian image:liaotian_yuyin_biaoshi2" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,6},{0,5},{0,26},{0,33}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/StaticImage" Name="friendchatcell/textbg/wenben/yuyin/cell2/icon" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:liaotian image:liaotian_yuyin_biaoshi3" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,496},{0,5},{0,516},{0,33}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="friendchatcell/time" >
+            <Property Name="Font" Value="simhei-10" />
+            <Property Name="Text" Value="15-09-23 17:13" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="66.5" />
+            <Property Name="VertExtent" Value="18.3282" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0,162},{0,3},{0,462},{0,24}}" />
+        </Window>
+    </Window>
+</GUILayout>

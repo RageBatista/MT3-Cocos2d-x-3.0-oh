@@ -62,7 +62,7 @@ Cocos2d-x 基础层
 
 | 范围 | 当前工程事实 | 处理规则 |
 | --- | --- | --- |
-| Win32 canonical | `*.win32.vcxproj` 与 `client/Build-MT3-v120.ps1` 使用 `cocos2d-x-2.2.6/` | 新依赖只接当前树；修改公共接口后重编全部下游 |
+| Win32 canonical | `*.win32.vcxproj` 与 `client/Build-MT3-v120.ps1` 使用 `cocos2d-x-3.0-oh/` + `tools/CEGUI-0.7.9-r5`（`EngineProfile=Upgrade30`） | 新依赖只接当前树；修改公共接口后重编全部下游；`cocos2d-x-2.2.6/` 与 `dependencies/cegui` 仅 `Legacy226` 历史链路使用 |
 | Android Locojoy free | `LocojoyProject/jni/Android.mk` 使用 `cocos2d-x-2.2.6/` | NDK r16 clang/arm64 门禁必须通过；不得回退 r10e/GCC |
 | Android 遗留点 | `engine/Android.mk` 仍导入旧树 `libSpine` | `Assert-AndroidArm64Migration.ps1` 会报告该漂移；先修依赖再宣称闭环 |
 | iOS | FireClient 与 engine 的 Xcode 工程已迁移至 `cocos2d-x-2.2.6/` | 旧树 `cocos2d-2.0-rc2-x-2.0.1/` 目录已不存在；2.2.6 引擎叠加了 MT3 兼容补丁 |
@@ -75,7 +75,7 @@ Cocos2d-x 基础层
 | 组件 | 当前事实 | 注意事项 |
 | --- | --- | --- |
 | Nuclear | `engine/` 第一方引擎 | 允许修改，公共头按 ABI 高风险处理 |
-| CEGUI | 运行时 `dependencies/cegui/` 为 0.7.1 | `tools/CEGUI-0.7.1`、`0.7.9-r5` 等是工具/快照，不替换运行时 |
+| CEGUI | Win32 canonical 运行时为 `tools/CEGUI-0.7.9-r5`（0.7.9，静态链接 `CEGUI_STATIC`）；`dependencies/cegui/`（0.7.1）仅服务 `Legacy226` 历史/未迁移链路 | `Upgrade30` 门禁拒绝引用 `dependencies/cegui`；不以替换头文件或库方式升级，按 `CEGUI -> engine -> FireClient -> MT3` 完整重编 |
 | Lua | 当前 2.2.6 主线头文件为 Lua 5.1.5 | iOS/历史树按其工程引用核对，不做全仓版本替换 |
 | tolua++ | 当前主线包含 1.0.93；`common/tolua++-1.0.93` 的头仍声明 1.0.92 | 以实际生成器和头文件为准，禁止只按目录名批量“修版本” |
 | FMOD、gnet、第三方库 | 仓库内遗留版本/二进制依赖 | 不手工编辑二进制，不用新版本直接覆盖旧 ABI |
@@ -191,7 +191,7 @@ client/resource/res/**
 | 原描述 | 核对结果 | 当前规则 |
 | --- | --- | --- |
 | `ai-shared-rules/` 是单一事实源 | 路径不存在 | 根 `AGENTS.md` + 工程实物为事实源 |
-| Cocos2d-x 2.0 是 Win32 当前版本 | 与 canonical 工程不符 | Win32/Android/iOS canonical 均为 2.2.6 |
+| Cocos2d-x 2.0 是 Win32 当前版本 | 与 canonical 工程不符 | Win32 canonical 为 `cocos2d-x-3.0-oh`；Android/iOS canonical 为 `cocos2d-x-2.2.6`；旧树 `cocos2d-2.0-rc2-x-2.0.1/` 已删除 |
 | Android NDK r10e/GCC | 已过时 | NDK r16b clang + Ant + JDK8，Locojoy free/arm64 主线 |
 | 全仓 Unicode、固定警告/宏/SDL | 项目文件不统一 | 按具体工程和配置核对 |
 | Win32 只允许原生 OpenGL，禁止 EGL/GLES | 与最终工程链接项冲突 | 不抽象删除现有后端依赖，以代码和项目文件为准 |

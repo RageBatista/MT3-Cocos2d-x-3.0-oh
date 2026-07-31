@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/StaticImage" Name="banbengengxindialog/mask">
+		<Property Name="Image" Value="set:LoginBack2 image:CommonBack"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="banbengengxindialog"/>
+		<Property Name="AlwaysOnTop" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}"/>
+		<Property Name="AllowModalStateClick" Value="True"/>
+		<Property Name="DisplaySizeChangePosEnabled" Value="False"/>
+		<Window Type="TaharezLook/FrameWindow5" Name="banbengengxindialog">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="登陆排队"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="RollUpEnabled" Value="True"/>
+			<Property Name="SizingEnabled" Value="False"/>
+			<Property Name="TitlebarEnabled" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.5,-319},{0.5,-182},{0.5,320},{0.5,182}}"/>
+			<Property Name="DragMovingEnabled" Value="False"/>
+			<Property Name="CloseButtonEnabled" Value="False"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+			<Window Type="TaharezLook/StaticText" Name="banbengengxindialog/fuwuqi">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="服务器："/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="116.0"/>
+				<Property Name="VertExtent" Value="29.3138"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF693F00 tr:FF693F00 bl:FF693F00 br:FF693F00"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,92},{0,84},{0,546},{0,130}}"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Window Type="TaharezLook/RichEditbox" Name="banbengengxindialog/fuwuqi/name">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,113},{0,5},{0,445},{0,44}}"/>
+					<Property Name="NormalTextColour" Value="FF693F00"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="banbengengxindialog/tishi">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="需要排队进入"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="174.0"/>
+				<Property Name="VertExtent" Value="29.3138"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF693F00 tr:FF693F00 bl:FF693F00 br:FF693F00"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="HorzFormatting" Value="HorzCentred"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,68},{0.05,110},{0.05,541},{0.05,156}}"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="banbengengxindialog/paiming">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="目前排名名次：9999名"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="292.0"/>
+				<Property Name="VertExtent" Value="29.3138"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF693F00 tr:FF693F00 bl:FF693F00 br:FF693F00"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.05,228},{0.05,154},{0.05,546},{0.05,200}}"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Window Type="TaharezLook/RichEditbox" Name="banbengengxindialog/paiming/number">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,193},{0,4},{0,268},{0,42}}"/>
+					<Property Name="NormalTextColour" Value="FF693F00"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+			<Window Type="TaharezLook/common_lanbutton52" Name="banbengengxindialog/close">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="退出排队"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="SizeType" Value="Auto"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,230},{0,275},{0,430},{0,327}}"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+			<Window Type="TaharezLook/StaticText" Name="banbengengxindialog/time">
+				<Property Name="Font" Value="simhei-16"/>
+				<Property Name="Text" Value="预计等待时间：  小时   分钟 "/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="HorzExtent" Value="409.0"/>
+				<Property Name="VertExtent" Value="29.3138"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="TextColours" Value="tl:FF693F00 tr:FF693F00 bl:FF693F00 br:FF693F00"/>
+				<Property Name="BorderColour" Value="FF003454"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.1,231},{0.1,182},{0.1,637},{0.1,228}}"/>
+				<Property Name="HorizontalAlignment" Value="Centre"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+				<Window Type="TaharezLook/RichEditbox" Name="banbengengxindialog/time/shi">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,190},{0,5},{0,237},{0,43}}"/>
+					<Property Name="NormalTextColour" Value="FF693F00"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+				<Window Type="TaharezLook/RichEditbox" Name="banbengengxindialog/time/fen">
+					<Property Name="Font" Value="simhei-16"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="LineSpace" Value="1.0"/>
+					<Property Name="BlinkCaret" Value="True"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="MaxTextLength" Value="2147483647"/>
+					<Property Name="UnifiedAreaRect" Value="{{0.05,275},{0.05,3},{0.05,322},{0.05,41}}"/>
+					<Property Name="NormalTextColour" Value="FF693F00"/>
+					<Property Name="BlinkCaretTimeout" Value="0.5"/>
+					<Property Name="TextParsingEnabled" Value="False"/>
+					<Property Name="AllowModalStateClick" Value="True"/>
+				</Window>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

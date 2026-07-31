@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow3" Name="passmodify">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Text" Value="密码修改"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="PassModifyDlg"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-329},{0.5,-188},{0.5,333},{0.5,209}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Property Name="AllowModalStateClick" Value="True"/>
+		<Window Type="TaharezLook/dangebutton" Name="passmodify/savepass">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="修改密码"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="btnsavepass"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,254},{0,286},{0,449},{0,349}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="passmodify/lbold">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="输入原密码:"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="114.0"/>
+			<Property Name="VertExtent" Value="22.0001"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,77.1839},{0,100.112},{0,236.434},{0,141.362}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="passmodify/lbold1">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="输入新密码:"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="114.0"/>
+			<Property Name="VertExtent" Value="22.0001"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.05,45.1839},{0.05,144.112},{0.05,204.434},{0.05,185.362}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="passmodify/lbold111">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="确认新密码:"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="114.0"/>
+			<Property Name="VertExtent" Value="22.0001"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.1,13.1839},{0.1,181.112},{0.1,172.434},{0.1,222.362}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+		</Window>
+		<Window Type="TaharezLook/common_shurukuang" Name="passmodify/di1">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,212.184},{0,103.112},{0,542.434},{0,144.362}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+			<Window Type="TaharezLook/Editbox" Name="passmodify/oldpass">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="MaxTextLength" Value="2147483647"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,12.3},{0,6.3},{0,324.55},{0,36.55}}"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/common_shurukuang" Name="passmodify/di11">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.05,180.184},{0.05,145.112},{0.05,508.434},{0.05,186.362}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+			<Window Type="TaharezLook/Editbox" Name="passmodify/newpass">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="MaxTextLength" Value="2147483647"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,12.3},{0,6.3},{0,320.55},{0,36.55}}"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/common_shurukuang" Name="passmodify/di12">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0.1,147.184},{0.1,181.112},{0.1,473.434},{0.1,222.362}}"/>
+			<Property Name="AllowModalStateClick" Value="True"/>
+			<Window Type="TaharezLook/Editbox" Name="passmodify/cpass">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="MaxTextLength" Value="2147483647"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,12.3},{0,6.3},{0,319.55},{0,36.55}}"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+				<Property Name="AllowModalStateClick" Value="True"/>
+			</Window>
+		</Window>
+	</Window>
+</GUILayout>

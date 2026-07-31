@@ -259,20 +259,13 @@ void Cocos2DRenderer::beginRendering()
     ++sRenderCount;
     const bool traceRender = (sRenderCount <= 3);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin enter", Errors);
-    if (sRenderCount <= 5)
-    {
-        char buf[256];
-        sprintf(buf, "CEGUICocos2DRenderer::beginRendering #%d geoBuf=%d tex=%d\n",
-            sRenderCount, (int)d_geometryBuffers.size(), (int)d_textures.size());
-        OutputDebugStringA(buf);
-    }
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin enter", Standard);
 
     // Save GL state that may be altered by CEGUI rendering or 3D engine
     m_savedDepthTest = (glIsEnabled(GL_DEPTH_TEST) == GL_TRUE);
     m_savedCullFace = (glIsEnabled(GL_CULL_FACE) == GL_TRUE);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer GL state read complete", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer GL state read complete", Standard);
 
     // CEGUI is 2D UI overlay: disable depth test so UI is never culled by 3D depth buffer
     glDisable(GL_DEPTH_TEST);
@@ -286,17 +279,20 @@ void Cocos2DRenderer::beginRendering()
     m_program = cocos2d::ShaderCache::getInstance()->getProgram(
         cocos2d::GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader lookup complete", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader lookup complete", Standard);
     if (m_program)
     {
         m_program->use();
         if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader use complete", Errors);
+            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader use complete", Standard);
 
         // CEGUI 2D UI needs orthographic projection; EngineLayer::draw() sets 3D perspective.
-        // Save current projection and switch to 2D ortho so UI is visible.
+        // Save current projection matrix and switch to 2D ortho so UI is visible.
+        // Using kmGLGetMatrix/kmGLLoadMatrix instead of push/pop to avoid matrix
+        // stack imbalance issues with Cocos2d-x 3.0's Node::visit() which also
+        // uses kmGLPushMatrix/kmGLPopMatrix without explicit matrix mode.
         kmGLMatrixMode(KM_GL_PROJECTION);
-        kmGLPushMatrix();
+        kmGLGetMatrix(KM_GL_PROJECTION, &m_savedProjectionMatrix);
         kmGLLoadIdentity();
 
         const Size& displaySize = getDisplaySize();
@@ -307,18 +303,18 @@ void Cocos2DRenderer::beginRendering()
             -1.0f, 1.0f);
         kmGLMultMatrix(&ortho);
         if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer projection setup complete", Errors);
+            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer projection setup complete", Standard);
 
         m_program->setUniformsForBuiltins();
         if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer uniforms complete", Errors);
+            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer uniforms complete", Standard);
 
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION);
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR);
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS);
     }
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin exit", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin exit", Standard);
 }
 
 //----------------------------------------------------------------------------//
@@ -327,13 +323,20 @@ void Cocos2DRenderer::endRendering()
     static int sEndRenderCount = 0;
     const bool traceRender = (++sEndRenderCount <= 3);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end enter", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end enter", Standard);
     // Restore the projection matrix saved in beginRendering() only when a
     // valid program was set (otherwise beginRendering did not push).
     if (m_program)
     {
+        // Restore the projection matrix saved in beginRendering().
+        // Using kmGLLoadMatrix instead of kmGLPopMatrix to avoid matrix stack
+        // imbalance with Cocos2d-x 3.0's Node::visit()/Director::drawScene()
+        // which use kmGLPushMatrix/kmGLPopMatrix without explicit matrix mode.
         kmGLMatrixMode(KM_GL_PROJECTION);
-        kmGLPopMatrix();
+        kmGLLoadMatrix(&m_savedProjectionMatrix);
+        m_program = NULL;
+        // Restore matrix mode to MODELVIEW for the engine's subsequent rendering.
+        kmGLMatrixMode(KM_GL_MODELVIEW);
     }
 
     glDisable(GL_SCISSOR_TEST);
@@ -344,8 +347,12 @@ void Cocos2DRenderer::endRendering()
         glEnable(GL_DEPTH_TEST);
     if (m_savedCullFace)
         glEnable(GL_CULL_FACE);
+
+    // CEGUI uses raw OpenGL calls, so force Cocos to rebind its cached state
+    // before the engine submits its next frame.
+    cocos2d::GL::invalidateStateCache();
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end exit", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end exit", Standard);
 }
 
 //----------------------------------------------------------------------------//

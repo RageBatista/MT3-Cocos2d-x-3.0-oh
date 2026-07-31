@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/StaticImage" Name="petgaiming_back" >
+        <Property Name="Image" Value="set:LoginBack2 image:CommonBack" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="InputDialog" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property Name="AllowModalStateClick" Value="True" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/StaticImage" Name="petgaiming_mtg/framewindow" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Image" Value="set:ccdiban1 image:duandi" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="frameWindow" />
+            <Property Name="UnifiedAreaRect" Value="{{0.5,-242},{0.5,-151},{0.5,248},{0.5,132}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="petgaiming_mtg/text" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="输入新的宠物名字:(最多6个字)" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="310" />
+                <Property Name="VertExtent" Value="23.828" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="descText" />
+                <Property Name="UnifiedAreaRect" Value="{{0,68},{0,70},{0,478},{0,110}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/common_shurukuang1" Name="petgaiming_mtg/shurubg" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,71},{0,128},{0,419},{0,178}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Window Type="TaharezLook/Editbox" Name="petgaiming_mtg/shurubg/editbox" >
+                    <Property Name="Font" Value="simhei-13" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="BlinkCaret" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="inputBox" />
+                    <Property Name="MaxTextLength" Value="6" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{0,349},{0,46}}" />
+                    <Property Name="NormalTextColour" Value="ff50321a" />
+                    <Property Name="SelectedTextColour" Value="ff50321a" />
+                    <Property Name="TextParsingEnabled" Value="False" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Property Name="ActiveSelectionColour" Value="ff50321a" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="petgaiming_mtg/shurubg/textqing" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="请输入宠物名字" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="154" />
+                    <Property Name="VertExtent" Value="22.0001" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FFFFFFFF" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="placeHolder" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,3},{0,346},{0,44}}" />
+                    <Property Name="AllowModalStateClick" Value="True" />
+                    <Property Name="MousePassThroughEnabled" Value="True" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="petgaiming_mtg/text1" >
+                <Property Name="Font" Value="simhei-14" />
+                <Property Name="Text" Value="宠物改名" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="104" />
+                <Property Name="VertExtent" Value="25.672" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FFFFFFFF" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="descText" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,164},{0.05,-3},{0.05,307},{0.05,37}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/buttoncchsay" Name="petgaiming_mtg/queren" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="确 定" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="sureBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,275.4},{0,200.4},{0,434.65},{0,255.65}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="ButtonDefaultColourEnable" Value="True" />
+            </Window>
+            <Window Type="TaharezLook/buttoncchsay" Name="petgaiming_mtg/btnquxiao" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="取 消" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="cancelBtn" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,58.4},{0,200.4},{0,217.65},{0,255.65}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <Property Name="ButtonDefaultColourEnable" Value="True" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

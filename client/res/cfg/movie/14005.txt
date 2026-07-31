@@ -1,0 +1,96 @@
+﻿Setmap id=1683 pos=63,41
+MoveCam pos=63,41
+PlaySound id=1 res=/sound/scene/Music_aihao.ogg repeat=-1 fadein=1
+
+CreateNpc id=0 varname=主角 pos=43,53 model=6025 npcname=主角 dir=1 
+CreateNpc id=2 varname=WeiBing1 pos=48,35 model=1010130 npcname=卫兵 dir=3
+CreateNpc id=3 varname=WeiBing2 pos=73,50 model=1010130 npcname=卫兵 dir=7
+CreateNpc id=4 varname=WeiBing3 pos=59,34 model=1010130 npcname=卫兵 dir=3
+CreateNpc id=5 varname=WeiBing4 pos=75,43 model=1010130 npcname=卫兵 dir=7
+CreateNpc id=7 varname=Mogelaien pos=73,35 model=1010131 npcname=龙子 dir=5
+Start
+Wait time=200
+MoveNPC varname=主角 pos=50,49 time=1500
+Wait time=1500
+PlayAct varname=Mogelaien id=8 dir=5 end=1
+SKbegin time =200
+Speak varname=龙子 text=您握着我父亲的剑，我的士兵将听从您的命令！ head=9053 time=3500 pause=1 
+Wait time=2000
+SetDir varname=WeiBing1 dir=5 
+SetDir varname=WeiBing2 dir=5 
+SetDir varname=WeiBing3 dir=5 
+SetDir varname=WeiBing4 dir=5 
+
+PlayAct varname=WeiBing1 id=8 dir=5 end=1
+PlayAct varname=WeiBing2 id=8 dir=5 end=1
+PlayAct varname=WeiBing3 id=8 dir=5 end=1
+PlayAct varname=WeiBing4 id=8 dir=5 end=1
+
+Say varname=WeiBing1 text=致敬！
+Say varname=WeiBing2 text=致敬！
+Say varname=WeiBing3 text=致敬！
+Say varname=WeiBing4 text=致敬！
+Wait time=1000
+CreateNpc id=8 varname=TX pos=50,49 tile=8 dir=6 effect=geffect/sence/story/mt_jq_guangqiu/mt_jq_guangqiu repeat=-1 
+MoveNPC varname=TX pos=56,47 time=3000
+Wait time=3000
+DeleteNPC varname=TX
+SetSE name=jq_chuchang_01 pos=56,47 repeat=1 type=0
+Wait time=1200
+CreateNpc id=9 varname=DaMGLE pos=56,47 model=1000105 npcname=龙子 dir=1 
+Wait time=300
+SKbegin time =200
+Speak varname=龙王 text=你！ head=9109 pause=1 time=1300
+Wait time=1300
+
+MoveNPC varname=Mogelaien pos=70,38 time=500
+SKbegin time =200
+Speak varname=龙子 text=父亲……但是……这怎么可能？ head=9053 pause=1 time=2700
+
+Wait time=2700
+PlayAct varname=DaMGLE id=8 dir=1 end=1
+SKbegin time =200
+Speak varname=龙王 text=这把剑在我心脏停止跳动以后仍然感觉到你的凶残，你难道还奢望你的背叛能够得到我的原谅么？ head=9109 pause=1 time=4000
+Wait time=4000
+
+SetDir varname=Mogelaien dir=1
+SKbegin time =200
+Speak varname=龙子 text=原谅我，父亲！求求您…… head=9053 pause=1 time=2700
+Wait time=2700
+SetDir varname=Mogelaien dir=5
+Wait time=1000
+
+MoveNPC varname=DaMGLE pos=72,36 time=200
+Shake id=2 range=20 time=200
+Wait time=200
+SetDir varname=DaMGLE dir=5
+PlayAct varname=DaMGLE id=8 dir=5 end=1
+SetSE name=jp40_wuli_shouji2 pos=70,38 repeat=1 type=2
+PlayAct varname=Mogelaien id=7 dir=1 end=1
+PlayAct varname=Mogelaien id=14 dir=5 end=1
+
+Wait time=1000
+SKbegin time =200
+Speak varname=龙王 text=现在，我已经原谅你了... head=9109 pause=1 time=3500
+
+Wait time=4000
+Return time=200 type=0
+End
+
+
+ eActionStand,  1//普通站立
+ eActionStandRandom, 2//站立随机动作
+ eActionBattleStand, 3//战斗警戒
+ eActionWalk,  4//走动
+ eActionRun,  5//跑步，不存在左腿还是右腿先跑
+ eActionBattleRun, 6//战斗中跑
+ eActionOnHit,  7//受击
+ eActionAttack,  8//攻击
+ eActionMagic,  9//施法
+ eActionRunaway,  10//逃跑
+ eActionDefence,  11//防御;
+ eActionDodge,  12//闪避
+ eActionDying,  13//倒地 --受击
+ eActionDeath,  14//死亡
+ eActionRoll,  15//击飞
+ eActionRoll,  43//保持死亡动作

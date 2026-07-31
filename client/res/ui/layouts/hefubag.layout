@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="TaharezLook/FrameWindow2" Name="hefubag">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Text" Value="合服背包"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="LuaClass" Value="HeFuBagDlg"/>
+		<Property Name="ModalState" Value="True"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="RollUpEnabled" Value="True"/>
+		<Property Name="SizingEnabled" Value="False"/>
+		<Property Name="TitlebarEnabled" Value="True"/>
+		<Property Name="UnifiedAreaRect" Value="{{0.5,-420},{0.5,-332},{0.5,420},{0.5,348}}"/>
+		<Property Name="DragMovingEnabled" Value="False"/>
+		<Window Type="TaharezLook/common_text2bg" Name="hefubag/dikuang">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="listBg"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,78},{0,85},{0,762},{0,559}}"/>
+		</Window>
+		<Window Type="TaharezLook/Button" Name="hefubag/querentiqu">
+			<Property Name="Font" Value="simhei-16"/>
+			<Property Name="Text" Value="确认提取"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="SizeType" Value="Auto"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="LuaMemberName" Value="okBtn"/>
+			<Property Name="EnableClickAni" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,305},{0,572},{0,536},{0,632}}"/>
+			<Property Name="LuaEventOnClicked" Value="handleOkClicked"/>
+		</Window>
+	</Window>
+</GUILayout>

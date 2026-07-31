@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow3" Name="battlechongwuxiangqing" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="LuaClass" Value="PetPropertyInBattleDlg" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="False" />
+        <Property Name="RollUpEnabled" Value="True" />
+        <Property Name="SizingEnabled" Value="False" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,46},{0.5,-314},{0.5,461},{0.5,315}}" />
+        <Property Name="DragMovingEnabled" Value="False" />
+        <Property Name="AllowShowWithModalState" Value="True" />
+        <Window Type="TaharezLook/common_f3biaoshi" Name="battlechongwuxiangqing/bg/f3biaoshi" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,251.2},{0,1.2},{0,482.45},{0,46.45}}" />
+            <Property Name="HorizontalAlignment" Value="Centre" />
+            <Property Name="AllowModalStateClick" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/bg/f3biaoshi/wzdc" >
+                <Property Name="Font" Value="simhei-13" />
+                <Property Name="Text" Value="宠物详情" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="96" />
+                <Property Name="VertExtent" Value="23.828" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,24.3},{0,-0.7},{0,203.55},{0,47.55}}" />
+                <Property Name="AllowModalStateClick" Value="True" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/GroupButtontj" Name="battlechongwuxiangqing/jiemian/skill" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="技   能" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Selected" Value="True" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="HoverTextColour" Value="ff743a0f" />
+            <Property Name="UnifiedAreaRect" Value="{{0,26},{0,310},{0,198},{0,351}}" />
+            <Property Name="NormalTextColour" Value="ff743a0f" />
+            <Property Name="PushedTextColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderEnable" Value="False" />
+            <Property Name="DisabledTextColour" Value="ff743a0f" />
+            <Property Name="SelectedTextColour" Value="ff743a0f" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/GroupButtontj" Name="battlechongwuxiangqing/jiemian/neidan" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="附    加" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="HoverTextColour" Value="ff743a0f" />
+            <Property Name="UnifiedAreaRect" Value="{{0,211},{0,310},{0,383},{0,351}}" />
+            <Property Name="NormalTextColour" Value="ff743a0f" />
+            <Property Name="PushedTextColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderColour" Value="ff743a0f" />
+            <Property Name="ButtonBorderEnable" Value="False" />
+            <Property Name="DisabledTextColour" Value="ff743a0f" />
+            <Property Name="SelectedTextColour" Value="ff743a0f" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="battlechongwuxiangqing/jineng/dis" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,22},{0,359},{0,387},{0,606}}" />
+            <Window Type="TaharezLook/ScrollablePane" Name="battlechongwuxiangqing/jineng/dis/list1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:329 b:196" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="LuaMemberName" Value="neidanscroll" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-16},{0.05,-9},{0.05,337},{0.05,237}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:329 b:196" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:329 b:196" />
+                    <Window Type="TaharezLook/SkillBoxnd" Name="battlechongwuxiangqing/neidanscroll/skill1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,83},{0,38},{0,156},{0,108}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="battlechongwuxiangqing/neidanscroll/skill2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,170},{0,38},{0,243},{0,108}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="battlechongwuxiangqing/neidanscroll/skill3" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,256},{0,38},{0,329},{0,108}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="battlechongwuxiangqing/neidanscroll/skill4" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,83},{0,126},{0,156},{0,196}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="battlechongwuxiangqing/neidanscroll/skill5" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,170},{0,126},{0,243},{0,196}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="battlechongwuxiangqing/neidanscroll/skill6" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,256},{0,126},{0,329},{0,196}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBoxnd" Name="battlechongwuxiangqing/neidanscroll/skill7" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="Visible" Value="False" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,74},{0.05,150},{0.05,149},{0.05,220}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/AntiqueCasebqshu" Name="battlechongwuxiangqing/neidanscroll/neidan" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,22.5},{0,71.5},{0,56.75},{0,164.75}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />
+                        <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/neidanscroll/neidan/neidancc" >
+                            <Property Name="Font" Value="simhei-12" />
+                            <Property Name="Text" Value="内丹" />
+                            <Property Name="Scale" Value="x:1 y:1 z:1" />
+                            <Property Name="HorzExtent" Value="22" />
+                            <Property Name="VertExtent" Value="44.0001" />
+                            <Property Name="EnableSound" Value="True" />
+                            <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                            <Property Name="BorderColour" Value="FF003454" />
+                            <Property Name="LuaForDialog" Value="True" />
+                            <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
+                            <Property Name="UnifiedAreaRect" Value="{{0,2.3},{0,9.3},{0,35.55},{0,84.55}}" />
+                            <Property Name="AllowModalStateClick" Value="True" />
+                            <Property Name="MousePassThroughEnabled" Value="True" />
+                        </Window>
+                    </Window>
+                </AutoWindow>
+            </Window>
+            <Window Type="TaharezLook/ScrollablePane" Name="battlechongwuxiangqing/jineng/dis/list" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:361 b:458" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="LuaMemberName" Value="skillScroll" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-15},{0,7},{0,355},{0,238}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <Property Name="AllowModalStateClick" Value="True" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:361 b:458" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:361 b:458" />
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,4},{0,103},{0,74}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,4},{0,189},{0,74}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox3" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,4},{0,275},{0,74}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox4" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,4},{0,361},{0,74}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox5" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,80},{0,103},{0,150}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox6" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,80},{0,189},{0,150}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox7" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,80},{0,275},{0,150}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox8" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,80},{0,361},{0,150}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox9" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,157},{0,103},{0,227}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox10" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,157},{0,189},{0,227}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox11" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,157},{0,275},{0,227}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox12" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,157},{0,361},{0,227}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox13" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,234},{0,103},{0,304}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox14" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,234},{0,189},{0,304}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox15" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,234},{0,275},{0,304}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox16" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,234},{0,361},{0,304}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox17" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,311},{0,103},{0,381}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox18" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,311},{0,189},{0,381}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox19" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,311},{0,275},{0,381}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox20" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,311},{0,361},{0,381}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox21" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,30},{0,388},{0,103},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox22" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,116},{0,388},{0,189},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox23" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,202},{0,388},{0,275},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox24" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,388},{0,361},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                    <Window Type="TaharezLook/SkillBox1" Name="battlechongwuxiangqing/diban/skillbox25" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,288},{0,388},{0,361},{0,458}}" />
+                        <Property Name="AllowModalStateClick" Value="True" />
+                    </Window>
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_tittle" Name="battlechongwuxiangqing/taitou" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,74},{0,80},{0,311},{0,126}}" />
+        </Window>
+        <Window Type="DefaultWindow" Name="battlechongwuxiangqing/shuxingck" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,209.078},{0,86.008},{0,485.328},{0,327.258}}" />
+            <Property Name="MousePassThroughEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/tili" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="气血" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,44.3},{0,5.3},{0,241.55},{0,39.55}}" />
+                <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/2" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="1450000" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="70" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="RightAligned" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,50.3},{0,6.3},{0,128.55},{0,32.55}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/tili1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="物伤" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,44.3},{0,40.3},{0,241.55},{0,74.55}}" />
+                <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/1" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="1450000" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="70" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="RightAligned" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,50.3},{0,6.3},{0,128.55},{0,32.55}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/tili2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="物防" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,44.3},{0,75.3},{0,241.55},{0,109.55}}" />
+                <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/3" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="1450000" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="70" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="RightAligned" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,50.3},{0,6.3},{0,128.55},{0,32.55}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/tili3" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="法伤" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,44.3},{0,110.3},{0,241.55},{0,144.55}}" />
+                <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/21" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="1450000" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="70" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="RightAligned" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,50.3},{0,6.3},{0,128.55},{0,32.55}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/tili4" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="法防" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,44.3},{0,145.3},{0,241.55},{0,179.55}}" />
+                <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/22" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="1450000" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="70" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="RightAligned" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,50.3},{0,6.3},{0,128.55},{0,32.55}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/tili5" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Text" Value="速度" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="44" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,44.3},{0,180.3},{0,241.55},{0,214.55}}" />
+                <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/diban/4" >
+                    <Property Name="Font" Value="hycyj-11" />
+                    <Property Name="Text" Value="1450000" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="70" />
+                    <Property Name="VertExtent" Value="20.162" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF553923 tr:FF553923 bl:FF553923 br:FF553923" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="RightAligned" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,50.3},{0,6.3},{0,128.55},{0,32.55}}" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="battlechongwuxiangqing/ditu/tu" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,43},{0.05,58},{0.05,185},{0.05,202}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/taitou/text" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="速度" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="44" />
+            <Property Name="VertExtent" Value="22.0001" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" />
+            <Property Name="BorderColour" Value="FFFFFFFF" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,-2},{0.05,234},{0.05,223},{0.05,273}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/taitou/text1" >
+            <Property Name="Font" Value="hycyj-10" />
+            <Property Name="Text" Value="10" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="18" />
+            <Property Name="VertExtent" Value="18.3192" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" />
+            <Property Name="BorderColour" Value="FF000000" />
+            <Property Name="BorderEnable" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="RightAligned" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,-133},{0.1,171},{0.1,92},{0.1,210}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="battlechongwuxiangqing/jishu" >
+            <Property Name="Font" Value="simhei-10" />
+            <Property Name="Text" Value="级" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="18" />
+            <Property Name="VertExtent" Value="18.3282" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" />
+            <Property Name="BorderColour" Value="FF000000" />
+            <Property Name="BorderEnable" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,132.079},{0,239.008},{0,251.329},{0,263.258}}" />
+        </Window>
+    </Window>
+</GUILayout>

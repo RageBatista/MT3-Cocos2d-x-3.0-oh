@@ -420,16 +420,16 @@ void System::renderGUI(void)
     static int sRenderTraceCount = 0;
     const bool traceRender = (++sRenderTraceCount <= 3);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderGUI begin", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderGUI begin", Standard);
 
     d_renderer->beginRendering();
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] beginRendering complete", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] beginRendering complete", Standard);
 
 	if (d_gui_redraw)
 	{
         if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] gui redraw begin", Errors);
+            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] gui redraw begin", Standard);
 		if (d_activeSheet)
 		{
             RenderingSurface& rs = d_activeSheet->getTargetRenderingSurface();
@@ -439,10 +439,10 @@ void System::renderGUI(void)
                 static_cast<RenderingWindow&>(rs).getOwner().clearGeometry();
 
 			if (traceRender)
-                Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] active sheet render begin", Errors);
+                Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] active sheet render begin", Standard);
 			d_activeSheet->render();
             if (traceRender)
-                Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] active sheet render complete", Errors);
+                Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] active sheet render complete", Standard);
 		}
         // no sheet, so ensure default surface geometry is cleared
         else
@@ -450,20 +450,20 @@ void System::renderGUI(void)
 
 		d_gui_redraw = false;
         if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] gui redraw complete", Errors);
+            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] gui redraw complete", Standard);
 	}
 
 	if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] default root draw begin", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] default root draw begin", Standard);
 	d_renderer->getDefaultRenderingRoot().draw();
 	if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] default root draw complete", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] default root draw complete", Standard);
 	MouseCursor::getSingleton().draw();
 	if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] mouse cursor draw complete", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] mouse cursor draw complete", Standard);
     d_renderer->endRendering();
 	if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] endRendering complete", Errors);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] endRendering complete", Standard);
 
     // do final destruction on dead-pool windows
     WindowManager::getSingleton().cleanDeadPool();

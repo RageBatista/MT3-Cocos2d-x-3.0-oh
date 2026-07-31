@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+	<Window Type="DefaultWindow" Name="JinglingQuest">
+		<Property Name="Font" Value="simhei-12"/>
+		<Property Name="Scale" Value="x:1 y:1 z:1"/>
+		<Property Name="EnableSound" Value="True"/>
+		<Property Name="LuaForDialog" Value="True"/>
+		<Property Name="LimitWindowSize" Value="False"/>
+		<Property Name="UnifiedAreaRect" Value="{{0,2},{0,0},{0,726},{0,329}}"/>
+		<Window Type="TaharezLook/ItemCell" Name="JinglingQuest/headimg">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,15},{0,15},{0,95},{0,95}}"/>
+		</Window>
+		<Window Type="TaharezLook/StaticText" Name="JinglingQuest/nametext">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Text" Value="大师"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="HorzExtent" Value="44.0"/>
+			<Property Name="VertExtent" Value="21.9893"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+			<Property Name="BorderColour" Value="FF003454"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,105},{0,15},{0,300},{0,40}}"/>
+		</Window>
+		<Window Type="TaharezLook/common_chatbg_left" Name="JinglingQuest/questbg">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,106},{0,45},{0.986188,8},{0,293}}"/>
+			<Window Type="TaharezLook/RichEditbox" Name="JinglingQuest/questbg/edit">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="ReadOnly" Value="True"/>
+				<Property Name="LineSpace" Value="1.0"/>
+				<Property Name="BlinkCaret" Value="True"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="MaxTextLength" Value="2147483647"/>
+				<Property Name="UnifiedAreaRect" Value="{{0.040733,-7},{0.040733,-5},{0.95723,11},{0.95723,-99}}"/>
+				<Property Name="BlinkCaretTimeout" Value="0.5"/>
+				<Property Name="TextParsingEnabled" Value="False"/>
+			</Window>
+			<Window Type="DefaultWindow" Name="JinglingQuest/questbg/feedback">
+				<Property Name="Font" Value="simhei-12"/>
+				<Property Name="Scale" Value="x:1 y:1 z:1"/>
+				<Property Name="EnableSound" Value="True"/>
+				<Property Name="LuaForDialog" Value="True"/>
+				<Property Name="UnifiedAreaRect" Value="{{0,5},{0,141},{0,610},{0,235}}"/>
+				<Window Type="TaharezLook/common_hengxian" Name="JinglingQuest/questbg/feedback/hx">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,3},{0,1},{0,603},{0,6}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="JinglingQuest/questbg/feedback/tishi">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="是否解决了你的问题？"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="HorzExtent" Value="220.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,1},{0,2},{0,601},{0,47}}"/>
+				</Window>
+				<Window Type="TaharezLook/Button" Name="JinglingQuest/questbg/feedback/btnYes">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="是"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,132},{0,50},{0,247},{0,95}}"/>
+				</Window>
+				<Window Type="TaharezLook/Button" Name="JinglingQuest/questbg/feedback/btnno">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="否"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="SizeType" Value="Auto"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="EnableClickAni" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,352},{0,50},{0,467},{0,95}}"/>
+				</Window>
+				<Window Type="TaharezLook/StaticText" Name="JinglingQuest/questbg/feedback/thank">
+					<Property Name="Font" Value="simhei-12"/>
+					<Property Name="Text" Value="感谢你的反馈！"/>
+					<Property Name="Scale" Value="x:1 y:1 z:1"/>
+					<Property Name="Visible" Value="False"/>
+					<Property Name="HorzExtent" Value="154.0"/>
+					<Property Name="VertExtent" Value="21.9893"/>
+					<Property Name="EnableSound" Value="True"/>
+					<Property Name="TextColours" Value="tl:FF50321A tr:FF50321A bl:FF50321A br:FF50321A"/>
+					<Property Name="BorderColour" Value="FF003454"/>
+					<Property Name="LuaForDialog" Value="True"/>
+					<Property Name="UnifiedAreaRect" Value="{{0,2},{0,5},{0,592},{0,55}}"/>
+				</Window>
+			</Window>
+		</Window>
+		<Window Type="TaharezLook/StaticImage" Name="JinglingQuest/jiantou">
+			<Property Name="Font" Value="simhei-12"/>
+			<Property Name="Image" Value="set:liaotian image:liaotian_kuang1_arrow"/>
+			<Property Name="Scale" Value="x:1 y:1 z:1"/>
+			<Property Name="Visible" Value="False"/>
+			<Property Name="AlwaysOnTop" Value="True"/>
+			<Property Name="EnableSound" Value="True"/>
+			<Property Name="LuaForDialog" Value="True"/>
+			<Property Name="UnifiedAreaRect" Value="{{0,92},{0,59},{0,112},{0,79}}"/>
+		</Window>
+	</Window>
+</GUILayout>

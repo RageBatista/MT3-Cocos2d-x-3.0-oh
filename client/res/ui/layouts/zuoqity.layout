@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/StaticImage" Name="zuoqity/biaoti" >
+        <Property Name="Font" Value="simhei-12" />
+        <Property Name="Image" Value="set:my_zuoqi image:zuoqi" />
+        <Property Name="Scale" Value="x:1 y:1 z:1" />
+        <Property Name="ModalState" Value="True" />
+        <Property Name="EnableSound" Value="True" />
+        <Property Name="LuaForDialog" Value="True" />
+        <Property Name="LimitWindowSize" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,-569},{0.5,-352},{0.5,569},{0.5,352}}" />
+        <Property Name="DisplaySizeChangePosEnabled" Value="False" />
+        <Window Type="TaharezLook/ImageButton" Name="zuoqity/back" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="HoverImage" Value="set:my_zuoqi image:x" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:my_zuoqi image:x" />
+            <Property Name="PushedImage" Value="set:my_zuoqi image:x" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="DisabledImage" Value="set:my_zuoqi image:x" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,1042},{0,32},{0,1099},{0,94}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/StaticImage" Name="zuoqity/touxiang" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,-318},{0.05,-47},{0.05,898},{0.05,671}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="zuoqity/huanyuan11" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="购  买" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="rsCancelBtn" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.15,790},{0.1,513},{0.15,892},{0.1,562}}" />
+            <Property Name="LuaEventOnClicked" Value="handleCombineTipClicked" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="zuoqity/biaoti/shizhuang" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,753.289},{0,157.225},{0,1046.54},{0,551.475}}" />
+            <Window Type="TaharezLook/ScrollablePane" Name="zuoqity/biaoti/shizhuang/szs" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,8.3},{0,0.3},{0,288.55},{0,390.55}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/Buttonhui" Name="zuoqity/biaoti/qiehuan1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="使用" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="cbTipBtn1" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,150},{0,558},{0,295},{0,615}}" />
+            <Property Name="LuaEventOnClicked" Value="handleCombineTipClicked" />
+            <Property Name="ButtonBorderColour" Value="FF50321A" />
+        </Window>
+        <Window Type="TaharezLook/Buttonhui" Name="zuoqity/biaoti/qiehuan" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="购买" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="cbTipBtn1" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,802},{0,558},{0,947},{0,615}}" />
+            <Property Name="LuaEventOnClicked" Value="handleCombineTipClicked" />
+            <Property Name="ButtonBorderColour" Value="FF50321A" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqity/ranliaoshu1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="99/99" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="HorzExtent" Value="55" />
+            <Property Name="VertExtent" Value="21.9893" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="BorderEnable" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0,1201},{0,603},{0,1282},{0,633}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqity/ranliaoming1" >
+            <Property Name="Font" Value="simhei-14" />
+            <Property Name="Text" Value="九霄" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="HorzExtent" Value="52" />
+            <Property Name="VertExtent" Value="25.6593" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+            <Property Name="BorderColour" Value="FF0E0E0D" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0,457},{0,114},{0,682},{0,154}}" />
+            <Property Name="HorizontalAlignment" Value="Centre" />
+        </Window>
+        <Window Type="TaharezLook/ItemCell2" Name="zuoqity/ranliao1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,1181},{0,581},{0,1224},{0,623}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqity/title/text1" >
+            <Property Name="Font" Value="simhei-14" />
+            <Property Name="Text" Value="价格：" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="HorzExtent" Value="78" />
+            <Property Name="VertExtent" Value="25.6593" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF563A24 tr:FF563A24 bl:FF563A24 br:FF563A24" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,630},{0,563},{0,712},{0,603}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqity/beijing" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,343},{0,104},{0,685},{0,613}}" />
+            <Property Name="HorizontalAlignment" Value="Centre" />
+            <Window Type="TaharezLook/StaticImage" Name="zuoqity/beijing/moxing" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,151},{0,446},{0,191},{0,486}}" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="zuoqity/xuanniu" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:my_zuoqi image:you" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:my_zuoqi image:you" />
+                <Property Name="PushedImage" Value="set:my_zuoqi image:you" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:my_zuoqi image:you" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,38},{0,341},{0,86},{0,405}}" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="zuoqity/xuanniu2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:my_zuoqi image:zuo" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:my_zuoqi image:zuo" />
+                <Property Name="PushedImage" Value="set:my_zuoqi image:zuo" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:my_zuoqi image:zuo" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,257},{0,341},{0,305},{0,405}}" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="zuoqity/beijing/btn1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:my_zuoqi image:btn_rs" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:my_zuoqi image:btn_rs" />
+                <Property Name="PushedImage" Value="set:my_zuoqi image:btn_rs" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:my_zuoqi image:btn_rs" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,6},{0,-58},{0,45},{0,184}}" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="zuoqity/beijing/btn11" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:my_zuoqi image:btn_gd" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:my_zuoqi image:btn_gd" />
+                <Property Name="PushedImage" Value="set:my_zuoqi image:btn_gd" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:my_zuoqi image:btn_gd" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,300},{0,-58},{0,339},{0,184}}" />
+            </Window>
+            <Window Type="TaharezLook/ImageButton" Name="zuoqity/beijing/huancai" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="HoverImage" Value="set:my_zuoqi image:huancai" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="NormalImage" Value="set:my_zuoqi image:huancai" />
+                <Property Name="PushedImage" Value="set:my_zuoqi image:huancai" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="DisabledImage" Value="set:my_zuoqi image:huancai" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,6},{0,441},{0,78},{0,513}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="zuoqity/huanyuan111" >
+            <Property Name="Font" Value="simhei-16" />
+            <Property Name="Text" Value="请 选 择" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="HoverImage" Value="set:my_zuoqi image:btnqc" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:my_zuoqi image:btnqc" />
+            <Property Name="PushedImage" Value="set:my_zuoqi image:btnqc" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="DisabledImage" Value="set:my_zuoqi image:btnqc" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,466},{0,632},{0,677},{0,682}}" />
+            <Property Name="ButtonBorderColour" Value="FF815636" />
+            <Property Name="ButtonBorderEnable" Value="True" />
+            <Property Name="DisabledTextColour" Value="FFFFFFFF" />
+            <Property Name="ButtonDefaultBorderEnable" Value="False" />
+            <Property Name="ButtonDefaultColourEnable" Value="False" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="zuoqity/biaoti/shizhuang1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,35.289},{0.05,94.225},{0.05,333.54},{0.05,576.475}}" />
+            <Window Type="TaharezLook/ScrollablePane" Name="zuoqity/biaoti/shizhuang/szs1" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="HorzStepSize" Value="0.1" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="VertStepSize" Value="0.1" />
+                <Property Name="HorzOverlapSize" Value="0.01" />
+                <Property Name="UnifiedAreaRect" Value="{{0,2.29999},{0,6.3},{0,297.55},{0,479.55}}" />
+                <Property Name="VertOverlapSize" Value="0.01" />
+                <Property Name="HorzScrollPosition" Value="0" />
+                <Property Name="VertScrollPosition" Value="0" />
+                <AutoWindow NameSuffix="__auto_container__" >
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ContentArea" Value="l:0 t:0 r:0 b:0" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="ChildExtentsArea" Value="l:0 t:0 r:0 b:0" />
+                </AutoWindow>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqity/textdan" >
+            <Property Name="Font" Value="plantc-15" />
+            <Property Name="Text" Value="0" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="HorzExtent" Value="14" />
+            <Property Name="VertExtent" Value="34.8987" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FFEDE0CF tr:FFEDE0CF bl:FFEDE0CF br:FFEDE0CF" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="ownMoneyText" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0,736},{0,568},{0,941},{0,603}}" />
+            <Property Name="BackgroundEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticImage" Name="zuoqity/textzong/yinbi2" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:common image:common_yinb" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="currencyIcon2" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-22},{0,-5},{0,24},{0,41}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqity/textdan1" >
+            <Property Name="Font" Value="plantc-15" />
+            <Property Name="Text" Value="0" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="HorzExtent" Value="14" />
+            <Property Name="VertExtent" Value="34.8987" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FFEDE0CF tr:FFEDE0CF bl:FFEDE0CF br:FFEDE0CF" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="LuaMemberName" Value="ownMoneyText" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,681},{0.05,574},{0.05,886},{0.05,609}}" />
+            <Property Name="BackgroundEnabled" Value="True" />
+            <Window Type="TaharezLook/StaticImage" Name="zuoqity/textzong/yinbi21" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Image" Value="set:common image:common_yinb" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="currencyIcon2" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,-22},{0,-5},{0,24},{0,41}}" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqity/title/text11" >
+            <Property Name="Font" Value="simhei-14" />
+            <Property Name="Text" Value="拥有：" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="HorzExtent" Value="78" />
+            <Property Name="VertExtent" Value="25.6593" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FF563A24 tr:FF563A24 bl:FF563A24 br:FF563A24" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,576},{0.05,571},{0.05,658},{0.05,611}}" />
+        </Window>
+        <Window Type="TaharezLook/StaticText" Name="zuoqity/title/huodong" >
+            <Property Name="Font" Value="simhei-14" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="TextColours" Value="tl:FFFF0000 tr:FFFFF000 bl:FF000000 br:FF000000" />
+            <Property Name="BorderColour" Value="FF003454" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="HorzFormatting" Value="HorzCentred" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,580},{0.05,632},{0.05,1017},{0.05,672}}" />
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="zuoqity/biaoti/wenshiopen" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="Visible" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,692.289},{0.05,118.225},{0.05,985.54},{0.05,553.475}}" />
+            <Window Type="TaharezLook/StaticText" Name="zuoqity/biaoti/wenshiopen/text1" >
+                <Property Name="Font" Value="mhsy-11-normal" />
+                <Property Name="Text" Value="本坐骑尚未开通纹饰系统" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="220" />
+                <Property Name="VertExtent" Value="20.1719" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,18.3},{0,13.3},{0,279.55},{0,62.55}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="zuoqity/biaoti/wenshiopen/text11" >
+                <Property Name="Font" Value="mhsy-11-normal" />
+                <Property Name="Text" Value="纹饰系统可以使坐骑镶嵌3个\n纹饰，并统御2个召唤灵" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="250" />
+                <Property Name="VertExtent" Value="40.3438" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,1.3},{0.05,36.3},{0.05,265.55},{0.05,133.55}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="zuoqity/biaoti/wenshiopen/text111" >
+                <Property Name="Font" Value="mhsy-11-normal" />
+                <Property Name="Text" Value="为坐骑镶嵌纹饰，可以给坐骑\n统御的召唤灵增加附加属性和\n附加技能" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="261" />
+                <Property Name="VertExtent" Value="60.5156" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,-12.7},{0.1,97.3},{0.1,260.55},{0.1,194.55}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="zuoqity/textdan2" >
+                <Property Name="Font" Value="mhsy-12-normal" />
+                <Property Name="Text" Value="0" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="11" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="ownMoneyText" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,70},{0.05,223},{0.05,240},{0.05,257}}" />
+                <Property Name="BackgroundEnabled" Value="True" />
+                <Window Type="TaharezLook/StaticImage" Name="zuoqity/textzong/yinbi22" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:my_zuoqi image:b3" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="currencyIcon2" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-11},{0,0},{0,21},{0,32}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="zuoqity/textdan11" >
+                <Property Name="Font" Value="mhsy-12-normal" />
+                <Property Name="Text" Value="0" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="11" />
+                <Property Name="VertExtent" Value="22.0001" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="ownMoneyText" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,56},{0.1,242},{0.1,226},{0.1,274}}" />
+                <Property Name="BackgroundEnabled" Value="True" />
+                <Window Type="TaharezLook/StaticImage" Name="zuoqity/textzong/yinbi211" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:my_zuoqi image:b3" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="LuaMemberName" Value="currencyIcon2" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,-11},{0,0},{0,21},{0,32}}" />
+                </Window>
+                <Window Type="TaharezLook/ImageButton" Name="zuoqity/textdan11/huoqu" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="HoverImage" Value="set:common image:common_yinb" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="NormalImage" Value="set:common image:common_yinb" />
+                    <Property Name="PushedImage" Value="set:common image:common_yinb" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,142.3},{0,-0.700001},{0,178.55},{0,36.55}}" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="zuoqity/title/text12" >
+                <Property Name="Font" Value="mhsy-10-normal" />
+                <Property Name="Text" Value="花费" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="36" />
+                <Property Name="VertExtent" Value="18.3282" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF563A24 tr:FF563A24 bl:FF563A24 br:FF563A24" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.05,-15},{0.05,219},{0.05,64},{0.05,258}}" />
+            </Window>
+            <Window Type="TaharezLook/StaticText" Name="zuoqity/title/text121" >
+                <Property Name="Font" Value="mhsy-10-normal" />
+                <Property Name="Text" Value="拥有" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="36" />
+                <Property Name="VertExtent" Value="18.3282" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF563A24 tr:FF563A24 bl:FF563A24 br:FF563A24" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="ClippedByParent" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0.1,-29},{0.1,237},{0.1,50},{0.1,276}}" />
+            </Window>
+            <Window Type="TaharezLook/Buttonkx" Name="zuoqity/huanyuan112" >
+                <Property Name="Font" Value="mhsy-14-normal" />
+                <Property Name="Text" Value="开  启" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="SizeType" Value="Auto" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="LuaMemberName" Value="rsCancelBtn" />
+                <Property Name="EnableClickAni" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0,55},{0,340},{0,238},{0,390}}" />
+                <Property Name="LuaEventOnClicked" Value="handleCombineTipClicked" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/common_text2bg" Name="zuoqity/biaoti/wenshibg" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,633.289},{0.1,-6.775},{0.1,937.54},{0.1,595.475}}" />
+            <Window Type="TaharezLook/GroupButton" Name="zuoqity/biaoti/wenshibg/btn1" >
+                <Property Name="Font" Value="mhsy-13-normal" />
+                <Property Name="Text" Value="基 础" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,12},{0,9},{0,145},{0,63}}" />
+            </Window>
+            <Window Type="TaharezLook/GroupButton" Name="zuoqity/biaoti/wenshibg/btn2" >
+                <Property Name="Font" Value="mhsy-13-normal" />
+                <Property Name="Text" Value="加 成" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="EnableClickAni" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,159},{0,9},{0,292},{0,63}}" />
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="zuoqity/biaoti/btnjichu" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.15,-42.711},{0.15,-20.775},{0.15,256.54},{0.15,507.475}}" />
+                <Window Type="TaharezLook/StaticImage" Name="zuoqity/biaoti/wenshibg/bg" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:my_zuoqi image:bg_jc" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,10},{0.05,-21},{0.05,262},{0.05,353}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                </Window>
+                <Window Type="TaharezLook/CellGroupButtondazao" Name="zuoqity/biaoti/btnjichu/tongyu1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,15.4},{0,356.4},{0,276.65},{0,439.65}}" />
+                    <Window Type="TaharezLook/ItemCell" Name="zuoqity/biaoti/btnjichu/peticon1" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,11},{0,6},{0,83},{0,78}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="zuoqity/biaoti/btnjichu/petname1" >
+                        <Property Name="Font" Value="mhsy-11-normal" />
+                        <Property Name="Text" Value="点击统御召唤灵" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="140" />
+                        <Property Name="VertExtent" Value="20.1719" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                        <Property Name="BorderColour" Value="FF003454" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,70.3},{0.05,18.3},{0.05,228.55},{0.05,58.55}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/CellGroupButtondazao" Name="zuoqity/biaoti/btnjichu/tongyu2" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="EnableClickAni" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.05,0.4},{0.05,419.4},{0.05,261.65},{0.05,502.65}}" />
+                    <Window Type="TaharezLook/ItemCell" Name="zuoqity/biaoti/btnjichu/peticon2" >
+                        <Property Name="Font" Value="simhei-12" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,11},{0,6},{0,83},{0,78}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="zuoqity/biaoti/btnjichu/petname2" >
+                        <Property Name="Font" Value="mhsy-11-normal" />
+                        <Property Name="Text" Value="点击统御召唤灵" />
+                        <Property Name="Scale" Value="x:1 y:1 z:1" />
+                        <Property Name="HorzExtent" Value="140" />
+                        <Property Name="VertExtent" Value="20.1719" />
+                        <Property Name="EnableSound" Value="True" />
+                        <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                        <Property Name="BorderColour" Value="FF003454" />
+                        <Property Name="LuaForDialog" Value="True" />
+                        <Property Name="HorzFormatting" Value="HorzCentred" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.05,70.3},{0.05,18.3},{0.05,228.55},{0.05,58.55}}" />
+                    </Window>
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="zuoqity/biaoti/btnjichu/tzname" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="技能" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="44" />
+                    <Property Name="VertExtent" Value="21.9893" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,89.3},{0,317.3},{0,211.55},{0,348.55}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                </Window>
+                <Window Type="TaharezLook/SkillBox1" Name="zuoqity/biaoti/btnjichu/skill" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,112},{0,233},{0,190},{0,311}}" />
+                </Window>
+                <Window Type="TaharezLook/ItemCell" Name="zuoqity/biaoti/btnjichu/item2" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,117},{0,58},{0,189},{0,130}}" />
+                </Window>
+                <Window Type="TaharezLook/ItemCell" Name="zuoqity/biaoti/btnjichu/item3" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,209},{0,58},{0,281},{0,130}}" />
+                </Window>
+                <Window Type="TaharezLook/ItemCell" Name="zuoqity/biaoti/btnjichu/item1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,23},{0,58},{0,95},{0,130}}" />
+                </Window>
+                <Window Type="TaharezLook/ImageButton" Name="zuoqity/textdan11/huoqu1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="SizeType" Value="Auto" />
+                    <Property Name="HoverImage" Value="set:my_zuoqi image:ji" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="NormalImage" Value="set:my_zuoqi image:ji" />
+                    <Property Name="PushedImage" Value="set:my_zuoqi image:ji" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="DisabledImage" Value="set:my_zuoqi image:ji" />
+                    <Property Name="EnableClickAni" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,244},{0,246},{0,296},{0,299}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="zuoqity/biaoti/btnjichu/txt1" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Text" Value="坐骑纹饰" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="88" />
+                    <Property Name="VertExtent" Value="21.9893" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,91},{0,6},{0,211},{0,36}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/common_text2bg" Name="zuoqity/biaoti/btnjiacheng" >
+                <Property Name="Font" Value="simhei-12" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.2,-54.711},{0.2,-53.775},{0.2,233.54},{0.2,474.475}}" />
+                <Window Type="TaharezLook/StaticText" Name="zuoqity/biaoti/btnjiacheng/txt1" >
+                    <Property Name="Font" Value="mhsy-11-normal" />
+                    <Property Name="Text" Value="统御召唤灵的属性加成如下" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="HorzExtent" Value="240" />
+                    <Property Name="VertExtent" Value="20.1719" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="TextColours" Value="tl:FF815636 tr:FF815636 bl:FF815636 br:FF815636" />
+                    <Property Name="BorderColour" Value="FF003454" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,3},{0,3},{0,289},{0,35}}" />
+                </Window>
+                <Window Type="TaharezLook/rolepropertybg" Name="zuoqity/biaoti/btnjiacheng/bg" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,42},{0,291},{0,473}}" />
+                </Window>
+                <Window Type="TaharezLook/RichEditbox" Name="zuoqity/biaoti/btnjiacheng/shuxing" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="ReadOnly" Value="True" />
+                    <Property Name="LineSpace" Value="1" />
+                    <Property Name="BlinkCaret" Value="True" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="MaxTextLength" Value="2147483647" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,11.3},{0,47.3},{0,283.55},{0,412.55}}" />
+                    <Property Name="NormalTextColour" Value="FF815636" />
+                    <Property Name="BlinkCaretTimeout" Value="0.5" />
+                    <Property Name="TextParsingEnabled" Value="False" />
+                </Window>
+                <Window Type="TaharezLook/StaticImage" Name="zuoqity/biaoti/btnjiacheng/wu" >
+                    <Property Name="Font" Value="simhei-12" />
+                    <Property Name="Image" Value="set:my_zuoqi image:tip" />
+                    <Property Name="Scale" Value="x:1 y:1 z:1" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="EnableSound" Value="True" />
+                    <Property Name="LuaForDialog" Value="True" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,28},{0,72},{0,261},{0,373}}" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                </Window>
+            </Window>
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="zuoqity/back1" >
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="HoverImage" Value="set:my_zuoqi image:i" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:my_zuoqi image:i" />
+            <Property Name="PushedImage" Value="set:my_zuoqi image:i" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="DisabledImage" Value="set:my_zuoqi image:i" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="ClippedByParent" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,41},{0,34},{0,98},{0,93}}" />
+            <Property Name="AllowModalStateClick" Value="True" />
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="zuoqity/biaoti/bq1" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Text" Value="快速统御纹饰" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="HoverImage" Value="set:my_zuoqi image:btn2" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:my_zuoqi image:btn1" />
+            <Property Name="PushedImage" Value="set:my_zuoqi image:btn2" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="DisabledImage" Value="set:my_zuoqi image:btn2" />
+            <Property Name="EnableClickAni" Value="False" />
+            <Property Name="HoverTextColour" Value="FF815636" />
+            <Property Name="UnifiedAreaRect" Value="{{0,107},{0,80},{0,376},{0,125}}" />
+            <Property Name="NormalTextColour" Value="FF815636" />
+            <Property Name="PushedTextColour" Value="FF815636" />
+            <Property Name="DisabledTextColour" Value="FF815636" />
+            <Property Name="ButtonDefaultBorderEnable" Value="False" />
+            <Property Name="ButtonDefaultColourEnable" Value="False" />
+        </Window>
+        <Window Type="TaharezLook/ImageButton" Name="zuoqity/diban/getmount" >
+            <Property Name="Font" Value="simhei-12" />
+            <Property Name="Scale" Value="x:1 y:1 z:1" />
+            <Property Name="SizeType" Value="Auto" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="EnableSound" Value="True" />
+            <Property Name="NormalImage" Value="set:aalianyaosd image:zqtb_1" />
+            <Property Name="PushedImage" Value="set:aalianyaosd image:zqtb_1" />
+            <Property Name="LuaForDialog" Value="True" />
+            <Property Name="EnableClickAni" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,157},{0,611},{0,288},{0,665}}" />
+            <Window Type="TaharezLook/StaticText" Name="zuoqi/diban/getmount/wenben" >
+                <Property Name="Font" Value="mhsy-11-normal" />
+                <Property Name="Text" Value="获取坐骑" />
+                <Property Name="Scale" Value="x:1 y:1 z:1" />
+                <Property Name="HorzExtent" Value="81" />
+                <Property Name="VertExtent" Value="20.1719" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="EnableSound" Value="True" />
+                <Property Name="TextColours" Value="tl:FF6E330B tr:FF6E330B bl:FF6E330B br:FF6E330B" />
+                <Property Name="BorderColour" Value="FF003454" />
+                <Property Name="LuaForDialog" Value="True" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedAreaRect" Value="{{0,19.219},{0,11.12},{0,107.469},{0,44.37}}" />
+                <Property Name="MousePassThroughEnabled" Value="True" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>
