@@ -2599,19 +2599,40 @@ void GameApplication::OnRenderUI(int now, bool realRender)
 	{
 		return;
 	}
+	if (sRenderUICount <= 20)
+		MT3_TRACE("GameApplication::OnRenderUI #%d map ready t=%lu", sRenderUICount,
+			static_cast<unsigned long>(GetTickCount()));
 
 	if (gGetScene() && m_bDrawName)
 	{
+		if (sRenderUICount <= 20)
+			MT3_TRACE("GameApplication::OnRenderUI #%d before scene Draw t=%lu", sRenderUICount,
+				static_cast<unsigned long>(GetTickCount()));
 		gGetScene()->Draw(now);
+		if (sRenderUICount <= 20)
+			MT3_TRACE("GameApplication::OnRenderUI #%d after scene Draw t=%lu", sRenderUICount,
+				static_cast<unsigned long>(GetTickCount()));
 	}
 	if (GetBattleManager() && GetBattleManager()->IsInBattle())
 	{
+		if (sRenderUICount <= 20)
+			MT3_TRACE("GameApplication::OnRenderUI #%d before DrawUnderUI t=%lu", sRenderUICount,
+				static_cast<unsigned long>(GetTickCount()));
 		GetBattleManager()->DrawUnderUI(now);
+		if (sRenderUICount <= 20)
+			MT3_TRACE("GameApplication::OnRenderUI #%d after DrawUnderUI t=%lu", sRenderUICount,
+				static_cast<unsigned long>(GetTickCount()));
 	}
 
 	if (gGetGameUIManager() && m_bDrawUI)
 	{
+		if (sRenderUICount <= 20)
+			MT3_TRACE("GameApplication::OnRenderUI #%d before GameUIManager::Draw t=%lu", sRenderUICount,
+				static_cast<unsigned long>(GetTickCount()));
 		gGetGameUIManager()->Draw();
+		if (sRenderUICount <= 20)
+			MT3_TRACE("GameApplication::OnRenderUI #%d after GameUIManager::Draw t=%lu", sRenderUICount,
+				static_cast<unsigned long>(GetTickCount()));
 	}
 	if (GetMainCharacter())
 	{

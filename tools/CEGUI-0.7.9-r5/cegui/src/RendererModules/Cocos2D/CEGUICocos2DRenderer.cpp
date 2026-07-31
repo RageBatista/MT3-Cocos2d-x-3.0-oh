@@ -259,7 +259,7 @@ void Cocos2DRenderer::beginRendering()
     ++sRenderCount;
     const bool traceRender = (sRenderCount <= 3);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin enter", Standard);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin enter", Errors);
     if (sRenderCount <= 5)
     {
         char buf[256];
@@ -272,7 +272,7 @@ void Cocos2DRenderer::beginRendering()
     m_savedDepthTest = (glIsEnabled(GL_DEPTH_TEST) == GL_TRUE);
     m_savedCullFace = (glIsEnabled(GL_CULL_FACE) == GL_TRUE);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer GL state read complete", Standard);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer GL state read complete", Errors);
 
     // CEGUI is 2D UI overlay: disable depth test so UI is never culled by 3D depth buffer
     glDisable(GL_DEPTH_TEST);
@@ -286,12 +286,12 @@ void Cocos2DRenderer::beginRendering()
     m_program = cocos2d::ShaderCache::getInstance()->getProgram(
         cocos2d::GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader lookup complete", Standard);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader lookup complete", Errors);
     if (m_program)
     {
         m_program->use();
         if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader use complete", Standard);
+            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader use complete", Errors);
 
         // CEGUI 2D UI needs orthographic projection; EngineLayer::draw() sets 3D perspective.
         // Save current projection and switch to 2D ortho so UI is visible.
@@ -307,18 +307,18 @@ void Cocos2DRenderer::beginRendering()
             -1.0f, 1.0f);
         kmGLMultMatrix(&ortho);
         if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer projection setup complete", Standard);
+            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer projection setup complete", Errors);
 
         m_program->setUniformsForBuiltins();
         if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer uniforms complete", Standard);
+            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer uniforms complete", Errors);
 
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION);
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR);
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS);
     }
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin exit", Standard);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin exit", Errors);
 }
 
 //----------------------------------------------------------------------------//
@@ -327,7 +327,7 @@ void Cocos2DRenderer::endRendering()
     static int sEndRenderCount = 0;
     const bool traceRender = (++sEndRenderCount <= 3);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end enter", Standard);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end enter", Errors);
     // Restore the projection matrix saved in beginRendering() only when a
     // valid program was set (otherwise beginRendering did not push).
     if (m_program)
@@ -345,7 +345,7 @@ void Cocos2DRenderer::endRendering()
     if (m_savedCullFace)
         glEnable(GL_CULL_FACE);
     if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end exit", Standard);
+        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end exit", Errors);
 }
 
 //----------------------------------------------------------------------------//

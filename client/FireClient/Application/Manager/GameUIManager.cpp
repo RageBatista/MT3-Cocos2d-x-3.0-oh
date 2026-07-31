@@ -2017,38 +2017,56 @@ void GameUImanager::Draw()
 		CEGUI::System* pSys = CEGUI::System::getSingletonPtr();
 		CEGUI::Window* pRoot = pSys ? pSys->getGUISheet() : NULL;
 		int childCount = pRoot ? pRoot->getChildCount() : -1;
-		MT3_TRACE("GameUImanager::Draw #%d begin renderGUI=%p root=%p childCount=%d",
-			sDrawCount, pSys, pRoot, childCount);
+		MT3_TRACE("GameUImanager::Draw #%d begin t=%lu renderGUI=%p root=%p childCount=%d",
+			sDrawCount, static_cast<unsigned long>(GetTickCount()), pSys, pRoot, childCount);
 	}
 
 	Nuclear::Engine* pEngine = static_cast<Nuclear::Engine*>(Nuclear::GetEngine());
 
-	if (getLoginProgress())
+	const bool bLoginProgress = getLoginProgress();
+	if (sDrawCount <= 5)
+		MT3_TRACE("GameUImanager::Draw #%d after engine lookup t=%lu loginProgress=%d",
+			sDrawCount, static_cast<unsigned long>(GetTickCount()), bLoginProgress ? 1 : 0);
+
+	if (bLoginProgress)
 	{
+		if (sDrawCount <= 5)
+			MT3_TRACE("GameUImanager::Draw #%d before LoginImageAndBar.draw", sDrawCount);
 		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LoginImageAndBar.draw");
+		if (sDrawCount <= 5)
+			MT3_TRACE("GameUImanager::Draw #%d after LoginImageAndBar.draw", sDrawCount);
 	}
 
 	if (gGetScene() && gGetSceneMovieManager())
 	{
+		if (sDrawCount <= 5)
+			MT3_TRACE("GameUImanager::Draw #%d scene effect branch begin hold=%p end=%p", sDrawCount, m_pSysMesHoldEffect, m_pSysMesEndEffect);
 		if (m_pSysMesHoldEffect
 			&& gGetScene()->isOnDreamScene() == false
 			&& gGetSceneMovieManager()->isOnSceneMovie() == false)
 		{
 			pEngine->DrawEffect(m_pSysMesHoldEffect);
+			if (sDrawCount <= 5)
+				MT3_TRACE("GameUImanager::Draw #%d scene hold effect complete", sDrawCount);
 		}
 		else if (m_pSysMesEndEffect
 			&& gGetScene()->isOnDreamScene() == false
 			&& gGetSceneMovieManager()->isOnSceneMovie() == false)
 		{
 			pEngine->DrawEffect(m_pSysMesEndEffect);
+			if (sDrawCount <= 5)
+				MT3_TRACE("GameUImanager::Draw #%d scene end effect complete", sDrawCount);
 		}
+		if (sDrawCount <= 5)
+			MT3_TRACE("GameUImanager::Draw #%d scene effect branch complete", sDrawCount);
 	}
 
 	CEGUI::System& guiSystem = CEGUI::System::getSingleton();
 	//guiSystem.signalRedraw();
 	if (sDrawCount <= 5)
 	{
-		MT3_TRACE("GameUImanager::Draw #%d before renderGUI", sDrawCount);
+		MT3_TRACE("GameUImanager::Draw #%d before renderGUI t=%lu", sDrawCount,
+			static_cast<unsigned long>(GetTickCount()));
 	}
 	try
 	{
@@ -2082,7 +2100,8 @@ void GameUImanager::Draw()
 	}
 	if (sDrawCount <= 5)
 	{
-		MT3_TRACE("GameUImanager::Draw #%d after renderGUI", sDrawCount);
+		MT3_TRACE("GameUImanager::Draw #%d after renderGUI t=%lu", sDrawCount,
+			static_cast<unsigned long>(GetTickCount()));
 	}
 
 	drawScreenEffect();
