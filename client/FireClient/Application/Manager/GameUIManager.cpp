@@ -2062,6 +2062,10 @@ void GameUImanager::Draw()
 		{
 			MT3_TRACE("GameUImanager::Draw CEGUI renderGUI exception #%d: %s", sCeguiRenderErrorCount, e.getMessage().c_str());
 		}
+		if (m_pCEGUICocos2DRender)
+		{
+			m_pCEGUICocos2DRender->endRendering();
+		}
 	}
 	catch (const std::exception& e)
 	{
@@ -2070,6 +2074,10 @@ void GameUImanager::Draw()
 		if (sStdRenderErrorCount <= 3)
 		{
 			MT3_TRACE("GameUImanager::Draw std exception in renderGUI #%d: %s", sStdRenderErrorCount, e.what());
+		}
+		if (m_pCEGUICocos2DRender)
+		{
+			m_pCEGUICocos2DRender->endRendering();
 		}
 	}
 	if (sDrawCount <= 5)
