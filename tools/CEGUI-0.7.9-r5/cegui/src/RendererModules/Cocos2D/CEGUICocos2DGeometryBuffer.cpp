@@ -158,12 +158,14 @@ void Cocos2DGeometryBuffer::draw() const
     if (!d_matrixValid)
         updateMatrix();
 
+    const kmGLEnum savedMatrixMode = kmGLGetCurrentMatrixMode();
     kmGLMatrixMode(KM_GL_MODELVIEW);
     kmGLLoadMatrix(&d_matrix);
 
     if (!pRender || !pRender->m_program)
     {
         d_RenderSuccess = false;
+        kmGLMatrixMode(savedMatrixMode);
         return;
     }
 
@@ -298,6 +300,8 @@ void Cocos2DGeometryBuffer::draw() const
     {
         glEnable(GL_SCISSOR_TEST);
     }
+
+    kmGLMatrixMode(savedMatrixMode);
 }
 
 //----------------------------------------------------------------------------//
@@ -445,8 +449,15 @@ void Cocos2DGeometryBuffer::updateMatrix() const
 {
     if (d_matrixValid) return;
 
+    // Use kmGLGetMatrix/kmGLLoadMatrix instead of kmGLPushMatrix/kmGLPopMatrix
+    // to avoid matrix stack imbalance with Cocos2d-x 3.0's Node::visit() and
+    // Director::drawScene() which also use the modelview stack without explicit
+    // matrix mode. Push/pop here previously caused "Cannot pop an empty stack"
+    // assertion in mat4stack.c when the stack was already empty.
+    const kmGLEnum savedMatrixMode = kmGLGetCurrentMatrixMode();
     kmGLMatrixMode(KM_GL_MODELVIEW);
-    kmGLPushMatrix();
+    kmMat4 savedModelViewMatrix;
+    kmGLGetMatrix(KM_GL_MODELVIEW, &savedModelViewMatrix);
 
     Vector3 trans = this->getLocalTranslation();
 
@@ -462,7 +473,9 @@ void Cocos2DGeometryBuffer::updateMatrix() const
     kmGLRotatef(d_rotation.d_x, 1.0f, 0.0f, 0.0f);
     kmGLTranslatef(-d_pivot.d_x, -d_pivot.d_y, -d_pivot.d_z);
     kmGLGetMatrix(KM_GL_MODELVIEW, &d_matrix);
-    kmGLPopMatrix();
+
+    kmGLLoadMatrix(&savedModelViewMatrix);
+    kmGLMatrixMode(savedMatrixMode);
 
     if (d_paterGeomBuffer)
     {

@@ -62,6 +62,9 @@ enum {
  */
 void CC_DLL invalidateStateCache(void);
 
+/** Invalidates the GL state cache while preserving kazmath matrix stacks. */
+void CC_DLL invalidateStateCachePreserveMatrices(void);
+
 /** Uses the GL program in case program is different than the current one.
  If CC_ENABLE_GL_STATE_CACHE is disabled, it will the glUseProgram() directly.
  @since v2.0.0

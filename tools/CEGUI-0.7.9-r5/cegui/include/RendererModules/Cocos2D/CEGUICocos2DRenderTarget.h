@@ -5,6 +5,7 @@
 #include "../../CEGUIRenderTarget.h"
 #include "../../CEGUIRect.h"
 #include "kazmath/kazmath.h"
+#include "math/kazmath/kazmath/GL/matrix.h"
 
 #if defined(_MSC_VER)
 #   pragma warning(push)
@@ -38,6 +39,7 @@ protected:
     mutable kmMat4 d_matrix;
     mutable bool d_matrixValid;
     mutable float d_viewDistance;
+    kmGLEnum d_savedMatrixMode;
 };
 
 } // End of  CEGUI namespace section

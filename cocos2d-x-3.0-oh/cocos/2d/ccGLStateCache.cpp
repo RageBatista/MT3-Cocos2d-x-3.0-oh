@@ -40,9 +40,9 @@ NS_CC_BEGIN
 namespace
 {
     static GLuint      s_currentProjectionMatrix = -1;
-    static bool        s_vertexAttribPosition = false;
-    static bool        s_vertexAttribColor = false;
-    static bool        s_vertexAttribTexCoords = false;
+    static int         s_vertexAttribPosition = -1;
+    static int         s_vertexAttribColor = -1;
+    static int         s_vertexAttribTexCoords = -1;
     
 #if CC_ENABLE_GL_STATE_CACHE
     
@@ -66,11 +66,15 @@ namespace GL {
 void invalidateStateCache( void )
 {
     kmGLFreeAll();
-    
+    invalidateStateCachePreserveMatrices();
+}
+
+void invalidateStateCachePreserveMatrices(void)
+{
     s_currentProjectionMatrix = -1;
-    s_vertexAttribPosition = false;
-    s_vertexAttribColor = false;
-    s_vertexAttribTexCoords = false;
+    s_vertexAttribPosition = -1;
+    s_vertexAttribColor = -1;
+    s_vertexAttribTexCoords = -1;
     
 #if CC_ENABLE_GL_STATE_CACHE
     s_currentShaderProgram = -1;
@@ -83,6 +87,7 @@ void invalidateStateCache( void )
     s_blendingDest = -1;
     s_GLServerState = 0;
     s_VAO = 0;
+    s_activeTexture = -1;
     
 #endif // CC_ENABLE_GL_STATE_CACHE
 }
@@ -224,7 +229,7 @@ void enableVertexAttribs( unsigned int flags )
     bindVAO(0);
     
     /* Position */
-    bool enablePosition = flags & VERTEX_ATTRIB_FLAG_POSITION;
+    int enablePosition = (flags & VERTEX_ATTRIB_FLAG_POSITION) ? 1 : 0;
 
     if( enablePosition != s_vertexAttribPosition ) {
         if( enablePosition )
@@ -236,7 +241,7 @@ void enableVertexAttribs( unsigned int flags )
     }
 
     /* Color */
-    bool enableColor = (flags & VERTEX_ATTRIB_FLAG_COLOR) != 0 ? true : false;
+    int enableColor = (flags & VERTEX_ATTRIB_FLAG_COLOR) != 0 ? 1 : 0;
 
     if( enableColor != s_vertexAttribColor ) {
         if( enableColor )
@@ -248,7 +253,7 @@ void enableVertexAttribs( unsigned int flags )
     }
 
     /* Tex Coords */
-    bool enableTexCoords = (flags & VERTEX_ATTRIB_FLAG_TEX_COORDS) != 0 ? true : false;
+    int enableTexCoords = (flags & VERTEX_ATTRIB_FLAG_TEX_COORDS) != 0 ? 1 : 0;
 
     if( enableTexCoords != s_vertexAttribTexCoords ) {
         if( enableTexCoords )

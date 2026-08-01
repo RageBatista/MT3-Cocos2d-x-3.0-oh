@@ -13,6 +13,10 @@ function CEGUI.toWindowEventArgs(e)
     return tolua.cast(e,"const CEGUI::WindowEventArgs")
 end
 
+function CEGUI.toMessageTips(w)
+    return tolua.cast(w,"CEGUI::MessageTip")
+end
+
 function CEGUI.toActivationEventArgs(e)
     return tolua.cast(e,"const CEGUI::ActivationEventArgs")
 end
@@ -227,6 +231,8 @@ end
 function CEGUI.toVerticalLayoutContainer(w)
     return tolua.cast(w,"CEGUI::VerticalLayoutContainer")
 end
+
+CEGUI.Window.toMessageTips = CEGUI.toMessageTips
 
 CEGUI.Window.toButtonBase = CEGUI.toButtonBase
 CEGUI.Window.toCheckbox = CEGUI.toCheckbox

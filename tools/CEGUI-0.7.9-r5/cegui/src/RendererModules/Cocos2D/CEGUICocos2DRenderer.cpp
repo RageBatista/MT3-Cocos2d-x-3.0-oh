@@ -14,6 +14,8 @@
 #include "CEGUICocos2DViewportTarget.h"
 #include "CEGUICocos2DTextureTarget.h"
 
+#include "math/kazmath/kazmath/GL/matrix.h"
+
 #include "CEGUIImageCodec.h"
 
 #include "2d/CCGLProgram.h"
@@ -86,7 +88,8 @@ Cocos2DRenderer::Cocos2DRenderer() :
     d_pDebugTexture(NULL),
     d_pParent(0),
     m_savedDepthTest(false),
-    m_savedCullFace(false)
+    m_savedCullFace(false),
+    m_savedMatrixMode(KM_GL_MODELVIEW)
 {
     GLint max_tex_size;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
@@ -261,6 +264,10 @@ void Cocos2DRenderer::beginRendering()
     if (traceRender)
         Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin enter", Standard);
 
+    // Save current kazmath matrix mode so endRendering() can always restore it,
+    // even if an exception skips the normal teardown path.
+    m_savedMatrixMode = kmGLGetCurrentMatrixMode();
+
     // Save GL state that may be altered by CEGUI rendering or 3D engine
     m_savedDepthTest = (glIsEnabled(GL_DEPTH_TEST) == GL_TRUE);
     m_savedCullFace = (glIsEnabled(GL_CULL_FACE) == GL_TRUE);
@@ -335,9 +342,14 @@ void Cocos2DRenderer::endRendering()
         kmGLMatrixMode(KM_GL_PROJECTION);
         kmGLLoadMatrix(&m_savedProjectionMatrix);
         m_program = NULL;
-        // Restore matrix mode to MODELVIEW for the engine's subsequent rendering.
-        kmGLMatrixMode(KM_GL_MODELVIEW);
     }
+
+    // Always restore the kazmath matrix mode to what it was before
+    // beginRendering(), even if the program was never set or an exception
+    // occurred during GUI rendering. This prevents Cocos2d-x's
+    // Node::visit()/Director::drawScene() from calling kmGLPopMatrix() on
+    // the wrong stack.
+    kmGLMatrixMode(m_savedMatrixMode);
 
     glDisable(GL_SCISSOR_TEST);
     glDisable(GL_BLEND);
@@ -348,9 +360,10 @@ void Cocos2DRenderer::endRendering()
     if (m_savedCullFace)
         glEnable(GL_CULL_FACE);
 
-    // CEGUI uses raw OpenGL calls, so force Cocos to rebind its cached state
-    // before the engine submits its next frame.
-    cocos2d::GL::invalidateStateCache();
+    // CEGUI uses raw OpenGL calls for textures, buffers, programs and blending.
+    // Reset only the Cocos cache here; invalidateStateCache() also releases the
+    // kazmath stacks, which are still owned by the surrounding Cocos frame.
+    cocos2d::GL::invalidateStateCachePreserveMatrices();
     if (traceRender)
         Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end exit", Standard);
 }

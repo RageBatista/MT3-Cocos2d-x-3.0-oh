@@ -15,7 +15,8 @@ namespace CEGUI
 Cocos2DRenderTarget::Cocos2DRenderTarget(Cocos2DRenderer& owner) :
     d_owner(owner),
     d_area(0, 0, 0, 0),
-    d_matrixValid(false)
+    d_matrixValid(false),
+    d_savedMatrixMode(KM_GL_MODELVIEW)
 {
 }
 
@@ -45,6 +46,8 @@ void Cocos2DRenderTarget::activate()
     if (!d_matrixValid)
         updateMatrix();
 
+    d_savedMatrixMode = kmGLGetCurrentMatrixMode();
+
     // CEGUI 0.7.9-r5: Use Renderer::getDisplaySize() instead of System::GetAdapter()
     const Size& displaySize = d_owner.getDisplaySize();
     glViewport(0, 0,
@@ -57,6 +60,7 @@ void Cocos2DRenderTarget::activate()
 
 void Cocos2DRenderTarget::deactivate()
 {
+    kmGLMatrixMode(d_savedMatrixMode);
 }
 
 void Cocos2DRenderTarget::unprojectPoint(const GeometryBuffer& buffer,
@@ -79,8 +83,15 @@ void Cocos2DRenderTarget::updateMatrix() const
     const float midy = h * 0.5;
     d_viewDistance = midx / (aspect * 0.267949192431123f);
 
+    // Use kmGLGetMatrix/kmGLLoadMatrix instead of kmGLPushMatrix/kmGLPopMatrix
+    // to avoid matrix stack imbalance with Cocos2d-x 3.0's Node::visit() and
+    // Director::drawScene() which use the projection stack without explicit
+    // matrix mode. Push/pop here previously caused "Cannot pop an empty stack"
+    // assertion in mat4stack.c when the stack was already empty.
+    const kmGLEnum savedMatrixMode = kmGLGetCurrentMatrixMode();
     kmGLMatrixMode(KM_GL_PROJECTION);
-    kmGLPushMatrix();
+    kmMat4 savedProjectionMatrix;
+    kmGLGetMatrix(KM_GL_PROJECTION, &savedProjectionMatrix);
 
     kmGLLoadIdentity();
     kmMat4 mProj;
@@ -94,7 +105,9 @@ void Cocos2DRenderTarget::updateMatrix() const
     kmGLMultMatrix(&mProj);
 
     kmGLGetMatrix(KM_GL_PROJECTION, &d_matrix);
-    kmGLPopMatrix();
+
+    kmGLLoadMatrix(&savedProjectionMatrix);
+    kmGLMatrixMode(savedMatrixMode);
 
     d_matrixValid = true;
 }

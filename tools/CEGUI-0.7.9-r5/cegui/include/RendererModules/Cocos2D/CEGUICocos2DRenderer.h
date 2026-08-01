@@ -134,6 +134,7 @@ private:
     bool m_savedDepthTest;
     bool m_savedCullFace;
     kmMat4 m_savedProjectionMatrix;
+    kmGLEnum m_savedMatrixMode;  // saved kazmath matrix mode before beginRendering
 
     typedef std::vector<Cocos2DTexture*> RenderTextureList;
     RenderTextureList d_RenderTextures;
