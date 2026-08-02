@@ -1128,6 +1128,19 @@ public:
     void set(PropertyReceiver* receiver, const String& value);
 };
 
+class LimitWindowSize : public Property
+{
+public:
+    LimitWindowSize() : Property(
+        "LimitWindowSize",
+        "Property to get/set whether minimum and maximum window sizes are enforced.",
+        "True")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 class LuaForDialog : public Property
 {
 public:

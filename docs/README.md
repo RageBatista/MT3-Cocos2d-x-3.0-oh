@@ -1,7 +1,7 @@
 # MT3 文档中心
 
-> **文档版本**：8.3.0
-> **最后更新**：2026-07-26
+> **文档版本**：8.4.0
+> **最后更新**：2026-08-02
 > **统计口径**：当前工作树 `docs/` 下的实物文件
 
 ## 1. 文档角色
@@ -14,14 +14,14 @@
 4. **机器产物**：`generated/`，保存扫描生成的 JSON、CSV 等结构化证据。
 5. **审计证据**：`audit/`，保存 P0 等专项执行过程产生的 CSV 等结构化证据，不作为规范入口。
 
-另外，`docs/` 根目录除导航与局部规则外，还存放 4 份跨版本升级专项文档：CEGUI 综合分析报告，以及 3 份双引擎升级方案草案（Cocos2d-x 2.2.6 → 3.0-oh、CEGUI 0.7.1 → 0.7.9-r5 及二者的综合方案）。
+另外，`docs/` 根目录除导航与局部规则外，还存放跨版本升级专项文档；Win32 canonical 已收敛到 `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5 + engine + FireClient`，Android/iOS 仍按各自平台基线。
 
 ## 2. 当前实物统计
 
-截至 2026-07-26：
+截至 2026-08-02：
 
-- 文件：**154**
-- Markdown：**136**
+- 文件：**157**
+- Markdown：**139**
 - CSV：**14**
 - JSON：**2**
 - TXT：**2**
@@ -29,7 +29,7 @@
 
 | 顶层位置 | 文件 | Markdown | 角色 |
 | --- | ---: | ---: | --- |
-| 根目录 | 6 | 6 | 导航、局部规则与升级方案 |
+| 根目录 | 9 | 9 | 导航、局部规则与升级方案 |
 | `01-快速入门/` | 2 | 2 | 现行基线 |
 | `02-技术架构/` | 8 | 8 | 现行基线 |
 | `03-开发指南/` | 17 | 17 | 现行基线 |
@@ -107,9 +107,9 @@ docs/
 - Windows 工具链：Visual Studio 2013、`v120`、Windows SDK 8.1、MSBuild 12.0。
 - Android 主线：NDK r16 clang、Ant、JDK 8、Python 2.7。
 - Android 资源：源目录为 `client/resource/res/**`，由 `client/resource/tools/LJFilePack_打包安卓.bat` 生成 `client/android/LocojoyProject/assets/res/**`。
-- 客户端运行时：平台层、Cocos2d-x 2.2.6、Nuclear、FireClient 四层。
-- 引擎升级：仓库根已引入 `cocos2d-x-3.0-oh/` 作为双引擎升级目标（方案为草案，见本目录根部 3 份升级方案文档）；当前运行主线仍为 `cocos2d-x-2.2.6/`。
-- CEGUI：当前运行依赖为 MT3 定制的 0.7.1（`dependencies/cegui/`）；0.7.9-r5 迁移方案为草案（目标源 `tools/CEGUI-0.7.9-r5/`），运行时尚未切换。
+- 客户端运行时：平台层、Cocos 基础层、Nuclear、FireClient 四层；Win32 canonical 使用 `cocos2d-x-3.0-oh`，Android/iOS 使用 `cocos2d-x-2.2.6`。
+- 引擎升级：Win32 canonical 已切换到 `cocos2d-x-3.0-oh/`，并与 `engine`、`FireClient`、CEGUI 0.7.9-r5 组成同一 v120 构建链；Android/iOS 仍保留 `cocos2d-x-2.2.6/`。
+- CEGUI：Win32 canonical 当前运行依赖为 `tools/CEGUI-0.7.9-r5/`，通过 `cegui-0.7.9.win32.vcxproj` 生成静态库并链接到 `engine/FireClient/MT3`；`dependencies/cegui/` 保留给 Legacy226/历史链路。
 
 事实冲突时依次核对工程实物与输出、根和就近 `AGENTS.md`、`.claude/RULES.md`、`.claude/BUILD_GUIDE.md`，再回写文档。
 

@@ -661,6 +661,20 @@ void SoundResource::set(PropertyReceiver* receiver, const String& value)
 }
 
 //----------------------------------------------------------------------------//
+String LimitWindowSize::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const Window*>(receiver)->getLimitSize());
+}
+
+//----------------------------------------------------------------------------//
+void LimitWindowSize::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->setLimitSize(
+        PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
 String LuaForDialog::get(const PropertyReceiver*) const
 {
     return PropertyHelper::boolToString(true);

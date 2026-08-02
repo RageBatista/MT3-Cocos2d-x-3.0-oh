@@ -2409,6 +2409,8 @@ void GameApplication::OnRenderInit(int now, int step, int totalstep)
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 			MT3_TRACE("GameApplication::OnRenderInit skip start CG on Android because VideoPlayer bridge is not linked");
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+			MT3_TRACE("GameApplication::OnRenderInit skip start CG on Win32 because VideoPlayerEngine is a stub");
 #else
 			if (!spVideoPlayer)
 			{
@@ -2463,7 +2465,18 @@ void GameApplication::OnRenderInit(int now, int step, int totalstep)
 
 	if (!spVideoPlayer && m_WaitPictureHandle != Nuclear::INVALID_PICTURE_HANDLE)
 	{
+		if (sRenderInitCount <= 20 || sRenderInitCount == 60 || sRenderInitCount == 180 || sRenderInitCount == 600)
+		{
+			MT3_TRACE("D5 DrawPicture frame#%d mode=%.0fx%.0f wait=%d", sRenderInitCount, screenwith, screenheight, (int)m_WaitPictureHandle);
+		}
 		Nuclear::GetEngine()->GetRenderer()->DrawPicture(m_WaitPictureHandle, rect, 0xFFFFFFFF);
+	}
+	else
+	{
+		if (sRenderInitCount <= 20 || sRenderInitCount == 60 || sRenderInitCount == 180 || sRenderInitCount == 600)
+		{
+			MT3_TRACE("D5 skip DrawPicture frame#%d sp=%p wait=%d", sRenderInitCount, spVideoPlayer, (int)m_WaitPictureHandle);
+		}
 	}
 
 	int timeCount = Nuclear::GetEngine()->GetTimeCount() - timeBegin;

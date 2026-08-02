@@ -417,6 +417,10 @@ public:
     void initialiseComponents(void);
     void destroy(void);
 
+    // MT3 compatibility: use full-page steps with the 0.7.9 scrollbars.
+    void EnablePageScrollMode(bool enable);
+    bool getPageScrollMode() const;
+
 protected:
     /*!
     \brief

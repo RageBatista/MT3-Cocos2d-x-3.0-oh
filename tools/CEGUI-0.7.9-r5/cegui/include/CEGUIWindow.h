@@ -2473,6 +2473,9 @@ public:
     void SetSoundResource(const String& soundRes) { d_SoundResource = soundRes; }
     const String& GetSoundResource() const { return d_SoundResource; }
 
+    bool getLimitSize() const { return d_limitSize; }
+    void setLimitSize(bool limitSize) { d_limitSize = limitSize; }
+
     // MT3: Close sound resource getter/setter
     void SetCloseSoundResource(const String& soundRes) { d_CloseSoundResource = soundRes; }
     const String& GetCloseSoundResource() const { return d_CloseSoundResource; }
@@ -4431,6 +4434,7 @@ protected:
     static  WindowProperties::Scale d_scaleProperty;
     static  WindowProperties::EnableSound d_soundEnableProperty;
     static  WindowProperties::SoundResource d_soundResourceProperty;
+    static  WindowProperties::LimitWindowSize d_limitWindowSizeProperty;
     static  WindowProperties::LuaForDialog d_luaForDialogProperty;
     static  WindowProperties::LuaMemberName d_luaMemberNameProperty;
     static  WindowProperties::LuaEventOnClicked d_luaEventOnClickedProperty;
@@ -4573,6 +4577,8 @@ protected:
     float d_repeatDelay;
     //! secons between further repeats after delay has expired.
     float d_repeatRate;
+    //! whether minimum and maximum window sizes are enforced.
+    bool d_limitSize;
     //! button we're tracking for auto-repeat purposes.
     MouseButton d_repeatButton;
     //! implements repeating - is true after delay has elapsed,

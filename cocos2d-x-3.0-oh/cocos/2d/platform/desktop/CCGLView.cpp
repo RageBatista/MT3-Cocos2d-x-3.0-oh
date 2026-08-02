@@ -623,6 +623,12 @@ void GLView::onGLFWMouseScrollCallback(GLFWwindow* window, double x, double y)
 
 void GLView::onGLFWKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
+    if (key == GLFW_KEY_BACKSPACE &&
+        (action == GLFW_PRESS || action == GLFW_REPEAT))
+    {
+        IMEDispatcher::sharedDispatcher()->dispatchDeleteBackward();
+    }
+
     if (GLFW_REPEAT != action)
     {
         EventKeyboard event(g_keyCodeMap[key], GLFW_PRESS == action);
@@ -633,7 +639,40 @@ void GLView::onGLFWKeyCallback(GLFWwindow *window, int key, int scancode, int ac
 
 void GLView::onGLFWCharCallback(GLFWwindow *window, unsigned int character)
 {
-    IMEDispatcher::sharedDispatcher()->dispatchInsertText((const char*) &character, 1);
+    char utf8[4];
+    size_t length = 0;
+
+    if (character <= 0x7F)
+    {
+        utf8[length++] = static_cast<char>(character);
+    }
+    else if (character <= 0x7FF)
+    {
+        utf8[length++] = static_cast<char>(0xC0 | (character >> 6));
+        utf8[length++] = static_cast<char>(0x80 | (character & 0x3F));
+    }
+    else if (character >= 0xD800 && character <= 0xDFFF)
+    {
+        return;
+    }
+    else if (character <= 0xFFFF)
+    {
+        utf8[length++] = static_cast<char>(0xE0 | (character >> 12));
+        utf8[length++] = static_cast<char>(0x80 | ((character >> 6) & 0x3F));
+        utf8[length++] = static_cast<char>(0x80 | (character & 0x3F));
+    }
+    else if (character <= 0x10FFFF)
+    {
+        utf8[length++] = static_cast<char>(0xF0 | (character >> 18));
+        utf8[length++] = static_cast<char>(0x80 | ((character >> 12) & 0x3F));
+        utf8[length++] = static_cast<char>(0x80 | ((character >> 6) & 0x3F));
+        utf8[length++] = static_cast<char>(0x80 | (character & 0x3F));
+    }
+
+    if (length > 0)
+    {
+        IMEDispatcher::sharedDispatcher()->dispatchInsertText(utf8, length);
+    }
 }
 
 void GLView::onGLFWWindowPosCallback(GLFWwindow *windows, int x, int y)

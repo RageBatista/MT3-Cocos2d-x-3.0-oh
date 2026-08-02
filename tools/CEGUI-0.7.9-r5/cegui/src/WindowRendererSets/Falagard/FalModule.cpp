@@ -54,6 +54,7 @@
 #include "FalTabControl.h"
 #include "FalTitlebar.h"
 #include "FalToggleButton.h"
+#include "FalToggleButtonExtStateImagery.h"
 #include "FalTooltip.h"
 #include "FalItemListbox.h"
 #include "FalTree.h"
@@ -62,6 +63,14 @@
 #include "FalIrregularButton.h"
 #include "FalGroupBtnTree.h"
 #include "FalRichEditbox.h"
+#include "FalAnimateText.h"
+#include "FalIrregularFigure.h"
+#include "FalItemCell.h"
+#include "FalItemCellGeneral.h"
+#include "FalItemTable.h"
+#include "FalProgressBarTwoValue.h"
+#include "FalSkillBox.h"
+#include "FalSwitch.h"
 
 //----------------------------------------------------------------------------//
 extern "C"
@@ -101,6 +110,7 @@ FalagardWRModule::FalagardWRModule()
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardTabControl>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardTitlebar>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardToggleButton>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardToggleButtonExtStateImagery>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardTooltip>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardItemListbox>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardTree>);
@@ -109,6 +119,14 @@ FalagardWRModule::FalagardWRModule()
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardIrregularButton>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardGroupBtnTree>);
     d_registry.push_back(new TplWRFactoryRegisterer<FalagardRichEditbox>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardAnimateText>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardIrregularFigure>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardItemCell>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardItemCellGeneral>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardItemTable>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardProgressBarTwoValue>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardSkillBox>);
+    d_registry.push_back(new TplWRFactoryRegisterer<FalagardSwitch>);
 }
 
 //----------------------------------------------------------------------------//

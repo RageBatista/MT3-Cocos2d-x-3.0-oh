@@ -1,14 +1,15 @@
 # CEGUI 与 Cocos2d-x 集成
 
-> **当前组合**：MT3 定制 CEGUI 0.7.1 + Cocos2d-x 2.2.6 + Nuclear + FireClient。
-> **事实源**：`dependencies/cegui/CEGUI/src/RendererModules/Cocos2D/`、`GameUIManager.cpp`、`ResolutionAdapter.cpp`。
+> **当前组合（Win32）**：CEGUI 0.7.9-r5 + Cocos2d-x 3.0-oh + Nuclear + FireClient。
+> **兼容组合（Android/iOS）**：CEGUI 0.7.1 + Cocos2d-x 2.2.6。
+> **事实源**：`tools/CEGUI-0.7.9-r5/cegui/src/RendererModules/Cocos2D/`、`GameUIManager.cpp`、`ResolutionAdapter.cpp`。
 > **文档索引**：[docs/07-参考文档/02-文档索引.md](../07-参考文档/02-文档索引.md)
 
 ## 1. 分层边界
 
 ```text
 平台壳层
-  -> Cocos2d-x 2.2.6 (GL、纹理、输入、平台)
+  -> Win32 Cocos2d-x 3.0-oh（Android/iOS 为 2.2.6）(GL、纹理、输入、平台)
   -> Nuclear (场景、精灵、动画、特效)
   -> CEGUI 0.7.1 Cocos2DRenderer (UI 几何与纹理桥接)
   -> FireClient GameUIManager / Lua Dialog

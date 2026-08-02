@@ -27,6 +27,7 @@
 #include "math/kazmath/kazmath/GL/matrix.h"
 
 #include <algorithm>
+#include <stdio.h>
 
 // Start of CEGUI namespace section
 namespace CEGUI
@@ -80,7 +81,7 @@ void Cocos2DRenderer::destroy(Cocos2DRenderer& renderer)
 //----------------------------------------------------------------------------//
 Cocos2DRenderer::Cocos2DRenderer() :
     d_displaySize(getViewportSize()),
-    d_displayDPI(384, 384),
+    d_displayDPI(96, 96),
     d_defaultRoot(0),
     d_defaultTarget(0),
     d_SeparateAlphaBlendCap(false),
@@ -200,11 +201,11 @@ Texture& Cocos2DRenderer::createTexture()
 //----------------------------------------------------------------------------//
 Texture& Cocos2DRenderer::createTexture(const String& filename, const String& resourceGroup)
 {
-    Cocos2DTexture* tex = new Cocos2DTexture(*this);
+    Cocos2DTexture* tex = new Cocos2DTexture(*this, filename, resourceGroup);
     d_textures.push_back(tex);
-
-    // Synchronous texture loading
-    tex->loadFromFile(filename, resourceGroup);
+    tex->m_bIsLoading = true;
+    d_pendingTextureLoads.push_back(
+        PendingTextureLoad(tex, filename, resourceGroup));
 
     return *tex;
 }
@@ -234,6 +235,16 @@ void Cocos2DRenderer::destroyTexture(Texture& texture)
 
     if (d_textures.end() != i)
     {
+        for (PendingTextureLoadList::iterator pending = d_pendingTextureLoads.begin();
+             pending != d_pendingTextureLoads.end();)
+        {
+            if (pending->texture == &texture)
+                pending = d_pendingTextureLoads.erase(pending);
+            else
+                ++pending;
+        }
+
+        static_cast<Cocos2DTexture&>(texture).m_bIsLoading = false;
         d_textures.erase(i);
 
         // Remove from render textures list if present
@@ -361,9 +372,10 @@ void Cocos2DRenderer::endRendering()
         glEnable(GL_CULL_FACE);
 
     // CEGUI uses raw OpenGL calls for textures, buffers, programs and blending.
-    // Reset only the Cocos cache here; invalidateStateCache() also releases the
-    // kazmath stacks, which are still owned by the surrounding Cocos frame.
-    cocos2d::GL::invalidateStateCachePreserveMatrices();
+    // Do NOT call cocos2d::GL::invalidateStateCache() here: it invokes
+    // kmGLFreeAll() which releases the kazmath matrix stacks still owned by
+    // the surrounding Cocos frame (caused "Cannot pop an empty stack" asserts).
+    // The Cocos GL state cache will be refreshed on the next Cocos draw.
     if (traceRender)
         Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end exit", Standard);
 }
@@ -371,6 +383,13 @@ void Cocos2DRenderer::endRendering()
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::setDisplaySize(const Size& sz)
 {
+    {
+        char buf[160];
+        sprintf_s(buf, sizeof(buf),
+            "[MT3_RENDER_TRACE] setDisplaySize incoming=%.0fx%.0f old=%.0fx%.0f",
+            sz.d_width, sz.d_height, d_displaySize.d_width, d_displaySize.d_height);
+        Logger::getSingleton().logEvent(buf, Standard);
+    }
     if (sz != d_displaySize)
     {
         d_displaySize = sz;
@@ -576,12 +595,55 @@ void Cocos2DRenderer::SetPointMode(bool b)
 }
 
 //----------------------------------------------------------------------------//
+void Cocos2DRenderer::ProcessPendingTextures(unsigned int maxLoadsPerFrame)
+{
+    unsigned int processedCount = 0;
+
+    while (!d_pendingTextureLoads.empty() && processedCount < maxLoadsPerFrame)
+    {
+        const PendingTextureLoad request = d_pendingTextureLoads.front();
+        d_pendingTextureLoads.erase(d_pendingTextureLoads.begin());
+
+        Cocos2DTexture* texture = request.texture;
+        if (!isTextureValid(texture) || texture->m_bDestroyPending)
+            continue;
+
+        try
+        {
+            texture->loadFromFile(request.filename, request.resourceGroup);
+            texture->m_bLoadFailed = !texture->hasTexture();
+        }
+        catch (const Exception& e)
+        {
+            Logger::getSingleton().logEvent(
+                "Cocos2DRenderer::ProcessPendingTextures - Failed to load image '" +
+                request.filename + "': " + e.getMessage(), Errors);
+            texture->m_bLoadFailed = true;
+        }
+        catch (...)
+        {
+            Logger::getSingleton().logEvent(
+                "Cocos2DRenderer::ProcessPendingTextures - Unknown failure loading image '" +
+                request.filename + "'.", Errors);
+            texture->m_bLoadFailed = true;
+        }
+
+        texture->m_bIsLoading = false;
+        ++processedCount;
+    }
+
+    if (processedCount && System::getSingletonPtr())
+    {
+        System::getSingleton().invalidateAllCachedRendering();
+        System::getSingleton().signalRedraw();
+    }
+}
+
+//----------------------------------------------------------------------------//
 void Cocos2DRenderer::OnFrameEnd()
 {
-    // Simplified OnFrameEnd for 3.0-oh.
-    // In the original MT3 implementation, this handled async texture
-    // loading completion, pending texture deletion, and loading state
-    // management.  These are not needed in the synchronous 3.0-oh path.
+    // Pending uploads are processed by GameUImanager immediately before the
+    // next CEGUI render pass, outside geometry construction.
 }
 
 //----------------------------------------------------------------------------//

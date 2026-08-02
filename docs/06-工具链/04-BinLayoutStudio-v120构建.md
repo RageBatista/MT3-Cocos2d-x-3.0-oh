@@ -9,8 +9,8 @@
 - 编译器：Visual Studio 2013 / MSVC v120。
 - 平台：`Win32`。
 - Debug 运行库：`/MDd`，Release 运行库：`/MD`。
-- 引擎依赖：使用 `cocos2d-x-2.2.6`，禁止回退到 `cocos2d-2.0-rc2-x-2.0.1`。
-- Spine 依赖：`cocos2d-x-2.2.6` 的 spine 代码已进入 `libExtensions.lib`，禁止恢复旧 `libSpine.lib`。
+- 工具依赖：BinLayoutStudio 保持其已验证的 2.2.6/CEGUI 兼容资产；该工具不属于 Win32 游戏 `Upgrade30` 主链。
+- Spine 依赖：按工具工程当前 `libExtensions.lib` 输入校验；不得把旧 `libSpine.lib` 混入。
 - wxWidgets：使用 `dependencies/wxWidgets-3.0.5/lib/vc_lib` 下的静态库；需要完整第三方调试符号时重建 wxWidgets PDB。
 
 ## 2. 一键构建入口

@@ -179,17 +179,19 @@ float CoordConverter::getBaseXValue(const Window& window)
     const float parent_width = parent_rect.getWidth();
     float baseX = parent_rect.d_left;
 
-    baseX += window.getArea().d_min.d_x.asAbsolute(parent_width);
-
     switch(window.getHorizontalAlignment())
     {
         case HA_CENTRE:
+            // MT3 layouts encode the centred window's design-time left edge in
+            // UnifiedAreaRect.  The legacy runtime did not add it a second time.
             baseX += (parent_width - window.getPixelSize().d_width) * 0.5f;
             break;
         case HA_RIGHT:
+            baseX += window.getArea().d_min.d_x.asAbsolute(parent_width);
             baseX += parent_width - window.getPixelSize().d_width;
             break;
         default:
+            baseX += window.getArea().d_min.d_x.asAbsolute(parent_width);
             break;
     }
 

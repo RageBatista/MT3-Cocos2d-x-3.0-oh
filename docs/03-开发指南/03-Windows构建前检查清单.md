@@ -30,14 +30,16 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1
 
 - [ ] 外部入口是 `tools/scripts/Build-MT3-Exe-Canonical.ps1`；
 - [ ] `client/Build-MT3-v120.ps1` 只作为内部链路；
-- [ ] 当前 Cocos 路径是 `cocos2d-x-2.2.6/`；
+- [ ] `Upgrade30` 当前 Cocos 路径是 `cocos2d-x-3.0-oh/`；
+- [ ] `Upgrade30` 当前 CEGUI 路径是 `tools/CEGUI-0.7.9-r5/`；
 - [ ] 未把 `cocos2d-2.0-rc2-x-2.0.1/` 作为当前构建输入。
 
 ```powershell
 @(
     '.\tools\scripts\Build-MT3-Exe-Canonical.ps1',
     '.\client\Build-MT3-v120.ps1',
-    '.\cocos2d-x-2.2.6',
+    '.\cocos2d-x-3.0-oh',
+    '.\tools\CEGUI-0.7.9-r5',
     '.\client\MT3Win32App\FireClient.win32.vcxproj',
     '.\client\MT3Win32App\mt3.win32.vcxproj'
 ) | ForEach-Object { Get-Item -LiteralPath $_ }

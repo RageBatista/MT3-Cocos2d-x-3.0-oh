@@ -14,7 +14,15 @@ function CEGUI.toWindowEventArgs(e)
 end
 
 function CEGUI.toMessageTips(w)
-    return tolua.cast(w,"CEGUI::MessageTip")
+    -- MT3: MessageTip was renamed to CompnentTip in 0.7.9-r5; cast to the
+    -- actually-registered tolua usertype. CEGUIMessageTip.h provides a
+    -- C++ typedef but tolua only knows "CEGUI::CompnentTip".
+    return tolua.cast(w,"CEGUI::CompnentTip")
+end
+
+function CEGUI.toCompnentTip(w)
+    -- MT3: alias matching the canonical C++ class name.
+    return tolua.cast(w,"CEGUI::CompnentTip")
 end
 
 function CEGUI.toActivationEventArgs(e)
@@ -45,6 +53,13 @@ function CEGUI.toRenderQueueEventArgs(e)
     return tolua.cast(e,"const CEGUI::RenderQueueEventArgs")
 end
 
+function CEGUI.toUpdateEventArgs(e)
+    -- MT3: required by many Lua UI scripts (tipsmanager, createroledialog,
+    -- lottery, jingying, logoinfo, cbgrole). Was in 0.7.1 HelperFunctions.pkg,
+    -- missing from canonical 0.7.9-r5 -> nil -> C++ exception on update events.
+    return tolua.cast(e,"const CEGUI::UpdateEventArgs")
+end
+
 CEGUI.EventArgs.toMouseCursorEventArgs      = CEGUI.toMouseCursorEventArgs
 CEGUI.EventArgs.toWindowEventArgs           = CEGUI.toWindowEventArgs
 CEGUI.EventArgs.toActivationEventArgs       = CEGUI.toActivationEventArgs
@@ -54,6 +69,7 @@ CEGUI.EventArgs.toKeyEventArgs              = CEGUI.toKeyEventArgs
 CEGUI.EventArgs.toDragDropEventArgs         = CEGUI.toDragDropEventArgs
 CEGUI.EventArgs.toTreeEventArgs             = CEGUI.toTreeEventArgs
 CEGUI.EventArgs.toRenderQueueEventArgs      = CEGUI.toRenderQueueEventArgs
+CEGUI.EventArgs.toUpdateEventArgs           = CEGUI.toUpdateEventArgs
 
 $]
 
@@ -116,6 +132,14 @@ function CEGUI.toItemEntry(w)
     return tolua.cast(w,"CEGUI::ItemEntry")
 end
 
+function CEGUI.toItemCell(w)
+    return tolua.cast(w,"CEGUI::ItemCell")
+end
+
+function CEGUI.toItemTable(w)
+    return tolua.cast(w,"CEGUI::ItemTable")
+end
+
 function CEGUI.toItemListBase(w)
     return tolua.cast(w,"CEGUI::ItemListBase")
 end
@@ -170,6 +194,10 @@ end
 
 function CEGUI.toPushButton(w)
     return tolua.cast(w,"CEGUI::PushButton")
+end
+
+function CEGUI.toGroupButton(w)
+    return tolua.cast(w,"CEGUI::GroupButton")
 end
 
 function CEGUI.toRadioButton(w)
@@ -228,11 +256,36 @@ function CEGUI.toTree(w)
     return tolua.cast(w,"CEGUI::Tree")
 end
 
+function CEGUI.toSkillBox(w)
+    return tolua.cast(w,"CEGUI::SkillBox")
+end
+
+function CEGUI.toGroupBtnTree(w)
+    return tolua.cast(w,"CEGUI::GroupBtnTree")
+end
+
+function CEGUI.toGroupBtnItem(w)
+    return tolua.cast(w,"CEGUI::GroupBtnItem")
+end
+
+function CEGUI.toProgressBarTwoValue(w)
+    return tolua.cast(w,"CEGUI::ProgressBarTwoValue")
+end
+
+function CEGUI.toAnimateText(w)
+    return tolua.cast(w,"CEGUI::AnimateText")
+end
+
+function CEGUI.toSwitch(w)
+    return tolua.cast(w,"CEGUI::Switch")
+end
+
 function CEGUI.toVerticalLayoutContainer(w)
     return tolua.cast(w,"CEGUI::VerticalLayoutContainer")
 end
 
 CEGUI.Window.toMessageTips = CEGUI.toMessageTips
+CEGUI.Window.toCompnentTip = CEGUI.toCompnentTip
 
 CEGUI.Window.toButtonBase = CEGUI.toButtonBase
 CEGUI.Window.toCheckbox = CEGUI.toCheckbox
@@ -246,6 +299,8 @@ CEGUI.Window.toGridLayoutContainer = CEGUI.toGridLayoutContainer
 CEGUI.Window.toGUISheet = CEGUI.toGUISheet
 CEGUI.Window.toHorizontalLayoutContainer = CEGUI.toHorizontalLayoutContainer
 CEGUI.Window.toItemEntry = CEGUI.toItemEntry
+CEGUI.Window.toItemCell = CEGUI.toItemCell
+CEGUI.Window.toItemTable = CEGUI.toItemTable
 CEGUI.Window.toItemListBase = CEGUI.toItemListBase
 CEGUI.Window.toItemListbox = CEGUI.toItemListbox
 CEGUI.Window.toLayoutContainer = CEGUI.toLayoutContainer
@@ -260,6 +315,7 @@ CEGUI.Window.toMultiLineEditbox = CEGUI.toMultiLineEditbox
 CEGUI.Window.toPopupMenu = CEGUI.toPopupMenu
 CEGUI.Window.toProgressBar = CEGUI.toProgressBar
 CEGUI.Window.toPushButton = CEGUI.toPushButton
+CEGUI.Window.toGroupButton = CEGUI.toGroupButton
 CEGUI.Window.toRadioButton = CEGUI.toRadioButton
 CEGUI.Window.toScrollablePane = CEGUI.toScrollablePane
 CEGUI.Window.toScrollbar = CEGUI.toScrollbar
@@ -275,6 +331,12 @@ CEGUI.Window.toThumb = CEGUI.toThumb
 CEGUI.Window.toTooltip = CEGUI.toTooltip
 CEGUI.Window.toTree = CEGUI.toTree
 CEGUI.Window.toVerticalLayoutContainer = CEGUI.toVerticalLayoutContainer
+CEGUI.Window.toSkillBox = CEGUI.toSkillBox
+CEGUI.Window.toGroupBtnTree = CEGUI.toGroupBtnTree
+CEGUI.Window.toGroupBtnItem = CEGUI.toGroupBtnItem
+CEGUI.Window.toProgressBarTwoValue = CEGUI.toProgressBarTwoValue
+CEGUI.Window.toAnimateText = CEGUI.toAnimateText
+CEGUI.Window.toSwitch = CEGUI.toSwitch
 
 $]
 

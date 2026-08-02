@@ -1,12 +1,12 @@
 # CEGUI 技术说明
 
-> **当前实现**：`dependencies/cegui/` 中的 MT3 定制 CEGUI 0.7.1。
-> **研究样本**：`tools/CEGUI-0.7.9-r5/` 只用于可行性与差异研究。
+> **当前实现（Win32）**：`tools/CEGUI-0.7.9-r5/` 中的 CEGUI 0.7.9-r5 Cocos2D Renderer。
+> **兼容实现（Android/iOS）**：`dependencies/cegui/` 中的 MT3 定制 CEGUI 0.7.1。
 > **文档索引**：[docs/07-参考文档/02-文档索引.md](../07-参考文档/02-文档索引.md)
 
 ## 1. 版本与角色
 
-[`CEGUIVersion.h`](../../dependencies/cegui/CEGUI/include/CEGUIVersion.h) 定义 `0.7.1`。客户端 Win32、Android、iOS 使用这份定制实现，并通过 Cocos2D Renderer 与 Cocos2d-x 2.2.6/Nuclear 结合。
+Win32 版本由 [`tools/CEGUI-0.7.9-r5/cegui/include/CEGUIVersion.h`](../../tools/CEGUI-0.7.9-r5/cegui/include/CEGUIVersion.h) 定义为 `0.7.9`，通过 Cocos2D Renderer 与 `cocos2d-x-3.0-oh`/Nuclear 结合；Android/iOS 仍读取 `dependencies/cegui/` 的 0.7.1 兼容实现。
 
 | 目录 | 角色 |
 | --- | --- |

@@ -1,4 +1,4 @@
-// mt3.cpp : ¶¨ÒåÓ¦ÓÃ³ÌÐòµÄÈë¿Úµã¡£
+// mt3.cpp : ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµã¡£
 //
 
 #include "stdafx.h"
@@ -10,12 +10,12 @@
 
 #define MAX_LOADSTRING 100
 
-// È«¾Ö±äÁ¿: 
-HINSTANCE hInst;								// µ±Ç°ÊµÀý
-TCHAR szTitle[MAX_LOADSTRING];					// ±êÌâÀ¸ÎÄ±¾
-TCHAR szWindowClass[MAX_LOADSTRING];			// Ö÷´°¿ÚÀàÃû
+// È«ï¿½Ö±ï¿½ï¿½ï¿½: 
+HINSTANCE hInst;								// ï¿½ï¿½Ç°Êµï¿½ï¿½
+TCHAR szTitle[MAX_LOADSTRING];					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½
+TCHAR szWindowClass[MAX_LOADSTRING];			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-// ´Ë´úÂëÄ£¿éÖÐ°üº¬µÄº¯ÊýµÄÇ°ÏòÉùÃ÷: 
+// ï¿½Ë´ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ð°ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -29,16 +29,16 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
- 	// TODO:  ÔÚ´Ë·ÅÖÃ´úÂë¡£
+ 	// TODO:  ï¿½Ú´Ë·ï¿½ï¿½Ã´ï¿½ï¿½ë¡£
 	MSG msg;
 	HACCEL hAccelTable;
 
-	// ³õÊ¼»¯È«¾Ö×Ö·û´®
+	// ï¿½ï¿½Ê¼ï¿½ï¿½È«ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadString(hInstance, IDC_MT3, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
 
-	// Ö´ÐÐÓ¦ÓÃ³ÌÐò³õÊ¼»¯: 
+	// Ö´ï¿½ï¿½Ó¦ï¿½Ã³ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½: 
 	if (!InitInstance (hInstance, nCmdShow))
 	{
 		return FALSE;
@@ -46,7 +46,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MT3));
 
-	// Ö÷ÏûÏ¢Ñ­»·: 
+	// ï¿½ï¿½ï¿½ï¿½Ï¢Ñ­ï¿½ï¿½: 
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
@@ -62,9 +62,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 
 //
-//  º¯Êý:  MyRegisterClass()
+//  ï¿½ï¿½ï¿½ï¿½:  MyRegisterClass()
 //
-//  Ä¿µÄ:  ×¢²á´°¿ÚÀà¡£
+//  Ä¿ï¿½ï¿½:  ×¢ï¿½á´°ï¿½ï¿½ï¿½à¡£
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
@@ -88,20 +88,20 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 }
 
 //
-//   º¯Êý:  InitInstance(HINSTANCE, int)
+//   ï¿½ï¿½ï¿½ï¿½:  InitInstance(HINSTANCE, int)
 //
-//   Ä¿µÄ:  ±£´æÊµÀý¾ä±ú²¢´´½¨Ö÷´°¿Ú
+//   Ä¿ï¿½ï¿½:  ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
-//   ×¢ÊÍ: 
+//   ×¢ï¿½ï¿½: 
 //
-//        ÔÚ´Ëº¯ÊýÖÐ£¬ÎÒÃÇÔÚÈ«¾Ö±äÁ¿ÖÐ±£´æÊµÀý¾ä±ú²¢
-//        ´´½¨ºÍÏÔÊ¾Ö÷³ÌÐò´°¿Ú¡£
+//        ï¿½Ú´Ëºï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//        ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ò´°¿Ú¡ï¿½
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    HWND hWnd;
 
-   hInst = hInstance; // ½«ÊµÀý¾ä±ú´æ´¢ÔÚÈ«¾Ö±äÁ¿ÖÐ
+   hInst = hInstance; // ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½È«ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½
 
    hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
@@ -111,6 +111,24 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
+   // [debug-point D1] window/DPI evidence for win32-dpi-cegui-coord session
+   {
+       RECT wr = {0,0,0,0}, cr = {0,0,0,0};
+       GetWindowRect(hWnd, &wr);
+       GetClientRect(hWnd, &cr);
+       BOOL dpiAware = IsProcessDPIAware();
+       HDC hdc = GetDC(hWnd);
+       int dpiX = hdc ? GetDeviceCaps(hdc, LOGPIXELSX) : 0;
+       if (hdc) ReleaseDC(hWnd, hdc);
+       char buf[256];
+       wsprintfA(buf,
+           "[MT3_TRACE] D1 window: winRect=%ld,%ld,%ld,%ld clientRect=%ld,%ld,%ld,%ld dpiAware=%d dpiX=%d",
+           (long)wr.left, (long)wr.top, (long)wr.right, (long)wr.bottom,
+           (long)cr.left, (long)cr.top, (long)cr.right, (long)cr.bottom,
+           (int)dpiAware, dpiX);
+       OutputDebugStringA(buf);
+   }
+
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -118,13 +136,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 }
 
 //
-//  º¯Êý:  WndProc(HWND, UINT, WPARAM, LPARAM)
+//  ï¿½ï¿½ï¿½ï¿½:  WndProc(HWND, UINT, WPARAM, LPARAM)
 //
-//  Ä¿µÄ:    ´¦ÀíÖ÷´°¿ÚµÄÏûÏ¢¡£
+//  Ä¿ï¿½ï¿½:    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
 //
-//  WM_COMMAND	- ´¦ÀíÓ¦ÓÃ³ÌÐò²Ëµ¥
-//  WM_PAINT	- »æÖÆÖ÷´°¿Ú
-//  WM_DESTROY	- ·¢ËÍÍË³öÏûÏ¢²¢·µ»Ø
+//  WM_COMMAND	- ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã³ï¿½ï¿½ï¿½Ëµï¿½
+//  WM_PAINT	- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//  WM_DESTROY	- ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -138,7 +156,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
-		// ·ÖÎö²Ëµ¥Ñ¡Ôñ: 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ñ¡ï¿½ï¿½: 
 		switch (wmId)
 		{
 		case IDM_ABOUT:
@@ -153,7 +171,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		// TODO:  ÔÚ´ËÌí¼ÓÈÎÒâ»æÍ¼´úÂë...
+		// TODO:  ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½...
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
@@ -165,7 +183,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// ¡°¹ØÓÚ¡±¿òµÄÏûÏ¢´¦Àí³ÌÐò¡£
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);

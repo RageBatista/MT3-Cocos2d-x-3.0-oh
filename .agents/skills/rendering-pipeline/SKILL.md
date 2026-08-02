@@ -34,8 +34,8 @@ description: "处理 Cocos2d-x、Nuclear 与 CEGUI 运行时渲染器、绘制�
 
 ## 关键锚点
 
-- `tools/CEGUI-0.7.1/cegui/src/RendererModules/Cocos2D/CEGUICocos2DRenderer.cpp`
-- `tools/CEGUI-0.7.1/cegui/src/CEGUIWindowManager.cpp`
+- `tools/CEGUI-0.7.9-r5/cegui/src/RendererModules/Cocos2D/CEGUICocos2DRenderer.cpp`
+- `tools/CEGUI-0.7.9-r5/cegui/src/CEGUIWindowManager.cpp`
 - `client/FireClient/Application/GameUI`
 - `engine`
 

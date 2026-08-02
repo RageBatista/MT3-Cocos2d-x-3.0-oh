@@ -1288,25 +1288,25 @@ std::string LuaEngine::executeGlobalFunctionBackString(const char* functionName,
 int LuaEngine::executeGlobalFunctionWithIntegerData(const char* functionName, int data)
 {
     pushIntegerToLuaStack(data);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 1);
 }
 
 int LuaEngine::executeGlobalFunctionWithDoubleData(const char* functionName, double data)
 {
     lua_pushnumber(getLuaState(), data);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 1);
 }
 
 int LuaEngine::executeGlobalFunctionWithBooleanData(const char* functionName, bool data)
 {
     _stack->pushBoolean(data);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 1);
 }
 
 int LuaEngine::executeGlobalFunctionWithStringData(const char* functionName, const char* data)
 {
     _stack->pushString(data ? data : "");
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 1);
 }
 
 int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, double param0, double param1, double param2, double param3)
@@ -1316,7 +1316,7 @@ int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, dou
     lua_pushnumber(L, param1);
     lua_pushnumber(L, param2);
     lua_pushnumber(L, param3);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 4);
 }
 
 int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, double param0, double param1, double param2, double param3, double param4)
@@ -1327,7 +1327,7 @@ int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, dou
     lua_pushnumber(L, param2);
     lua_pushnumber(L, param3);
     lua_pushnumber(L, param4);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 5);
 }
 
 int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, void* param0, double param1, double param2, double param3)
@@ -1337,7 +1337,7 @@ int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, voi
     lua_pushnumber(L, param1);
     lua_pushnumber(L, param2);
     lua_pushnumber(L, param3);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 4);
 }
 
 int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, void* param0, void* param1, double param2, double param3)
@@ -1347,7 +1347,7 @@ int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, voi
     lua_pushlightuserdata(L, param1);
     lua_pushnumber(L, param2);
     lua_pushnumber(L, param3);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 4);
 }
 
 int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, int param0, int param1, int param2, int param3)
@@ -1356,7 +1356,7 @@ int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, int
     pushIntegerToLuaStack(param1);
     pushIntegerToLuaStack(param2);
     pushIntegerToLuaStack(param3);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 4);
 }
 
 int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, const char* param0, const char* param1, const char* param2, const char* param3)
@@ -1365,7 +1365,7 @@ int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, con
     _stack->pushString(param1 ? param1 : "");
     _stack->pushString(param2 ? param2 : "");
     _stack->pushString(param3 ? param3 : "");
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 4);
 }
 
 int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, const char* param0, int param1, int param2, int param3, int param4)
@@ -1375,21 +1375,21 @@ int LuaEngine::executeGlobalFunctionWithParamsData(const char* functionName, con
     pushIntegerToLuaStack(param2);
     pushIntegerToLuaStack(param3);
     pushIntegerToLuaStack(param4);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 5);
 }
 
 int LuaEngine::executeGlobalFunctionWithData(const char* functionName, void* param0, int param1)
 {
     lua_pushlightuserdata(getLuaState(), param0);
     pushIntegerToLuaStack(param1);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 2);
 }
 
 int LuaEngine::executeGlobalFunctionWith2Int(const char* functionName, int param0, int param1)
 {
     pushIntegerToLuaStack(param0);
     pushIntegerToLuaStack(param1);
-    return executeGlobalFunction(functionName);
+    return executeGlobalFunction(functionName, 2);
 }
 
 bool LuaEngine::executeProtocolHandler(int nHandler, const aio::Protocol& e)

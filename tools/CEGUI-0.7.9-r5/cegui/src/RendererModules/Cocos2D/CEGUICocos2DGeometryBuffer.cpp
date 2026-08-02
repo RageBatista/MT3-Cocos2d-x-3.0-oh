@@ -237,15 +237,12 @@ void Cocos2DGeometryBuffer::draw() const
                 glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION);
                 glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR);
                 glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS);
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, pTexture->getTextureName());
-                glActiveTexture(GL_TEXTURE1);
-                glBindTexture(GL_TEXTURE_2D, pTexture->getAlphaName());
+                cocos2d::GL::bindTexture2DN(0, pTexture->getTextureName());
+                cocos2d::GL::bindTexture2DN(1, pTexture->getAlphaName());
             }
             else
             {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, pTexture->getTextureName());
+                cocos2d::GL::bindTexture2D(pTexture->getTextureName());
             }
 
             unsigned long long offset = (unsigned long long)&d_vertices[pos];
@@ -266,14 +263,12 @@ void Cocos2DGeometryBuffer::draw() const
 
             if (pTexture->isEtc())
             {
-                glActiveTexture(GL_TEXTURE1);
-                glBindTexture(GL_TEXTURE_2D, 0);
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, 0);
+                cocos2d::GL::bindTexture2DN(1, 0);
+                cocos2d::GL::bindTexture2DN(0, 0);
             }
             else
             {
-                glBindTexture(GL_TEXTURE_2D, 0);
+                cocos2d::GL::bindTexture2D(0);
             }
 
             if (pTexture->isEtc())

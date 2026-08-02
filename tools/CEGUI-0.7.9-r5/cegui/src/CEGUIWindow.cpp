@@ -179,6 +179,7 @@ WindowProperties::AutoRenderingSurface Window::d_autoRenderingSurfaceProperty;
 WindowProperties::Scale Window::d_scaleProperty;
 WindowProperties::EnableSound Window::d_soundEnableProperty;
 WindowProperties::SoundResource Window::d_soundResourceProperty;
+WindowProperties::LimitWindowSize Window::d_limitWindowSizeProperty;
 WindowProperties::LuaForDialog Window::d_luaForDialogProperty;
 WindowProperties::LuaMemberName Window::d_luaMemberNameProperty;
 WindowProperties::LuaEventOnClicked Window::d_luaEventOnClickedProperty;
@@ -271,6 +272,7 @@ Window::Window(const String& type, const String& name) :
     d_autoRepeat(false),
     d_repeatDelay(0.3f),
     d_repeatRate(0.06f),
+    d_limitSize(true),
     d_repeatButton(NoButton),
     d_repeating(false),
     d_repeatElapsed(0.0f),
@@ -1612,6 +1614,7 @@ void Window::addStandardProperties(void)
     addProperty(&d_scaleProperty);
     addProperty(&d_soundEnableProperty);
     addProperty(&d_soundResourceProperty);
+    addProperty(&d_limitWindowSizeProperty);
     addProperty(&d_luaForDialogProperty);
     addProperty(&d_luaMemberNameProperty);
     addProperty(&d_luaEventOnClickedProperty);
@@ -2041,15 +2044,18 @@ void Window::calculatePixelSize()
 
     d_pixelSize = d_area.getSize().asAbsolute(base_size).asSize();
 
-    // limit new pixel size to: minSize <= newSize <= maxSize
-    if (d_pixelSize.d_width < absMin.d_x)
-        d_pixelSize.d_width = absMin.d_x;
-    else if (d_pixelSize.d_width > absMax.d_x)
-        d_pixelSize.d_width = absMax.d_x;
-    if (d_pixelSize.d_height < absMin.d_y)
-        d_pixelSize.d_height = absMin.d_y;
-    else if (d_pixelSize.d_height > absMax.d_y)
-        d_pixelSize.d_height = absMax.d_y;
+    if (d_limitSize)
+    {
+        // limit new pixel size to: minSize <= newSize <= maxSize
+        if (d_pixelSize.d_width < absMin.d_x)
+            d_pixelSize.d_width = absMin.d_x;
+        else if (d_pixelSize.d_width > absMax.d_x)
+            d_pixelSize.d_width = absMax.d_x;
+        if (d_pixelSize.d_height < absMin.d_y)
+            d_pixelSize.d_height = absMin.d_y;
+        else if (d_pixelSize.d_height > absMax.d_y)
+            d_pixelSize.d_height = absMax.d_y;
+    }
 }
 
 //----------------------------------------------------------------------------//

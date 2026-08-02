@@ -1116,6 +1116,17 @@ void LoginManager::LoginAccount(const std::string& account, const std::string& p
 	}
 
 	m_savedPassword = StringCover::to_wstring(password);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	if (!gGetGameApplication()->IsUseSDKInWindows())
+	{
+		SetAccountInfo(StringCover::to_wstring(account));
+		SetSessionKey(StringCover::to_wstring(password));
+		SDLOG_INFO(L"[LoginFlow] Win32 local account login accountLen=%d sessionLen=%d",
+			static_cast<int>(account.length()), static_cast<int>(password.length()));
+		OpenSelectServerEntryWithSavedAccount("win32 local account login");
+		return;
+	}
+#endif
 	StartAccountHttpRequest(false, account, password, "", "");
 }
 
@@ -1302,7 +1313,7 @@ void LoginManager::HandleAccountHttpResponse(cocos2d::network::HttpResponse* res
 	delete context;
 }
 
-void LoginManager::OpenSelectServerEntry()
+void LoginManager::OpenSelectServerEntry(bool autoOpenServerList)
 {
 	if (IsWindowsExitInProgress())
 	{
@@ -1323,15 +1334,22 @@ void LoginManager::OpenSelectServerEntry()
 		static_cast<int>(GetSelectServer().length()));
 #endif
 	SDLOG_INFO(L"[LoginFlow] OpenSelectServerEntry accountLen=%d", static_cast<int>(ws2s(m_account).length()));
+	if (!gGetGameUIManager()->InitGameUIPostInit())
+	{
+		SDLOG_WARN(L"[LoginFlow] OpenSelectServerEntry stopped: UI post initialization failed");
+		return;
+	}
 	pScriptEngine->executeString("require('logic.switchaccountdialog').DestroyDialog()");
-	pScriptEngine->executeString("require('logic.selectserverentry').getInstanceAndShow(true)");
+	pScriptEngine->executeString(autoOpenServerList
+		? "require('logic.selectserverentry').getInstanceAndShow(true)"
+		: "require('logic.selectserverentry').getInstanceAndShow(false)");
 }
 
-void LoginManager::OpenSelectServerEntryWithSavedAccount(const char* reason)
+void LoginManager::OpenSelectServerEntryWithSavedAccount(const char* reason, bool autoOpenServerList)
 {
 	CCLOG("[LoginFlow] open select server with saved account reason=%s", reason ? reason : "");
 	SaveAccount();
-	OpenSelectServerEntry();
+	OpenSelectServerEntry(autoOpenServerList);
 }
 
 bool LoginManager::isAutoLogin()

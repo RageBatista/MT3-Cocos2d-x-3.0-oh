@@ -90,15 +90,10 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidatio
 | 1 | platform | `common/platform/platform.win32.vcxproj` |
 | 2 | ljfm | `common/ljfm/ljfm.win32.vcxproj` |
 | 3 | cauthc | `common/cauthc/projects/windows/cauthc.win32.vcxproj` |
-| 4 | Box2D | `cocos2d-x-2.2.6/external/Box2D/proj.win32/Box2D.vcxproj` |
-| 5 | chipmunk | `cocos2d-x-2.2.6/external/chipmunk/proj.win32/chipmunk.vcxproj` |
-| 6 | liblua | `cocos2d-x-2.2.6/scripting/lua/proj.win32/liblua.vcxproj` |
-| 7 | cocos2d | `cocos2d-x-2.2.6/cocos2dx/proj.win32/cocos2d.vcxproj` |
-| 8 | CocosDenshion | `cocos2d-x-2.2.6/CocosDenshion/proj.win32/CocosDenshion.vcxproj` |
-| 9 | libExtensions | `cocos2d-x-2.2.6/extensions/proj.win32/libExtensions.vcxproj` |
-| 10 | CEGUI | `dependencies/cegui/project/win32/cegui.win32.vcxproj` |
-| 11 | engine | `engine/engine.win32.vcxproj` |
-| 12 | FireClient | `client/MT3Win32App/FireClient.win32.vcxproj` |
+| 4 | cocos30_* 基础库 | `cocos2d-x-3.0-oh/build/**`（kazmath、tinyxml2、unzip、Box2D、chipmunk、lua、base、core、audio、extensions、network、ui、cocostudio、cocosbuilder、luabinding） |
+| 5 | CEGUI079 | `tools/CEGUI-0.7.9-r5/cegui-0.7.9.win32.vcxproj` |
+| 6 | engine | `engine/engine.win32.vcxproj` |
+| 7 | FireClient | `client/MT3Win32App/FireClient.win32.vcxproj` |
 | 13 | lua51/link-input-sync | 同步 Lua 与最终链接所需 `.lib` |
 | 14 | MT3 | `client/MT3Win32App/mt3.win32.vcxproj` |
 | 15 | runtime-sync/audit | 同步运行时文件并执行依赖审计 |
@@ -127,7 +122,7 @@ Rebuild FireClient -> Build MT3
 
 ### 5.3 修改 Cocos2d-x 公共 ABI
 
-从对应 Cocos2d-x 2.2.6 库开始重编，再继续：
+从对应 Cocos2d-x 3.0-oh 库开始重编，再继续：
 
 ```text
 对应 Cocos 库 -> engine -> FireClient -> MT3

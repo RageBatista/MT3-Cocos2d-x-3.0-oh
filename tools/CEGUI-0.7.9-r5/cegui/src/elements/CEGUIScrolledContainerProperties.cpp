@@ -67,7 +67,7 @@ namespace ScrolledContainerProperties
 
     void ChildExtentsArea::set(PropertyReceiver*, const String&)
     {
-        Logger::getSingleton().logEvent("ScrolledContainerProperties::ChildExtentsArea property does not support being set.", Errors);        
+        // Legacy layouts serialise this read-only value; keep accepting it as a no-op.
     }
 
 } // End of  ScrolledContainerProperties namespace section

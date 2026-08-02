@@ -2031,6 +2031,10 @@ void GameUImanager::Draw()
 	}
 
 	CEGUI::System& guiSystem = CEGUI::System::getSingleton();
+	if (m_pCEGUICocos2DRender)
+	{
+		m_pCEGUICocos2DRender->ProcessPendingTextures();
+	}
 	//guiSystem.signalRedraw();
 	try
 	{
@@ -2390,15 +2394,55 @@ bool GameUImanager::HandleShowTextureBtnClicked(const CEGUI::EventArgs& e)
 
 bool GameUImanager::InitGameUIPostInit()
 {
-	if (m_bUIPostInited)
+	CEGUI::ImagesetManager& imagesetManager = CEGUI::ImagesetManager::getSingleton();
+	CEGUI::WindowFactoryManager& factoryManager = CEGUI::WindowFactoryManager::getSingleton();
+	const bool loginImagesetReady = imagesetManager.isDefined("logindlginfo");
+	const bool editboxFactoryReady = factoryManager.isFactoryPresent("TaharezLook/Editbox");
+
+	MT3_TRACE("[DEBUG-uipost] enter inited=%d logindlginfo=%d editbox=%d",
+		m_bUIPostInited ? 1 : 0, loginImagesetReady ? 1 : 0, editboxFactoryReady ? 1 : 0);
+
+	if (m_bUIPostInited && loginImagesetReady && editboxFactoryReady)
+	{
 		return true;
+	}
 
-	m_bUIPostInited = true;
-	CEGUI::SchemeManager::getSingleton().append("taharezlook.scheme");
-	CEGUI::SchemeManager::getSingleton().append("taharezlook2.scheme");
+	// Keep the state retryable if a previous resource load stopped part-way.
+	m_bUIPostInited = false;
+	try
+	{
+		MT3_TRACE("[DEBUG-uipost] before taharezlook.scheme");
+		CEGUI::SchemeManager::getSingleton().append("taharezlook.scheme");
+		MT3_TRACE("[DEBUG-uipost] after taharezlook.scheme");
 
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CChatCellManager.Initialize_");
-	return true;
+		MT3_TRACE("[DEBUG-uipost] before taharezlook2.scheme");
+		CEGUI::SchemeManager::getSingleton().append("taharezlook2.scheme");
+		MT3_TRACE("[DEBUG-uipost] after taharezlook2.scheme");
+
+		if (!imagesetManager.isDefined("logindlginfo") ||
+			!factoryManager.isFactoryPresent("TaharezLook/Editbox"))
+		{
+			MT3_TRACE("[DEBUG-uipost] validation failed logindlginfo=%d editbox=%d",
+				imagesetManager.isDefined("logindlginfo") ? 1 : 0,
+				factoryManager.isFactoryPresent("TaharezLook/Editbox") ? 1 : 0);
+			return false;
+		}
+
+		cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CChatCellManager.Initialize_");
+		m_bUIPostInited = true;
+		MT3_TRACE("[DEBUG-uipost] success");
+		return true;
+	}
+	catch (const CEGUI::Exception& e)
+	{
+		MT3_TRACE("[DEBUG-uipost] CEGUI exception: %s", e.getMessage().c_str());
+	}
+	catch (const std::exception& e)
+	{
+		MT3_TRACE("[DEBUG-uipost] std exception: %s", e.what());
+	}
+
+	return false;
 }
 
 #if defined DEBUG || defined _DEBUG 
@@ -2497,25 +2541,55 @@ bool GameUImanager::InitGameUI()
 		core::Logger::flurryEvent(L"GameUIManager_InitGameUI_EngineLayer_null_fail");
 		return false;
 	}
+	const unsigned int bootStart = Nuclear::GetMilliSeconds();
+	unsigned int bootPrevious = bootStart;
+	const auto traceBootStage = [&bootStart, &bootPrevious](const char* stage)
+	{
+		const unsigned int now = Nuclear::GetMilliSeconds();
+		MT3_TRACE("[DEBUG-boot] InitGameUI stage=%s delta=%u total=%u",
+			stage, now - bootPrevious, now - bootStart);
+		bootPrevious = now;
+	};
 
 	m_pCEGUICocos2DRender = &CEGUI::Cocos2DRenderer::bootstrapSystem(pEngineLayer);
+	traceBootStage("bootstrapSystem");
+
+	// [debug-point D2] post-bootstrap renderer initial display size (= GL viewport at ctor) + g_adapter
+	{
+		CEGUI::Size rsz = m_pCEGUICocos2DRender->getDisplaySize();
+		MT3_TRACE("D2 post-bootstrap renderer.displaySize=%.0fx%.0f adapter_logic=%dx%d adapter_display=%dx%d",
+			rsz.d_width, rsz.d_height,
+			g_adapter.GetLogicWidth(), g_adapter.GetLogicHeight(),
+			g_adapter.GetDisplayWidth(), g_adapter.GetDisplayHeight());
+	}
 
 #ifdef PUBLISHED_VERSION
 	m_pResourceProvider = new CEGUI::PFSResourceProvider;
 #else
 	m_pResourceProvider = new CEGUI::DefaultResourceProvider;
 #endif 
+	traceBootStage("resourceProvider");
 
 	{
 		USING_NS_CC;
 		lua_State* luastate = CCScriptEngineManager::sharedManager()->getScriptEngine()->getLuaState();
 		m_pLuaScriptModule = &CEGUI::LuaScriptModule::create(luastate);
 	}
+	traceBootStage("luaScriptModule");
 
 	CEGUI::System::create(*m_pCEGUICocos2DRender, m_pResourceProvider, 0, 0, m_pLuaScriptModule, "", CFileUtil::MakePath(CFileUtil::GetLogDir().c_str(), "CEGUI_ct.log").c_str());
+	traceBootStage("systemCreate");
 
 	CEGUI::System::getSingleton().SetAdapter((CEGUI::IAdapter*)&g_adapter);
 	CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Size(g_adapter.GetLogicWidth(), g_adapter.GetLogicHeight()));
+	traceBootStage("displaySetup");
+
+	// [debug-point D3] post-notifyDisplaySizeChanged renderer display size (verify propagation to setDisplaySize)
+	{
+		CEGUI::Size rsz = m_pCEGUICocos2DRender->getDisplaySize();
+		MT3_TRACE("D3 post-notifyDisplaySizeChanged renderer.displaySize=%.0fx%.0f",
+			rsz.d_width, rsz.d_height);
+	}
 
 #if defined(_DEBUG) || defined(DEBUG)
 	CEGUI::Logger::getSingleton().setLoggingLevel(CEGUI::Warnings);
@@ -2525,12 +2599,14 @@ bool GameUImanager::InitGameUI()
 
 	initialiseResourceGroupDirectories();
 	initialiseDefaultResourceGroups();
+	traceBootStage("resourceGroups");
 
 	m_pUIIMEDelegate = new GameIMEDelegate;
 
 	CEGUI::WindowManager& winMgr = CEGUI::WindowManager::getSingleton();
 
 	CEGUI::SchemeManager::getSingleton().create("taharezlook_bootstrap.scheme");
+	traceBootStage("bootstrapScheme");
 
 	CEGUI::System::getSingleton().setDefaultMouseCursor("common", "common_biaoshi_cc");
 	CEGUI::System::getSingleton().setDefaultTooltip("TaharezLook/Tooltip");
@@ -2564,6 +2640,7 @@ bool GameUImanager::InitGameUI()
 	CEGUI::System::getSingleton().SetEmotionNum(49);
 	CEGUI::System::getSingleton().SetAddSelectEffectToItemCell((CEGUI::AddSelectEffectToItemCell*)&HandleAddSelectEffectToItemCell);
 	CEGUI::System::getSingleton().SetDefaultCommonLinkLinkFunc((CEGUI::CommonLinkLinkClicked*)&HandleCommonLinkClick);
+	traceBootStage("defaultsAndCallbacks");
 
 	// MT3: sample.xml 不存在，注释掉动画加载避免崩溃
 	// CEGUI::AnimationManager::getSingleton().loadAnimationsFromXML("sample.xml");
@@ -2574,6 +2651,7 @@ bool GameUImanager::InitGameUI()
 	m_pRootWindow = pRootWindow;
 	pRootWindow->setMousePassThroughEnabled(true);
 	pRootWindow->setDistributesCapturedInputs(true);
+	traceBootStage("rootWindow");
 
 
 	m_bUIInited = true;
@@ -2590,8 +2668,9 @@ bool GameUImanager::InitGameUI()
 	cocos2d::CCDirector* pDirector = cocos2d::CCDirector::sharedDirector();
 	if (pDirector)
 	{
-		pDirector->setDisplayStats(true);
+		pDirector->setDisplayStats(gGetGameApplication()->IsShowFPS());
 	}
+	traceBootStage("complete");
 
 	return true;
 }

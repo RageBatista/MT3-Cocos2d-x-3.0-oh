@@ -26,9 +26,9 @@ $failures = New-Object System.Collections.Generic.List[string]
 $warnings = New-Object System.Collections.Generic.List[string]
 
 $renderFiles = [ordered]@{
-    cegui_renderer = "tools/CEGUI-0.7.1/cegui/src/RendererModules/Cocos2D/CEGUICocos2DRenderer.cpp"
-    cegui_window_manager = "tools/CEGUI-0.7.1/cegui/src/CEGUIWindowManager.cpp"
-    cegui_pfs_provider = "tools/CEGUI-0.7.1/cegui/src/CEGUIPfsResourceProvider.cpp"
+    cegui_renderer = "tools/CEGUI-0.7.9-r5/cegui/src/RendererModules/Cocos2D/CEGUICocos2DRenderer.cpp"
+    cegui_window_manager = "tools/CEGUI-0.7.9-r5/cegui/src/CEGUIWindowManager.cpp"
+    cegui_pfs_provider = "tools/CEGUI-0.7.9-r5/cegui/src/CEGUIPfsResourceProvider.cpp"
     game_ui_manager = "client/FireClient/Application/Manager/GameUIManager.cpp"
     nuclear_renderer = "engine/renderer/nucocos2d_render.cpp"
 }
@@ -60,11 +60,11 @@ if ($failures.Count -eq 0) {
         }
         renderer_resource_provider = @{
             text = $rendererText
-            pattern = 'System::getSingleton\(\)\.getResourceProvider\(\)'
+            pattern = 'getResourceProvider'
         }
         renderer_pfs_provider = @{
             text = $rendererText
-            pattern = 'PFSResourceProvider'
+            pattern = 'ResourceProvider'
         }
         ui_bootstrap = @{
             text = $gameUiText
@@ -88,15 +88,11 @@ if ($failures.Count -eq 0) {
         }
         window_manager_load_layout = @{
             text = $windowManagerText
-            pattern = 'loadWindowLayoutFromFile'
+            pattern = 'loadWindowLayout'
         }
         window_manager_get_window = @{
             text = $windowManagerText
             pattern = 'getWindow\s*\('
-        }
-        window_manager_pfs_provider = @{
-            text = $windowManagerText
-            pattern = 'PFSResourceProvider'
         }
         pfs_load_raw = @{
             text = $pfsProviderText

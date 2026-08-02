@@ -12,14 +12,14 @@
 更新时间：2026-03-03
 范围：Windows 客户端 Debug (`Win32`, `v120`)
 
-**重要说明**：客户端当前 CEGUI 0.7.1 定制源码和工程位于 `dependencies/cegui/`，包含异步纹理加载、Renderer 接口扩展、二进制布局系统等 MT3 扩展。`tools/CEGUI-0.7.1/` 仅作为配套工具/研究副本，不是客户端主线回源或构建入口。
+**重要说明**：Win32 `Upgrade30` 当前 CEGUI 0.7.9-r5 源码和工程位于 `tools/CEGUI-0.7.9-r5/`，renderer、geometry buffer、纹理上传和 Lua binding 已纳入主线；`dependencies/cegui/` 仅供 Android/iOS/历史兼容链使用。
 
 ## 1. 链路关系（源码 -> 编译产物 -> 客户端）
 
-1. CEGUI 主线源码根：`dependencies/cegui/CEGUI`（MT3 定制分叉）
-2. 客户端实际编译/链接使用目录：`dependencies/cegui`
-3. CEGUI 工程文件：`dependencies/cegui/project/win32/cegui.win32.sln`
-4. Debug 产物：`dependencies/cegui/project/win32/Debug.win32/cegui_d.lib`（包含 MT3 扩展）
+1. Win32 CEGUI 主线源码根：`tools/CEGUI-0.7.9-r5/cegui`
+2. 客户端实际编译/链接使用目录：`tools/CEGUI-0.7.9-r5`
+3. CEGUI 工程文件：`tools/CEGUI-0.7.9-r5/cegui-0.7.9.sln`
+4. Debug 产物：`tools/CEGUI-0.7.9-r5/Debug.win32/cegui-0.7.9.lib`
 5. 客户端工程：
    - `client/MT3Win32App/FireClient.win32.vcxproj`
    - `client/MT3Win32App/mt3.win32.vcxproj`
@@ -28,19 +28,19 @@
 
 ## 2.1 头文件和宏
 
-- `AdditionalIncludeDirectories` 指向 `dependencies/cegui/CEGUI/include/...`
+- `AdditionalIncludeDirectories` 指向 `tools/CEGUI-0.7.9-r5/cegui/include/...`
 - 预处理宏包含：
   - `CEGUI_STATIC`
   - `PUBLISHED_VERSION`
 
 ## 2.2 链接库
 
-- Debug 链接项包含：`cegui_d.lib`
+- Debug/Release 链接项包含：`cegui-0.7.9.lib`
 - 关键库目录（按工程配置）包含：
   - `../FireClient/$(Configuration).win32`
-  - `../../dependencies/cegui/project/win32/$(Configuration).win32`
+  - `../../tools/CEGUI-0.7.9-r5/$(Configuration).win32`（Win32 Upgrade30）；`dependencies/cegui/project/win32` 仅供兼容平台/旧工具
 
-说明：链接器会按目录顺序查找 `cegui_d.lib`，如果前序目录存在同名旧库，会优先命中旧库。
+说明：链接器会按目录顺序查找 `cegui-0.7.9.lib`，如果前序目录存在同名旧库，会优先命中旧库。
 
 ## 3. 本次问题与定位
 
@@ -60,8 +60,9 @@
 
 修复文件：
 
-- `dependencies/cegui/CEGUI/src/XMLParserModules/LJXMLParser/CEGUILJXMLParser.cpp`
-- `tools/CEGUI-0.7.1/cegui/src/XMLParserModules/LJXMLParser/CEGUILJXMLParser.cpp`（同期研究副本，不进入客户端主线构建）
+- `tools/CEGUI-0.7.9-r5/cegui/src/XMLParserModules/LJXMLParser/CEGUILJXMLParser.cpp`（Win32 主线）
+- `dependencies/cegui/CEGUI/src/XMLParserModules/LJXMLParser/CEGUILJXMLParser.cpp`（兼容平台/历史分支）
+- `tools/CEGUI-0.7.1/cegui/src/XMLParserModules/LJXMLParser/CEGUILJXMLParser.cpp`（旧工具研究副本，不进入 Win32 主线构建）
 
 修复点：
 
@@ -83,13 +84,13 @@
 
 执行构建：
 
-1. `dependencies/cegui/project/win32/cegui.win32.sln` (`Debug|Win32`)：成功
+1. `tools/CEGUI-0.7.9-r5/cegui-0.7.9.sln` (`Debug|Win32`)：成功
 2. `client/Build-MT3-v120.ps1 -Configuration Debug -Platform Win32 -SkipRuntimeAudit`：成功
 3. `client/MT3Win32App/mt3.win32.vcxproj /t:Rebuild`：成功
 
 关键产物时间戳（本次构建）：
 
-- `dependencies/cegui/project/win32/Debug.win32/cegui_d.lib`
+- `tools/CEGUI-0.7.9-r5/Debug.win32/cegui-0.7.9.lib`
 - `client/FireClient/Debug.win32/cegui_d.lib`（已同步为新库）
 - `client/resource/bin/Debug/MT3.exe`
 
@@ -106,7 +107,7 @@
 
 ## 7. MT3 定制分叉扩展说明
 
-`dependencies/cegui/CEGUI` 是客户端当前 CEGUI 0.7.1 定制源码根，包含以下扩展；`tools/CEGUI-0.7.1` 仅用于工具配套和差异研究：
+`tools/CEGUI-0.7.9-r5/cegui` 是 Win32 当前 CEGUI 0.7.9-r5 源码根，包含以下已验证路径；`dependencies/cegui` 仅用于兼容平台：
 
 ### 异步纹理加载机制
 

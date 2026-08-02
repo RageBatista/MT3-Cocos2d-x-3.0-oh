@@ -59,7 +59,8 @@ String Imageset::d_defaultResourceGroup;
 *************************************************************************/
 Imageset::Imageset(const String& name, Texture& texture) :
 	d_name(name),
-	d_texture(&texture)
+	d_texture(&texture),
+    d_textureResourceGroup("")
 {
 	if (!d_texture)
 	{
@@ -72,29 +73,15 @@ Imageset::Imageset(const String& name, Texture& texture) :
 
 
 Imageset::Imageset(const String& name, const String& filename, const String& resourceGroup) :
-    d_name(name)
+    d_name(name),
+    d_texture(0),
+    d_textureFilename(filename),
+    d_textureResourceGroup(resourceGroup.empty() ? d_defaultResourceGroup : resourceGroup)
 {
-    // try to load the image file using the renderer
-    d_texture =
-        &System::getSingleton().getRenderer()->createTexture(filename,
-        resourceGroup.empty() ? d_defaultResourceGroup : resourceGroup);
-
-    // store texture filename
-    d_textureFilename = filename;
-    // TODO: Should we store the resource group too?
-
-    // initialse the auto-scaling for this Imageset
-    d_autoScale = true;
-    setNativeResolution(d_texture->getSize());
-
-    // define the default image for this Imageset
-    defineImage(
-        "full_image",
-        Rect(0, 0,
-             d_texture->getOriginalDataSize().d_width,
-             d_texture->getOriginalDataSize().d_height),
-        Point(0, 0)
-    );
+    // MT3 imagesets define their image rectangles in XML.  Keep registration
+    // lightweight and load the backing texture only when an image is drawn.
+    d_autoScale = false;
+    setNativeResolution(Size(DefaultNativeHorzRes, DefaultNativeVertRes));
 }
 
 
@@ -112,7 +99,7 @@ Imageset::~Imageset(void)
 *************************************************************************/
 void Imageset::setTexture(Texture* texture)
 {
-	if (!d_texture)
+	if (!texture)
 	{
 		CEGUI_THROW(NullObjectException("Imageset::setTexture - Texture object supplied for Imageset creation must be valid."));
 	}
@@ -171,6 +158,15 @@ void Imageset::draw(GeometryBuffer& buffer, const Rect& source_rect,
 
     // check if rect was totally clipped
     if ((final_rect.getWidth() == 0) || (final_rect.getHeight() == 0))
+        return;
+
+    if (!d_texture && !d_textureFilename.empty())
+    {
+        d_texture = &System::getSingleton().getRenderer()->createTexture(
+            d_textureFilename, d_textureResourceGroup);
+    }
+
+    if (!d_texture)
         return;
 
     // Fix bug #45
@@ -265,7 +261,8 @@ void Imageset::unload(void)
 	undefineAllImages();
 
 	// cleanup texture
-	System::getSingleton().getRenderer()->destroyTexture(*d_texture);
+	if (d_texture)
+		System::getSingleton().getRenderer()->destroyTexture(*d_texture);
 	d_texture = 0;
 }
 

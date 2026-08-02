@@ -1765,6 +1765,17 @@ void System::addStandardWindowFactories()
     WindowFactoryManager::addFactory< TplWindowFactory<ItemListbox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<GroupBox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<Tree> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<AnimateText> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<GroupBtnTree> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<GroupButton> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<IrregularButton> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<IrregularFigure> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<ItemCell> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<ItemCellGeneral> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<ItemTable> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<ProgressBarTwoValue> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<SkillBox> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<Switch> >();
     WindowFactoryManager::addFactory< TplWindowFactory<HorizontalLayoutContainer> >();
     WindowFactoryManager::addFactory< TplWindowFactory<VerticalLayoutContainer> >();
     WindowFactoryManager::addFactory< TplWindowFactory<GridLayoutContainer> >();

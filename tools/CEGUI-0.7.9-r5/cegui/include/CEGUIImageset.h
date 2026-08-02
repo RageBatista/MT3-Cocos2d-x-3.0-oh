@@ -566,8 +566,9 @@ protected:
 	*************************************************************************/
 	String			d_name;						//!< Holds the name of this imageset.
 	ImageRegistry	d_images;					//!< Registry of Image objects for the images defined for this Imageset
-	Texture*		d_texture;					//!< Texture object that handles imagery for this Imageset
+	mutable Texture*	d_texture;					//!< Texture object that handles imagery for this Imageset
     String          d_textureFilename;          //!< String holding the name of the texture filename (if any).
+    String          d_textureResourceGroup;     //!< Resource group used when lazily loading the texture.
 
 	// auto-scaling fields
 	bool	d_autoScale;			//!< true when auto-scaling is enabled.

@@ -1,5 +1,7 @@
 # client/resource/res CEGUI 与 Lua 技能集成分析
 
+> Win32 `Upgrade30` 运行时使用 CEGUI 0.7.9-r5 与 cocos2d-x-3.0-oh；Android/iOS 继续使用各自 0.7.1/2.2.6 兼容链。本文的资源、Lua 和 C++ 绑定约定跨版本保持一致，版本差异以平台工程为准。
+
 ## 1. 目的与结论
 
 本文只基于仓库现状取证，目标是回答三个问题：

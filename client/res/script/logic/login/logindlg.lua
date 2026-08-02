@@ -77,10 +77,6 @@ function LoginQuickDialog:OnCreate()
 end
 
 function LoginQuickDialog:HandleLoginMouseClicked(args)
-	local uiManager = gGetGameUIManager()
-	if uiManager and uiManager.InitGameUIPostInit then
-		uiManager:InitGameUIPostInit()
-	end
 	require('logic.switchaccountdialog').getInstanceAndShow()
 	self.DestroyDialog()
 end

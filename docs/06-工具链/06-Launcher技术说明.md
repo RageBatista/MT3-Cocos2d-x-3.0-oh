@@ -82,7 +82,7 @@ Launcher.exe
 
 | 能力 | Launcher | 游戏客户端 |
 | --- | --- | --- |
-| UI | Win32 DUI/OLE | CEGUI 0.7.1 + Lua + FireClient |
+| UI | Win32 DUI/OLE | Launcher 自身 DUI/OLE；游戏主界面由 CEGUI 0.7.9-r5 + Lua + FireClient 提供 |
 | 更新前网络 | HTTP/JSON | 非主责 |
 | 游戏协议 | 非主责 | `NetConnection` + FireNet + ProtoDef |
 | 平台 | Win32 | Win32 / Android / iOS |

@@ -1,6 +1,6 @@
 # Android 与 Windows 客户端 UI 显示分析
 
-> **当前基线**：Cocos2d-x 2.2.6 + Nuclear + MT3 定制 CEGUI 0.7.1 + FireClient/Lua。
+> **当前基线**：Windows 为 Cocos2d-x 3.0-oh + Nuclear + CEGUI 0.7.9-r5 + FireClient/Lua；Android 仍为 Cocos2d-x 2.2.6 + CEGUI 0.7.1 兼容链。
 > **事实源**：`ResolutionAdapter`、`RuntimeViewportCalculator`、Win32/Android 平台壳和 `GameUIManager`。
 > **文档索引**：[docs/07-参考文档/02-文档索引.md](../07-参考文档/02-文档索引.md)
 

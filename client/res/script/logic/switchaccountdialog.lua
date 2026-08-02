@@ -200,19 +200,7 @@ end
 
 function SwitchAccountDialog:HandleInputMouseDown(args)
 	local mouseArgs = CEGUI.toMouseEventArgs(args)
-	self:DumpInputState("MouseButtonDown", mouseArgs and mouseArgs.window or nil)
-	return false
-end
-
-function SwitchAccountDialog:HandleInputMouseUp(args)
-	local mouseArgs = CEGUI.toMouseEventArgs(args)
-	if self:IsLoginButtonHit(mouseArgs) then
-		print(string.format("[SwitchAccountDialog][InputMouseUpLoginHit] accountLen=%d passwordLen=%d",
-			self.m_Account and _safeLen(self.m_Account:getText()) or 0,
-			self.m_KeyEdit and _safeLen(self.m_KeyEdit:getText()) or 0))
-		return self:HandleLoginBtnClick(args)
-	end
-
+	self:FocusInput(mouseArgs and mouseArgs.window or nil, "MouseButtonDown")
 	return false
 end
 
@@ -234,19 +222,8 @@ function SwitchAccountDialog:BindInputProbe(wnd)
 	end
 
 	wnd:subscribeEvent("MouseButtonDown", SwitchAccountDialog.HandleInputMouseDown, self)
-	wnd:subscribeEvent("MouseButtonUp", SwitchAccountDialog.HandleInputMouseUp, self)
 	wnd:subscribeEvent("KeyboardTargetWndChanged", SwitchAccountDialog.HandleInputKeyboardTargetWndChanged, self)
 	wnd:subscribeEvent("TextChanged", SwitchAccountDialog.HandleInputTextChanged, self)
-end
-
-function SwitchAccountDialog:IsLoginButtonHit(mouseArgs)
-	if not mouseArgs or not self.m_LoginBtn or not self.loginFy or not self.loginFy:isVisible() then
-		return false
-	end
-
-	return self.m_LoginBtn:isVisible()
-		and not self.m_LoginBtn:isDisabled()
-		and self.m_LoginBtn:isHit(mouseArgs.position)
 end
 
 function SwitchAccountDialog:ApplyInputVisualStyle(wnd)
@@ -255,24 +232,24 @@ function SwitchAccountDialog:ApplyInputVisualStyle(wnd)
 	end
 end
 
-function SwitchAccountDialog:FocusLoginInput()
-	if self.m_Account then
-		self.m_Account:SetCanEdit(true)
-		self.m_Account:activate()
-		gGetGameUIManager():AttachIME(CEGUI.String(self.m_Account:getText()))
-		self.m_Account:setCaratIndex(string.len(self.m_Account:getText()))
-		self:DumpInputState("FocusLoginInput", self.m_Account)
+function SwitchAccountDialog:FocusInput(wnd, tag)
+	if not wnd then
+		return
 	end
+
+	wnd:SetCanEdit(true)
+	wnd:activate()
+	gGetGameUIManager():AttachIME(CEGUI.String(wnd:getText()))
+	wnd:setCaratIndex(string.len(wnd:getText()))
+	self:DumpInputState(tag, wnd)
+end
+
+function SwitchAccountDialog:FocusLoginInput()
+	self:FocusInput(self.m_Account, "FocusLoginInput")
 end
 
 function SwitchAccountDialog:FocusRegisterInput()
-	if self.mRegAccount then
-		self.mRegAccount:SetCanEdit(true)
-		self.mRegAccount:activate()
-		gGetGameUIManager():AttachIME(CEGUI.String(self.mRegAccount:getText()))
-		self.mRegAccount:setCaratIndex(string.len(self.mRegAccount:getText()))
-		self:DumpInputState("FocusRegisterInput", self.mRegAccount)
-	end
+	self:FocusInput(self.mRegAccount, "FocusRegisterInput")
 end
 
 function SwitchAccountDialog:ActivateCurrentInput()
@@ -295,7 +272,6 @@ function SwitchAccountDialog:InitAccountList()
 	self.m_KeyEdit:setCaratIndex(_safeLen(rememberedPassword))
 	print(string.format("[SwitchAccountDialog][RememberPasswordLoaded] accountLen=%d passwordLen=%d",
 		_safeLen(strLastAccount), _safeLen(rememberedPassword)))
-	self:FocusLoginInput()
 
     return true
 

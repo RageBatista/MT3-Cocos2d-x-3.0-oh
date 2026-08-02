@@ -219,8 +219,8 @@ private:
 	void OnLoginAccountHttpResponse(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 	void OnRegisterAccountHttpResponse(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response);
 	void HandleAccountHttpResponse(cocos2d::network::HttpResponse* response, bool isRegister);
-	void OpenSelectServerEntry();
-	void OpenSelectServerEntryWithSavedAccount(const char* reason);
+	void OpenSelectServerEntry(bool autoOpenServerList = true);
+	void OpenSelectServerEntryWithSavedAccount(const char* reason, bool autoOpenServerList = true);
 
 private:
 	bool m_bNeedToReload;

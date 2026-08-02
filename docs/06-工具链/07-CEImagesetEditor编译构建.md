@@ -84,4 +84,4 @@ Test-Path -LiteralPath "$release\data"
 
 - 本页只维护构建与产物验证。
 - 区域编辑、自动检测、命名、导出和 XML 格式见 [CEImagesetEditor 技术手册](../08-技术研究/09-CEImagesetEditor技术手册.md)。
-- 客户端 CEGUI 主线仍是 `dependencies/cegui/` 的 0.7.1 定制实现，不以该工具的自包含库替代。
+- Win32 游戏客户端 CEGUI 主线已是 `tools/CEGUI-0.7.9-r5/`；本工具仍使用独立/共享的 0.7.1 兼容 ABI，不得将其产物混入 `Upgrade30`。

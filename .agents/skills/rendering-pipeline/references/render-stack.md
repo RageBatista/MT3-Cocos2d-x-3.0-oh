@@ -11,8 +11,8 @@
 
 ## CEGUI 关键锚点
 
-- `tools/CEGUI-0.7.1/cegui/src/RendererModules/Cocos2D/CEGUICocos2DRenderer.cpp`
-- `tools/CEGUI-0.7.1/cegui/src/CEGUIWindowManager.cpp`
+- `tools/CEGUI-0.7.9-r5/cegui/src/RendererModules/Cocos2D/CEGUICocos2DRenderer.cpp`
+- `tools/CEGUI-0.7.9-r5/cegui/src/CEGUIWindowManager.cpp`
 - `docs/08-技术研究/07-CEGUI集成指南.md`
 
 重点事实：

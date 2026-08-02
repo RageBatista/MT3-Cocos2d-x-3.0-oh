@@ -2,7 +2,7 @@
 
 > **分析对象**：`tools/CELayoutEditor/`（旧文档中的 `\tools/CELayoutEditor` 路径笔误已修正）。
 > **工作树边界**：当前可直接读取的代码主要是 `inc/EditorExtensionManager.h`、`EditorExtensionCommandRouter.h`、`FileSearchUtils.h`；其余主要为产物、资源、脚本与阶段性文档。
-> **当前 CEGUI 基线**：客户端为 MT3 定制 CEGUI 0.7.1。
+> **当前 CEGUI 基线**：Win32 游戏客户端为 CEGUI 0.7.9-r5；CELayoutEditor 等旧工具仍按其自带/共享的 0.7.1 兼容 ABI 维护。
 > **文档索引**：[docs/07-参考文档/02-文档索引.md](../07-参考文档/02-文档索引.md)
 
 ## 1. 实物盘点

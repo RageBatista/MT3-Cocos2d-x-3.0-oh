@@ -246,6 +246,23 @@ void ScrollablePane::setVerticalScrollPosition(float position)
 }
 
 //----------------------------------------------------------------------------//
+void ScrollablePane::EnablePageScrollMode(bool enable)
+{
+    const float step = enable ? 1.0f : 0.1f;
+    d_vertStep = step;
+    d_horzStep = step;
+
+    if (getWindowRenderer())
+        configureScrollbars();
+}
+
+//----------------------------------------------------------------------------//
+bool ScrollablePane::getPageScrollMode() const
+{
+    return d_vertStep == 1.0f && d_horzStep == 1.0f;
+}
+
+//----------------------------------------------------------------------------//
 void ScrollablePane::initialiseComponents(void)
 {
     // get horizontal scrollbar

@@ -4,11 +4,13 @@
 #include "../../CEGUIBase.h"
 #include "../../CEGUIRenderer.h"
 #include "../../CEGUISize.h"
+#include "../../CEGUIString.h"
 #include "../../CEGUIVector.h"
 
 #include "base/CCPlatformMacros.h"
 #include "2d/CCNode.h"
 #include "math/kazmath/kazmath/kazmath.h"
+#include "math/kazmath/kazmath/GL/matrix.h"
 
 #include <vector>
 #include <map>
@@ -96,6 +98,7 @@ public:
 
     void SetPointMode(bool b);
 
+    void ProcessPendingTextures(unsigned int maxLoadsPerFrame = 1);
     virtual void OnFrameEnd();
 
     void CheckLoadingTexture(Cocos2DTexture* aPTexture);
@@ -124,6 +127,23 @@ private:
 
     typedef std::vector<Cocos2DTexture*> TextureList;
     TextureList d_textures;
+
+    struct PendingTextureLoad
+    {
+        PendingTextureLoad(Cocos2DTexture* texture, const String& filename,
+            const String& resourceGroup) :
+            texture(texture),
+            filename(filename),
+            resourceGroup(resourceGroup)
+        {
+        }
+
+        Cocos2DTexture* texture;
+        String filename;
+        String resourceGroup;
+    };
+    typedef std::vector<PendingTextureLoad> PendingTextureLoadList;
+    PendingTextureLoadList d_pendingTextureLoads;
 
     uint d_maxTextureSize;
     bool d_supportNPOTTex;

@@ -111,31 +111,34 @@ void HttpClient::networkThread()
     
     while (true) 
     {
-        if (s_need_quit)
-        {
-            break;
-        }
-        
-        // step 1: send http request if the requestQueue isn't empty
         request = nullptr;
-        
-        s_requestQueueMutex.lock();
-        
-        //Get request task from queue
-        
-        if (!s_requestQueue->empty())
         {
-            request = s_requestQueue->at(0);
-            s_requestQueue->erase(0);
+            std::unique_lock<std::mutex> sleepLock(s_SleepMutex);
+            s_SleepCondition.wait(sleepLock, [] {
+                if (s_need_quit)
+                {
+                    return true;
+                }
+
+                std::lock_guard<std::mutex> queueLock(s_requestQueueMutex);
+                return s_requestQueue != nullptr && !s_requestQueue->empty();
+            });
+
+            if (s_need_quit)
+            {
+                break;
+            }
+
+            std::lock_guard<std::mutex> queueLock(s_requestQueueMutex);
+            if (s_requestQueue != nullptr && !s_requestQueue->empty())
+            {
+                request = s_requestQueue->at(0);
+                s_requestQueue->erase(0);
+            }
         }
-        
-        s_requestQueueMutex.unlock();
-        
+
         if (nullptr == request)
         {
-            // Wait for http request tasks from main thread
-            std::unique_lock<std::mutex> lk(s_SleepMutex); 
-            s_SleepCondition.wait(lk);
             continue;
         }
         
@@ -426,7 +429,10 @@ HttpClient::HttpClient()
 
 HttpClient::~HttpClient()
 {
-    s_need_quit = true;
+    {
+        std::lock_guard<std::mutex> sleepLock(s_SleepMutex);
+        s_need_quit = true;
+    }
     
     if (s_requestQueue != nullptr) {
     	s_SleepCondition.notify_one();
@@ -444,11 +450,10 @@ bool HttpClient::lazyInitThreadSemphore()
         
         s_requestQueue = new Vector<HttpRequest*>();
         s_responseQueue = new Vector<HttpResponse*>();
-        
+
+        s_need_quit = false;
         auto t = std::thread(CC_CALLBACK_0(HttpClient::networkThread, this));
         t.detach();
-        
-        s_need_quit = false;
     }
     
     return true;
@@ -470,9 +475,11 @@ void HttpClient::send(HttpRequest* request)
     request->retain();
     
     if (nullptr != s_requestQueue) {
-        s_requestQueueMutex.lock();
-        s_requestQueue->pushBack(request);
-        s_requestQueueMutex.unlock();
+        {
+            std::lock_guard<std::mutex> sleepLock(s_SleepMutex);
+            std::lock_guard<std::mutex> queueLock(s_requestQueueMutex);
+            s_requestQueue->pushBack(request);
+        }
         
         // Notify thread start to work
         s_SleepCondition.notify_one();
@@ -517,5 +524,4 @@ void HttpClient::dispatchResponseCallbacks()
 }
 
 NS_CC_END
-
 

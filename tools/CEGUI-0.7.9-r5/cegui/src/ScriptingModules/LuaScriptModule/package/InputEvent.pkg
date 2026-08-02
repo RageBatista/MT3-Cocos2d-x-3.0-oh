@@ -137,3 +137,17 @@ class RenderQueueEventArgs : public EventArgs
 
     RenderQueueEventArgs(RenderQueueID id);
 };
+
+/***********************************************************************
+    UpdateEventArgs
+    MT3: required by Lua scripts via CEGUI.toUpdateEventArgs (e.g.
+    tipsmanager.lua updateMessageTips). Was present in 0.7.1 pkg set,
+    missing from canonical 0.7.9-r5 pkg -> nil binding -> crash.
+    C++ class exists in CEGUIInputEvent.h.
+***********************************************************************/
+class UpdateEventArgs : public WindowEventArgs
+{
+    UpdateEventArgs(Window* window, float tslf);
+
+    float d_timeSinceLastFrame;
+};
