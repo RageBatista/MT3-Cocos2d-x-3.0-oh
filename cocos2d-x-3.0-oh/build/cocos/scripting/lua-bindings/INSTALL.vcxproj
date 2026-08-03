@@ -19,30 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{89B5BDF4-1284-3960-AA4F-3D4B27AF2D84}</ProjectGuid>
+    <ProjectGUID>{89B5BDF4-1284-3960-AA4F-3D4B27AF2D84}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
     <ProjectName>INSTALL</ProjectName>
-    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
@@ -53,13 +56,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-  </PropertyGroup>
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
       <AdditionalIncludeDirectories>E:\MT3\cocos2d-x-3.0-oh;E:\MT3\cocos2d-x-3.0-oh\cocos;E:\MT3\cocos2d-x-3.0-oh\cocos\audio\include;E:\MT3\cocos2d-x-3.0-oh\cocos\2d;E:\MT3\cocos2d-x-3.0-oh\cocos\2d\renderer;E:\MT3\cocos2d-x-3.0-oh\cocos\2d\platform;E:\MT3\cocos2d-x-3.0-oh\cocos\2d\platform\desktop;E:\MT3\cocos2d-x-3.0-oh\cocos\base;E:\MT3\cocos2d-x-3.0-oh\cocos\deprecated;E:\MT3\cocos2d-x-3.0-oh\cocos\physics;E:\MT3\cocos2d-x-3.0-oh\cocos\editor-support;E:\MT3\cocos2d-x-3.0-oh\cocos\math\kazmath;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\auto;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\manual;E:\MT3\cocos2d-x-3.0-oh\extensions;E:\MT3\cocos2d-x-3.0-oh\external;E:\MT3\cocos2d-x-3.0-oh\external\tinyxml2;E:\MT3\cocos2d-x-3.0-oh\external\unzip;E:\MT3\cocos2d-x-3.0-oh\external\edtaa3func;E:\MT3\cocos2d-x-3.0-oh\external\chipmunk\include\chipmunk;E:\MT3\cocos2d-x-3.0-oh\cocos\2d\platform\win32;E:\MT3\cocos2d-x-3.0-oh\external\jpeg\include\win32;E:\MT3\cocos2d-x-3.0-oh\external\png\include\win32;E:\MT3\cocos2d-x-3.0-oh\external\tiff\include\win32;E:\MT3\cocos2d-x-3.0-oh\external\webp\include\win32;E:\MT3\cocos2d-x-3.0-oh\external\glfw3\include\win32;E:\MT3\cocos2d-x-3.0-oh\external\freetype2\include\win32;E:\MT3\cocos2d-x-3.0-oh\external\websockets\include\win32;E:\MT3\cocos2d-x-3.0-oh\external\xxhash;E:\MT3\cocos2d-x-3.0-oh\external\win32-specific\gles\include;E:\MT3\cocos2d-x-3.0-oh\external\win32-specific\gles\include\OGLES;E:\MT3\cocos2d-x-3.0-oh\external\win32-specific\icon\include;E:\MT3\cocos2d-x-3.0-oh\external\win32-specific\zlib\include;E:\MT3\cocos2d-x-3.0-oh\external\curl\include\win32;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\..\..\editor-support\cocosbuilder;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\..\..\editor-support\cocostudio;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\..\..\editor-support\spine;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\..\..\ui;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\..\..\..\external\lua\lua;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\..\..\..\external\lua\tolua;E:\MT3\cocos2d-x-3.0-oh\cocos\scripting\lua-bindings\..\..\..\external\lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -205,13 +208,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="E:\MT3\cocos2d-x-3.0-oh\build\ZERO_CHECK.vcxproj">
-      <Project>{9ADBE587-4B95-36C8-9B99-4CC113892D88}</Project>
-      <Name>ZERO_CHECK</Name>
+    <ProjectReference Include="E:/MT3/cocos2d-x-3.0-oh/build/ZERO_CHECK.vcxproj">
+      <Project>9ADBE587-4B95-36C8-9B99-4CC113892D88</Project>
     </ProjectReference>
-    <ProjectReference Include="E:\MT3\cocos2d-x-3.0-oh\build\external\lua\luasocket\ALL_BUILD.vcxproj">
-      <Project>{9654349C-0F66-3730-AA58-6A060826AA44}</Project>
-      <Name>ALL_BUILD</Name>
+    <ProjectReference Include="E:/MT3/cocos2d-x-3.0-oh/build/external/lua/luasocket/ALL_BUILD.vcxproj">
+      <Project>9654349C-0F66-3730-AA58-6A060826AA44</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

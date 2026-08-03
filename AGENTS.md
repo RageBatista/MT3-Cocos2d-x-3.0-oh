@@ -1,8 +1,8 @@
 # MT3 仓库事实与协作边界（AGENTS）
 
-> **版本**：4.1.0
+> **版本**：4.1.1
 >
-> **更新日期**：2026-07-26
+> **更新日期**：2026-08-03
 >
 > **维护者**：技术委员会
 >
@@ -204,3 +204,62 @@ client/resource/res/**                         # 业务源资源（可修改）
 3. `.trae/rules/project_rules.md` 必须引用本文件并保持事实摘要一致；`.trae/references/**` 中未逐篇复核的旧材料不得覆盖本文件。
 4. 新增平台、迁移 Cocos 根、改变工具链、调整资源 staging 或生成链时，必须同步更新本文件、最近目录规则和对应构建文档。
 5. 不在根规则中固化会快速失真的代码行数、耗时、机器绝对路径或单次故障 workaround。
+
+## 11. 文档实时同步与智能体元数据治理
+
+### 11.1 触发与同步范围
+
+下列事实发生变化时，必须在同一任务内检查并更新受影响的文档；若核对后无需改文，交付记录中应说明已检查：
+
+- 客户端、服务端、工具或资源链的代码修改导致功能、启动/构建入口、生成边界、资源声明或验证方式变化；
+- 平台基线、工具链、架构分层、目录职责、ABI 重建顺序或发布流程变化；
+- `.codex/**`、`.agents/**` 的项目级配置、角色定义、技能接口或治理 sidecar 变化；
+- 已验证的日志、构建结果或运行回归改变了当前文档中的状态结论。
+
+同步边界如下：
+
+| 目标文档 | 必须保持的内容 |
+| --- | --- |
+| `README.md` | 项目概览、平台基线、环境要求、使用/构建入口、功能与 FAQ、文档导航 |
+| 根 `AGENTS.md` | 仓库事实、任务分流、构建/生成/ABI 边界、智能体元数据治理规则 |
+| `docs/README.md` 与 `docs/07-参考文档/02-文档索引.md` | 已落库的当前文档入口和索引 |
+| 专题文档 | 与本次修改直接相关的实现、验证证据、已知边界和回滚说明 |
+
+文档只记录源码、工程文件、构建脚本、配置、日志、构建产物或已复现运行结果已经证实的事实。不得把计划、静态审计推测或单次临时结果表述为已完成的端到端结论。用户要求输出完整文档时，必须从工作树读取当前 `README.md` 与 `AGENTS.md`，分别使用独立的 Markdown 代码块输出，不得以局部片段替代完整文件。
+
+### 11.2 智能体元数据权威来源
+
+| 信息 | 权威来源 | 使用边界 |
+| --- | --- | --- |
+| 角色 ID、描述、配置路径 | [.codex/config.toml](.codex/config.toml) | 项目级角色注册表 |
+| 推理等级、沙箱模式、职责、读写边界与输出要求 | [.codex/agents/](.codex/agents/) 下对应 `.toml` | 单个角色的当前定义 |
+| 技能显示名、默认提示、是否允许隐式调用和已声明依赖 | `.agents/skills/**/agents/openai.yaml` | 技能接口元数据；不与角色配置混淆 |
+| 角色与技能的版本历史 | `git log -- .codex/config.toml .codex/agents .agents/skills` | 以 Git 提交记录为准 |
+| 会话内临时子智能体、执行状态和消息 | 运行时会话 | 非仓库持久元数据，不写入本文件 |
+
+当前 `.codex/agents/*.toml` 未定义统一的机器可解析 `input_schema` 或 `output_schema`。角色输入为父智能体传入的任务与其要求的仓库证据，输出为各自 `developer_instructions` 规定的自然语言分析、计划、审查或验证结果；不得臆造未在配置中存在的 JSON、CLI 或 API 输入输出格式。技能的“何时使用/不使用”等触发边界以对应 `SKILL.md` 为准，`openai.yaml` 只声明其是否允许隐式调用。
+
+### 11.3 当前项目级角色目录
+
+| ID | 描述与能力 | 推理/沙箱 | 任务输入 -> 预期输出 |
+| --- | --- | --- | --- |
+| [`mt3_architecture_analyst`](.codex/agents/mt3_architecture_analyst.toml) | 目录架构、依赖图、运行时分层和模块边界分析 | `high` / `read-only` | 架构或跨域问题与工程证据 -> 源目录、依赖边、生成边界、ABI/构建影响和最小验证门禁 |
+| [`mt3_build_expert`](.codex/agents/mt3_build_expert.toml) | Win32 v120、Android r16/Ant、服务端 Ant 及 CEGUI/CRT/编码构建问题 | `high` / `workspace-write` | 构建故障与入口参数 -> 最小修复、明确验证命令和回滚友好改动 |
+| [`mt3_codex_governor`](.codex/agents/mt3_codex_governor.toml) | `.codex`、`.agents`、MCP、规则和治理 sidecar 对齐 | `high` / `read-only` | 运行面或技能治理问题 -> 配置权威、精确改动建议、官方规范依据和剩余验证缺口 |
+| [`mt3_docs_researcher`](.codex/agents/mt3_docs_researcher.toml) | Codex、MCP、`AGENTS.md` 和 OpenAI API 文档调研 | `medium` / `read-only` | 文档问题或官方资料缺口 -> 含官方引用的简明约束说明 |
+| [`mt3_lua_ui_integrator`](.codex/agents/mt3_lua_ui_integrator.toml) | Lua Dialog 生命周期、CEGUI 绑定、事件、窗口路径和 Lua/C++ 桥接 | `medium` / `read-only` | UI 症状、Lua/资源路径与绑定证据 -> 归因、最小改动建议和打开/关闭/事件/刷新回归步骤 |
+| [`mt3_performance_analyst`](.codex/agents/mt3_performance_analyst.toml) | FPS、内存、DrawCall、CPU/GPU 与 Lua 热点分析 | `medium` / `read-only` | 性能基线和优化目标 -> 含验证指标与回归风险的优化建议 |
+| [`mt3_planner`](.codex/agents/mt3_planner.toml) | 跨子系统任务的范围、风险、回滚点与验证门禁规划 | `medium` / `read-only` | 多步骤或高风险任务 -> 根因导向的计划、回滚点和可执行验证门禁 |
+| [`mt3_resource_pipeline_expert`](.codex/agents/mt3_resource_pipeline_expert.toml) | PFS、热更新、版本索引、补丁、LJFilePack、SpriteEditor 与资源恢复边界 | `medium` / `read-only` | 资源/发布问题与源目录 -> 源定义、影响根、预期产物形态和验证命令 |
+| [`mt3_reviewer`](.codex/agents/mt3_reviewer.toml) | 正确性、ABI、生成物、编码、忽略规则、staging 和验证缺口审查 | `high` / `read-only` | 改动集与相关证据 -> 按严重度排序、含文件引用的审查发现 |
+| [`mt3_runtime_troubleshooter`](.codex/agents/mt3_runtime_troubleshooter.toml) | 崩溃、启动、登录、场景、UI、渲染、CEGUI、资源和平台交接排障 | `high` / `read-only` | 当前日志、复现步骤、二进制路径和配置 -> 按证据排序的根因假设、影响、下一探针和最小验证命令 |
+| [`mt3_security_auditor`](.codex/agents/mt3_security_auditor.toml) | 凭证、注入、提权、敏感数据暴露和合规审计 | `high` / `read-only` | 安全审计范围与改动证据 -> 高严重度优先的发现和兼容旧工具链的建议 |
+| [`mt3_server_protocol_expert`](.codex/agents/mt3_server_protocol_expert.toml) | Ant、gnet、xbean、rpc、生成入口和客户端/服务端协议边界 | `high` / `read-only` | 服务端或协议问题与生成源 -> 源/生成证据、兼容性、同步影响和验证命令 |
+| [`mt3_test_engineer`](.codex/agents/mt3_test_engineer.toml) | 单元、集成、跨平台回归、构建门禁和发布检查 | `medium` / `read-only` | 行为改动与风险范围 -> 必测/建议测试分层、回归用例和可执行命令 |
+
+### 11.4 版本历史与维护检查
+
+- 当前角色注册表和 13 份角色配置由提交 `136acd5bc`（`2026-07-25`，`batch1: root files + engine + cocos + server + small dirs`）引入；截至本次核对，`git log -- .codex/config.toml .codex/agents` 仅返回该记录。
+- 技能目录的后续变更以 `git log -- .agents/skills` 为准；当前可追溯记录包括 `7ea59af3b`（`2026-07-30`）和 `dbe09dc2a`（`2026-08-03`），它们不替代角色注册表的当前定义。
+- 新增、删除或修改角色时，必须在同一变更中同步 `.codex/config.toml`、对应 `.toml`、本节角色目录和版本历史说明；修改技能接口时同步检查其 `openai.yaml` 与技能审计结果。
+- 只修改文档时，至少执行 UTF-8/BOM/换行检查、Markdown 链接存在性检查和限定路径的 `git diff --check`；改动 `.codex` 或 `.agents` 时，按第 5 节和 `codex-runtime-governance` 技能执行对应治理审计。

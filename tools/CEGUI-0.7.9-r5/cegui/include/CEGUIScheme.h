@@ -69,6 +69,29 @@ public:
 	*/
 	void	loadResources(void);
 
+    /*!
+    \brief
+        Prepare this scheme for incremental resource loading.
+    */
+    void beginIncrementalLoad();
+
+    /*!
+    \brief
+        Load at most one declared resource and return whether loading is complete.
+    */
+    bool loadNextResource();
+
+    //! Return the number of declarations processed by incremental loading.
+    size_t getIncrementalLoadedResourceCount() const
+        { return d_incrementalCompleted; }
+
+    //! Return the total number of declarations handled by incremental loading.
+    size_t getIncrementalTotalResourceCount() const
+        { return d_incrementalTotal; }
+
+    //! Return a stable diagnostic name for the current loading stage.
+    const char* getIncrementalLoadStageName() const;
+
 
 	/*!
 	\brief
@@ -124,6 +147,20 @@ public:
         { d_defaultResourceGroup = resourceGroup; }
 
 private:
+	enum IncrementalLoadStage
+	{
+		ILS_NOT_STARTED,
+		ILS_XML_IMAGESETS,
+		ILS_IMAGE_FILE_IMAGESETS,
+		ILS_FONTS,
+		ILS_LOOKNFEELS,
+		ILS_WINDOW_RENDERER_FACTORIES,
+		ILS_WINDOW_FACTORIES,
+		ILS_FACTORY_ALIASES,
+		ILS_FALAGARD_MAPPINGS,
+		ILS_COMPLETE
+	};
+
 	/*************************************************************************
 		Construction and Destruction
 	*************************************************************************/
@@ -350,6 +387,11 @@ private:
 	std::vector<AliasMapping>			d_aliasMappings;
     std::vector<LoadableUIElement>		d_looknfeels;
     std::vector<FalagardMapping>        d_falagardMappings;
+
+    IncrementalLoadStage d_incrementalLoadStage;
+    size_t d_incrementalIndex;
+    size_t d_incrementalCompleted;
+    size_t d_incrementalTotal;
 
     static String d_defaultResourceGroup;   //!< holds default resource group
 };

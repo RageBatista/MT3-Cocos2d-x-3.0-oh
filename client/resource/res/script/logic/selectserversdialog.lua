@@ -115,9 +115,6 @@ end
 
 local function SelectServersDialogDiag(msg)
     msg = "[SelectServerDiag] " .. tostring(msg)
-    if LogErr then
-        LogErr(msg)
-    end
     if LogInfo then
         LogInfo(msg)
     end

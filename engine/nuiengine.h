@@ -1,4 +1,4 @@
-#ifndef __Nuclear_IENGINE_H__
+﻿#ifndef __Nuclear_IENGINE_H__
 #define __Nuclear_IENGINE_H__
 
 #if _MSC_VER > 1000

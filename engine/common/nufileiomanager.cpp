@@ -1,4 +1,4 @@
-#include "nufileiomanager.h"
+﻿#include "nufileiomanager.h"
 #include "nuxml.h"
 #include "nulog.h"
 #include "nupobject.h"

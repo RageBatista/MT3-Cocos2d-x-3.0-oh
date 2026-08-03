@@ -70,9 +70,20 @@ public:
     */
     SchemeIterator  getIterator() const;
 
+    /*!
+    \brief
+        Parse a scheme declaration without synchronously loading its resources.
+    */
+    Scheme& createDeferred(const String& xml_filename,
+                           const String& resource_group = "",
+                           XMLResourceExistsAction action = XREA_RETURN);
+
 protected:
     // override from base
     void doPostObjectAdditionAction(Scheme& object);
+
+private:
+    bool d_deferResourceLoading;
 };
 
 } // End of  CEGUI namespace section

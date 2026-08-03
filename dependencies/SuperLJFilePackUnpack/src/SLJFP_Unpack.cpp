@@ -115,6 +115,15 @@ std::string WideToMultiByteBestEffort(const std::wstring& value) {
     return text;
 }
 
+std::string NormalizeMetadataUtf8(const std::string& value) {
+    if (value.empty()) {
+        return value;
+    }
+
+    const std::wstring wide = MultiByteToWideBestEffort(value);
+    return wide.empty() ? value : WideToMultiByteBestEffort(wide);
+}
+
 bool OpenBinaryOutputFile(std::ofstream& stream, const std::string& path) {
     std::wstring widePath = MultiByteToWideBestEffort(path);
     if (!widePath.empty()) {
@@ -4360,7 +4369,20 @@ int Unpacker::DecryptAndDecompress(
             }
 
             if (candidateError == LJFP_SUCCESS && unzipResult != 0) {
-                candidateError = LJFP_ERROR_DECOMPRESS_FAILED;
+                const bool canUseUncompressedFallback =
+                    shouldCheckCandidateCrc &&
+                    tempData != nullptr &&
+                    tempSize == originalSize &&
+                    m_crc32Func(0, tempData, tempSize) == expectedCRC32;
+                if (canUseUncompressedFallback) {
+                    candidateOutput.assign(tempData, tempData + tempSize);
+                    candidateOutputSize = tempSize;
+                    LJFP_LOG_WARNING(
+                        L"Accepted transformed data after stale compression metadata; "
+                        L"size and CRC32 match the original payload");
+                } else {
+                    candidateError = LJFP_ERROR_DECOMPRESS_FAILED;
+                }
             } else if (candidateError == LJFP_SUCCESS) {
                 candidateOutput.resize(candidateOutputSize);
             }
@@ -4796,14 +4818,19 @@ int Unpacker::WriteOutputPathManifest() {
             }
 
             const std::string flagText = JoinFlagsCsv(flags);
+            const std::string rawMappingPath = NormalizeMetadataUtf8(record.rawMappingPath);
+            const std::string normalizedRelativePath = NormalizeMetadataUtf8(record.normalizedRelativePath);
+            const std::string writtenRelativePath = NormalizeMetadataUtf8(record.writtenRelativePath);
+            const std::string finalRelativePath = NormalizeMetadataUtf8(record.finalRelativePath);
+            const std::string actualRelativePath = NormalizeMetadataUtf8(record.actualRelativePath);
 
             tsv << EscapeTsvField(FormatHexCrc32(record.pathCRC32)) << "\t"
                 << EscapeTsvField(record.sourceKind) << "\t"
-                << EscapeTsvField(record.rawMappingPath) << "\t"
-                << EscapeTsvField(record.normalizedRelativePath) << "\t"
-                << EscapeTsvField(record.writtenRelativePath) << "\t"
-                << EscapeTsvField(record.finalRelativePath) << "\t"
-                << EscapeTsvField(record.actualRelativePath) << "\t"
+                << EscapeTsvField(rawMappingPath) << "\t"
+                << EscapeTsvField(normalizedRelativePath) << "\t"
+                << EscapeTsvField(writtenRelativePath) << "\t"
+                << EscapeTsvField(finalRelativePath) << "\t"
+                << EscapeTsvField(actualRelativePath) << "\t"
                 << EscapeTsvField(record.physicalPathStatus) << "\t"
                 << (record.physicalExists ? "True" : "False") << "\t"
                 << record.physicalSize << "\t"
@@ -4818,11 +4845,11 @@ int Unpacker::WriteOutputPathManifest() {
             json << "    {\n";
             json << "      \"path_crc32\": \"" << EscapeJsonString(FormatHexCrc32(record.pathCRC32)) << "\",\n";
             json << "      \"source_kind\": \"" << EscapeJsonString(record.sourceKind) << "\",\n";
-            json << "      \"raw_mapping_path\": \"" << EscapeJsonString(record.rawMappingPath) << "\",\n";
-            json << "      \"normalized_relative_path\": \"" << EscapeJsonString(record.normalizedRelativePath) << "\",\n";
-            json << "      \"written_relative_path\": \"" << EscapeJsonString(record.writtenRelativePath) << "\",\n";
-            json << "      \"final_relative_path\": \"" << EscapeJsonString(record.finalRelativePath) << "\",\n";
-            json << "      \"actual_relative_path\": \"" << EscapeJsonString(record.actualRelativePath) << "\",\n";
+            json << "      \"raw_mapping_path\": \"" << EscapeJsonString(rawMappingPath) << "\",\n";
+            json << "      \"normalized_relative_path\": \"" << EscapeJsonString(normalizedRelativePath) << "\",\n";
+            json << "      \"written_relative_path\": \"" << EscapeJsonString(writtenRelativePath) << "\",\n";
+            json << "      \"final_relative_path\": \"" << EscapeJsonString(finalRelativePath) << "\",\n";
+            json << "      \"actual_relative_path\": \"" << EscapeJsonString(actualRelativePath) << "\",\n";
             json << "      \"physical_path_status\": \"" << EscapeJsonString(record.physicalPathStatus) << "\",\n";
             json << "      \"physical_exists\": " << (record.physicalExists ? "true" : "false") << ",\n";
             json << "      \"physical_size\": " << record.physicalSize << ",\n";

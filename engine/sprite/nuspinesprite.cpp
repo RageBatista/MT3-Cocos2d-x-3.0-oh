@@ -1,4 +1,4 @@
-#include "nuspinesprite.h"
+﻿#include "nuspinesprite.h"
 #include "StringUtil.h"
 #include "engine/nuenginebase.h"
 #include "engine/nuengine.h"
@@ -339,16 +339,31 @@ namespace Nuclear
 		}
 
 		Renderer* pRenderer = m_pEB->GetRenderer();
+		if (!pRenderer)
+		{
+			MT3_SPINE_SPRITE_TRACE("OnLoaded skip missing renderer model=%s", modelName.c_str());
+			return;
+		}
 
 		spine::PathToTextureMap textureMap;
 		for (SpineRes::PictureHandleArray::iterator it = spineRes->mPicHandles.begin(); it != spineRes->mPicHandles.end(); ++it)
 		{
 			PictureHandle picHandle = *it;
 			const Cocos2dRenderer::CTextureInfo* pTextureInfo = (const Cocos2dRenderer::CTextureInfo*)pRenderer->GetTexInfo(picHandle);
-			if (pTextureInfo)
+			if (pTextureInfo && pTextureInfo->m_pTexture)
 			{
 				textureMap.insert(std::make_pair(ws2s(pTextureInfo->fileuri), pTextureInfo->m_pTexture));
 			}
+			else
+			{
+				MT3_SPINE_SPRITE_TRACE("OnLoaded skip invalid texture model=%s handle=%u info=%p",
+					modelName.c_str(), (unsigned int)picHandle, pTextureInfo);
+			}
+		}
+		if (textureMap.empty())
+		{
+			MT3_SPINE_SPRITE_TRACE("OnLoaded skip no valid textures model=%s", modelName.c_str());
+			return;
 		}
 
 		m_pSkelAnim = spine::SkeletonAnimation::createWithTextureMap((const char*)spineRes->jsonBuffer.constbegin(), spineRes->jsonBuffer.size(), (const char*)spineRes->atlasBuffer.constbegin(), spineRes->atlasBuffer.size(), dir.c_str(), textureMap, 1.0f);

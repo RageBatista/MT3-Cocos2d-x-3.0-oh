@@ -43,6 +43,25 @@ function Ensure-ParentDirectory {
     }
 }
 
+function Get-Sha256 {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    $getFileHash = Get-Command Get-FileHash -ErrorAction SilentlyContinue
+    if ($getFileHash) {
+        return (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash
+    }
+
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    $stream = [System.IO.File]::OpenRead($Path)
+    try {
+        return ([System.BitConverter]::ToString($sha256.ComputeHash($stream)) -replace '-', '').ToUpperInvariant()
+    }
+    finally {
+        $stream.Dispose()
+        $sha256.Dispose()
+    }
+}
+
 function Invoke-PowerShellScript {
     param(
         [Parameter(Mandatory = $true)][string]$ScriptPath,
@@ -188,7 +207,7 @@ try {
         }
 
         $exeInfo = Get-Item $exePath
-        $exeHash = (Get-FileHash -Path $exePath -Algorithm SHA256).Hash
+        $exeHash = Get-Sha256 -Path $exePath
         $report.Builds += [PSCustomObject]@{
             Configuration = $cfg
             EngineProfile = $EngineProfile
@@ -203,17 +222,24 @@ try {
         Write-Host ("==> runtime-audit {0}" -f $cfg)
         $runtimeReportRel = ("build_logs/runtime-audit-{0}-full-validation.json" -f $cfg.ToLowerInvariant())
         $runtimeAuditArgs = @(
-            "-ScanRoots", ("client\\resource\\bin\\{0}" -f $cfg), "client\\resource\\tools", "tools",
+            "-ScanRoots", ("client\resource\bin\{0}" -f $cfg),
+            "-ExecutableNames", "MT3.exe",
             "-ReportPath", $runtimeReportRel
         )
         if ($StrictRuntimeAudit) {
             $runtimeAuditArgs += "-FailOnIssues"
         }
         Invoke-PowerShellScript -ScriptPath $runtimeAuditScript -Arguments $runtimeAuditArgs
+        $runtimeReportPath = Resolve-RepoPath -RepoRoot $repoRoot -PathValue $runtimeReportRel
+        $runtimeReport = Get-Content -Raw -Encoding UTF8 $runtimeReportPath | ConvertFrom-Json
+        if ([int]$runtimeReport.Summary.ExeCount -ne 1) {
+            throw ("Runtime audit must inspect exactly one MT3.exe for {0}; actual={1}" -f
+                $cfg, $runtimeReport.Summary.ExeCount)
+        }
         $report.RuntimeAudits += [PSCustomObject]@{
             Configuration = $cfg
             Status = "pass"
-            ReportPath = (Resolve-RepoPath -RepoRoot $repoRoot -PathValue $runtimeReportRel)
+            ReportPath = $runtimeReportPath
         }
 
         if ($RunSmoke) {

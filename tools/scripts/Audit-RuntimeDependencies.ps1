@@ -546,6 +546,8 @@ $summary = [PSCustomObject]@{
     Dumpbin = $dumpbinPath
     ScanRootCount = ($resolvedRoots | Measure-Object).Count
     ExeCount = ($allExes | Measure-Object).Count
+    RequestedExecutableCount = $ExecutableNames.Count
+    RequestedExecutableMissing = ($ExecutableNames.Count -gt 0 -and $allExes.Count -eq 0)
     RuntimeDirCount = ($runtimeDirs | Measure-Object).Count
     DriftCount = ($driftRows | Measure-Object).Count
     DriftHighCount = ($driftRows | Where-Object { $_.Severity -eq 'High' } | Measure-Object).Count
@@ -606,6 +608,7 @@ if (-not [string]::IsNullOrWhiteSpace($ReportPath)) {
 }
 
 $hasHigh = (
+    ($ExecutableNames.Count -gt 0 -and $allExes.Count -eq 0) -or
     (($driftRows | Where-Object { $_.Severity -eq 'High' } | Measure-Object).Count -gt 0) -or
     (($depRows | Where-Object { $_.Severity -eq 'High' } | Measure-Object).Count -gt 0) -or
     (($runtimeImportRows | Where-Object { $_.Severity -eq 'High' } | Measure-Object).Count -gt 0) -or

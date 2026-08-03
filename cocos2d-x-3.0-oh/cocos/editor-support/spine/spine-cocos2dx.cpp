@@ -100,19 +100,18 @@ void spAtlas_parseTextureMap (const char* begin, int length, const char* dir, Pa
 
 // MT3 custom: read atlas with pre-loaded texture map.
 // This creates an spAtlas using textures from the provided map instead of loading from disk.
-static void createTextureFromMap (spAtlasPage* page, const char* path, const PathToTextureMap& textureMap) {
+static bool createTextureFromMap (spAtlasPage* page, const char* path, const PathToTextureMap& textureMap) {
 	PathToTextureMap::const_iterator iter = textureMap.find(path);
-	if (iter != textureMap.end() && iter->second) {
-		cocos2d::Texture2D* texture = iter->second;
-		cocos2d::TextureAtlas* textureAtlas = cocos2d::TextureAtlas::createWithTexture(texture, 4);
-		textureAtlas->retain();
-		page->rendererObject = textureAtlas;
-		page->width = texture->getPixelsWide();
-		page->height = texture->getPixelsHigh();
-		return;
-	}
+	if (iter == textureMap.end() || !iter->second) return false;
 
-	_spAtlasPage_createTexture(page, path);
+	cocos2d::Texture2D* texture = iter->second;
+	cocos2d::TextureAtlas* textureAtlas = cocos2d::TextureAtlas::createWithTexture(texture, 4);
+	if (!textureAtlas) return false;
+	textureAtlas->retain();
+	page->rendererObject = textureAtlas;
+	page->width = texture->getPixelsWide();
+	page->height = texture->getPixelsHigh();
+	return true;
 }
 
 // ---- Atlas parsing helpers (from 2.2.6 spine) ----
@@ -281,8 +280,13 @@ static spAtlas* spAtlas_readAtlasInternal (const char* begin, int length, const 
 				page->vWrap = *str.begin == 'x' ? ATLAS_CLAMPTOEDGE : (*str.begin == 'y' ? ATLAS_REPEAT : ATLAS_REPEAT);
 			}
 
-			if (textureMap)
-				createTextureFromMap(page, path, *textureMap);
+			if (textureMap) {
+				if (!createTextureFromMap(page, path, *textureMap)) {
+					free(path);
+					spAtlas_dispose(self);
+					return 0;
+				}
+			}
 			else
 				_spAtlasPage_createTexture(page, path);
 			free(path);
@@ -383,7 +387,9 @@ spAtlas* Atlas_readAtlasWithTextureMap (const char* begin, int length, const cha
 
 void _spAtlasPage_createTexture (spAtlasPage* self, const char* path) {
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(path);
+    if (!texture) return;
     TextureAtlas* textureAtlas = TextureAtlas::createWithTexture(texture, 4);
+    if (!textureAtlas) return;
     textureAtlas->retain();
     self->rendererObject = textureAtlas;
     // Using getContentSize to make it supports the strategy of loading resources in cocos2d-x.
@@ -394,7 +400,8 @@ void _spAtlasPage_createTexture (spAtlasPage* self, const char* path) {
 }
 
 void _spAtlasPage_disposeTexture (spAtlasPage* self) {
-	((TextureAtlas*)self->rendererObject)->release();
+	if (self && self->rendererObject)
+		((TextureAtlas*)self->rendererObject)->release();
 }
 
 char* _spUtil_readFile (const char* path, int* length)

@@ -835,6 +835,7 @@ GameApplication::GameApplication()
 , m_pCloseExecutorTimer(NULL)
 , m_bWaitForEnterWorldMessage(false)
 , m_bLogoLoad(false)
+, m_bStartupLoginPending(false)
 , m_iLoadLogoTime(0)
 , m_bWaitToEnterWorld(false)
 , m_iEnterWorldRoleID(0)
@@ -2192,6 +2193,7 @@ void GameApplication::OnTick(unsigned int now, unsigned int delta, unsigned real
     {
         gGetGameUIManager()->Run(now,delta);
     }
+	TryCompleteStartupLoginUI();
 
 	if (gGetVoiceManager() && gGetStateManager() && gGetStateManager()->isGameState(eGameStateRunning))
     {
@@ -2351,6 +2353,100 @@ void onVideoPlayerEvent(cocos2d::VideoPlayer::EventType event)
 	}
 }
 
+void GameApplication::DrawStartupWaitPicture()
+{
+	if (spVideoPlayer || m_WaitPictureHandle == Nuclear::INVALID_PICTURE_HANDLE)
+	{
+		return;
+	}
+
+	Nuclear::NuclearDisplayMode mode = Nuclear::GetEngine()->GetRenderer()->GetDisplayMode();
+	const float screenWidth = mode.width;
+	const float screenHeight = mode.height;
+	const float imageWidth = 1280.0f;
+	const float imageHeight = 720.0f;
+	Nuclear::NuclearFRectt rect(0.0f, 0.0f, screenWidth, screenHeight);
+	if (((imageWidth * screenHeight) / (imageHeight * screenWidth)) > 1.0f)
+	{
+		const float cropWidth = ((imageWidth * screenHeight) / imageHeight - screenWidth) / 2.0f;
+		rect.Assign(-cropWidth, 0.0f, screenWidth + cropWidth, screenHeight);
+	}
+	else
+	{
+		const float cropHeight = ((screenWidth * imageHeight) / imageWidth - screenHeight) / 2.0f;
+		rect.Assign(0.0f, -cropHeight, screenWidth, screenHeight + cropHeight);
+	}
+
+	Nuclear::GetEngine()->GetRenderer()->DrawPicture(m_WaitPictureHandle, rect, 0xFFFFFFFF);
+}
+
+void GameApplication::TryCompleteStartupLoginUI()
+{
+	if (!m_bStartupLoginPending || !gGetGameUIManager() ||
+		!gGetGameUIManager()->IsGameUIBootstrapReady())
+	{
+		return;
+	}
+
+	CEGUI::WindowManager* windowManager = CEGUI::WindowManager::getSingletonPtr();
+	if (!windowManager || !windowManager->isWindowPresent("gugedonghua"))
+	{
+		return;
+	}
+
+	m_bStartupLoginPending = false;
+	Nuclear::GetEngine()->GetRenderer()->FreePicture(m_WaitPictureHandle);
+	m_WaitPictureHandle = Nuclear::INVALID_PICTURE_HANDLE;
+	core::Logger::flurryEvent(L"show_sdk_login", true);
+	MT3_TRACE("[MT3_UI_INIT] startup login UI ready");
+
+	cocos2d::CCUserDefault* pUserDefault = cocos2d::CCUserDefault::sharedUserDefault();
+	if (!pUserDefault->getBoolForKey("StartCGPlayed", false))
+	{
+		pUserDefault->setBoolForKey("StartCGPlayed", true);
+		pUserDefault->flush();
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		MT3_TRACE("GameApplication::TryCompleteStartupLoginUI skip start CG on Android because VideoPlayer bridge is not linked");
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+		MT3_TRACE("GameApplication::TryCompleteStartupLoginUI skip start CG on Win32 because VideoPlayerEngine is a stub");
+#else
+		if (!spVideoPlayer)
+		{
+			spVideoPlayer = new cocos2d::VideoPlayer;
+			if (spVideoPlayer)
+			{
+#if defined(WIN32)
+				std::wstring wStr = gGetGameUIManager()->GetFullPathFileName(L"/cfg/video/mt3.mp4");
+#else
+				std::wstring wStr = gGetGameUIManager()->GetFullPathFileName(L"/cfg/video/MT3.mp4");
+#endif
+				std::string strFilename = StringCover::to_string(wStr);
+				spVideoPlayer->setFileName(strFilename, "", "");
+				spVideoPlayer->setVideoRect(0, 0, 0, 0);
+				spVideoPlayer->setKeepAspectRatioEnabled(true);
+				spVideoPlayer->addEventListener(onVideoPlayerEvent);
+				MT3_TRACE("GameApplication::TryCompleteStartupLoginUI start video file=%s", strFilename.c_str());
+				sStartCGPlayRequestTime = (unsigned int)Nuclear::GetEngine()->GetTimeCount();
+				sStartCGReceivedPlaybackEvent = false;
+				spVideoPlayer->play();
+				spVideoPlayer->setVisible(true);
+			}
+		}
+#endif
+	}
+
+	if (spVideoPlayer)
+	{
+		sbDoSDKOrShowQuickLoginAfterPlayingCG = true;
+	}
+	else
+	{
+		playLoginBGM();
+		doSDKOrShowQuickLogin();
+	}
+}
+
 void GameApplication::OnRenderInit(int now, int step, int totalstep)
 {
 	static int sRenderInitCount = 0;
@@ -2366,6 +2462,10 @@ void GameApplication::OnRenderInit(int now, int step, int totalstep)
         Nuclear::GetEngine()->GetRenderer()->FreePicture(m_WaitPictureHandle);
         m_WaitPictureHandle = Nuclear::GetEngine()->GetRenderer()->LoadPicture(L"/image/loading/waiting.jpg");
     }
+	if (gGetGameUIManager())
+	{
+		gGetGameUIManager()->UpdateSchemeLoading(3);
+	}
 
 	Nuclear::NuclearDisplayMode mode = Nuclear::GetEngine()->GetRenderer()->GetDisplayMode();
     float screenwith = mode.width;
@@ -2389,78 +2489,8 @@ void GameApplication::OnRenderInit(int now, int step, int totalstep)
 	if (step == totalstep)
 	{
 		MT3_TRACE("GameApplication::OnRenderInit final step reached step=%d total=%d sp=%p", step, totalstep, spVideoPlayer);
-		Nuclear::GetEngine()->GetRenderer()->FreePicture(m_WaitPictureHandle);
-		m_WaitPictureHandle = Nuclear::INVALID_PICTURE_HANDLE;
-
-        core::Logger::flurryEvent(L"show_sdk_login",true);
-#if defined(XP_PERFORMANCE) && defined(WIN32)
-		float beginMemSize = CFileUtil::GetUsedMemory();
-		std::string strOut = "[Mem Dosage] InitGameUIPostInit Start: ";
-		strOut += StringCover::floatToString(beginMemSize);
-		strOut += '\n';
-		::OutputDebugStringA(strOut.c_str());
-#endif
-        // ycl 播放开场动画。播放完毕再??SDK 初始化或显示快速登录界??
-		cocos2d::CCUserDefault* pUserDefault = cocos2d::CCUserDefault::sharedUserDefault();
-		if(!pUserDefault->getBoolForKey("StartCGPlayed", false))  // ycl 开场动画是否播过，如果没播过，则播放
-		{
-			pUserDefault->setBoolForKey("StartCGPlayed", true);
-			pUserDefault->flush();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-			MT3_TRACE("GameApplication::OnRenderInit skip start CG on Android because VideoPlayer bridge is not linked");
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-			MT3_TRACE("GameApplication::OnRenderInit skip start CG on Win32 because VideoPlayerEngine is a stub");
-#else
-			if (!spVideoPlayer)
-			{
-				spVideoPlayer = new cocos2d::VideoPlayer;
-				if (spVideoPlayer)
-				{
-#if defined(WIN32)
-					std::wstring wStr = gGetGameUIManager()->GetFullPathFileName(L"/cfg/video/mt3.mp4");
-#else
-					std::wstring wStr = gGetGameUIManager()->GetFullPathFileName(L"/cfg/video/MT3.mp4");
-#endif
-					std::string strFilename = StringCover::to_string(wStr);
-					spVideoPlayer->setFileName(strFilename, "", "");
-
-					spVideoPlayer->setVideoRect(0, 0, 0, 0);
-					spVideoPlayer->setKeepAspectRatioEnabled(true);
-
-					spVideoPlayer->addEventListener(onVideoPlayerEvent);
-
-					MT3_TRACE("GameApplication::OnRenderInit start video file=%s", strFilename.c_str());
-					sStartCGPlayRequestTime = (unsigned int)Nuclear::GetEngine()->GetTimeCount();
-					sStartCGReceivedPlaybackEvent = false;
-					spVideoPlayer->play();
-					spVideoPlayer->setVisible(true);
-				}
-			}
-#endif
-		}
-
-		if (spVideoPlayer)  // ycl 如果当前正在播开场动画，则不在此处进??SDK 或显示快速登??
-		{
-			sbDoSDKOrShowQuickLoginAfterPlayingCG = true;
-		}
-		else
-		{
-            // 播放登录背景音乐
-            playLoginBGM();
-			doSDKOrShowQuickLogin();
-		}
-		
-#if defined(XP_PERFORMANCE) && defined(WIN32)
-		float endMemSize = CFileUtil::GetUsedMemory();
-		float deltaMemSize = endMemSize - beginMemSize;
-		strOut = "[Mem Dosage] InitGameUIPostInit End: ";
-		strOut += StringCover::floatToString(deltaMemSize);
-		strOut += " Total MemUsage:";
-		strOut += StringCover::floatToString(endMemSize);
-		strOut += '\n';
-		::OutputDebugStringA(strOut.c_str());
-#endif
+		m_bStartupLoginPending = true;
+		TryCompleteStartupLoginUI();
 	}
 
 	if (!spVideoPlayer && m_WaitPictureHandle != Nuclear::INVALID_PICTURE_HANDLE)
@@ -2597,6 +2627,10 @@ void GameApplication::OnRenderUI(int now, bool realRender)
 	if (GetBattleManager() && GetBattleManager()->IsInBattle())
 	{
 		GetBattleManager()->DrawUnderUI(now);
+	}
+	if (m_bStartupLoginPending)
+	{
+		DrawStartupWaitPicture();
 	}
 
 	if (gGetGameUIManager() && m_bDrawUI)

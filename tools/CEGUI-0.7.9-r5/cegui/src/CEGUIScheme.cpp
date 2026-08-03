@@ -74,7 +74,11 @@ String Scheme::d_defaultResourceGroup;
     Constructor for scheme objects
 *************************************************************************/
 Scheme::Scheme(const String& name) :
-    d_name(name)
+    d_name(name),
+    d_incrementalLoadStage(ILS_NOT_STARTED),
+    d_incrementalIndex(0),
+    d_incrementalCompleted(0),
+    d_incrementalTotal(0)
 {
 }
 
@@ -98,19 +102,265 @@ Scheme::~Scheme(void)
 *************************************************************************/
 void Scheme::loadResources(void)
 {
-    Logger::getSingleton().logEvent("---- Begining resource loading for GUI scheme '" + d_name + "' ----", Informative);
+    beginIncrementalLoad();
+    while (!loadNextResource())
+    {
+    }
+}
 
-    // load all resources specified for this scheme.
-    loadXMLImagesets();
-    loadImageFileImagesets();
-    loadFonts();
-    loadLookNFeels();
-    loadWindowRendererFactories();
-    loadWindowFactories();
-    loadFactoryAliases();
-    loadFalagardMappings();
 
-    Logger::getSingleton().logEvent("---- Resource loading for GUI scheme '" + d_name + "' completed ----", Informative);
+/*************************************************************************
+    Prepare incremental resource loading
+*************************************************************************/
+void Scheme::beginIncrementalLoad()
+{
+    d_incrementalLoadStage = ILS_XML_IMAGESETS;
+    d_incrementalIndex = 0;
+    d_incrementalCompleted = 0;
+    d_incrementalTotal = d_imagesets.size() + d_imagesetsFromImages.size() +
+        d_fonts.size() + d_looknfeels.size() + d_windowRendererModules.size() +
+        d_widgetModules.size() + d_aliasMappings.size() +
+        d_falagardMappings.size();
+
+    Logger::getSingleton().logEvent("---- Begining incremental resource loading for GUI scheme '" + d_name + "' ----", Informative);
+}
+
+
+/*************************************************************************
+    Return the current incremental loading stage name
+*************************************************************************/
+const char* Scheme::getIncrementalLoadStageName() const
+{
+    switch (d_incrementalLoadStage)
+    {
+    case ILS_NOT_STARTED: return "not-started";
+    case ILS_XML_IMAGESETS: return "imageset";
+    case ILS_IMAGE_FILE_IMAGESETS: return "image-file-imageset";
+    case ILS_FONTS: return "font";
+    case ILS_LOOKNFEELS: return "looknfeel";
+    case ILS_WINDOW_RENDERER_FACTORIES: return "window-renderer";
+    case ILS_WINDOW_FACTORIES: return "window-factory";
+    case ILS_FACTORY_ALIASES: return "factory-alias";
+    case ILS_FALAGARD_MAPPINGS: return "falagard-mapping";
+    case ILS_COMPLETE: return "complete";
+    }
+
+    return "unknown";
+}
+
+
+/*************************************************************************
+    Load at most one declared resource
+*************************************************************************/
+bool Scheme::loadNextResource()
+{
+    if (d_incrementalLoadStage == ILS_NOT_STARTED)
+        beginIncrementalLoad();
+
+    for (;;)
+    {
+        switch (d_incrementalLoadStage)
+        {
+        case ILS_XML_IMAGESETS:
+            if (d_incrementalIndex < d_imagesets.size())
+            {
+                LoadableUIElement& element = d_imagesets[d_incrementalIndex];
+                ImagesetManager& manager = ImagesetManager::getSingleton();
+                if (element.name.empty() || !manager.isDefined(element.name))
+                {
+                    Imageset& imageset = manager.create(element.filename, element.resourceGroup);
+                    const String realname(imageset.getName());
+                    if (element.name.empty())
+                        element.name = realname;
+                    else if (realname != element.name)
+                    {
+                        manager.destroy(imageset);
+                        CEGUI_THROW(InvalidRequestException("Scheme::loadNextResource: The Imageset created by file '" +
+                            element.filename + "' is named '" + realname + "', not '" + element.name +
+                            "' as required by Scheme '" + d_name + "'."));
+                    }
+                }
+                ++d_incrementalIndex;
+                ++d_incrementalCompleted;
+                return false;
+            }
+            d_incrementalLoadStage = ILS_IMAGE_FILE_IMAGESETS;
+            d_incrementalIndex = 0;
+            continue;
+
+        case ILS_IMAGE_FILE_IMAGESETS:
+            if (d_incrementalIndex < d_imagesetsFromImages.size())
+            {
+                LoadableUIElement& element = d_imagesetsFromImages[d_incrementalIndex];
+                ImagesetManager& manager = ImagesetManager::getSingleton();
+                if (element.name.empty())
+                    element.name = element.filename;
+                if (!manager.isDefined(element.name))
+                    manager.createFromImageFile(element.name, element.filename, element.resourceGroup);
+                ++d_incrementalIndex;
+                ++d_incrementalCompleted;
+                return false;
+            }
+            d_incrementalLoadStage = ILS_FONTS;
+            d_incrementalIndex = 0;
+            continue;
+
+        case ILS_FONTS:
+            if (d_incrementalIndex < d_fonts.size())
+            {
+                LoadableUIElement& element = d_fonts[d_incrementalIndex];
+                FontManager& manager = FontManager::getSingleton();
+                if (element.name.empty() || !manager.isDefined(element.name))
+                {
+                    Font& font = manager.create(element.filename, element.resourceGroup);
+                    const String realname(font.getName());
+                    if (element.name.empty())
+                        element.name = realname;
+                    else if (realname != element.name)
+                    {
+                        manager.destroy(font);
+                        CEGUI_THROW(InvalidRequestException("Scheme::loadNextResource: The Font created by file '" +
+                            element.filename + "' is named '" + realname + "', not '" + element.name +
+                            "' as required by Scheme '" + d_name + "'."));
+                    }
+                }
+                ++d_incrementalIndex;
+                ++d_incrementalCompleted;
+                return false;
+            }
+            d_incrementalLoadStage = ILS_LOOKNFEELS;
+            d_incrementalIndex = 0;
+            continue;
+
+        case ILS_LOOKNFEELS:
+            if (d_incrementalIndex < d_looknfeels.size())
+            {
+                const LoadableUIElement& element = d_looknfeels[d_incrementalIndex];
+                WidgetLookManager::getSingleton().parseLookNFeelSpecification(
+                    element.filename, element.resourceGroup);
+                ++d_incrementalIndex;
+                ++d_incrementalCompleted;
+                return false;
+            }
+            d_incrementalLoadStage = ILS_WINDOW_RENDERER_FACTORIES;
+            d_incrementalIndex = 0;
+            continue;
+
+        case ILS_WINDOW_RENDERER_FACTORIES:
+            if (d_incrementalIndex < d_windowRendererModules.size())
+            {
+                WRModule& module = d_windowRendererModules[d_incrementalIndex];
+                if (!module.wrModule)
+                {
+#if !defined(CEGUI_STATIC)
+                    if (!module.dynamicModule)
+                        module.dynamicModule = new DynamicModule(module.name);
+                    WindowRendererModule& (*getWRModuleFunc)() =
+                        reinterpret_cast<WindowRendererModule&(*)()>(
+                            module.dynamicModule->getSymbolAddress("getWindowRendererModule"));
+                    if (!getWRModuleFunc)
+                        CEGUI_THROW(InvalidRequestException(
+                            "Scheme::loadNextResource: Window renderer module entry point was not found in module '" +
+                            module.name + "'."));
+                    module.wrModule = &getWRModuleFunc();
+#else
+                    module.wrModule = &getWindowRendererModule();
+#endif
+                }
+
+                if (module.wrTypes.empty())
+                    module.wrModule->registerAllFactories();
+                else
+                {
+                    std::vector<String>::const_iterator type = module.wrTypes.begin();
+                    for (; type != module.wrTypes.end(); ++type)
+                        module.wrModule->registerFactory(*type);
+                }
+                ++d_incrementalIndex;
+                ++d_incrementalCompleted;
+                return false;
+            }
+            d_incrementalLoadStage = ILS_WINDOW_FACTORIES;
+            d_incrementalIndex = 0;
+            continue;
+
+        case ILS_WINDOW_FACTORIES:
+            if (d_incrementalIndex < d_widgetModules.size())
+            {
+                UIModule& module = d_widgetModules[d_incrementalIndex];
+                WindowFactoryManager& manager = WindowFactoryManager::getSingleton();
+                if (!module.module)
+                    module.module = new FactoryModule(module.name);
+                if (module.factories.empty())
+                    module.module->registerAllFactories();
+                else
+                {
+                    std::vector<UIElementFactory>::const_iterator factory = module.factories.begin();
+                    for (; factory != module.factories.end(); ++factory)
+                    {
+                        if (!manager.isFactoryPresent(factory->name))
+                            module.module->registerFactory(factory->name);
+                    }
+                }
+                ++d_incrementalIndex;
+                ++d_incrementalCompleted;
+                return false;
+            }
+            d_incrementalLoadStage = ILS_FACTORY_ALIASES;
+            d_incrementalIndex = 0;
+            continue;
+
+        case ILS_FACTORY_ALIASES:
+            if (d_incrementalIndex < d_aliasMappings.size())
+            {
+                const AliasMapping& mapping = d_aliasMappings[d_incrementalIndex];
+                WindowFactoryManager& manager = WindowFactoryManager::getSingleton();
+                WindowFactoryManager::TypeAliasIterator iter = manager.getAliasIterator();
+                while (!iter.isAtEnd() && iter.getCurrentKey() != mapping.aliasName)
+                    ++iter;
+                if (iter.isAtEnd() || iter.getCurrentValue().getActiveTarget() != mapping.targetName)
+                    manager.addWindowTypeAlias(mapping.aliasName, mapping.targetName);
+                ++d_incrementalIndex;
+                ++d_incrementalCompleted;
+                return false;
+            }
+            d_incrementalLoadStage = ILS_FALAGARD_MAPPINGS;
+            d_incrementalIndex = 0;
+            continue;
+
+        case ILS_FALAGARD_MAPPINGS:
+            if (d_incrementalIndex < d_falagardMappings.size())
+            {
+                const FalagardMapping& mapping = d_falagardMappings[d_incrementalIndex];
+                WindowFactoryManager& manager = WindowFactoryManager::getSingleton();
+                WindowFactoryManager::FalagardMappingIterator iter = manager.getFalagardMappingIterator();
+                while (!iter.isAtEnd() && iter.getCurrentKey() != mapping.windowName)
+                    ++iter;
+                if (iter.isAtEnd() ||
+                    iter.getCurrentValue().d_baseType != mapping.targetName ||
+                    iter.getCurrentValue().d_rendererType != mapping.rendererName ||
+                    iter.getCurrentValue().d_lookName != mapping.lookName)
+                {
+                    manager.addFalagardWindowMapping(mapping.windowName, mapping.targetName,
+                        mapping.lookName, mapping.rendererName, mapping.effectName);
+                }
+                ++d_incrementalIndex;
+                ++d_incrementalCompleted;
+                return false;
+            }
+            d_incrementalLoadStage = ILS_COMPLETE;
+            d_incrementalIndex = 0;
+            Logger::getSingleton().logEvent("---- Incremental resource loading for GUI scheme '" + d_name + "' completed ----", Informative);
+            return true;
+
+        case ILS_COMPLETE:
+            return true;
+
+        case ILS_NOT_STARTED:
+            beginIncrementalLoad();
+            continue;
+        }
+    }
 }
 
 

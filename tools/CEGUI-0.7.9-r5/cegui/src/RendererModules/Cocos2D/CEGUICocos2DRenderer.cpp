@@ -89,10 +89,12 @@ Cocos2DRenderer::Cocos2DRenderer() :
     m_program(NULL),
     d_pDebugTexture(NULL),
     d_pParent(0),
-    m_savedDepthTest(false),
-    m_savedCullFace(false),
-    m_savedMatrixMode(KM_GL_MODELVIEW)
+    d_externalPassDepth(0)
 {
+    d_renderStateStack.reserve(2);
+    d_externalStateStack.reserve(2);
+    d_uiStateStack.reserve(2);
+
     GLint max_tex_size;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
     d_maxTextureSize = max_tex_size;
@@ -270,89 +272,28 @@ void Cocos2DRenderer::destroyAllTextures()
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::beginRendering()
 {
-    // Save current kazmath matrix mode so endRendering() can always restore it,
-    // even if an exception skips the normal teardown path.
-    m_savedMatrixMode = kmGLGetCurrentMatrixMode();
-
-    // Save GL state that may be altered by CEGUI rendering or 3D engine
-    m_savedDepthTest = (glIsEnabled(GL_DEPTH_TEST) == GL_TRUE);
-    m_savedCullFace = (glIsEnabled(GL_CULL_FACE) == GL_TRUE);
-    // CEGUI is 2D UI overlay: disable depth test so UI is never culled by 3D depth buffer
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glEnable(GL_SCISSOR_TEST);
-
-    m_program = cocos2d::ShaderCache::getInstance()->getProgram(
-        cocos2d::GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
-    if (m_program)
-    {
-        m_program->use();
-
-        // CEGUI 2D UI needs orthographic projection; EngineLayer::draw() sets 3D perspective.
-        // Save current projection matrix and switch to 2D ortho so UI is visible.
-        // Using kmGLGetMatrix/kmGLLoadMatrix instead of push/pop to avoid matrix
-        // stack imbalance issues with Cocos2d-x 3.0's Node::visit() which also
-        // uses kmGLPushMatrix/kmGLPopMatrix without explicit matrix mode.
-        kmGLMatrixMode(KM_GL_PROJECTION);
-        kmGLGetMatrix(KM_GL_PROJECTION, &m_savedProjectionMatrix);
-        kmGLLoadIdentity();
-
-        const Size& displaySize = getDisplaySize();
-        kmMat4 ortho;
-        kmMat4OrthographicProjection(&ortho,
-            0.0f, displaySize.d_width,
-            displaySize.d_height, 0.0f,
-            -1.0f, 1.0f);
-        kmGLMultMatrix(&ortho);
-        m_program->setUniformsForBuiltins();
-
-        glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION);
-        glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR);
-        glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS);
-    }
+    RenderStateSnapshot state;
+    captureRenderState(state);
+    d_renderStateStack.push_back(state);
+    applyUIRenderState();
 }
 
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::endRendering()
 {
-    // Restore the projection matrix saved in beginRendering() only when a
-    // valid program was set (otherwise beginRendering did not push).
-    if (m_program)
+    if (d_renderStateStack.empty())
+        return;
+
+    const RenderStateSnapshot state = d_renderStateStack.back();
+    d_renderStateStack.pop_back();
+    restoreRenderState(state);
+
+    if (d_renderStateStack.empty())
     {
-        // Restore the projection matrix saved in beginRendering().
-        // Using kmGLLoadMatrix instead of kmGLPopMatrix to avoid matrix stack
-        // imbalance with Cocos2d-x 3.0's Node::visit()/Director::drawScene()
-        // which use kmGLPushMatrix/kmGLPopMatrix without explicit matrix mode.
-        kmGLMatrixMode(KM_GL_PROJECTION);
-        kmGLLoadMatrix(&m_savedProjectionMatrix);
+        d_externalStateStack.clear();
+        d_externalPassDepth = 0;
         m_program = NULL;
     }
-
-    // Always restore the kazmath matrix mode to what it was before
-    // beginRendering(), even if the program was never set or an exception
-    // occurred during GUI rendering. This prevents Cocos2d-x's
-    // Node::visit()/Director::drawScene() from calling kmGLPopMatrix() on
-    // the wrong stack.
-    kmGLMatrixMode(m_savedMatrixMode);
-
-    glDisable(GL_SCISSOR_TEST);
-    glDisable(GL_BLEND);
-
-    // Restore depth test and cull face state
-    if (m_savedDepthTest)
-        glEnable(GL_DEPTH_TEST);
-    if (m_savedCullFace)
-        glEnable(GL_CULL_FACE);
-
-    // CEGUI uses raw OpenGL calls for programs, textures, blending and vertex
-    // state.  Invalidate the Cocos cache so the next Cocos/Spine command
-    // resubmits those states.  The MT3 variant preserves the kazmath matrix
-    // stacks that are still owned by the surrounding Cocos frame.
-    cocos2d::GL::invalidateStateCachePreserveMatrices();
 }
 
 //----------------------------------------------------------------------------//
@@ -465,27 +406,228 @@ void Cocos2DRenderer::DisableSeparateAlphaBlend()
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::SaveXPRenderState()
 {
-    // TODO: Implement state save/restore for XP rendering interop.
-    // In the simplified 3.0-oh path, the Cocos2d-x engine manages
-    // its own GL state around CEGUI rendering.
+    if (d_renderStateStack.empty())
+        return;
+
+    ++d_externalPassDepth;
+    if (d_externalPassDepth != 1)
+        return;
+
+    RenderStateSnapshot state;
+    captureRenderState(state);
+    d_externalStateStack.push_back(state);
+    restoreRenderState(d_renderStateStack.back());
 }
 
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::SaveUIRenderState()
 {
-    // TODO: Implement state save/restore for UI rendering interop.
+    RenderStateSnapshot state;
+    captureRenderState(state);
+    d_uiStateStack.push_back(state);
 }
 
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::RestoreXPRenderState()
 {
-    // TODO: Implement state save/restore for XP rendering interop.
+    if (d_externalPassDepth == 0)
+        return;
+
+    --d_externalPassDepth;
+    if (d_externalPassDepth != 0 || d_externalStateStack.empty())
+        return;
+
+    const RenderStateSnapshot state = d_externalStateStack.back();
+    d_externalStateStack.pop_back();
+    restoreRenderState(state);
 }
 
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::RestorUIRenderState()
 {
-    // TODO: Implement state save/restore for UI rendering interop.
+    if (d_uiStateStack.empty())
+        return;
+
+    const RenderStateSnapshot state = d_uiStateStack.back();
+    d_uiStateStack.pop_back();
+    restoreRenderState(state);
+}
+
+//----------------------------------------------------------------------------//
+void Cocos2DRenderer::captureRenderState(RenderStateSnapshot& state) const
+{
+    state.scissorEnabled = glIsEnabled(GL_SCISSOR_TEST) == GL_TRUE;
+    state.blendEnabled = glIsEnabled(GL_BLEND) == GL_TRUE;
+    state.depthEnabled = glIsEnabled(GL_DEPTH_TEST) == GL_TRUE;
+    state.stencilEnabled = glIsEnabled(GL_STENCIL_TEST) == GL_TRUE;
+    state.cullEnabled = glIsEnabled(GL_CULL_FACE) == GL_TRUE;
+
+    GLboolean value = GL_FALSE;
+    glGetBooleanv(GL_DEPTH_WRITEMASK, &value);
+    state.depthWriteEnabled = value == GL_TRUE;
+    GLboolean colourMask[4];
+    glGetBooleanv(GL_COLOR_WRITEMASK, colourMask);
+    for (int i = 0; i < 4; ++i)
+        state.colourMask[i] = colourMask[i] == GL_TRUE;
+
+    glGetIntegerv(GL_SCISSOR_BOX, state.scissorBox);
+    glGetIntegerv(GL_VIEWPORT, state.viewport);
+    glGetIntegerv(GL_CURRENT_PROGRAM, &state.currentProgram);
+    glGetIntegerv(GL_ACTIVE_TEXTURE, &state.activeTexture);
+    glGetIntegerv(GL_BLEND_SRC_RGB, &state.blendSrcRGB);
+    glGetIntegerv(GL_BLEND_DST_RGB, &state.blendDstRGB);
+    glGetIntegerv(GL_BLEND_SRC_ALPHA, &state.blendSrcAlpha);
+    glGetIntegerv(GL_BLEND_DST_ALPHA, &state.blendDstAlpha);
+    glGetIntegerv(GL_BLEND_EQUATION_RGB, &state.blendEquationRGB);
+    glGetIntegerv(GL_BLEND_EQUATION_ALPHA, &state.blendEquationAlpha);
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &state.framebuffer);
+    glGetIntegerv(GL_RENDERBUFFER_BINDING, &state.renderbuffer);
+    glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &state.arrayBuffer);
+    glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &state.elementArrayBuffer);
+
+    for (int unit = 0; unit < 2; ++unit)
+    {
+        glActiveTexture(GL_TEXTURE0 + unit);
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, &state.textureBindings[unit]);
+    }
+    glActiveTexture(static_cast<GLenum>(state.activeTexture));
+
+    state.hasVertexArray = cocos2d::Configuration::getInstance()->supportsShareableVAO();
+    state.vertexArray = 0;
+    if (state.hasVertexArray)
+        glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &state.vertexArray);
+
+    const GLuint attributes[3] =
+    {
+        cocos2d::GLProgram::VERTEX_ATTRIB_POSITION,
+        cocos2d::GLProgram::VERTEX_ATTRIB_COLOR,
+        cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS
+    };
+    for (int i = 0; i < 3; ++i)
+    {
+        GLint enabled = GL_FALSE;
+        glGetVertexAttribiv(attributes[i], GL_VERTEX_ATTRIB_ARRAY_ENABLED, &enabled);
+        state.vertexAttribEnabled[i] = enabled == GL_TRUE;
+        glGetVertexAttribiv(attributes[i], GL_VERTEX_ATTRIB_ARRAY_SIZE, &state.vertexAttribSize[i]);
+        glGetVertexAttribiv(attributes[i], GL_VERTEX_ATTRIB_ARRAY_TYPE, &state.vertexAttribType[i]);
+        glGetVertexAttribiv(attributes[i], GL_VERTEX_ATTRIB_ARRAY_NORMALIZED, &state.vertexAttribNormalised[i]);
+        glGetVertexAttribiv(attributes[i], GL_VERTEX_ATTRIB_ARRAY_STRIDE, &state.vertexAttribStride[i]);
+        glGetVertexAttribiv(attributes[i], GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING, &state.vertexAttribBuffer[i]);
+        glGetVertexAttribPointerv(attributes[i], GL_VERTEX_ATTRIB_ARRAY_POINTER,
+            &state.vertexAttribPointer[i]);
+    }
+
+    state.matrixMode = kmGLGetCurrentMatrixMode();
+    kmGLGetMatrix(KM_GL_PROJECTION, &state.projectionMatrix);
+    kmGLGetMatrix(KM_GL_MODELVIEW, &state.modelViewMatrix);
+}
+
+//----------------------------------------------------------------------------//
+void Cocos2DRenderer::restoreRenderState(const RenderStateSnapshot& state) const
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, static_cast<GLuint>(state.framebuffer));
+    glBindRenderbuffer(GL_RENDERBUFFER, static_cast<GLuint>(state.renderbuffer));
+    glViewport(state.viewport[0], state.viewport[1], state.viewport[2], state.viewport[3]);
+    glScissor(state.scissorBox[0], state.scissorBox[1], state.scissorBox[2], state.scissorBox[3]);
+    glColorMask(state.colourMask[0], state.colourMask[1],
+        state.colourMask[2], state.colourMask[3]);
+    glDepthMask(state.depthWriteEnabled ? GL_TRUE : GL_FALSE);
+    glBlendEquationSeparate(static_cast<GLenum>(state.blendEquationRGB),
+        static_cast<GLenum>(state.blendEquationAlpha));
+    glBlendFuncSeparate(static_cast<GLenum>(state.blendSrcRGB),
+        static_cast<GLenum>(state.blendDstRGB),
+        static_cast<GLenum>(state.blendSrcAlpha),
+        static_cast<GLenum>(state.blendDstAlpha));
+
+    const GLenum capabilities[5] =
+    {
+        GL_SCISSOR_TEST, GL_BLEND, GL_DEPTH_TEST, GL_STENCIL_TEST, GL_CULL_FACE
+    };
+    const bool enabled[5] =
+    {
+        state.scissorEnabled, state.blendEnabled, state.depthEnabled,
+        state.stencilEnabled, state.cullEnabled
+    };
+    for (int i = 0; i < 5; ++i)
+    {
+        if (enabled[i])
+            glEnable(capabilities[i]);
+        else
+            glDisable(capabilities[i]);
+    }
+
+    for (int unit = 0; unit < 2; ++unit)
+    {
+        glActiveTexture(GL_TEXTURE0 + unit);
+        glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(state.textureBindings[unit]));
+    }
+    glActiveTexture(static_cast<GLenum>(state.activeTexture));
+    glUseProgram(static_cast<GLuint>(state.currentProgram));
+
+    if (state.hasVertexArray)
+        glBindVertexArray(static_cast<GLuint>(state.vertexArray));
+
+    const GLuint attributes[3] =
+    {
+        cocos2d::GLProgram::VERTEX_ATTRIB_POSITION,
+        cocos2d::GLProgram::VERTEX_ATTRIB_COLOR,
+        cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS
+    };
+    for (int i = 0; i < 3; ++i)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, static_cast<GLuint>(state.vertexAttribBuffer[i]));
+        glVertexAttribPointer(attributes[i], state.vertexAttribSize[i],
+            static_cast<GLenum>(state.vertexAttribType[i]),
+            state.vertexAttribNormalised[i] ? GL_TRUE : GL_FALSE,
+            state.vertexAttribStride[i], state.vertexAttribPointer[i]);
+        if (state.vertexAttribEnabled[i])
+            glEnableVertexAttribArray(attributes[i]);
+        else
+            glDisableVertexAttribArray(attributes[i]);
+    }
+    glBindBuffer(GL_ARRAY_BUFFER, static_cast<GLuint>(state.arrayBuffer));
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLuint>(state.elementArrayBuffer));
+
+    kmGLMatrixMode(KM_GL_PROJECTION);
+    kmGLLoadMatrix(&state.projectionMatrix);
+    kmGLMatrixMode(KM_GL_MODELVIEW);
+    kmGLLoadMatrix(&state.modelViewMatrix);
+    kmGLMatrixMode(state.matrixMode);
+
+    cocos2d::GL::invalidateStateCachePreserveMatrices();
+}
+
+//----------------------------------------------------------------------------//
+void Cocos2DRenderer::applyUIRenderState()
+{
+    glDisable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
+    glDisable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_SCISSOR_TEST);
+
+    m_program = cocos2d::ShaderCache::getInstance()->getProgram(
+        cocos2d::GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
+
+    kmGLMatrixMode(KM_GL_PROJECTION);
+    kmGLLoadIdentity();
+    const Size& displaySize = getDisplaySize();
+    kmMat4 ortho;
+    kmMat4OrthographicProjection(&ortho,
+        0.0f, displaySize.d_width,
+        displaySize.d_height, 0.0f,
+        -1.0f, 1.0f);
+    kmGLMultMatrix(&ortho);
+    kmGLMatrixMode(KM_GL_MODELVIEW);
+
+    if (!m_program)
+        return;
+
+    m_program->use();
+    m_program->setUniformsForBuiltins();
+    cocos2d::GL::enableVertexAttribs(cocos2d::GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX);
 }
 
 //----------------------------------------------------------------------------//

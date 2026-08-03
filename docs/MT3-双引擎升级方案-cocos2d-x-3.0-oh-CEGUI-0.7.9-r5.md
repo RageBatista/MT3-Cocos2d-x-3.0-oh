@@ -208,7 +208,7 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 | Android NDK | NDK r16b clang  | NDK r16b clang                                     | 保持固定基线                                  |
 | Android SDK | android-22      | android-22                                         | 保持固定基线                                  |
 | JDK         | JDK 1.8         | JDK 1.8                                            | 保持固定基线                                  |
-| CMake       | 无               | CMake 3.10                                         | 3.0-oh 评估构建使用，命令从 PATH 解析               |
+| CMake       | 无               | CMake 3.6.3+                                       | 3.0-oh 评估构建使用，命令从 PATH 解析               |
 | Python      | 2.7             | 2.7/3.x                                            | 构建脚本兼容                                  |
 
 > **关键结论**：VS2013 工具链保持不变；现有第三方库只作为候选复用项，必须通过 CRT/toolset/架构审计、目标最终链接和运行验证。CMake 用于生成 cocos2d-x-3.0-oh 的 VS2013 (v120) 工程。
@@ -906,7 +906,7 @@ OHOS 若纳入本期，需独立平台工作包并顺延至少 3-4 周；否则�
 
 | 任务                                  |  状态  | 结果                                                   |
 | ----------------------------------- | :--: | ---------------------------------------------------- |
-| CMake 3.10 安装验证                     | ✅ 完成 | 19:00 历史记录为 3.10.0-rc1；当前命令应从 PATH 解析          |
+| CMake 安装验证                        | ✅ 完成 | 3.6.3（`D:\Program Files\CMake\bin\cmake.exe`）          |
 | cocos2d-x-3.0-oh CMakeLists.txt 验证  | ✅ 完成 | 根目录存在，`cmake_minimum_required(VERSION 2.8)`          |
 | cocos2d-x-3.0-oh CMake 生成 VS2013 工程 | ✅ 完成 | `build/Cocos2dx.sln`，PlatformToolset=v120            |
 | CEGUI 0.7.9-r5 v120 工程确认            | ✅ 完成 | `cegui-0.7.9.win32.vcxproj` + `cegui-0.7.9.sln`，v120 |

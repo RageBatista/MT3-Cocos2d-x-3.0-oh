@@ -158,6 +158,35 @@ uint FreeTypeFont::getTextureSize(CodepointMap::const_iterator s,
 //----------------------------------------------------------------------------//
 void FreeTypeFont::rasterise(utf32 start_codepoint, utf32 end_codepoint) const
 {
+    /*
+     * Build metrics only for the page requested by Font::getGlyphData().
+     * FreeTypeFont used to populate d_cp_map for the complete cmap during
+     * construction, which made every font alias pay the cost of scanning and
+     * loading all CJK glyph metrics before the first frame.
+     */
+    FreeTypeFont* self = const_cast<FreeTypeFont*>(this);
+    const utf32 max_codepoint = 0x10FFFF;
+    if (end_codepoint > max_codepoint)
+        end_codepoint = max_codepoint;
+
+    for (utf32 codepoint = start_codepoint;
+         codepoint <= end_codepoint; ++codepoint)
+    {
+        if (d_cp_map.find(codepoint) != d_cp_map.end())
+            continue;
+
+        if (!FT_Get_Char_Index(d_fontFace, static_cast<FT_ULong>(codepoint)))
+            continue;
+
+        if (FT_Load_Char(d_fontFace, static_cast<FT_ULong>(codepoint),
+                         FT_LOAD_DEFAULT | FT_LOAD_FORCE_AUTOHINT))
+            continue;
+
+        const float advance = d_fontFace->glyph->metrics.horiAdvance *
+                              float(FT_POS_COEF);
+        self->d_cp_map[codepoint] = FontGlyph(advance);
+    }
+
     CodepointMap::const_iterator s = d_cp_map.lower_bound(start_codepoint);
     if (s == d_cp_map.end())
         return;
@@ -434,30 +463,20 @@ void FreeTypeFont::updateFont()
         d_height = d_specificLineSpacing;
     }
 
-    // Create an empty FontGlyph structure for every glyph of the font
-    FT_UInt gindex;
-    FT_ULong codepoint = FT_Get_First_Char(d_fontFace, &gindex);
-    FT_ULong max_codepoint = codepoint;
-    while (gindex)
-    {
-        if (max_codepoint < codepoint)
-            max_codepoint = codepoint;
-
-        // load-up required glyph metrics (don't render)
-        if (FT_Load_Char(d_fontFace, codepoint,
-                         FT_LOAD_DEFAULT | FT_LOAD_FORCE_AUTOHINT))
-            continue; // glyph error
-
-        float adv = d_fontFace->glyph->metrics.horiAdvance * float(FT_POS_COEF);
-
-        // create a new empty FontGlyph with given character code
-        d_cp_map[codepoint] = FontGlyph(adv);
-
-        // proceed to next glyph
-        codepoint = FT_Get_Next_Char(d_fontFace, codepoint, &gindex);
-    }
-
-    setMaxCodepoint(max_codepoint);
+    /*
+     * Keep the glyph map empty until Font::getGlyphData() requests a page.
+     * The old implementation walked every cmap entry and called FT_Load_Char
+     * for each one here.  The project ships many font aliases that point to
+     * the same CJK TTF, so that work was repeated for every alias and blocked
+     * the UI thread during scheme loading.
+     *
+     * Font::getGlyphData() already rasterises in 256-codepoint pages.  Expose
+     * the Unicode range up front and let rasterise() populate only the page
+     * that is actually used.  The page bitmap is small (about 0.5 KiB per
+     * font), while construction no longer depends on the number of glyphs in
+     * the source font.
+     */
+    setMaxCodepoint(0x10FFFF);
 }
 
 //----------------------------------------------------------------------------//

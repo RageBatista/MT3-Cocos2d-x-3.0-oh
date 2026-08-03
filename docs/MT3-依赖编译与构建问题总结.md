@@ -201,7 +201,7 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 | Android NDK | NDK r16b clang  | NDK r16b+ clang                                    | 保持或升级                                   |
 | Android SDK | android-22      | android-22+                                        | 保持或升级                                   |
 | JDK         | JDK 1.8         | JDK 1.8+                                           | 保持                                      |
-| CMake       | 无               | CMake 3.10（`D:\Program Files\CMake\bin\cmake.exe`） | 3.0-oh 使用 CMake 构建，已安装 CMake 3.10.0-rc1 |
+| CMake       | 无               | CMake 3.6.3+（`D:\Program Files\CMake\bin\cmake.exe`） | 3.0-oh 使用 CMake 构建，已安装 CMake 3.6.3 |
 | Python      | 2.7             | 2.7/3.x                                            | 构建脚本兼容                                  |
 
 > **关键结论**：VS2013 工具链保持不变，所有 MT3 现有预编译库（`dependencies/`、`cocos2d-x-2.2.6/` 下的第三方库）可直接复用。新增 CMake 仅用于 cocos2d-x-3.0-oh 的构建，生成 VS2013 (v120) 工程。
@@ -605,7 +605,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 任务 | 状态 | 结果 |
 |------|:--:|------|
-| CMake 3.10 安装验证 | ✅ 完成 | `D:\Program Files\CMake\bin\cmake.exe`，版本 3.10.0-rc1 |
+| CMake 安装验证 | ✅ 完成 | `D:\Program Files\CMake\bin\cmake.exe`，版本 3.6.3 |
 | cocos2d-x-3.0-oh CMakeLists.txt 验证 | ✅ 完成 | 根目录存在，`cmake_minimum_required(VERSION 2.8)` |
 | cocos2d-x-3.0-oh CMake 生成 VS2013 工程 | ✅ 完成 | `build/Cocos2dx.sln`，PlatformToolset=v120 |
 | CEGUI 0.7.9-r5 v120 工程确认 | ✅ 完成 | `cegui-0.7.9.win32.vcxproj` + `cegui-0.7.9.sln`，v120 |
@@ -1860,7 +1860,7 @@ Step 1: Cocos2d-x 3.0-oh 独立编译验证
 | Android NDK | NDK r16b clang  | NDK r16b+ clang                                    | 保持或升级                                   |
 | Android SDK | android-22      | android-22+                                        | 保持或升级                                   |
 | JDK         | JDK 1.8         | JDK 1.8+                                           | 保持                                      |
-| CMake       | 无               | CMake 3.10（`D:\Program Files\CMake\bin\cmake.exe`） | 3.0-oh 使用 CMake 构建，已安装 CMake 3.10.0-rc1 |
+| CMake       | 无               | CMake 3.6.3+（`D:\Program Files\CMake\bin\cmake.exe`） | 3.0-oh 使用 CMake 构建，已安装 CMake 3.6.3 |
 | Python      | 2.7             | 2.7/3.x                                            | 构建脚本兼容                                  |
 
 > **关键结论**：VS2013 工具链保持不变，所有 MT3 现有预编译库（`dependencies/`、`cocos2d-x-2.2.6/` 下的第三方库）可直接复用。新增 CMake 仅用于 cocos2d-x-3.0-oh 的构建，生成 VS2013 (v120) 工程。
@@ -2264,7 +2264,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 
 | 任务 | 状态 | 结果 |
 |------|:--:|------|
-| CMake 3.10 安装验证 | ✅ 完成 | `D:\Program Files\CMake\bin\cmake.exe`，版本 3.10.0-rc1 |
+| CMake 安装验证 | ✅ 完成 | `D:\Program Files\CMake\bin\cmake.exe`，版本 3.6.3 |
 | cocos2d-x-3.0-oh CMakeLists.txt 验证 | ✅ 完成 | 根目录存在，`cmake_minimum_required(VERSION 2.8)` |
 | cocos2d-x-3.0-oh CMake 生成 VS2013 工程 | ✅ 完成 | `build/Cocos2dx.sln`，PlatformToolset=v120 |
 | CEGUI 0.7.9-r5 v120 工程确认 | ✅ 完成 | `cegui-0.7.9.win32.vcxproj` + `cegui-0.7.9.sln`，v120 |

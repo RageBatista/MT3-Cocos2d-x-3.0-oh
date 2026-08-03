@@ -36,7 +36,8 @@ template<> SchemeManager* Singleton<SchemeManager>::ms_Singleton = 0;
 
 //----------------------------------------------------------------------------//
 SchemeManager::SchemeManager() :
-    NamedXMLResourceManager<Scheme, Scheme_xmlHandler>("Scheme")
+    NamedXMLResourceManager<Scheme, Scheme_xmlHandler>("Scheme"),
+    d_deferResourceLoading(false)
 
 {
     char addr_buff[32];
@@ -66,9 +67,32 @@ SchemeManager::SchemeIterator SchemeManager::getIterator(void) const
 }
 
 //----------------------------------------------------------------------------//
+Scheme& SchemeManager::createDeferred(const String& xml_filename,
+                                      const String& resource_group,
+                                      XMLResourceExistsAction action)
+{
+    const bool previous_defer_state = d_deferResourceLoading;
+    d_deferResourceLoading = true;
+
+    try
+    {
+        Scheme& scheme = create(xml_filename, resource_group, action);
+        d_deferResourceLoading = previous_defer_state;
+        scheme.beginIncrementalLoad();
+        return scheme;
+    }
+    catch (...)
+    {
+        d_deferResourceLoading = previous_defer_state;
+        throw;
+    }
+}
+
+//----------------------------------------------------------------------------//
 void SchemeManager::doPostObjectAdditionAction(Scheme& object)
 {
-    object.loadResources();
+    if (!d_deferResourceLoading)
+        object.loadResources();
 }
 
 //----------------------------------------------------------------------------//

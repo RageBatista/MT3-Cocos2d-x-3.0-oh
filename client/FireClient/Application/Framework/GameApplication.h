@@ -1,4 +1,4 @@
-#ifndef enginetester_GameApplication_h
+﻿#ifndef enginetester_GameApplication_h
 #define enginetester_GameApplication_h
 
 #include "nuiapp.h"
@@ -436,6 +436,9 @@ public:
 	void ShareResultCallBack(int nReslt);
     
 private:
+	void DrawStartupWaitPicture();
+	void TryCompleteStartupLoginUI();
+
     //yangbin--录像相关变量－－begin
     bool m_RecordEnable;
     int m_CurRecordState;
@@ -530,6 +533,7 @@ private:
 
     int m_iLoadLogoTime;
     bool m_bLogoLoad;
+	bool m_bStartupLoginPending;
     
 	int m_bDrawServantIntro;
 	bool m_bFirstLogin;

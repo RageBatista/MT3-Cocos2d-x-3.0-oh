@@ -107,11 +107,52 @@ public:
     cocos2d::Node*      d_pParent;
 
 private:
+    struct RenderStateSnapshot
+    {
+        bool scissorEnabled;
+        bool blendEnabled;
+        bool depthEnabled;
+        bool stencilEnabled;
+        bool cullEnabled;
+        bool depthWriteEnabled;
+        bool colourMask[4];
+        bool vertexAttribEnabled[3];
+        bool hasVertexArray;
+        int scissorBox[4];
+        int viewport[4];
+        int currentProgram;
+        int activeTexture;
+        int textureBindings[2];
+        int blendSrcRGB;
+        int blendDstRGB;
+        int blendSrcAlpha;
+        int blendDstAlpha;
+        int blendEquationRGB;
+        int blendEquationAlpha;
+        int framebuffer;
+        int renderbuffer;
+        int arrayBuffer;
+        int elementArrayBuffer;
+        int vertexArray;
+        int vertexAttribSize[3];
+        int vertexAttribType[3];
+        int vertexAttribNormalised[3];
+        int vertexAttribStride[3];
+        int vertexAttribBuffer[3];
+        void* vertexAttribPointer[3];
+        kmMat4 projectionMatrix;
+        kmMat4 modelViewMatrix;
+        kmGLEnum matrixMode;
+    };
+
     Cocos2DRenderer();
     virtual ~Cocos2DRenderer();
 
     Size getViewportSize();
     float getSizeNextPOT(float sz) const;
+    void captureRenderState(RenderStateSnapshot& state) const;
+    void restoreRenderState(const RenderStateSnapshot& state) const;
+    void applyUIRenderState();
 
     static String d_rendererID;
     Size d_displaySize;
@@ -150,11 +191,11 @@ private:
     bool d_supportNonSquareTex;
     bool d_SeparateAlphaBlendCap;
 
-    // Saved GL state for beginRendering/endRendering
-    bool m_savedDepthTest;
-    bool m_savedCullFace;
-    kmMat4 m_savedProjectionMatrix;
-    kmGLEnum m_savedMatrixMode;  // saved kazmath matrix mode before beginRendering
+    typedef std::vector<RenderStateSnapshot> RenderStateStack;
+    RenderStateStack d_renderStateStack;
+    RenderStateStack d_externalStateStack;
+    RenderStateStack d_uiStateStack;
+    unsigned int d_externalPassDepth;
 
     typedef std::vector<Cocos2DTexture*> RenderTextureList;
     RenderTextureList d_RenderTextures;

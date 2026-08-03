@@ -1414,6 +1414,59 @@ TEST_CASE(Unpacker, UnpackSingle_UsesIndexDirectoryAfterLoadIndex) {
     return true;
 }
 
+TEST_CASE(Unpacker, UnpackSingleAcceptsStaleCompressionFlagOnlyOnSizeAndCrcMatch) {
+    const std::string baseDir = "test_output/unpacker_stale_compression_flag";
+    const std::string inputDir = baseDir + "/input";
+    const std::string outputDir = baseDir + "/output";
+    const std::string indexPath = inputDir + "/sample.ljpi";
+    const std::string outputPath = outputDir + "/restored.png";
+    const std::string logicalPath = "image/stale-compression.png";
+
+    CleanupTestDirectory(baseDir);
+    TEST_ASSERT_TRUE(CreateTestDirectory(baseDir));
+    TEST_ASSERT_TRUE(CreateTestDirectory(inputDir));
+    TEST_ASSERT_TRUE(CreateTestDirectory(outputDir));
+
+    const std::vector<unsigned char> fileData = BuildTinyPng();
+    const unsigned int pathCrc =
+        SLJFP_crc32(0, reinterpret_cast<const unsigned char*>(logicalPath.data()),
+                    (unsigned int)logicalPath.size());
+    const unsigned int dataCrc =
+        SLJFP_crc32(0, fileData.data(), (unsigned int)fileData.size());
+    TEST_ASSERT_TRUE(WriteBinaryVector(inputDir + "/" + std::to_string(pathCrc), fileData));
+
+    std::vector<unsigned char> indexData;
+    AppendUInt32Le(indexData, 1);
+    AppendUInt32Le(indexData, 0);
+    AppendUInt32Le(indexData, (unsigned int)fileData.size());
+    AppendUInt32Le(indexData, dataCrc);
+    AppendUInt32Le(indexData, 1); // stale compression flag
+    AppendUInt32Le(indexData, 0);
+    AppendUInt32Le(indexData, (unsigned int)fileData.size());
+    AppendUInt32Le(indexData, dataCrc);
+    AppendUInt32Le(indexData, pathCrc);
+    TEST_ASSERT_TRUE(WriteBinaryVector(indexPath, indexData));
+
+    SLJFP::Unpacker unpacker(
+        SLJFP_crc32,
+        SLJFP_mz_compress2,
+        SLJFP_mz_uncompress,
+        SLJFP_SMS4Ex,
+        SLJFP_DeSMS4Ex
+    );
+
+    TEST_ASSERT_EQ((int)SLJFP::LJFP_SUCCESS, unpacker.LoadIndex(indexPath));
+    TEST_ASSERT_EQ((int)SLJFP::LJFP_SUCCESS, unpacker.UnpackSingle(0, outputPath));
+
+    std::vector<unsigned char> restoredData;
+    TEST_ASSERT_TRUE(ReadTestFile(outputPath, restoredData));
+    TEST_ASSERT_EQ(fileData.size(), restoredData.size());
+    TEST_ASSERT_MEM_EQ(fileData.data(), restoredData.data(), fileData.size());
+
+    CleanupTestDirectory(baseDir);
+    return true;
+}
+
 TEST_CASE(Unpacker, ConfigureSession_AllowsSingleFileOutputRoot) {
     const std::string baseDir = "test_output/unpacker_single_configure_session";
     const std::string inputDir = baseDir + "/input";
@@ -9854,6 +9907,75 @@ TEST_CASE(Unpacker, OutputPathManifestJsonPreservesUtf8Paths) {
     const std::string jsonText(jsonBytes.begin(), jsonBytes.end());
     TEST_ASSERT_TRUE(jsonText.find(mappedPath) != std::string::npos);
     TEST_ASSERT_TRUE(jsonText.find("\\u00E4") == std::string::npos);
+
+    CleanupTestDirectory(baseDir);
+    return true;
+}
+
+TEST_CASE(Unpacker, OutputPathManifestConvertsAcpMappingPathsToUtf8) {
+    const std::string baseDir = "test_output/unpacker_manifest_acp_paths";
+    const std::string inputDir = baseDir + "/input";
+    const std::string outputDir = baseDir + "/output";
+    const std::string indexPath = inputDir + "/sample.ljpi";
+    const std::string mappingPath = inputDir + "/sample.map";
+    const std::string acpPath = "ui/layouts/" + std::string("\xD0\xC2\xB5\xD8\xCD\xBC", 6) + ".layout";
+    const std::string utf8Path = "ui/layouts/" + std::string("\xE6\x96\xB0\xE5\x9C\xB0\xE5\x9B\xBE", 9) + ".layout";
+
+    CleanupTestDirectory(baseDir);
+    TEST_ASSERT_TRUE(CreateTestDirectory(baseDir));
+    TEST_ASSERT_TRUE(CreateTestDirectory(inputDir));
+    TEST_ASSERT_TRUE(CreateTestDirectory(outputDir));
+
+    const std::vector<unsigned char> fileData = BuildUtf8Text("acp-to-utf8-manifest");
+    const unsigned int pathCrc =
+        SLJFP_crc32(0, reinterpret_cast<const unsigned char*>(acpPath.data()),
+                    (unsigned int)acpPath.size());
+    const unsigned int dataCrc =
+        SLJFP_crc32(0, fileData.data(), (unsigned int)fileData.size());
+    TEST_ASSERT_TRUE(WriteBinaryVector(inputDir + "/" + std::to_string(pathCrc), fileData));
+
+    std::vector<unsigned char> indexData;
+    AppendUInt32Le(indexData, 1);
+    AppendUInt32Le(indexData, 0);
+    AppendUInt32Le(indexData, (unsigned int)fileData.size());
+    AppendUInt32Le(indexData, dataCrc);
+    AppendUInt32Le(indexData, 0);
+    AppendUInt32Le(indexData, 0);
+    AppendUInt32Le(indexData, pathCrc);
+    TEST_ASSERT_TRUE(WriteBinaryVector(indexPath, indexData));
+
+    {
+        std::ofstream mappingFile(mappingPath.c_str(), std::ios::binary | std::ios::trunc);
+        TEST_ASSERT_TRUE(mappingFile.is_open());
+        mappingFile << pathCrc << "|" << acpPath << "\n";
+        TEST_ASSERT_TRUE(mappingFile.good());
+    }
+
+    SLJFP::Unpacker unpacker(
+        SLJFP_crc32,
+        SLJFP_mz_compress2,
+        SLJFP_mz_uncompress,
+        SLJFP_SMS4Ex,
+        SLJFP_DeSMS4Ex
+    );
+    TEST_ASSERT_EQ((int)SLJFP::LJFP_SUCCESS, unpacker.LoadIndex(indexPath));
+    TEST_ASSERT_EQ((int)SLJFP::LJFP_SUCCESS, unpacker.LoadPathMapping(mappingPath));
+
+    SLJFP::UnpackOptions options;
+    options.overwriteExisting = true;
+    options.threadCount = 1;
+    options.detectFileType = false;
+    options.preferPathMapping = true;
+    options.organizeByType = false;
+    options.writePathManifest = true;
+    TEST_ASSERT_EQ((int)SLJFP::LJFP_SUCCESS, unpacker.UnpackAll(inputDir, outputDir, options));
+
+    const std::string manifestText = ReadTestTextFileOrEmpty(outputDir + "/unpack_path_manifest.tsv");
+    const std::string manifestJsonText = ReadTestTextFileOrEmpty(outputDir + "/unpack_path_manifest.json");
+    TEST_ASSERT_NE(std::string::npos, manifestText.find(utf8Path));
+    TEST_ASSERT_NE(std::string::npos, manifestJsonText.find(utf8Path));
+    TEST_ASSERT_EQ(std::string::npos, manifestText.find(acpPath));
+    TEST_ASSERT_EQ(std::string::npos, manifestJsonText.find(acpPath));
 
     CleanupTestDirectory(baseDir);
     return true;

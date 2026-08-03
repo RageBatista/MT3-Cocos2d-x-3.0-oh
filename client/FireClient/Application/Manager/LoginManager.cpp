@@ -147,6 +147,10 @@ static std::wstring g_ip;
 
 namespace
 {
+bool sLoginUIInitializationPending = false;
+bool sOpenSelectServerEntryPending = false;
+bool sOpenSelectServerEntryAutoOpen = true;
+
 bool IsWindowsExitInProgress()
 {
 	GameApplication* application = gGetGameApplication();
@@ -412,6 +416,9 @@ LoginManager::~LoginManager()
 
 void LoginManager::Clear()
 {
+	sLoginUIInitializationPending = false;
+	sOpenSelectServerEntryPending = false;
+	sOpenSelectServerEntryAutoOpen = true;
     GameConfigManager::sSetPlayBackMusicBootState(true);
 
     CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
@@ -437,6 +444,13 @@ void LoginManager::Init()
 	m_RoleNum = 0;
 	m_RoleList.clear();
 	m_eLoginState = eLoginState_Enter;
+	if (!gGetGameUIManager() || !gGetGameUIManager()->IsGameUIBootstrapReady())
+	{
+		sLoginUIInitializationPending = true;
+		MT3_LOGIN_TRACE("LoginManager::Init deferred until UI bootstrap is ready");
+		return;
+	}
+	sLoginUIInitializationPending = false;
 
 	// 检查CEGUI根窗口状态
 	CEGUI::System* pSys = CEGUI::System::getSingletonPtr();
@@ -793,6 +807,22 @@ void LoginManager::Run(int now, int delta)
 	if (IsWindowsExitInProgress())
 	{
 		return;
+	}
+	if (sLoginUIInitializationPending)
+	{
+		if (!gGetGameUIManager() || !gGetGameUIManager()->IsGameUIBootstrapReady())
+		{
+			return;
+		}
+		MT3_LOGIN_TRACE("LoginManager::Run resumes deferred UI initialization");
+		Init();
+	}
+	if (sOpenSelectServerEntryPending && gGetGameUIManager()->InitGameUIPostInit())
+	{
+		const bool autoOpenServerList = sOpenSelectServerEntryAutoOpen;
+		sOpenSelectServerEntryPending = false;
+		MT3_LOGIN_TRACE("LoginManager::Run resumes deferred server selection");
+		OpenSelectServerEntry(autoOpenServerList);
 	}
 
     for (std::map<int, stCheckServer>::iterator itor = m_mCheckLoadTimeMap.begin(); itor != m_mCheckLoadTimeMap.end(); itor++)
@@ -1336,9 +1366,12 @@ void LoginManager::OpenSelectServerEntry(bool autoOpenServerList)
 	SDLOG_INFO(L"[LoginFlow] OpenSelectServerEntry accountLen=%d", static_cast<int>(ws2s(m_account).length()));
 	if (!gGetGameUIManager()->InitGameUIPostInit())
 	{
-		SDLOG_WARN(L"[LoginFlow] OpenSelectServerEntry stopped: UI post initialization failed");
+		sOpenSelectServerEntryPending = true;
+		sOpenSelectServerEntryAutoOpen = autoOpenServerList;
+		SDLOG_WARN(L"[LoginFlow] OpenSelectServerEntry deferred: UI resources are still preloading");
 		return;
 	}
+	sOpenSelectServerEntryPending = false;
 	pScriptEngine->executeString("require('logic.switchaccountdialog').DestroyDialog()");
 	pScriptEngine->executeString(autoOpenServerList
 		? "require('logic.selectserverentry').getInstanceAndShow(true)"

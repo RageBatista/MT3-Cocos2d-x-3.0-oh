@@ -330,6 +330,12 @@ GameUImanager::GameUImanager()
 ,m_bEnableDlgSound(false)
 ,m_bUIInited(false)
 ,m_bUIPostInited(false)
+,m_bUIBootstrapInited(false)
+,m_eUISchemeLoadPhase(eUISchemeLoad_NotStarted)
+,m_pBootstrapScheme(NULL)
+,m_pPrimaryScheme(NULL)
+,m_pSecondaryScheme(NULL)
+,m_uiSchemeLoadStartTick(0)
 ,m_pUIIMEDelegate(NULL)
 ,m_ptDragBenginPoint(0.0f, 0.0f)
 ,m_sNpcSound("")
@@ -1833,6 +1839,12 @@ void GameUImanager::UnInitGameUI()
 
 	m_bUIInited = false;
 	m_bUIPostInited = false;
+	m_bUIBootstrapInited = false;
+	m_eUISchemeLoadPhase = eUISchemeLoad_NotStarted;
+	m_pBootstrapScheme = NULL;
+	m_pPrimaryScheme = NULL;
+	m_pSecondaryScheme = NULL;
+	m_uiSchemeLoadStartTick = 0;
 }
 
 bool GameUImanager::moveFloatItem(float x, float y)
@@ -2393,31 +2405,147 @@ bool GameUImanager::HandleShowTextureBtnClicked(const CEGUI::EventArgs& e)
 }
 #endif
 
+bool GameUImanager::IsGameUIBootstrapReady() const
+{
+	return m_bUIBootstrapInited;
+}
+
+void GameUImanager::FinalizeGameUIBootstrap()
+{
+	if (m_bUIBootstrapInited)
+	{
+		return;
+	}
+
+	CEGUI::System::getSingleton().setDefaultMouseCursor("common", "common_biaoshi_cc");
+	CEGUI::System::getSingleton().setDefaultTooltip("TaharezLook/Tooltip");
+	CEGUI::System::getSingleton().setDefaultCompnenttip("TaharezLook/CompnentTip");
+	CEGUI::Image* pUnderLineImage = (CEGUI::Image*)&CEGUI::ImagesetManager::getSingleton().get("common").getImage("common_biaoshi_cc");
+	const CEGUI::Image* pTextBrushImage = (const CEGUI::Image*)&CEGUI::ImagesetManager::getSingleton().get("common").getImage("common_biaoshi_cc");
+	CEGUI::System::getSingleton().SetTextBrushImage(pTextBrushImage);
+	CEGUI::FontManager::getSingleton().SetUnderLineImage(pUnderLineImage);
+	CEGUI::System::getSingleton().setDefaultFont("simhei-12");
+
+	m_bUIBootstrapInited = true;
+	MT3_TRACE("[MT3_UI_INIT] bootstrap ready elapsedMs=%u resources=%u/%u",
+		Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick,
+		m_pBootstrapScheme ? (unsigned int)m_pBootstrapScheme->getIncrementalLoadedResourceCount() : 0,
+		m_pBootstrapScheme ? (unsigned int)m_pBootstrapScheme->getIncrementalTotalResourceCount() : 0);
+}
+
+void GameUImanager::StartFullSchemePreload()
+{
+	CEGUI::SchemeManager& schemeManager = CEGUI::SchemeManager::getSingleton();
+	m_pPrimaryScheme = &schemeManager.createDeferred("taharezlook.scheme");
+	m_pSecondaryScheme = NULL;
+	m_eUISchemeLoadPhase = eUISchemeLoad_FullPrimary;
+	MT3_TRACE("[MT3_UI_INIT] full scheme preload begin primary=%u",
+		(unsigned int)m_pPrimaryScheme->getIncrementalTotalResourceCount());
+}
+
+void GameUImanager::UpdateSchemeLoading(unsigned int budgetMs)
+{
+	if (m_eUISchemeLoadPhase == eUISchemeLoad_NotStarted ||
+		m_eUISchemeLoadPhase == eUISchemeLoad_Complete ||
+		m_eUISchemeLoadPhase == eUISchemeLoad_Failed)
+	{
+		return;
+	}
+
+	const unsigned int frameStartTick = Nuclear::GetMilliSeconds();
+	try
+	{
+		for (;;)
+		{
+			CEGUI::Scheme* scheme = NULL;
+			if (m_eUISchemeLoadPhase == eUISchemeLoad_Bootstrap)
+				scheme = m_pBootstrapScheme;
+			else if (m_eUISchemeLoadPhase == eUISchemeLoad_FullPrimary)
+				scheme = m_pPrimaryScheme;
+			else if (m_eUISchemeLoadPhase == eUISchemeLoad_FullSecondary)
+				scheme = m_pSecondaryScheme;
+
+			if (!scheme)
+			{
+				m_eUISchemeLoadPhase = eUISchemeLoad_Failed;
+				MT3_TRACE("[MT3_UI_INIT] incremental preload failed: missing scheme phase=%d",
+					(int)m_eUISchemeLoadPhase);
+				return;
+			}
+
+			const char* stage = scheme->getIncrementalLoadStageName();
+			const unsigned int itemStartTick = Nuclear::GetMilliSeconds();
+			const bool complete = scheme->loadNextResource();
+			const unsigned int itemElapsed = Nuclear::GetMilliSeconds() - itemStartTick;
+			if (itemElapsed > 16)
+			{
+				MT3_TRACE("[MT3_UI_INIT] incremental item slow scheme=%s stage=%s elapsedMs=%u progress=%u/%u",
+					scheme->getName().c_str(), stage, itemElapsed,
+					(unsigned int)scheme->getIncrementalLoadedResourceCount(),
+					(unsigned int)scheme->getIncrementalTotalResourceCount());
+			}
+
+			if (complete)
+			{
+				if (m_eUISchemeLoadPhase == eUISchemeLoad_Bootstrap)
+				{
+					FinalizeGameUIBootstrap();
+					StartFullSchemePreload();
+				}
+				else if (m_eUISchemeLoadPhase == eUISchemeLoad_FullPrimary)
+				{
+					m_pSecondaryScheme = &CEGUI::SchemeManager::getSingleton().createDeferred("taharezlook2.scheme");
+					m_eUISchemeLoadPhase = eUISchemeLoad_FullSecondary;
+					MT3_TRACE("[MT3_UI_INIT] primary scheme ready elapsedMs=%u secondary=%u",
+						Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick,
+						(unsigned int)m_pSecondaryScheme->getIncrementalTotalResourceCount());
+				}
+				else
+				{
+					CEGUI::ImagesetManager& imagesetManager = CEGUI::ImagesetManager::getSingleton();
+					CEGUI::WindowFactoryManager& factoryManager = CEGUI::WindowFactoryManager::getSingleton();
+					const bool resourcesReady = imagesetManager.isDefined("logindlginfo") &&
+						factoryManager.isFactoryPresent("TaharezLook/Editbox");
+					if (!resourcesReady)
+					{
+						m_eUISchemeLoadPhase = eUISchemeLoad_Failed;
+						MT3_TRACE("[MT3_UI_INIT] full scheme validation failed elapsedMs=%u",
+							Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick);
+						return;
+					}
+
+					cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CChatCellManager.Initialize_");
+					m_bUIPostInited = true;
+					m_eUISchemeLoadPhase = eUISchemeLoad_Complete;
+					MT3_TRACE("[MT3_UI_INIT] full schemes ready elapsedMs=%u",
+						Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick);
+					return;
+				}
+			}
+
+			if (budgetMs == 0 || Nuclear::GetMilliSeconds() - frameStartTick >= budgetMs)
+			{
+				return;
+			}
+		}
+	}
+	catch (const CEGUI::Exception& e)
+	{
+		m_eUISchemeLoadPhase = eUISchemeLoad_Failed;
+		MT3_TRACE("[MT3_UI_INIT] incremental CEGUI exception elapsedMs=%u message=%s",
+			Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick, e.getMessage().c_str());
+	}
+	catch (const std::exception& e)
+	{
+		m_eUISchemeLoadPhase = eUISchemeLoad_Failed;
+		MT3_TRACE("[MT3_UI_INIT] incremental std exception elapsedMs=%u message=%s",
+			Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick, e.what());
+	}
+}
+
 bool GameUImanager::InitGameUIPostInit()
 {
-	CEGUI::ImagesetManager& imagesetManager = CEGUI::ImagesetManager::getSingleton();
-	CEGUI::WindowFactoryManager& factoryManager = CEGUI::WindowFactoryManager::getSingleton();
-	CEGUI::SchemeManager& schemeManager = CEGUI::SchemeManager::getSingleton();
-	const bool loginImagesetReady = imagesetManager.isDefined("logindlginfo");
-	const bool editboxFactoryReady = factoryManager.isFactoryPresent("TaharezLook/Editbox");
-	const bool schemesReady = schemeManager.isDefined("TaharezLook") &&
-		schemeManager.isDefined("TaharezLook2");
-
-	if (m_bUIPostInited)
-	{
-		return true;
-	}
-
-	// Full Scheme loading is completed during InitGameUI.  This method is kept
-	// as a cheap readiness gate for the login/selection flow.
-	if (!schemesReady || !loginImagesetReady || !editboxFactoryReady)
-	{
-		return false;
-	}
-
-	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CChatCellManager.Initialize_");
-	m_bUIPostInited = true;
-	return true;
+	return m_bUIPostInited;
 }
 
 #if defined DEBUG || defined _DEBUG 
@@ -2548,21 +2676,6 @@ bool GameUImanager::InitGameUI()
 
 	CEGUI::WindowManager& winMgr = CEGUI::WindowManager::getSingleton();
 
-	// Load the original complete UI schemes during application startup.  The
-	// login and server-selection callbacks must only switch state, not create
-	// fonts, imagesets, or look'n'feel resources.
-	CEGUI::SchemeManager::getSingleton().create("taharezlook.scheme");
-	CEGUI::SchemeManager::getSingleton().create("taharezlook2.scheme");
-
-	CEGUI::System::getSingleton().setDefaultMouseCursor("common", "common_biaoshi_cc");
-	CEGUI::System::getSingleton().setDefaultTooltip("TaharezLook/Tooltip");
-	CEGUI::System::getSingleton().setDefaultCompnenttip("TaharezLook/CompnentTip");
-	CEGUI::Image* pUnderLineImage = (CEGUI::Image*)&CEGUI::ImagesetManager::getSingleton().get("common").getImage("common_biaoshi_cc");
-	const CEGUI::Image* pTextBrushImage = (const CEGUI::Image*)&CEGUI::ImagesetManager::getSingleton().get("common").getImage("common_biaoshi_cc");
-	CEGUI::System::getSingleton().SetTextBrushImage(pTextBrushImage);
-
-	CEGUI::FontManager::getSingleton().SetUnderLineImage(pUnderLineImage);
-	CEGUI::System::getSingleton().setDefaultFont("simhei-12");
 	CEGUI::System::getSingleton().SetDefaultGoToFunction((CEGUI::GoToFunction*)(&HandleGoToFunction));
 	CEGUI::System::getSingleton().SetDefaultShowItemTips((CEGUI::ShowItemTips*)(&HandleShowRewardItemTips));
 	CEGUI::System::getSingleton().SetEmotionFrameChangeFunction((CEGUI::EmotionChangeFrameFunction*)(&OnEmotionFrameChange));
@@ -2597,6 +2710,14 @@ bool GameUImanager::InitGameUI()
 	pRootWindow->setMousePassThroughEnabled(true);
 	pRootWindow->setDistributesCapturedInputs(true);
 
+	m_bUIPostInited = false;
+	m_bUIBootstrapInited = false;
+	m_uiSchemeLoadStartTick = Nuclear::GetMilliSeconds();
+	m_pBootstrapScheme = &CEGUI::SchemeManager::getSingleton().createDeferred("taharezlook_bootstrap.scheme");
+	m_eUISchemeLoadPhase = eUISchemeLoad_Bootstrap;
+	MT3_TRACE("[MT3_UI_INIT] bootstrap preload begin resources=%u parseElapsedMs=%u",
+		(unsigned int)m_pBootstrapScheme->getIncrementalTotalResourceCount(),
+		Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick);
 
 	m_bUIInited = true;
 
@@ -3283,6 +3404,10 @@ bool GameUImanager::OnWindowsMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 
 void GameUImanager::Run(int now, int delta)
 {
+	// CEGUI resource creation stays on the render thread, but is limited to a
+	// small per-frame budget so the window message pump and Spine keep moving.
+	UpdateSchemeLoading(3);
+
 	//UI限刷新频�?
 	unsigned int tick = Nuclear::GetMilliSeconds();
 	m_updateDeltaTime += delta;

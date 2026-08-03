@@ -1,4 +1,4 @@
-//  cocos2d_wraper.cpp
+﻿//  cocos2d_wraper.cpp
 //  engine
 
 #include <iostream>

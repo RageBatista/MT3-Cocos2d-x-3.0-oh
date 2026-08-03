@@ -1,4 +1,4 @@
-#include "nuspineeffect.h"
+﻿#include "nuspineeffect.h"
 #include "engine/nuenginebase.h"
 #include "../renderer/nucocos2d_render.h"
 #include "utils/StringCover.h"
@@ -281,22 +281,31 @@ namespace Nuclear
 
 	void SpineEffect::OnLoaded(const std::wstring& wdir, SpineRes* spineRes)
 	{
-		if (spineRes->mPicHandles.empty())
+		if (!spineRes || spineRes->atlasBuffer.size() == 0 ||
+			spineRes->jsonBuffer.size() == 0 || spineRes->mPicHandles.empty())
 		{
 			return;
 		}
 
 		Renderer* pRenderer = m_pEB->GetRenderer();
+		if (!pRenderer)
+		{
+			return;
+		}
 
 		spine::PathToTextureMap textureMap;
 		for (SpineRes::PictureHandleArray::iterator it = spineRes->mPicHandles.begin(); it != spineRes->mPicHandles.end(); ++it)
 		{
 			PictureHandle picHandle = *it;
 			const Cocos2dRenderer::CTextureInfo* pTextureInfo = (const Cocos2dRenderer::CTextureInfo*)pRenderer->GetTexInfo(picHandle);
-			if (pTextureInfo)
+			if (pTextureInfo && pTextureInfo->m_pTexture)
 			{
 				textureMap.insert(std::make_pair(ws2s(pTextureInfo->fileuri), pTextureInfo->m_pTexture));
 			}
+		}
+		if (textureMap.empty())
+		{
+			return;
 		}
 
 		std::string dir = ws2s(wdir);

@@ -1,4 +1,4 @@
-#ifndef __LOGINMANAGER_H
+﻿#ifndef __LOGINMANAGER_H
 #define __LOGINMANAGER_H
 
 #include "Singleton.hpp"

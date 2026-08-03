@@ -91,6 +91,8 @@ protected:
     mutable bool d_RenderSuccess;
 
     Cocos2DGeometryBuffer* d_paterGeomBuffer;
+    mutable unsigned int d_vertexBuffer;
+    mutable bool d_vertexBufferDirty;
 };
 
 } // End of  CEGUI namespace section

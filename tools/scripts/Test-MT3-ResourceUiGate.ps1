@@ -248,7 +248,8 @@ if (-not $NoBaseline) {
                         $check.summary = $check.summary + ' (known baseline issue; no new P0-P2 issue detected)'
                     }
                 }
-                $overall = if (($checkArray | Where-Object { $_.status -eq 'WARN' }).Count -gt 0) { 'WARN' } else { 'PASS' }
+                $warnChecks = @($checkArray | Where-Object { $_.status -eq 'WARN' })
+                $overall = if ($warnChecks.Count -gt 0) { 'WARN' } else { 'PASS' }
             }
             else {
                 $overall = 'FAIL'

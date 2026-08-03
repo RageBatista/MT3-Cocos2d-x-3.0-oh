@@ -15,9 +15,6 @@ local autoOpenServersDialog = false
 
 local function LoginFlowLog(msg)
     msg = "[LoginFlow][SelectServerEntryDiag] " .. tostring(msg)
-    if LogErr then
-        LogErr(msg)
-    end
     if LogInfo then
         LogInfo(msg)
     end

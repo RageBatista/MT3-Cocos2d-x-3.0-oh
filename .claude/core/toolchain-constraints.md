@@ -9,7 +9,7 @@
 | 平台 | 工具链 | 版本 | 状态 |
 |------|--------|------|------|
 | **Windows 客户端** | Visual Studio | 2013 (v120) | ✅ 必须 |
-| **Windows 客户端** | CMake | 3.10（`D:\Program Files\CMake\bin\cmake.exe`） | ✅ 允许（cocos2d-x-3.0-oh 构建） |
+| **Windows 客户端** | CMake | 3.6.3+（`D:\Program Files\CMake\bin\cmake.exe`） | ✅ 允许（cocos2d-x-3.0-oh 构建） |
 | **Android 客户端** | NDK | r16 clang (16.1.4479499) | ✅ 必须 |
 | **Android 构建** | Ant | 1.9+ | ✅ 必须 |
 | **服务器 Java** | JDK | 1.8 | ✅ 必须 |

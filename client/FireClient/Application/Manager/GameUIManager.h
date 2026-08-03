@@ -171,6 +171,8 @@ public:
 	void Draw();
 	void initialiseDefaultResourceGroups();
 	void initialiseResourceGroupDirectories();
+	void UpdateSchemeLoading(unsigned int budgetMs);
+	bool IsGameUIBootstrapReady() const;
 	bool InitGameUIPostInit();
 	bool InitGameUI();
 	static LuaXPRenderEffect* createXPRenderEffect(int userid, int handler);
@@ -197,6 +199,19 @@ private:
 #endif
 
 private:
+	enum UISchemeLoadPhase
+	{
+		eUISchemeLoad_NotStarted,
+		eUISchemeLoad_Bootstrap,
+		eUISchemeLoad_FullPrimary,
+		eUISchemeLoad_FullSecondary,
+		eUISchemeLoad_Complete,
+		eUISchemeLoad_Failed
+	};
+
+	void FinalizeGameUIBootstrap();
+	void StartFullSchemePreload();
+
 	CEGUI::Window* m_pRootWindow;
 	LastPoint m_LastMousePoint;
 	CEGUI::LuaScriptModule* m_pLuaScriptModule;
@@ -296,6 +311,12 @@ private:
 	int m_iTreasureMapId;
 	bool m_bUIInited;
 	bool m_bUIPostInited;
+	bool m_bUIBootstrapInited;
+	UISchemeLoadPhase m_eUISchemeLoadPhase;
+	CEGUI::Scheme* m_pBootstrapScheme;
+	CEGUI::Scheme* m_pPrimaryScheme;
+	CEGUI::Scheme* m_pSecondaryScheme;
+	unsigned int m_uiSchemeLoadStartTick;
 	bool m_bShowGameUI;
 
 public:

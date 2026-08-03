@@ -1,4 +1,4 @@
-#include "../common/nulog.h"
+﻿#include "../common/nulog.h"
 #include "nucommonfuncs.h"
 #include <utils/StringUtil.h>
 #include <platform/platform_types.h>

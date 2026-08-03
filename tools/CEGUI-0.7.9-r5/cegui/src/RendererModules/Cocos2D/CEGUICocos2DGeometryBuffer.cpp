@@ -30,13 +30,21 @@ Cocos2DGeometryBuffer::Cocos2DGeometryBuffer() :
     d_TargetSurface(0),
     d_WidthClip(1.0f),
     d_RenderSuccess(false),
-    d_paterGeomBuffer(0)
+    d_paterGeomBuffer(0),
+    d_vertexBuffer(0),
+    d_vertexBufferDirty(false)
 {
 }
 
 //----------------------------------------------------------------------------//
 Cocos2DGeometryBuffer::~Cocos2DGeometryBuffer()
 {
+    if (d_vertexBuffer)
+    {
+        glDeleteBuffers(1, &d_vertexBuffer);
+        d_vertexBuffer = 0;
+    }
+
     if (d_effect)
     {
         delete d_effect;
@@ -169,11 +177,26 @@ void Cocos2DGeometryBuffer::draw() const
         return;
     }
 
-    // CEGUI keeps its vertices in CPU memory. Cocos may leave a VAO/VBO bound,
-    // which would make OpenGL treat these addresses as VBO offsets.
     cocos2d::GL::bindVAO(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    if (!d_vertexBuffer)
+        glGenBuffers(1, &d_vertexBuffer);
+    if (!d_vertexBuffer)
+    {
+        d_RenderSuccess = false;
+        if (bNeedRestoreScissorTest)
+            glEnable(GL_SCISSOR_TEST);
+        kmGLMatrixMode(savedMatrixMode);
+        return;
+    }
+    glBindBuffer(GL_ARRAY_BUFFER, d_vertexBuffer);
+    if (d_vertexBufferDirty)
+    {
+        glBufferData(GL_ARRAY_BUFFER,
+            static_cast<GLsizeiptr>(d_vertices.size() * sizeof(cocos2d::V3F_C4B_T2F)),
+            &d_vertices[0], GL_DYNAMIC_DRAW);
+        d_vertexBufferDirty = false;
+    }
 
     pRender->m_program->setUniformsForBuiltins();
 
@@ -245,19 +268,19 @@ void Cocos2DGeometryBuffer::draw() const
                 cocos2d::GL::bindTexture2D(pTexture->getTextureName());
             }
 
-            unsigned long long offset = (unsigned long long)&d_vertices[pos];
+            const size_t offset = pos * kQuadSize;
 
             // vertex
             unsigned int diff = offsetof(cocos2d::V3F_C4B_T2F, vertices);
-            glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
+            glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, kQuadSize, reinterpret_cast<void*>(offset + diff));
 
             // color
             diff = offsetof(cocos2d::V3F_C4B_T2F, colors);
-            glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
+            glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, reinterpret_cast<void*>(offset + diff));
 
             // texture coords
             diff = offsetof(cocos2d::V3F_C4B_T2F, texCoords);
-            glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
+            glVertexAttribPointer(cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, kQuadSize, reinterpret_cast<void*>(offset + diff));
 
             glDrawArrays(GL_TRIANGLES, 0, batchVertexCount);
 
@@ -377,6 +400,7 @@ void Cocos2DGeometryBuffer::appendGeometry(const Vertex* const vbuff,
         vd.texCoords.v      = vs->tex_coords.d_y;
         d_vertices.push_back(vd);
     }
+    d_vertexBufferDirty = true;
 }
 
 //----------------------------------------------------------------------------//
@@ -397,6 +421,7 @@ void Cocos2DGeometryBuffer::reset()
     d_batches.clear();
     d_vertices.clear();
     d_activeTexture = 0;
+    d_vertexBufferDirty = false;
 }
 
 //----------------------------------------------------------------------------//
