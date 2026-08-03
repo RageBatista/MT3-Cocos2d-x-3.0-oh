@@ -34,6 +34,7 @@ class System : public EventSet
 
 	Window* getWindowContainingMouse() const;
 	Window* getKeyboardTargetWindow(void) const;
+	Window* getModalTarget(void) const;
 	Window* getTargetWindow(const CEGUI::Vector2& pt, const bool allow_disabled) const;
 
 	void executeScriptFile(utf8string filename) const;

@@ -398,6 +398,13 @@ public:
     */
     void setMaxTextLength(size_t max_len);
 
+    void SetOnlyNumberMode(bool onlyNumber, int64_t maxNumber,
+                           bool canFirstBeZero = false);
+    void SetShieldSpace(bool shield) { d_shieldSpace = shield; }
+    bool IsShieldSpace() const { return d_shieldSpace; }
+    void SetFrameEnabled(bool enabled);
+    bool isFrameEnabled() const { return d_frameEnabled; }
+
     //! Constructor for Editbox class.
     Editbox(const String& type, const String& name);
 
@@ -595,6 +602,11 @@ protected:
     bool d_dragging;
     //! Selection index for drag selection anchor point.
     size_t d_dragAnchorIdx;
+    bool d_shieldSpace;
+    bool d_onlyNumberMode;
+    int64_t d_maxNumber;
+    bool d_canFirstBeZero;
+    bool d_frameEnabled;
     //! Legacy MT3 per-corner text colour override.
     ColourRect d_normalColourRect;
     //! True after SetNormalColourRect has explicitly overridden looknfeel colour.

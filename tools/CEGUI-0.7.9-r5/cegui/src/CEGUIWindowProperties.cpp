@@ -661,6 +661,18 @@ void SoundResource::set(PropertyReceiver* receiver, const String& value)
 }
 
 //----------------------------------------------------------------------------//
+String CloseSoundResource::get(const PropertyReceiver* receiver) const
+{
+    return static_cast<const Window*>(receiver)->GetCloseSoundResource();
+}
+
+//----------------------------------------------------------------------------//
+void CloseSoundResource::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<Window*>(receiver)->SetCloseSoundResource(value);
+}
+
+//----------------------------------------------------------------------------//
 String LimitWindowSize::get(const PropertyReceiver* receiver) const
 {
     return PropertyHelper::boolToString(
@@ -672,6 +684,78 @@ void LimitWindowSize::set(PropertyReceiver* receiver, const String& value)
 {
     static_cast<Window*>(receiver)->setLimitSize(
         PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
+String CreateEffectType::get(const PropertyReceiver* receiver) const
+{
+    switch (static_cast<const Window*>(receiver)->GetCreateWndEffect())
+    {
+    case CreateWndEffect_Drop:
+        return "Drop";
+    case CreateWndEffect_FlyFromLeft:
+        return "Left";
+    case CreateWndEffect_FlyFromRight:
+        return "Right";
+    case CreateWndEffect_ZoomOut:
+        return "ZoomOut";
+    default:
+        return "";
+    }
+}
+
+//----------------------------------------------------------------------------//
+void CreateEffectType::set(PropertyReceiver* receiver, const String& value)
+{
+    CreateWindowEffect effect = CreateWndEffect_None;
+    if (value == "Drop")
+        effect = CreateWndEffect_Drop;
+    else if (value == "Left")
+        effect = CreateWndEffect_FlyFromLeft;
+    else if (value == "Right")
+        effect = CreateWndEffect_FlyFromRight;
+    else if (value == "ZoomOut")
+        effect = CreateWndEffect_ZoomOut;
+
+    static_cast<Window*>(receiver)->SetCreateEffectType(effect);
+}
+
+//----------------------------------------------------------------------------//
+String CloseEffectType::get(const PropertyReceiver* receiver) const
+{
+    switch (static_cast<const Window*>(receiver)->GetCloseWndEffect())
+    {
+    case CloseWndEffect_FlyUp:
+        return "Up";
+    case CloseWndEffect_FlyDown:
+        return "Down";
+    case CloseWndEffect_FlyLeft:
+        return "Left";
+    case CloseWndEffect_FlyRight:
+        return "Right";
+    case CloseWndEffect_ZoomIn:
+        return "ZoomIn";
+    default:
+        return "";
+    }
+}
+
+//----------------------------------------------------------------------------//
+void CloseEffectType::set(PropertyReceiver* receiver, const String& value)
+{
+    CloseWndEffect effect = CloseWndEffect_None;
+    if (value == "Up")
+        effect = CloseWndEffect_FlyUp;
+    else if (value == "Down")
+        effect = CloseWndEffect_FlyDown;
+    else if (value == "Left")
+        effect = CloseWndEffect_FlyLeft;
+    else if (value == "Right")
+        effect = CloseWndEffect_FlyRight;
+    else if (value == "ZoomIn")
+        effect = CloseWndEffect_ZoomIn;
+
+    static_cast<Window*>(receiver)->SetCloseEffectType(effect);
 }
 
 //----------------------------------------------------------------------------//
@@ -837,6 +921,21 @@ String AllowModalStateClick::get(const PropertyReceiver* receiver) const
 void AllowModalStateClick::set(PropertyReceiver* receiver, const String& value)
 {
     static_cast<Window*>(receiver)->EnableAllowModalState(
+        PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
+String AllowShowWithModalState::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::boolToString(
+        static_cast<const Window*>(receiver)->isAllowShowWithModalState());
+}
+
+//----------------------------------------------------------------------------//
+void AllowShowWithModalState::set(PropertyReceiver* receiver,
+                                  const String& value)
+{
+    static_cast<Window*>(receiver)->EnabledAllowShowWithModalState(
         PropertyHelper::stringToBool(value));
 }
 

@@ -91,6 +91,8 @@ public:
         textures.
     */
     virtual bool isRenderingInverted() const = 0;
+
+    virtual bool saveToFile(const String&) { return false; }
 };
 
 } // End of  CEGUI namespace section

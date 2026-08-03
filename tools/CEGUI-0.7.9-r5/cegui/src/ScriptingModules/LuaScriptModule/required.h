@@ -43,6 +43,8 @@
 #define __operator_dereference  operator*
 
 #define LuaFunctorSubscribeEvent CEGUI::LuaFunctor::SubscribeEvent
+#define LuaFunctorSubscribeDragEvent CEGUI::LuaFunctor::SubscribeDragEvent
+#define LuaFunctorSubscribeLongpressEvent CEGUI::LuaFunctor::SubscribeLongpressEvent
 
 //This is used to keep compilers happy
 #define CEGUIDeadException(e) &

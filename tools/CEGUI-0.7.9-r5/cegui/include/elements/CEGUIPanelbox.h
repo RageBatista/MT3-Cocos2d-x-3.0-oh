@@ -105,6 +105,7 @@ public:
 	\return
 		Nothing
 	*/
+	virtual void initialiseComponents(void) { initialiseComponents(false); }
 	virtual void	initialiseComponents(bool bClone);
 	
 	void	setPanelType(PanelType type) { d_PanelType = type;}

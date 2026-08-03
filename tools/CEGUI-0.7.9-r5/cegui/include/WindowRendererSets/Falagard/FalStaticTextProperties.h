@@ -255,6 +255,19 @@ public:
     void set(PropertyReceiver* receiver, const String& value);
 };
 
+class Title : public Property
+{
+public:
+    Title() : Property(
+        "Title",
+        "Property to get/set the MT3 title text rendering state.",
+        "False")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 } // End of  FalagardStaticTextProperties namespace section
 
 } // End of  CEGUI namespace section

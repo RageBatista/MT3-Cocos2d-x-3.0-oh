@@ -182,6 +182,8 @@ void Font::drawText(GeometryBuffer& buffer, const String& text,
 {
     const float base_y = position.d_y + getBaseline(y_scale);
     Vector2 glyph_pos(position);
+    ColourRect borderColours(BorderColours);
+    borderColours.setAlpha(colours.d_top_left.getAlpha());
 
     for (size_t c = 0; c < text.length(); ++c)
     {
@@ -191,6 +193,21 @@ void Font::drawText(GeometryBuffer& buffer, const String& text,
             const Image* const img = glyph->getImage();
             glyph_pos.d_y =
                 base_y - (img->getOffsetY() - img->getOffsetY() * y_scale);
+            if (bBorder)
+            {
+                for (int x = -1; x <= 1; ++x)
+                {
+                    for (int y = -1; y <= 1; ++y)
+                    {
+                        if (x == 0 && y == 0)
+                            continue;
+                        img->draw(buffer,
+                                  Vector2(glyph_pos.d_x + x, glyph_pos.d_y + y),
+                                  glyph->getSize(x_scale, y_scale),
+                                  clip_rect, borderColours);
+                    }
+                }
+            }
             img->draw(buffer, glyph_pos,
                       glyph->getSize(x_scale, y_scale), clip_rect, colours);
             glyph_pos.d_x += glyph->getAdvance(x_scale);

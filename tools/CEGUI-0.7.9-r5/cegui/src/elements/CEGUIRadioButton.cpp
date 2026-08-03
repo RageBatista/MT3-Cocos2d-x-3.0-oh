@@ -92,6 +92,19 @@ void RadioButton::setSelected(bool select)
 
 }
 
+//----------------------------------------------------------------------------//
+void RadioButton::setSelectedNoEvent(bool select)
+{
+	if (select == d_selected)
+		return;
+
+	d_selected = select;
+	invalidate();
+
+	if (d_selected)
+		deselectOtherButtonsInGroup();
+}
+
 
 /*************************************************************************
     set the groupID for this radio button

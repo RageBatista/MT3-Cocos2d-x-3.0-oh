@@ -58,6 +58,11 @@
 // Start of CEGUI namespace section
 namespace CEGUI
 {
+namespace Gesture
+{
+    class CEGUIGestureRecognizer;
+    class CEGUIGestureRecognizerManager;
+}
 /*!
 \brief
     Enumerated type used when specifying vertical alignments.
@@ -468,6 +473,10 @@ public:
      * valid.
      */
     static const String EventMouseTripleClick;
+    static const String EventLongPress;
+    static const String EventSlide;
+    static const String EventDrag;
+    static const String EventGuideEnd;
     /** Event fired when a key on the keyboard was pressed down while the window
      * had input focus.
      * Handlers are passed a const KeyEventArgs reference with
@@ -647,6 +656,7 @@ public:
         uint value equal to the currently assigned ID code for this Window.
     */
     uint getID(void) const {return d_ID;}
+    uint getID2(void) const {return d_ID2;}
 
     /*!
     \brief
@@ -1648,6 +1658,7 @@ public:
         0.
     */
     RenderingSurface* getRenderingSurface() const;
+    bool trySaveRenderedImageToFile(const String& filename);
 
     /*!
     \brief
@@ -1885,6 +1896,7 @@ public:
         Nothing
     */
     void setID(uint ID);
+    void setID2(uint ID);
 
     /*!
     \brief
@@ -2487,8 +2499,11 @@ public:
     // MT3: Slide enable/disable
     void EnbaleSlide(bool bEnable) { d_SlideEnable = bEnable; }
 
-    // MT3: Drag enable/disable
-    void EnableDrag(bool bEnable = true);
+    // MT3: Gesture enable/disable and custom subscriber hooks.
+    void EnableLongPress(bool enabled = true);
+    void EnableDrag(bool enabled = true);
+    void subscriberEventLongPress(Event::Subscriber callback);
+    void subscriberEventDrag(Event::Subscriber callback);
 
     // MT3: Get screen position
     Point GetScreenPos() const;
@@ -4434,7 +4449,10 @@ protected:
     static  WindowProperties::Scale d_scaleProperty;
     static  WindowProperties::EnableSound d_soundEnableProperty;
     static  WindowProperties::SoundResource d_soundResourceProperty;
+    static  WindowProperties::CloseSoundResource d_closeSoundResourceProperty;
     static  WindowProperties::LimitWindowSize d_limitWindowSizeProperty;
+    static  WindowProperties::CreateEffectType d_createEffectTypeProperty;
+    static  WindowProperties::CloseEffectType d_closeEffectTypeProperty;
     static  WindowProperties::LuaForDialog d_luaForDialogProperty;
     static  WindowProperties::LuaMemberName d_luaMemberNameProperty;
     static  WindowProperties::LuaEventOnClicked d_luaEventOnClickedProperty;
@@ -4447,6 +4465,7 @@ protected:
     static  WindowProperties::TextParsingEnabled d_textParsingEnabledProperty;
     static  WindowProperties::DisplaySizeChangePosEnabled d_displaySizeChangePosEnabledProperty;
     static  WindowProperties::AllowModalStateClick d_allowModalStateClickProperty;
+    static  WindowProperties::AllowShowWithModalState d_allowShowWithModalStateProperty;
     static  WindowProperties::ModalState d_modalStateProperty;
     static  WindowProperties::IsPixelDecide d_isPixelDecideProperty;
     static  WindowProperties::Margin d_marginProperty;
@@ -4553,6 +4572,7 @@ protected:
 
     //! User ID assigned to this Window
     uint d_ID;
+    uint d_ID2;
     //! Holds pointer to some user assigned data.
     void* d_userData;
     //! Holds a collection of named user string values.
@@ -4678,9 +4698,13 @@ protected:
     bool d_IsPixelDecide;
     // MT3: Preserve the legacy layout flag even when no display resize occurs.
     bool d_displaySizeChangePosEnabled;
+    // MT3: Preserve the legacy per-window display-size participation flag.
+    bool d_displaySizeEnabled;
     // MT3: Flash
     bool d_Flash;
     bool d_EnableFlash;
+    float d_FalshElapseTime;
+    float d_FlashFrequence;
     // MT3: Right button close
     bool d_RButtonCloseEnable;
     // MT3: Align window
@@ -4698,6 +4722,13 @@ protected:
     float d_ClickStateScale;
     // MT3: Is loaded draw
     bool d_IsLoadedDraw;
+
+    // MT3: Fly effect state
+    bool d_IsFlying;
+    Point d_FlyStartScreenPoint;
+    Point d_FlyTargetScreenPoint;
+    float d_TotalFlyTime;
+    float d_FlyElapseTime;
 
 
 private:
@@ -4717,6 +4748,24 @@ public:
     void cleanupAllEvent(void);
     // MT3: Public wrapper for protected cleanupChildren
     void cleanupChildrenPublic(void) { cleanupChildren(); }
+    virtual void cleanupNonAutoChildren(void);
+
+    // MT3: Legacy sibling draw-order access used by Lua UI compatibility code.
+    ChildList& getDrawList() { return d_drawList; }
+    void bringWindowAbove(Window* upperWnd, Window* lowerWnd);
+
+    // MT3: Legacy direct geometry transforms used by Lua animation code.
+    void setGeomRotation(const Vector3& rotation);
+    void setGeomScale(const Vector3& scale);
+    void setGeomPivot(const Vector3& pivot);
+
+    bool isInputFocus();
+    bool isDisplaySizeEnable() const { return d_displaySizeEnabled; }
+    void SetDisplaySizeEnable(bool enabled) { d_displaySizeEnabled = enabled; }
+    bool isTextBorder() const { return d_textBorder; }
+    void SetTextBoder(bool enabled);
+    const ColourRect& GetBorderColour() const { return d_textBorderColour; }
+    void SetTextBorderColour(const ColourRect& colour);
 
     // MT3: ESC close window
     Window* getEscCloseWindow() { return d_escCloseWindow; }
@@ -4727,8 +4776,16 @@ public:
     unsigned int GetTextColor() const { return d_textColor; }
 
     // MT3: Top most flag
-    void setTopMost(bool b) { d_topMost = b; }
+    void setTopMost(bool setting);
     bool isTopMost() const { return d_topMost; }
+
+    virtual bool onMouseSlide(Gesture::CEGUIGestureRecognizer* recognizer);
+    virtual bool onMouseDrag(Gesture::CEGUIGestureRecognizer* recognizer);
+    virtual bool onLongPress(Gesture::CEGUIGestureRecognizer* recognizer);
+
+private:
+    bool HandleLongPress(const EventArgs& e);
+    bool HandleDrag(const EventArgs& e);
 
 protected:
     // MT3: Get clone window from template
@@ -4743,6 +4800,12 @@ protected:
     Window* d_escCloseWindow;
     unsigned int d_textColor;
     bool d_topMost;
+    bool d_DragEnable;
+    bool d_LongpressEnable;
+    Gesture::CEGUIGestureRecognizerManager* d_recognizerManager;
+    bool d_bUpMsgChangedGesture;
+    bool d_textBorder;
+    ColourRect d_textBorderColour;
 };
 
 } // End of  CEGUI namespace section

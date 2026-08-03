@@ -29,6 +29,9 @@
 #include "elements/CEGUIThumb.h"
 #include "CEGUIWindowManager.h"
 #include "CEGUIExceptions.h"
+#include "elements/CEGUIScrollablePane.h"
+#include "gesture/CEGUIPanGestureRecognizer.h"
+#include <math.h>
 
 // Start of CEGUI namespace section
 namespace CEGUI
@@ -36,6 +39,7 @@ namespace CEGUI
 //----------------------------------------------------------------------------//
 const String Scrollbar::EventNamespace("Scrollbar");
 const String Scrollbar::WidgetTypeName("CEGUI/Scrollbar");
+float Scrollbar::d_DefultAcceleration(100.0f);
 
 //----------------------------------------------------------------------------//
 ScrollbarProperties::DocumentSize   Scrollbar::d_documentSizeProperty;
@@ -50,6 +54,8 @@ const String Scrollbar::EventScrollPositionChanged("ScrollPosChanged");
 const String Scrollbar::EventThumbTrackStarted("ThumbTrackStarted");
 const String Scrollbar::EventThumbTrackEnded("ThumbTrackEnded");
 const String Scrollbar::EventScrollConfigChanged("ScrollConfigChanged");
+const String Scrollbar::EventScrollbarEnd("ScrollbarEnd");
+const String Scrollbar::EventSlideStopped("SlideStopped");
 
 //----------------------------------------------------------------------------//
 const String Scrollbar::ThumbNameSuffix("__auto_thumb__");
@@ -70,9 +76,27 @@ Scrollbar::Scrollbar(const String& type, const String& name) :
     d_stepSize(1.0f),
     d_overlapSize(0.0f),
     d_position(0.0f),
-    d_endLockPosition(false)
+    d_endLockPosition(false),
+    d_velocity(0.0f),
+    d_acceleration(0.0f),
+    d_Lock(false),
+    d_TotalSlideTime(0.0f),
+    d_ClickEnable(true),
+    d_parentScrollPane(NULL),
+    m_SlideState(StopState),
+    m_BackElapseTime(0.0f),
+    m_SlideElapseTime(0.0f),
+    m_SlideStartPos(0.0f),
+    m_SlideDstPos(0.0f),
+    d_PanGuestureEnable(true),
+    d_PanForVert(true),
+    m_Offset(0.0f),
+    d_StopStep(false),
+    m_ticktime(0.0f)
 {
     addScrollbarProperties();
+    EnbaleSlide(true);
+    EnableDrag(true);
 }
 
 //----------------------------------------------------------------------------//
@@ -244,8 +268,17 @@ void Scrollbar::onScrollConfigChanged(WindowEventArgs& e)
 }
 
 //----------------------------------------------------------------------------//
+void Scrollbar::onScrollbarEnd(WindowEventArgs& e)
+{
+    fireEvent(EventScrollbarEnd, e, EventNamespace);
+}
+
+//----------------------------------------------------------------------------//
 void Scrollbar::onMouseButtonDown(MouseEventArgs& e)
 {
+    if (!d_ClickEnable)
+        return;
+
     // base class processing
     Window::onMouseButtonDown(e);
 
@@ -260,6 +293,8 @@ void Scrollbar::onMouseButtonDown(MouseEventArgs& e)
 
         ++e.handled;
     }
+
+    d_StopStep = false;
 }
 
 //----------------------------------------------------------------------------//
@@ -432,7 +467,58 @@ bool Scrollbar::isThumbOnEnd()
 //----------------------------------------------------------------------------//
 void Scrollbar::onMouseSlide(MouseEventArgs& e)
 {
-    // MT3 custom: currently empty implementation
+    WindowEventArgs args(this);
+    fireEvent(EventSlide, args, EventNamespace);
+    ++e.handled;
+}
+
+//----------------------------------------------------------------------------//
+bool Scrollbar::onMouseDrag(Gesture::CEGUIGestureRecognizer* recognizer)
+{
+    Window::onMouseDrag(recognizer);
+
+    if (!d_PanGuestureEnable || !recognizer)
+        return true;
+
+    if (m_SlideState == SlideState || m_SlideState == BackState)
+        Stop();
+
+    if (recognizer->GetState() != Gesture::GestureRecognizerStateEnded)
+    {
+        const MouseEventArgs* args = recognizer->getMouseEvent();
+        if (!args)
+            return false;
+
+        float position = getScrollPosition();
+        const float delta = d_PanForVert ? args->moveDelta.d_y : args->moveDelta.d_x;
+        position -= delta / getWeakenRatio(position);
+
+        const float lastOffset = m_Offset;
+        m_Offset = position - getScrollPosition();
+        if (m_Offset * lastOffset < 0.0f)
+        {
+            m_ticktime = 0.0f;
+            d_StopStep = true;
+            m_Offset = 0.0f;
+        }
+
+        setScrollPosition(position, false);
+        return true;
+    }
+
+    Gesture::CEGUIPanGestureRecognizer* pan =
+        dynamic_cast<Gesture::CEGUIPanGestureRecognizer*>(recognizer);
+    if (!pan)
+    {
+        Back();
+        return false;
+    }
+
+    d_velocity = d_PanForVert ?
+        -pan->velocityInView().d_y : -pan->velocityInView().d_x;
+    d_velocity /= getWeakenRatio(getScrollPosition());
+    Slide();
+    return true;
 }
 
 //----------------------------------------------------------------------------//
@@ -540,11 +626,202 @@ bool Scrollbar::isEndLockEnabled() const
 
 //----------------------------------------------------------------------------//
 
-// MT3: Stop scrolling
 void Scrollbar::Stop()
 {
+    m_SlideState = StopState;
+    m_BackElapseTime = 0.0f;
+    d_velocity = 0.0f;
+    d_acceleration = 0.0f;
+    m_SlideElapseTime = 0.0f;
+    d_TotalSlideTime = 0.0f;
+    m_Offset = 0.0f;
     setScrollPosition(getScrollPosition(), true);
+
+    WindowEventArgs args(this);
+    fireEvent(EventSlideStopped, args, EventNamespace);
+}
+
+//----------------------------------------------------------------------------//
+void Scrollbar::Back()
+{
+    const float position = getScrollPosition();
+    const float maxPosition = getMaxScrollPosition();
+    if (position >= 0.0f && position <= maxPosition)
+    {
+        Stop();
+        return;
+    }
+
+    m_SlideState = BackState;
+    m_BackElapseTime = 0.0f;
+    m_SlideElapseTime = 0.0f;
+    d_TotalSlideTime = 0.0f;
+    m_SlideStartPos = position;
+    m_Offset = 0.0f;
+}
+
+//----------------------------------------------------------------------------//
+void Scrollbar::Slide()
+{
+    m_SlideStartPos = getScrollPosition();
+    const float maxPosition = getMaxScrollPosition();
+    if (m_SlideStartPos <= 0.0f || m_SlideStartPos >= maxPosition)
+    {
+        Back();
+        return;
+    }
+
+    m_SlideDstPos = m_SlideStartPos;
+    d_TotalSlideTime = 3.0f;
+    m_SlideElapseTime = 0.0f;
+
+    const float velocityThreshold = 20.0f;
+    const float minimumVelocity = 100.0f;
+    const float maximumVelocity = 1500.0f;
+    if (d_velocity > velocityThreshold)
+    {
+        if (d_velocity < minimumVelocity)
+        {
+            d_velocity = minimumVelocity;
+            d_TotalSlideTime = 1.5f;
+        }
+        else if (d_velocity > maximumVelocity)
+            d_velocity = maximumVelocity;
+    }
+    else if (d_velocity < -velocityThreshold)
+    {
+        if (d_velocity > -minimumVelocity)
+        {
+            d_velocity = -minimumVelocity;
+            d_TotalSlideTime = 1.5f;
+        }
+        else if (d_velocity < -maximumVelocity)
+            d_velocity = -maximumVelocity;
+    }
+    else
+    {
+        d_TotalSlideTime = 0.75f;
+        if (d_parentScrollPane)
+        {
+            ScrollablePane* pane = dynamic_cast<ScrollablePane*>(d_parentScrollPane);
+            if (pane)
+                pane->amendSlideDesPos(m_SlideStartPos, m_SlideDstPos,
+                                       d_TotalSlideTime, d_velocity);
+        }
+
+        if (fabsf(m_SlideDstPos - m_SlideStartPos) < 0.01f)
+            Back();
+        else
+            m_SlideState = SlideState;
+        return;
+    }
+
+    if (fabsf(d_velocity) < 500.0f)
+        d_TotalSlideTime *= 0.5f;
+    else if (fabsf(d_velocity) < 1000.0f)
+        d_TotalSlideTime *= 0.6f;
+    else if (fabsf(d_velocity) < 1500.0f)
+        d_TotalSlideTime *= 0.7f;
+
+    const float offset = d_velocity * 0.5f;
+    m_SlideDstPos = d_StopStep ? m_SlideStartPos : m_SlideStartPos + offset;
+    if (m_SlideDstPos < 0.0f)
+        m_SlideDstPos = 0.0f;
+    else if (m_SlideDstPos > maxPosition)
+        m_SlideDstPos = maxPosition;
+
+    if (d_parentScrollPane)
+    {
+        ScrollablePane* pane = dynamic_cast<ScrollablePane*>(d_parentScrollPane);
+        if (pane)
+            pane->amendSlideDesPos(m_SlideStartPos, m_SlideDstPos,
+                                   d_TotalSlideTime, d_velocity);
+    }
+
+    m_SlideState = SlideState;
+}
+
+//----------------------------------------------------------------------------//
+void Scrollbar::updateSelf(float elapsed)
+{
+    Window::updateSelf(elapsed);
+    const float maxPosition = getMaxScrollPosition();
+
+    if (m_SlideState == SlideState)
+    {
+        m_SlideElapseTime += elapsed;
+        const float duration = ceguimax(d_TotalSlideTime, 0.001f);
+        float t = ceguimin(m_SlideElapseTime / duration, 1.0f) - 1.0f;
+        const float position =
+            (m_SlideDstPos - m_SlideStartPos) * (t * t * t + 1.0f) +
+            m_SlideStartPos;
+        setScrollPosition(position, false);
+
+        if (m_SlideElapseTime >= duration)
+        {
+            setScrollPosition(m_SlideDstPos, false);
+            Back();
+        }
+    }
+    else if (m_SlideState == BackState)
+    {
+        m_BackElapseTime += elapsed;
+        const float target = m_SlideStartPos < 0.0f ? 0.0f : maxPosition;
+        const float ratio = ceguimin(m_BackElapseTime / 0.3f, 1.0f);
+        const float t = ratio - 1.0f;
+        const float position =
+            (target - m_SlideStartPos) * (t * t * t + 1.0f) +
+            m_SlideStartPos;
+        setScrollPosition(position, false);
+
+        if (ratio >= 1.0f)
+        {
+            setScrollPosition(target, true);
+            Stop();
+            WindowEventArgs args(this);
+            onScrollbarEnd(args);
+        }
+    }
+
+    m_ticktime += elapsed;
+    if (m_ticktime > 1.5f && d_StopStep)
+    {
+        m_ticktime = 0.0f;
+        d_StopStep = false;
+    }
+}
+
+//----------------------------------------------------------------------------//
+void Scrollbar::Lock()
+{
+    Stop();
+    d_Lock = true;
+    m_SlideState = LockState;
+}
+
+//----------------------------------------------------------------------------//
+void Scrollbar::Free()
+{
+    d_Lock = false;
+    if (m_SlideState == LockState)
+        m_SlideState = StopState;
+}
+
+//----------------------------------------------------------------------------//
+float Scrollbar::getWeakenRatio(float position) const
+{
+    const float pageSize = ceguimin(d_pageSize, d_documentSize);
+    if (pageSize <= 0.0f)
+        return 1.0f;
+
+    const float maxPosition = getMaxScrollPosition();
+    float ratio = 1.0f;
+    if (position < 0.0f)
+        ratio = ((-position) * 3.0f + pageSize) / pageSize;
+    else if (position > maxPosition)
+        ratio = ((position - maxPosition) * 3.0f + pageSize) / pageSize;
+
+    return ratio > 1.0f ? ratio * ratio * ratio : 1.0f;
 }
 
 } // End of  CEGUI namespace section
-

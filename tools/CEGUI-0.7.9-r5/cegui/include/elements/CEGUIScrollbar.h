@@ -40,6 +40,14 @@
 // Start of CEGUI namespace section
 namespace CEGUI
 {
+enum enumSlideState
+{
+    StopState,
+    SlideState,
+    BackState,
+    LockState
+};
+
 /*!
 \brief
     Base class for Scrollbar window renderer objects.
@@ -133,6 +141,8 @@ public:
      * has been changed.
      */
     static const String EventScrollConfigChanged;
+    static const String EventScrollbarEnd;
+    static const String EventSlideStopped;
 
     /*************************************************************************
         Child Widget name suffix constants
@@ -254,6 +264,10 @@ public:
     {
         return d_position;
     }
+
+    void setClickEnable(bool enabled) { d_ClickEnable = enabled; }
+    bool getClickEnable() const { return d_ClickEnable; }
+    enumSlideState getSlidState() const { return m_SlideState; }
 
     /*!
     \brief
@@ -422,11 +436,27 @@ public:
     // MT3: Overloaded setScrollPosition with checkPos parameter
     void setScrollPosition(float position, bool checkPos);
 
-    // MT3 compatibility: 0.7.9 Scrollbar has no pan recognizer to disable.
-    void EnbalePanGuesture(bool) {}
+    void EnbalePanGuesture(bool enabled) { d_PanGuestureEnable = enabled; }
+    void SetPanForVert(bool forVertical) { d_PanForVert = forVertical; }
+    void SetParentScrollPane(Window* pane) { d_parentScrollPane = pane; }
+    void SetVeloctity(float velocity) { d_velocity = velocity; }
+    float GetVeloctity() const { return d_velocity; }
+    void SetAcceration(float acceleration) { d_acceleration = acceleration; }
+    static void SetDefaultAcceleration(float acceleration)
+    {
+        d_DefultAcceleration = acceleration;
+    }
 
     // MT3: Stop scrolling
     void Stop();
+    void Lock();
+    void Free();
+
+    // MT3: Clamp an overscrolled position back into the valid range.
+    void Back();
+    void Slide();
+
+    virtual bool onMouseDrag(Gesture::CEGUIGestureRecognizer* recognizer);
 
     // MT3: Mouse slide event handler
     virtual void onMouseSlide(MouseEventArgs& e);
@@ -609,10 +639,12 @@ protected:
 
     //! Handler triggered when the scroll bar data configuration changes
     virtual void onScrollConfigChanged(WindowEventArgs& e);
+    virtual void onScrollbarEnd(WindowEventArgs& e);
 
     // Overridden event handlers
     virtual void onMouseButtonDown(MouseEventArgs& e);
     virtual void onMouseWheel(MouseEventArgs& e);
+    virtual void updateSelf(float elapsed);
 
     // Implementation Data
     //! The size of the document / data being scrolled thorugh.
@@ -627,6 +659,12 @@ protected:
     float d_position;
     //! whether 'end lock' mode is enabled.
     bool d_endLockPosition;
+    float d_velocity;
+    float d_acceleration;
+    bool d_Lock;
+    float d_TotalSlideTime;
+    bool d_ClickEnable;
+    Window* d_parentScrollPane;
 
 private:
     // Static Properties for this class
@@ -636,9 +674,21 @@ private:
     static ScrollbarProperties::OverlapSize     d_overlapSizeProperty;
     static ScrollbarProperties::ScrollPosition  d_scrollPositionProperty;
     static ScrollbarProperties::EndLockEnabled  d_endLockEnabledProperty;
+    static float d_DefultAcceleration;
 
     //! Adds scrollbar specific properties.
     void addScrollbarProperties(void);
+    float getWeakenRatio(float position) const;
+    enumSlideState m_SlideState;
+    float m_BackElapseTime;
+    float m_SlideElapseTime;
+    float m_SlideStartPos;
+    float m_SlideDstPos;
+    bool d_PanGuestureEnable;
+    bool d_PanForVert;
+    float m_Offset;
+    bool d_StopStep;
+    float m_ticktime;
 };
 
 } // End of  CEGUI namespace section

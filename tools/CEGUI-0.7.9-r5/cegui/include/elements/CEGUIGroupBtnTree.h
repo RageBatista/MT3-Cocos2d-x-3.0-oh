@@ -95,8 +95,7 @@ public:
     /*************************************************************************
     Properties for GroupBtnTree class
     *************************************************************************/
-    // MT3: MaskImage property not available in CEGUI-0.7.9-r5 TreeProperties
-    // static  TreeProperties::MaskImage d_MaskImageProperty;
+    static TreeProperties::MaskImage d_MaskImageProperty;
 
     //Render the actual tree
     void doTreeRender()
@@ -591,8 +590,7 @@ protected:
     virtual void onMouseClicked(MouseEventArgs& e);
     virtual	void onMouseWheel(MouseEventArgs& e);
     virtual void onMouseMove(MouseEventArgs& e);
-    // MT3: Gesture module not available in CEGUI-0.7.9-r5
-    // virtual	bool onMouseDrag(Gesture::CEGUIGestureRecognizer* pRecognizer);
+    virtual bool onMouseDrag(Gesture::CEGUIGestureRecognizer* recognizer);
     virtual void onMouseButtonDown(MouseEventArgs& e);
     virtual void onMouseButtonUp(MouseEventArgs& e);
     virtual void onMouseLeaves(MouseEventArgs& e);

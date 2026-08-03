@@ -19,6 +19,7 @@
 #include "CEGUIImageCodec.h"
 
 #include "2d/CCGLProgram.h"
+#include "2d/ccGLStateCache.h"
 #include "2d/CCShaderCache.h"
 #include "2d/CCConfiguration.h"
 #include "2d/CCDirector.h"
@@ -269,12 +270,6 @@ void Cocos2DRenderer::destroyAllTextures()
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::beginRendering()
 {
-    static int sRenderCount = 0;
-    ++sRenderCount;
-    const bool traceRender = (sRenderCount <= 3);
-    if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin enter", Standard);
-
     // Save current kazmath matrix mode so endRendering() can always restore it,
     // even if an exception skips the normal teardown path.
     m_savedMatrixMode = kmGLGetCurrentMatrixMode();
@@ -282,9 +277,6 @@ void Cocos2DRenderer::beginRendering()
     // Save GL state that may be altered by CEGUI rendering or 3D engine
     m_savedDepthTest = (glIsEnabled(GL_DEPTH_TEST) == GL_TRUE);
     m_savedCullFace = (glIsEnabled(GL_CULL_FACE) == GL_TRUE);
-    if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer GL state read complete", Standard);
-
     // CEGUI is 2D UI overlay: disable depth test so UI is never culled by 3D depth buffer
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -296,13 +288,9 @@ void Cocos2DRenderer::beginRendering()
 
     m_program = cocos2d::ShaderCache::getInstance()->getProgram(
         cocos2d::GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
-    if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader lookup complete", Standard);
     if (m_program)
     {
         m_program->use();
-        if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer shader use complete", Standard);
 
         // CEGUI 2D UI needs orthographic projection; EngineLayer::draw() sets 3D perspective.
         // Save current projection matrix and switch to 2D ortho so UI is visible.
@@ -320,28 +308,17 @@ void Cocos2DRenderer::beginRendering()
             displaySize.d_height, 0.0f,
             -1.0f, 1.0f);
         kmGLMultMatrix(&ortho);
-        if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer projection setup complete", Standard);
-
         m_program->setUniformsForBuiltins();
-        if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer uniforms complete", Standard);
 
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_POSITION);
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_COLOR);
         glEnableVertexAttribArray(cocos2d::GLProgram::VERTEX_ATTRIB_TEX_COORDS);
     }
-    if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer begin exit", Standard);
 }
 
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::endRendering()
 {
-    static int sEndRenderCount = 0;
-    const bool traceRender = (++sEndRenderCount <= 3);
-    if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end enter", Standard);
     // Restore the projection matrix saved in beginRendering() only when a
     // valid program was set (otherwise beginRendering did not push).
     if (m_program)
@@ -371,25 +348,16 @@ void Cocos2DRenderer::endRendering()
     if (m_savedCullFace)
         glEnable(GL_CULL_FACE);
 
-    // CEGUI uses raw OpenGL calls for textures, buffers, programs and blending.
-    // Do NOT call cocos2d::GL::invalidateStateCache() here: it invokes
-    // kmGLFreeAll() which releases the kazmath matrix stacks still owned by
-    // the surrounding Cocos frame (caused "Cannot pop an empty stack" asserts).
-    // The Cocos GL state cache will be refreshed on the next Cocos draw.
-    if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderer end exit", Standard);
+    // CEGUI uses raw OpenGL calls for programs, textures, blending and vertex
+    // state.  Invalidate the Cocos cache so the next Cocos/Spine command
+    // resubmits those states.  The MT3 variant preserves the kazmath matrix
+    // stacks that are still owned by the surrounding Cocos frame.
+    cocos2d::GL::invalidateStateCachePreserveMatrices();
 }
 
 //----------------------------------------------------------------------------//
 void Cocos2DRenderer::setDisplaySize(const Size& sz)
 {
-    {
-        char buf[160];
-        sprintf_s(buf, sizeof(buf),
-            "[MT3_RENDER_TRACE] setDisplaySize incoming=%.0fx%.0f old=%.0fx%.0f",
-            sz.d_width, sz.d_height, d_displaySize.d_width, d_displaySize.d_height);
-        Logger::getSingleton().logEvent(buf, Standard);
-    }
     if (sz != d_displaySize)
     {
         d_displaySize = sz;

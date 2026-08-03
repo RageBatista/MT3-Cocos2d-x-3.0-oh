@@ -201,8 +201,7 @@ namespace CEGUI
 		virtual void onMouseEnters(MouseEventArgs& e);
 		virtual void onMouseLeaves(MouseEventArgs& e);
 		virtual void onMouseButtonDown(MouseEventArgs& e);
-        // MT3: Gesture module not available in CEGUI-0.7.9-r5
-        // virtual bool onLongPress(Gesture::CEGUIGestureRecognizer* pRecognizer);
+        virtual bool onLongPress(Gesture::CEGUIGestureRecognizer* recognizer);
 		virtual void onMouseClicked(MouseEventArgs& e);
         virtual void onMouseDoubleClicked(MouseEventArgs& e);
         

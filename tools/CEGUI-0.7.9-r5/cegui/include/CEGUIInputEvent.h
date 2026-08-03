@@ -40,6 +40,7 @@
 namespace CEGUI
 {
 class RichEditboxComponent;
+namespace Gesture { class CEGUIGestureRecognizer; }
 
 /*!
 \brief
@@ -384,6 +385,17 @@ public:
     }
 
     RichEditboxComponent* d_Component;  //!< pointer to the component
+};
+
+class CEGUIEXPORT GestureEventArgs : public EventArgs
+{
+public:
+    explicit GestureEventArgs(Gesture::CEGUIGestureRecognizer* recognizer) :
+        d_Recognizer(recognizer)
+    {
+    }
+
+    Gesture::CEGUIGestureRecognizer* d_Recognizer;
 };
 
 } // End of  CEGUI namespace section

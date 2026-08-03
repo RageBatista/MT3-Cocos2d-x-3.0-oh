@@ -211,4 +211,3 @@ void RapidXMLParser::cleanupImpl(void)
 //----------------------------------------------------------------------------//
 
 } // End of  CEGUI namespace section
-

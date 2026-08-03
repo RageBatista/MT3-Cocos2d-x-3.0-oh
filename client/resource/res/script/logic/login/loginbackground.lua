@@ -44,6 +44,9 @@ function loginBg.getInstanceAndShow()
 	else
 		_instance:SetVisible(true) -- 已存在则直接显隐切回显示
 	end
+	if _instance.m_pMainFrame then
+		_instance.m_pMainFrame:moveToBack() -- Spine 登录背景始终位于登录和选服窗口之后
+	end
 	return _instance
 end
 

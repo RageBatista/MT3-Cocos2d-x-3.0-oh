@@ -35,6 +35,7 @@
 #include "CEGUITextUtils.h"
 #include "CEGUIExceptions.h"
 #include "CEGUIFont.h"
+#include "CEGUIPropertyHelper.h"
 #ifdef CEGUI_HAS_PCRE_REGEX
 #   include "CEGUIPCRERegexMatcher.h"
 #else
@@ -89,6 +90,11 @@ Editbox::Editbox(const String& type, const String& name) :
     d_selectionEnd(0),
     d_validator(0),
     d_dragging(false),
+    d_shieldSpace(false),
+    d_onlyNumberMode(false),
+    d_maxNumber(-1),
+    d_canFirstBeZero(false),
+    d_frameEnabled(true),
     d_normalColourRect(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF),
     d_hasNormalColourRectOverride(false)
 {
@@ -462,6 +468,10 @@ void Editbox::onCharacter(KeyEventArgs& e)
     // events, we want such propogation to cease with us regardless of whether
     // we actually handle the event.
 
+    if ((d_shieldSpace && e.codepoint == ' ') ||
+        (d_onlyNumberMode && (e.codepoint < '0' || e.codepoint > '9')))
+        return;
+
     // fire event.
     fireEvent(EventCharacterKey, e, Window::EventNamespace);
 
@@ -834,6 +844,23 @@ void Editbox::onTextAcceptedEvent(WindowEventArgs& e)
 //----------------------------------------------------------------------------//
 void Editbox::onTextChanged(WindowEventArgs& e)
 {
+    if (d_onlyNumberMode && !getText().empty())
+    {
+        int64_t value = PropertyHelper::stringToInt64(getText());
+        if (d_maxNumber >= 0 && value > d_maxNumber)
+            value = d_maxNumber;
+
+        if (!d_canFirstBeZero || (d_maxNumber >= 0 && value == d_maxNumber))
+        {
+            const String normalised(PropertyHelper::int64_tToString(value));
+            if (normalised != getText())
+            {
+                setText(normalised);
+                return;
+            }
+        }
+    }
+
     // base class processing
     Window::onTextChanged(e);
 
@@ -865,6 +892,26 @@ void Editbox::SetNormalColourRect(const ColourRect& colour_rect)
 void Editbox::SetNormalColourRect(const colour& col)
 {
     SetNormalColourRect(ColourRect(col));
+}
+
+//----------------------------------------------------------------------------//
+void Editbox::SetOnlyNumberMode(bool onlyNumber, int64_t maxNumber,
+                                bool canFirstBeZero)
+{
+    d_onlyNumberMode = onlyNumber;
+    d_maxNumber = maxNumber;
+    d_canFirstBeZero = canFirstBeZero;
+    setValidationString(onlyNumber ? "\\d*" : ".*");
+}
+
+//----------------------------------------------------------------------------//
+void Editbox::SetFrameEnabled(bool enabled)
+{
+    if (d_frameEnabled == enabled)
+        return;
+
+    d_frameEnabled = enabled;
+    invalidate();
 }
 
 //----------------------------------------------------------------------------//

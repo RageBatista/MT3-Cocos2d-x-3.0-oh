@@ -182,6 +182,25 @@ public:
 	void	set(PropertyReceiver* receiver, const String& value);
 };
 
+/*!
+\brief
+    Property used by the MT3 GroupBtnTree renderer to configure the two mask
+    images.  The value is encoded as
+    "imageset0,image0,imageset1,image1".
+*/
+class MaskImage : public Property
+{
+public:
+    MaskImage() : Property(
+        "MaskImage",
+        "Property to get/set the two MT3 GroupBtnTree mask images.",
+        "")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 } // End of  TreeProperties namespace section
 
 } // End of  CEGUI namespace section

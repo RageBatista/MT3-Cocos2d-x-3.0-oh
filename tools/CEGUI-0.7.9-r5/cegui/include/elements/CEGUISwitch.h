@@ -78,6 +78,7 @@ namespace CEGUI
             return Window::testClassName_impl(class_name);
         }
         
+		virtual void initialiseComponents(void) { initialiseComponents(false); }
 		virtual void	initialiseComponents(bool bClone);
 
         virtual void	onStatusChange(WindowEventArgs& e);

@@ -30,6 +30,7 @@
 #include "elements/CEGUIScrollbar.h"
 #include "CEGUIWindowManager.h"
 #include "CEGUIExceptions.h"
+#include "gesture/CEGUIPanGestureRecognizer.h"
 #include <math.h>
 
 // Start of CEGUI namespace section
@@ -46,6 +47,9 @@ const String ScrollablePane::EventContentPaneScrolled("ContentPaneScrolled");
 const String ScrollablePane::VertScrollbarNameSuffix( "__auto_vscrollbar__" );
 const String ScrollablePane::HorzScrollbarNameSuffix( "__auto_hscrollbar__" );
 const String ScrollablePane::ScrolledContainerNameSuffix( "__auto_container__" );
+const String ScrollablePane::EventPrePage("PrePage");
+const String ScrollablePane::EventNextPage("NextPage");
+const String ScrollablePane::EventScrollPageChanged("ScrollPageChanged");
 
 //----------------------------------------------------------------------------//
 ScrollablePaneProperties::ForceHorzScrollbar   ScrollablePane::d_horzScrollbarProperty;
@@ -70,6 +74,11 @@ ScrollablePane::ScrollablePane(const String& type, const String& name) :
     Window(type, name),
     d_forceVertScroll(false),
     d_forceHorzScroll(false),
+    d_enableVertScrollbar(true),
+    d_enableHorzScrollbar(false),
+    d_EnableScrollBarDrag(true),
+    d_PaneScrollMode(eNoPageScroll),
+    d_endPos(0.0f),
     d_contentRect(0, 0, 0, 0),
     d_vertStep(0.1f),
     d_vertOverlap(0.01f),
@@ -86,11 +95,55 @@ ScrollablePane::ScrollablePane(const String& type, const String& name) :
 
     // add scrolled container widget as child
     addChildWindow(container);
+    container->subscriberEventDrag(
+        Event::Subscriber(&ScrollablePane::HandleMouseDrag, this));
+    EnbaleSlide(true);
+    EnableDrag(true);
 }
 
 //----------------------------------------------------------------------------//
 ScrollablePane::~ScrollablePane(void)
 {
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::EnableVertScrollBar(bool enabled)
+{
+    if (d_enableVertScrollbar != enabled)
+    {
+        d_enableVertScrollbar = enabled;
+        Scrollbar* scrollbar = getVertScrollbar();
+        if (scrollbar)
+            scrollbar->SetPanForVert(true);
+        configureScrollbars();
+    }
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::EnableHorzScrollBar(bool enabled)
+{
+    if (d_enableHorzScrollbar != enabled)
+    {
+        d_enableHorzScrollbar = enabled;
+        Scrollbar* scrollbar = getHorzScrollbar();
+        if (scrollbar)
+            scrollbar->SetPanForVert(false);
+        configureScrollbars();
+    }
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::cleanupNonAutoChildren(void)
+{
+    ScrolledContainer* const container = getScrolledContainer();
+    if (container)
+        container->cleanupNonAutoChildren();
+}
+
+//----------------------------------------------------------------------------//
+float ScrollablePane::getScrollEndPos() const
+{
+    return d_endPos;
 }
 
 //----------------------------------------------------------------------------//
@@ -248,18 +301,21 @@ void ScrollablePane::setVerticalScrollPosition(float position)
 //----------------------------------------------------------------------------//
 void ScrollablePane::EnablePageScrollMode(bool enable)
 {
-    const float step = enable ? 1.0f : 0.1f;
-    d_vertStep = step;
-    d_horzStep = step;
-
-    if (getWindowRenderer())
-        configureScrollbars();
+    setPaneScrollMode(enable ? eSinglePageScroll : eNoPageScroll);
 }
 
 //----------------------------------------------------------------------------//
 bool ScrollablePane::getPageScrollMode() const
 {
-    return d_vertStep == 1.0f && d_horzStep == 1.0f;
+    return d_PaneScrollMode == eSinglePageScroll;
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::setPaneScrollMode(int mode)
+{
+    if (mode < eNoPageScroll || mode > eMultiPageScroll)
+        mode = eNoPageScroll;
+    d_PaneScrollMode = static_cast<enumPageScrollMode>(mode);
 }
 
 //----------------------------------------------------------------------------//
@@ -277,6 +333,10 @@ void ScrollablePane::initialiseComponents(void)
     // do a bit of initialisation
     horzScrollbar->setAlwaysOnTop(true);
     vertScrollbar->setAlwaysOnTop(true);
+    horzScrollbar->SetParentScrollPane(this);
+    horzScrollbar->SetPanForVert(false);
+    vertScrollbar->SetParentScrollPane(this);
+    vertScrollbar->SetPanForVert(true);
     // container pane is always same size as this parent pane,
     // scrolling is actually implemented via positioning and clipping tricks.
     container->setSize(UVector2(cegui_reldim(1.0f), cegui_reldim(1.0f)));
@@ -289,6 +349,13 @@ void ScrollablePane::initialiseComponents(void)
     horzScrollbar->subscribeEvent(
             Scrollbar::EventScrollPositionChanged,
             Event::Subscriber(&ScrollablePane::handleScrollChange, this));
+
+    vertScrollbar->subscribeEvent(
+            Scrollbar::EventSlideStopped,
+            Event::Subscriber(&ScrollablePane::onScrollPageChanged, this));
+    horzScrollbar->subscribeEvent(
+            Scrollbar::EventSlideStopped,
+            Event::Subscriber(&ScrollablePane::onScrollPageChanged, this));
 
     d_contentChangedConn = container->subscribeEvent(
             ScrolledContainer::EventContentChanged,
@@ -310,14 +377,15 @@ void ScrollablePane::configureScrollbars(void)
     Scrollbar* horzScrollbar = getHorzScrollbar();
     
     // enable required scrollbars
-    vertScrollbar->setVisible(isVertScrollbarNeeded());
-    horzScrollbar->setVisible(isHorzScrollbarNeeded());
+    vertScrollbar->setVisible(d_enableVertScrollbar && isVertScrollbarNeeded());
+    horzScrollbar->setVisible(d_enableHorzScrollbar && isHorzScrollbarNeeded());
     
     // Check if the addition of the horizontal scrollbar means we
     // now also need the vertical bar.
     if (horzScrollbar->isVisible())
     {
-        vertScrollbar->setVisible(isVertScrollbarNeeded());
+        vertScrollbar->setVisible(
+            d_enableVertScrollbar && isVertScrollbarNeeded());
     }
     
     performChildWindowLayout();
@@ -376,6 +444,14 @@ void ScrollablePane::updateContainerPosition(void)
 void ScrollablePane::onContentPaneChanged(WindowEventArgs& e)
 {
     fireEvent(EventContentPaneChanged, e, EventNamespace);
+}
+
+//----------------------------------------------------------------------------//
+bool ScrollablePane::onScrollPageChanged(const EventArgs&)
+{
+    WindowEventArgs args(this);
+    fireEvent(EventScrollPageChanged, args, EventNamespace);
+    return true;
 }
 
 //----------------------------------------------------------------------------//
@@ -475,6 +551,13 @@ void ScrollablePane::addChild_impl(Window* wnd)
         // controls
         getScrolledContainer()->addChildWindow(wnd);
     }
+
+    wnd->subscriberEventDrag(
+        Event::Subscriber(&ScrollablePane::HandleMouseDragChild, this));
+    wnd->subscribeEvent(
+        Window::EventMouseButtonDown,
+        Event::Subscriber(&ScrollablePane::HandleChildMouseButtonDown, this));
+    EnableAllChildDrag(wnd);
 }
 
 //----------------------------------------------------------------------------//
@@ -533,6 +616,206 @@ void ScrollablePane::onMouseWheel(MouseEventArgs& e)
     }
     
     ++e.handled;
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::onMouseSlide(MouseEventArgs& e)
+{
+    Scrollbar* scrollbar = d_enableHorzScrollbar ?
+        getHorzScrollbar() : getVertScrollbar();
+    if (scrollbar)
+        scrollbar->onMouseSlide(e);
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::EnableAllChildDrag(Window* window)
+{
+    if (!window)
+        return;
+
+    const Window* const container = getContentPane();
+    for (size_t index = 0; index < window->getChildCount(); ++index)
+    {
+        Window* child = window->getChildAtIdx(index);
+        if (child->isAutoWindow() && child != container)
+            continue;
+
+        child->subscriberEventDrag(
+            Event::Subscriber(&ScrollablePane::HandleMouseDrag, this));
+        child->subscribeEvent(
+            Window::EventMouseButtonDown,
+            Event::Subscriber(&ScrollablePane::HandleChildMouseButtonDown, this));
+        EnableAllChildDrag(child);
+    }
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::EnableChildDrag(Window* window)
+{
+    if (!window)
+        return;
+
+    window->subscriberEventDrag(
+        Event::Subscriber(&ScrollablePane::HandleMouseDrag, this));
+    window->subscribeEvent(
+        Window::EventMouseButtonDown,
+        Event::Subscriber(&ScrollablePane::HandleChildMouseButtonDown, this));
+    EnableAllChildDrag(window);
+}
+
+//----------------------------------------------------------------------------//
+bool ScrollablePane::HandleMouseDragChild(const EventArgs& e)
+{
+    const GestureEventArgs& args = static_cast<const GestureEventArgs&>(e);
+    Gesture::CEGUIPanGestureRecognizer* pan =
+        dynamic_cast<Gesture::CEGUIPanGestureRecognizer*>(args.d_Recognizer);
+    if (pan && pan->getPushWndName() == getContentPane()->getName())
+        return true;
+
+    return HandleMouseDrag(e);
+}
+
+//----------------------------------------------------------------------------//
+bool ScrollablePane::HandleMouseDrag(const EventArgs& e)
+{
+    if (!ExistNonAutoChildren())
+        return true;
+
+    const GestureEventArgs& args = static_cast<const GestureEventArgs&>(e);
+    Gesture::CEGUIGestureRecognizer* recognizer = args.d_Recognizer;
+    if (!recognizer)
+        return false;
+
+    if (!d_EnableScrollBarDrag)
+        return true;
+
+    Scrollbar* scrollbar = d_enableHorzScrollbar ?
+        getHorzScrollbar() : getVertScrollbar();
+    if (!scrollbar)
+        return false;
+
+    scrollbar->onMouseDrag(recognizer);
+    if (recognizer->GetState() == Gesture::GestureRecognizerStateEnded)
+    {
+        const float position = scrollbar->getScrollPosition();
+        if (position < -20.0f)
+            fireEvent(EventPrePage, const_cast<EventArgs&>(e), EventNamespace);
+        else
+        {
+            const float maximum = ceguimax(
+                scrollbar->getDocumentSize() - scrollbar->getPageSize(), 0.0f);
+            if (position - maximum > 20.0f)
+                fireEvent(EventNextPage, const_cast<EventArgs&>(e), EventNamespace);
+        }
+    }
+
+    const MouseEventArgs* mouseArgs = recognizer->getMouseEvent();
+    if (mouseArgs && mouseArgs->window && mouseArgs->window != this)
+        mouseArgs->window->onMouseDrag(recognizer);
+
+    return true;
+}
+
+//----------------------------------------------------------------------------//
+bool ScrollablePane::HandleChildMouseButtonDown(const EventArgs&)
+{
+    Scrollbar* scrollbar = d_enableHorzScrollbar ?
+        getHorzScrollbar() : getVertScrollbar();
+    if (!scrollbar)
+        return false;
+
+    if (!d_EnableScrollBarDrag)
+        return true;
+
+    scrollbar->Stop();
+    return d_PaneScrollMode != eMultiPageScroll;
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::onMouseButtonDown(MouseEventArgs& e)
+{
+    Scrollbar* scrollbar = d_enableHorzScrollbar ?
+        getHorzScrollbar() : getVertScrollbar();
+    if (scrollbar)
+        scrollbar->Stop();
+    Window::onMouseButtonDown(e);
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::EnableScrollDrag(bool enabled)
+{
+    d_EnableScrollBarDrag = enabled;
+}
+
+//----------------------------------------------------------------------------//
+bool ScrollablePane::ExistNonAutoChildren() const
+{
+    const ScrolledContainer* const container = getContentPane();
+    return container && container->getChildCount() != 0;
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::updateSelf(float elapsed)
+{
+    Window::updateSelf(elapsed);
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::StartPageScroll(float)
+{
+}
+
+//----------------------------------------------------------------------------//
+void ScrollablePane::amendSlideDesPos(float& currentPosition,
+                                      float& destinationPosition,
+                                      float& slideTime,
+                                      float& velocity)
+{
+    if (d_PaneScrollMode == eNoPageScroll)
+        return;
+
+    if (d_PaneScrollMode == eSinglePageScroll)
+        slideTime = 0.3f;
+
+    const float scrollPosition = d_PaneScrollMode == eSinglePageScroll ?
+        currentPosition : destinationPosition;
+    Window* const container = getScrolledContainer();
+    const Size parentSize = container->getPixelSize();
+
+    d_endPos = 0.0f;
+    for (size_t index = 0; index < container->getChildCount(); ++index)
+    {
+        Window* child = container->getChildAtIdx(index);
+        const float childPosition = d_enableHorzScrollbar ?
+            child->getPosition().d_x.d_scale * parentSize.d_width +
+                child->getPosition().d_x.d_offset :
+            child->getPosition().d_y.d_scale * parentSize.d_height +
+                child->getPosition().d_y.d_offset;
+        const float childSize = d_enableHorzScrollbar ?
+            child->getPixelSize().d_width : child->getPixelSize().d_height;
+
+        if (childPosition + childSize <= scrollPosition)
+            continue;
+
+        d_endPos = childPosition;
+        if (d_PaneScrollMode == eMultiPageScroll)
+        {
+            if (childPosition + childSize - scrollPosition < childSize * 0.5f)
+                d_endPos += childSize;
+        }
+        else if (childPosition + childSize - scrollPosition < childSize * 0.5f)
+        {
+            d_endPos += childSize;
+            if (velocity < -30.0f)
+                d_endPos -= childSize;
+        }
+        else if (velocity > 30.0f)
+            d_endPos += childSize;
+
+        break;
+    }
+
+    destinationPosition = d_endPos;
 }
 
 //----------------------------------------------------------------------------//

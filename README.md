@@ -1,11 +1,11 @@
 # MT3 — 梦幻西游 MG 版本
 
 > **版本**：2.0.0  
-> **更新日期**：2026-07-28  
+> **更新日期**：2026-08-03  
 > **仓库**：[supercegui-wan/MT3](https://github.com/supercegui-wan/MT3)（正式）｜ [RageBatista/MT3-Cocos2d-x-3.0-oh](https://github.com/RageBatista/MT3-Cocos2d-x-3.0-oh)（备用）  
 > **技术栈**：C++ / Lua / Java / Cocos2d-x / CEGUI / Nuclear Engine
 
-MT3 是一款基于 Cocos2d-x 的 2D MMORPG 商业游戏客户端，采用四层架构设计，涵盖 Win32、Android、iOS 三端，并包含完整的 Java 服务端与资源生产链。当前正在进行双引擎升级（Cocos2d-x 2.2.6 → 3.0-oh + CEGUI 0.7.1 → 0.7.9-r5）。
+MT3 是一款基于 Cocos2d-x 的 2D MMORPG 项目，采用四层架构，涵盖 Win32、Android、iOS 客户端、Java 服务端及资源生产链。Win32 canonical 已使用 `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`；Android/iOS 保持 `cocos2d-x-2.2.6` 平台基线。
 
 ---
 
@@ -42,12 +42,11 @@ MT3 是一个大型商业 2D MMORPG 游戏项目，具备以下核心系统：
 
 | 维度 | 状态 |
 |------|------|
-| Cocos2d-x 主干 | 2.2.6（当前全平台主线） |
-| 双引擎升级 | 3.0-oh + CEGUI 0.7.9-r5（进行中，约 45.7%） |
-| Win32 构建 | Debug/Release 均通过，`MT3.exe` 可运行 |
-| Android 构建 | LocojoyProject free 渠道，arm64-v8a |
-| iOS 构建 | Xcode 工程已迁移至 2.2.6 |
-| 服务端构建 | JDK 1.7/1.8 + Ant，通过 |
+| Win32 canonical | `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`，外部构建入口为 `Build-MT3-Exe-Canonical.ps1` |
+| Android 主线 | `cocos2d-x-2.2.6`，LocojoyProject free，`arm64-v8a` |
+| iOS 工程 | `cocos2d-x-2.2.6`；仅在 macOS/Xcode 环境验收 |
+| 服务端 | JDK 1.7/1.8 + Ant，入口为 `server/server/game_server/build.xml` |
+| 升级验收 | Win32 构建、依赖审计与 UI/登录链复盘见 `docs/MT3-双引擎升级实施记录-2026-08-02.md` |
 
 ---
 
@@ -56,8 +55,8 @@ MT3 是一个大型商业 2D MMORPG 游戏项目，具备以下核心系统：
 ### 客户端
 
 - **跨平台支持**：Win32（VS2013）、Android（NDK r16b）、iOS（Xcode）
-- **Lua 脚本驱动**：2500+ Lua 文件实现 UI 对话框、游戏逻辑、数据同步
-- **CEGUI UI 框架**：基于 CEGUI 0.7.1 的 XML 布局系统，800+ layout 文件
+- **Lua 脚本驱动**：UI 对话框、游戏逻辑和数据同步位于 `client/resource/res/script/`
+- **CEGUI UI 框架**：Win32 canonical 使用 CEGUI 0.7.9-r5；Android/iOS 与历史兼容链保留各自依赖基线
 - **自研 Nuclear 引擎**：场景/世界/精灵/地图/动画/特效一体化渲染
 - **热更新系统**：PFS 资源包差异更新，支持三端资源同步
 - **网络通信**：libcurl HTTP 客户端、gnet 游戏协议、RPC 远程调用
@@ -99,7 +98,7 @@ MT3 是一个大型商业 2D MMORPG 游戏项目，具备以下核心系统：
 ```
 
 - **平台壳层**负责启动共享主链，不承载另一套独立业务核心
-- **CEGUI 0.7.1** 运行时位于 `dependencies/cegui/`，通过 Cocos2D renderer 与 FireClient/Lua UI 协作
+- **Win32 CEGUI** 运行时位于 `tools/CEGUI-0.7.9-r5/`，通过 Cocos2D renderer 与 FireClient/Lua UI 协作；`dependencies/cegui/` 仅保留给历史兼容链
 - **Lua 脚本**位于 `client/resource/res/script/`，是 FireClient 业务/UI 的组成部分
 
 ---
@@ -114,29 +113,29 @@ MT3/
 │   │   └── FireClient/              # iOS 平台壳层
 │   ├── MT3Win32App/                 # Win32 壳层 (.vcxproj)
 │   ├── resource/                    # 游戏资源
-│   │   ├── res/script/              # Lua 脚本 (2500+ 文件)
-│   │   ├── res/ui/                  # CEGUI 布局 (800+ layout)
+│   │   ├── res/script/              # Lua 脚本
+│   │   ├── res/ui/                  # CEGUI 源资源
 │   │   ├── res/audio/               # 音频资源
 │   │   └── tools/                   # 资源打包工具
 │   ├── android/                     # Android 渠道项目
 │   │   └── LocojoyProject/          # free 渠道主线
 │   └── Build-MT3-v120.ps1           # Win32 构建依赖链
 ├── engine/                          # Nuclear 自研引擎
-├── cocos2d-x-2.2.6/                 # Cocos2d-x 2.2.6（当前全平台主线）
-├── cocos2d-x-3.0-oh/                # Cocos2d-x 3.0-oh（双引擎升级目标）
+├── cocos2d-x-2.2.6/                 # Android/iOS 平台基线
+├── cocos2d-x-3.0-oh/                # Win32 canonical 基线
 ├── common/                          # 公共库
 │   └── platform/                    # 平台抽象、单例模式等
 ├── server/                          # 服务端
 │   └── server/game_server/          # 主入口 (build.xml)
 ├── gbeans/                          # 策划配置源 XML
 ├── dependencies/                    # 第三方依赖
-│   ├── cegui/                       # CEGUI 0.7.1 运行时
+│   ├── cegui/                       # 历史 CEGUI 兼容链
 │   ├── freetype/                    # 字体渲染
 │   └── speex/                       # 语音编解码
 ├── lib/                             # 预编译库 (vs2013/)
 ├── tools/
 │   ├── scripts/                     # 构建与验证脚本
-│   ├── CEGUI-0.7.9-r5/              # CEGUI 0.7.9-r5 源码（升级目标）
+│   ├── CEGUI-0.7.9-r5/              # Win32 canonical CEGUI 运行时源码
 │   └── android_dump_analyze/        # Android 调试工具
 ├── docs/                            # 项目文档
 ├── .claude/                         # Claude 规则与构建指南
@@ -159,10 +158,9 @@ MT3/
 | Android NDK | r16b (16.1.4479499) | Android 原生编译 |
 | Android SDK | API 22 + build-tools 22.0.1 | Android APK 打包 |
 | Apache Ant | 1.9+ | Android 构建 |
-| JDK | 1.8 | Android/服务端编译 |
+| JDK | 8（Android）；1.7/1.8（服务端） | Android/服务端编译 |
 | Python | 2.7 | 旧构建脚本 |
-| CMake | 3.10 | Cocos2d-x 3.0-oh CMake 工程（仅升级分支） |
-| PowerShell | 5.1+ | 构建脚本运行 |
+| PowerShell | 与项目脚本兼容的 Windows PowerShell 主机 | 构建与验证脚本运行 |
 
 ### 禁止事项
 
@@ -234,15 +232,20 @@ ant -version
 ### Win32 客户端
 
 ```powershell
-# 标准 Release 构建（推荐入口）
-powershell -ExecutionPolicy Bypass -File tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release
+# 日常 Debug 本地构建
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Debug -Platform Win32 -EngineProfile Upgrade30 -FastLocal -MaxParallelJobs 8
 
-# 快速本地 Debug 构建
-powershell -ExecutionPolicy Bypass -File tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Debug -FastLocal -MaxParallelJobs 8
+# Release 快速验证
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -EngineProfile Upgrade30 -BuildMode Incremental -MaxParallelJobs 8
 
-# 完整验证（Debug + Release + 运行时审计）
-powershell -ExecutionPolicy Bypass -File tools\scripts\Build-MT3-FullValidation.ps1 -Configuration Both
+# 发版前 SafeChain 与严格运行时审计
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release -Platform Win32 -EngineProfile Upgrade30 -BuildMode SafeChain -MaxParallelJobs 8 -StrictRuntimeAudit
+
+# Debug + Release 里程碑验证
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidation.ps1 -Configuration Both -EngineProfile Upgrade30 -MaxParallelJobs 8 -StrictRuntimeAudit
 ```
+
+构建模式、ABI 触发条件和运行时审计的完整说明见 [Windows 完整构建指南](docs/03-开发指南/02-Windows完整构建指南.md) 与 [双引擎升级实施记录](docs/MT3-双引擎升级实施记录-2026-08-02.md)。
 
 ### ABI 安全规则
 
@@ -384,6 +387,10 @@ A: 需要 JDK 8。JDK 9+ 不支持旧版 Ant/dx 构建链。请设置 `JAVA_HOME
 
 A: 检查依赖库是否已编译。确保按 ABI 安全规则，从底层引擎开始逐层重编。
 
+**Q: canonical 外层脚本提示 `Get-FileHash` 不可识别，但 MSBuild 日志没有 C++ 错误**
+
+A: 先区分脚本宿主兼容性和 C++ 编译结果。`Ensure-MT3-Win32-LinkDeps.ps1` 依赖 `Get-FileHash`；先确认 PowerShell 主机具备该 cmdlet，再分别检查外层脚本的首个错误、各层 MSBuild 退出码和最终产物。详见 [升级实施记录](docs/MT3-双引擎升级实施记录-2026-08-02.md#68-canonical-脚本宿主兼容性)。
+
 ### 编码问题
 
 **Q: 修改 C++ 文件后出现乱码**
@@ -443,6 +450,8 @@ A: 确保重新运行了 LJFilePack 打包流程，并同步到目标平台的�
 - 所有文档使用 Markdown 格式
 - 技术文档放在 `docs/` 对应分类目录
 - 新增文档需在 `docs/07-参考文档/02-文档索引.md` 中注册
+- 代码、构建入口、资源链、平台基线、智能体配置或架构边界发生变化时，同步更新受影响的 `README.md`、`AGENTS.md` 与文档索引；只记录源码、配置、脚本、日志或构建产物已经证实的事实
+- 智能体角色、能力和配置的权威源位于 `.codex/config.toml`、`.codex/agents/*.toml` 与 `.agents/skills/**/agents/openai.yaml`；版本演进以 Git 历史追溯
 
 ### 提交前检查清单
 
@@ -470,6 +479,8 @@ A: 确保重新运行了 LJFilePack 打包流程，并同步到目标平台的�
 | 工具链 | [docs/06-工具链/01-工具链总览.md](docs/06-工具链/01-工具链总览.md) | 依赖矩阵与配置 |
 | 问题 | [docs/04-问题排查/01-编译问题排查.md](docs/04-问题排查/01-编译问题排查.md) | 常见编译问题与解决 |
 | 升级 | [docs/MT3-双引擎升级方案-cocos2d-x-3.0-oh-CEGUI-0.7.9-r5.md](docs/MT3-双引擎升级方案-cocos2d-x-3.0-oh-CEGUI-0.7.9-r5.md) | 双引擎升级综合方案 |
+| 升级 | [docs/MT3-双引擎升级实施记录-2026-08-02.md](docs/MT3-双引擎升级实施记录-2026-08-02.md) | Win32 canonical 实施、验证与避坑复盘 |
+| 文档 | [docs/README.md](docs/README.md) | 文档中心、推荐阅读路径与完整索引入口 |
 
 ### 权威入口
 
@@ -479,6 +490,8 @@ A: 确保重新运行了 LJFilePack 打包流程，并同步到目标平台的�
 | [.claude/RULES.md](.claude/RULES.md) | 工具链、ABI、编码、生成代码硬约束 |
 | [.claude/BUILD_GUIDE.md](.claude/BUILD_GUIDE.md) | 已验证构建命令与产物校验 |
 | [.codex/config.toml](.codex/config.toml) | Codex 原生运行配置 |
+| [.codex/agents/](.codex/agents/) | 项目级智能体角色定义 |
+| [.agents/skills/](.agents/skills/) | Repo-local 技能与可调用接口定义 |
 
 ---
 

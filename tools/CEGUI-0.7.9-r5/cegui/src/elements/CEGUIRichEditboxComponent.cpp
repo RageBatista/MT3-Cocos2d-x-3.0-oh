@@ -1,4 +1,5 @@
 #include "elements/CEGUIRichEditboxComponent.h"
+#include "CEGUISystem.h"
 
 namespace CEGUI
 {
@@ -70,16 +71,16 @@ namespace CEGUI
 		const ColourRect* mod_colours,
 		const Rect* clip_rect)
 	{
-		// MT3: GetTextBrushImage() not available in CEGUI-0.7.9-r5
-	// const Image* pSelectImg=System::getSingleton().GetTextBrushImage();
-	// if (pSelectImg)
-	// {
-	// 	Size cpnSize=getPixelSize();
-	// 	Size SelectAreaSize(0.0f,0.0f);
-	// 	SelectAreaSize.d_width=cpnSize.d_width;
-	// 	SelectAreaSize.d_height=cpnSize.d_height;
-	// 	pSelectImg->draw(*buffer,position,SelectAreaSize,clip_rect,*mod_colours);
-	// }
+		const Image* pSelectImg = System::getSingleton().GetTextBrushImage();
+		if (pSelectImg)
+		{
+			Size cpnSize = getPixelSize();
+			Size SelectAreaSize(0.0f, 0.0f);
+			SelectAreaSize.d_width = cpnSize.d_width;
+			SelectAreaSize.d_height = cpnSize.d_height;
+			pSelectImg->draw(*buffer, position, SelectAreaSize,
+				clip_rect, *mod_colours);
+		}
 
 	}
 

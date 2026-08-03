@@ -25,6 +25,12 @@ class Editbox : public Window
 	void setMaskCodePoint(unsigned long code_point);
 	void setMaxTextLength(unsigned long max_len);
 
+	void SetOnlyNumberMode(bool onlyNumber, long long maxNumber, bool canFirstBeZero = false);
+	void SetShieldSpace(bool shield);
+	bool IsShieldSpace() const;
+	void SetFrameEnabled(bool enabled);
+	bool isFrameEnabled() const;
+
 	void SetNormalColourRect(uint32 color);
 	void SetNormalColourRect(const ColourRect& colour_rect);
 	void SetNormalColourRect(const colour& col);

@@ -1,147 +1,173 @@
-/***********************************************************************
-filename:   CEGUICompnentTip.cpp
-purpose:    Implementation of CompnentTip (MT3: MessageTip compatibility)
-*************************************************************************/
 #include "elements/CEGUICompnentTip.h"
-#include "CEGUIFont.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUIImagesetManager.h"
-#include "CEGUIImageset.h"
-#include "CEGUIImage.h"
+#include "CEGUIMouseCursor.h"
+#include "CEGUIRenderedString.h"
 
-// Start of CEGUI namespace section
 namespace CEGUI
 {
-	const String CompnentTip::WidgetTypeName("CEGUI/MessageTip");
-	const String CompnentTip::EventNamespace("MessageTip");
-	const String CompnentTip::EventStartFade("StartFade");
+const String CompnentTip::WidgetTypeName("CEGUI/CompnentTip");
+const String CompnentTip::EventNamespace("CompnentTip");
 
-	CompnentTip::CompnentTip(const String& type, const String& name) :
-		Window(type, name),
-		d_targetCompnent(NULL),
-		d_elapsed(0.0f),
-		d_displayTime(5.0f),
-		d_fadeTime(0.2f),
-		d_InChatOutWin(false),
-		d_destYPos(0.5f),
-		d_decHeight(0.0f),
-		d_startFade(false),
-		d_startYPos(0.5f),
-		d_fHeightScale(0.0f),
-		d_tipType(eMsgTip)
-	{
-	}
+CompnentTipWindowRenderer::CompnentTipWindowRenderer(const String& name) :
+    WindowRenderer(name, CompnentTip::EventNamespace)
+{
+}
 
-	CompnentTip::CompnentTip(const String& type) :
-		Window(type),
-		d_targetCompnent(NULL),
-		d_elapsed(0.0f),
-		d_displayTime(5.0f),
-		d_fadeTime(0.2f),
-		d_InChatOutWin(false),
-		d_destYPos(0.5f),
-		d_decHeight(0.0f),
-		d_startFade(false),
-		d_startYPos(0.5f),
-		d_fHeightScale(0.0f),
-		d_tipType(eMsgTip)
-	{
-	}
+CompnentTip::CompnentTip(const String& type, const String& name) :
+    Window(type, name),
+    d_targetCompnent(0),
+    d_elapsed(0.0f),
+    d_displayTime(10.0f),
+    d_fadeTime(0.2f),
+    d_InChatOutWin(false)
+{
+    setMousePassThroughEnabled(true);
+}
 
-	const CompnentTip& CompnentTip::operator=(const CompnentTip& t)
-	{
-		Window::operator=(t);
-		d_targetCompnent = t.d_targetCompnent;
-		d_elapsed = t.d_elapsed;
-		d_displayTime = t.d_displayTime;
-		d_fadeTime = t.d_fadeTime;
-		d_InChatOutWin = t.d_InChatOutWin;
-		d_destYPos = t.d_destYPos;
-		d_decHeight = t.d_decHeight;
-		d_startFade = t.d_startFade;
-		d_startYPos = t.d_startYPos;
-		d_fHeightScale = t.d_fHeightScale;
-		d_tipType = t.d_tipType;
-		return *this;
-	}
+CompnentTip::CompnentTip(const String& type) :
+    Window(type),
+    d_targetCompnent(0),
+    d_elapsed(0.0f),
+    d_displayTime(10.0f),
+    d_fadeTime(0.2f),
+    d_InChatOutWin(false)
+{
+    setMousePassThroughEnabled(true);
+}
 
-	Window* CompnentTip::clone(Window* wnd)
-	{
-		CompnentTip* retWnd = (CompnentTip*)wnd;
-		if (retWnd == NULL)
-			retWnd = new CompnentTip(d_type);
-		*retWnd = *this;
-		return retWnd;
-	}
+CompnentTip::~CompnentTip(void)
+{
+}
 
-	CompnentTip::~CompnentTip(void)
-	{
-	}
+const CompnentTip& CompnentTip::operator=(const CompnentTip& tip)
+{
+    Window::operator=(tip);
+    d_targetCompnent = 0;
+    d_elapsed = tip.d_elapsed;
+    d_displayTime = tip.d_displayTime;
+    d_fadeTime = tip.d_fadeTime;
+    d_InChatOutWin = tip.d_InChatOutWin;
+    return *this;
+}
 
-	void CompnentTip::SetTipsText(const String& tip)
-	{
-		setText(tip);
-	}
+Window* CompnentTip::clone(Window* wnd)
+{
+    CompnentTip* result = static_cast<CompnentTip*>(wnd);
+    if (!result)
+        result = new CompnentTip(d_type);
+    *result = *this;
+    return result;
+}
 
-	Size CompnentTip::getTextSize() const
-	{
-		return getTextSize_impl();
-	}
+void CompnentTip::SetTipsText(const String& tip)
+{
+    setText(tip);
+}
 
-	Size CompnentTip::getTextSize_impl() const
-	{
-		Size sz(0.0f, 0.0f);
-		if (getFont())
-		{
-			float extent = getFont()->getTextExtent(getText());
-			sz.d_width = extent;
-			sz.d_height = getFont()->getLineSpacing();
-		}
-		return sz;
-	}
+void CompnentTip::SetTargetCompnent(const RichEditboxComponent* component,
+                                    bool inChatOutWindow)
+{
+    d_InChatOutWin = inChatOutWindow;
+    if (!component)
+    {
+        d_targetCompnent = 0;
+        setAlpha(0.0f);
+        d_elapsed = 0.0f;
+        if (d_parent)
+            d_parent->removeChildWindow(this);
+        setText("");
+        hide();
+        return;
+    }
 
-	void CompnentTip::SetTargetCompnent(const RichEditboxComponent* pCompnent, bool bInChatOutWin)
-	{
-		d_targetCompnent = pCompnent;
-		d_InChatOutWin = bInChatOutWin;
-	}
+    if (d_targetCompnent != component)
+    {
+        Window* root = inChatOutWindow ?
+            System::getSingleton().GetChatOutRootWnd() :
+            System::getSingleton().getGUISheet();
+        if (root)
+        {
+            SetInChatOutWnd(inChatOutWindow);
+            root->addChildWindow(this);
+        }
+        show();
+        moveToFront();
+        d_targetCompnent = component;
+    }
 
-	void CompnentTip::positionSelf(void)
-	{
-		// Default positioning
-	}
+    sizeSelf();
+    positionSelf();
+    d_elapsed = 0.0f;
+}
 
-	void CompnentTip::sizeSelf(void)
-	{
-		Size textSize(getTextSize());
-		setSize(UVector2(cegui_absdim(textSize.d_width), cegui_absdim(textSize.d_height)));
-	}
+void CompnentTip::sizeSelf(void)
+{
+    const Size textSize(getTextSize());
+    setSize(UVector2(cegui_absdim(textSize.d_width),
+                     cegui_absdim(textSize.d_height)));
+}
 
-	void CompnentTip::updateSelf(float elapsed)
-	{
-		Window::updateSelf(elapsed);
+void CompnentTip::updateSelf(float elapsed)
+{
+    Window::updateSelf(elapsed);
+    if (d_displayTime > 0.0f && (d_elapsed += elapsed) < d_displayTime)
+    {
+        setAlpha(ceguimin((1.0f / d_fadeTime) * d_elapsed, 1.0f));
+        return;
+    }
 
-		if (!isVisible())
-			return;
+    setAlpha(0.0f);
+    d_elapsed = 0.0f;
+    d_targetCompnent = 0;
+    setText("");
+    if (d_parent)
+        d_parent->removeChildWindow(this);
+    hide();
+}
 
-		d_elapsed += elapsed;
-	}
+void CompnentTip::positionSelf(void)
+{
+    Rect screen(Vector2(0, 0),
+                System::getSingleton().getRenderer()->getDisplaySize());
+    if (d_InChatOutWin)
+    {
+        Window* chatRoot = System::getSingleton().GetChatOutRootWnd();
+        if (chatRoot)
+            screen.setSize(chatRoot->getPixelSize());
+    }
 
-	void CompnentTip::InitSysMsgParamter()
-	{
-		d_destYPos = 0.5f;
-		d_decHeight = 0.0f;
-		d_elapsed = 0.0f;
-		d_displayTime = 2.0f;
-		d_fadeTime = 0.2f;
-		d_startFade = false;
-		setText("");
-		setFont(CEGUI::String("simhei-20"));
-	}
+    const Vector2 mousePos(MouseCursor::getSingleton().getPosition());
+    const Size selfSize(getPixelSize());
+    Vector2 position(mousePos.d_x, mousePos.d_y - selfSize.d_height);
+    if (!d_InChatOutWin)
+        position.d_y = mousePos.d_y + 32.0f;
 
-	bool CompnentTip::GetTextureIsLoading()
-	{
-		return g_bIsTextLoading;
-	}
+    if (position.d_x + selfSize.d_width > screen.d_right)
+        position.d_x = screen.d_right - selfSize.d_width;
+    if (position.d_y < 0.0f)
+        position.d_y = mousePos.d_y + 32.0f;
+    position.d_x = ceguimax(position.d_x, 0.0f);
 
-} // End of CEGUI namespace section
+    setPosition(UVector2(cegui_absdim(position.d_x),
+                         cegui_absdim(position.d_y)));
+}
+
+Size CompnentTip::getTextSize() const
+{
+    if (d_windowRenderer)
+        return static_cast<CompnentTipWindowRenderer*>(d_windowRenderer)->getTextSize();
+    return getTextSize_impl();
+}
+
+Size CompnentTip::getTextSize_impl() const
+{
+    const RenderedString& renderedString(getRenderedString());
+    Size result(0.0f, 0.0f);
+    for (size_t line = 0; line < renderedString.getLineCount(); ++line)
+    {
+        const Size lineSize(renderedString.getPixelSize(line));
+        result.d_height += lineSize.d_height;
+        result.d_width = ceguimax(result.d_width, lineSize.d_width);
+    }
+    return result;
+}
+}

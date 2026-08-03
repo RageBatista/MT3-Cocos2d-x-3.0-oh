@@ -205,6 +205,7 @@ public:
 		bool        d_BorderEnable; //Ƿ
 		char        d_StateImageExtendID; //ǰ״̬ͼƬɼչIDͼƬ,0:
 
+		virtual void initialiseComponents(void) { initialiseComponents(false); }
 		void initialiseComponents(bool bClone);  //ۺø״̬ɫ
 	private:
 		/*************************************************************************

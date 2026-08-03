@@ -84,6 +84,13 @@ void Checkbox::setSelected(bool select)
 
 }
 
+//----------------------------------------------------------------------------//
+void Checkbox::setSelectedNoEvent(bool select)
+{
+	d_selected = select;
+	invalidate();
+}
+
 
 /*************************************************************************
 	event triggered internally when state of check-box changes

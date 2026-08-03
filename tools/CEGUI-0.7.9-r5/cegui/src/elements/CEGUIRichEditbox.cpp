@@ -26,6 +26,7 @@
 #include "CEGUIRichEditbox_xmlHandler.h"
 #include "CEGUIPropertyHelper.h"
 #include "utils/StringUtil.h"
+#include "gesture/CEGUIGestureRecognizer.h"
 
 using namespace CEGUITinyXML;
 
@@ -1746,8 +1747,9 @@ void RichEditbox::onMouseButtonDown(MouseEventArgs& e)
 *************************************************************************/
 void RichEditbox::onMouseButtonUp(MouseEventArgs& e)
 {
-	// MT3: Gesture module not available in CEGUI-0.7.9-r5
-	// original code: if (d_recognizerManager->onMouseButtonUp(e)) { return; }
+	Window::onMouseButtonUp(e);
+	if (d_bUpMsgChangedGesture)
+		return;
 
 	//RichEditboxComponent* pClickCpn=GetComponentByPos(e.position);
 	RichEditboxComponent* pClickCpn = GetComponentByPos(downPosition);
@@ -1781,9 +1783,6 @@ void RichEditbox::onMouseButtonUp(MouseEventArgs& e)
 		}
 	}
 
-	// base class processing
-	Window::onMouseButtonUp(e);
-	
 	if (e.button == LeftButton)
 	{
 		releaseInput();
@@ -1871,13 +1870,12 @@ void RichEditbox::onMouseMove(MouseEventArgs& e)
 	Window::onMouseMove(e);
 }
     
-// MT3: Gesture module not available in CEGUI-0.7.9-r5
-/*
-bool RichEditbox::onMouseDrag(Gesture::CEGUIGestureRecognizer* pRecognizer)
+bool RichEditbox::onMouseDrag(Gesture::CEGUIGestureRecognizer* recognizer)
 {
     // base class processing
-    Window::onMouseDrag(pRecognizer);
-    MouseEventArgs* e = (MouseEventArgs*)pRecognizer->GetEvent();
+    Window::onMouseDrag(recognizer);
+    MouseEventArgs* e = static_cast<MouseEventArgs*>(
+        const_cast<EventArgs*>(recognizer->GetEvent()));
     
     if (d_dragging&&!isReadOnly())        
     {
@@ -1892,14 +1890,13 @@ bool RichEditbox::onMouseDrag(Gesture::CEGUIGestureRecognizer* pRecognizer)
         Scrollbar* vertScrollbar = getVertScrollbar();
         if (vertScrollbar&&d_readOnly&&d_wordWrap)
         {
-            vertScrollbar->onMouseDrag(pRecognizer);
+            vertScrollbar->onMouseDrag(recognizer);
         }
     }
     
     UpdataMouseOnComponent();
     return true;
 }
-*/
 
 
 /*************************************************************************

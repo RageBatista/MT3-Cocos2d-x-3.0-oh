@@ -10,6 +10,7 @@
 #include "CEGUIRenderingContext.h"
 #include "CEGUIFont.h"
 #include "elements/CEGUIItemTable.h"
+#include "gesture/CEGUIGestureRecognizer.h"
 #include <math.h>
 
 // Start of CEGUI namespace section
@@ -342,12 +343,11 @@ namespace CEGUI
 		invalidate(false);
 	}
     
-    // MT3: Gesture module not available in CEGUI-0.7.9-r5
-    /*
-    bool ItemCell::onLongPress(Gesture::CEGUIGestureRecognizer* pRecognizer)
+    bool ItemCell::onLongPress(Gesture::CEGUIGestureRecognizer* recognizer)
     {
-        Gesture::GestureRecognizerState state = pRecognizer->GetState();
-        MouseEventArgs* e = (MouseEventArgs*)pRecognizer->GetEvent();
+        const Gesture::GestureRecognizerState state = recognizer->GetState();
+        MouseEventArgs* e = static_cast<MouseEventArgs*>(
+            const_cast<EventArgs*>(recognizer->GetEvent()));
 		if (!e) return false;
 
         if (state == Gesture::GestureRecognizerStateBegan) {
@@ -389,7 +389,6 @@ namespace CEGUI
         Window::CheckGuideEnd(e->button);
         return true;
     }
-    */
     
     void ItemCell::onMouseDoubleClicked(MouseEventArgs& e) {
         if (e.clickCount == 1) {

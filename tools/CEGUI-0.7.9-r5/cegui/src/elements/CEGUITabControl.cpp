@@ -56,6 +56,8 @@ TabControlWindowRenderer::TabControlWindowRenderer(const String& name) :
 TabControlProperties::TabHeight		            TabControl::d_tabHeightProperty;
 TabControlProperties::TabTextPadding		    TabControl::d_tabTextPaddingProperty;
 TabControlProperties::TabPanePosition		    TabControl::d_tabPanePosition;
+TabControlProperties::TabSeparation             TabControl::d_tabSeparationProperty;
+TabControlProperties::TabFirstInterval          TabControl::d_tabFirstIntervalProperty;
 
 /*************************************************************************
 	Constants
@@ -87,6 +89,8 @@ TabControl::TabControl(const String& type, const String& name)
     : Window(type, name),
     d_tabHeight(0, -1), // means 'to be initialized later'
     d_tabPadding(0, 5),
+    d_tabSeparation(10),
+    d_tabFirstInterval(10),
     d_firstTabOffset(0),
     d_tabPanePos(Top)
 {
@@ -234,6 +238,18 @@ void TabControl::setTabTextPadding(const UDim& padding)
 {
     d_tabPadding = padding;
 
+    performChildWindowLayout();
+}
+
+void TabControl::setTabSeparation(float separation)
+{
+    d_tabSeparation = separation;
+    performChildWindowLayout();
+}
+
+void TabControl::setTabFirstInterval(float interval)
+{
+    d_tabFirstInterval = interval;
     performChildWindowLayout();
 }
 
@@ -450,6 +466,8 @@ void TabControl::addTabControlProperties(void)
     addProperty(&d_tabHeightProperty);
     addProperty(&d_tabTextPaddingProperty);
     addProperty(&d_tabPanePosition);
+    addProperty(&d_tabSeparationProperty);
+    addProperty(&d_tabFirstIntervalProperty);
 }
 /*************************************************************************
 Internal version of adding a child window
@@ -518,13 +536,15 @@ void TabControl::calculateTabButtonSizePosition(size_t index)
     // x position is based on previous button
     if (!index)
         // First button
-        btn->setXPosition(cegui_absdim(d_firstTabOffset));
+        btn->setXPosition(cegui_absdim(d_firstTabOffset + d_tabFirstInterval));
     else
     {
 		Window* prevButton = d_tabButtonVector [index - 1];
 
 		// position is prev pos + width
-        btn->setXPosition(prevButton->getArea().d_max.d_x);
+        UDim xPosition(prevButton->getArea().d_max.d_x);
+        xPosition.d_offset += d_tabSeparation;
+        btn->setXPosition(xPosition);
     }
     btn->setWidth(
         cegui_absdim(btn->getRenderedString().getHorizontalExtent()) +

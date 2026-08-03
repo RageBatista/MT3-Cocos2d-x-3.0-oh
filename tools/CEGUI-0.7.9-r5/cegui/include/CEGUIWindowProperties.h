@@ -1128,6 +1128,19 @@ public:
     void set(PropertyReceiver* receiver, const String& value);
 };
 
+class CloseSoundResource : public Property
+{
+public:
+    CloseSoundResource() : Property(
+        "CloseSoundResource",
+        "Property to get/set the close sound resource used by the Window.",
+        "")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 class LimitWindowSize : public Property
 {
 public:
@@ -1135,6 +1148,32 @@ public:
         "LimitWindowSize",
         "Property to get/set whether minimum and maximum window sizes are enforced.",
         "True")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class CreateEffectType : public Property
+{
+public:
+    CreateEffectType() : Property(
+        "CreateEffectType",
+        "Property to get/set the Window create effect type.",
+        "")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class CloseEffectType : public Property
+{
+public:
+    CloseEffectType() : Property(
+        "CloseEffectType",
+        "Property to get/set the Window close effect type.",
+        "")
     {}
 
     String get(const PropertyReceiver* receiver) const;
@@ -1380,6 +1419,19 @@ public:
     AllowModalStateClick() : Property(
         "AllowModalStateClick",
         "Property to get/set whether the window remains clickable while a modal window is active.",
+        "False")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class AllowShowWithModalState : public Property
+{
+public:
+    AllowShowWithModalState() : Property(
+        "AllowShowWithModalState",
+        "Property to get/set whether the Window remains visible while a modal Window is active.",
         "False")
     {}
 

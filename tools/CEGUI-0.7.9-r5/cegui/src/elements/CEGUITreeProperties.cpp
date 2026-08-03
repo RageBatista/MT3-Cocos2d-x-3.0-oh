@@ -28,6 +28,7 @@ author:		Jonathan Welch (Based on Code by David Durant)
 #include "elements/CEGUITreeProperties.h"
 #include "elements/CEGUITree.h"
 #include "CEGUIPropertyHelper.h"
+#include "WindowRendererSets/Falagard/FalGroupBtnTree.h"
 
 
 // Start of CEGUI namespace section
@@ -103,6 +104,23 @@ void	ItemTooltips::set(PropertyReceiver* receiver, const String& value)
 {
 	static_cast<Tree*>(receiver)->setItemTooltipsEnabled(
         PropertyHelper::stringToBool(value));
+}
+
+String MaskImage::get(const PropertyReceiver* receiver) const
+{
+    const Window* const window = static_cast<const Window*>(receiver);
+    const FalagardGroupBtnTree* const renderer =
+        static_cast<const FalagardGroupBtnTree*>(window->getWindowRenderer());
+    return renderer ? renderer->getMaskImage() : String();
+}
+
+void MaskImage::set(PropertyReceiver* receiver, const String& value)
+{
+    Window* const window = static_cast<Window*>(receiver);
+    FalagardGroupBtnTree* const renderer =
+        static_cast<FalagardGroupBtnTree*>(window->getWindowRenderer());
+    if (renderer)
+        renderer->setMaskImage(value);
 }
 
 } // End of  TreeProperties namespace section

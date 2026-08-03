@@ -40,6 +40,13 @@
 // Start of CEGUI namespace section
 namespace CEGUI
 {
+enum enumPageScrollMode
+{
+    eNoPageScroll,
+    eSinglePageScroll,
+    eMultiPageScroll
+};
+
 //! Base class for ScrollablePane window renderer objects.
 class CEGUIEXPORT ScrollablePaneWindowRenderer : public WindowRenderer
 {
@@ -108,12 +115,24 @@ public:
     static const String HorzScrollbarNameSuffix;
     //! Widget name suffix for the scrolled container component.
     static const String ScrolledContainerNameSuffix;
+    static const String EventPrePage;
+    static const String EventNextPage;
+    static const String EventScrollPageChanged;
 
     //! Constructor for the ScrollablePane base class.
     ScrollablePane(const String& type, const String& name);
 
     //! Destructor for the ScrollablePane base class.
     ~ScrollablePane(void);
+
+    // MT3 legacy compatibility used by existing Lua dialogs.
+    void EnableVertScrollBar(bool enabled);
+    void EnableHorzScrollBar(bool enabled);
+    void EnableScrollDrag(bool enabled);
+    void EnableAllChildDrag(Window* window);
+    void EnableChildDrag(Window* window);
+    virtual void cleanupNonAutoChildren(void);
+    float getScrollEndPos() const;
 
     /*!
     \brief
@@ -420,6 +439,13 @@ public:
     // MT3 compatibility: use full-page steps with the 0.7.9 scrollbars.
     void EnablePageScrollMode(bool enable);
     bool getPageScrollMode() const;
+    void setPaneScrollMode(int mode);
+    enumPageScrollMode getPaneScrollMode() const { return d_PaneScrollMode; }
+    void StartPageScroll(float originalVelocity);
+    void amendSlideDesPos(float& currentPosition, float& destinationPosition,
+                          float& slideTime, float& velocity);
+    bool HandleMouseDragChild(const EventArgs& e);
+    bool HandleMouseDrag(const EventArgs& e);
 
 protected:
     /*!
@@ -511,6 +537,7 @@ protected:
         Nothing.
     */
     virtual void onContentPaneChanged(WindowEventArgs& e);
+    virtual bool onScrollPageChanged(const EventArgs& e);
 
     /*!
     \brief
@@ -587,17 +614,29 @@ protected:
         setting changes.
     */
     bool handleAutoSizePaneChanged(const EventArgs& e);
+    bool HandleChildMouseButtonDown(const EventArgs& e);
 
     // Overridden from Window
     void addChild_impl(Window* wnd);
     void removeChild_impl(Window* wnd);
     void onSized(WindowEventArgs& e);
     void onMouseWheel(MouseEventArgs& e);
+    void onMouseButtonDown(MouseEventArgs& e);
+    void onMouseSlide(MouseEventArgs& e);
+    void updateSelf(float elapsed);
+    bool ExistNonAutoChildren() const;
 
     //! true if vertical scrollbar should always be displayed
     bool d_forceVertScroll;
     //! true if horizontal scrollbar should always be displayed
     bool d_forceHorzScroll;
+    //! true if vertical scrolling is enabled for this pane.
+    bool d_enableVertScrollbar;
+    //! true if horizontal scrolling is enabled for this pane.
+    bool d_enableHorzScrollbar;
+    bool d_EnableScrollBarDrag;
+    enumPageScrollMode d_PaneScrollMode;
+    float d_endPos;
     //! holds content area so we can track changes.
     Rect d_contentRect;
     //! vertical scroll step fraction.

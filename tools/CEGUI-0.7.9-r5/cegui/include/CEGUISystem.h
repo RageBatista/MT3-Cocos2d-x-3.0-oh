@@ -1445,6 +1445,10 @@ private:
     CommonLinkLinkClicked* d_CommonLinkFunc;
     // MT3: Request other quest callback
     RequestOtherQuest* d_requestOtherQuestFunc;
+    // MT3: Chat output root and tooltip state
+    Window* d_ChatOutRootWnd;
+    Tooltip* d_ChatOutWndToolsTip;
+    Size d_ChatOutRootWndSize;
     // MT3: Adapter for screen/logic coordinate conversion
     IAdapter* d_adapter;
     // MT3: Text brush image for RichEditbox
@@ -1555,6 +1559,14 @@ public:
     // MT3: Request other quest callback
     void SetDefaultOtherQuest(RequestOtherQuest* func) { d_requestOtherQuestFunc = func; }
     RequestOtherQuest* GetDefaultOtherQuest() { return d_requestOtherQuestFunc; }
+
+    // MT3: Chat output root and tooltip state
+    void SetChatOutWndRootWnd(Window* wnd) { d_ChatOutRootWnd = wnd; }
+    Window* GetChatOutRootWnd() { return d_ChatOutRootWnd; }
+    void SetChatOutWndTips(Tooltip* tooltip) { d_ChatOutWndToolsTip = tooltip; }
+    Tooltip* GetChatOutWndTips() { return d_ChatOutWndToolsTip; }
+    void SetChatOutRootWndSize(const Size& size) { d_ChatOutRootWndSize = size; }
+    const Size& GetChatOutRootWndSize() { return d_ChatOutRootWndSize; }
 
     // MT3: Adapter for screen/logic coordinate conversion
     void SetAdapter(IAdapter* a) { d_adapter = a; }

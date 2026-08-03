@@ -72,6 +72,8 @@ public:
 		true if the button-type widget is pushed, false if the widget is not pushed.
 	*/
 	bool	isPushed(void) const			{return d_pushed;}
+	void SetMouseLeaveReleaseInput(bool enabled)
+		{ d_mouseLeaveReleaseInput = enabled; }
 
     /** Internal function to set button's pushed state.  Normally you would
      * not call this, except perhaps when building compound widgets.
@@ -146,6 +148,7 @@ protected:
 	*************************************************************************/
 	bool	d_pushed;			//!< true when widget is pushed
 	bool	d_hovering;			//!< true when the button is in 'hover' state and requires the hover rendering.
+	bool    d_mouseLeaveReleaseInput;
 	bool    d_EnableClickAni;   // MT3: 是否启用点击缩放动画
 };
 

@@ -33,6 +33,7 @@
 #include "CEGUIPropertyHelper.h"
 #include "CEGUIImagesetManager.h"
 #include "CEGUIGeometryBuffer.h"
+#include "CEGUISystem.h"
 
 // Start of CEGUI namespace section
 namespace CEGUI
@@ -348,8 +349,7 @@ void FalagardRichEditbox::cacheTextLines(const Rect& dest_area)
          }
 
         
-		 // MT3: GetTextBrushImage() not available in CEGUI-0.7.9-r5
-		 const Image* pSelectImage = NULL; // System::getSingleton().GetTextBrushImage();
+		 const Image* pSelectImage = System::getSingleton().GetTextBrushImage();
 		 for(size_t i=startindex;i<startindex+count;i++ )
 		 {
 			 Size componentsize=FormatComponents[i]->getPixelSize();/*d_FormatComponents[i].getPixelSize()*/;

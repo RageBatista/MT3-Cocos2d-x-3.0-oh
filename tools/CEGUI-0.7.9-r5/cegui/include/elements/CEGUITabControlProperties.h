@@ -110,6 +110,32 @@ public:
     void	set(PropertyReceiver* receiver, const String& value);
 };
 
+class TabSeparation : public Property
+{
+public:
+    TabSeparation() : Property(
+        "TabSeparation",
+        "Property to get/set the pixel separation between adjacent tabs.",
+        "10")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
+class TabFirstInterval : public Property
+{
+public:
+    TabFirstInterval() : Property(
+        "TabFirstInterval",
+        "Property to get/set the pixel interval before the first tab.",
+        "10")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+};
+
 } // End of  TabControlProperties namespace section
 
 } // End of  CEGUI namespace section

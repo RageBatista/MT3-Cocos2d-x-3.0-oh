@@ -40,7 +40,9 @@ namespace CEGUI
 ButtonBase::ButtonBase(const String& type, const String& name) :
 	Window(type, name),
 	d_pushed(false),
-	d_hovering(false)
+	d_hovering(false),
+	d_mouseLeaveReleaseInput(true),
+	d_EnableClickAni(true)
 {
 }
 
@@ -192,6 +194,9 @@ void ButtonBase::onMouseLeaves(MouseEventArgs& e)
 {
 	// deafult processing
 	Window::onMouseLeaves(e);
+
+	if (d_mouseLeaveReleaseInput)
+		releaseInput();
 
 	d_hovering = false;
 	invalidate();

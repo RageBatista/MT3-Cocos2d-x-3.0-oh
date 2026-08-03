@@ -55,6 +55,7 @@ namespace CEGUI
     FalagardStaticTextProperties::VertExtent        FalagardStaticText::d_vertExtentProperty;
     FalagardStaticTextProperties::BorderEnable      FalagardStaticText::d_borderEnableProperty;
     FalagardStaticTextProperties::BorderColour      FalagardStaticText::d_borderColourProperty;
+    FalagardStaticTextProperties::Title             FalagardStaticText::d_titleProperty;
 
     /*************************************************************************
         Child Widget name suffix constants
@@ -75,7 +76,8 @@ namespace CEGUI
         d_formattedRenderedString(0),
         d_formatValid(false),
         d_borderEnabled(false),
-        d_borderColour(0xFF003454)
+        d_borderColour(0xFF003454),
+        d_titleEnabled(false)
     {
         registerProperty(&d_textColoursProperty);
         registerProperty(&d_vertFormattingProperty);
@@ -86,6 +88,7 @@ namespace CEGUI
         registerProperty(&d_vertExtentProperty, true);
         registerProperty(&d_borderEnableProperty);
         registerProperty(&d_borderColourProperty);
+        registerProperty(&d_titleProperty);
     }
 
 //----------------------------------------------------------------------------//
@@ -174,7 +177,7 @@ namespace CEGUI
         }
 
         // calculate final colours
-        ColourRect final_cols(d_textCols);
+        ColourRect final_cols(d_titleEnabled ? ColourRect(0xFFFFFFFF) : d_textCols);
         final_cols.modulateAlpha(d_window->getEffectiveAlpha());
         // cache the text for rendering.
         d_formattedRenderedString->draw(d_window->getGeometryBuffer(),
@@ -586,7 +589,18 @@ void FalagardStaticText::updateFormatting(const Size& sz) const
     // 'touch' the window's rendered string to ensure it's re-parsed if needed.
     d_window->getRenderedString();
 
-    d_formattedRenderedString->SetBorderInf(d_borderEnabled, d_borderColour);
+    const bool borderEnabled = d_titleEnabled ||
+        d_window->isTextBorder() || d_borderEnabled;
+    const colour borderColour = d_titleEnabled ? colour(0xFFA6E3FF) :
+        (d_window->isTextBorder() ?
+            d_window->GetBorderColour().d_top_left : d_borderColour);
+    d_formattedRenderedString->SetBorderInf(borderEnabled, borderColour);
+
+    if (d_titleEnabled &&
+        (!d_window->getFont() || d_window->getFont()->getName() != "hycyj-20"))
+    {
+        d_window->setFont("hycyj-20");
+    }
 
     d_formattedRenderedString->format(sz);
     d_formatValid = true;
@@ -605,6 +619,18 @@ void FalagardStaticText::setBorderEnabled(bool enabled)
 void FalagardStaticText::setBorderColour(colour borderColour)
 {
     d_borderColour = borderColour;
+    d_formatValid = false;
+    if (d_window)
+        d_window->invalidate();
+}
+
+//----------------------------------------------------------------------------//
+void FalagardStaticText::setTitleEnabled(bool enabled)
+{
+    if (d_titleEnabled == enabled)
+        return;
+
+    d_titleEnabled = enabled;
     d_formatValid = false;
     if (d_window)
         d_window->invalidate();

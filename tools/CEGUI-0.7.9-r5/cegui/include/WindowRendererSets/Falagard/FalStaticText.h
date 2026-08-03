@@ -165,6 +165,8 @@ namespace CEGUI
         void setBorderEnabled(bool enabled);
         colour getBorderColour() const { return d_borderColour; }
         void setBorderColour(colour borderColour);
+        bool isTitle() const { return d_titleEnabled; }
+        void setTitleEnabled(bool enabled);
 
         void render(void);
 
@@ -206,6 +208,7 @@ namespace CEGUI
         static FalagardStaticTextProperties::VertExtent     d_vertExtentProperty;
         static FalagardStaticTextProperties::BorderEnable   d_borderEnableProperty;
         static FalagardStaticTextProperties::BorderColour   d_borderColourProperty;
+        static FalagardStaticTextProperties::Title          d_titleProperty;
 
         // implementation data
         //! Horizontal formatting to be applied to the text.
@@ -226,6 +229,7 @@ namespace CEGUI
         mutable bool d_formatValid;
         bool d_borderEnabled;
         colour d_borderColour;
+        bool d_titleEnabled;
     };
 
 } // End of  CEGUI namespace section

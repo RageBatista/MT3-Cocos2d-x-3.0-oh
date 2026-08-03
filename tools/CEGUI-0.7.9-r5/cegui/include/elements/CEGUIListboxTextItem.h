@@ -36,6 +36,13 @@
 // Start of CEGUI namespace section
 namespace CEGUI
 {
+enum ListBoxTextItemHorFormat
+{
+    eListBoxTextItemHorFormat_Left,
+    eListBoxTextItemHorFormat_Center,
+    eListBoxTextItemHorFormat_Right
+};
+
 /*!
 \brief
 	Class used for textual items in a list box.
@@ -185,6 +192,14 @@ public:
     // base class overrides
     void setText(const String& text);
 
+    void SetTextHorFormat(ListBoxTextItemHorFormat format)
+    {
+        d_textHorFormat = format;
+    }
+    void setStaticImage(const String& name);
+    void setStaticImageWidthAndHeight(float width = -1.0f,
+                                      float height = -1.0f);
+
 
 	/*************************************************************************
 		Required implementations of pure virtuals from the base class.
@@ -210,6 +225,10 @@ protected:
     static DefaultRenderedStringParser d_noTagsStringParser;
     //! boolean that specifies whether text parsing is enabled for the item.
     bool d_textParsingEnabled;
+    ListBoxTextItemHorFormat d_textHorFormat;
+    const Image* d_staticImage;
+    float d_staticImageWidth;
+    float d_staticImageHeight;
 };
 
 } // End of  CEGUI namespace section

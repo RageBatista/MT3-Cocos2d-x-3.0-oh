@@ -31,6 +31,7 @@
 #include "CEGUICheckbox.h"
 #include "CEGUIClippedContainer.h"
 #include "CEGUICompnentTip.h"
+#include "CEGUIMessageTip.h"
 #include "CEGUICombobox.h"
 #include "CEGUIComboDropList.h"
 #include "CEGUIDragContainer.h"
@@ -80,6 +81,7 @@
 #include "CEGUIItemListBase.h"
 #include "CEGUIItemTable.h"
 #include "CEGUILinkText.h"
+#include "CEGUIPanelbox.h"
 #include "CEGUIProgressBarTwoValue.h"
 #include "CEGUISkillBox.h"
 #include "CEGUISwitch.h"
@@ -101,7 +103,4 @@
 #include "CEGUIRichEditboxAnswerQuestionLinkComponent.h"
 #include "CEGUIRichEditboxRequestOtherQuestComponent.h"
 #include "CEGUIRichEditboxBreakLineComponent.h"
-// MT3: MessageTip backward compatibility typedef
-#include "CEGUIMessageTip.h"
-
 #endif // End of guard _CEGUIAll_h_

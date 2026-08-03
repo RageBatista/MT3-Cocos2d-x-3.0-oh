@@ -64,4 +64,3 @@ protected:
 
 
 #endif  // end of guard _CEGUIRapidXMLParser_h_
-

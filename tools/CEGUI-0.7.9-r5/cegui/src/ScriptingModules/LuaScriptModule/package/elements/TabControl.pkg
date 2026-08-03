@@ -3,13 +3,25 @@
 ***********************************************************************/
 class TabControl : public Window
 {
+	enum TabPanePosition
+	{
+		Top,
+		Bottom
+	};
+
 	unsigned int getTabCount() const;
+	TabPanePosition getTabPanePosition() const;
+	void setTabPanePosition(TabPanePosition pos);
 
 	void setSelectedTab(utf8string name);
 	void setSelectedTab(unsigned int ID);
 	void setSelectedTabAtIndex(unsigned int index);
+	void makeTabVisible(utf8string name);
+	void makeTabVisible(unsigned int ID);
+	void makeTabVisibleAtIndex(unsigned int index);
 
 	Window* getTabContentsAtIndex(unsigned int index) const;
+	TabButton* getTabButtonAtIndex(unsigned int index) const;
 	Window* getTabContents(utf8string name) const;
 	Window* getTabContents(unsigned int ID) const;
 
@@ -18,9 +30,13 @@ class TabControl : public Window
 
 	const UDim& getTabHeight() const;
 	const UDim& getTabTextPadding() const;
+	float getTabSeparation() const;
+	float getTabFirstInterval() const;
 
 	void setTabHeight(const UDim& height);
 	void setTabTextPadding(const UDim& pad);
+	void setTabSeparation(float separation);
+	void setTabFirstInterval(float interval);
 
 	void addTab(Window* wnd);
 

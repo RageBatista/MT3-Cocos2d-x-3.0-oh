@@ -94,6 +94,7 @@ public:
 		Nothing.
 	*/
 	void	setSelected(bool select);
+	void	setSelectedNoEvent(bool select);
 
 
 	/*************************************************************************

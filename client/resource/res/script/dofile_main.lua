@@ -332,6 +332,8 @@ end
 
 function Entry_Init()
 	LogInfo("dofile enter init")
+	-- MT3: log diagnostic tool config (luarc.json) for troubleshooting
+	LogInfo("[Diagnostic] luarc.json: diagnostics disabled=[undefined-global,duplicate-field,param-type-mismatch,missing-parameter] runtime=Lua5.1")
 	
 --	pcall(require "debug.debugger")
 

@@ -235,6 +235,17 @@ namespace CEGUI
         */
         void setFontPropertySource(const String& property);
 
+        const String& getBorderEnablePropertySource() const;
+        void setBorderEnablePropertySource(const String& property);
+        const String& getBorderColourPropertySource() const;
+        void setBorderColourPropertySource(const String& property);
+        const String& getDefaultColourEnablePropertySource() const;
+        void setDefaultColourEnablePropertySource(const String& property);
+        const String& getDefaultBorderEnablePropertySource() const;
+        void setDefaultBorderEnablePropertySource(const String& property);
+        void InitBorderInf(const Window& wnd, bool& enabled,
+                           colour& colourValue, bool& useDefaultColour) const;
+
         //! return the horizontal pixel extent of the formatted rendered string.
         float getHorizontalTextExtent() const;
 
@@ -265,6 +276,10 @@ namespace CEGUI
         HorizontalTextFormatting d_horzFormatting;  //!< Horizontal formatting to be applied when rendering the component.
         String  d_textPropertyName;             //!< Name of the property to access to obtain the text string to render.
         String  d_fontPropertyName;             //!< Name of the property to access to obtain the font to use for rendering.
+        String  d_BorderEnablePropertyName;
+        String  d_BorderColourPropertyName;
+        String  d_DefaultColourEnablePropertyName;
+        String  d_DefaultBorderEnablePropertyName;
     };
 
 } // End of  CEGUI namespace section

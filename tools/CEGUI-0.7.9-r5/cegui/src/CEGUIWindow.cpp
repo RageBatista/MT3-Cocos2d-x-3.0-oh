@@ -49,6 +49,9 @@
 #include "CEGUIRenderingRoot.h"
 #include "CEGUIRenderingContext.h"
 #include "CEGUIRenderingWindow.h"
+#include "CEGUITextureTarget.h"
+#include "gesture/CEGUIGestureRecognizer.h"
+#include "gesture/CEGUIGestureRecognizerManager.h"
 #include <algorithm>
 #include <iterator>
 #include <cmath>
@@ -115,6 +118,10 @@ const String Window::EventMouseButtonUp("MouseButtonUp");
 const String Window::EventMouseClick("MouseClick");
 const String Window::EventMouseDoubleClick("MouseDoubleClick");
 const String Window::EventMouseTripleClick("MouseTripleClick");
+const String Window::EventLongPress("LongPress");
+const String Window::EventSlide("Slide");
+const String Window::EventDrag("Drag");
+const String Window::EventGuideEnd("GuideEnd");
 const String Window::EventKeyDown("KeyDown");
 const String Window::EventKeyUp("KeyUp");
 const String Window::EventCharacterKey("CharacterKey");
@@ -179,7 +186,10 @@ WindowProperties::AutoRenderingSurface Window::d_autoRenderingSurfaceProperty;
 WindowProperties::Scale Window::d_scaleProperty;
 WindowProperties::EnableSound Window::d_soundEnableProperty;
 WindowProperties::SoundResource Window::d_soundResourceProperty;
+WindowProperties::CloseSoundResource Window::d_closeSoundResourceProperty;
 WindowProperties::LimitWindowSize Window::d_limitWindowSizeProperty;
+WindowProperties::CreateEffectType Window::d_createEffectTypeProperty;
+WindowProperties::CloseEffectType Window::d_closeEffectTypeProperty;
 WindowProperties::LuaForDialog Window::d_luaForDialogProperty;
 WindowProperties::LuaMemberName Window::d_luaMemberNameProperty;
 WindowProperties::LuaEventOnClicked Window::d_luaEventOnClickedProperty;
@@ -192,6 +202,7 @@ WindowProperties::NonClient Window::d_nonClientProperty;
 WindowProperties::TextParsingEnabled Window::d_textParsingEnabledProperty;
 WindowProperties::DisplaySizeChangePosEnabled Window::d_displaySizeChangePosEnabledProperty;
 WindowProperties::AllowModalStateClick Window::d_allowModalStateClickProperty;
+WindowProperties::AllowShowWithModalState Window::d_allowShowWithModalStateProperty;
 WindowProperties::ModalState Window::d_modalStateProperty;
 WindowProperties::IsPixelDecide Window::d_isPixelDecideProperty;
 WindowProperties::Margin Window:: d_marginProperty;
@@ -258,6 +269,7 @@ Window::Window(const String& type, const String& name) :
 
     // user specific data
     d_ID(0),
+    d_ID2(0),
     d_userData(0),
 
     // z-order related options
@@ -336,8 +348,11 @@ Window::Window(const String& type, const String& name) :
     d_AllowShowWithModalState(false),
     d_IsPixelDecide(false),
     d_displaySizeChangePosEnabled(true),
+    d_displaySizeEnabled(false),
     d_Flash(false),
     d_EnableFlash(true),
+    d_FalshElapseTime(0.0f),
+    d_FlashFrequence(1.5f),
     d_RButtonCloseEnable(true),
     d_AlignWindow(0),
     d_AlignType(0),
@@ -347,6 +362,11 @@ Window::Window(const String& type, const String& name) :
     d_AutoSizeWithParent(false),
     d_ClickStateScale(1.0f),
     d_IsLoadedDraw(false),
+    d_IsFlying(false),
+    d_FlyStartScreenPoint(0.0f, 0.0f),
+    d_FlyTargetScreenPoint(0.0f, 0.0f),
+    d_TotalFlyTime(1.0f),
+    d_FlyElapseTime(0.0f),
     d_TimeAutoClose(false),
     d_OnShiedRootWnd(true),
     d_AllowModalSate(false),
@@ -354,7 +374,13 @@ Window::Window(const String& type, const String& name) :
     d_OldVisable(true),
     d_escCloseWindow(0),
     d_textColor(0xFFFFFFFF),
-    d_topMost(false)
+    d_topMost(false),
+    d_DragEnable(false),
+    d_LongpressEnable(false),
+    d_recognizerManager(new Gesture::CEGUIGestureRecognizerManager),
+    d_bUpMsgChangedGesture(false),
+    d_textBorder(false),
+    d_textBorderColour(0xFF000000)
 {
     // add properties
     addStandardProperties();
@@ -372,6 +398,7 @@ Window::~Window(void)
 {
     // most cleanup actually happened earlier in Window::destroy.
 
+    delete d_recognizerManager;
     System::getSingleton().getRenderer()->destroyGeometryBuffer(*d_geometry);
     delete d_bidiVisualMapping;
 }
@@ -853,6 +880,35 @@ void Window::setAlwaysOnTop(bool setting)
 
     WindowEventArgs args(this);
     onAlwaysOnTopChanged(args);
+}
+
+//----------------------------------------------------------------------------//
+void Window::setTopMost(bool setting)
+{
+    Window* parent = d_parent;
+    Window* child = this;
+    Window* const gui_sheet = System::getSingleton().getGUISheet();
+
+    while (parent && parent != gui_sheet)
+    {
+        child = parent;
+        parent = parent->getParent();
+    }
+
+    if (child->isTopMost() == setting)
+        return;
+
+    child->d_topMost = setting;
+    child->EnableAllowModalState(setting);
+
+    if (parent)
+    {
+        parent->removeChild_impl(child);
+        parent->addChild_impl(child);
+        child->onZChange_impl();
+    }
+
+    System::getSingleton().signalRedraw();
 }
 
 //----------------------------------------------------------------------------//
@@ -1412,6 +1468,25 @@ void Window::cleanupChildren(void)
 }
 
 //----------------------------------------------------------------------------//
+void Window::cleanupNonAutoChildren(void)
+{
+    size_t index = 0;
+    while (index < d_children.size())
+    {
+        Window* const wnd = d_children[index];
+        if (!wnd || wnd->isAutoWindow())
+        {
+            ++index;
+            continue;
+        }
+
+        removeChildWindow(wnd);
+        if (wnd->isDestroyedByParent())
+            WindowManager::getSingleton().destroyWindow(wnd);
+    }
+}
+
+//----------------------------------------------------------------------------//
 void Window::addChild_impl(Window* wnd)
 {
     // if window is already attached, detach it first (will fire normal events)
@@ -1546,6 +1621,12 @@ void Window::setID(uint ID)
 }
 
 //----------------------------------------------------------------------------//
+void Window::setID2(uint ID)
+{
+    d_ID2 = ID;
+}
+
+//----------------------------------------------------------------------------//
 void Window::setDestroyedByParent(bool setting)
 {
     if (d_destroyedByParent == setting)
@@ -1614,7 +1695,10 @@ void Window::addStandardProperties(void)
     addProperty(&d_scaleProperty);
     addProperty(&d_soundEnableProperty);
     addProperty(&d_soundResourceProperty);
+    addProperty(&d_closeSoundResourceProperty);
     addProperty(&d_limitWindowSizeProperty);
+    addProperty(&d_createEffectTypeProperty);
+    addProperty(&d_closeEffectTypeProperty);
     addProperty(&d_luaForDialogProperty);
     addProperty(&d_luaMemberNameProperty);
     addProperty(&d_luaEventOnClickedProperty);
@@ -1627,6 +1711,7 @@ void Window::addStandardProperties(void)
     addProperty(&d_textParsingEnabledProperty);
     addProperty(&d_displaySizeChangePosEnabledProperty);
     addProperty(&d_allowModalStateClickProperty);
+    addProperty(&d_allowShowWithModalStateProperty);
     addProperty(&d_modalStateProperty);
     addProperty(&d_isPixelDecideProperty);
     addProperty(&d_marginProperty);
@@ -1741,6 +1826,7 @@ void Window::update(float elapsed)
         static_cast<RenderingWindow*>(d_surface)->update(elapsed);
 
     UpdateEventArgs e(this,elapsed);
+    d_recognizerManager->update(e);
     fireEvent(EventWindowUpdated,e,EventNamespace);
 
     // update child windows
@@ -1784,6 +1870,19 @@ void Window::updateSelf(float elapsed)
             }
         }
     }
+
+    if (d_Flash)
+    {
+        d_FalshElapseTime += elapsed;
+        if (d_EnableFlash)
+        {
+            const float alpha = fabs(cosf(d_FalshElapseTime *
+                                          d_FlashFrequence * 3.1415926f));
+            setAlpha(alpha);
+        }
+    }
+
+    UpdateFlyPos(elapsed);
 
     // allow for updates within an assigned WindowRenderer
     if (d_windowRenderer)
@@ -2528,10 +2627,26 @@ void Window::addWindowToDrawList(Window& wnd, bool at_back)
     {
          // calculate position where window should be added for drawing
         ChildList::iterator pos = d_drawList.begin();
-        if (wnd.isAlwaysOnTop())
+        if (wnd.getType() == "TaharezLook/MessageTip")
+        {
+            while (pos != d_drawList.end() &&
+                   (*pos)->getType() != "TaharezLook/MessageTip")
+                ++pos;
+        }
+        else if (wnd.isTopMost())
+        {
+            while (pos != d_drawList.end() &&
+                   !(*pos)->isTopMost() &&
+                   (*pos)->getType() != "TaharezLook/MessageTip")
+                ++pos;
+        }
+        else if (wnd.isAlwaysOnTop())
         {
             // find first always-on-top window
-            while ((pos != d_drawList.end()) && (!(*pos)->isAlwaysOnTop()))
+            while (pos != d_drawList.end() &&
+                   !(*pos)->isAlwaysOnTop() &&
+                   !(*pos)->isTopMost() &&
+                   (*pos)->getType() != "TaharezLook/MessageTip")
                 ++pos;
         }
         else if (!wnd.isAlwaysOnBottom())
@@ -2547,9 +2662,48 @@ void Window::addWindowToDrawList(Window& wnd, bool at_back)
     // add in front of other windows in group
     else
     {
+        if (System::getSingleton().getGUISheet() == this &&
+            System::getSingleton().getModalTarget() &&
+            !wnd.isAllowModalState() && wnd.isAllowShowWithModalState())
+        {
+            ChildList::iterator position = std::find(
+                d_drawList.begin(), d_drawList.end(),
+                System::getSingleton().getModalTarget());
+            d_drawList.insert(position, &wnd);
+            return;
+        }
+
         // calculate position where window should be added for drawing
         ChildList::reverse_iterator position = d_drawList.rbegin();
-        if (wnd.isAlwaysOnBottom())
+        if (wnd.isModalAfterShow())
+        {
+            while (position != d_drawList.rend() &&
+                   (((*position)->isAlwaysOnTop() &&
+                     !(*position)->isAllowShowWithModalState()) ||
+                    (*position)->isTopMost() ||
+                    (*position)->getType() == "TaharezLook/MessageTip"))
+                ++position;
+        }
+        else if (wnd.getType() == "TaharezLook/MessageTip")
+        {
+            while (position != d_drawList.rend() &&
+                   (*position)->getType() == "TaharezLook/MessageTip")
+                ++position;
+        }
+        else if (wnd.isTopMost())
+        {
+            while (position != d_drawList.rend() &&
+                   (*position)->getType() == "TaharezLook/MessageTip")
+                ++position;
+        }
+        else if (wnd.isAlwaysOnTop())
+        {
+            while (position != d_drawList.rend() &&
+                   ((*position)->isTopMost() ||
+                    (*position)->getType() == "TaharezLook/MessageTip"))
+                ++position;
+        }
+        else if (wnd.isAlwaysOnBottom())
         {
             // find last always-on-bottom window
             while ((position != d_drawList.rend()) && (!(*position)->isAlwaysOnBottom()))
@@ -2558,7 +2712,10 @@ void Window::addWindowToDrawList(Window& wnd, bool at_back)
         else if (!wnd.isAlwaysOnTop())
         {
             // find last non-topmost window
-            while ((position != d_drawList.rend()) && ((*position)->isAlwaysOnTop()))
+            while (position != d_drawList.rend() &&
+                   ((*position)->isAlwaysOnTop() ||
+                    (*position)->isTopMost() ||
+                    (*position)->getType() == "TaharezLook/MessageTip"))
                 ++position;
         }
         // add window to draw list
@@ -3011,6 +3168,14 @@ void Window::onMouseLeaves(MouseEventArgs& e)
     if (tip && mw != tip && !(mw && mw->isAncestor(tip)))
         tip->setTargetWindow(0);
 
+    if (d_recognizerManager->onMouseLeaves(e))
+    {
+        d_bUpMsgChangedGesture = true;
+        releaseInput();
+        ++e.handled;
+        return;
+    }
+
     fireEvent(EventMouseLeaves, e, EventNamespace);
 }
 
@@ -3021,6 +3186,12 @@ void Window::onMouseMove(MouseEventArgs& e)
     Tooltip* const tip = getTooltip();
     if (tip)
         tip->resetTimer();
+
+    if (d_recognizerManager->onMouseMove(e))
+    {
+        ++e.handled;
+        return;
+    }
 
     fireEvent(EventMouseMove, e, EventNamespace);
 
@@ -3086,6 +3257,11 @@ void Window::onMouseButtonDown(MouseEventArgs& e)
         }
     }
 
+    if (e.button == LeftButton && d_recognizerManager->HasRecognizers())
+        captureInput();
+
+    d_recognizerManager->onMouseButtonDown(e);
+
     fireEvent(EventMouseButtonDown, e, EventNamespace);
 
     // optionally propagate to parent
@@ -3106,11 +3282,24 @@ void Window::onMouseButtonDown(MouseEventArgs& e)
 //----------------------------------------------------------------------------//
 void Window::onMouseButtonUp(MouseEventArgs& e)
 {
+    const bool gestureHandled =
+        d_recognizerManager->onMouseButtonUp(e);
+
     // reset auto-repeat state
     if (d_autoRepeat && d_repeatButton != NoButton)
     {
         releaseInput();
         d_repeatButton = NoButton;
+    }
+
+    if (e.button == LeftButton && isCapturedByThis())
+        releaseInput();
+
+    d_bUpMsgChangedGesture = gestureHandled;
+    if (gestureHandled)
+    {
+        ++e.handled;
+        return;
     }
 
     fireEvent(EventMouseButtonUp, e, EventNamespace);
@@ -3133,7 +3322,14 @@ void Window::onMouseButtonUp(MouseEventArgs& e)
 //----------------------------------------------------------------------------//
 void Window::onMouseClicked(MouseEventArgs& e)
 {
+    if (d_bUpMsgChangedGesture)
+    {
+        ++e.handled;
+        return;
+    }
+
     fireEvent(EventMouseClick, e, EventNamespace);
+    CheckGuideEnd(e.button);
 
     // optionally propagate to parent
     if (!e.handled && d_propagateMouseInputs &&
@@ -3565,10 +3761,11 @@ bool Window::isTopOfZOrder() const
 
     // get position of window at top of z-order in same group as this window
     ChildList::reverse_iterator pos = d_parent->d_drawList.rbegin();
-    if (!d_alwaysOnTop)
+    if (!d_alwaysOnTop && !d_topMost)
     {
         // find last non-topmost window
-        while ((pos != d_parent->d_drawList.rend()) && (*pos)->isAlwaysOnTop())
+        while (pos != d_parent->d_drawList.rend() &&
+               ((*pos)->isAlwaysOnTop() || (*pos)->isTopMost()))
             ++pos;
     }
 
@@ -3641,6 +3838,17 @@ void Window::getRenderingContext_impl(RenderingContext& ctx) const
 RenderingSurface* Window::getRenderingSurface() const
 {
     return d_surface;
+}
+
+//----------------------------------------------------------------------------//
+bool Window::trySaveRenderedImageToFile(const String& filename)
+{
+    if (!d_surface || !d_surface->isRenderingWindow())
+        return false;
+
+    RenderingWindow* const renderingWindow =
+        static_cast<RenderingWindow*>(d_surface);
+    return renderingWindow->getTextureTarget().saveToFile(filename);
 }
 
 //----------------------------------------------------------------------------//
@@ -3797,6 +4005,30 @@ const Vector3& Window::getRotation() const
 const Vector3& Window::getScale() const
 {
     return d_scale;
+}
+
+//----------------------------------------------------------------------------//
+void Window::setGeomRotation(const Vector3& rotation)
+{
+    if (d_geometry)
+    {
+        d_geometry->setRotation(rotation);
+        invalidate(true);
+    }
+}
+
+//----------------------------------------------------------------------------//
+void Window::setGeomScale(const Vector3& scale)
+{
+    if (d_geometry)
+        d_geometry->setScale(scale);
+}
+
+//----------------------------------------------------------------------------//
+void Window::setGeomPivot(const Vector3& pivot)
+{
+    if (d_geometry)
+        d_geometry->setPivot(pivot);
 }
 
 //----------------------------------------------------------------------------//
@@ -4141,6 +4373,27 @@ void Window::moveBehind(const Window* const window)
 }
 
 //----------------------------------------------------------------------------//
+void Window::bringWindowAbove(Window* upperWnd, Window* lowerWnd)
+{
+    if (!upperWnd || !lowerWnd || upperWnd == lowerWnd)
+        return;
+
+    const ChildList::iterator upperIt =
+        std::find(d_drawList.begin(), d_drawList.end(), upperWnd);
+    if (upperIt == d_drawList.end())
+        return;
+
+    ChildList::iterator lowerIt =
+        std::find(d_drawList.begin(), d_drawList.end(), lowerWnd);
+    if (lowerIt == d_drawList.end() || upperIt == lowerIt + 1)
+        return;
+
+    d_drawList.erase(upperIt);
+    lowerIt = std::find(d_drawList.begin(), d_drawList.end(), lowerWnd);
+    d_drawList.insert(++lowerIt, upperWnd);
+}
+
+//----------------------------------------------------------------------------//
 void Window::setUpdateMode(const WindowUpdateMode mode)
 {
     d_updateMode = mode;
@@ -4284,6 +4537,11 @@ void Window::clonePropertiesTo(Window& target) const
 
         target.setProperty(propertyName, getProperty(propertyName));
     }
+
+    // Align targets are runtime pointers rather than PropertySet values. Keep
+    // the template pointer until onRenameTemplatePrefix remaps it to the clone.
+    target.d_AlignWindow = d_AlignWindow;
+    target.d_AlignType = d_AlignType;
 }
 
 //----------------------------------------------------------------------------//
@@ -4340,13 +4598,17 @@ void Window::cloneChildWidgetsTo(Window& target) const
 
 bool Window::onRenameTemplatePrefix(const String& sPrefix)
 {
-    // MT3: Minimal implementation for BinLayout compatibility.
-    // The full implementation in CEGUI-0.7.1 includes parent/align-window
-    // renaming and recursive child processing.
+    // Parent links are already rebuilt by the 0.7.9 deep-clone path. Only
+    // MT3's external alignment pointer still refers to the cached template.
+    if (d_AlignWindow)
+        d_AlignWindow = getCloneWindowFromTemplate(d_AlignWindow,
+                                                   sPrefix.c_str());
+
     for (size_t i = 0; i < this->getChildCount(); ++i)
     {
         Window* wnd = this->getChildAtIdx(i);
-        wnd->onRenameTemplatePrefix(sPrefix);
+        if (!wnd->onRenameTemplatePrefix(sPrefix))
+            return false;
     }
     return true;
 }
@@ -4469,11 +4731,93 @@ bool Window::isBehind(const Window& wnd) const
 
 //----------------------------------------------------------------------------//
 
-// MT3: Enable drag
-void Window::EnableDrag(bool bEnable)
+//----------------------------------------------------------------------------//
+bool Window::onLongPress(Gesture::CEGUIGestureRecognizer* recognizer)
 {
-    if (bEnable)
-        d_DragMoveEnable = true;
+    GestureEventArgs args(recognizer);
+    fireEvent(EventLongPress, args, EventNamespace);
+    return true;
+}
+
+//----------------------------------------------------------------------------//
+bool Window::onMouseSlide(Gesture::CEGUIGestureRecognizer* recognizer)
+{
+    MouseEventArgs* const args = recognizer->getMouseEvent();
+    if (!args)
+        return false;
+
+    if (!d_SlideEnable && d_parent)
+        return d_parent->onMouseSlide(recognizer);
+
+    if (d_SlideEnable)
+        fireEvent(EventSlide, *args, EventNamespace);
+
+    ++args->handled;
+    return true;
+}
+
+//----------------------------------------------------------------------------//
+bool Window::onMouseDrag(Gesture::CEGUIGestureRecognizer* recognizer)
+{
+    if (d_DragEnable)
+    {
+        GestureEventArgs args(recognizer);
+        fireEvent(EventDrag, args, EventNamespace);
+    }
+    return true;
+}
+
+//----------------------------------------------------------------------------//
+bool Window::HandleLongPress(const EventArgs& e)
+{
+    const GestureEventArgs& args = static_cast<const GestureEventArgs&>(e);
+    return onLongPress(args.d_Recognizer);
+}
+
+//----------------------------------------------------------------------------//
+bool Window::HandleDrag(const EventArgs& e)
+{
+    const GestureEventArgs& args = static_cast<const GestureEventArgs&>(e);
+    return onMouseDrag(args.d_Recognizer);
+}
+
+//----------------------------------------------------------------------------//
+void Window::EnableLongPress(bool enabled)
+{
+    if (enabled)
+        subscriberEventLongPress(
+            Event::Subscriber(&Window::HandleLongPress, this));
+    else
+    {
+        d_recognizerManager->RemoveRecognizer(Gesture::LongPress);
+        d_LongpressEnable = false;
+    }
+}
+
+//----------------------------------------------------------------------------//
+void Window::EnableDrag(bool enabled)
+{
+    if (enabled)
+        subscriberEventDrag(Event::Subscriber(&Window::HandleDrag, this));
+    else
+    {
+        d_recognizerManager->RemoveRecognizer(Gesture::Pan);
+        d_DragEnable = false;
+    }
+}
+
+//----------------------------------------------------------------------------//
+void Window::subscriberEventLongPress(Event::Subscriber callback)
+{
+    d_LongpressEnable = d_recognizerManager->AddRecoginzer(
+        *this, Gesture::LongPress, callback);
+}
+
+//----------------------------------------------------------------------------//
+void Window::subscriberEventDrag(Event::Subscriber callback)
+{
+    d_DragEnable = d_recognizerManager->AddRecoginzer(
+        *this, Gesture::Pan, callback);
 }
 
 // MT3: Get screen position
@@ -4506,7 +4850,12 @@ Point Window::GetScreenPosOfCenter()
 // MT3: Check guide end
 void Window::CheckGuideEnd(MouseButton button)
 {
-    // MT3: Guide system check - placeholder
+    if (HasGuide() && (button == LeftButton || button == RightButton))
+    {
+        d_HasGuide = false;
+        WindowEventArgs e(this);
+        fireEvent(EventGuideEnd, e, EventNamespace);
+    }
 }
 
 // MT3: Set template looknfeel recursively
@@ -4539,6 +4888,161 @@ void Window::OnShiedUI()
 }
 
 //----------------------------------------------------------------------------//
+void Window::StartFlash(float frequence)
+{
+    d_FlashFrequence = frequence;
+    d_Flash = true;
+    d_FalshElapseTime = 0.0f;
+    invalidate();
+}
+
+//----------------------------------------------------------------------------//
+void Window::StopFlash()
+{
+    d_Flash = false;
+    d_FalshElapseTime = 0.0f;
+    if (d_EnableFlash)
+        setAlpha(1.0f);
+    invalidate();
+}
+
+//----------------------------------------------------------------------------//
+void Window::OnShowUI()
+{
+    if (d_OnShiedRootWnd)
+    {
+        d_visible = d_OldVisable;
+        invalidate(true);
+    }
+}
+
+//----------------------------------------------------------------------------//
+void Window::ShieAll()
+{
+    for (size_t i = 0; i < getChildCount(); ++i)
+        d_children[i]->OnShiedUI();
+}
+
+//----------------------------------------------------------------------------//
+void Window::ShowAll()
+{
+    for (size_t i = 0; i < getChildCount(); ++i)
+        d_children[i]->OnShowUI();
+}
+
+//----------------------------------------------------------------------------//
+float Window::GetXOffset() const
+{
+    const Point point = GetScreenPos();
+    const Point parentPoint = d_parent ? d_parent->GetScreenPos() : Point(0.0f, 0.0f);
+    return point.d_x - parentPoint.d_x;
+}
+
+//----------------------------------------------------------------------------//
+float Window::GetYOffset() const
+{
+    const Point point = GetScreenPos();
+    const Point parentPoint = d_parent ? d_parent->GetScreenPos() : Point(0.0f, 0.0f);
+    return point.d_y - parentPoint.d_y;
+}
+
+//----------------------------------------------------------------------------//
+Point Window::GetTopLeftPosOnParent()
+{
+    const Size parentSize = getParentPixelSize();
+    return Point(getPosition().d_x.d_scale * parentSize.d_width +
+                     getPosition().d_x.d_offset,
+                 getPosition().d_y.d_scale * parentSize.d_height +
+                     getPosition().d_y.d_offset);
+}
+
+//----------------------------------------------------------------------------//
+void Window::SetAllChildrenVis(bool visible)
+{
+    for (size_t i = 0; i < getChildCount(); ++i)
+        d_children[i]->setVisible(visible);
+}
+
+//----------------------------------------------------------------------------//
+void Window::MoveToStartFlyPoint()
+{
+    if (!d_parent)
+        return;
+
+    const Point parentCenter = d_parent->GetScreenPosOfCenter();
+    const Size parentSize = d_parent->getPixelSize();
+    SetWndCenterInParentXPos(parentSize.d_width / 2.0f +
+                             d_FlyStartScreenPoint.d_x - parentCenter.d_x);
+    SetWndCenterInParentYPos(parentSize.d_height / 2.0f +
+                             d_FlyStartScreenPoint.d_y - parentCenter.d_y);
+}
+
+//----------------------------------------------------------------------------//
+void Window::FlyToScreenPoint(Point targetPoint, float time)
+{
+    d_IsFlying = true;
+    d_FlyStartScreenPoint = GetScreenPosOfCenter();
+    d_FlyTargetScreenPoint = targetPoint;
+    d_FlyElapseTime = 0.0f;
+    d_TotalFlyTime = time > 0.0f ? time : 0.0f;
+    MoveToStartFlyPoint();
+    if (d_TotalFlyTime == 0.0f)
+        UpdateFlyPos(0.0f);
+}
+
+//----------------------------------------------------------------------------//
+void Window::FlyToWndCenter(Window* targetWindow, float time)
+{
+    if (targetWindow)
+        FlyToScreenPoint(targetWindow->GetScreenPosOfCenter(), time);
+}
+
+//----------------------------------------------------------------------------//
+void Window::FlyFromPointToWndCenter(Point startPoint, Window* targetWindow,
+                                     float time)
+{
+    if (!targetWindow)
+        return;
+
+    d_IsFlying = true;
+    d_FlyStartScreenPoint = startPoint;
+    d_FlyTargetScreenPoint = targetWindow->GetScreenPosOfCenter();
+    d_FlyElapseTime = 0.0f;
+    d_TotalFlyTime = time > 0.0f ? time : 0.0f;
+    MoveToStartFlyPoint();
+    if (d_TotalFlyTime == 0.0f)
+        UpdateFlyPos(0.0f);
+}
+
+//----------------------------------------------------------------------------//
+void Window::UpdateFlyPos(float elapsed)
+{
+    if (!d_IsFlying || !d_parent)
+        return;
+
+    d_FlyElapseTime += elapsed;
+    const bool complete = d_TotalFlyTime <= 0.0f ||
+                          d_FlyElapseTime >= d_TotalFlyTime;
+    const float percent = complete ? 1.0f : d_FlyElapseTime / d_TotalFlyTime;
+    const Point parentCenter = d_parent->GetScreenPosOfCenter();
+    const Size parentSize = d_parent->getPixelSize();
+    const float x = d_FlyStartScreenPoint.d_x +
+                    (d_FlyTargetScreenPoint.d_x - d_FlyStartScreenPoint.d_x) * percent;
+    const float y = d_FlyStartScreenPoint.d_y +
+                    (d_FlyTargetScreenPoint.d_y - d_FlyStartScreenPoint.d_y) * percent;
+    SetWndCenterInParentXPos(parentSize.d_width / 2.0f + x - parentCenter.d_x);
+    SetWndCenterInParentYPos(parentSize.d_height / 2.0f + y - parentCenter.d_y);
+
+    if (complete)
+    {
+        d_IsFlying = false;
+        d_FlyElapseTime = 0.0f;
+        WindowEventArgs args(this);
+        fireEvent(EventFlyToTargetPosition, args, EventNamespace);
+    }
+}
+
+//----------------------------------------------------------------------------//
 void Window::cleanupAllEvent(void)
 {
     removeAllEvents();
@@ -4548,6 +5052,30 @@ void Window::cleanupAllEvent(void)
     {
         d_children[i]->cleanupAllEvent();
     }
+}
+
+//----------------------------------------------------------------------------//
+bool Window::isInputFocus()
+{
+    return IsCanEdit() &&
+        System::getSingleton().getKeyboardTargetWindow() == this;
+}
+
+//----------------------------------------------------------------------------//
+void Window::SetTextBoder(bool enabled)
+{
+    if (d_textBorder == enabled)
+        return;
+
+    d_textBorder = enabled;
+    invalidate();
+}
+
+//----------------------------------------------------------------------------//
+void Window::SetTextBorderColour(const ColourRect& colour)
+{
+    d_textBorderColour = colour;
+    invalidate();
 }
 
 //----------------------------------------------------------------------------//

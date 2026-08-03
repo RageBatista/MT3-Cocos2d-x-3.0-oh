@@ -53,8 +53,7 @@ const String GroupBtnTree::EventSelectionChanged( "ItemSelectionChanged" );
 const String GroupBtnTree::EventBranchOpened( "BranchOpened" );
 const String GroupBtnTree::EventBranchClosed( "BranchClosed" );
 
-// MT3: MaskImage property not available in CEGUI-0.7.9-r5 TreeProperties
-// TreeProperties::MaskImage GroupBtnTree::d_MaskImageProperty;
+TreeProperties::MaskImage GroupBtnTree::d_MaskImageProperty;
 
 /*************************************************************************
     Constructor for GroupBtnTree base class.
@@ -406,8 +405,7 @@ void GroupBtnTree::setItemSelectState(GroupBtnItem* item, bool state)
 //----------------------------------------------------------------------------//
 void GroupBtnTree::addGroupBtnTreeProperties()
 {
-	// MT3: MaskImage property not available in CEGUI-0.7.9-r5 TreeProperties
-	// addProperty(&d_MaskImageProperty);
+	addProperty(&d_MaskImageProperty);
 }
 
 //----------------------------------------------------------------------------//
@@ -1269,18 +1267,15 @@ void GroupBtnTree::ClearAllMaskImage()
 	}
 }
 
-// MT3: Gesture module not available in CEGUI-0.7.9-r5
-/*
-bool GroupBtnTree::onMouseDrag(Gesture::CEGUIGestureRecognizer* pRecognizer)
+bool GroupBtnTree::onMouseDrag(Gesture::CEGUIGestureRecognizer* recognizer)
 {
-    Window::onMouseDrag(pRecognizer);
+    Window::onMouseDrag(recognizer);
     Scrollbar* vertScrollbar = getVertScrollbar();
-    if (vertScrollbar) {
-        vertScrollbar->onMouseDrag(pRecognizer);
-    }
+    if (vertScrollbar)
+        vertScrollbar->onMouseDrag(recognizer);
+
     return true;
 }
-*/
 
 
 } // End of  CEGUI namespace section

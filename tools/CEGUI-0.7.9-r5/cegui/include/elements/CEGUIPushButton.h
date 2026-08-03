@@ -113,6 +113,7 @@ public:
 
     void SetSizeType(PushButtonSizeType type);
     PushButtonSizeType GetSizeType() const { return d_sizeType; }
+	void SetPushState(bool pushed) { setPushedState(pushed); }
 
 
 	/*!

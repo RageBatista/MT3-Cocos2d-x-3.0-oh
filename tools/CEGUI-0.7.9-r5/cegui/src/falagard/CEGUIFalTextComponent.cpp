@@ -53,6 +53,13 @@
 // Start of CEGUI namespace section
 namespace CEGUI
 {
+    namespace
+    {
+        const argb_t kButtonTextTopColour = 0xFFFFF5E2;
+        const argb_t kButtonTextBottomColour = 0xFFBE9857;
+        const argb_t kButtonBorderColour = 0xFF1B1305;
+    }
+
     TextComponent::TextComponent() :
 #ifndef CEGUI_BIDI_SUPPORT
         d_bidiVisualMapping(0),
@@ -93,7 +100,11 @@ namespace CEGUI
         d_vertFormatting(obj.d_vertFormatting),
         d_horzFormatting(obj.d_horzFormatting),
         d_textPropertyName(obj.d_textPropertyName),
-        d_fontPropertyName(obj.d_fontPropertyName)
+        d_fontPropertyName(obj.d_fontPropertyName),
+        d_BorderEnablePropertyName(obj.d_BorderEnablePropertyName),
+        d_BorderColourPropertyName(obj.d_BorderColourPropertyName),
+        d_DefaultColourEnablePropertyName(obj.d_DefaultColourEnablePropertyName),
+        d_DefaultBorderEnablePropertyName(obj.d_DefaultBorderEnablePropertyName)
     {
     }
 
@@ -117,6 +128,10 @@ namespace CEGUI
         d_horzFormatting = other.d_horzFormatting;
         d_textPropertyName = other.d_textPropertyName;
         d_fontPropertyName = other.d_fontPropertyName;
+        d_BorderEnablePropertyName = other.d_BorderEnablePropertyName;
+        d_BorderColourPropertyName = other.d_BorderColourPropertyName;
+        d_DefaultColourEnablePropertyName = other.d_DefaultColourEnablePropertyName;
+        d_DefaultBorderEnablePropertyName = other.d_DefaultBorderEnablePropertyName;
 
         return *this;
     }
@@ -304,6 +319,21 @@ namespace CEGUI
         ColourRect finalColours;
         initColoursRect(srcWindow, modColours, finalColours);
 
+        bool borderEnabled = false;
+        bool useDefaultColour = false;
+        colour borderColour(kButtonBorderColour);
+        InitBorderInf(srcWindow, borderEnabled, borderColour, useDefaultColour);
+        d_formattedRenderedString->SetBorderInf(borderEnabled, borderColour);
+        if (useDefaultColour)
+        {
+            finalColours = ColourRect(kButtonTextTopColour,
+                                      kButtonTextTopColour,
+                                      kButtonTextBottomColour,
+                                      kButtonTextBottomColour);
+            if (modColours)
+                finalColours *= *modColours;
+        }
+
         // offset the font little down so that it's centered within its own spacing
 //        destRect.d_top += (font->getLineSpacing() - font->getFontHeight()) * 0.5f;
         // add geometry for text to the target window.
@@ -345,6 +375,15 @@ namespace CEGUI
                 .attribute("name", d_fontPropertyName)
                 .closeTag();
         }
+
+        if (!d_BorderEnablePropertyName.empty())
+            xml_stream.openTag("BorderEnable").attribute("name", d_BorderEnablePropertyName).closeTag();
+        if (!d_BorderColourPropertyName.empty())
+            xml_stream.openTag("BorderColour").attribute("name", d_BorderColourPropertyName).closeTag();
+        if (!d_DefaultBorderEnablePropertyName.empty())
+            xml_stream.openTag("DefaultBorderEnable").attribute("name", d_DefaultBorderEnablePropertyName).closeTag();
+        if (!d_DefaultColourEnablePropertyName.empty())
+            xml_stream.openTag("DefaultColourEnable").attribute("name", d_DefaultColourEnablePropertyName).closeTag();
 
         // get base class to write colours
         writeColoursXML(xml_stream);
@@ -399,6 +438,77 @@ namespace CEGUI
     void TextComponent::setFontPropertySource(const String& property)
     {
         d_fontPropertyName = property;
+    }
+
+    const String& TextComponent::getBorderEnablePropertySource() const
+    {
+        return d_BorderEnablePropertyName;
+    }
+
+    void TextComponent::setBorderEnablePropertySource(const String& property)
+    {
+        d_BorderEnablePropertyName = property;
+    }
+
+    const String& TextComponent::getBorderColourPropertySource() const
+    {
+        return d_BorderColourPropertyName;
+    }
+
+    void TextComponent::setBorderColourPropertySource(const String& property)
+    {
+        d_BorderColourPropertyName = property;
+    }
+
+    const String& TextComponent::getDefaultColourEnablePropertySource() const
+    {
+        return d_DefaultColourEnablePropertyName;
+    }
+
+    void TextComponent::setDefaultColourEnablePropertySource(const String& property)
+    {
+        d_DefaultColourEnablePropertyName = property;
+    }
+
+    const String& TextComponent::getDefaultBorderEnablePropertySource() const
+    {
+        return d_DefaultBorderEnablePropertyName;
+    }
+
+    void TextComponent::setDefaultBorderEnablePropertySource(const String& property)
+    {
+        d_DefaultBorderEnablePropertyName = property;
+    }
+
+    void TextComponent::InitBorderInf(const Window& wnd, bool& enabled,
+                                       colour& borderColour,
+                                       bool& useDefaultColour) const
+    {
+        bool defaultBorder = false;
+        if (!d_DefaultBorderEnablePropertyName.empty())
+        {
+            defaultBorder = PropertyHelper::stringToBool(
+                wnd.getProperty(d_DefaultBorderEnablePropertyName));
+            if (defaultBorder)
+            {
+                enabled = true;
+                borderColour = colour(kButtonBorderColour);
+            }
+        }
+
+        if (!d_DefaultColourEnablePropertyName.empty())
+        {
+            useDefaultColour = PropertyHelper::stringToBool(
+                wnd.getProperty(d_DefaultColourEnablePropertyName));
+        }
+
+        if (!defaultBorder && !d_BorderEnablePropertyName.empty())
+            enabled = PropertyHelper::stringToBool(
+                wnd.getProperty(d_BorderEnablePropertyName));
+
+        if (!defaultBorder && !d_BorderColourPropertyName.empty())
+            borderColour = PropertyHelper::stringToColour(
+                wnd.getProperty(d_BorderColourPropertyName));
     }
 
     const String& TextComponent::getTextVisual() const

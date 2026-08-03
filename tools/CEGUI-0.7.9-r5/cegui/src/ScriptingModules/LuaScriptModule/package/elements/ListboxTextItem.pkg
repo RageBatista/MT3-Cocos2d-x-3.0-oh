@@ -7,6 +7,13 @@
 	I decided to do it like this to avoid any possible memory issues
 	with allocating from Lua.
 ***********************************************************************/
+enum ListBoxTextItemHorFormat
+{
+	eListBoxTextItemHorFormat_Left,
+	eListBoxTextItemHorFormat_Center,
+	eListBoxTextItemHorFormat_Right
+};
+
 class ListboxTextItem : public ListboxItem
 {
 	Font* getFont() const;
@@ -21,4 +28,8 @@ class ListboxTextItem : public ListboxItem
 
     void setTextParsingEnabled(const bool enable);
     bool isTextParsingEnabled() const;
+    void SetTextHorFormat(ListBoxTextItemHorFormat format);
+    void setStaticImage(const string& name);
+    void setStaticImageWidthAndHeight(float width = -1.0f,
+                                      float height = -1.0f);
 };

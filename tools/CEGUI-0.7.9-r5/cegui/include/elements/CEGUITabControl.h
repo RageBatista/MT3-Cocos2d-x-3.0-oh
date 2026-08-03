@@ -197,6 +197,10 @@ public:
 	\exception	InvalidRequestException	thrown if \a index is out of range.
 	*/
     Window*	getTabContentsAtIndex(size_t index) const;
+    TabButton* getTabButtonAtIndex(size_t index) const
+    {
+        return index < d_tabButtonVector.size() ? d_tabButtonVector[index] : 0;
+    }
 
     /*!
     \brief
@@ -260,6 +264,8 @@ public:
         Return the amount of padding to add either side of the text in the tab
     */
     const UDim& getTabTextPadding(void) const { return d_tabPadding; }
+    float getTabSeparation(void) const { return d_tabSeparation; }
+    float getTabFirstInterval(void) const { return d_tabFirstInterval; }
 
 
     /*************************************************************************
@@ -288,6 +294,8 @@ public:
         Set the amount of padding to add either side of the text in the tab
     */
     void setTabTextPadding(const UDim& padding);
+    void setTabSeparation(float separation);
+    void setTabFirstInterval(float interval);
 
     /*!
     \brief
@@ -477,6 +485,8 @@ protected:
 	*************************************************************************/
     UDim        d_tabHeight;        //!< The height of the tabs in pixels
     UDim        d_tabPadding;       //!< The padding of the tabs relative to parent
+    float       d_tabSeparation;    //!< Pixel separation between adjacent tabs
+    float       d_tabFirstInterval; //!< Pixel interval before the first tab
     typedef std::vector<TabButton*> TabButtonVector;
     TabButtonVector d_tabButtonVector;  //!< Sorting for tabs
     float       d_firstTabOffset;   //!< The offset in pixels of the first tab
@@ -513,6 +523,8 @@ protected:
     static TabControlProperties::TabHeight       d_tabHeightProperty;
     static TabControlProperties::TabTextPadding  d_tabTextPaddingProperty;
     static TabControlProperties::TabPanePosition d_tabPanePosition;
+    static TabControlProperties::TabSeparation d_tabSeparationProperty;
+    static TabControlProperties::TabFirstInterval d_tabFirstIntervalProperty;
 
     /*************************************************************************
 		Private methods

@@ -86,6 +86,30 @@ void	TabPanePosition::set(PropertyReceiver* receiver, const String& value)
     static_cast<TabControl*>(receiver)->setTabPanePosition (tpp);
 }
 
+String TabSeparation::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::floatToString(
+        static_cast<const TabControl*>(receiver)->getTabSeparation());
+}
+
+void TabSeparation::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<TabControl*>(receiver)->setTabSeparation(
+        PropertyHelper::stringToFloat(value));
+}
+
+String TabFirstInterval::get(const PropertyReceiver* receiver) const
+{
+    return PropertyHelper::floatToString(
+        static_cast<const TabControl*>(receiver)->getTabFirstInterval());
+}
+
+void TabFirstInterval::set(PropertyReceiver* receiver, const String& value)
+{
+    static_cast<TabControl*>(receiver)->setTabFirstInterval(
+        PropertyHelper::stringToFloat(value));
+}
+
 
 } // End of  TabControlProperties namespace section
 

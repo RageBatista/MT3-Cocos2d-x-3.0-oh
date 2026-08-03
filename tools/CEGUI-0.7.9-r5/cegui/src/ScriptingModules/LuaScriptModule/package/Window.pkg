@@ -30,10 +30,45 @@ enum WindowUpdateMode
 };
 
 /****************************************
+	MT3 window effect modes
+*****************************************/
+enum CreateWindowEffect
+{
+    CreateWndEffect_None,
+    CreateWndEffect_Drop,
+    CreateWndEffect_FlyFromLeft,
+    CreateWndEffect_FlyFromRight,
+    CreateWndEffect_ZoomOut
+};
+
+enum WndEffectState
+{
+    WndEffectState_None,
+    WndEffectState_Ready,
+    WndEffectState_Go,
+    WndEffectState_Create,
+    WndEffectState_Close
+};
+
+enum CloseWndEffect
+{
+    CloseWndEffect_None,
+    CloseWndEffect_FlyUp,
+    CloseWndEffect_FlyDown,
+    CloseWndEffect_FlyLeft,
+    CloseWndEffect_FlyRight,
+    CloseWndEffect_ZoomIn
+};
+
+/****************************************
 	Window
 *****************************************/
 class Window //: public EventSet
 {
+    static const string EventLongPress;
+    static const string EventSlide;
+    static const string EventDrag;
+    static const string EventGuideEnd;
 	string getType() const;
 	string getName() const;
     tolua_throws|CEGUI::Exception,error| void rename(utf8string new_name);
@@ -61,7 +96,9 @@ class Window //: public EventSet
 	void setClippedByParent(bool setting);
 
 	unsigned int getID() const;
+	unsigned int getID2() const;
 	void setID(unsigned int ID);
+	void setID2(unsigned int ID);
 
 	unsigned int getChildCount() const;
 
@@ -308,12 +345,64 @@ class Window //: public EventSet
 
     tolua_throws|CEGUI::UnknownObjectException,error| tolua_outside EventConnection LuaFunctorSubscribeEvent @ subscribeEvent(utf8string name, lua_Object funcIndex, lua_Object selfIndex=LUA_NOREF, lua_Object error_handler = LUA_NOREF, lua_State*);
 
+    tolua_throws|CEGUI::UnknownObjectException,error| tolua_outside void LuaFunctorSubscribeDragEvent @ subscriberEventDrag(lua_Object funcIndex, lua_Object selfIndex=LUA_NOREF, lua_Object error_handler = LUA_NOREF, lua_State*);
+    tolua_throws|CEGUI::UnknownObjectException,error| tolua_outside void LuaFunctorSubscribeLongpressEvent @ subscriberEventLongPress(lua_Object funcIndex, lua_Object selfIndex=LUA_NOREF, lua_Object error_handler = LUA_NOREF, lua_State*);
+
 	tolua_throws|CEGUI::UnknownObjectException,error| EventConnection subscribeScriptedEvent @ subscribeEvent(utf8string name, utf8string callback_name);
 	
 	void fireEvent(utf8string name, EventArgs& args, utf8string eventnamespace="");
 
-	bool isMuted() const;
-	void setMutedState(bool setting);
+    bool isMuted() const;
+    void setMutedState(bool setting);
 
     tolua_outside EventIterator ceguiLua_getEventIterator @ getEventIterator() const;
+
+    // MT3 legacy sibling draw-order compatibility.
+    std::vector<Window*>& getDrawList();
+    void bringWindowAbove(Window* upperWnd, Window* lowerWnd);
+    void cleanupNonAutoChildren();
+    void setGeomRotation(const Vector3& rotation);
+    void setGeomScale(const Vector3& scale);
+    void setGeomPivot(const Vector3& pivot);
+    bool isInputFocus();
+    void SetDisplaySizeEnable(bool enabled);
+    bool isTextBorder() const;
+    void SetTextBoder(bool enabled);
+    const ColourRect& GetBorderColour() const;
+    void SetTextBorderColour(const ColourRect& value);
+    bool trySaveRenderedImageToFile(utf8string filename);
+
+    // MT3 APIs retained by the 0.7.9 C++ compatibility layer.
+    void BeginCreateEffect();
+    void CheckGuideEnd(MouseButton button);
+    void cleanupAllEvent();
+    void EnableAllowModalState(bool enabled);
+    void EnableDrag(bool enabled = true);
+    void EnableLongPress(bool enabled = true);
+    void FlyToScreenPoint(Point targetPoint, float time);
+    bool GetCloseIsHide() const;
+    CloseWndEffect GetCloseWndEffect() const;
+    CreateWindowEffect GetCreateWndEffect() const;
+    const Vector3& getScale() const;
+    Point GetScreenPos() const;
+    Point GetScreenPosOfCenter();
+    Point GetTopLeftPosOnParent();
+    float GetXOffset() const;
+    bool isFlash();
+    void SeModalStateDrawEffect(bool enabled);
+    void SetAllChildrenVis(bool visible);
+    void setAlwaysOnBottom(bool setting);
+    void SetCloseIsHide(bool enabled);
+    void SetDisplaySizeChangePosEnable(bool enabled);
+    void SetDragMoveEnable(bool enabled);
+    void SetEnableFlash(bool enabled);
+    void SetGuideState(bool hasGuide);
+    void SetHandleDragMove(bool enabled);
+    void SetLoadedDraw(bool loadedDraw);
+    void setScale(const Vector3& scale);
+    void SetTextColor(unsigned int color);
+    void setTopMost(bool enabled);
+    void ShowAll();
+    void StartFlash(float frequency = 1.5f);
+    void StopFlash();
 };

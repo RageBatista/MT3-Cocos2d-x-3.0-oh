@@ -399,6 +399,7 @@ public:
 	\return
 		Nothing
 	*/
+	virtual void initialiseComponents(void) { initialiseComponents(false); }
 	virtual void	initialiseComponents(bool bClone);
 
 
@@ -863,8 +864,7 @@ protected:
 	virtual void	onSized(WindowEventArgs& e);
 	virtual	void	onMouseWheel(MouseEventArgs& e);
     virtual	void	onMouseSlide(MouseEventArgs& e);
-    // MT3: Gesture module not available in CEGUI-0.7.9-r5
-    // virtual	bool	onMouseDrag(Gesture::CEGUIGestureRecognizer* pRecognizer);
+    virtual bool onMouseDrag(Gesture::CEGUIGestureRecognizer* recognizer);
 
 	virtual void onTextAcceptedEvent(WindowEventArgs& e);
 

@@ -239,7 +239,16 @@ System::System(Renderer& renderer,
   d_AnswerQuestionLinkFunc(NULL),
   d_CommonLinkFunc(NULL),
   d_requestOtherQuestFunc(NULL),
-  d_CheckShiedFunc(NULL)
+  d_ChatOutRootWnd(NULL),
+  d_ChatOutWndToolsTip(NULL),
+  d_ChatOutRootWndSize(0.0f, 0.0f),
+  d_adapter(NULL),
+  d_TextBrushImage(NULL),
+  d_CheckShiedFunc(NULL),
+  d_OpenDialogFunc(NULL),
+  d_EmotionParseInfFunc(NULL),
+  d_OnClickWp8EditAreaFunc(NULL),
+  d_OnClickEditAreaFunc(NULL)
 {
     // Start out by fixing the numeric locale to C (we depend on this behaviour)
     // consider a UVector2 as a property {{0.5,0},{0.5,0}} could become {{0,5,0},{0,5,0}}
@@ -417,19 +426,10 @@ System::~System(void)
 *************************************************************************/
 void System::renderGUI(void)
 {
-    static int sRenderTraceCount = 0;
-    const bool traceRender = (++sRenderTraceCount <= 3);
-    if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] renderGUI begin", Standard);
-
     d_renderer->beginRendering();
-    if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] beginRendering complete", Standard);
 
 	if (d_gui_redraw)
 	{
-        if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] gui redraw begin", Standard);
 		if (d_activeSheet)
 		{
             RenderingSurface& rs = d_activeSheet->getTargetRenderingSurface();
@@ -438,32 +438,18 @@ void System::renderGUI(void)
             if (rs.isRenderingWindow())
                 static_cast<RenderingWindow&>(rs).getOwner().clearGeometry();
 
-			if (traceRender)
-                Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] active sheet render begin", Standard);
 			d_activeSheet->render();
-            if (traceRender)
-                Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] active sheet render complete", Standard);
 		}
         // no sheet, so ensure default surface geometry is cleared
         else
             d_renderer->getDefaultRenderingRoot().clearGeometry();
 
 		d_gui_redraw = false;
-        if (traceRender)
-            Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] gui redraw complete", Standard);
 	}
 
-	if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] default root draw begin", Standard);
 	d_renderer->getDefaultRenderingRoot().draw();
-	if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] default root draw complete", Standard);
 	MouseCursor::getSingleton().draw();
-	if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] mouse cursor draw complete", Standard);
     d_renderer->endRendering();
-	if (traceRender)
-        Logger::getSingleton().logEvent("[MT3_RENDER_TRACE] endRendering complete", Standard);
 
     // do final destruction on dead-pool windows
     WindowManager::getSingleton().cleanDeadPool();
@@ -1735,6 +1721,7 @@ void System::addStandardWindowFactories()
     WindowFactoryManager::addFactory< TplWindowFactory<ScrolledContainer> >();
     WindowFactoryManager::addFactory< TplWindowFactory<ClippedContainer> >();
     WindowFactoryManager::addFactory< TplWindowFactory<CompnentTip> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<MessageTip> >();
     WindowFactoryManager::addFactory< TplWindowFactory<Checkbox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<PushButton> >();
     WindowFactoryManager::addFactory< TplWindowFactory<RadioButton> >();
@@ -1766,6 +1753,7 @@ void System::addStandardWindowFactories()
     WindowFactoryManager::addFactory< TplWindowFactory<GroupBox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<Tree> >();
     WindowFactoryManager::addFactory< TplWindowFactory<AnimateText> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<AnimationButton> >();
     WindowFactoryManager::addFactory< TplWindowFactory<GroupBtnTree> >();
     WindowFactoryManager::addFactory< TplWindowFactory<GroupButton> >();
     WindowFactoryManager::addFactory< TplWindowFactory<IrregularButton> >();
@@ -1773,6 +1761,8 @@ void System::addStandardWindowFactories()
     WindowFactoryManager::addFactory< TplWindowFactory<ItemCell> >();
     WindowFactoryManager::addFactory< TplWindowFactory<ItemCellGeneral> >();
     WindowFactoryManager::addFactory< TplWindowFactory<ItemTable> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<LinkText> >();
+    WindowFactoryManager::addFactory< TplWindowFactory<Panelbox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<ProgressBarTwoValue> >();
     WindowFactoryManager::addFactory< TplWindowFactory<SkillBox> >();
     WindowFactoryManager::addFactory< TplWindowFactory<Switch> >();

@@ -282,6 +282,22 @@ void BorderColour::set(PropertyReceiver* receiver, const String& value)
 }
 
 //----------------------------------------------------------------------------//
+String Title::get(const PropertyReceiver* receiver) const
+{
+    const FalagardStaticText* renderer = static_cast<const FalagardStaticText*>(
+        static_cast<const Window*>(receiver)->getWindowRenderer());
+    return PropertyHelper::boolToString(renderer->isTitle());
+}
+
+//----------------------------------------------------------------------------//
+void Title::set(PropertyReceiver* receiver, const String& value)
+{
+    FalagardStaticText* renderer = static_cast<FalagardStaticText*>(
+        static_cast<Window*>(receiver)->getWindowRenderer());
+    renderer->setTitleEnabled(PropertyHelper::stringToBool(value));
+}
+
+//----------------------------------------------------------------------------//
 
 } // End of  FalagardStaticTextProperties namespace section
 

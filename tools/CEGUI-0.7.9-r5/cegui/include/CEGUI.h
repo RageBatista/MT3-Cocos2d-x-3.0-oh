@@ -53,6 +53,10 @@
 #include "CEGUIFontManager.h"
 #include "CEGUIGeometryBuffer.h"
 #include "CEGUIGlobalEventSet.h"
+#include "gesture/CEGUIGestureRecognizer.h"
+#include "gesture/CEGUILongPressGestureRecognizer.h"
+#include "gesture/CEGUIPanGestureRecognizer.h"
+#include "gesture/CEGUIGestureRecognizerManager.h"
 #include "CEGUIImageCodec.h"
 #include "CEGUIImagesetManager.h"
 #include "CEGUIInputEvent.h"
@@ -114,4 +118,3 @@
 #include "elements/CEGUIAll.h"
 
 #endif	// end of guard _CEGUI_h_
-

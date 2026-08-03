@@ -13,16 +13,29 @@ function CEGUI.toWindowEventArgs(e)
     return tolua.cast(e,"const CEGUI::WindowEventArgs")
 end
 
+function CEGUI.toGestureEventArgs(e)
+    return tolua.cast(e,"const CEGUI::GestureEventArgs")
+end
+
 function CEGUI.toMessageTips(w)
-    -- MT3: MessageTip was renamed to CompnentTip in 0.7.9-r5; cast to the
-    -- actually-registered tolua usertype. CEGUIMessageTip.h provides a
-    -- C++ typedef but tolua only knows "CEGUI::CompnentTip".
-    return tolua.cast(w,"CEGUI::CompnentTip")
+    return tolua.cast(w,"CEGUI::MessageTip")
 end
 
 function CEGUI.toCompnentTip(w)
     -- MT3: alias matching the canonical C++ class name.
     return tolua.cast(w,"CEGUI::CompnentTip")
+end
+
+function CEGUI.toCEGUIPanGestureRecognizer(r)
+    return tolua.cast(r,"CEGUI::Gesture::CEGUIPanGestureRecognizer")
+end
+
+function CEGUI.toCEGUILongPressGestureRecognizer(r)
+    return tolua.cast(r,"CEGUI::Gesture::CEGUILongPressGestureRecognizer")
+end
+
+function CEGUI.toWindow(w)
+    return tolua.cast(w,"CEGUI::Window")
 end
 
 function CEGUI.toActivationEventArgs(e)
@@ -62,6 +75,7 @@ end
 
 CEGUI.EventArgs.toMouseCursorEventArgs      = CEGUI.toMouseCursorEventArgs
 CEGUI.EventArgs.toWindowEventArgs           = CEGUI.toWindowEventArgs
+CEGUI.EventArgs.toGestureEventArgs          = CEGUI.toGestureEventArgs
 CEGUI.EventArgs.toActivationEventArgs       = CEGUI.toActivationEventArgs
 CEGUI.EventArgs.toHeaderSequenceEventArgs   = CEGUI.toHeaderSequenceEventArgs
 CEGUI.EventArgs.toMouseEventArgs            = CEGUI.toMouseEventArgs

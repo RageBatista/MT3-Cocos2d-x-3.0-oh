@@ -151,3 +151,12 @@ class UpdateEventArgs : public WindowEventArgs
 
     float d_timeSinceLastFrame;
 };
+
+/***********************************************************************
+    GestureEventArgs
+***********************************************************************/
+class GestureEventArgs : public EventArgs
+{
+    GestureEventArgs(Gesture::CEGUIGestureRecognizer* recognizer);
+    Gesture::CEGUIGestureRecognizer* d_Recognizer;
+};

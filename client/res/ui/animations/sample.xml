@@ -188,6 +188,54 @@
 			<KeyFrame position="0.35" value="x:0 y:0 z:0" />
         </Affector>
     </AnimationDefinition>
+	<!--创建角色动画-->
+	<AnimationDefinition name="createrolebgl" duration="0.6" replayMode="once">
+		<Affector property="UnifiedXPosition" interpolator="UDim" applicationMethod="relative">
+			<KeyFrame position="0" value="{0,1280}" />
+			<KeyFrame position="0.6" value="{0,0}" progression="quadratic decelerating"/>
+		</Affector>
+		<Affector property="Alpha" interpolator="float">
+            <KeyFrame position="0" value="1.0" />
+            <KeyFrame position="0.1" value="0.9" progression="quadratic accelerating" />
+			<KeyFrame position="0.3" value="1.0" progression="quadratic accelerating" />
+        </Affector>
+	</AnimationDefinition>
+	<!--创建角色动画-->
+	<AnimationDefinition name="createrolebgr" duration="0.6" replayMode="once">
+		<Affector property="UnifiedXPosition" interpolator="UDim" applicationMethod="relative">
+			<KeyFrame position="0" value="{0,-1280}" />
+			<KeyFrame position="0.6" value="{0,0}" progression="quadratic decelerating"/>
+		</Affector>
+		<Affector property="Alpha" interpolator="float">
+            <KeyFrame position="0" value="1.0" />
+            <KeyFrame position="0.1" value="0.9" progression="quadratic accelerating" />
+			<KeyFrame position="0.3" value="1.0" progression="quadratic accelerating" />
+        </Affector>
+	</AnimationDefinition>
+	<!--创建角色动画-->
+	<AnimationDefinition name="createrolebgll" duration="0.6" replayMode="once">
+		<Affector property="Alpha" interpolator="float">
+            <KeyFrame position="0" value="1.0" />
+            <KeyFrame position="0.1" value="0.9" progression="quadratic accelerating" />
+			<KeyFrame position="0.3" value="1.0" progression="quadratic accelerating" />
+        </Affector>
+		<Affector property="UnifiedXPosition" interpolator="UDim" applicationMethod="relative">
+			<KeyFrame position="0" value="{0,0}" />
+			<KeyFrame position="0.6" value="{0,-1280}" progression="quadratic decelerating"/>
+		</Affector>
+	</AnimationDefinition>
+	<!--创建角色动画-->
+	<AnimationDefinition name="createrolebglr" duration="0.6" replayMode="once">
+		<Affector property="Alpha" interpolator="float">
+            <KeyFrame position="0" value="1.0" />
+            <KeyFrame position="0.1" value="0.9" progression="quadratic accelerating" />
+			<KeyFrame position="0.3" value="1.0" progression="quadratic accelerating" />
+        </Affector>
+		<Affector property="UnifiedXPosition" interpolator="UDim" applicationMethod="relative">
+			<KeyFrame position="0" value="{0,0}" />
+			<KeyFrame position="0.6" value="{0,1280}" progression="quadratic decelerating"/>
+		</Affector>
+	</AnimationDefinition>	
 	<!--原地跳跃-->
 	<AnimationDefinition name="Pet_egg1" duration="2" replayMode="loop">
         <Affector property="UnifiedYPosition" interpolator="UDim" applicationMethod="relative">

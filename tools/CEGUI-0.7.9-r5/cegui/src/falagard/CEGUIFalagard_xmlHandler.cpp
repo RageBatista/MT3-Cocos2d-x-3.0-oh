@@ -178,7 +178,7 @@ namespace CEGUI
         registerElementStartHandler(DimOperatorElement, &Falagard_xmlHandler::elementDimOperatorStart);
         registerElementStartHandler(VertFormatPropertyElement, &Falagard_xmlHandler::elementVertFormatPropertyStart);
         registerElementStartHandler(HorzFormatPropertyElement, &Falagard_xmlHandler::elementHorzFormatPropertyStart);
-        // MT3 custom TextComponent extension elements - registered as no-op to suppress errors
+        // MT3 custom TextComponent extension elements
         registerElementStartHandler(BorderEnablePropertyElement, &Falagard_xmlHandler::elementBorderEnablePropertyStart);
         registerElementStartHandler(BorderColourPropertyElement, &Falagard_xmlHandler::elementBorderColourPropertyStart);
         registerElementStartHandler(DefaultColourEnablePropertyElement, &Falagard_xmlHandler::elementDefaultColourEnablePropertyStart);
@@ -836,27 +836,29 @@ namespace CEGUI
 
     /*************************************************************************
         MT3 custom TextComponent extension elements
-        These are no-op handlers to suppress "unknown XML element" errors for
-        MT3's custom border/colour properties used in TextComponent.
     *************************************************************************/
     void Falagard_xmlHandler::elementBorderEnablePropertyStart(const XMLAttributes& attributes)
     {
-        // MT3 custom: no-op (border enable property name stored in attributes)
+        if (d_textcomponent)
+            d_textcomponent->setBorderEnablePropertySource(attributes.getValueAsString(NameAttribute));
     }
 
     void Falagard_xmlHandler::elementBorderColourPropertyStart(const XMLAttributes& attributes)
     {
-        // MT3 custom: no-op (border colour property name stored in attributes)
+        if (d_textcomponent)
+            d_textcomponent->setBorderColourPropertySource(attributes.getValueAsString(NameAttribute));
     }
 
     void Falagard_xmlHandler::elementDefaultColourEnablePropertyStart(const XMLAttributes& attributes)
     {
-        // MT3 custom: no-op (default colour enable property name stored in attributes)
+        if (d_textcomponent)
+            d_textcomponent->setDefaultColourEnablePropertySource(attributes.getValueAsString(NameAttribute));
     }
 
     void Falagard_xmlHandler::elementDefaultBorderEnablePropertyStart(const XMLAttributes& attributes)
     {
-        // MT3 custom: no-op (default border enable property name stored in attributes)
+        if (d_textcomponent)
+            d_textcomponent->setDefaultBorderEnablePropertySource(attributes.getValueAsString(NameAttribute));
     }
 
     /*************************************************************************

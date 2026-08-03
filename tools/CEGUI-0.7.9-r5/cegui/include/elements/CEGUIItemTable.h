@@ -42,6 +42,7 @@ namespace CEGUI
 		ItemTable(const String& type, const String& name);
 		virtual ~ItemTable(void);
 		void doTableRender();
+		virtual void initialiseComponents(void) { initialiseComponents(false); }
 		void initialiseComponents(bool bClone);
 		ItemCell* AddCell(size_t index);
 		void DestroyCell(size_t index);

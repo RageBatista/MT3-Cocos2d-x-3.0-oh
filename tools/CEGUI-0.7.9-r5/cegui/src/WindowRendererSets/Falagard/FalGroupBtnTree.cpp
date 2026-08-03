@@ -93,7 +93,8 @@ namespace CEGUI
 		String strRet;
 		if (d_window->getType().find("GroupBtnTree") != String::npos)
 		{
-			if (!mImagesetName0.empty() && !mImageName0.empty() && !mImagesetName1.empty() && mImageName1.empty())
+			if (!mImagesetName0.empty() && !mImageName0.empty() &&
+				!mImagesetName1.empty() && !mImageName1.empty())
 			{
 				strRet = mImagesetName0 + "," + mImageName0 + "," + mImagesetName1 + "," + mImageName1;
 			}
@@ -115,6 +116,11 @@ namespace CEGUI
 			String imageName0 = splits[1];
 			String imagesetName1 = splits[2];
 			String imageName1 = splits[3];
+
+			mImagesetName0 = imagesetName0;
+			mImageName0 = imageName0;
+			mImagesetName1 = imagesetName1;
+			mImageName1 = imageName1;
 
 			GroupBtnTree* tree = (GroupBtnTree*)d_window;
 			tree->SetMaskImage(0, imagesetName0, imageName0);

@@ -1,6 +1,13 @@
 /***********************************************************************
 	ScrollablePane
 ***********************************************************************/
+enum enumPageScrollMode
+{
+    eNoPageScroll,
+    eSinglePageScroll,
+    eMultiPageScroll
+};
+
 class ScrollablePane : public Window
 {
 	const ScrolledContainer* getContentPane() const;
@@ -39,6 +46,17 @@ class ScrollablePane : public Window
     Scrollbar* getVertScrollbar() const;
     Scrollbar* getHorzScrollbar() const;
 
+    void EnableVertScrollBar(bool enabled);
+    void EnableHorzScrollBar(bool enabled);
+    void EnableScrollDrag(bool enabled);
+    void EnableAllChildDrag(Window* window);
+    void EnableChildDrag(Window* window);
+    void cleanupNonAutoChildren();
+    float getScrollEndPos() const;
+
     void EnablePageScrollMode(bool enable);
     bool getPageScrollMode() const;
+    void setPaneScrollMode(int mode);
+    enumPageScrollMode getPaneScrollMode() const;
+    void StartPageScroll(float originalVelocity);
 };

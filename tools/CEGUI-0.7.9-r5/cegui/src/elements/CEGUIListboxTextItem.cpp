@@ -32,6 +32,7 @@
 #include "CEGUIFont.h"
 #include "CEGUIWindow.h"
 #include "CEGUIImage.h"
+#include "CEGUIPropertyHelper.h"
 
 // Start of CEGUI namespace section
 namespace CEGUI
@@ -52,9 +53,13 @@ const colour	ListboxTextItem::DefaultTextColour		= 0xFFFFFFFF;
 ListboxTextItem::ListboxTextItem(const String& text, uint item_id, void* item_data, bool disabled, bool auto_delete) :
 	ListboxItem(text, item_id, item_data, disabled, auto_delete),
 	d_textCols(DefaultTextColour, DefaultTextColour, DefaultTextColour, DefaultTextColour),
-	d_font(0),
+    d_font(0),
     d_renderedStringValid(false),
-    d_textParsingEnabled(true)
+    d_textParsingEnabled(true),
+    d_textHorFormat(eListBoxTextItemHorFormat_Left),
+    d_staticImage(0),
+    d_staticImageWidth(-1.0f),
+    d_staticImageHeight(-1.0f)
 {
 }
 
@@ -138,6 +143,21 @@ void ListboxTextItem::draw(GeometryBuffer& buffer, const Rect& targetRect,
         d_selectBrush->draw(buffer, targetRect, clipper,
                             getModulateAlphaColourRect(d_selectCols, alpha));
 
+    if (d_staticImage)
+    {
+        const float width = d_staticImageWidth < 0.0f ?
+            ceguimin(d_staticImage->getWidth(), targetRect.getWidth()) :
+            d_staticImageWidth;
+        const float height = d_staticImageHeight < 0.0f ?
+            ceguimin(d_staticImage->getHeight(), targetRect.getHeight()) :
+            d_staticImageHeight;
+        const Vector2 imagePosition(
+            targetRect.d_left + ceguimax((targetRect.getWidth() - width) * 0.5f, 0.0f),
+            targetRect.d_top + ceguimax((targetRect.getHeight() - height) * 0.5f, 0.0f));
+        d_staticImage->draw(buffer, imagePosition, Size(width, height), clipper,
+            getModulateAlphaColourRect(ColourRect(0xFFFFFFFF), alpha));
+    }
+
     Font* font = getFont();
 
     if (!font)
@@ -145,11 +165,17 @@ void ListboxTextItem::draw(GeometryBuffer& buffer, const Rect& targetRect,
 
     Vector2 draw_pos(targetRect.getPosition());
 
-    draw_pos.d_y += PixelAligned(
-        (font->getLineSpacing() - font->getFontHeight()) * 0.5f);
-
     if (!d_renderedStringValid)
         parseTextString();
+
+    const Size textSize(getPixelSize());
+    if (d_textHorFormat == eListBoxTextItemHorFormat_Center)
+        draw_pos.d_x += (targetRect.getWidth() - textSize.d_width) * 0.5f;
+    else if (d_textHorFormat == eListBoxTextItemHorFormat_Right)
+        draw_pos.d_x += targetRect.getWidth() - textSize.d_width;
+
+    draw_pos.d_y += PixelAligned(
+        (font->getLineSpacing() - font->getFontHeight()) * 0.5f);
 
     const ColourRect final_colours(
         getModulateAlphaColourRect(ColourRect(0xFFFFFFFF), alpha));
@@ -210,6 +236,19 @@ void ListboxTextItem::setTextParsingEnabled(const bool enable)
 bool ListboxTextItem::isTextParsingEnabled() const
 {
     return d_textParsingEnabled;
+}
+
+//----------------------------------------------------------------------------//
+void ListboxTextItem::setStaticImage(const String& name)
+{
+    d_staticImage = PropertyHelper::stringToImage(name);
+}
+
+//----------------------------------------------------------------------------//
+void ListboxTextItem::setStaticImageWidthAndHeight(float width, float height)
+{
+    d_staticImageWidth = width;
+    d_staticImageHeight = height;
 }
 
 //----------------------------------------------------------------------------//

@@ -200,8 +200,7 @@ Window* Switch::clone(Window* wnd)
 		if (!bClone)
 		{
 			getThumbBtn()->setMousePassThroughEnabled(true);
-			// MT3: EnableClickAni not available in CEGUI-0.7.9-r5
-			// EnableClickAni(false);
+			EnableClickAni(false);
 		}
 	}
 
