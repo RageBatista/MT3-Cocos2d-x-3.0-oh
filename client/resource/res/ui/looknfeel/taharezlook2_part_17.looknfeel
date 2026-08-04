@@ -1,0 +1,2206 @@
+<?xml version="1.0" ?>
+<Falagard>
+<WidgetLook name="TaharezLook/FrameWindowbt">
+        <PropertyDefinition name="ClientAreaColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+         <!--
+         <PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+          -->
+        
+        <Property name="UnifiedMinSize" value="{{0.1,0},{0.1,0}}" />
+        
+        <NamedArea name="ClientWithTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientWithTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientNoTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="common_bgcase" image="commonbg4" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="common_bgcase" image="commonbg2" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg6" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg8" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>                                                                                                                                                                                                     
+        </NamedArea>
+        <NamedArea name="ClientNoTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <Child type="TaharezLook/Titlebar" nameSuffix="__auto_titlebar__">
+            <Area>
+                
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="50" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="17" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-100" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="30" /></Dim>
+           
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+            <Property name="Visible" value="False" />
+        </Child>
+        <Child type="TaharezLook/ImageButton" nameSuffix="__auto_closebutton__">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                           <AbsoluteDim value="60"/> 
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="TopEdge" > <AbsoluteDim value="-0"/></Dim>
+                       
+                    
+                
+                <Dim type="Width" ><ImageDim imageset="ccdiban1" image="cxxx" dimension="Width" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="ccdiban1" image="cxxx" dimension="Height" /></Dim>
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+			<Property name="ClippedByParent" value="False" />
+            <Property name="NormalImage" value="set:ccdiban1 image:cxxx" />
+            <Property name="HoverImage" value="set:ccdiban1 image:cxxx" />
+            <Property name="PushedImage" value="set:ccdiban1 image:cxxx" />
+            
+        </Child>
+		<ImagerySection name="flower">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="80" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-175" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="24" /></Dim>
+            </Area>
+                 <Image type="LeftEdge" imageset="zhuangshiui" image="zhuangshi_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="zhuangshi_r" />
+                <Image type="Background" imageset="zhuangshiui" image="zhuangshi_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="youshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-246" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="229" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="31" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="youshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="zuoshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="17" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="428" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="230" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="zuoshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="qizi">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-44" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="54" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="31" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="29" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="qizi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="dingzi">
+            <FrameComponent>
+                <Area>
+				<Dim type="LeftEdge" ><UnifiedDim scale="0" offset="28" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-38" type="Height" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-50" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="16" /></Dim>
+            </Area>
+                <Image type="LeftEdge" imageset="zhuangshiui" image="ding_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="ding_r" />
+                <Image type="Background" imageset="zhuangshiui" image="ding_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+     <ImagerySection name="withtitle_frame">
+             
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+				<Image type="TopLeftCorner" imageset="ccui1" image="zstou1_01" />
+                <Image type="TopRightCorner" imageset="ccui1" image="zstou1_03" />
+                <Image type="BottomLeftCorner" imageset="ccui1" image="zstou1_07" />
+                <Image type="BottomRightCorner" imageset="ccui1" image="zstou1_09" />
+                <Image type="LeftEdge" imageset="ccui1" image="zstou1_04" />
+                <Image type="RightEdge" imageset="ccui1" image="zstou1_06" />
+                <Image type="TopEdge" imageset="ccui1" image="zstou1_02" />
+                <Image type="BottomEdge" imageset="ccui1" image="zstou1_08" />
+                <Image type="Background" imageset="ccui1" image="zstou1_05" />
+                
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>
+			
+		    <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="1" type="Height" /></Dim>
+                </Area>
+
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>	
+			           
+       
+        </ImagerySection>
+        <ImagerySection name="notitle_frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common_bgcase" image="commonbg1" />
+                <Image type="TopRightCorner" imageset="common_bgcase" image="commonbg3" />
+                <Image type="BottomLeftCorner" imageset="common_bgcase" image="commonbg7" />
+                <Image type="BottomRightCorner" imageset="common_bgcase" image="commonbg9" />
+				<Image type="TopEdge" imageset="common_bgcase" image="commonbg2" />
+                <Image type="Background" imageset="common_bgcase" image="commonbg5" />
+                <Image type="LeftEdge" imageset="common_bgcase" image="commonbg4" />
+                <Image type="RightEdge" imageset="common_bgcase" image="commonbg6" />
+                <Image type="BottomEdge" imageset="common_bgcase" image="commonbg8" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="withtitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="notitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="ActiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+				<Section section="flower" />
+				<Section section="lianzi" />
+				<Section section="youshang" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/FrameWindow3">
+        <PropertyDefinition name="ClientAreaColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+         <!--
+         <PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+          -->
+        
+        <Property name="UnifiedMinSize" value="{{0.1,0},{0.1,0}}" />
+        
+        <NamedArea name="ClientWithTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientWithTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientNoTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="common_bgcase" image="commonbg4" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="common_bgcase" image="commonbg2" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg6" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg8" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>                                                                                                                                                                                                     
+        </NamedArea>
+        <NamedArea name="ClientNoTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <Child type="TaharezLook/Titlebar" nameSuffix="__auto_titlebar__">
+            <Area>
+                
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="50" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="17" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-100" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="30" /></Dim>
+           
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+            <Property name="Visible" value="False" />
+        </Child>
+        <Child type="TaharezLook/ImageButton" nameSuffix="__auto_closebutton__">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                           <AbsoluteDim value="54"/> 
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="TopEdge" > <AbsoluteDim value="-2"/></Dim>
+                       
+                    
+                
+                <Dim type="Width" ><ImageDim imageset="ccui" image="cxxx" dimension="Width" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="ccui" image="cxxx" dimension="Height" /></Dim>
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+			<Property name="ClippedByParent" value="False" />
+            <Property name="NormalImage" value="set:ccui image:cxxx" />
+            <Property name="HoverImage" value="set:ccui image:cxxx" />
+            <Property name="PushedImage" value="set:ccui image:cxxx" />
+            
+        </Child>
+		<ImagerySection name="flower">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="80" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-175" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="24" /></Dim>
+            </Area>
+                 <Image type="LeftEdge" imageset="zhuangshiui" image="zhuangshi_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="zhuangshi_r" />
+                <Image type="Background" imageset="zhuangshiui" image="zhuangshi_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="youshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-246" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="229" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="31" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="youshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="zuoshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="17" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="428" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="230" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="zuoshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="qizi">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-44" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="54" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="31" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="29" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="qizi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="dingzi">
+            <FrameComponent>
+                <Area>
+				<Dim type="LeftEdge" ><UnifiedDim scale="0" offset="28" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-38" type="Height" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-50" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="16" /></Dim>
+            </Area>
+                <Image type="LeftEdge" imageset="zhuangshiui" image="ding_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="ding_r" />
+                <Image type="Background" imageset="zhuangshiui" image="ding_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+     <ImagerySection name="withtitle_frame">
+             
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="ccui" image="hendi1_lt" />
+                <Image type="TopRightCorner" imageset="ccui" image="hendi1_rt" />
+                <Image type="BottomLeftCorner" imageset="ccui" image="hendi1_lb" />
+                <Image type="BottomRightCorner" imageset="ccui" image="hendi1_rb" />
+                <Image type="LeftEdge" imageset="ccui" image="hendi1_lc" />
+                <Image type="RightEdge" imageset="ccui" image="hendi1_rc" />
+                <Image type="TopEdge" imageset="ccui" image="hendi1_ct" />
+                <Image type="BottomEdge" imageset="ccui" image="hendi1_cb" />
+                <Image type="Background" imageset="ccui" image="hendi1_cc" />
+                
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>
+			
+		    <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="1" type="Height" /></Dim>
+                </Area>
+
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>	
+			           
+       
+        </ImagerySection>
+        <ImagerySection name="notitle_frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common_bgcase" image="commonbg1" />
+                <Image type="TopRightCorner" imageset="common_bgcase" image="commonbg3" />
+                <Image type="BottomLeftCorner" imageset="common_bgcase" image="commonbg7" />
+                <Image type="BottomRightCorner" imageset="common_bgcase" image="commonbg9" />
+				<Image type="TopEdge" imageset="common_bgcase" image="commonbg2" />
+                <Image type="Background" imageset="common_bgcase" image="commonbg5" />
+                <Image type="LeftEdge" imageset="common_bgcase" image="commonbg4" />
+                <Image type="RightEdge" imageset="common_bgcase" image="commonbg6" />
+                <Image type="BottomEdge" imageset="common_bgcase" image="commonbg8" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="withtitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="notitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="ActiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+				<Section section="flower" />
+				<Section section="lianzi" />
+				<Section section="youshang" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/FrameWindowshdh">
+        <PropertyDefinition name="ClientAreaColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+         <!--
+         <PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+          -->
+        
+        <Property name="UnifiedMinSize" value="{{0.1,0},{0.1,0}}" />
+        
+        <NamedArea name="ClientWithTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientWithTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientNoTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="common_bgcase" image="commonbg4" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="common_bgcase" image="commonbg2" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg6" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg8" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>                                                                                                                                                                                                     
+        </NamedArea>
+        <NamedArea name="ClientNoTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <Child type="TaharezLook/Titlebar" nameSuffix="__auto_titlebar__">
+            <Area>
+                
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="50" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="17" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-100" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="30" /></Dim>
+           
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+            <Property name="Visible" value="False" />
+        </Child>
+        <Child type="TaharezLook/ImageButton" nameSuffix="__auto_closebutton__">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                           <AbsoluteDim value="60"/> 
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="TopEdge" > <AbsoluteDim value="-0"/></Dim>
+                       
+                    
+                
+                <Dim type="Width" ><ImageDim imageset="ccdiban1" image="cxxx" dimension="Width" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="ccdiban1" image="cxxx" dimension="Height" /></Dim>
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+			<Property name="ClippedByParent" value="False" />
+            <Property name="NormalImage" value="set:ccdiban1 image:cxxx" />
+            <Property name="HoverImage" value="set:ccdiban1 image:cxxx" />
+            <Property name="PushedImage" value="set:ccdiban1 image:cxxx" />
+            
+        </Child>
+		<ImagerySection name="flower">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="80" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-175" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="24" /></Dim>
+            </Area>
+                 <Image type="LeftEdge" imageset="zhuangshiui" image="zhuangshi_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="zhuangshi_r" />
+                <Image type="Background" imageset="zhuangshiui" image="zhuangshi_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="youshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-246" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="229" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="31" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="youshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="zuoshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="17" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="428" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="230" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="zuoshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="qizi">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-44" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="54" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="31" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="29" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="qizi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="dingzi">
+            <FrameComponent>
+                <Area>
+				<Dim type="LeftEdge" ><UnifiedDim scale="0" offset="28" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-38" type="Height" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-50" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="16" /></Dim>
+            </Area>
+                <Image type="LeftEdge" imageset="zhuangshiui" image="ding_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="ding_r" />
+                <Image type="Background" imageset="zhuangshiui" image="ding_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+     <ImagerySection name="withtitle_frame">
+             
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="Background" imageset="ccshenshou" image="shenshoudh" />
+                
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>
+			
+		    <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="1" type="Height" /></Dim>
+                </Area>
+
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>	
+			           
+       
+        </ImagerySection>
+        <ImagerySection name="notitle_frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common_bgcase" image="commonbg1" />
+                <Image type="TopRightCorner" imageset="common_bgcase" image="commonbg3" />
+                <Image type="BottomLeftCorner" imageset="common_bgcase" image="commonbg7" />
+                <Image type="BottomRightCorner" imageset="common_bgcase" image="commonbg9" />
+				<Image type="TopEdge" imageset="common_bgcase" image="commonbg2" />
+                <Image type="Background" imageset="common_bgcase" image="commonbg5" />
+                <Image type="LeftEdge" imageset="common_bgcase" image="commonbg4" />
+                <Image type="RightEdge" imageset="common_bgcase" image="commonbg6" />
+                <Image type="BottomEdge" imageset="common_bgcase" image="commonbg8" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="withtitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="notitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="ActiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+				<Section section="flower" />
+				<Section section="lianzi" />
+				<Section section="youshang" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/FrameWindowpkcpp">
+        <PropertyDefinition name="ClientAreaColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+         <!--
+         <PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+          -->
+        
+        <Property name="UnifiedMinSize" value="{{0.1,0},{0.1,0}}" />
+        
+        <NamedArea name="ClientWithTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientWithTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientNoTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="common_bgcase" image="commonbg4" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="common_bgcase" image="commonbg2" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg6" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg8" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>                                                                                                                                                                                                     
+        </NamedArea>
+        <NamedArea name="ClientNoTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <Child type="TaharezLook/Titlebar" nameSuffix="__auto_titlebar__">
+            <Area>
+                
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="50" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="17" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-100" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="30" /></Dim>
+           
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+            <Property name="Visible" value="False" />
+        </Child>
+        <Child type="TaharezLook/ImageButton" nameSuffix="__auto_closebutton__">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                           <AbsoluteDim value="60"/> 
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="TopEdge" > <AbsoluteDim value="-0"/></Dim>
+                       
+                    
+                
+                <Dim type="Width" ><ImageDim imageset="ccpkc" image="cxxx" dimension="Width" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="ccpkc" image="cxxx" dimension="Height" /></Dim>
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+			<Property name="ClippedByParent" value="False" />
+            <Property name="NormalImage" value="set:ccpkc image:cxxx" />
+            <Property name="HoverImage" value="set:ccpkc image:cxxx" />
+            <Property name="PushedImage" value="set:ccpkc image:cxxx" />
+            
+        </Child>
+		<ImagerySection name="flower">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="80" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-175" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="24" /></Dim>
+            </Area>
+                 <Image type="LeftEdge" imageset="zhuangshiui" image="zhuangshi_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="zhuangshi_r" />
+                <Image type="Background" imageset="zhuangshiui" image="zhuangshi_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="youshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-246" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="229" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="31" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="youshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="zuoshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="17" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="428" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="230" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="zuoshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="qizi">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-44" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="54" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="31" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="29" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="qizi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="dingzi">
+            <FrameComponent>
+                <Area>
+				<Dim type="LeftEdge" ><UnifiedDim scale="0" offset="28" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-38" type="Height" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-50" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="16" /></Dim>
+            </Area>
+                <Image type="LeftEdge" imageset="zhuangshiui" image="ding_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="ding_r" />
+                <Image type="Background" imageset="zhuangshiui" image="ding_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+     <ImagerySection name="withtitle_frame">
+             
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+				<Image type="TopLeftCorner" imageset="ccpkc" image="pkdz" />
+                
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>
+			
+		    <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="1" type="Height" /></Dim>
+                </Area>
+
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>	
+			           
+       
+        </ImagerySection>
+        <ImagerySection name="notitle_frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common_bgcase" image="commonbg1" />
+                <Image type="TopRightCorner" imageset="common_bgcase" image="commonbg3" />
+                <Image type="BottomLeftCorner" imageset="common_bgcase" image="commonbg7" />
+                <Image type="BottomRightCorner" imageset="common_bgcase" image="commonbg9" />
+				<Image type="TopEdge" imageset="common_bgcase" image="commonbg2" />
+                <Image type="Background" imageset="common_bgcase" image="commonbg5" />
+                <Image type="LeftEdge" imageset="common_bgcase" image="commonbg4" />
+                <Image type="RightEdge" imageset="common_bgcase" image="commonbg6" />
+                <Image type="BottomEdge" imageset="common_bgcase" image="commonbg8" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="withtitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="notitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="ActiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+				<Section section="flower" />
+				<Section section="lianzi" />
+				<Section section="youshang" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/FrameWindow3hbzz">
+        <PropertyDefinition name="ClientAreaColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+         <!--
+         <PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+          -->
+        
+        <Property name="UnifiedMinSize" value="{{0.1,0},{0.1,0}}" />
+        
+        <NamedArea name="ClientWithTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientWithTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientNoTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="common_bgcase" image="commonbg4" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="common_bgcase" image="commonbg2" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg6" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg8" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>                                                                                                                                                                                                     
+        </NamedArea>
+        <NamedArea name="ClientNoTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <Child type="TaharezLook/Titlebar" nameSuffix="__auto_titlebar__">
+            <Area>
+                
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="50" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="17" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-100" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="30" /></Dim>
+           
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+            <Property name="Visible" value="False" />
+        </Child>
+        <Child type="TaharezLook/ImageButton" nameSuffix="__auto_closebutton__">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                           <AbsoluteDim value="60"/> 
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="TopEdge" > <AbsoluteDim value="-0"/></Dim>
+                       
+                    
+                
+                <Dim type="Width" ><ImageDim imageset="cchuobanzz" image="zzcxx" dimension="Width" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="cchuobanzz" image="zzcxx" dimension="Height" /></Dim>
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+			<Property name="ClippedByParent" value="False" />
+            <Property name="NormalImage" value="set:cchuobanzz image:zzcxx" />
+            <Property name="HoverImage" value="set:cchuobanzz image:zzcxx" />
+            <Property name="PushedImage" value="set:cchuobanzz image:zzcxx" />
+            
+        </Child>
+		<ImagerySection name="flower">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="80" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-175" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="24" /></Dim>
+            </Area>
+                 <Image type="LeftEdge" imageset="zhuangshiui" image="zhuangshi_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="zhuangshi_r" />
+                <Image type="Background" imageset="zhuangshiui" image="zhuangshi_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="youshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-246" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="229" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="31" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="youshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="zuoshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="17" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="428" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="230" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="zuoshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="qizi">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-44" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="54" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="31" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="29" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="qizi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="dingzi">
+            <FrameComponent>
+                <Area>
+				<Dim type="LeftEdge" ><UnifiedDim scale="0" offset="28" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-38" type="Height" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-50" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="16" /></Dim>
+            </Area>
+                <Image type="LeftEdge" imageset="zhuangshiui" image="ding_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="ding_r" />
+                <Image type="Background" imageset="zhuangshiui" image="ding_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+     <ImagerySection name="withtitle_frame">
+             
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="Background" imageset="cchuobanzz" image="ccdiban" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>
+			
+		    <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="1" type="Height" /></Dim>
+                </Area>
+
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>	
+			           
+       
+        </ImagerySection>
+        <ImagerySection name="notitle_frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common_bgcase" image="commonbg1" />
+                <Image type="TopRightCorner" imageset="common_bgcase" image="commonbg3" />
+                <Image type="BottomLeftCorner" imageset="common_bgcase" image="commonbg7" />
+                <Image type="BottomRightCorner" imageset="common_bgcase" image="commonbg9" />
+				<Image type="TopEdge" imageset="common_bgcase" image="commonbg2" />
+                <Image type="Background" imageset="common_bgcase" image="commonbg5" />
+                <Image type="LeftEdge" imageset="common_bgcase" image="commonbg4" />
+                <Image type="RightEdge" imageset="common_bgcase" image="commonbg6" />
+                <Image type="BottomEdge" imageset="common_bgcase" image="commonbg8" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="withtitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="notitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="ActiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+				<Section section="flower" />
+				<Section section="lianzi" />
+				<Section section="youshang" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/FrameWindowxq">
+        <PropertyDefinition name="ClientAreaColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+         <!--
+         <PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+          -->
+        
+        <Property name="UnifiedMinSize" value="{{0.1,0},{0.1,0}}" />
+        
+        <NamedArea name="ClientWithTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientWithTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientNoTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="common_bgcase" image="commonbg4" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="common_bgcase" image="commonbg2" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg6" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg8" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>                                                                                                                                                                                                     
+        </NamedArea>
+        <NamedArea name="ClientNoTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <Child type="TaharezLook/Titlebar" nameSuffix="__auto_titlebar__">
+            <Area>
+                
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="50" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="17" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-100" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="30" /></Dim>
+           
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+            <Property name="Visible" value="False" />
+        </Child>
+        <Child type="TaharezLook/ImageButton" nameSuffix="__auto_closebutton__">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                           <AbsoluteDim value="70"/> 
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="TopEdge" > <AbsoluteDim value="-42"/></Dim>
+                       
+                    
+                
+                <Dim type="Width" ><ImageDim imageset="ccdiban1" image="cxxxx" dimension="Width" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="ccdiban1" image="cxxxx" dimension="Height" /></Dim>
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+			<Property name="ClippedByParent" value="False" />
+            <Property name="NormalImage" value="set:ccdiban1 image:cxxxx" />
+            <Property name="HoverImage" value="set:ccdiban1 image:cxxxx" />
+            <Property name="PushedImage" value="set:ccdiban1 image:cxxxx" />
+            
+        </Child>
+		<ImagerySection name="flower">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="80" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-175" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="24" /></Dim>
+            </Area>
+                 <Image type="LeftEdge" imageset="zhuangshiui" image="zhuangshi_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="zhuangshi_r" />
+                <Image type="Background" imageset="zhuangshiui" image="zhuangshi_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="youshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-246" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="229" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="31" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="youshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="zuoshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="17" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="428" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="230" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="zuoshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="qizi">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-44" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="54" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="31" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="29" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="qizi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="dingzi">
+            <FrameComponent>
+                <Area>
+				<Dim type="LeftEdge" ><UnifiedDim scale="0" offset="28" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-38" type="Height" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-50" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="16" /></Dim>
+            </Area>
+                <Image type="LeftEdge" imageset="zhuangshiui" image="ding_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="ding_r" />
+                <Image type="Background" imageset="zhuangshiui" image="ding_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+     <ImagerySection name="withtitle_frame">
+             
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+				<Image type="TopLeftCorner" imageset="ccdiban1" image="xuanqu_01" />
+				<Image type="TopRightCorner" imageset="ccdiban1" image="xuanqu_03" />
+                <Image type="BottomLeftCorner" imageset="ccdiban1" image="xuanqu_07" />
+                <Image type="BottomRightCorner" imageset="ccdiban1" image="xuanqu_09" />
+				<Image type="TopEdge" imageset="ccdiban1" image="xuanqu_02" />
+                <Image type="Background" imageset="ccdiban1" image="xuanqu_05" />
+                <Image type="LeftEdge" imageset="ccdiban1" image="xuanqu_04" />
+                <Image type="RightEdge" imageset="ccdiban1" image="xuanqu_06" />
+                <Image type="BottomEdge" imageset="ccdiban1" image="xuanqu_08" />
+                
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>
+			
+		    <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="1" type="Height" /></Dim>
+                </Area>
+
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>	
+			           
+       
+        </ImagerySection>
+        <ImagerySection name="notitle_frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common_bgcase" image="commonbg1" />
+                <Image type="TopRightCorner" imageset="common_bgcase" image="commonbg3" />
+                <Image type="BottomLeftCorner" imageset="common_bgcase" image="commonbg7" />
+                <Image type="BottomRightCorner" imageset="common_bgcase" image="commonbg9" />
+				<Image type="TopEdge" imageset="common_bgcase" image="commonbg2" />
+                <Image type="Background" imageset="common_bgcase" image="commonbg5" />
+                <Image type="LeftEdge" imageset="common_bgcase" image="commonbg4" />
+                <Image type="RightEdge" imageset="common_bgcase" image="commonbg6" />
+                <Image type="BottomEdge" imageset="common_bgcase" image="commonbg8" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="withtitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="notitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="ActiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame" />
+				<Section section="zuoshang" />
+				<Section section="youshang" />
+				<Section section="qizi" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+				<Section section="flower" />
+				<Section section="lianzi" />
+				<Section section="youshang" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/LoginYellowProgressBar">
+         <NamedArea name="ProgressAreaFrameEnable">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Green_lights" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="FrameBack">
+            <Layer>
+                <Section section="frame" />  
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Green_lights" />
+                
+            </Layer>
+        </StateImagery>
+		<StateImagery name="EnabledColorfulProgress">
+            <Layer>
+                <Section section="Colorful_lights" />
+                
+            </Layer>
+        </StateImagery>
+        <StateImagery name="LabelText">
+            <Layer>   
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ProgressBar">
+         <NamedArea name="ProgressAreaFrameEnable">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="-2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-2" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="4" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="4" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="common" image="common_xuetiaodi_l" />
+                <Image type="RightEdge" imageset="common" image="common_xuetiaodi_r" />
+                <Image type="Background" imageset="common" image="common_xuetiaodi_c" />
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Green_lights" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="common" image="common_green_l" />
+                <Image type="RightEdge" imageset="common" image="common_green_r" />
+                <Image type="Background" imageset="common" image="common_green_c" />
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="FrameBack">
+            <Layer>
+                <Section section="frame" />  
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Green_lights" />
+                
+            </Layer>
+        </StateImagery>
+		<StateImagery name="EnabledColorfulProgress">
+            <Layer>
+                <Section section="Colorful_lights" />
+                
+            </Layer>
+        </StateImagery>
+        <StateImagery name="LabelText">
+            <Layer>   
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/HeadProgressBar">
+         <NamedArea name="ProgressAreaFrameEnable">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="renwuui" image="jindutiao_l" />
+                <Image type="RightEdge" imageset="renwuui" image="jindutiao_r" />
+                <Image type="Background" imageset="renwuui" image="jindutiao_c" />
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Green_lights" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-6" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="-6" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="renwuui" image="jindu_l" />
+                <Image type="RightEdge" imageset="renwuui" image="jindu_r" />
+                <Image type="Background" imageset="renwuui" image="jindu_c" />
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="FrameBack">
+            <Layer>
+                <Section section="frame" />  
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Green_lights" />
+                
+            </Layer>
+        </StateImagery>
+		<StateImagery name="EnabledColorfulProgress">
+            <Layer>
+                <Section section="Colorful_lights" />
+                
+            </Layer>
+        </StateImagery>
+        <StateImagery name="LabelText">
+            <Layer>   
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/HeadProgressBarjdt">
+         <NamedArea name="ProgressAreaFrameEnable">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="ccui1" image="jdz" />
+                <Image type="RightEdge" imageset="ccui1" image="jdy1" />
+                <Image type="Background" imageset="ccui1" image="jdz1" />
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Green_lights" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-6" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="-6" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="ccui1" image="jdz" />
+                <Image type="RightEdge" imageset="ccui1" image="jdy1" />
+                <Image type="Background" imageset="ccui1" image="jdz1" />
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="FrameBack">
+            <Layer>
+                <Section section="frame" />  
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Green_lights" />
+                
+            </Layer>
+        </StateImagery>
+		<StateImagery name="EnabledColorfulProgress">
+            <Layer>
+                <Section section="Colorful_lights" />
+                
+            </Layer>
+        </StateImagery>
+        <StateImagery name="LabelText">
+            <Layer>   
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+</Falagard>

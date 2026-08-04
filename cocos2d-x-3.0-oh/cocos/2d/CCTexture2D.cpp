@@ -434,6 +434,8 @@ Texture2D::Texture2D()
 , _hasMipmaps(false)
 , _shaderProgram(nullptr)
 , _antialiasEnabled(true)
+, m_bIsEtcTexture(false)
+, m_etcAlphaChannel(0)
 {
 }
 

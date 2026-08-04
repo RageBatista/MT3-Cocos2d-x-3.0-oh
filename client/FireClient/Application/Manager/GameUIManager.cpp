@@ -2452,7 +2452,7 @@ void GameUImanager::UpdateSchemeLoading(unsigned int budgetMs)
 		return;
 	}
 
-	const unsigned int frameStartTick = Nuclear::GetMilliSeconds();
+	(void)budgetMs;
 	try
 	{
 		for (;;)
@@ -2473,14 +2473,15 @@ void GameUImanager::UpdateSchemeLoading(unsigned int budgetMs)
 				return;
 			}
 
-			const char* stage = scheme->getIncrementalLoadStageName();
+			const unsigned int progressBefore = (unsigned int)scheme->getIncrementalLoadedResourceCount();
 			const unsigned int itemStartTick = Nuclear::GetMilliSeconds();
 			const bool complete = scheme->loadNextResource();
 			const unsigned int itemElapsed = Nuclear::GetMilliSeconds() - itemStartTick;
 			if (itemElapsed > 16)
 			{
-				MT3_TRACE("[MT3_UI_INIT] incremental item slow scheme=%s stage=%s elapsedMs=%u progress=%u/%u",
-					scheme->getName().c_str(), stage, itemElapsed,
+				const char* stage = scheme->getIncrementalLoadStageName();
+				MT3_TRACE("[MT3_UI_INIT] incremental item slow scheme=%s stage=%s elapsedMs=%u progress=%u->%u/%u",
+					scheme->getName().c_str(), stage, itemElapsed, progressBefore,
 					(unsigned int)scheme->getIncrementalLoadedResourceCount(),
 					(unsigned int)scheme->getIncrementalTotalResourceCount());
 			}
@@ -2494,6 +2495,18 @@ void GameUImanager::UpdateSchemeLoading(unsigned int budgetMs)
 				}
 				else if (m_eUISchemeLoadPhase == eUISchemeLoad_FullPrimary)
 				{
+					CEGUI::ImagesetManager& imagesetManager = CEGUI::ImagesetManager::getSingleton();
+					CEGUI::WindowFactoryManager& factoryManager = CEGUI::WindowFactoryManager::getSingleton();
+					const bool resourcesReady = imagesetManager.isDefined("logindlginfo") &&
+						factoryManager.isFactoryPresent("TaharezLook/Editbox");
+					if (!resourcesReady)
+					{
+						m_eUISchemeLoadPhase = eUISchemeLoad_Failed;
+						MT3_TRACE("[MT3_UI_INIT] primary scheme validation failed elapsedMs=%u",
+							Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick);
+						return;
+					}
+
 					m_pSecondaryScheme = &CEGUI::SchemeManager::getSingleton().createDeferred("taharezlook2.scheme");
 					m_eUISchemeLoadPhase = eUISchemeLoad_FullSecondary;
 					MT3_TRACE("[MT3_UI_INIT] primary scheme ready elapsedMs=%u secondary=%u",
@@ -2504,12 +2517,12 @@ void GameUImanager::UpdateSchemeLoading(unsigned int budgetMs)
 				{
 					CEGUI::ImagesetManager& imagesetManager = CEGUI::ImagesetManager::getSingleton();
 					CEGUI::WindowFactoryManager& factoryManager = CEGUI::WindowFactoryManager::getSingleton();
-					const bool resourcesReady = imagesetManager.isDefined("logindlginfo") &&
-						factoryManager.isFactoryPresent("TaharezLook/Editbox");
+					const bool resourcesReady = imagesetManager.isDefined("back") &&
+						factoryManager.isFactoryPresent("TaharezLook/FrameWindowtouming");
 					if (!resourcesReady)
 					{
 						m_eUISchemeLoadPhase = eUISchemeLoad_Failed;
-						MT3_TRACE("[MT3_UI_INIT] full scheme validation failed elapsedMs=%u",
+						MT3_TRACE("[MT3_UI_INIT] secondary scheme validation failed elapsedMs=%u",
 							Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick);
 						return;
 					}
@@ -2517,16 +2530,15 @@ void GameUImanager::UpdateSchemeLoading(unsigned int budgetMs)
 					cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("CChatCellManager.Initialize_");
 					m_bUIPostInited = true;
 					m_eUISchemeLoadPhase = eUISchemeLoad_Complete;
-					MT3_TRACE("[MT3_UI_INIT] full schemes ready elapsedMs=%u",
+					MT3_TRACE("[MT3_UI_INIT] secondary scheme ready postInit=1 elapsedMs=%u",
 						Nuclear::GetMilliSeconds() - m_uiSchemeLoadStartTick);
 					return;
 				}
 			}
 
-			if (budgetMs == 0 || Nuclear::GetMilliSeconds() - frameStartTick >= budgetMs)
-			{
-				return;
-			}
+			// One declaration per frame keeps an expensive resource from being
+			// surrounded by additional synchronous CEGUI work in this frame.
+			return;
 		}
 	}
 	catch (const CEGUI::Exception& e)

@@ -126,6 +126,7 @@ namespace FireNet
 
 		NetKeepAliveTimer					mKeepalivetimer;
 		bool								mSaready;
+		aio::Protocol::Manager::Session::ID mServerAttrCloseSID;
 		gnet::ServerAttr					mServerAttr;
 		int                                 mServerPing;
 
@@ -139,6 +140,7 @@ namespace FireNet
 		{
 			mAcready = false;
 			mSaready = false;
+			mServerAttrCloseSID = 0;
 			mServerPing = 0;
 			mSecureLevel = 0;
 			mSID = 0;
@@ -791,7 +793,15 @@ namespace FireNet
 		const Session::ID mSID = session->getSID();
 		LoginScopedPtr login;
 		if (findLogin(mSID, login))
+		{
+			if (login->mServerAttrCloseSID == mSID)
+			{
+				login->mServerAttrCloseSID = 0;
+				login->mSID = 0;
+				return;
+			}
 			login->GetLoginConnector()->DispatchProtocol(this, mSID, new AuthError(login->mLid, NETOP_FIRENET, 0, session->getCloseInfo()));
+		}
 	}
 
 	void NetSessionManager::OnAddSession(Session::ID mSID, const FireNet::Connector& mAc, const std::string& hostaddr)
@@ -799,6 +809,7 @@ namespace FireNet
 		LoginScopedPtr login;
 		if (findLogin(mAc.udata, login))
 		{
+			login->mServerAttrCloseSID = 0;
 			login->mSID = mSID;
 			login->mHostAddress = hostaddr;
 			if (login.ptr->mParam.mConnectType == CONNECT_TYPE_TGW) 
@@ -856,6 +867,7 @@ namespace gnet
 				login->mServerAttr = this->mserverattr;
 				login->mSaready = true;
 				login->mParam.mVersion = this->version;
+				login->mServerAttrCloseSID = mSID;
 				manager->Close(mSID, "server attr");
 				login->GetLoginConnector()->OnAutoFailed(NETOP_SERVERATTR, 0, "server attr");
 				return;

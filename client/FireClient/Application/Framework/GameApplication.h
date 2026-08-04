@@ -450,6 +450,7 @@ private:
 
 	// init lua 系统 ， 不需要cleanup
 	bool InitLuaScriptModule();
+	bool InitLuaScriptEntry();
 	bool CleanupLuaScriptModule();
 
 	// logger

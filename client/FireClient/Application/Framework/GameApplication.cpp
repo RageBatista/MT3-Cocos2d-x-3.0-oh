@@ -1525,15 +1525,27 @@ bool GameApplication::InitLuaScriptModule()
     
 		pEngine->addSearchPath(path.c_str());
 
-		int dofileResult = pEngine->executeScriptFile("dofile_main.lua");
-		MT3_TRACE("GameApplication::InitLuaScriptModule executeScriptFile dofile_main.lua path=%s result=%d", path.c_str(), dofileResult);
-		if (dofileResult != 0)
-		{
-			MT3_TRACE("GameApplication::InitLuaScriptModule failed result=%d", dofileResult);
-			return false;
-		}
 	}
     return true;
+}
+
+bool GameApplication::InitLuaScriptEntry()
+{
+	cocos2d::LuaEngine* pEngine = cocos2d::LuaEngine::getInstance();
+	if (!pEngine)
+	{
+		MT3_TRACE("GameApplication::InitLuaScriptEntry LuaEngine missing");
+		return false;
+	}
+
+	const int dofileResult = pEngine->executeScriptFile("dofile_main.lua");
+	MT3_TRACE("GameApplication::InitLuaScriptEntry executeScriptFile dofile_main.lua result=%d", dofileResult);
+	if (dofileResult != 0)
+	{
+		MT3_TRACE("GameApplication::InitLuaScriptEntry failed result=%d", dofileResult);
+		return false;
+	}
+	return true;
 }
 
 bool GameApplication::CleanupLuaScriptModule()
@@ -2006,6 +2018,18 @@ bool GameApplication::OnInit(int step)
 	}
 	case 2:
 	{
+		core::Logger::flurryEvent(L"GameApplication_OnInit_InitLuaScriptEntry_start");
+		if (!InitLuaScriptEntry())
+		{
+			MT3_TRACE("GameApplication::OnInit step=2 InitLuaScriptEntry failed");
+			return false;
+		}
+		core::Logger::flurryEvent(L"GameApplication_OnInit_InitLuaScriptEntry_end");
+		MT3_TRACE("GameApplication::OnInit step=2 success");
+		return true;
+	}
+	case 3:
+	{
 #ifdef ANDROID
 		std::wstring strResDir = s2ws(CFileUtil::GetRootDir()) + L"/res/";
 #elif WIN7_32
@@ -2020,10 +2044,10 @@ bool GameApplication::OnInit(int step)
 		std::wstring strConfigDir = strResDir;
 		strConfigDir += L"table/bintable/";
 		std::wstring strErrorFileName;
-		MT3_TRACE("GameApplication::OnInit step=2 loadAllTable dir=%s", StringCover::to_string(strConfigDir).c_str());
+		MT3_TRACE("GameApplication::OnInit step=3 loadAllTable dir=%s", StringCover::to_string(strConfigDir).c_str());
 		if (!TableDataManager::instance().loadAllTable(strErrorFileName, strConfigDir))
 		{
-			MT3_TRACE("GameApplication::OnInit step=2 loadAllTable failed err=%s", StringCover::to_string(strErrorFileName).c_str());
+			MT3_TRACE("GameApplication::OnInit step=3 loadAllTable failed err=%s", StringCover::to_string(strErrorFileName).c_str());
 			return false;
 		}
 		SetXmlBeanReady(true);
@@ -2041,10 +2065,10 @@ bool GameApplication::OnInit(int step)
 		::OutputDebugStringA(strOut.c_str());
 	#endif
 #endif
-		MT3_TRACE("GameApplication::OnInit step=2 success");
+		MT3_TRACE("GameApplication::OnInit step=3 success");
 		return true;
 	}
-	case 3:
+	case 4:
 	{
 		core::Logger::flurryEvent(L"GameApplication_OnInit_GetEngine_start");
 		m_pEngine = Nuclear::GetEngine();
@@ -2063,51 +2087,51 @@ bool GameApplication::OnInit(int step)
 		::OutputDebugStringA(strOut.c_str());
 	#endif
 #endif
-		MT3_TRACE("GameApplication::OnInit step=3 success engine=%p", m_pEngine);
-		return true;
-	}
-	case 4:
-	{
-		GameUImanager::NewInstance();
-		gGetGameUIManager()->InitGameUI();
-		MT3_TRACE("GameApplication::OnInit step=4 success ui=%p", gGetGameUIManager());
+		MT3_TRACE("GameApplication::OnInit step=4 success engine=%p", m_pEngine);
 		return true;
 	}
 	case 5:
 	{
-		InitFont();
-		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("MT3HeroManager_Initialize");
-		MT3_TRACE("GameApplication::OnInit step=5 success");
+		GameUImanager::NewInstance();
+		gGetGameUIManager()->InitGameUI();
+		MT3_TRACE("GameApplication::OnInit step=5 success ui=%p", gGetGameUIManager());
 		return true;
 	}
 	case 6:
 	{
-		gGetWavRecorder()->initialize(CFileUtil::GetTempDir().c_str());
-		gGetSpaceManager()->Initialize(CFileUtil::GetTempDir().c_str());
-		gGetVoiceManager()->initialize();
-		MT3_TRACE("GameApplication::OnInit step=6 success temp=%s", CFileUtil::GetTempDir().c_str());
+		InitFont();
+		cocos2d::ScriptEngineManager::getInstance()->getScriptEngine()->executeGlobalFunction("MT3HeroManager_Initialize");
+		MT3_TRACE("GameApplication::OnInit step=6 success");
 		return true;
 	}
 	case 7:
 	{
-		GameConfigManager::NewInstance();
-		MT3_TRACE("GameApplication::OnInit step=7 success cfg=%p", gGetGameConfigManager());
+		gGetWavRecorder()->initialize(CFileUtil::GetTempDir().c_str());
+		gGetSpaceManager()->Initialize(CFileUtil::GetTempDir().c_str());
+		gGetVoiceManager()->initialize();
+		MT3_TRACE("GameApplication::OnInit step=7 success temp=%s", CFileUtil::GetTempDir().c_str());
 		return true;
 	}
 	case 8:
 	{
-		MT3_TRACE("GameApplication::OnInit step=8 before LoginManager::NewInstance");
-		LoginManager::NewInstance();
-		MT3_TRACE("GameApplication::OnInit step=8 after LoginManager::NewInstance login=%p", gGetLoginManager());
-		MT3_TRACE("GameApplication::OnInit step=8 before LoginManager::Init");
-		gGetLoginManager()->Init();
-		MT3_TRACE("GameApplication::OnInit step=8 success login=%p", gGetLoginManager());
+		GameConfigManager::NewInstance();
+		MT3_TRACE("GameApplication::OnInit step=8 success cfg=%p", gGetGameConfigManager());
 		return true;
 	}
 	case 9:
 	{
+		MT3_TRACE("GameApplication::OnInit step=9 before LoginManager::NewInstance");
+		LoginManager::NewInstance();
+		MT3_TRACE("GameApplication::OnInit step=9 after LoginManager::NewInstance login=%p", gGetLoginManager());
+		MT3_TRACE("GameApplication::OnInit step=9 before LoginManager::Init");
+		gGetLoginManager()->Init();
+		MT3_TRACE("GameApplication::OnInit step=9 success login=%p", gGetLoginManager());
+		return true;
+	}
+	case 10:
+	{
 		MessageManager::NewInstance();
-		MT3_TRACE("GameApplication::OnInit step=9 success msg=%p", gGetMessageManager());
+		MT3_TRACE("GameApplication::OnInit step=10 success msg=%p", gGetMessageManager());
 		return true;
 	}
 
@@ -2472,6 +2496,14 @@ void GameApplication::OnRenderInit(int now, int step, int totalstep)
     float screenheight = mode.height;
     float imagewidth = 1280;
     float imageheight = 720;
+	Nuclear::NuclearPictureInfo waitPictureInfo;
+	if (m_WaitPictureHandle != Nuclear::INVALID_PICTURE_HANDLE &&
+		Nuclear::GetEngine()->GetRenderer()->GetPictureInfo(m_WaitPictureHandle, waitPictureInfo) &&
+		waitPictureInfo.m_nPicWidth > 0 && waitPictureInfo.m_nPicHeight > 0)
+	{
+		imagewidth = (float)waitPictureInfo.m_nPicWidth;
+		imageheight = (float)waitPictureInfo.m_nPicHeight;
+	}
     Nuclear::NuclearFRectt rect(0.f, 0.f, screenwith, screenheight);
     if (((imagewidth*screenheight)/(imageheight*screenwith)) > 1)
     {
@@ -3260,7 +3292,7 @@ bool gRunGameApplication()
 	ep.multiSampleType = pGameApp->GetAntialiaseLevel(antialiasLevel);
 	ep.bEnableMipMap = pGameApp->isSpriteUseMipmap();
 
-	ep.nAppInitStepCount = 11;
+	ep.nAppInitStepCount = 12;
     ep.pApp = pApp;
 
 	Nuclear::Engine* pEngine = static_cast<Nuclear::Engine*>(Nuclear::GetEngine());

@@ -251,6 +251,33 @@ void NetConnection::OnAutoFailed(int netOperator, int e, const std::string & det
 	SDLOG_WARN(L"[LoginFlow] OnAutoFailed op=%d e=%d accountLen=%d detail=%ls",
 		netOperator, e, static_cast<int>(m_sAccount.length()), StringCover::to_wstring(detail).c_str());
 
+	if (netOperator == NETOP_SERVERATTR)
+	{
+		// Server status probes close their temporary session deliberately; this
+		// callback carries the probe result rather than an authentication error.
+		FireNet::ServerInfo info;
+		m_login->NetLoginModule_GetServerInfo(info);
+		if (gGetGameApplication()->isReconnecting())
+		{
+			TEMP_WARN(L"[OnAutoFailed] eServerAttr: %s (e=%d) (Reconnecting load:%d)", detail.c_str(), e, info.load);
+			if (info.load == 1 || info.load == 2 || info.load == 3)
+				cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.reconnectdlg\".onServerLoaded()");
+			else
+				cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.reconnectdlg\".onServerClosed()");
+		}
+		else
+		{
+			TEMP_WARN(L"[OnAutoFailed] eServerAttr: %s (SetServerLoad key:%d)", detail.c_str(), m_iKey);
+			gGetLoginManager()->SetServerLoad(m_iKey, info);
+		}
+		return;
+	}
+	if (netOperator == NETOP_FIRENET && m_sAccount.empty())
+	{
+		TEMP_WARN(L"[OnAutoFailed] eNet: %s (Account is empty)", detail.c_str());
+		return;
+	}
+
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("LoginWaitingDialog.DestroyDialog");
 	cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeGlobalFunction("OnAuthError");
 
@@ -305,11 +332,7 @@ void NetConnection::OnAutoFailed(int netOperator, int e, const std::string & det
     }
 	else if (netOperator == NETOP_FIRENET)
     {
-        if(m_sAccount.empty())
-        {
-			TEMP_WARN(L"[OnAutoFailed] eNet: %s (Account is empty)", detail.c_str());
-        }
-        else if(m_lastAccout.empty() == false)
+		if(m_lastAccout.empty() == false)
         {
 			int nGameState = gGetStateManager() ? gGetStateManager()->getGameState() : -1;
 
@@ -354,31 +377,6 @@ void NetConnection::OnAutoFailed(int netOperator, int e, const std::string & det
 		TEMP_WARN(L"[OnAutoFailed] eProtocol: %s (e=%d) (eExitToLogin)", detail.c_str(), e);
 
 		GameApplication::GetInstance().ExitGame(eExitType_ToLogin);
-    }
-	else if (netOperator == NETOP_SERVERATTR)
-    {
-		//不是错误。只是为了接收ServerAttr
-		FireNet::ServerInfo info;
-		m_login->NetLoginModule_GetServerInfo(info);
-
-		if (gGetGameApplication()->isReconnecting())
-		{
-			TEMP_WARN(L"[OnAutoFailed] eServerAttr: %s (e=%d) (Reconnecting load:%d)", detail.c_str(), e, info.load);
-			if (info.load == 1 || info.load == 2 || info.load == 3) //1.2畅通 3.爆满
-			{
-				cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.reconnectdlg\".onServerLoaded()");
-			}
-			else
-			{
-				cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->executeString("require \"logic.reconnectdlg\".onServerClosed()");
-			}
-		}
-		else
-		{
-			TEMP_WARN(L"[OnAutoFailed] eServerAttr: %s (SetServerLoad key:%d)", detail.c_str(), m_iKey);
-			gGetLoginManager()->SetServerLoad(m_iKey, info);
-		}
-
     }
 	else if (netOperator == NETOP_TIMEOUT)
     {

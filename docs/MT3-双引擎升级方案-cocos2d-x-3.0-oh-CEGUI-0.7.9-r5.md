@@ -4,15 +4,15 @@
 
 > **版本**：2.1.1
 > **制定日期**：2026-07-26
-> **修订日期**：2026-07-29 13:07 (UTC+8)
-> **状态**：[进行中] — 验收证据加权进度 **53.2%**；阶段 1-2 已完成，阶段 0/3-11 进行中，阶段 12 未启动；M1 已完成，M0/M2-M6 进行中，M7 未启动
+> **修订日期**：2026-08-04 18:55 (UTC+8)
+> **状态**：[进行中] — Win32 登录首帧黑屏根因已修复并取得 GPU 像素证据；Debug SafeChain、CEGUI 静态门禁和启动错误收敛已完成，Release、长时运行、完整交互及其他平台仍未闭环
 > **本次修订**：
 >
 >- **Win32 目标链闭环前移**：canonical 入口已支持 `-EngineProfile Upgrade30`，Debug 增量构建完成最终链接并生成目标 `MT3.exe`
->- **P0 崩溃修复**：修复 JPEG 8/9 ABI 混编与 SILLY `setjmp` 生命周期问题，移除重复动画定义；冷启动 11 步初始化和主循环已到达
+>- **P0 崩溃修复**：修复 JPEG 8/9 ABI 混编与 SILLY `setjmp` 生命周期问题，移除重复动画定义；Lua/Sprite/UI 初始化已拆分为 12 步，冷启动和主循环已到达
 >- **运行依赖审计**：Debug 运行目录严格审计 `MissingDepCount=0`、`MissingDepHighCount=0`、`RuntimeImportHighCount=0`，当前崩溃不是 DLL 缺失；Cocos/CEGUI 以静态库链接进入 `MT3.exe`
->- **资源链修复与暴露**：补齐 `beijingtu1-10` 图片实物和 `common_bgcase` 九宫格映射；仍有 45 个静态布局失败、29 个运行时未注册 Imageset、4 类旧 LookNFeel 元素及 `CompnentTip` 工厂缺口
->- **验收边界**：12:53 冷启动连续运行 60 秒，约 40 秒恢复响应，正常关窗退出码为 0，无新增 WER/`.dmp`；登录首屏仍报告黑屏，Release/clean build、交互、GPU 截图和全平台验收尚未闭环
+>- **资源链修复与暴露**：`validate-cegui-resources.ps1 -Json` 当前为 `Layouts=853 Passed=853 Failed=0`；`TaharezLook2` 的 597 个 `WidgetLook` 按原顺序拆为 37 份，最大单项 LookNFeel 解析耗时由 146ms 降至 48ms
+>- **验收边界**：2026-08-04 17:36 Debug SafeChain 产物冷启动 18 秒，首帧像素 `254,238,186,255`、GL 状态/绘制/读回错误均为 0，bootstrap 354ms、primary 2930ms、secondary 11622ms；Release、60 秒长稳、完整交互和全平台验收仍未闭环
 
 > **依赖文档**：
 >
@@ -558,13 +558,13 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 0 环境与基线 | 1 周 | 85% | [进行中] | VS2013/v120 与 Upgrade30 canonical profile 已可用；缺专用分支、旧基线和 clean 双配置证据 |
 | 1 Cocos 独立编译 | 2 周 | 100% | [已完成] | `cocos2d-x-3.0-oh/build/lib` 当前有 Debug 18 个、Release 17 个静态库 |
 | 2 CEGUI 独立编译 | 1.5 周 | 100% | [已完成] | Debug/Release v120 静态库当前存在 |
-| 3 Cocos2DRenderer | 3 周 | 75% | [进行中] | CEGUI/SILLY/JPEG 运行链已启动；登录画面、纹理状态和 RT/裁剪 TODO 未闭环 |
+| 3 Cocos2DRenderer | 3 周 | 75% | [进行中] | CEGUI/SILLY/JPEG 运行链和登录首帧已验证；RT/裁剪、多分辨率和交互 TODO 未闭环 |
 | 4 Nuclear 适配 | 2 周 | 80% | [进行中] | 双配置库及 Win32 启动/主循环/退出已有证据；触摸、调度、RT 专项未验 |
-| 5 CEGUI 定制模块 | 3 周 | 75% | [进行中] | 0.7.9 运行时初始化完成；29 个 Imageset 注册、4 类 LookNFeel 元素和 `CompnentTip` 未闭环 |
-| 6 FireClient | 4 周 | 85% | [进行中] | Upgrade30 Debug `MT3.exe` 已链接并完成 11 步初始化；Release、登录可视结果和交互未验 |
+| 5 CEGUI 定制模块 | 3 周 | 75% | [进行中] | 0.7.9 启动日志无 CEGUI error-like 行；长尾控件渲染和交互未闭环 |
+| 6 FireClient | 4 周 | 85% | [进行中] | Upgrade30 Debug SafeChain 已链接并完成 12 步初始化；Release、长稳和完整交互未验 |
 | 7 Lua + tolua++ | 2 周 | 60% | [进行中] | `dofile_main.lua` 与登录 Lua 入口运行成功；生成链和全量自定义控件仍未验 |
-| 8 资源兼容 | 1 周 | 55% | [进行中] | 动画重复和背景图实物已修；静态 812/857、运行时 29 个 Imageset 与 4 类旧元素仍失败 |
-| 9 平台适配 | 4 周 | 20% | [进行中] | Win32 Debug 构建/启动已到主循环；Release、Android/iOS 和 OHOS 未闭环 |
+| 8 资源兼容 | 1 周 | 55% | [进行中] | 当前资源集静态 853/853 通过，TaharezLook2 已拆分；统一 baseline 和长尾运行加载待验 |
+| 9 平台适配 | 4 周 | 20% | [进行中] | Win32 Debug SafeChain/启动已到登录和选服入口；Release、Android/iOS 和 OHOS 未闭环 |
 | 10 MT3 补丁 | 2 周 | 35% | [进行中] | JPEG ABI 已修；音频/Shader/压缩纹理/Lua/Spine 仍有存根/TODO |
 | 11 测试验证 | 4 周 | 5% | [进行中] | 已有 Win32 Debug 冷启动、DLL 审计和转储回归；功能/性能/稳定性矩阵未执行 |
 | 12 优化上线 | 3 周 | 0% | [未启动] | 依赖阶段 11 |
@@ -602,7 +602,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 3.2.5 | GeometryBuffer | [进行中] | 已编译；RenderCommand、裁剪、批处理未验 |
 | 3.2.6 | Render/Texture/ViewportTarget | [进行中] | 已编译；翻转、恢复、嵌套 RT 未验 |
 | 3.2.7 | Cocos2DImageCodec | [进行中] | 运行时采用 SILLY，JPEG 9 ABI 探针与解码路径已通过；PNG/压缩纹理和设计决策待补 |
-| 3.2.8 | CEGUI 初始化 + 基础 UI | [进行中] | `OnInit step=4 success` 且主循环到达；登录首屏仍黑，基础 UI 可视验收未通过 |
+| 3.2.8 | CEGUI 初始化 + 基础 UI | [进行中] | Debug 冷启动首帧像素非黑，`stateError/drawError/readError=0`；分辨率、控件交互和长时稳定性仍待验 |
 | 4.1 | engine 工程切到 3.0-oh | [已完成] | 工程路径已切换 |
 | 4.2 | EngineApp/Layer/Ticker API | [已完成] | 双配置编译 |
 | 4.3 | 触摸/draw/Director/GL API | [已完成] | 源码迁移已编译 |
@@ -623,8 +623,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 6.1 | FireClient 工程切换 | [已完成] | 已引用目标头/库路径，但 Cocos lib 路径尚未闭环 |
 | 6.2 | tolua/HTTP/类型兼容 | [已完成] | 已进入双配置静态库 |
 | 6.3 | FireClient Debug/Release | [已完成] | 177,398,148 / 128,040,360 bytes |
-| 6.4 | 最终 MT3.exe 链接 | [进行中] | Upgrade30 Debug `MT3.exe` 已生成并运行；clean Debug 和 Release 最终链接待补 |
-| 6.5 | 冷启动/CEGUI/登录首屏 | [进行中] | 11 步初始化、LoginManager、QuickLogin 和主循环已到达且无新转储；可视登录仍黑 |
+| 6.4 | 最终 MT3.exe 链接 | [进行中] | Debug `SafeChain` 已完成 `engine -> FireClient -> MT3` 全链重编并生成 32,288,256 bytes 产物；Release 最终链接待补 |
+| 6.5 | 冷启动/CEGUI/登录首屏 | [进行中] | 12 步初始化、LoginManager、QuickLogin 和主循环已到达；首帧像素非黑且无新转储，选服/登录交互矩阵仍待补 |
 | 6.6 | 5262 条警告分类/门禁 | [未启动] | 大量警告会掩盖新增缺陷 |
 | 7.1 | `.pkg` API 适配 | [已完成] | 有 3 文件/11 处修改记录 |
 | 7.2 | 重生成 LuaEngine.cpp | [未启动] | 无本轮生成日志 |
@@ -633,11 +633,11 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 7.5 | CEGUI LuaFunctor/事件 | [进行中] | 源码有修改，未运行时验证 |
 | 7.6 | Lua 全量加载/自定义控件 | [进行中] | `dofile_main.lua`、登录背景和快速登录入口已执行；全量业务脚本/自定义控件待回归 |
 | 8.1 | 资源类型/数量盘点 | [已完成] | 857 layout 等数量已核对 |
-| 8.2 | XML 可解析性 | [进行中] | 至少有 `jinglingtiwen.layout` 等解析错误 |
+| 8.2 | XML 可解析性 | [已完成（当前资源集）] | `validate-cegui-resources.ps1 -Json`：853/853 layouts 通过，37 份 `TaharezLook2` LookNFeel 全部可解析 |
 | 8.3 | Scheme/WidgetLook 映射 | [进行中] | 多个 `TaharezLook/*` 类型未映射 |
 | 8.4 | Imageset/Font 引用 | [进行中] | 631 个 `.imageset` 图片实物引用已齐；运行时仍有 29 个 Imageset 未注册及静态字体/图片缺口 |
-| 8.5 | 全量静态门禁 | [进行中] | 857 中 812 通过、45 失败，通过率 94.7%；统一 baseline gate 为 FAIL：418 项中 417 已知、1 项新增、3 项已解决 |
-| 8.6 | 目标运行时全量加载 | [进行中] | 启动 Scheme、动画和登录资源已实跑；长尾页面未覆盖，当前 CEGUI 日志仍有 2093 条错误 |
+| 8.5 | 全量静态门禁 | [进行中] | 当前资源集 853/853 layouts 通过；统一 baseline 历史差异和长尾页面仍需单独复核 |
+| 8.6 | 目标运行时全量加载 | [进行中] | 当前冷启动 `CEGUI_ct.log` 无 error/exception/failed/warning，长尾页面和完整业务资源组仍未覆盖 |
 
 #### 8.2.4 阶段 9-12
 
@@ -694,15 +694,15 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | FireClient 主要 API 适配 | FireClient 双配置 lib 存在 | 已验证（编译层） |
 | Win32 主工程路径切换 | 三个工程可检索到目标路径 | 已验证（配置层） |
 | sqlite/storage 缺口 | 修复已落库 | 部分验证，需 clean rebuild |
-| 资源检查工具 | 可复现 857/812/45；统一 gate 报告为 418 当前项、417 已知项、1 个新增 P1、3 个已解决项 | 已验证（工具层），业务门禁失败 |
+| 资源检查工具 | 当前资源集 `Layouts=853 Passed=853 Failed=0`，37 份 TaharezLook2 分片全部可解析 | 已验证（当前资源静态门禁）；统一 baseline 和长尾运行加载待复核 |
 | 平台壳层入口 | 旧 Win32/Android/iOS 入口探针通过 | 已验证（旧基线），不代表升级完成 |
-| Upgrade30 Debug 最终链接 | canonical `Incremental + Upgrade30 + StrictRuntimeAudit` 生成 24,704,000 bytes 的 `MT3.exe` | 已验证（Debug 增量构建层） |
+| Upgrade30 Debug 最终链接 | canonical `SafeChain + Upgrade30` 生成 32,288,256 bytes 的 `MT3.exe` | 已验证（Debug 全链重编层） |
 | Debug 运行目录 DLL | 严格审计 `MissingDepCount=0`、`MissingDepHighCount=0`、`RuntimeImportHighCount=0`；PE 仅直接导入系统库、`websockets.dll`、`libcurld.dll` 和 Debug CRT | 已验证，当前崩溃与 DLL 缺失无关；Cocos/CEGUI 为静态链接 |
 | JPEG 解码 ABI | 统一到 Cocos 3 JPEG 9，移除 wxJPEG 6b 对象并修复 SILLY `setjmp` 生命周期 | 已验证（ABI 探针、重建、MAP 与冷启动） |
 | CEGUI 动画重复 | 删除 `sample.xml` 中 4 个重复名称，保留比例坐标定义 | 已验证（重复名 0，`loadAnimationsFromXML` 错误消失） |
 | 登录背景图片实物 | `beijingtu1-10` 声明图片全部存在，631 个 `.imageset` 图片实物引用缺失数为 0 | 已验证（静态实物 + 运行时文件打开错误归零） |
 | `common_bgcase` 九宫格 | 复用 `common.png` 的 `common_bg2_*` 坐标并注册别名 Imageset | 已验证（9/9 坐标一致，运行时该错误由 512 次降为 0） |
-| Win32 Debug 冷启动 | 12:53 实测连续运行 60 秒；约 40 秒恢复响应，11 个 `OnInit` 步骤、QuickLogin、Ticker 主循环均到达，正常关窗退出码为 0 | 已验证（无新增 WER/`.dmp`），登录画面仍待 GPU 可视验收 |
+| Win32 Debug 冷启动 | 17:36 SafeChain 产物运行 18 秒；12 步初始化、QuickLogin、Ticker 和 secondary scheme 均到达，首帧像素非黑 | 已验证（无新增 `.dmp`）；60 秒长稳、关闭和完整交互待验 |
 
 ### 8.5 待解决问题、阻碍与责任
 
@@ -719,7 +719,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 3.2.5 | P0 | RenderCommand、裁剪、批处理未验 | 控件层级、DrawCall、可见区域 | GeometryBuffer 已编译 | 渲染/CEGUI 负责人（待实名） | 2026-08-08 |
 | 3.2.6 | P0 | 翻转、状态恢复、嵌套 RT 未验 | 特效、离屏渲染、设备恢复 | 相关 Target 类已编译 | 渲染/引擎负责人（待实名） | 2026-08-08 |
 | 3.2.7 | P0 | SILLY/JPEG 仅闭环 JPEG，PNG/压缩纹理和职责决策未完整 | 图片解码和三端兼容 | JPEG 9 ABI 与冷启动已通过 | 技术负责人/CEGUI 负责人（待实名） | 2026-08-03 决策 |
-| 3.2.8 | P0 | 登录客户区仍报告黑屏，缺可靠 GPU/像素和基础 UI 截图 | M2、登录可用性 | CEGUI 初始化和主循环已通过，GDI 截图不作为 GPU 画面通过证据 | 客户端集成/渲染负责人（待实名） | 2026-08-04 |
+| 3.2.8 | P0 | 首帧黑屏根因已修复；仍缺多分辨率、长稳和人工交互矩阵 | M2、登录可用性 | Debug SafeChain 冷启动首帧像素非黑，GL 状态/绘制/读回错误均为 0 | 客户端集成/渲染负责人（待实名） | 2026-08-04 |
 | 4.4 | P0 | MT3 定制 Texture2D/Image/GLProgram 等仍有存根 | Shader、纹理、字体、GL 行为 | 接口已进入 engine 双配置静态库 | Cocos/Nuclear 负责人（待实名） | 2026-08-10 |
 | 4.6 | P0 | 仅启动/主循环/退出有运行证据，触摸、调度和 RT 无专项用例 | M3、输入和场景稳定性 | 基础生命周期已到达 | Nuclear/QA 负责人（待实名） | 2026-08-10 |
 | 5.1 | P0 | 登录/核心控件仍未完成可视、输入和富文本验证 | 登录、主界面 | 初始化通过但画面未验收 | CEGUI/UI QA（待实名） | 2026-08-05 |
@@ -728,7 +728,7 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 5.4 | P0 | `CEGUI/CompnentTip` 工厂未注册，4 类旧 LookNFeel 元素产生 1209 次错误 | 控件创建、边框/颜色属性、日志质量 | 已定位 4 个元素名和单次工厂错误 | CEGUI 负责人（待实名） | 2026-08-04 |
 | 5.6 | P1 | 20+ 控件/16 渲染器缺截图、交互和日志证据 | M3 完整性 | 等待基础 UI 和控件用例 | CEGUI/UI QA（待实名） | 2026-08-14 |
 | 6.4 | P0 | Debug 增量最终链接已通过，clean Debug/Release 尚未闭环 | Win32 可复现构建和交付 | 目标 Debug `MT3.exe` 已运行 | Win32/引擎负责人（待实名） | 2026-08-03 |
-| 6.5 | P0 | 冷启动已到主循环，但登录首屏仍黑且核心交互未验 | M4、用户可用性 | 无新转储，启动链完成 | 客户端集成负责人（待实名） | 2026-08-05 |
+| 6.5 | P0 | 登录首帧已可见，核心交互、60 秒长稳和关闭矩阵未验 | M4、用户可用性 | 12 步初始化、QuickLogin、次级 scheme 完成且无新转储 | 客户端集成负责人（待实名） | 2026-08-05 |
 | 6.6 | P1 | 5262 条警告未分类和设门禁 | 新缺陷可见性、后续维护 | 当前只有数量记录 | 模块负责人/CI（待实名） | 2026-08-14 |
 | 7.2 | P0 | LuaEngine.cpp 未按修改后的 `.pkg` 重生成 | Lua ABI、方法表 | 源 `.pkg` 已修改 | Lua 工具链负责人（待实名） | 2026-08-10 |
 | 7.3 | P0 | LuaFireClient/Win32 绑定重生成被跳过 | Win32 Lua 桥接 | 已确认旧记录与生成门禁冲突 | Lua 工具链负责人（待实名） | 2026-08-10 |
@@ -738,8 +738,8 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 8.2 | P0 | layout XML 至少存在解析错误 | UI 启动和页面加载 | 已定位 `jinglingtiwen.layout` 等失败项 | UI 资源负责人（待实名） | 2026-08-10 |
 | 8.3 | P0 | 多个 `TaharezLook/*` WidgetLook 未映射 | 控件创建、皮肤显示 | 失败类型已分类 | UI 资源/CEGUI 负责人（待实名） | 2026-08-12 |
 | 8.4 | P0 | 图片实物引用已补齐，但运行时仍有 29 个 Imageset 未在 Scheme 注册 | 长尾 LookNFeel、图片和控件背景 | `common_bgcase` 已关闭；其余 29 个名称已统计 | UI 资源/CEGUI 负责人（待实名） | 2026-08-06 |
-| 8.5 | P0 | 静态门禁仍有 45/857 失败；`jinglingtiwen.layout` 旧解析缺陷因详细消息改变 issue ID，被 baseline 判为 1 个新增 P1 | M4、资源回归、门禁稳定性 | 当前通过 812/857（94.7%）；统一 gate 为 418/417/1/3 | UI 资源/门禁负责人（待实名） | 2026-08-13 |
-| 8.6 | P0 | 启动资源已实跑，但 CEGUI 当前仍有 2093 条错误且长尾页面未加载 | 真实依赖、日志和资源组完整性 | 动画/背景 P0 已关闭，首错已前移 | UI 资源/客户端集成负责人（待实名） | 2026-08-10 |
+| 8.5 | P0 | 当前资源集静态门禁已通过；统一 baseline 历史差异和长尾页面仍需复核 | M4、资源回归、门禁稳定性 | `validate-cegui-resources.ps1 -Json` 为 853/853，通过率 100% | UI 资源/门禁负责人（待实名） | 2026-08-13 |
+| 8.6 | P0 | 当前启动资源无 CEGUI error-like 日志，长尾页面和完整资源组未加载 | 真实依赖、日志和资源组完整性 | `CEGUI_ct.log` 当前 error/exception/failed/warning 计数为 0 | UI 资源/客户端集成负责人（待实名） | 2026-08-10 |
 | 9.2 | P0 | Win32 Debug 已运行，Release、黑屏、输入和关闭矩阵未闭环 | Win32 平台验收、M5 | 严格 DLL 审计和基础主循环通过 | Win32 负责人（待实名） | 2026-08-14 |
 | 9.3 | P1 | Android 工程仍引用 2.2.6 | APK、JNI、arm64 ABI | 尚未迁移 | Android 负责人（待实名） | 2026-08-28 |
 | 9.4 | P1 | iOS 工程仍引用 2.2.6/旧 CEGUI | iOS 构建、生命周期 | 尚未迁移，依赖 macOS/Xcode 执行器 | iOS 负责人（待实名） | 2026-09-11 |
@@ -766,10 +766,10 @@ M0 → M1 (Cocos + CEGUI 独立编译)
 | 阶段 0 | 80 / 良 | Upgrade30 profile 已可用；缺旧基线和 clean 双配置 | 固化 clean 命令、产物和旧版指标 |
 | 阶段 1 | 85 / 良 | 双配置产物齐全，非核心 cpp-tests 未覆盖 | 固化 clean build 命令、日志和产物清单 |
 | 阶段 2 | 85 / 良 | 缺 clean build 日志指纹 | 固化命令、日志、依赖指纹 |
-| 阶段 3 | 68 / 中 | JPEG/启动已验；黑屏和 Renderer TODO 未闭环 | GPU 画面、纹理、裁剪和 RT 回归 |
+| 阶段 3 | 72 / 中 | 首帧像素与 GL 错误已闭环；裁剪、RT、多分辨率仍未验 | 补 GPU 画面、纹理、裁剪和 RT 回归 |
 | 阶段 4 | 75 / 良 | 基础生命周期已验，触摸/调度/RT 缺专项 | 补独立用例 |
-| 阶段 5 | 60 / 中 | 初始化通过但 2093 条资源/旧元素错误、控件行为未验 | 先清日志首错，再分批截图/输入/事件回归 |
-| 阶段 6 | 78 / 良 | Debug 目标 exe 已运行；Release和可视登录未验 | clean 双配置 + 登录交互关闭阶段 |
+| 阶段 5 | 65 / 中 | 启动 CEGUI 错误已清零，长尾控件行为未验 | 分批截图、输入和事件回归 |
+| 阶段 6 | 82 / 良 | Debug SafeChain 和可视登录已验；Release、交互和长稳未验 | clean 双配置 + 登录交互关闭阶段 |
 | 阶段 7 | 60 / 中 | 启动 Lua 已运行，源定义和生成物仍可能漂移 | 强制重生成并比较符号/行为 |
 | 阶段 8 | 55 / 差 | 动画/背景已修，45 个静态失败与 29 个运行时 Imageset 仍在 | 分类旧缺陷/升级回归并全量加载 |
 | 阶段 9 | 40 / 差 | Win32 Debug 到主循环，其他配置/平台未验 | 平台拆负责人和独立门禁 |
@@ -817,14 +817,14 @@ OHOS 若纳入本期，需独立平台工作包并顺延至少 3-4 周；否则�
 
 | 证据 | 结果 |
 | --- | --- |
-| `git status --short` | 13:07 快照显示 Win32 链接诊断配置、背景资源、CEGUI Scheme 及未构建的图片空数据防御改动仍在工作树推进 |
+| `git status --short` | 2026-08-04 快照包含启动渲染、Lua/UI 初始化、服务器状态回调、字体和 TaharezLook2 分片改动 |
 | CMakeCache/vcxproj | VS2013/v120 已确认 |
-| 产物盘点 | Cocos/CEGUI/engine/FireClient 双配置存在；Upgrade30 Debug `MT3.exe` 为 24,704,000 bytes |
-| canonical 脚本检索 | wrapper/内部脚本已提供 `Upgrade30` profile，Debug 增量严格审计已执行 |
+| 产物盘点 | Cocos/CEGUI/engine/FireClient 双配置存在；18:30 Debug SafeChain 产物为 32,288,256 bytes，18:47 Debug FastLocal 复编后 `client/resource/bin/Debug/MT3.exe` 为 32,288,768 bytes |
+| canonical 脚本检索 | wrapper/内部脚本已提供 `Upgrade30` profile，Debug SafeChain 退出码 0 |
 | Renderer TODO 检索 | 压缩纹理、状态保存恢复、ABI 兼容存根未闭环 |
-| CEGUI 资源门禁 | 静态 FAIL：857/812/45；统一 baseline gate：418 当前、417 已知、1 新增、3 已解决，其中新增项为 `jinglingtiwen.layout` 旧解析缺陷的详细消息新 ID；运行时仍有 2093 条 CEGUI 错误 |
+| CEGUI 资源门禁 | `validate-cegui-resources.ps1 -Json`：853/853 layouts 通过；37 份 TaharezLook2 分片解析成功；未发布的 stock `TaharezLook` Imageset 引用已替换为实际使用的 `jiangli/zi`，18:49 的 `CEGUI_history.log` 与 `CEGUI_ct.log` 无 Error/Exception/布局加载失败 |
 | Android/iOS 工程 | 仍引用 2.2.6；iOS 仍引用旧 CEGUI |
-| Win32 冷启动 | 12:53 实测连续运行 60 秒，约 40 秒恢复响应；`OnInit` 11 步、QuickLogin、Ticker 到达，正常关窗退出码 0；无新 WER/`.dmp` |
+| Win32 冷启动 | 18:49 Debug 冷启动首帧 `rgba=254,238,186,255`；primary 约 2.9s、secondary 11.452s；`secondary scheme ready postInit=1` 后才恢复挂起的选服入口，未再出现 `TaharezLook/FrameWindowtouming` 注册错误 |
 | DLL/ABI | 严格审计 0 缺失；PE 导入表确认 Cocos/CEGUI 为静态链接；JPEG 9 ABI 探针、MAP 和冷启动通过 |
 
 ***

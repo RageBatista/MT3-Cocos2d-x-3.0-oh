@@ -1,0 +1,2220 @@
+<?xml version="1.0" ?>
+<Falagard>
+<WidgetLook name="TaharezLook/ProgressBarTwoValue">
+         <NamedArea name="ProgressAreaFrameEnable">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-4" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ProgressAreaFrameDisable">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1"  type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1"  type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="ccui" image="hongse" />
+                <!--<Image type="RightEdge" imageset="mainui" image="hongtiao_r" />
+                <Image type="Background" imageset="mainui" image="hongtiao_c" />-->
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Red_lights_Enable_NoFrame" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1"  type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1"  type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="ccui" image="hongse" />
+                <!--<Image type="RightEdge" imageset="mainui" image="hongtiao_r" />
+                <Image type="Background" imageset="mainui" image="hongtiao_c" />-->
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="Red_lights_Enable_WithFrame" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4"  type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="-4" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="ccui" image="hongse" />
+                <!--<Image type="RightEdge" imageset="mainui" image="hongtiao_r" />
+                <Image type="Background" imageset="mainui" image="hongtiao_c" />-->
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>      
+         <ImagerySection name="White_lights_NoFrame" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="ccui" image="hongse" />
+                <!--<Image type="RightEdge" imageset="mainui" image="hongtiao_r" />
+                <Image type="Background" imageset="mainui" image="hongtiao_c" />-->
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        
+         <ImagerySection name="White_lights_WithFrame" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="-4" type="Height" /></Dim>
+                </Area>
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+           <ImagerySection name="EnabledRedProgress_WithFrame" >
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="-4" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="ccui" image="hongse" />
+                <!--<Image type="RightEdge" imageset="mainui" image="hongtiao_r" />
+                <Image type="Background" imageset="mainui" image="hongtiao_c" />-->
+                <HorzFormat type="Tiled" />
+                <VertFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+  
+        <StateImagery name="EnabledRedProgress_WithFrame">
+            <Layer>
+               
+                
+                <Section section="Red_lights_Enable_WithFrame" />
+                
+            </Layer>
+        </StateImagery>
+        
+        <StateImagery name="EnabledRedProgress_NoFrame">
+            <Layer>
+               
+               
+                <Section section="Red_lights_Enable_NoFrame" />
+                
+            </Layer>
+        </StateImagery>
+         
+   			  <StateImagery name="DisabledRedProgress">
+            <Layer>
+                 
+                <Section section="EnabledRedProgress_WithFrame">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+                
+            </Layer>
+        </StateImagery>
+         <StateImagery name="EnabledWhiteProgress">
+            <Layer>        
+                <Section section="White_lights_WithFrame" />             
+            </Layer>
+        </StateImagery>
+         <StateImagery name="EnabledWhiteProgress_NoFrame">
+            <Layer>
+                <Section section="White_lights_NoFrame" />
+          
+            </Layer>
+        </StateImagery>
+        <StateImagery name="LabelText">
+            <Layer>
+               
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+         <StateImagery name="Frame">
+            <Layer>
+               
+                <Section section="frame" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/SliderThumb">
+        <Property name="VertFree" value="True" />
+        <ImagerySection name="normal">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="hover">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Normal">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Hover">
+            <Layer>
+                <Section section="hover" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Pushed">
+            <Layer>
+                <Section section="hover" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/HorizontalScrollbarThumb">
+        <Property name="HorzFree" value="True" />
+        <ImagerySection name="normal">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <Image  imageset="ccui1" image="zongseyuan" />
+               
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="hover">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+               <Image  imageset="ccui1" image="zongseyuan" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="pushed">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+               <Image  imageset="ccui1" image="zongseyuan" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Normal">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Hover">
+            <Layer>
+                <Section section="hover" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Pushed">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/HorizontalScrollbar">
+        <NamedArea name="ThumbTrackArea">
+           <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><AbsoluteDim value="36" /></Dim>
+                    
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/ImageButton" nameSuffix="__auto_incbtn__">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <UnifiedDim scale="1.0" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <AbsoluteDim value="27" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" type="RightEdge" /></Dim>
+               
+                
+                
+                <Dim type="Height" ><AbsoluteDim value="36" /></Dim>
+            </Area>
+			<Property name="Visible" value="False" />
+           
+        </Child>
+        <Child  type="TaharezLook/ImageButton" nameSuffix="__auto_decbtn__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="26" /></Dim>
+                 <Dim type="Height" ><AbsoluteDim value="36" /></Dim>
+            </Area>
+						<Property name="Visible" value="False" />
+        </Child>
+        <Child  type="TaharezLook/HorizontalScrollbarThumb" nameSuffix="__auto_thumb__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="46" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="46" /></Dim>
+            </Area>
+            <Property name="UnifiedMinSize" value="{{0,46},{0,46}}" />
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="5" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><AbsoluteDim value="36" /></Dim>
+                    
+                </Area>
+                
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/VerticalScrollbarThumb">
+        <Property name="VertFree" value="True" />
+        <ImagerySection name="normal">
+           
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                     <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="hover">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                     <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+         <ImagerySection name="pushed">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                     <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Normal">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Hover">
+            <Layer>
+                <Section section="hover" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Pushed">
+            <Layer>
+                <Section section="pushed" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/VerticalScrollbar">
+        <Property name="VerticalScrollbar" value="True" />
+        <NamedArea name="ThumbTrackArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="10" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1.0" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1.0" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <AbsoluteDim value="10" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/ImageButton" nameSuffix="__auto_incbtn__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="Width" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="10" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/ImageButton" nameSuffix="__auto_decbtn__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="Width" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="10" /></Dim>
+            </Area>
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbarThumb" nameSuffix="__auto_thumb__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="17" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="19" /></Dim>
+            </Area>
+           
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><AbsoluteDim value="17" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/Listbox">
+        <NamedArea name="ItemRenderingArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="5" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="5" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-6" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-6" type="Height" /></Dim>
+                
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-6" type="Width" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="6" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="6" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="-9" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHVScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-18" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-3" type="Height" /></Dim>
+            </Area>
+            <HorzAlignment type="RightAligned" />
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ComboDropList">
+        <NamedArea name="ItemRenderingArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="5" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="5" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-6" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-6" type="Height" /></Dim>
+                
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-6" type="Width" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="6" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="6" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="-9" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHVScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-18" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-3" type="Height" /></Dim>
+            </Area>
+            <HorzAlignment type="RightAligned" />
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/Spinner">
+        <Child  type="TaharezLook/Editbox" nameSuffix="__auto_editbox__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <AbsoluteDim value="0" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </Child>
+        <Child  type="TaharezLook/ImageButton" nameSuffix="__auto_incbtn__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="0.5" type="Height" /></Dim>
+            </Area>
+            <HorzAlignment type="RightAligned" />
+            <Property name="NormalImage" value="set:common image:common_biaoshi_cc" />
+            <Property name="HoverImage" value="set:common image:common_biaoshi_cc" />
+            <Property name="PushedImage" value="set:common image:common_biaoshi_cc" />
+        </Child>
+        <Child  type="TaharezLook/ImageButton" nameSuffix="__auto_decbtn__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0.5" type="TopEdge" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="0.5" type="Height" /></Dim>
+            </Area>
+            <HorzAlignment type="RightAligned" />
+            <Property name="NormalImage" value="set:common image:common_biaoshi_cc" />
+            <Property name="HoverImage" value="set:common image:common_biaoshi_cc" />
+            <Property name="PushedImage" value="set:common image:common_biaoshi_cc" />
+        </Child>
+        <StateImagery name="Enabled" />
+        <StateImagery name="Disabled" />
+    </WidgetLook>
+<WidgetLook name="TaharezLook/StaticShared">
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common" image="common_diban_lt" />
+                <Image type="TopRightCorner" imageset="common" image="common_diban_rt" />
+                <Image type="BottomLeftCorner" imageset="common" image="common_diban_lb" />
+                <Image type="BottomRightCorner" imageset="common" image="common_diban_rb" />
+                <Image type="LeftEdge" imageset="common" image="common_diban_lc" />
+                <Image type="RightEdge" imageset="common" image="common_diban_rc" />
+                <Image type="TopEdge" imageset="common" image="common_diban_ct" />
+                <Image type="BottomEdge" imageset="common" image="common_diban_cb" />
+                <Image type="Background" imageset="common" image="common_diban_cc" />
+                <ColourRectProperty name="FrameColours" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="background">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><ImageDim imageset="common" image="common_diban_lc" dimension="Width" /></Dim>
+                    <Dim type="TopEdge" ><ImageDim imageset="common" image="common_diban_ct" dimension="Height" /></Dim>
+                    <Dim type="RightEdge" >
+                        <UnifiedDim scale="1" type="RightEdge">
+                            <DimOperator op="Subtract">
+                                <ImageDim imageset="common" image="common_diban_rc" dimension="Width" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
+                    <Dim type="BottomEdge" >
+                        <UnifiedDim scale="1" type="BottomEdge">
+                            <DimOperator op="Subtract">
+                                <ImageDim imageset="common" image="common_diban_cb" dimension="Height" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
+                </Area>
+                <Image imageset="common" image="common_diban_cc" />
+                <!--<ColourRectProperty name="BackgroundColours" />-->
+                <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FFFFFFFF" bottomRight="FFFFFFFF" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="background_noframe">
+        	<FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common" image="wenzitext_lt" />
+                <Image type="TopRightCorner" imageset="common" image="wenzitext_rt" />
+                <Image type="BottomLeftCorner" imageset="common" image="wenzitext_lb" />
+                <Image type="BottomRightCorner" imageset="common" image="wenzitext_rb" />
+                <Image type="LeftEdge" imageset="common" image="wenzitext_lc" />
+                <Image type="RightEdge" imageset="common" image="wenzitext_rc" />
+                <Image type="TopEdge" imageset="common" image="wenzitext_ct" />
+                <Image type="BottomEdge" imageset="common" image="wenzitext_cb" />
+                <Image type="Background" imageset="common" image="wenzitext_cc" />
+                <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FFFFFFFF" bottomRight="FFFFFFFF" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/StaticShared2">
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="-3" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common" image="common_diban_lt" />
+                <Image type="TopRightCorner" imageset="common" image="common_diban_rt" />
+                <Image type="BottomLeftCorner" imageset="common" image="common_diban_lb" />
+                <Image type="BottomRightCorner" imageset="common" image="common_diban_rb" />
+                <Image type="LeftEdge" imageset="common" image="common_diban_lc" />
+                <Image type="RightEdge" imageset="common" image="common_diban_rc" />
+                <Image type="TopEdge" imageset="common" image="common_diban_ct" />
+                <Image type="BottomEdge" imageset="common" image="common_diban_cb" />
+                <Image type="Background" imageset="common" image="common_diban_cc" />
+                <ColourRectProperty name="FrameColours" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+
+            </FrameComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="background_noframe">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="common" image="common_xuetiaodi_l" />
+                <Image type="RightEdge" imageset="common" image="common_xuetiaodi_r" />
+                <Image type="Background" imageset="common" image="common_xuetiaodi_c" />
+                <!--<ColourRectProperty name="BackgroundColours" />-->
+                <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FFFFFFFF" bottomRight="FFFFFFFF" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/StaticShared3">
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="jingjichang" image="diban_l" />
+                <Image type="RightEdge" imageset="jingjichang" image="diban_r" />
+                <Image type="Background" imageset="jingjichang" image="diban_c" />
+                <ColourRectProperty name="FrameColours" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="background">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><ImageDim imageset="common" image="common_diban_lc" dimension="Width" /></Dim>
+                    <Dim type="TopEdge" ><ImageDim imageset="common" image="common_diban_ct" dimension="Height" /></Dim>
+                    <Dim type="RightEdge" >
+                        <UnifiedDim scale="1" type="RightEdge">
+                            <DimOperator op="Subtract">
+                                <ImageDim imageset="common" image="common_diban_rc" dimension="Width" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
+                    <Dim type="BottomEdge" >
+                        <UnifiedDim scale="1" type="BottomEdge">
+                            <DimOperator op="Subtract">
+                                <ImageDim imageset="common" image="common_diban_cb" dimension="Height" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
+                </Area>
+                <Image imageset="common" image="common_diban_cc" />
+                <!--<ColourRectProperty name="BackgroundColours" />-->
+                <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FFFFFFFF" bottomRight="FFFFFFFF" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>  
+        <ImagerySection name="background_noframe">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="LeftEdge" imageset="common" image="common_diban_lc" />
+                <Image type="RightEdge" imageset="common" image="common_diban_rc" />
+                <Image type="Background" imageset="common" image="common_diban_cc" />
+                <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FFFFFFFF" bottomRight="FFFFFFFF" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/StaticImage">
+		<PropertyDefinition name="ImageColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="VertFormatting" initialValue="Stretched" redrawOnWrite="true" />
+        <PropertyDefinition name="HorzFormatting" initialValue="Stretched" redrawOnWrite="true" />
+        <Property name="BackgroundEnabled" value="False" />
+        <Property name="FrameEnabled" value="False" />
+		<NamedArea name="ImageArea">
+                 <Area>
+					<Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+					<Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+					<Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+					<Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+				</Area>
+		</NamedArea>
+        <ImagerySection name="image_withframe">
+            <ImageryComponent>
+                <Area>
+					<Dim type="LeftEdge" ><ImageDim imageset="jiangli" image="zi" dimension="Width" /></Dim>
+					<Dim type="TopEdge" ><ImageDim imageset="jiangli" image="zi" dimension="Height" /></Dim>
+					<Dim type="RightEdge" >
+						<UnifiedDim scale="1" type="RightEdge">
+							<DimOperator op="Subtract">
+								<ImageDim imageset="jiangli" image="zi" dimension="Width" />
+							</DimOperator>
+						</UnifiedDim>
+					</Dim>
+					<Dim type="BottomEdge" >
+						<UnifiedDim scale="1" type="BottomEdge">
+							<DimOperator op="Subtract">
+								<ImageDim imageset="jiangli" image="zi" dimension="Height" />
+							</DimOperator>
+						</UnifiedDim>
+					</Dim>
+				</Area>
+                <ImageProperty name="Image" />
+                <ColourRectProperty name="ImageColours" />
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="image_noframe">
+            <ImageryComponent>
+                <Area>
+					<Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+					<Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+					<Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+					<Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+				</Area>
+                <ImageProperty name="Image" />
+                <ColourRectProperty name="ImageColours" />
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled" />
+        <StateImagery name="Disabled" />
+        <StateImagery name="EnabledFrame">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="frame" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="frame" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameEnabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="background" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameDisabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="background" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameEnabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="background_noframe" />
+                 <Section section="label" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameDisabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="background_noframe" />
+                 <Section section="label" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameImage">
+            <Layer>
+                <Section section="image_withframe" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameImage">
+            <Layer>
+                <Section section="image_noframe" />
+                 <Section section="label" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/StaticText">
+		<PropertyDefinition name="FrameColours" initialValue="tl:tl:FF563212 tr:FF563212 bl:FF563212 br:FF563212" redrawOnWrite="true" />
+		<PropertyDefinition name="BackgroundColours" initialValue="tl:FF563212 tr:FF563212 bl:FF563212 br:FF563212" redrawOnWrite="true" />
+        <Property name="FrameEnabled" value="False" />
+        <Property name="BackgroundEnabled" value="False" />
+        <Property name="TextColours" value="tl:fffff2df tr:fffff2df bl:fffff2df br:fffff2df" />
+        <NamedArea name="WithFrameTextRenderArea">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="4" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-10" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1"  type="Height" /></Dim>
+            </Area>
+            
+        </NamedArea>
+        
+        
+        
+        <NamedArea name="NoFrameTextRenderArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="4" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+       
+        <StateImagery name="Enabled" />
+        <StateImagery name="Disabled" />
+        <StateImagery name="EnabledFrame">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameEnabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="background" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameDisabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="background" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameEnabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameDisabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/StaticText2">
+		<PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+        <Property name="FrameEnabled" value="True" />
+        <Property name="BackgroundEnabled" value="False" />
+        <Property name="TextColours" value="fffff2df" />
+        <NamedArea name="WithFrameTextRenderArea">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="4" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-10" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1"  type="Height" /></Dim>
+            </Area>
+            
+        </NamedArea>
+        
+        
+        
+        <NamedArea name="NoFrameTextRenderArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="4" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+       
+        <StateImagery name="Enabled" />
+        <StateImagery name="Disabled" />
+         <StateImagery name="EnabledFrame">
+            <Layer>
+                <Section look="TaharezLook/StaticShared3" section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledFrame">
+            <Layer>
+                <Section look="TaharezLook/StaticShared3" section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameEnabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared3" section="background" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameDisabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared3" section="background" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameEnabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared3" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameDisabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared3" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/StaticTextTitle">
+		<PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+        <Property name="FrameEnabled" value="True" />
+        <Property name="BackgroundEnabled" value="False" />
+        <NamedArea name="WithFrameTextRenderArea">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="5" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-10" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1"  type="Height" /></Dim>
+            </Area>
+            
+        </NamedArea>
+        
+        
+        
+        <NamedArea name="NoFrameTextRenderArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+       
+        <StateImagery name="Enabled" />
+        <StateImagery name="Disabled" />
+        <StateImagery name="EnabledFrame">
+            <Layer>
+                <Section look="TaharezLook/StaticShared2" section="frame" />
+            </Layer>
+        </StateImagery>
+		        <StateImagery name="DisabledFrame">
+            <Layer>
+                <Section look="TaharezLook/StaticShared" section="frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="WithFrameEnabledBackground">
+        </StateImagery>
+        <StateImagery name="WithFrameDisabledBackground">
+        </StateImagery>
+        <StateImagery name="NoFrameEnabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared2" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="NoFrameDisabledBackground">
+            <Layer>
+                <Section look="TaharezLook/StaticShared2" section="background_noframe" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ListHeaderSegment">
+        <Property name="SizingCursorImage" value="set:jiangli image:zi" />
+        <Property name="MovingCursorImage" value="set:jiangli image:zi" />
+        <ImagerySection name="segment_normal">
+            <Colours topLeft="ff5a3b1f" topRight="ff5a3b1f" bottomLeft="ff5a3b1f" bottomRight="ff5a3b1f" />
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge" ><UnifiedDim scale="1" offset="0" type="RightEdge"/></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="segment_hover">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge" ><UnifiedDim scale="1" offset="0" type="RightEdge"/></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="splitter_normal">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="jiangli" image="zi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="RightAligned" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="splitter_hover">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image imageset="jiangli" image="zi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="RightAligned" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="ascend_icon">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                    <Dim type="Width" ><ImageDim imageset="jiangli" image="zi" dimension="Width" /></Dim>
+                    <Dim type="Height" ><ImageDim imageset="jiangli" image="zi" dimension="Height" /></Dim>
+                </Area>
+                <Image imageset="jiangli" image="zi" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="descend_icon">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                    <Dim type="Width" ><ImageDim imageset="jiangli" image="zi" dimension="Width" /></Dim>
+                    <Dim type="Height" ><ImageDim imageset="jiangli" image="zi" dimension="Height" /></Dim>
+                </Area>
+                <Image imageset="jiangli" image="zi" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                       
+                   
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge" ><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <StateImagery name="Normal">
+            <Layer>
+                <Section section="segment_normal" />
+                
+                <Section section="label" >
+                        <Colours topLeft="ff5a3b1f" topRight="ff5a3b1f" bottomLeft="ff5a3b1f" bottomRight="ff5a3b1f" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Hover">
+            <Layer>
+                <Section section="segment_hover" />
+                
+                <Section section="label" >
+                        <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="ff5a3b1f" bottomRight="ff5a3b1f" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SplitterHover">
+            <Layer>
+                <Section section="segment_normal" />
+                
+                 <Section section="label" >
+                        <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="ff5a3b1f" bottomRight="ff5a3b1f" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DragGhost" clipped="false" >
+            <Layer priority="1" >
+                <Section section="segment_normal" />
+                 <Section section="label" >
+                        <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="ff5a3b1f" bottomRight="ff5a3b1f" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="AscendingSortIcon">
+            <Layer>
+                <Section section="segment_hover" />
+                
+                <Section section="label" >
+                        <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FF42C8FF" bottomRight="FF42C8FF" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DescendingSortIcon">
+            <Layer>
+                <Section section="segment_hover" />
+                
+                <Section section="label" >
+                        <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FF42C8FF" bottomRight="FF42C8FF" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="GhostAscendingSortIcon" clipped="false">
+            <Layer>
+                <Section section="segment_hover" />
+                
+                <Section section="label" >
+                        <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FF42C8FF" bottomRight="FF42C8FF" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="GhostDescendingSortIcon" clipped="false">
+            <Layer>
+                <Section section="segment_hover" />
+                
+                <Section section="label" >
+                        <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FF42C8FF" bottomRight="FF42C8FF" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+             <Layer>
+                <Section section="segment_hover" />
+                
+                <Section section="label" >
+                        <Colours topLeft="FFFFFFFF" topRight="FFFFFFFF" bottomLeft="FF42C8FF" bottomRight="FF42C8FF" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ListHeader">
+        <Property name="SegmentWidgetType" value="TaharezLook/ListHeaderSegment" />
+        <StateImagery name="Enabled" />
+        <StateImagery name="Disabled" />
+    </WidgetLook>
+<WidgetLook name="TaharezLook/MultiColumnList">
+		<Property name="ListItemHeight" value="43" />
+        <NamedArea name="ItemRenderingArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-2" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-3" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-2" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-20" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-20" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-3" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-20" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/ListHeader" nameSuffix="__auto_listheader__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-1" type="RightEdge" /></Dim>
+                <Dim type="Height" >
+                    <FontDim type="LineSpacing">
+                        <DimOperator op="Multiply">
+                            <AbsoluteDim value="1.5" />
+                        </DimOperator>
+                    </FontDim>
+                </Dim>
+            </Area>
+        </Child>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-1" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-21" type="Width"  /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-2" type="BottomEdge" /></Dim>
+            </Area>
+           
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="cc25412" image="paihdzc1_01" />
+                <Image type="TopRightCorner" imageset="cc25412" image="paihdzc1_03" />
+                <Image type="BottomLeftCorner" imageset="cc25412" image="paihdzc1_07" />
+                <Image type="BottomRightCorner" imageset="cc25412" image="paihdzc1_09" />
+                <Image type="LeftEdge" imageset="cc25412" image="paihdzc1_04" />
+                <Image type="RightEdge" imageset="cc25412" image="paihdzc1_06" />
+                <Image type="TopEdge" imageset="cc25412" image="paihdzc1_02" />
+                <Image type="BottomEdge" imageset="cc25412" image="paihdzc1_08" />
+                <Image type="Background" imageset="cc25412" image="paihdzc1_05" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/MultiColumnListtm">
+		<Property name="ListItemHeight" value="43" />
+        <NamedArea name="ItemRenderingArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-2" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-3" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-2" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-20" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-20" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-3" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-20" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/ListHeader" nameSuffix="__auto_listheader__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-1" type="RightEdge" /></Dim>
+                <Dim type="Height" >
+                    <FontDim type="LineSpacing">
+                        <DimOperator op="Multiply">
+                            <AbsoluteDim value="1.5" />
+                        </DimOperator>
+                    </FontDim>
+                </Dim>
+            </Area>
+        </Child>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-1" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-21" type="Width"  /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-2" type="BottomEdge" /></Dim>
+            </Area>
+           
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <!--<Image type="TopRightCorner" imageset="huodong" image="huodongdi_rt" />
+                <Image type="BottomLeftCorner" imageset="huodong" image="huodongdi_lb" />
+                <Image type="BottomRightCorner" imageset="huodong" image="huodongdi_rb" />
+                <Image type="LeftEdge" imageset="huodong" image="huodongdi_lc" />
+                <Image type="RightEdge" imageset="huodong" image="huodongdi_rc" />
+                <Image type="TopEdge" imageset="huodong" image="huodongdi_ct" />
+                <Image type="BottomEdge" imageset="huodong" image="huodongdi_cb" />
+                <Image type="Background" imageset="huodong" image="huodongdi_cc" />-->
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/MultiColumnList2">
+		<Property name="ListItemHeight" value="43" />
+        <NamedArea name="ItemRenderingArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-2" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-3" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-2" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-20" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-20" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-3" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-20" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/ListHeader" nameSuffix="__auto_listheader__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-1" type="RightEdge" /></Dim>
+                <Dim type="Height" >
+                    <FontDim type="LineSpacing">
+                        <DimOperator op="Multiply">
+                            <AbsoluteDim value="1.5" />
+                        </DimOperator>
+                    </FontDim>
+                </Dim>
+            </Area>
+        </Child>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-1" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-21" type="Width"  /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-2" type="BottomEdge" /></Dim>
+            </Area>
+           
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/MultiColumnList1">
+        <NamedArea name="ItemRenderingArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-2" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-3" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-2" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-20" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-20" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-3" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ItemRenderingAreaHVScroll">
+            <Area>
+               <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-20" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/ListHeader" nameSuffix="__auto_listheader__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1" offset="-1" type="RightEdge" /></Dim>
+                <Dim type="Height" >
+                    <FontDim type="LineSpacing">
+                        <DimOperator op="Multiply">
+                            <AbsoluteDim value="1.5" />
+                        </DimOperator>
+                    </FontDim>
+                </Dim>
+            </Area>
+        </Child>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-1" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-21" type="Width"  /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_listheader__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1" offset="-2" type="BottomEdge" /></Dim>
+            </Area>
+           
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/Tooltip">
+        <NamedArea name="TextArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="10" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="10" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <AbsoluteDim value="10" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <AbsoluteDim value="6" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="10" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="6" /></Dim>
+                    <Dim type="RightEdge" >
+                        <UnifiedDim scale="1" type="RightEdge">
+                            <DimOperator op="Subtract">
+                                <AbsoluteDim value="10" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
+                    <Dim type="BottomEdge" >
+                        <UnifiedDim scale="1" type="BottomEdge">
+                            <DimOperator op="Subtract">
+                                <AbsoluteDim value="6" />
+                            </DimOperator>
+                        </UnifiedDim>
+                    </Dim>
+                </Area>
+                <Colours topLeft="fffff2df" topRight="fffff2df" bottomLeft="fffff2df" bottomRight="fffff2df" />
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="LeftAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ScrollablePane">
+        <NamedArea name="ViewableArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1.0" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ViewableAreaHScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1.0" offset="-1.0" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ViewableAreaVScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ViewableAreaHVScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-19" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+           
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-2" type="Height" /></Dim>
+            </Area>
+            <HorzAlignment type="RightAligned" />
+            
+        </Child>
+        <StateImagery name="Enabled" />
+        <StateImagery name="Disabled" />
+    </WidgetLook>
+<WidgetLook name="TaharezLook/TabButton">
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverTextColour" initialValue="tl:FF1AE7FF tr:FF1AE7FF bl:FF1AE7FF br:FF1AE7FF" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="tl:FF1AE7FF tr:FF1AE7FF bl:FF1AE7FF br:FF1AE7FF" redrawOnWrite="true" /> 
+		<PropertyDefinition name="NormalBorderColour" initialValue="FF4b0400" redrawOnWrite="true" /> 
+        <PropertyDefinition name="HoverBorderColour" initialValue="FF004093" redrawOnWrite="true" /> 
+        <PropertyDefinition name="PushedBorderColour" initialValue="tl:FF8C5E2A tr:FF8C5E2A bl:FF8C5E2A br:FF8C5E2A" redrawOnWrite="true" /> 
+        <PropertyDefinition name="DisableBorderColour" initialValue="FF004093" redrawOnWrite="true" /> 
+        <PropertyDefinition name="SelectedBorderColour" initialValue="FF00433D" redrawOnWrite="true" />
+        <Property name="AlwaysOnTop" value="True" />
+        <Property name="ClippedByParent" value="False" />
+        <NamedArea name="TextRenderArea">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="RightEdge" ><UnifiedDim scale="1.0" type="RightEdge" /></Dim>
+                <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="CentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+		<ImagerySection name="Leftlabel">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="LeftAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="top_normal">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="1" type="Height" /></Dim>
+                </Area>
+				<Image type="Background" imageset="common" image="common_buttonlan67" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="bot_normal">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="top_hover">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="bot_hover">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="top_selected">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+				<Image type="Background" imageset="common" image="common_buttonlan67" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="bot_selected">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+		 <ImagerySection name="left_normal">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><AbsoluteDim value="55" type="Width" /></Dim>
+                    <Dim type="Height" ><AbsoluteDim value="110" offset="0" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="left_hover">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+				
+				
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="left_selected">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="10" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><AbsoluteDim value="55" type="Width" /></Dim>
+                    <Dim type="Height" ><AbsoluteDim value="110" offset="0" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="TopNormal">
+            <Layer>
+                <Section section="top_normal" />
+               
+            </Layer>
+        </StateImagery>
+		 <StateImagery name="LeftNormal">
+            <Layer>
+                <Section section="left_normal" />
+               
+            </Layer>
+        </StateImagery>
+        <StateImagery name="BottomNormal">
+            <Layer>
+                <Section section="bot_normal" />
+                <Section section="label">
+                    <ColourProperty name="NormalTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="TopHover">
+            <Layer>
+                <Section section="top_normal" />
+               
+            </Layer>
+        </StateImagery>
+		<StateImagery name="LeftHover">
+            <Layer>
+                <Section section="left_normal" />
+               
+            </Layer>
+        </StateImagery>
+        <StateImagery name="BottomHover">
+            <Layer>
+                <Section section="bot_normal" />
+                <Section section="label">
+                    <ColourProperty name="NormalTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="TopSelected">
+            <Layer>
+                <Section section="top_selected" />
+               
+            </Layer>
+        </StateImagery>
+		<StateImagery name="LeftSelected">
+            <Layer>
+                <Section section="left_selected" />
+               
+            </Layer>
+        </StateImagery>
+        <StateImagery name="BottomSelected">
+            <Layer>
+                <Section section="bot_selected" />
+                <Section section="label">
+                    <ColourProperty name="SelectedTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="TopPushed">
+            <Layer>
+                <Section section="top_hover" />
+                
+            </Layer>
+        </StateImagery>
+		<StateImagery name="LeftPushed">
+            <Layer>
+                <Section section="left_hover" />
+                
+            </Layer>
+        </StateImagery>
+        <StateImagery name="BottomPushed">
+            <Layer>
+                <Section section="BottomHover" />
+                <Section section="label">
+                    <ColourProperty name="PushedTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="TopDisabled">
+            <Layer>
+                <Section section="top_normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+                
+            </Layer>
+        </StateImagery>
+		<StateImagery name="LeftDisabled">
+            <Layer>
+                <Section section="left_normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+               
+            </Layer>
+        </StateImagery>
+        <StateImagery name="BottomDisabled">
+            <Layer>
+                <Section section="bot_normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+                <Section section="label">
+                    <ColourProperty name="DisabledTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/TabContentPane">
+        <PropertyDefinition name="EnableTop" initialValue="0" redrawOnWrite="true" layoutOnWrite="true" />
+        <PropertyDefinition name="EnableBottom" initialValue="0" redrawOnWrite="true" layoutOnWrite="true" />
+		<PropertyDefinition name="EnableLeft" initialValue="0" redrawOnWrite="true" layoutOnWrite="true" />
+        <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/TabButtonPane">
+        <PropertyDefinition name="EnableTop" initialValue="1" redrawOnWrite="true" layoutOnWrite="true" />
+        <PropertyDefinition name="EnableBottom" initialValue="1" redrawOnWrite="true" layoutOnWrite="true" />
+		<PropertyDefinition name="EnableLeft" initialValue="1" redrawOnWrite="true" layoutOnWrite="true" />
+        <ImagerySection name="normal">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                   <Dim type="BottomEdge" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+</Falagard>

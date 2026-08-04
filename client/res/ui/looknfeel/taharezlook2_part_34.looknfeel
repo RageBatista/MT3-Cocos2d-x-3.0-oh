@@ -1,0 +1,2402 @@
+<?xml version="1.0" ?>
+<Falagard>
+<WidgetLook name="TaharezLook/ItemCell_bai">
+
+        
+         <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        
+        <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+         <NamedArea name="ItemCellRenderingArea">
+            <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertLabelFormatting" />
+                <HorzFormatProperty name="HorzLabelFormatting" />
+                <ColourProperty name="NormalTextColour" />
+                
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Enable">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+         <ImagerySection name="ItemInCell">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="MouseOn">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="Selected">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="SelectedMouseOn">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="BackGroundDisable">
+            <Layer>
+                
+            </Layer>
+        </StateImagery>
+       
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="Enable" />
+                <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Enable" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="ItemInCell">
+            <Layer>
+                <Section section="ItemInCell" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>  		
+        <StateImagery name="MouseOnEnabled">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedEnabled">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedMouseEnabled">
+            <Layer>
+                <Section section="SelectedMouseOn" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="WithBackGround">
+            <Layer>
+            </Layer>
+   </StateImagery>
+		<StateImagery name="MouseOnBackGround">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedBackGround">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedMouseBackGround">
+            <Layer>
+                <Section section="SelectedMouseOn" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_zuoqizs1">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+				<Image type="LeftEdge" imageset="asclb" image="ding_zuo" /><!-- 左中-->
+                <Image type="Background" imageset="asclb" image="ding_zhong" /><!-- 中-->
+                <Image type="RightEdge" imageset="asclb" image="ding_you" /><!-- 右中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_zuoqiskilldb">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+				<Image type="LeftEdge" imageset="asclb" image="zqdb_zuo" /><!-- 左中-->
+                <Image type="Background" imageset="asclb" image="zqdb_zhong" /><!-- 中-->
+                <Image type="RightEdge" imageset="asclb" image="zqdb_you" /><!-- 右中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_zuoqiskilldz">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+				<Image type="LeftEdge" imageset="asclb" image="dz_zuo" /><!-- 左中-->
+                <Image type="Background" imageset="asclb" image="dz_zhong" /><!-- 中-->
+                <Image type="RightEdge" imageset="asclb" image="dz_you" /><!-- 右中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_zuoqiwshchw">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ItemCellws">
+
+        
+         <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        
+        <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+         <NamedArea name="ItemCellRenderingArea">
+            <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertLabelFormatting" />
+                <HorzFormatProperty name="HorzLabelFormatting" />
+                <ColourProperty name="NormalTextColour" />
+                
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Enable">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+         <ImagerySection name="ItemInCell">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="MouseOn">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="Selected">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="SelectedMouseOn">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="BackGroundDisable">
+            <Layer>
+                
+            </Layer>
+        </StateImagery>
+       
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="Enable" />
+                <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Enable" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="ItemInCell">
+            <Layer>
+                <Section section="ItemInCell" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>  		
+        <StateImagery name="MouseOnEnabled">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedEnabled">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedMouseEnabled">
+            <Layer>
+                <Section section="SelectedMouseOn" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="WithBackGround">
+            <Layer>
+            </Layer>
+   </StateImagery>
+		<StateImagery name="MouseOnBackGround">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedBackGround">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedMouseBackGround">
+            <Layer>
+                <Section section="SelectedMouseOn" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ItemCellws2">
+
+        
+         <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        
+        <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+         <NamedArea name="ItemCellRenderingArea">
+            <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertLabelFormatting" />
+                <HorzFormatProperty name="HorzLabelFormatting" />
+                <ColourProperty name="NormalTextColour" />
+                
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Enable">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+         <ImagerySection name="ItemInCell">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="MouseOn">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="Selected">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="SelectedMouseOn">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1.0" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="BackGroundDisable">
+            <Layer>
+                
+            </Layer>
+        </StateImagery>
+       
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="Enable" />
+                <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Enable" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="ItemInCell">
+            <Layer>
+                <Section section="ItemInCell" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>  		
+        <StateImagery name="MouseOnEnabled">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedEnabled">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedMouseEnabled">
+            <Layer>
+                <Section section="SelectedMouseOn" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="WithBackGround">
+            <Layer>
+            </Layer>
+   </StateImagery>
+		<StateImagery name="MouseOnBackGround">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedBackGround">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedMouseBackGround">
+            <Layer>
+                <Section section="SelectedMouseOn" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_zuoqinamedi">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+				<Image type="LeftEdge" imageset="asclb" image="namedi_zuo" /><!-- 左中-->
+                <Image type="Background" imageset="asclb" image="namedi_zhong" /><!-- 中-->
+                <Image type="RightEdge" imageset="asclb" image="namedi_you" /><!-- 右中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_zuoqipetinfomb">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_zuoqitujian">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/zuoqinum_di">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/zuoqitujianname_di">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ranklistwjself_di">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/GroupButtonpaihang">
+
+		<PropertyDefinition name="NormalTextColour" initialValue="ff743a0f" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverTextColour" initialValue="FF7f4601" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="ff743a0f" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="ff743a0f" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="FF7f4601" redrawOnWrite="true" />
+         <PropertyDefinition name="ButtonBorderEnable" initialValue="False" redrawOnWrite="true" />
+        <PropertyDefinition name="ButtonBorderColour" initialValue="ff724515" redrawOnWrite="true" />
+        <PropertyDefinition name="ButtonDefaultBorderEnable" initialValue="False" redrawOnWrite="true" />
+        <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedImage" initialValue="" redrawOnWrite="true" />
+        
+		<ImagerySection name="normallabel">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertLabelFormatting" />
+                <HorzFormatProperty name="HorzLabelFormatting" />
+                <DefaultBorderEnableProperty name="ButtonDefaultBorderEnable" />
+                <ColourProperty name="NormalTextColour" />
+            </TextComponent>
+        </ImagerySection>
+		<ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertLabelFormatting" />
+                <HorzFormatProperty name="HorzLabelFormatting" />
+                <BorderEnableProperty name="ButtonBorderEnable" />
+                <BorderColourProperty name="ButtonBorderColour" />
+                <DefaultBorderEnableProperty name="ButtonDefaultBorderEnable" />
+                <ColourProperty name="SelectedTextColour" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="normal">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="NormalImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="hover">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="HoverImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="pushed">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="PushedImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="select_mark">
+             <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+            </FrameComponent>
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ImageProperty name="SelectedImage" />
+                <VertFormatProperty name="VertImageFormatting" />
+                <HorzFormatProperty name="HorzImageFormatting" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Normal">
+            <Layer>
+                <Section section="normal" />
+                <Section section="normallabel" />    
+              
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Hover">
+            <Layer>
+                <Section section="hover" />
+                <Section section="label" />  
+				
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Pushed">
+            <Layer>
+                <Section section="pushed" />
+                <Section section="label" />  
+				 
+            </Layer>
+        </StateImagery>
+        <StateImagery name="PushedOff">
+            <Layer>
+                <Section section="hover" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedNormal">
+            <Layer>
+                <Section section="normal" />
+                <Section section="select_mark" />
+                <Section section="label" />  
+               
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedHover">
+            <Layer>
+                <Section section="hover" />
+                <Section section="select_mark" />
+                <Section section="label" />  
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedPushed">
+            <Layer>
+                <Section section="pushed" />
+                <Section section="select_mark" />
+                <Section section="label" />  
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedPushedOff">
+            <Layer>
+                <Section section="PushedOff" />
+                <Section section="select_mark" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedDisabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+                <Section section="select_mark">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/payxianyuprice_di">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="Background" imageset="aalianyaosd" image="czxy_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="aalianyaosd" image="czxy_zuo" /><!-- 左中-->
+                <Image type="RightEdge" imageset="aalianyaosd" image="czxy_you" /><!-- 右中-->
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/paylibaoxg_di">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="Background" imageset="aalianyaosd" image="xg_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="aalianyaosd" image="xg_zuo" /><!-- 左中-->
+                <Image type="RightEdge" imageset="aalianyaosd" image="xg_you" /><!-- 右中-->
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/chongzhifanliaward_di">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="aalianyaosd" image="zq4_zuoshang" />   <!-- 左上-->
+                <Image type="TopRightCorner" imageset="aalianyaosd" image="zq4_youshang" />  <!-- 右上-->
+                <Image type="BottomLeftCorner" imageset="aalianyaosd" image="zq4_zuoxia" /> <!-- 左下-->
+                <Image type="BottomRightCorner" imageset="aalianyaosd" image="zq4_youxia" /><!-- 右下-->
+				<Image type="TopEdge" imageset="aalianyaosd" image="zq4_dingzhong" /><!-- 中顶-->
+                <Image type="Background" imageset="aalianyaosd" image="zq4_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="aalianyaosd" image="zq4_zuozhong" /><!-- 左中-->
+                <Image type="RightEdge" imageset="aalianyaosd" image="zq4_youzhong" /><!-- 右中-->
+                <Image type="BottomEdge" imageset="aalianyaosd" image="zq4_dizhong" /><!-- 底中-->
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_wgycmenlian">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+				<Image type="LeftEdge" imageset="awaiguanyichu" image="ml_zuo" /><!-- 左中-->
+                <Image type="Background" imageset="awaiguanyichu" image="ml_zhong" /><!-- 中-->
+                <Image type="RightEdge" imageset="awaiguanyichu" image="ml_you" /><!-- 右中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/POPORichEditbox2">
+
+        <PropertyDefinition name="NormalTextColour" initialValue="FFEB5972" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
+        <PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
+       
+        <NamedArea name="TextArea">
+            <Area>
+              <Dim type="LeftEdge" ><AbsoluteDim value="15" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="20" /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="-40" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="-20" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaHScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+               <Dim type="Width" ><UnifiedDim scale="1" offset="-6" type="Width" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaVScroll">
+            <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" offset="-1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+               <Dim type="Height" ><UnifiedDim scale="1" offset="-6" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaHVScroll">
+            <Area>
+                  <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-1" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-21" type="Width"  /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-6" type="Height" /></Dim>
+            </Area>
+           
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="awaiguanyichu" image="mpk1_zuoshang" />   <!-- 左上-->
+                <Image type="TopRightCorner" imageset="awaiguanyichu" image="mpk1_youshang" />  <!-- 右上-->
+                <Image type="BottomLeftCorner" imageset="awaiguanyichu" image="mpk1_zuoxia" /> <!-- 左下-->
+                <Image type="BottomRightCorner" imageset="awaiguanyichu" image="mpk1_youxia" /><!-- 右下-->
+				<Image type="TopEdge" imageset="awaiguanyichu" image="mpk1_dingzhong" /><!-- 中顶-->
+                <Image type="Background" imageset="awaiguanyichu" image="mpk1_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="awaiguanyichu" image="mpk1_zuozhong" /><!-- 左中-->
+                <Image type="RightEdge" imageset="awaiguanyichu" image="mpk1_youzhong" /><!-- 右中-->
+                <Image type="BottomEdge" imageset="awaiguanyichu" image="mpk1_dizhong" /><!-- 底中-->
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="Carat">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><AbsoluteDim value="1" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ReadOnly">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/FrameWindowccx">
+
+        <PropertyDefinition name="ClientAreaColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+         <!--
+         <PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+          -->
+        
+        <Property name="UnifiedMinSize" value="{{0.1,0},{0.1,0}}" />
+        
+        <NamedArea name="ClientWithTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientWithTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="ClientNoTitleWithFrame">
+            <Area>
+                <Dim type="LeftEdge" ><ImageDim imageset="common_bgcase" image="commonbg4" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="common_bgcase" image="commonbg2" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg6" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="common_bgcase" image="commonbg8" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>                                                                                                                                                                                                     
+        </NamedArea>
+        <NamedArea name="ClientNoTitleNoFrame">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <Child type="TaharezLook/Titlebar" nameSuffix="__auto_titlebar__">
+            <Area>
+                
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="50" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="17" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-100" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="30" /></Dim>
+           
+            </Area>
+            <Property name="AlwaysOnTop" value="True" />
+            <Property name="Visible" value="False" />
+        </Child>
+        <Child type="TaharezLook/ImageButton" nameSuffix="__auto_closebutton__">
+            <Area>
+                <Dim type="LeftEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                           <AbsoluteDim value="130"/> 
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="TopEdge" > <AbsoluteDim value="-2"/></Dim>
+                       
+                    
+                
+                <Dim type="Width" ><ImageDim imageset="common" image="common_X" dimension="Width" /></Dim>
+                <Dim type="Height" ><ImageDim imageset="common" image="common_X" dimension="Height" /></Dim>
+            </Area>
+            
+        </Child>
+		<ImagerySection name="flower">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="160" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="20" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-275" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="24" /></Dim>
+            </Area>
+                 <Image type="LeftEdge" imageset="zhuangshiui" image="zhuangshi_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="zhuangshi_r" />
+                <Image type="Background" imageset="zhuangshiui" image="zhuangshi_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="youshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-285" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="229" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="31" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="youshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="zuoshang">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="56" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="63" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="428" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="230" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="zuoshang" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="youxia">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-635" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-332" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="579" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="314" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="youxia" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="zuoxia">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="56" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-248" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="428" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="230" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="zuoxia" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="qizi">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-80" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="54" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="31" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="29" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="qizi" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="yuanpan">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="37" type="Width" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="0" offset="-19" type="Height" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="110" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="108" /></Dim>
+            </Area>
+                <Image type="Background" imageset="zhuangshiui" image="yuanpan" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="lianzi">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><UnifiedDim scale="0" offset="200" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="-83" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-378" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="106" /></Dim>
+            </Area>
+                 <Image type="LeftEdge" imageset="zhuangshiui" image="suolian_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="suolian_r" />
+                <Image type="Background" imageset="zhuangshiui" image="suolian_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+		<ImagerySection name="dingzi">
+            <FrameComponent>
+                <Area>
+				<Dim type="LeftEdge" ><UnifiedDim scale="0" offset="62" type="LeftEdge" /></Dim>
+                <Dim type="TopEdge" ><UnifiedDim scale="1" offset="-36" type="Height" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-118" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="16" /></Dim>
+            </Area>
+                <Image type="LeftEdge" imageset="zhuangshiui" image="ding_l" />
+                <Image type="RightEdge" imageset="zhuangshiui" image="ding_r" />
+                <Image type="Background" imageset="zhuangshiui" image="ding_c" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+     <ImagerySection name="withtitle_frame">
+             
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="cc2543" image="diban2" />
+                <!--<Image type="TopRightCorner" imageset="common" image="common_bg2_rt" />
+                <Image type="BottomLeftCorner" imageset="common" image="common_bg2_lb" />
+                <Image type="BottomRightCorner" imageset="common" image="common_bg2_rb" />
+				<Image type="TopEdge" imageset="common" image="common_bg2_ct" />
+                <Image type="Background" imageset="common" image="common_bg2_cc" />
+                <Image type="LeftEdge" imageset="common" image="common_bg2_lc" />
+                <Image type="RightEdge" imageset="common" image="common_bg2_rc" />
+                <Image type="BottomEdge" imageset="common" image="common_bg2_cb" />-->
+                
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>
+			
+		    <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="2" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="-1" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" offset="-4" type="Width" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="1" type="Height" /></Dim>
+                </Area>
+
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+                
+            </FrameComponent>	
+			           
+       
+        </ImagerySection>
+        <ImagerySection name="notitle_frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="common_bgcase" image="commonbg1" />
+                <Image type="TopRightCorner" imageset="common_bgcase" image="commonbg3" />
+                <Image type="BottomLeftCorner" imageset="common_bgcase" image="commonbg7" />
+                <Image type="BottomRightCorner" imageset="common_bgcase" image="commonbg9" />
+				<Image type="TopEdge" imageset="common_bgcase" image="commonbg2" />
+                <Image type="Background" imageset="common_bgcase" image="commonbg5" />
+                <Image type="LeftEdge" imageset="common_bgcase" image="commonbg4" />
+                <Image type="RightEdge" imageset="common_bgcase" image="commonbg6" />
+                <Image type="BottomEdge" imageset="common_bgcase" image="commonbg8" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="withtitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <ImagerySection name="notitle_noframe_client_area">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <ColourProperty name="ClientAreaColour" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="ActiveWithTitleWithFrame">
+            <Layer>
+			    <Section section="lianzi" />
+                <Section section="withtitle_frame" />
+				<Section section="youshang" />
+				<Section section="youxia" />
+				<Section section="zuoshang" />
+				<Section section="qizi" />
+				<Section section="zuoxia" />
+				<Section section="yuanpan" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleWithFrame">
+            <Layer>
+			    <Section section="lianzi" />
+                <Section section="withtitle_frame" />
+				<Section section="youshang" />
+				<Section section="youxia" />
+				<Section section="zuoshang" />
+				<Section section="qizi" />
+				<Section section="zuoxia" />
+				<Section section="yuanpan" />
+				<Section section="dingzi" />
+				<Section section="flower" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleWithFrame">
+            <Layer>
+                <Section section="withtitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+				<Section section="flower" />
+				<Section section="lianzi" />
+				<Section section="youshang" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledWithTitleNoFrame">
+            <Layer>
+                <Section section="withtitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleWithFrame">
+            <Layer>
+                <Section section="notitle_frame">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ActiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="InactiveNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="DisabledNoTitleNoFrame">
+            <Layer>
+                <Section section="notitle_noframe_client_area">
+                    <Colours topLeft="ffffffff" topRight="ffffffff" bottomLeft="ffffffff" bottomRight="ffffffff" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_tittle1bt">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/SkillBoxjm">
+
+        
+         <NamedArea name="SkillBoxRenderingArea">
+            <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="4" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="-8" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="-7" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+		
+		<NamedArea name="SkillBoxEmptyRenderingArea">
+            <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <ImagerySection name="Enable">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="SkillInCell">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="MouseOn">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="Selected">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+            </FrameComponent>
+        </ImagerySection>
+        
+        <StateImagery name="BackGroundDisable">
+            <Layer>
+                
+            </Layer>
+        </StateImagery>
+       
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="Enable" />
+                <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Enable" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="SkillInCell">
+            <Layer>
+                <Section section="SkillInCell" />
+            </Layer>
+        </StateImagery>  		
+        <StateImagery name="MouseOnEnabled">
+            <Layer>
+				<Section section="Enable" />
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedEnabled">
+            <Layer>
+				<Section section="Enable" />
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="WithBackGround">
+            <Layer>
+            </Layer>
+        </StateImagery>
+		<StateImagery name="MouseOnBackGround">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedBackGround">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_chatbg_left2">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="awaiguanyichu" image="mpk1_zuoshang" />   <!-- 左上-->
+                <Image type="TopRightCorner" imageset="awaiguanyichu" image="mpk1_youshang" />  <!-- 右上-->
+                <Image type="BottomLeftCorner" imageset="awaiguanyichu" image="mpk1_zuoxia" /> <!-- 左下-->
+                <Image type="BottomRightCorner" imageset="awaiguanyichu" image="mpk1_youxia" /><!-- 右下-->
+				<Image type="TopEdge" imageset="awaiguanyichu" image="mpk1_dingzhong" /><!-- 中顶-->
+                <Image type="Background" imageset="awaiguanyichu" image="mpk1_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="awaiguanyichu" image="mpk1_zuozhong" /><!-- 左中-->
+                <Image type="RightEdge" imageset="awaiguanyichu" image="mpk1_youzhong" /><!-- 右中-->
+                <Image type="BottomEdge" imageset="awaiguanyichu" image="mpk1_dizhong" /><!-- 底中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_chatbg_right2">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="awaiguanyichu" image="mpk1_zuoshang" />   <!-- 左上-->
+                <Image type="TopRightCorner" imageset="awaiguanyichu" image="mpk1_youshang" />  <!-- 右上-->
+                <Image type="BottomLeftCorner" imageset="awaiguanyichu" image="mpk1_zuoxia" /> <!-- 左下-->
+                <Image type="BottomRightCorner" imageset="awaiguanyichu" image="mpk1_youxia" /><!-- 右下-->
+				<Image type="TopEdge" imageset="awaiguanyichu" image="mpk1_dingzhong" /><!-- 中顶-->
+                <Image type="Background" imageset="awaiguanyichu" image="mpk1_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="awaiguanyichu" image="mpk1_zuozhong" /><!-- 左中-->
+                <Image type="RightEdge" imageset="awaiguanyichu" image="mpk1_youzhong" /><!-- 右中-->
+                <Image type="BottomEdge" imageset="awaiguanyichu" image="mpk1_dizhong" /><!-- 底中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_hsname">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="ccuijscj" image="ccnamedi_lt" />
+                <Image type="TopRightCorner" imageset="ccuijscj" image="ccnamedi_rt" />
+                <Image type="BottomLeftCorner" imageset="ccuijscj" image="ccnamedi_lb" />
+                <Image type="BottomRightCorner" imageset="ccuijscj" image="ccnamedi_rb" />
+                <Image type="LeftEdge" imageset="ccuijscj" image="ccnamedi_lc" />
+                <Image type="RightEdge" imageset="ccuijscj" image="ccnamedi_rc" />
+                <Image type="TopEdge" imageset="ccuijscj" image="ccnamedi_ct" />
+                <Image type="BottomEdge" imageset="ccuijscj" image="ccnamedi_cb" />
+                <Image type="Background" imageset="ccuijscj" image="ccnamedi_cc" />
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_hshuabian">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="ccuijscj" image="ccmenpaidi_lt" />
+                <Image type="TopRightCorner" imageset="ccuijscj" image="ccmenpaidi_rt" />
+                <Image type="BottomLeftCorner" imageset="ccuijscj" image="ccmenpaidi_lb" />
+                <Image type="BottomRightCorner" imageset="ccuijscj" image="ccmenpaidi_rb" />
+                <Image type="LeftEdge" imageset="ccuijscj" image="ccmenpaidi_lc" />
+                <Image type="RightEdge" imageset="ccuijscj" image="ccmenpaidi_rc" />
+                <Image type="TopEdge" imageset="ccuijscj" image="ccmenpaidi_ct" />
+                <Image type="BottomEdge" imageset="ccuijscj" image="ccmenpaidi_cb" />
+                <Image type="Background" imageset="ccuijscj" image="ccmenpaidi_cc" />
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_jstextbg">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="ccuijscj" image="ccjstextbg_lt" />
+                <Image type="TopRightCorner" imageset="ccuijscj" image="ccjstextbg_rt" />
+                <Image type="BottomLeftCorner" imageset="ccuijscj" image="ccjstextbg_lb" />
+                <Image type="BottomRightCorner" imageset="ccuijscj" image="ccjstextbg_rb" />
+                <Image type="LeftEdge" imageset="ccuijscj" image="ccjstextbg_lc" />
+                <Image type="RightEdge" imageset="ccuijscj" image="ccjstextbg_rc" />
+                <Image type="TopEdge" imageset="ccuijscj" image="ccjstextbg_ct" />
+                <Image type="BottomEdge" imageset="ccuijscj" image="ccjstextbg_cb" />
+                <Image type="Background" imageset="ccuijscj" image="ccjstextbg_cc" />
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_qiansetext">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+				<Image type="LeftEdge" imageset="ccuijscj" image="ccbytext_l" />
+                <Image type="RightEdge" imageset="ccuijscj" image="ccbytext_r" />
+                <Image type="Background" imageset="ccuijscj" image="ccbytext_c" />
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/ItemCell_wgyc">
+
+        
+         <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        
+        <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+         <NamedArea name="ItemCellRenderingArea">
+            <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0"    /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertLabelFormatting" />
+                <HorzFormatProperty name="HorzLabelFormatting" />
+                <ColourProperty name="NormalTextColour" />
+                
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="Enable">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+                <Image type="Background" imageset="awaiguanyichu" image="item_di" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+         <ImagerySection name="ItemInCell">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+				<Image type="Background" imageset="awaiguanyichu" image="item_di" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="MouseOn">
+            <ImageryComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="-30"  /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="-30"  /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+				<Image type="Background" imageset="awaiguanyichu" image="item_di" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="Selected">
+            <FrameComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+				<Image type="Background" imageset="awaiguanyichu" image="item_xz" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </FrameComponent>
+        </ImagerySection>
+        
+        <ImagerySection name="SelectedMouseOn">
+            <ImageryComponent>
+                <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="0"  /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="0" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="0" type="Height" /></Dim>
+                </Area>
+				<Image type="Background" imageset="awaiguanyichu" image="item_xz" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="BackGroundDisable">
+            <Layer>
+                
+            </Layer>
+        </StateImagery>
+       
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="Enable" />
+                <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="Enable" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="ItemInCell">
+            <Layer>
+                <Section section="ItemInCell" />
+                <Section section="label" />
+            </Layer>
+        </StateImagery>  		
+        <StateImagery name="MouseOnEnabled">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedEnabled">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedMouseEnabled">
+            <Layer>
+                <Section section="SelectedMouseOn" />
+            </Layer>
+        </StateImagery>
+		<StateImagery name="WithBackGround">
+            <Layer>
+            </Layer>
+   </StateImagery>
+		<StateImagery name="MouseOnBackGround">
+            <Layer>
+                <Section section="MouseOn" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedBackGround">
+            <Layer>
+                <Section section="Selected" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="SelectedMouseBackGround">
+            <Layer>
+                <Section section="SelectedMouseOn" />
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/POPORichEditbox3">
+
+        <PropertyDefinition name="NormalTextColour" initialValue="FFEB5972" redrawOnWrite="true" />
+        <PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
+        <PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
+       
+        <NamedArea name="TextArea">
+            <Area>
+              <Dim type="LeftEdge" ><AbsoluteDim value="20" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="15" /></Dim>
+                 <Dim type="Width" ><UnifiedDim scale="1" offset="-40" type="Width" /></Dim>
+                 <Dim type="Height" ><UnifiedDim scale="1" offset="-20" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaHScroll">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+               <Dim type="Width" ><UnifiedDim scale="1" offset="-6" type="Width" /></Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaVScroll">
+            <Area>
+                 <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" offset="-1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+               <Dim type="Height" ><UnifiedDim scale="1" offset="-6" type="Height" /></Dim>
+            </Area>
+        </NamedArea>
+        <NamedArea name="TextAreaHVScroll">
+            <Area>
+                  <Dim type="LeftEdge" ><AbsoluteDim value="3" /></Dim>
+                 <Dim type="TopEdge" ><AbsoluteDim value="3" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+            </Area>
+        </NamedArea>
+        <Child  type="TaharezLook/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><UnifiedDim scale="1" offset="-1" type="Width" /></Dim>
+                <Dim type="Height" ><AbsoluteDim value="18" /></Dim>
+            </Area>
+            <VertAlignment type="BottomAligned" />
+        </Child>
+        <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+            <Area>
+                <Dim type="LeftEdge" ><UnifiedDim scale="1" offset="-21" type="Width"  /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="2" /></Dim>
+                <Dim type="Width" ><AbsoluteDim value="18" /></Dim>
+                <Dim type="Height" ><UnifiedDim scale="1" offset="-6" type="Height" /></Dim>
+            </Area>
+           
+        </Child>
+        <ImagerySection name="main">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="awaiguanyichu" image="mpk3_zuoshang" />   <!-- 左上-->
+                <Image type="TopRightCorner" imageset="awaiguanyichu" image="mpk3_youshang" />  <!-- 右上-->
+                <Image type="BottomLeftCorner" imageset="awaiguanyichu" image="mpk3_zuoxia" /> <!-- 左下-->
+                <Image type="BottomRightCorner" imageset="awaiguanyichu" image="mpk3_youxia" /><!-- 右下-->
+				<Image type="TopEdge" imageset="awaiguanyichu" image="mpk3_dingzhong" /><!-- 中顶-->
+                <Image type="Background" imageset="awaiguanyichu" image="mpk3_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="awaiguanyichu" image="mpk3_zuozhong" /><!-- 左中-->
+                <Image type="RightEdge" imageset="awaiguanyichu" image="mpk3_youzhong" /><!-- 右中-->
+                <Image type="BottomEdge" imageset="awaiguanyichu" image="mpk3_dizhong" /><!-- 底中-->
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="Carat">
+            <ImageryComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width" ><AbsoluteDim value="1" /></Dim>
+                    <Dim type="BottomEdge" ><UnifiedDim scale="1.0" type="BottomEdge" /></Dim>
+                </Area>
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
+            </ImageryComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="ReadOnly">
+            <Layer>
+                <Section section="main" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="main">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_chatbg_left3">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="awaiguanyichu" image="mpk3_zuoshang" />   <!-- 左上-->
+                <Image type="TopRightCorner" imageset="awaiguanyichu" image="mpk3_youshang" />  <!-- 右上-->
+                <Image type="BottomLeftCorner" imageset="awaiguanyichu" image="mpk3_zuoxia" /> <!-- 左下-->
+                <Image type="BottomRightCorner" imageset="awaiguanyichu" image="mpk3_youxia" /><!-- 右下-->
+				<Image type="TopEdge" imageset="awaiguanyichu" image="mpk3_dingzhong" /><!-- 中顶-->
+                <Image type="Background" imageset="awaiguanyichu" image="mpk3_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="awaiguanyichu" image="mpk3_zuozhong" /><!-- 左中-->
+                <Image type="RightEdge" imageset="awaiguanyichu" image="mpk3_youzhong" /><!-- 右中-->
+                <Image type="BottomEdge" imageset="awaiguanyichu" image="mpk3_dizhong" /><!-- 底中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_chatbg_right3">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="awaiguanyichu" image="mpk3_zuoshang" />   <!-- 左上-->
+                <Image type="TopRightCorner" imageset="awaiguanyichu" image="mpk3_youshang" />  <!-- 右上-->
+                <Image type="BottomLeftCorner" imageset="awaiguanyichu" image="mpk3_zuoxia" /> <!-- 左下-->
+                <Image type="BottomRightCorner" imageset="awaiguanyichu" image="mpk3_youxia" /><!-- 右下-->
+				<Image type="TopEdge" imageset="awaiguanyichu" image="mpk3_dingzhong" /><!-- 中顶-->
+                <Image type="Background" imageset="awaiguanyichu" image="mpk3_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="awaiguanyichu" image="mpk3_zuozhong" /><!-- 左中-->
+                <Image type="RightEdge" imageset="awaiguanyichu" image="mpk3_youzhong" /><!-- 右中-->
+                <Image type="BottomEdge" imageset="awaiguanyichu" image="mpk3_dizhong" /><!-- 底中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_hongditext">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_hccwdi">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+				<Image type="TopLeftCorner" imageset="baichongxianchi" image="hc_zuoshang" />   <!-- 左上-->
+                <Image type="TopRightCorner" imageset="baichongxianchi" image="hc_youshang" />  <!-- 右上-->
+                <Image type="BottomLeftCorner" imageset="baichongxianchi" image="hc_zuoxia" /> <!-- 左下-->
+                <Image type="BottomRightCorner" imageset="baichongxianchi" image="hc_youxia" /><!-- 右下-->
+				<Image type="TopEdge" imageset="baichongxianchi" image="hc_dingzhong" /><!-- 中顶-->
+                <Image type="Background" imageset="baichongxianchi" image="hc_zhong" /><!-- 中-->
+                <Image type="LeftEdge" imageset="baichongxianchi" image="hc_zuozhong" /><!-- 左中-->
+                <Image type="RightEdge" imageset="baichongxianchi" image="hc_youzhong" /><!-- 右中-->
+                <Image type="BottomEdge" imageset="baichongxianchi" image="hc_dizhong" /><!-- 底中-->
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+<WidgetLook name="TaharezLook/common_hccwdisz">
+
+        
+       <ImagerySection name="normal">
+			 <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                   
+           	        <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
+                    <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
+                </Area>
+				<Image type="TopEdge" imageset="baichongxianchi" image="hcsz_shang" /><!-- 中顶-->
+                <Image type="Background" imageset="baichongxianchi" image="hcsz_zhong" /><!-- 中-->
+                <Image type="BottomEdge" imageset="baichongxianchi" image="hcsz_xia" /><!-- 底中-->
+                
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="normal" />
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal">
+                    <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>
+</Falagard>

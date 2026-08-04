@@ -1623,6 +1623,19 @@ namespace Nuclear
 		{
 			return false;
 		}
+		// CEGUI restores raw GL state after its pass. Invalidate every cached
+		// binding before DrawPicture so program, texture and vertex attributes are
+		// all refreshed against the real context.
+		cocos2d::GL::invalidateStateCachePreserveMatrices();
+		auto bindPictureTexture = [](GLenum unit, GLuint textureName)
+		{
+			cocos2d::GL::activeTexture(unit);
+			cocos2d::ccGLBindTexture2D(textureName);
+			// Keep an explicit raw bind here because CEGUI uses raw OpenGL state
+			// restoration and may leave the Cocos texture cache out of sync.
+			glActiveTexture(unit);
+			glBindTexture(GL_TEXTURE_2D, textureName);
+		};
 		PictureMap::iterator itPart = m_mapPictures.end();
 		if (param.handlePart > 0)
 		{
@@ -1656,6 +1669,12 @@ namespace Nuclear
 
 		NuclearVector2 vecOut;
 		NuclearVector2 thePos[4];
+		GLuint firstTextureName = 0;
+		int firstTextureWidth = 0;
+		int firstTextureHeight = 0;
+		GLenum firstStateError = GL_NO_ERROR;
+		GLenum firstDrawError = GL_NO_ERROR;
+		bool drewPicture = false;
 		for (int i = 0; i < a; i++)
 		{
 			int nPicWidth = it->second.m_info.m_nPicWidth;
@@ -1769,41 +1788,46 @@ namespace Nuclear
 				thePos[2].x, thePos[2].y,
 			};
 
+			bool shaderPushed = false;
+			const char* shaderKey = NULL;
 			if (!param.bUseBW)
 			{
 				if (param.iShaderType == 0 || (param.iShaderType == 3 && !texInfoPart.m_pTexture))
 				{
 					if (texInfo.m_pTexture->isEtcTexture())
 					{
-						cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColorEtc);
+						shaderKey = kCCShader_PositionTextureColorEtc;
+						cocos2d::ShaderCache::getInstance()->pushShader(shaderKey);
+						shaderPushed = true;
 						//cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
-						cocos2d::GL::activeTexture(GL_TEXTURE0);
-						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
-						cocos2d::GL::activeTexture(GL_TEXTURE1);
-						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getAlphaName());
+						bindPictureTexture(GL_TEXTURE0, texInfo.m_pTexture->getName());
+						bindPictureTexture(GL_TEXTURE1, texInfo.m_pTexture->getAlphaName());
 					}
 					else
 					{
-						//cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColor);
+						shaderKey = kCCShader_PositionTextureColor;
+						cocos2d::ShaderCache::getInstance()->pushShader(shaderKey);
+						shaderPushed = true;
 						//cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
-						cocos2d::GL::activeTexture(GL_TEXTURE0);
-						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
+						bindPictureTexture(GL_TEXTURE0, texInfo.m_pTexture->getName());
 					}
 				}
 				else //if (param.iShaderType == 1/* && texInfoPart.m_pTexture*/)//HSV
 				{
 					if (texInfo.m_pTexture->isEtcTexture())
 					{
-						cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColorEtc);
+						shaderKey = kCCShader_PositionTextureColorEtc;
+						cocos2d::ShaderCache::getInstance()->pushShader(shaderKey);
+						shaderPushed = true;
 						//cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
-						cocos2d::GL::activeTexture(GL_TEXTURE0);
-						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
-						cocos2d::GL::activeTexture(GL_TEXTURE1);
-						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getAlphaName());
+						bindPictureTexture(GL_TEXTURE0, texInfo.m_pTexture->getName());
+						bindPictureTexture(GL_TEXTURE1, texInfo.m_pTexture->getAlphaName());
 					}
 					else
 					{
-						cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColorHSV);
+						shaderKey = kCCShader_PositionTextureColorHSV;
+						cocos2d::ShaderCache::getInstance()->pushShader(shaderKey);
+						shaderPushed = true;
 						cocos2d::GLProgram* pProgram = NULL;
 						pProgram = cocos2d::ShaderCache::getInstance()->programForKey(kCCShader_PositionTextureColorHSV);
 						float fH1 = param.pPartParam0[0];
@@ -1817,17 +1841,14 @@ namespace Nuclear
 						pProgram->setUniformPartParam(2, param.pPartParam2[0], param.pPartParam2[1], param.pPartParam2[2], param.pPartParam2[3]);
 						
 						cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
-						cocos2d::GL::activeTexture(GL_TEXTURE0);
-						cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
+						bindPictureTexture(GL_TEXTURE0, texInfo.m_pTexture->getName());
 						if( texInfoPart.m_pTexture != NULL )
 						{
-							cocos2d::GL::activeTexture(GL_TEXTURE2);
-							cocos2d::ccGLBindTexture2D(texInfoPart.m_pTexture->getName());
+							bindPictureTexture(GL_TEXTURE2, texInfoPart.m_pTexture->getName());
 						}
 						else
 						{
-							cocos2d::GL::activeTexture(GL_TEXTURE2);
-							cocos2d::ccGLBindTexture2D(0);
+							bindPictureTexture(GL_TEXTURE2, 0);
 
 						}
 					}
@@ -1835,10 +1856,12 @@ namespace Nuclear
 			}
 			else
 			{
-				cocos2d::ShaderCache::getInstance()->pushShader(kCCShader_PositionTextureColorGray);
+				shaderKey = kCCShader_PositionTextureColorGray;
+				cocos2d::ShaderCache::getInstance()->pushShader(shaderKey);
+				shaderPushed = true;
 				//cocos2d::ccGLEnableVertexAttribs(cocos2d::kCCVertexAttribFlag_Position | cocos2d::kCCVertexAttribFlag_TexCoords | cocos2d::kCCVertexAttribFlag_Color);
 
-				cocos2d::ccGLBindTexture2D(texInfo.m_pTexture->getName());
+				bindPictureTexture(GL_TEXTURE0, texInfo.m_pTexture->getName());
 
 				cocos2d::GLProgram* pProgram = cocos2d::ShaderCache::getInstance()->programForKey(kCCShader_PositionTextureColorGray);
 				GLint ctlLoc = glGetUniformLocation(pProgram->getProgram(), kCCUniformFloatY);
@@ -1848,11 +1871,55 @@ namespace Nuclear
 				pProgram->setUniformLocationWith1f(redLoc, (tv2 - tv1)*param.fRedPercent);
 			}
 
+			// GLProgram's uniform value cache can retain a value after an external
+			// renderer changed the active program. Upload the matrix directly for
+			// this draw so the GPU state is authoritative.
+			if (shaderKey != NULL)
+			{
+				cocos2d::GLProgram* activeProgram =
+					cocos2d::ShaderCache::getInstance()->programForKey(shaderKey);
+				if (activeProgram != NULL)
+				{
+					const GLuint programName = activeProgram->getProgram();
+					glUseProgram(programName);
+					kmMat4 matrixP;
+					kmMat4 matrixMV;
+					kmMat4 matrixMVP;
+					kmGLGetMatrix(KM_GL_PROJECTION, &matrixP);
+					kmGLGetMatrix(KM_GL_MODELVIEW, &matrixMV);
+					kmMat4Multiply(&matrixMVP, &matrixP, &matrixMV);
+					GLint matrixLocation = glGetUniformLocation(programName, "CC_MVPMatrix");
+					if (matrixLocation < 0)
+					{
+						matrixLocation = glGetUniformLocation(programName, "u_MVPMatrix");
+					}
+					if (matrixLocation >= 0)
+					{
+						glUniformMatrix4fv(matrixLocation, 1, GL_FALSE, matrixMVP.mat);
+					}
+				}
+			}
+
+			cocos2d::GL::enableVertexAttribs(cocos2d::GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX);
+			// DrawPicture uses stack-backed arrays; keep the legacy VBO binding from
+			// interpreting these client pointers as offsets into a buffer.
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glVertexAttribPointer(cocos2d::kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
 			glVertexAttribPointer(cocos2d::kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
 			glVertexAttribPointer(cocos2d::kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, color);
 
+			if (!drewPicture)
+				firstStateError = glGetError();
+
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+			if (!drewPicture)
+			{
+				firstDrawError = glGetError();
+				firstTextureName = texInfo.m_pTexture->getName();
+				firstTextureWidth = texInfo.m_pTexture->getPixelsWide();
+				firstTextureHeight = texInfo.m_pTexture->getPixelsHigh();
+				drewPicture = true;
+			}
 
 			if (texInfo.m_pTexture->isEtcTexture())
 			{
@@ -1873,24 +1940,28 @@ namespace Nuclear
 			m_performance.m_iDrawPictureCountPerFrame++;
 			m_performance.m_iTotalPixelRenderedPerFrame += int((rctW*du / srcrect.Width())*(rctH*dv / srcrect.Height()));
 #endif			
-			if (!param.bUseBW)
-			{
-				if (param.iShaderType == 0 || (param.iShaderType == 3 && !texInfoPart.m_pTexture))
-				{
-					if (texInfo.m_pTexture->isEtcTexture())
-					{
-						cocos2d::ShaderCache::getInstance()->popShader();
-					}
-				}
-				else //if (param.iShaderType == 1/* && texInfoPart.m_pTexture*/)//HSV
-				{
-					cocos2d::ShaderCache::getInstance()->popShader();
-				}
-			}
-			else
+			if (shaderPushed)
 			{
 				cocos2d::ShaderCache::getInstance()->popShader();
 			}
+		}
+
+		static bool sFirstFramePixelLogged = false;
+		if (drewPicture && !sFirstFramePixelLogged)
+		{
+			GLint viewport[4] = { 0, 0, 0, 0 };
+			GLubyte pixel[4] = { 0 };
+			glGetIntegerv(GL_VIEWPORT, viewport);
+			const GLint sampleX = viewport[0] + viewport[2] / 2;
+			const GLint sampleY = viewport[1] + viewport[3] / 2;
+			glReadPixels(sampleX, sampleY, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
+			const GLenum readError = glGetError();
+			RndTrace("DrawPicture first-pixel rgba=%u,%u,%u,%u viewport=%d,%d,%d,%d handle=%d texture=%u textureSize=%dx%d stateError=0x%04x drawError=0x%04x readError=0x%04x",
+				(unsigned int)pixel[0], (unsigned int)pixel[1], (unsigned int)pixel[2], (unsigned int)pixel[3],
+				viewport[0], viewport[1], viewport[2], viewport[3], (int)param.handle,
+				(unsigned int)firstTextureName, firstTextureWidth, firstTextureHeight,
+				(unsigned int)firstStateError, (unsigned int)firstDrawError, (unsigned int)readError);
+			sFirstFramePixelLogged = true;
 		}
 		return true;
 	}

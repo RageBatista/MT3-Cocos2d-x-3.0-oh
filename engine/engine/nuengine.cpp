@@ -272,7 +272,8 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
 			m_pSprMan = new SpriteManager(this);
 			if (m_pSprMan->PreInit())
 			{
-				m_nSprStepCount = (m_pSprMan->GetInitCount() + 63) >> 6;//64个一批
+				const int spriteInitBatchSize = 16;
+				m_nSprStepCount = (m_pSprMan->GetInitCount() + spriteInitBatchSize - 1) / spriteInitBatchSize;
 				return true;
 			}
             XPLOG_INFO(L" spite preinit false \n");
@@ -283,7 +284,8 @@ XPLOG_INFO(L"  动画管理器初始化成功\n");
 		static bool sprInitResult = true;
 		if (step - XPEIS_SPRITE_INITING < m_nSprStepCount)
 		{
-			ULONG64 result = m_pSprMan->Init((step - XPEIS_SPRITE_INITING) << 6, 64);
+			const int spriteInitBatchSize = 16;
+			ULONG64 result = m_pSprMan->Init((step - XPEIS_SPRITE_INITING) * spriteInitBatchSize, spriteInitBatchSize);
 			if (result == 0)
 				return true;
 			sprInitResult = false;

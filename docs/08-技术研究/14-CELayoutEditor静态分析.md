@@ -57,7 +57,7 @@ resource roots
   -> preview Window tree
 ```
 
-工具启动/打开 Layout 崩溃时，先读 [Layout 打开闪退静态分析](../../tools/CELayoutEditor/docs/23-Layout文件打开闪退静态分析报告__Layout-Open-Crash-Static-Analysis.md) 和 [启动崩溃修复复盘](../../tools/CELayoutEditor/docs/18-启动崩溃修复复盘__Startup-Crash-Fix-Postmortem.md)。
+工具启动/打开 Layout 崩溃时，先读 [CELayoutEditor 文档索引](../../tools/CELayoutEditor/docs/INDEX.md) 中的相关分析。
 
 ## 4. WYSIWYG 运行时预览
 
