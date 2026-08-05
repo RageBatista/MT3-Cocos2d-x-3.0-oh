@@ -1155,53 +1155,9 @@ Assert-IncrementalBuildSafety
 Ensure-FmodImportLibrary
 Invoke-Upgrade30CMakeConfigure
 
-$buildSteps = @(
-    @{ Name = "platform"; Path = (Join-Path $RepoRoot "common\platform\platform.win32.vcxproj") },
-    @{ Name = "ljfm"; Path = (Join-Path $RepoRoot "common\ljfm\ljfm.win32.vcxproj") },
-    @{ Name = "cauthc"; Path = (Join-Path $RepoRoot "common\cauthc\projects\windows\cauthc.win32.vcxproj") },
-    @{ Name = "libBox2D"; Path = (Join-Path $RepoRoot "cocos2d-x-2.2.6\external\Box2D\proj.win32\Box2D.vcxproj") },
-    @{ Name = "libchipmunk"; Path = (Join-Path $RepoRoot "cocos2d-x-2.2.6\external\chipmunk\proj.win32\chipmunk.vcxproj") },
-    @{ Name = "liblua"; Path = (Join-Path $RepoRoot "cocos2d-x-2.2.6\scripting\lua\proj.win32\liblua.vcxproj") },
-    @{ Name = "cocos2d"; Path = (Join-Path $RepoRoot "cocos2d-x-2.2.6\cocos2dx\proj.win32\cocos2d.vcxproj") },
-    @{ Name = "CocosDenshion"; Path = (Join-Path $RepoRoot "cocos2d-x-2.2.6\CocosDenshion\proj.win32\CocosDenshion.vcxproj") },
-    @{ Name = "libExtensions"; Path = (Join-Path $RepoRoot "cocos2d-x-2.2.6\extensions\proj.win32\libExtensions.vcxproj") },
-    @{ Name = "CEGUI"; Path = (Join-Path $RepoRoot "dependencies\cegui\project\win32\cegui.win32.vcxproj") },
-    @{ Name = "engine"; Path = (Join-Path $RepoRoot "engine\engine.win32.vcxproj") },
-    @{ Name = "FireClient"; Path = (Join-Path $ClientRoot "MT3Win32App\FireClient.win32.vcxproj"); DisableProjectReferences = $true }
-)
-
-if ($EngineProfile -eq "Upgrade30") {
-    $cocosBuildRoot = Join-Path $RepoRoot "cocos2d-x-3.0-oh\build"
-    $buildSteps = @(
-        @{ Name = "platform"; Path = (Join-Path $RepoRoot "common\platform\platform.win32.vcxproj") },
-        @{ Name = "ljfm"; Path = (Join-Path $RepoRoot "common\ljfm\ljfm.win32.vcxproj") },
-        @{ Name = "cauthc"; Path = (Join-Path $RepoRoot "common\cauthc\projects\windows\cauthc.win32.vcxproj") },
-        @{ Name = "cocos30_kazmath"; Path = (Join-Path $cocosBuildRoot "cocos\math\kazmath\kazmath\kazmath.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_tinyxml2"; Path = (Join-Path $cocosBuildRoot "external\tinyxml2\tinyxml2.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_unzip"; Path = (Join-Path $cocosBuildRoot "external\unzip\unzip.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_xxhash"; Path = (Join-Path $cocosBuildRoot "external\xxhash\xxhash.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_chipmunk"; Path = (Join-Path $cocosBuildRoot "external\chipmunk\src\chipmunk_static.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_box2d"; Path = (Join-Path $cocosBuildRoot "external\Box2D\box2d.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_lua"; Path = (Join-Path $cocosBuildRoot "external\lua\lua\lua.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_tolua"; Path = (Join-Path $cocosBuildRoot "external\lua\tolua\tolua.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_luasocket"; Path = (Join-Path $cocosBuildRoot "external\lua\luasocket\ext_luasocket.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_base"; Path = (Join-Path $cocosBuildRoot "cocos\base\cocosbase.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_core"; Path = (Join-Path $cocosBuildRoot "cocos\2d\cocos2d.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_audio"; Path = (Join-Path $cocosBuildRoot "cocos\audio\audio.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_spine"; Path = (Join-Path $cocosBuildRoot "cocos\editor-support\spine\spine.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_extensions"; Path = (Join-Path $cocosBuildRoot "extensions\extensions.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_network"; Path = (Join-Path $cocosBuildRoot "cocos\network\network.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_sqlite3"; Path = (Join-Path $cocosBuildRoot "external\sqlite3\sqlite3.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_storage"; Path = (Join-Path $cocosBuildRoot "cocos\storage\storage.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_ui"; Path = (Join-Path $cocosBuildRoot "cocos\ui\ui.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_cocostudio"; Path = (Join-Path $cocosBuildRoot "cocos\editor-support\cocostudio\cocostudio.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_cocosbuilder"; Path = (Join-Path $cocosBuildRoot "cocos\editor-support\cocosbuilder\cocosbuilder.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "cocos30_luabinding"; Path = (Join-Path $cocosBuildRoot "cocos\scripting\lua-bindings\luabinding.vcxproj"); DisableProjectReferences = $true },
-        @{ Name = "CEGUI079"; Path = (Join-Path $RepoRoot "tools\CEGUI-0.7.9-r5\cegui-0.7.9.win32.vcxproj") },
-        @{ Name = "engine"; Path = (Join-Path $RepoRoot "engine\engine.win32.vcxproj") },
-        @{ Name = "FireClient"; Path = (Join-Path $ClientRoot "MT3Win32App\FireClient.win32.vcxproj"); DisableProjectReferences = $true }
-    )
-}
+$buildConfigModule = Join-Path $RepoRoot "tools\scripts\build-config.psm1"
+Import-Module -Name $buildConfigModule -Force
+$buildSteps = @(Get-MT3Win32ProjectManifest -RepoRoot $RepoRoot -EngineProfile $EngineProfile)
 
 $mt3ProjectPath = Join-Path $ClientRoot "MT3Win32App\\mt3.win32.vcxproj"
 $linkInputRequiredLibraries = @(

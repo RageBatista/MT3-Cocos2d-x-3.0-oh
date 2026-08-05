@@ -1,6 +1,6 @@
 # MT3 构建环境配置
 # 此文件集中管理所有工具链路径，支持环境变量覆盖
-# 版本: 1.0.0 | 更新: 2026-07-16
+# 版本: 1.1.0 | 更新: 2026-08-05
 
 # ============================================================
 # 工具链版本约束 (禁止修改)
@@ -222,7 +222,81 @@ function Test-MT3BuildEnvironment {
     return $results
 }
 
+function Get-MT3Win32ProjectManifest {
+    param(
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [ValidateSet("Legacy226", "Upgrade30")][string]$EngineProfile = "Upgrade30",
+        [switch]$IncludeFinalExecutable
+    )
+
+    $relativeSteps = @(
+        @{ Name = "platform"; RelativePath = "common\platform\platform.win32.vcxproj" },
+        @{ Name = "ljfm"; RelativePath = "common\ljfm\ljfm.win32.vcxproj" },
+        @{ Name = "cauthc"; RelativePath = "common\cauthc\projects\windows\cauthc.win32.vcxproj" }
+    )
+
+    if ($EngineProfile -eq "Upgrade30") {
+        $relativeSteps += @(
+            @{ Name = "cocos30_kazmath"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\math\kazmath\kazmath\kazmath.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_tinyxml2"; RelativePath = "cocos2d-x-3.0-oh\build\external\tinyxml2\tinyxml2.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_unzip"; RelativePath = "cocos2d-x-3.0-oh\build\external\unzip\unzip.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_xxhash"; RelativePath = "cocos2d-x-3.0-oh\build\external\xxhash\xxhash.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_chipmunk"; RelativePath = "cocos2d-x-3.0-oh\build\external\chipmunk\src\chipmunk_static.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_box2d"; RelativePath = "cocos2d-x-3.0-oh\build\external\Box2D\box2d.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_lua"; RelativePath = "cocos2d-x-3.0-oh\build\external\lua\lua\lua.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_tolua"; RelativePath = "cocos2d-x-3.0-oh\build\external\lua\tolua\tolua.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_luasocket"; RelativePath = "cocos2d-x-3.0-oh\build\external\lua\luasocket\ext_luasocket.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_base"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\base\cocosbase.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_core"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\2d\cocos2d.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_audio"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\audio\audio.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_spine"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\editor-support\spine\spine.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_extensions"; RelativePath = "cocos2d-x-3.0-oh\build\extensions\extensions.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_network"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\network\network.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_sqlite3"; RelativePath = "cocos2d-x-3.0-oh\build\external\sqlite3\sqlite3.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_storage"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\storage\storage.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_ui"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\ui\ui.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_cocostudio"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\editor-support\cocostudio\cocostudio.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_cocosbuilder"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\editor-support\cocosbuilder\cocosbuilder.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "cocos30_luabinding"; RelativePath = "cocos2d-x-3.0-oh\build\cocos\scripting\lua-bindings\luabinding.vcxproj"; DisableProjectReferences = $true },
+            @{ Name = "CEGUI079"; RelativePath = "tools\CEGUI-0.7.9-r5\cegui-0.7.9.win32.vcxproj" },
+            @{ Name = "engine"; RelativePath = "engine\engine.win32.vcxproj" },
+            @{ Name = "FireClient"; RelativePath = "client\MT3Win32App\FireClient.win32.vcxproj"; DisableProjectReferences = $true }
+        )
+    } else {
+        $relativeSteps += @(
+            @{ Name = "libBox2D"; RelativePath = "cocos2d-x-2.2.6\external\Box2D\proj.win32\Box2D.vcxproj" },
+            @{ Name = "libchipmunk"; RelativePath = "cocos2d-x-2.2.6\external\chipmunk\proj.win32\chipmunk.vcxproj" },
+            @{ Name = "liblua"; RelativePath = "cocos2d-x-2.2.6\scripting\lua\proj.win32\liblua.vcxproj" },
+            @{ Name = "cocos2d"; RelativePath = "cocos2d-x-2.2.6\cocos2dx\proj.win32\cocos2d.vcxproj" },
+            @{ Name = "CocosDenshion"; RelativePath = "cocos2d-x-2.2.6\CocosDenshion\proj.win32\CocosDenshion.vcxproj" },
+            @{ Name = "libExtensions"; RelativePath = "cocos2d-x-2.2.6\extensions\proj.win32\libExtensions.vcxproj" },
+            @{ Name = "CEGUI"; RelativePath = "dependencies\cegui\project\win32\cegui.win32.vcxproj" },
+            @{ Name = "engine"; RelativePath = "engine\engine.win32.vcxproj" },
+            @{ Name = "FireClient"; RelativePath = "client\MT3Win32App\FireClient.win32.vcxproj"; DisableProjectReferences = $true }
+        )
+    }
+
+    if ($IncludeFinalExecutable) {
+        $relativeSteps += @{
+            Name = "MT3"
+            RelativePath = "client\MT3Win32App\mt3.win32.vcxproj"
+            DisableProjectReferences = $true
+        }
+    }
+
+    return @(
+        $relativeSteps | ForEach-Object {
+            @{
+                Name = $_.Name
+                RelativePath = $_.RelativePath
+                Path = [System.IO.Path]::GetFullPath((Join-Path $RepoRoot $_.RelativePath))
+                DisableProjectReferences = ($_.ContainsKey("DisableProjectReferences") -and [bool]$_.DisableProjectReferences)
+            }
+        }
+    )
+}
+
 # 导出函数 (PowerShell 5.1 兼容)
 if ($MyInvocation.MyCommand.ScriptBlock) {
-    Export-ModuleMember -Function Get-MT3BuildConfig, Test-MT3BuildEnvironment
+    Export-ModuleMember -Function Get-MT3BuildConfig, Test-MT3BuildEnvironment, Get-MT3Win32ProjectManifest
 }

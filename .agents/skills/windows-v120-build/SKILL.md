@@ -35,12 +35,13 @@ powershell -ExecutionPolicy Bypass -File .\.agents\skills\windows-v120-build\scr
 - 需要 Debug+Release 里程碑验证时，用 `tools/scripts/Build-MT3-FullValidation.ps1`。
 - 主线出现非 `v120` 工具集立即判为漂移；禁止用 `/FORCE` 或新工具集二进制掩盖 ABI/链接问题。
 - 修改 `engine/**.h` 等 ABI 敏感头时按 `engine -> FireClient -> MT3` 重编；修改 `client/FireClient/Application/**.h` 时按 `FireClient -> MT3` 重编。
-- `FireClient.win32.vcxproj` 与 `mt3.win32.vcxproj` 共用中间目录；单项目增量成功不能证明 ABI 一致。
+- `FireClient.win32.vcxproj` 与 `mt3.win32.vcxproj` 共享 `$(SolutionDir)$(Configuration).win32` 输出目录，但 `IntDir` 按项目分离；共享输出和公共 ABI 仍意味着单项目增量成功不能证明产物一致。
+- `tools/scripts/build-config.psm1` 是 Win32 项目清单的单一脚本来源；默认 `Upgrade30` 门禁覆盖 27 个依赖工程和最终 `MT3` 工程，只有显式 `Legacy226` 才检查 2.2.6/CEGUI 0.7.1 兼容清单。
 - VS2013 在中文字符串附近报 `C2001: 常量中有换行符` 时，先查 C/C++ 文件 UTF-8 BOM 是否丢失。
 
 ## 最短流程
 
-1. 运行 `verify-build-env.ps1` 与 `tools/scripts/Check-v120Toolset.ps1`，锁定工具链或入口首错。
+1. 运行 `verify-build-env.ps1` 与 `tools/scripts/Check-v120Toolset.ps1 -EngineProfile Upgrade30`，锁定工具链、项目清单或入口首错。
 2. 根据改动面判断是否命中 ABI 敏感头；命中则禁用不安全增量。
 3. 日常开发用 Debug FastLocal；普通 Release 用 Incremental；ABI/发版用 SafeChain。
 4. 运行 canonical wrapper，核对退出码与 `MT3.exe/FireClient.lib/engine.lib` 时间戳。

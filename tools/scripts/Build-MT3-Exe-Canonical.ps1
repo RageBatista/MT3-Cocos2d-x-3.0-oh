@@ -338,7 +338,8 @@ function Assert-NoGitLfsPointers {
 
 function Invoke-V120ToolchainPrecheck {
     param(
-        [Parameter(Mandatory = $true)][string]$RepoRoot
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [Parameter(Mandatory = $true)][string]$EngineProfile
     )
 
     $checkScript = Join-Path $RepoRoot "tools\\scripts\\Check-v120Toolset.ps1"
@@ -349,7 +350,7 @@ function Invoke-V120ToolchainPrecheck {
     Write-Host "Running toolchain precheck: $checkScript"
     $psExe = Resolve-PowerShellExe
     $proc = Start-Process -FilePath $psExe `
-        -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $checkScript, "-RootPath", $RepoRoot, "-Scope", "Mainline") `
+        -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $checkScript, "-RootPath", $RepoRoot, "-Scope", "Mainline", "-EngineProfile", $EngineProfile) `
         -Wait -NoNewWindow -PassThru
     if ($proc.ExitCode -ne 0) {
         throw "v120 toolchain precheck failed. Resolve toolchain issues before building MT3.exe."
@@ -598,7 +599,7 @@ try {
             Write-Host "Skipping toolchain precheck (FastLocal default)."
         }
     } else {
-        Invoke-V120ToolchainPrecheck -RepoRoot $repoRoot
+        Invoke-V120ToolchainPrecheck -RepoRoot $repoRoot -EngineProfile $EngineProfile
     }
 
     $buildScript = Join-Path $repoRoot "client\\Build-MT3-v120.ps1"

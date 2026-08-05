@@ -172,7 +172,7 @@ $report = [ordered]@{
 
 try {
     Write-Host "==> toolchain-check"
-    Invoke-PowerShellScript -ScriptPath $toolchainScript -Arguments @("-RootPath", $repoRoot, "-Scope", "Mainline")
+    Invoke-PowerShellScript -ScriptPath $toolchainScript -Arguments @("-RootPath", $repoRoot, "-Scope", "Mainline", "-EngineProfile", $EngineProfile)
     $report.ToolchainCheck.Status = "pass"
 
     $configs = @()

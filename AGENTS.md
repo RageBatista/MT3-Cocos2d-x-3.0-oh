@@ -1,8 +1,8 @@
 # MT3 仓库事实与协作边界（AGENTS）
 
-> **版本**：4.1.1
+> **版本**：4.1.2
 >
-> **更新日期**：2026-08-03
+> **更新日期**：2026-08-05
 >
 > **维护者**：技术委员会
 >
@@ -26,6 +26,7 @@
 | 最近的 `AGENTS.md` / `AGENTS.override.md` | 当前目录专有边界和最短验证入口 | 进入具体子树后 |
 | [.claude/RULES.md](.claude/RULES.md) | 工具链、ABI、编码、生成代码硬约束 | 任何可能影响构建正确性的任务 |
 | [.claude/BUILD_GUIDE.md](.claude/BUILD_GUIDE.md) | 当前工作机已验证的构建和产物校验命令 | 构建、重编、打包、发布 |
+| [.claude/CODEX_BRIDGE.md](.claude/CODEX_BRIDGE.md) | Codex 原生运行面到 Claude 兼容层的单向映射 | 同时变更 `.codex` 与 `.claude` 治理入口 |
 | [.codex/config.toml](.codex/config.toml) | 项目级 Codex 原生运行配置和 Agent/MCP 接入 | Codex 运行时治理 |
 | [.agents/skills/mt3-project-guidelines/SKILL.md](.agents/skills/mt3-project-guidelines/SKILL.md) | MT3 任务域分流和最小技能集合 | 选择处理流程 |
 | [docs/02-技术架构/02-项目架构.md](docs/02-技术架构/02-项目架构.md) | 架构背景与调用链说明 | 需要展开架构上下文 |

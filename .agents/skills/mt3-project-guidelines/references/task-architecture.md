@@ -18,7 +18,7 @@
 | 应用核心层 | `application-core-flow` | `client/FireClient/Application/**` | 初始化失败、登录不进世界、场景或战斗逻辑串联异常 |
 | 打包处理层 | `resource-packaging-pipeline` | `common/updateengine/**` `client/Launcher/**` `tools/engine/pfs/**` | 热更新失败、版本索引不一致、补丁校验失败 |
 | 打包算法层 | `sprite-pack-algorithm` | `tools/engine/SpriteEditor/**` | 图集排布、包体大小、导出异常 |
-| 渲染处理层 | `rendering-pipeline` | `engine/**` `tools/CEGUI-0.7.1/**` `client/FireClient/Application/GameUI/**` | UI 不显示、绘制顺序异常、渲染性能问题 |
+| 渲染处理层 | `rendering-pipeline` | `engine/**` `cocos2d-x-3.0-oh/**` `tools/CEGUI-0.7.9-r5/**` `client/FireClient/Application/GameUI/**` | Win32 UI 不显示、绘制顺序异常、渲染性能问题；Android/iOS 回到 2.2.6 兼容链 |
 | 平台抽象层 | `platform-bridge` | `client/MT3Win32App/**` `client/android/**` `client/FireClient/FireClient/**` | JNI/ObjC++ 桥接、SDK 生命周期、平台容器问题 |
 
 ## 常用组合
@@ -26,7 +26,7 @@
 - `application-core-flow + generated-code-guard`：协议、绑定、生成代码边界
 - `resource-packaging-pipeline + platform-bridge`：Android/iOS 下载器、热更新接入
 - `rendering-pipeline + resource-packaging-pipeline`：渲染异常但怀疑资源包或 PFS 提供器
-- `platform-bridge + android-r10e-build`：Android 壳层、JNI 与旧链路构建
+- `platform-bridge + android-r10e-build`：Android 壳层、JNI 与当前 NDK r16 clang/Ant 构建；技能 ID 中的 r10e 仅为兼容名称
 - `windows-v120-build + rendering-pipeline`：Win32 构建同时涉及 CEGUI/Nuclear 渲染链
 
 ## 最小决策规则

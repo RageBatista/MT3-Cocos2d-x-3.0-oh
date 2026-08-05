@@ -22,13 +22,21 @@ Win32 主线不使用 v140/v141/v142/v143 产物替换现有库，也不通过�
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\.agents\skills\windows-v120-build\scripts\verify-build-env.ps1 -Json
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1 -EngineProfile Upgrade30
 ```
 
 两个入口的职责不同：
 
 - `verify-build-env.ps1`：汇总 VS2013 `vcvarsall.bat`、MSBuild 12.0、关键脚本和 `Check-v120Toolset.ps1` 的结果；
-- `Check-v120Toolset.ps1`：检查其 `Mainline` 清单中的 13 个 Win32 工程是否使用 `v120`。
+- `Check-v120Toolset.ps1`：从 `tools/scripts/build-config.psm1` 读取项目清单；默认检查 Upgrade30 的 28 个直接构建工程是否声明 `v120`。
+
+验证 2.2.6/CEGUI 0.7.1 兼容配置时显式执行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1 -EngineProfile Legacy226
+```
+
+Legacy226 清单包含 13 个工程，不是 Win32 当前默认交付链。
 
 这两个现有脚本都不读取 Windows SDK 8.1 注册表，也不检查 `Include\um\Windows.h`。SDK 必须按下一节单独探测。
 
@@ -135,7 +143,7 @@ $env:MT3_MSBUILD_PATH = 'C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe'
 ```powershell
 git lfs install
 git lfs pull
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1 -EngineProfile Upgrade30
 ```
 
 然后按 [Windows 构建前检查清单](./03-Windows构建前检查清单.md) 核对编码、ABI、运行目录和产物状态，再使用 [Windows 完整构建指南](./02-Windows完整构建指南.md) 的固定入口构建。

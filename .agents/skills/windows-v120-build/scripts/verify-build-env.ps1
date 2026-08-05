@@ -1,6 +1,8 @@
 [CmdletBinding()]
 param(
     [string]$RepoRoot = "",
+    [ValidateSet("Legacy226", "Upgrade30")]
+    [string]$EngineProfile = "Upgrade30",
     [switch]$Json
 )
 
@@ -36,21 +38,10 @@ foreach ($relativePath in $requiredFiles) {
     }
 }
 
-$projectPaths = @(
-    "common/platform/platform.win32.vcxproj",
-    "common/ljfm/ljfm.win32.vcxproj",
-    "common/lua/lua.win32.vcxproj",
-    "common/cauthc/projects/windows/cauthc.win32.vcxproj",
-    "cocos2d-x-2.2.6/external/Box2D/proj.win32/Box2D.vcxproj",
-    "cocos2d-x-2.2.6/external/chipmunk/proj.win32/chipmunk.vcxproj",
-    "cocos2d-x-2.2.6/scripting/lua/proj.win32/liblua.vcxproj",
-    "cocos2d-x-2.2.6/cocos2dx/proj.win32/cocos2d.vcxproj",
-    "cocos2d-x-2.2.6/CocosDenshion/proj.win32/CocosDenshion.vcxproj",
-    "cocos2d-x-2.2.6/extensions/proj.win32/libExtensions.vcxproj",
-    "engine/engine.win32.vcxproj",
-    "client/MT3Win32App/FireClient.win32.vcxproj",
-    "client/MT3Win32App/mt3.win32.vcxproj"
-)
+$buildConfigModule = Join-Path $RepoRoot "tools/scripts/build-config.psm1"
+Import-Module -Name $buildConfigModule -Force
+$projectSpecs = @(Get-MT3Win32ProjectManifest -RepoRoot $RepoRoot -EngineProfile $EngineProfile -IncludeFinalExecutable)
+$projectPaths = @($projectSpecs | ForEach-Object { $_.RelativePath })
 
 function Test-ProjectDeclaresV120 {
     param(
@@ -116,7 +107,7 @@ if ([string]::IsNullOrWhiteSpace($msbuildPath)) {
 $checkScript = Join-Path $RepoRoot "tools/scripts/Check-v120Toolset.ps1"
 $toolsetExitCode = $null
 if (Test-Path $checkScript -PathType Leaf) {
-    $toolsetOutput = @(& powershell -NoProfile -ExecutionPolicy Bypass -File $checkScript -RootPath $RepoRoot -Scope Mainline 2>&1)
+    $toolsetOutput = @(& powershell -NoProfile -ExecutionPolicy Bypass -File $checkScript -RootPath $RepoRoot -Scope Mainline -EngineProfile $EngineProfile 2>&1)
     $toolsetExitCode = if ($null -ne $LASTEXITCODE) { [int]$LASTEXITCODE } else { 0 }
     [void]$details.Add("check_v120_exit=" + $toolsetExitCode)
     foreach ($line in @($toolsetOutput | Select-Object -First 3)) {
@@ -129,7 +120,7 @@ if (Test-Path $checkScript -PathType Leaf) {
 
 $status = "PASS"
 $summary = "Windows v120 build entrypoints and mainline toolset look consistent."
-$next = "Run powershell -ExecutionPolicy Bypass -File .\\tools\\scripts\\Build-MT3-Exe-Canonical.ps1 -Configuration Release"
+$next = "Run powershell -ExecutionPolicy Bypass -File .\\tools\\scripts\\Build-MT3-Exe-Canonical.ps1 -Configuration Release -EngineProfile $EngineProfile"
 
 if ($failures.Count -gt 0) {
     $status = "FAIL"
@@ -150,6 +141,7 @@ foreach ($item in $warnings) {
 
 $payload = [pscustomobject][ordered]@{
     repo_root = $RepoRoot
+    engine_profile = $EngineProfile
     required_file_count = $requiredFiles.Count
     project_file_count = $projectPaths.Count
     vcvarsall = $vcvarsPath

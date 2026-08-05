@@ -19,14 +19,14 @@ description: "MT3 文本编码、BOM 和换行保护技能。处理中文文件�
 ## 输入校验
 
 - 先确认目标文件路径、原始编码、BOM、换行风格和是否含中文
-- 先确认文件是否属于 `client/MT3Win32App/**`、`cocos2d-2.0-rc2-x-2.0.1/**`、`dependencies/**` 等混合编码目录
+- 先确认文件是否属于 `client/MT3Win32App/**`、`cocos2d-x-3.0-oh/**`、`cocos2d-x-2.2.6/**`、`dependencies/**` 等混合编码或 vendor 目录
 - 先确认本轮是“新增文件”还是“修改已有文件”
 
 ## 强制规则
 
 - 修改已有文件时，优先保持原编码、原 BOM 和原换行符。
 - `.rc` 文件必须先探测编码；Win32 客户端/工具主线 `.rc` 优先接受 `UTF-16 LE with BOM`，不要一律改成 `UTF-8 BOM`。
-- `client/MT3Win32App/**`、`cocos2d-2.0-rc2-x-2.0.1/**`、`dependencies/**` 含历史混合编码文件，禁止按扩展名一刀切转码。
+- `client/MT3Win32App/**`、两个现存 Cocos 树和 `dependencies/**` 含历史混合编码文件，禁止按扩展名一刀切转码；已删除的 Cocos 2.0 树只作历史概念基线，不作为待编辑路径。
 - `client/FireClient/Application/**`、`engine/**` 的 C/C++ 文件新增或收敛时可优先落到 `UTF-8 BOM`，但修改既有文件仍以保持原编码为先。
 - **凡是交给 VS2013/cl.exe 编译、且包含中文或其他非 ASCII 字符的 C/C++ 源文件，必须保留 `UTF-8 with BOM`；不要误写成 `UTF-8 no BOM`。**
 - VS2013 在读取无 BOM 的 UTF-8 中文源码时，可能按 `CP936/GBK` 解码，触发 `C2001: 常量中有换行符` 等伪字符串错误。

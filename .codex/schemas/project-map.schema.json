@@ -51,8 +51,8 @@
       "minItems": 15,
       "items": { "$ref": "#/$defs/directory" },
       "allOf": [
+        { "contains": { "type": "object", "required": ["path", "modification_policy"], "properties": { "path": { "const": "cocos2d-x-3.0-oh" }, "modification_policy": { "const": "first-party-high-risk" } } } },
         { "contains": { "type": "object", "required": ["path", "modification_policy"], "properties": { "path": { "const": "cocos2d-x-2.2.6" }, "modification_policy": { "const": "first-party-high-risk" } } } },
-        { "contains": { "type": "object", "required": ["path", "modification_policy"], "properties": { "path": { "const": "cocos2d-2.0-rc2-x-2.0.1" }, "modification_policy": { "const": "historical-read-only" } } } },
         { "contains": { "type": "object", "required": ["path", "modification_policy"], "properties": { "path": { "const": "dependencies" }, "modification_policy": { "const": "vendor-read-only" } } } },
         { "contains": { "type": "object", "required": ["path", "availability"], "properties": { "path": { "const": "client/resource/res/ui" }, "availability": { "const": "runtime_workspace_local" } } } }
       ]

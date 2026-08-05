@@ -16,28 +16,12 @@
 ## 2. 构建前检查
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1 -EngineProfile Upgrade30
 git lfs status
 git status --short
 ```
 
-`Check-v120Toolset.ps1` 不能单独证明 Upgrade30 的 CEGUI 工程为 `v120`；需额外核对：
-
-```powershell
-$ceguiProject = '.\tools\CEGUI-0.7.9-r5\cegui-0.7.9.win32.vcxproj'
-$ceguiXml = Get-Content -Raw -Encoding UTF8 -LiteralPath $ceguiProject
-$ceguiToolsets = @(
-    [regex]::Matches($ceguiXml, '<PlatformToolset>\s*(?<toolset>[^<]+)\s*</PlatformToolset>') |
-        ForEach-Object { $_.Groups['toolset'].Value.Trim() }
-)
-$invalidToolsets = @($ceguiToolsets | Where-Object { $_ -ne 'v120' })
-if ($ceguiToolsets.Count -eq 0 -or $invalidToolsets.Count -gt 0) {
-    throw "CEGUI PlatformToolset check failed: $($ceguiToolsets -join ', ')"
-}
-$ceguiToolsets | Sort-Object -Unique
-```
-
-预期只输出 `v120`。
+`Check-v120Toolset.ps1` 与内部构建链共同读取 `tools/scripts/build-config.psm1`。默认 Upgrade30 清单覆盖 Cocos 3.0-oh 的 21 个 CMake 工程、CEGUI 0.7.9-r5、三个公共/业务工程、engine、FireClient 和最终 MT3，共 28 个检查对象。
 
 canonical wrapper 在正式构建前还会：
 
@@ -83,7 +67,7 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidatio
 
 ## 4. 内部脚本的实际步骤
 
-以下表格把 `client/Build-MT3-v120.ps1` 当前动作归纳为 15 个文档分组阶段：
+以下表格把 `client/Build-MT3-v120.ps1` 当前 Upgrade30 动作归纳为 10 个文档分组阶段：
 
 | 序号 | 阶段 | 工程或动作 |
 | ---: | --- | --- |
@@ -94,13 +78,13 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidatio
 | 5 | CEGUI079 | `tools/CEGUI-0.7.9-r5/cegui-0.7.9.win32.vcxproj` |
 | 6 | engine | `engine/engine.win32.vcxproj` |
 | 7 | FireClient | `client/MT3Win32App/FireClient.win32.vcxproj` |
-| 13 | lua51/link-input-sync | 同步 Lua 与最终链接所需 `.lib` |
-| 14 | MT3 | `client/MT3Win32App/mt3.win32.vcxproj` |
-| 15 | runtime-sync/audit | 同步运行时文件并执行依赖审计 |
+| 8 | link-input-sync | 同步最终链接所需 `.lib` |
+| 9 | MT3 | `client/MT3Win32App/mt3.win32.vcxproj` |
+| 10 | runtime-sync/audit | 同步运行时文件并执行依赖审计 |
 
-内部脚本实际记录 17 个独立计时步骤：12 个 `buildSteps`，再加 `lua51-output-sync`、`link-input-sync`、`build:MT3`、`runtime-sync`、`runtime-audit`。表中第 13、15 行分别合并展示了两个同步/审计计时步骤，因此“15 个文档分组阶段”不等于脚本计时步骤数量。
+Upgrade30 实际记录 31 个独立计时步骤：27 个 `buildSteps`，再加 `link-input-sync`、`build:MT3`、`runtime-sync`、`runtime-audit`。`lua51-output-sync` 只在 Legacy226 执行，不属于 Upgrade30。
 
-`Check-v120Toolset.ps1` 的 `Mainline` 清单用 `common/lua/lua.win32.vcxproj` 替代了真实构建链中的 CEGUI 工程：前者不等于内部脚本当前单独调用的工程，后者必须使用第 2 节命令单独核对。
+`Check-v120Toolset.ps1`、内部构建和 Win32 分析器均使用共享项目清单；新增或删除构建工程时只维护 `build-config.psm1`，并同时运行分析器自测。当前工作区本地的 `Test-No-D3D9Dependency.ps1` 也已按同一清单完成验证，但该文件受 `/tools/` 忽略规则影响，不属于 clean checkout 的强制入口。
 
 ## 5. ABI 重编边界
 

@@ -24,12 +24,13 @@
 ### 1. 检查 v120 工具链
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Check-v120Toolset.ps1 -EngineProfile Upgrade30
 ```
 
 当前仓库实测说明：
 
-- 默认只检查 Win32 主线链路的 11 个工程，避免把 WinRT/WP8/vendor 工程误判成主线失败。
+- 默认按 `EngineProfile=Upgrade30` 检查 Win32 canonical 的 28 个直接构建工程（27 个依赖工程 + `MT3`），避免把 WinRT/WP8/vendor 工程误判成主线失败。
+- 只有验证 2.2.6/CEGUI 0.7.1 兼容链时才显式传 `-EngineProfile Legacy226`；该清单包含 13 个工程。
 - 会同时检查 `VS120COMNTOOLS/vcvarsall` 与 `MSBuild 12.0`。
 - 如需扫描整个仓库的 `.vcxproj`，显式使用 `-Scope All`：
 

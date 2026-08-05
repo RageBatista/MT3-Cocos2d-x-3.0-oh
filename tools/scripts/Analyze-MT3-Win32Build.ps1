@@ -1,5 +1,7 @@
 param(
     [string]$RootPath = ".",
+    [ValidateSet("Legacy226", "Upgrade30")]
+    [string]$EngineProfile = "Upgrade30",
     [switch]$Json,
     [string]$ReportPath
 )
@@ -36,50 +38,27 @@ function Normalize-RepoRelativePath {
 
 function Get-BuildScriptProjects {
     param(
-        [Parameter(Mandatory = $true)][string]$RepoRoot
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [Parameter(Mandatory = $true)][string]$Profile
     )
 
-    $scriptPath = Resolve-RepoPath -BaseRoot $RepoRoot -PathValue "client\Build-MT3-v120.ps1"
-    if (-not (Test-Path $scriptPath)) {
-        return @()
-    }
-
-    $text = Get-Content -Raw -Encoding UTF8 -LiteralPath $scriptPath
-    $projects = New-Object System.Collections.ArrayList
-
-    $repoRootPattern = '@\{\s*Name\s*=\s*"(?<name>[^"]+)";\s*Path\s*=\s*\(Join-Path\s+\$RepoRoot\s+"(?<path>[^"]+)"\)'
-    foreach ($match in [regex]::Matches($text, $repoRootPattern)) {
-        $projects.Add([PSCustomObject]@{
-            name = $match.Groups["name"].Value
-            path = Normalize-RepoRelativePath -PathValue $match.Groups["path"].Value
-            source = "Build-MT3-v120.ps1"
-        }) | Out-Null
-    }
-
-    $clientRootPattern = '@\{\s*Name\s*=\s*"(?<name>[^"]+)";\s*Path\s*=\s*\(Join-Path\s+\$ClientRoot\s+"(?<path>[^"]+)"\)'
-    foreach ($match in [regex]::Matches($text, $clientRootPattern)) {
-        $projects.Add([PSCustomObject]@{
-            name = $match.Groups["name"].Value
-            path = Normalize-RepoRelativePath -PathValue ("client\" + $match.Groups["path"].Value)
-            source = "Build-MT3-v120.ps1"
-        }) | Out-Null
-    }
-
-    $mt3Match = [regex]::Match($text, '\$mt3ProjectPath\s*=\s*Join-Path\s+\$ClientRoot\s+"(?<path>[^"]+)"')
-    if ($mt3Match.Success) {
-        $projects.Add([PSCustomObject]@{
-            name = "MT3"
-            path = Normalize-RepoRelativePath -PathValue ("client\" + $mt3Match.Groups["path"].Value)
-            source = "Build-MT3-v120.ps1"
-        }) | Out-Null
-    }
-
-    return @($projects.ToArray())
+    Import-Module -Name (Join-Path $RepoRoot "tools\scripts\build-config.psm1") -Force
+    return @(
+        Get-MT3Win32ProjectManifest -RepoRoot $RepoRoot -EngineProfile $Profile -IncludeFinalExecutable |
+            ForEach-Object {
+                [PSCustomObject]@{
+                    name = $_.Name
+                    path = Normalize-RepoRelativePath -PathValue $_.RelativePath
+                    source = "build-config.psm1"
+                }
+            }
+    )
 }
 
 function Get-CheckV120MainlineProjects {
     param(
-        [Parameter(Mandatory = $true)][string]$RepoRoot
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [Parameter(Mandatory = $true)][string]$Profile
     )
 
     $scriptPath = Resolve-RepoPath -BaseRoot $RepoRoot -PathValue "tools\scripts\Check-v120Toolset.ps1"
@@ -88,15 +67,20 @@ function Get-CheckV120MainlineProjects {
     }
 
     $text = Get-Content -Raw -Encoding UTF8 -LiteralPath $scriptPath
-    $projects = New-Object System.Collections.ArrayList
-    foreach ($match in [regex]::Matches($text, "'(?<path>[^']+\.vcxproj)'")) {
-        $projects.Add([PSCustomObject]@{
-            path = Normalize-RepoRelativePath -PathValue $match.Groups["path"].Value
-            source = "Check-v120Toolset.ps1"
-        }) | Out-Null
+    if ($text -notmatch 'Get-MT3Win32ProjectManifest') {
+        return @()
     }
 
-    return @($projects.ToArray())
+    Import-Module -Name (Join-Path $RepoRoot "tools\scripts\build-config.psm1") -Force
+    return @(
+        Get-MT3Win32ProjectManifest -RepoRoot $RepoRoot -EngineProfile $Profile -IncludeFinalExecutable |
+            ForEach-Object {
+                [PSCustomObject]@{
+                    path = Normalize-RepoRelativePath -PathValue $_.RelativePath
+                    source = "Check-v120Toolset.ps1/build-config.psm1"
+                }
+            }
+    )
 }
 
 function Split-MSBuildList {
@@ -337,8 +321,8 @@ foreach ($requiredScript in @($canonicalScript, $internalBuildScript, $checkScri
     }
 }
 
-$actualBuildProjects = @(Get-BuildScriptProjects -RepoRoot $repoRoot)
-$checkV120Projects = @(Get-CheckV120MainlineProjects -RepoRoot $repoRoot)
+$actualBuildProjects = @(Get-BuildScriptProjects -RepoRoot $repoRoot -Profile $EngineProfile)
+$checkV120Projects = @(Get-CheckV120MainlineProjects -RepoRoot $repoRoot -Profile $EngineProfile)
 
 $actualPathSet = New-Object "System.Collections.Generic.HashSet[string]" ([StringComparer]::OrdinalIgnoreCase)
 foreach ($project in $actualBuildProjects) {
@@ -418,6 +402,7 @@ if ($status -eq "FAIL") {
 
 $details.Add(("actual_build_project_count={0}" -f $actualBuildProjects.Count)) | Out-Null
 $details.Add(("check_v120_project_count={0}" -f $checkV120Projects.Count)) | Out-Null
+$details.Add(("engine_profile={0}" -f $EngineProfile)) | Out-Null
 $details.Add(("warning_count={0}" -f $warnings.Count)) | Out-Null
 $details.Add(("failure_count={0}" -f $failures.Count)) | Out-Null
 
@@ -436,6 +421,7 @@ $payload = @{
     details = @($details.ToArray())
     data = @{
         repo_root = $repoRoot
+        engine_profile = $EngineProfile
         canonical_script = Normalize-RepoRelativePath -PathValue $canonicalScript.Substring($repoRoot.Length).TrimStart([char[]]@("\", "/"))
         internal_build_script = Normalize-RepoRelativePath -PathValue $internalBuildScript.Substring($repoRoot.Length).TrimStart([char[]]@("\", "/"))
         check_v120_script = Normalize-RepoRelativePath -PathValue $checkScript.Substring($repoRoot.Length).TrimStart([char[]]@("\", "/"))

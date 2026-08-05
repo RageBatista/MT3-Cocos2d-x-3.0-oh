@@ -2,6 +2,8 @@ param(
     [string]$RootPath = '.',
     [ValidateSet('Mainline', 'All')]
     [string]$Scope = 'Mainline',
+    [ValidateSet('Legacy226', 'Upgrade30')]
+    [string]$EngineProfile = 'Upgrade30',
     [switch]$FailOnAnyNonV120
 )
 
@@ -76,26 +78,16 @@ function Resolve-VS120ComnToolsPath {
 
 function Get-MainlineProjectPaths {
     param(
-        [Parameter(Mandatory = $true)][string]$Root
+        [Parameter(Mandatory = $true)][string]$Root,
+        [Parameter(Mandatory = $true)][string]$Profile
     )
 
-    $relativePaths = @(
-        'common\platform\platform.win32.vcxproj',
-        'common\ljfm\ljfm.win32.vcxproj',
-        'common\lua\lua.win32.vcxproj',
-        'common\cauthc\projects\windows\cauthc.win32.vcxproj',
-        'cocos2d-x-2.2.6\external\Box2D\proj.win32\Box2D.vcxproj',
-        'cocos2d-x-2.2.6\external\chipmunk\proj.win32\chipmunk.vcxproj',
-        'cocos2d-x-2.2.6\scripting\lua\proj.win32\liblua.vcxproj',
-        'cocos2d-x-2.2.6\cocos2dx\proj.win32\cocos2d.vcxproj',
-        'cocos2d-x-2.2.6\CocosDenshion\proj.win32\CocosDenshion.vcxproj',
-        'cocos2d-x-2.2.6\extensions\proj.win32\libExtensions.vcxproj',
-        'engine\engine.win32.vcxproj',
-        'client\MT3Win32App\FireClient.win32.vcxproj',
-        'client\MT3Win32App\mt3.win32.vcxproj'
+    $modulePath = Join-Path $Root 'tools\scripts\build-config.psm1'
+    Import-Module -Name $modulePath -Force
+    return @(
+        Get-MT3Win32ProjectManifest -RepoRoot $Root -EngineProfile $Profile -IncludeFinalExecutable |
+            ForEach-Object { $_.Path }
     )
-
-    return @($relativePaths | ForEach-Object { Join-Path $Root $_ })
 }
 
 function Test-ProjectDeclaresV120 {
@@ -138,7 +130,7 @@ if ($Scope -eq 'All') {
     $projects = @(Get-ChildItem -Path $root -Recurse -File -Filter *.vcxproj)
 } else {
     $projects = New-Object System.Collections.Generic.List[System.IO.FileInfo]
-    foreach ($projectPath in (Get-MainlineProjectPaths -Root $root)) {
+    foreach ($projectPath in (Get-MainlineProjectPaths -Root $root -Profile $EngineProfile)) {
         if (Test-Path $projectPath) {
             [void]$projects.Add((Get-Item $projectPath))
         } else {
@@ -155,7 +147,8 @@ if ($projects.Count -eq 0) {
     exit 1
 }
 
-Show-Check -Name 'vcxproj scan scope' -Passed $true -Detail ($Scope + ' (' + $projects.Count + ' projects)')
+$scopeDetail = if ($Scope -eq 'Mainline') { $Scope + '/' + $EngineProfile } else { $Scope }
+Show-Check -Name 'vcxproj scan scope' -Passed $true -Detail ($scopeDetail + ' (' + $projects.Count + ' projects)')
 
 if ($missingProjectPaths.Count -gt 0) {
     Show-Check -Name 'mainline project path' -Passed $false -Detail ('Missing ' + $missingProjectPaths.Count + ' expected projects')

@@ -1,8 +1,8 @@
 {
   "$schema": "schemas/project-map.schema.json",
   "kind": "project-map",
-  "version": "2.0.0",
-  "updated": "2026-07-12",
+  "version": "2.1.0",
+  "updated": "2026-08-05",
   "status": "governance-sidecar",
   "project": {
     "name": "MT3",
@@ -14,7 +14,8 @@
     ],
     "server": "Java + Ant + gnet/xbean",
     "rendering_stack": [
-      "Cocos2d-x 2.2.6",
+      "Cocos2d-x 3.0-oh (Win32)",
+      "Cocos2d-x 2.2.6 (Android/iOS)",
       "Nuclear",
       "CEGUI"
     ],
@@ -57,8 +58,9 @@
     },
     {
       "layer": "cocos2d_x",
-      "name": "Cocos2d-x 2.2.6 层",
+      "name": "分平台 Cocos2d-x 基础层",
       "paths": [
+        "cocos2d-x-3.0-oh",
         "cocos2d-x-2.2.6"
       ],
       "responsibilities": [
@@ -140,7 +142,9 @@
       "name": "渲染处理层",
       "primary_paths": [
         "engine",
+        "cocos2d-x-3.0-oh",
         "cocos2d-x-2.2.6",
+        "tools/CEGUI-0.7.9-r5",
         "client/resource/res/ui"
       ],
       "skill": "rendering-pipeline",
@@ -307,19 +311,19 @@
       "availability": "tracked_required"
     },
     {
-      "path": "cocos2d-x-2.2.6",
-      "role": "当前 Cocos2d-x 2.2.6 基础层",
+      "path": "cocos2d-x-3.0-oh",
+      "role": "Win32 canonical Cocos2d-x 3.0-oh 基础层",
       "modifiable": true,
+      "build_impact": "Cocos 3.0-oh -> engine -> FireClient -> MT3",
       "modification_policy": "first-party-high-risk",
       "encoding_note": "保持原编码，禁止批量转码",
       "availability": "tracked_required"
     },
     {
-      "path": "cocos2d-2.0-rc2-x-2.0.1",
-      "role": "历史/回滚/差异分析基线",
-      "modifiable": false,
-      "modification_policy": "historical-read-only",
-      "boundary": "不得作为当前构建、渲染或 Android 依赖入口",
+      "path": "cocos2d-x-2.2.6",
+      "role": "Android/iOS Cocos2d-x 2.2.6 兼容基础层",
+      "modifiable": true,
+      "modification_policy": "first-party-high-risk",
       "encoding_note": "保持原编码，禁止批量转码",
       "availability": "tracked_required"
     },
@@ -426,8 +430,9 @@
   "core_dependencies": [
     {
       "name": "Cocos2d-x",
-      "version_or_line": "2.2.6",
+      "version_or_line": "3.0-oh (Win32) / 2.2.6 (Android/iOS)",
       "paths": [
+        "cocos2d-x-3.0-oh",
         "cocos2d-x-2.2.6"
       ]
     },
@@ -440,11 +445,12 @@
     },
     {
       "name": "CEGUI",
-      "version_or_line": "0.7.1 lineage",
+      "version_or_line": "0.7.9-r5 (Win32) / 0.7.1 compatible lineage (Android/iOS/tools)",
       "paths": [
         "client/resource/res/ui",
+        "tools/CEGUI-0.7.9-r5",
         "tools/CEGUI-0.7.1",
-        "dependencies"
+        "dependencies/cegui"
       ]
     },
     {
@@ -654,7 +660,9 @@
         "-Configuration",
         "Release",
         "-Platform",
-        "Win32"
+        "Win32",
+        "-EngineProfile",
+        "Upgrade30"
       ],
       "working_directory": ".",
       "role": "canonical_build",
@@ -670,7 +678,10 @@
       "runner": "powershell",
       "entry_kind": "repo_script",
       "entry": "client/Build-MT3-v120.ps1",
-      "arguments": [],
+      "arguments": [
+        "-EngineProfile",
+        "Upgrade30"
+      ],
       "working_directory": ".",
       "role": "internal_dependency",
       "availability": "tracked_required",
