@@ -6,11 +6,19 @@ use app\BaseController;
 
 class Faq extends BaseController
 {
+	private function error(string $msg, array $extra = [])
+	{
+		return api_json(array_merge([
+			'code' => 0,
+			'msg' => $msg,
+		], $extra));
+	}
+
     public function search()
     {
 		$question = $this->request->param('q');
 		if(!isset($question)){
-			return ;
+			return $this->error('参数缺失：q');
 		}
 		//file_put_contents($question, base64_encode($question));
 		
@@ -29,7 +37,7 @@ class Faq extends BaseController
 				'title'=>'<T t="等级的玩法" ></T><T t="#907" ></T>'
 			]
 		];*/
-        return json_encode(array('data'=>$data),JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+        return api_json(['data'=>$data]);
     }
 	
     public function index()
@@ -40,7 +48,7 @@ class Faq extends BaseController
 		// 2. 暴露了支付配置信息（API地址、PID、KEY）
 		// 3. 调试代码不应该存在于生产环境
 		
-		return json_encode([
+		return api_json([
 			'code' => 0,
 			'msg' => 'API ready'
 		]);

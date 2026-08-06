@@ -5,7 +5,6 @@ namespace app\admin\controller;
 
 use app\BaseController;
 use app\model\Item as ItemMod;
-use think\facade\Session;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use app\model\UserLog as ULog;
 use think\facade\Db;
@@ -24,37 +23,12 @@ class Item extends BaseController
     
     public function itemList()
     {
-		$get = $this->request->get();
-		$table_item = null;
-		if(isset($get['name'])&&isset($get['itemid'])&&isset($get['type'])){
-			if($get['name']!=null){
-				$name = $this->validateInput($get['name']);
-				$table_item[] = ['name','like','%'.$name.'%'];
-			}
-			if($get['itemid']!=0){
-				$itemid = $this->validateInput($get['itemid']);
-				$table_item[] = ['itemid','like','%'.$itemid.'%'];
-			}
-			if($get['type']!=0){
-				$type = intval($get['type']);
-				$table_item[] = ['type','=',$type];
-			}
-			Session::set('table_item', $table_item);
-		}else{
-			$table_item = null;
-			Session::delete('table_item');
-		}
-		
-		
         return view('item_list');
     }
     public function list_table()
     {
-		$post = $this->request->post();
+		$post = $this->request->param();
 		$table_item = $this->buildItemFilters($post);
-		if ($table_item === null) {
-			$table_item = Session::get('table_item');
-		}
 		$item = new ItemMod();
 		$getItemList = $item->getItemList($post,$table_item);
         return jsonp($getItemList);

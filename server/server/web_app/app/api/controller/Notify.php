@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\BaseController;
 use app\model\UserOrder as UL;
 use app\model\PayChannel as PC;
+use think\facade\Log;
 
 //支付接口
 use app\api\pay\EpayCore;
@@ -27,18 +28,30 @@ class Notify extends BaseController
 				$findOrder = is_array($orderData) ? $orderData : $orderData->toArray();
 				$channel = new PC();
 				$findChannel = $channel->getChannel($findOrder['channel']);
+				if(!$findChannel){
+					$findOrder['pay_status'] = '支付通道不存在';
+					return view('index',['findOrder'=>$findOrder]);
+				}
 				//支付接口地址
 				$epay_config['apiurl'] = $findChannel['pay_api'];
 				//商户ID
 				$epay_config['pid'] = $findChannel['pay_pid'];
 				//商户密钥
 				$epay_config['key'] = $findChannel['pay_key'];
-				$epay = new EpayCore($epay_config);
-				$status = $epay->verifyReturn($payParam);
-				if($status){
-					$findOrder['pay_status'] = '支付成功';
-				}else{
-					$findOrder['pay_status'] = '支付失败';
+				try {
+					$epay = new EpayCore($epay_config);
+					$status = $epay->verifyReturn($payParam);
+					if($status){
+						$findOrder['pay_status'] = '支付成功';
+					}else{
+						$findOrder['pay_status'] = '支付失败';
+					}
+				} catch (\Throwable $e) {
+					Log::warning('支付同步回调校验异常', [
+						'out_trade_no' => (string)($payParam['out_trade_no'] ?? ''),
+						'error' => $e->getMessage()
+					]);
+					$findOrder['pay_status'] = '签名校验异常';
 				}
 			}else{
 				$findOrder['orderid'] = '订单不存在';

@@ -3,19 +3,26 @@ param(
     [string]$RepoRoot = '',
 
     [Parameter(Mandatory = $false)]
+    [ValidateSet('Legacy226', 'Upgrade30')]
+    [string]$EngineProfile = 'Upgrade30',
+
+    [Parameter(Mandatory = $false)]
     [string]$GameApplicationPath = 'client/FireClient/Application/Framework/GameApplication.cpp',
 
     [Parameter(Mandatory = $false)]
-    [string]$VideoEngineJniPath = 'cocos2d-x-2.2.6/cocos2dx/platform/android/jni/VideoEngineJni.cpp',
+    [string]$VideoEngineJniPath = '',
 
     [Parameter(Mandatory = $false)]
-    [string]$Cocos2dxHelperJniPath = 'cocos2d-x-2.2.6/cocos2dx/platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp',
+    [string]$Cocos2dxHelperJniPath = '',
+
+    [Parameter(Mandatory = $false)]
+    [string]$JniHelperPath = '',
 
     [Parameter(Mandatory = $false)]
     [string]$Cocos2dxActivityPath = 'client/android/LocojoyProject/src/org/cocos2dx/lib/Cocos2dxActivity.java',
 
     [Parameter(Mandatory = $false)]
-    [string]$ZipUtilsPath = 'cocos2d-x-2.2.6/cocos2dx/support/zip_support/ZipUtils.cpp',
+    [string]$ZipUtilsPath = '',
 
     [Parameter(Mandatory = $false)]
     [string]$UISpineSpritePath = 'client/FireClient/Application/GameUI/UISpineSprite.cpp'
@@ -28,6 +35,29 @@ if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
     $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 }
 
+if ($EngineProfile -eq 'Upgrade30') {
+    if ([string]::IsNullOrWhiteSpace($Cocos2dxHelperJniPath)) {
+        $Cocos2dxHelperJniPath = 'cocos2d-x-3.0-oh/cocos/2d/platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp'
+    }
+    if ([string]::IsNullOrWhiteSpace($JniHelperPath)) {
+        $JniHelperPath = 'cocos2d-x-3.0-oh/cocos/2d/platform/android/jni/JniHelper.cpp'
+    }
+    if ([string]::IsNullOrWhiteSpace($ZipUtilsPath)) {
+        $ZipUtilsPath = 'cocos2d-x-3.0-oh/cocos/2d/ZipUtils.cpp'
+    }
+}
+else {
+    if ([string]::IsNullOrWhiteSpace($VideoEngineJniPath)) {
+        $VideoEngineJniPath = 'cocos2d-x-2.2.6/cocos2dx/platform/android/jni/VideoEngineJni.cpp'
+    }
+    if ([string]::IsNullOrWhiteSpace($Cocos2dxHelperJniPath)) {
+        $Cocos2dxHelperJniPath = 'cocos2d-x-2.2.6/cocos2dx/platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxHelper.cpp'
+    }
+    if ([string]::IsNullOrWhiteSpace($ZipUtilsPath)) {
+        $ZipUtilsPath = 'cocos2d-x-2.2.6/cocos2dx/support/zip_support/ZipUtils.cpp'
+    }
+}
+
 function Join-RepoPath {
     param([string]$Path)
     if ([System.IO.Path]::IsPathRooted($Path)) {
@@ -37,21 +67,30 @@ function Join-RepoPath {
 }
 
 $gamePath = Join-RepoPath -Path $GameApplicationPath
-$videoJniPath = Join-RepoPath -Path $VideoEngineJniPath
+$videoJniPath = if ([string]::IsNullOrWhiteSpace($VideoEngineJniPath)) { $null } else { Join-RepoPath -Path $VideoEngineJniPath }
 $helperJniPath = Join-RepoPath -Path $Cocos2dxHelperJniPath
+$jniHelperPath = if ([string]::IsNullOrWhiteSpace($JniHelperPath)) { $null } else { Join-RepoPath -Path $JniHelperPath }
 $activityPath = Join-RepoPath -Path $Cocos2dxActivityPath
 $zipUtilsPath = Join-RepoPath -Path $ZipUtilsPath
 $uiSpineSpritePath = Join-RepoPath -Path $UISpineSpritePath
 
-foreach ($path in @($gamePath, $videoJniPath, $helperJniPath, $activityPath, $zipUtilsPath, $uiSpineSpritePath)) {
+$requiredPaths = @($gamePath, $helperJniPath, $activityPath, $zipUtilsPath, $uiSpineSpritePath)
+if ($videoJniPath) {
+    $requiredPaths += $videoJniPath
+}
+if ($jniHelperPath) {
+    $requiredPaths += $jniHelperPath
+}
+foreach ($path in $requiredPaths) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
         throw "Source file not found: $path"
     }
 }
 
 $gameSource = Get-Content -Raw -Encoding UTF8 -LiteralPath $gamePath
-$videoJniSource = Get-Content -Raw -Encoding UTF8 -LiteralPath $videoJniPath
+$videoJniSource = if ($videoJniPath) { Get-Content -Raw -Encoding UTF8 -LiteralPath $videoJniPath } else { '' }
 $helperJniSource = Get-Content -Raw -Encoding UTF8 -LiteralPath $helperJniPath
+$jniHelperSource = if ($jniHelperPath) { Get-Content -Raw -Encoding UTF8 -LiteralPath $jniHelperPath } else { '' }
 $activitySource = Get-Content -Raw -Encoding UTF8 -LiteralPath $activityPath
 $zipUtilsSource = Get-Content -Raw -Encoding UTF8 -LiteralPath $zipUtilsPath
 $uiSpineSpriteSource = Get-Content -Raw -Encoding UTF8 -LiteralPath $uiSpineSpritePath
@@ -77,14 +116,28 @@ if ($gameSource -notmatch 'loginBg\.getInstanceAndShow' -or
     $gameSource -notmatch 'LoginQuickDialog\.getInstanceAndShow') {
     $errors.Add("GameApplication Android login bootstrap must show the login background before the quick login UI.")
 }
-if ($videoJniSource -notmatch 'LOG_TAG\s+"VideoEngineJni"') {
-    $errors.Add("VideoEngineJni must log bridge calls and failures.")
+if ($EngineProfile -eq 'Legacy226') {
+    if ($videoJniSource -notmatch 'LOG_TAG\s+"VideoEngineJni"') {
+        $errors.Add("VideoEngineJni must log bridge calls and failures.")
+    }
+    if ($videoJniSource -notmatch 'ExceptionCheck\(\)') {
+        $errors.Add("VideoEngineJni must clear Java exceptions after JNI calls.")
+    }
 }
-if ($videoJniSource -notmatch 'ExceptionCheck\(\)') {
-    $errors.Add("VideoEngineJni must clear Java exceptions after JNI calls.")
+else {
+    if ($helperJniSource -notmatch 'nativeInitJniBridge' -or
+        $helperJniSource -notmatch 'setClassLoaderFrom') {
+        $errors.Add("Upgrade30 helper JNI must initialize the Activity class loader bridge.")
+    }
+    if ($activitySource -notmatch 'nativeInitJniBridge\s*\(this\)') {
+        $errors.Add("Cocos2dxActivity must initialize the Upgrade30 JNI bridge before native calls.")
+    }
+    if ($jniHelperSource -notmatch 'ExceptionCheck\(\)') {
+        $errors.Add("Upgrade30 JniHelper must clear failed class and method lookup exceptions.")
+    }
 }
 if ($helperJniSource -match '#define\s+CLASS_NAME\s+"org/cocos2dx/lib/Cocos2dxHelper"') {
-    $errors.Add("Cocos2dxHelper native bridge still targets missing Cocos2dxHelper instead of project Activity.")
+    $errors.Add("Cocos2dxHelper native bridge targets a Java class that is not compiled by LocojoyProject.")
 }
 if ($activitySource -notmatch 'getBoolForKey\s*\(' -or $activitySource -notmatch 'setBoolForKey\s*\(') {
     $errors.Add("Cocos2dxActivity must expose SharedPreferences methods used by CCUserDefault.")
@@ -107,9 +160,15 @@ if ($uiSpineCtor -notmatch 'SetDefaultAction\(eActionStand\)' -or
 }
 
 Write-Host "Android Startup Black Screen Guard"
+Write-Host "  Profile         : $EngineProfile"
 Write-Host "  GameApplication : $gamePath"
-Write-Host "  VideoEngineJni  : $videoJniPath"
+if ($videoJniPath) {
+    Write-Host "  VideoEngineJni  : $videoJniPath"
+}
 Write-Host "  Helper JNI      : $helperJniPath"
+if ($jniHelperPath) {
+    Write-Host "  JniHelper       : $jniHelperPath"
+}
 Write-Host "  Activity        : $activityPath"
 Write-Host "  ZipUtils        : $zipUtilsPath"
 Write-Host "  UI Spine Sprite : $uiSpineSpritePath"
@@ -121,5 +180,5 @@ if ($errors.Count -gt 0) {
     exit 33
 }
 
-Write-Host "Gate passed: Android startup skips the unlinked CG bridge, restores login bootstrap, starts UI Spine default actions in native code, serializes APK zip reads, has video JNI diagnostics, UserDefault bridge, and CG fallback."
+Write-Host "Gate passed: Android $EngineProfile startup guards, login bootstrap, UI Spine action, JNI bridge, UserDefault bridge, ZIP serialization, and CG fallback are present."
 exit 0

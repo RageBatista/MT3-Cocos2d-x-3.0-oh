@@ -14,7 +14,7 @@
 4. **机器产物**：`generated/`，保存扫描生成的 JSON、CSV 等结构化证据。
 5. **审计证据**：`audit/`，保存 P0 等专项执行过程产生的 CSV 等结构化证据，不作为规范入口。
 
-另外，`docs/` 根目录除导航与局部规则外，还存放跨版本升级专项文档；Win32 canonical 已收敛到 `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5 + engine + FireClient`，Android/iOS 仍按各自平台基线。
+另外，`docs/` 根目录除导航与局部规则外，还存放跨版本升级专项文档；Win32、Android、iOS canonical 已收敛到 `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5 + engine + FireClient`，各平台仍保留独立构建工程和验证门禁。
 
 ## 2. 当前实物统计
 
@@ -109,9 +109,9 @@ docs/
 - Windows 工具链：Visual Studio 2013、`v120`、Windows SDK 8.1、MSBuild 12.0。
 - Android 主线：NDK r16 clang、Ant、JDK 8、Python 2.7。
 - Android 资源：源目录为 `client/resource/res/**`，由 `client/resource/tools/LJFilePack_打包安卓.bat` 生成 `client/android/LocojoyProject/assets/res/**`。
-- 客户端运行时：平台层、Cocos 基础层、Nuclear、FireClient 四层；Win32 canonical 使用 `cocos2d-x-3.0-oh`，Android/iOS 使用 `cocos2d-x-2.2.6`。
-- 引擎升级：Win32 canonical 已切换到 `cocos2d-x-3.0-oh/`，并与 `engine`、`FireClient`、CEGUI 0.7.9-r5 组成同一 v120 构建链；Android/iOS 仍保留 `cocos2d-x-2.2.6/`。
-- CEGUI：Win32 canonical 当前运行依赖为 `tools/CEGUI-0.7.9-r5/`，通过 `cegui-0.7.9.win32.vcxproj` 生成静态库并链接到 `engine/FireClient/MT3`；`dependencies/cegui/` 保留给 Legacy226/历史链路。
+- 客户端运行时：平台层、Cocos 基础层、Nuclear、FireClient 四层；三端 canonical 使用 `cocos2d-x-3.0-oh`，平台壳层与构建工程保持独立。
+- 引擎升级：Win32、Android、iOS canonical 已切换到 `cocos2d-x-3.0-oh/ + CEGUI-0.7.9-r5`；Android Debug canonical 与 iOS `64/64` 静态门禁已通过。
+- CEGUI：三端 canonical 当前运行依赖为 `tools/CEGUI-0.7.9-r5/`；`dependencies/cegui/` 保留给 Legacy226/历史链路。
 
 事实冲突时依次核对工程实物与输出、根和就近 `AGENTS.md`、`.claude/RULES.md`、`.claude/BUILD_GUIDE.md`，再回写文档。
 

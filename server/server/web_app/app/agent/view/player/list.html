@@ -19,7 +19,7 @@
         <header class="card-header"><div class="card-title">玩家列表</div></header>
         <div class="card-body">
           <div class="card-search mb-2-5">
-            <form class="search-form" method="get" action="#!" role="form">
+            <form class="search-form" onsubmit="return false;" role="form">
               
               <div class="row">
                 <div class="col-md-4">
@@ -44,8 +44,8 @@
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <button type="submit" class="btn btn-primary me-1">搜索</button>
-                  <button type="reset" class="btn btn-default">重置</button>
+                  <button type="button" class="btn btn-primary me-1" onclick="searchPlayer()">搜索</button>
+                  <button type="button" class="btn btn-default" onclick="resetPlayerSearch()">重置</button>
                 </div>
               </div>
               
@@ -89,6 +89,17 @@
 
 
 <script>
+	var searchDefaults = {
+		username: '',
+		lastagent: '0'
+	};
+
+	lyearSearchState.apply(searchDefaults);
+	$('.search-form').on('submit', function (event) {
+		event.preventDefault();
+		searchPlayer();
+	});
+
 	/**
 	 * 分页相关的配置
 	 **/
@@ -232,7 +243,7 @@
 		align: 'center',
 		title: '查看角色',
         formatter:function(value, row, index){ 
-			return '<a href="/index.php?s=/{$app}/player/bindlist/selected/1&username='+row.username+'&playerid=&playername="><span class="btn btn-secondary">点击查看</span></a>';
+			return '<a href="/index.php?s=/{$app}/player/bindlist/selected/1&username=' + encodeURIComponent(row.username) + '"><span class="btn btn-secondary">点击查看</span></a>';
 		}
 	},{
         field: 'status',
@@ -262,10 +273,6 @@
             'click .edit-btn': function (event, value, row, index) {
                 event.stopPropagation();
                 editUser(row);
-            },
-            'click .del-btn': function (event, value, row, index) {
-                event.stopPropagation();
-                delUser(row);
             }
         }
     }];
@@ -296,7 +303,9 @@
 				// 排序的列名
 				sort: params.sort,
 				// 排序方式 'asc' 'desc'
-				sortOrder: params.order
+				sortOrder: params.order,
+				username: $('input[name="username"]').val(),
+				lastagent: $('select[name="lastagent"]').val()
 			};
 		},
 		columns,
@@ -304,6 +313,21 @@
             $("[data-bs-toggle='tooltip']").tooltip();
         }
 	});
+
+	function searchPlayer() {
+		lyearSearchState.sync({
+			username: $('input[name="username"]').val(),
+			lastagent: $('select[name="lastagent"]').val()
+		}, searchDefaults);
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
+
+	function resetPlayerSearch() {
+		$('input[name="username"]').val('');
+		$('select[name="lastagent"]').val('0');
+		lyearSearchState.sync(searchDefaults, searchDefaults);
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
     //操作方法 - 状态
     function statusUser(row) {
 		var id = row.id;

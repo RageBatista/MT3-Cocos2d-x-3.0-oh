@@ -4,8 +4,6 @@ declare (strict_types = 1);
 namespace app\admin\controller;
 
 use app\BaseController;
-use think\facade\Session;
-use think\facade\Request;
 use app\model\Transfer as TransferModel;
 use app\model\Server;
 use app\model\Bind;
@@ -23,48 +21,6 @@ class Transfer extends BaseController
      */
     public function list()
     {
-        $get = $this->request->get();
-        $filters = null;
-        
-        // 处理搜索条件
-        if (isset($get['keyword']) && $get['keyword'] != '') {
-            $keyword = $this->validateInput($get['keyword']);
-            $filters['keyword'] = $keyword;
-            Session::set('transfer_filters', $filters);
-        } else {
-            $filters = null;
-            Session::delete('transfer_filters');
-        }
-        
-        // 处理状态筛选
-        if (isset($get['status']) && $get['status'] != '') {
-            $status = intval($get['status']);
-            if ($filters === null) {
-                $filters = [];
-            }
-            $filters['status'] = $status;
-            Session::set('transfer_filters', $filters);
-        }
-        
-        // 处理服务器筛选
-        if (isset($get['source_server_id']) && $get['source_server_id'] != '') {
-            $sourceServerId = intval($get['source_server_id']);
-            if ($filters === null) {
-                $filters = [];
-            }
-            $filters['source_server_id'] = $sourceServerId;
-            Session::set('transfer_filters', $filters);
-        }
-        
-        if (isset($get['target_server_id']) && $get['target_server_id'] != '') {
-            $targetServerId = intval($get['target_server_id']);
-            if ($filters === null) {
-                $filters = [];
-            }
-            $filters['target_server_id'] = $targetServerId;
-            Session::set('transfer_filters', $filters);
-        }
-        
         // 获取服务器列表（用于筛选）
         $serverModel = new Server();
         $servers = $serverModel->where('status', 1)
@@ -81,8 +37,8 @@ class Transfer extends BaseController
      */
     public function table()
     {
-        $filters = Session::get('transfer_filters');
-        $post = $this->request->post();
+        $post = $this->request->param();
+        $filters = $this->buildTransferFilters($post);
         
         $transferModel = new TransferModel();
         $result = $transferModel->getTransferList(
@@ -338,5 +294,24 @@ class Transfer extends BaseController
         } else {
             return notify(0, $result['message']);
         }
+    }
+
+    private function buildTransferFilters(array $data)
+    {
+        $filters = [];
+
+        $keyword = isset($data['keyword']) ? trim((string)$data['keyword']) : '';
+        if ($keyword !== '') {
+            $filters['keyword'] = $this->validateInput($keyword);
+        }
+
+        foreach (['status', 'source_server_id', 'target_server_id'] as $key) {
+            $value = isset($data[$key]) ? trim((string)$data[$key]) : '';
+            if ($value !== '') {
+                $filters[$key] = intval($value);
+            }
+        }
+
+        return $filters ?: null;
     }
 }

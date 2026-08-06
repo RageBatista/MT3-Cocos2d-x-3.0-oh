@@ -202,7 +202,7 @@ class Auth extends BaseController
             'username' => $username,
             'password' => $passwordValue,
             'confirm_password' => $confirmPassword,
-            'invite_code' => $inviteCode ?: null
+            'invite_code' => $inviteCode
         ])) {
             return notify(0, $validate->getError());
         }
@@ -228,16 +228,23 @@ class Auth extends BaseController
             return notify(0, '账号已存在');
         }
         
-        // 处理邀请码
-        $lastAgent = 0;
-        if (!empty($inviteCode)) {
-            // 查找邀请码对应的代理
-            $agentModel = new \app\model\Agent();
-            $agent = $agentModel->where('invite', $inviteCode)->find();
-            if ($agent) {
-                $lastAgent = $agent['id'];
-            }
+        // 验证邀请码（必填，与客户端注册逻辑一致）
+        if (empty($inviteCode)) {
+            return notify(0, '邀请码不能为空');
         }
+        $patternInvite = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,8}$/';
+        if (!preg_match($patternInvite, $inviteCode)) {
+            return notify(0, '邀请码格式不正确');
+        }
+        $agentModel = new \app\model\Agent();
+        $agentData = $agentModel->getInvite($inviteCode);
+        if (!$agentData) {
+            return notify(0, '邀请码不存在');
+        }
+        if (intval($agentData['status']) !== 1) {
+            return notify(0, '邀请码已禁用');
+        }
+        $lastAgent = intval($agentData['id']);
         
         // P1修复：使用事务 + 异常保护，防止注册失败时产生500错误或数据不一致
         try {
@@ -466,6 +473,11 @@ class Auth extends BaseController
 
         // 删除重置令牌，防止重复使用
         Cache::delete($cacheKey);
+
+        // P3安全增强：重置密码后立即吊销所有旧Token
+        if (function_exists('invalidatePlayerTokens')) {
+            invalidatePlayerTokens((int)$userId);
+        }
         
         // 记录操作日志
         logPlayerAction($userId, 'reset_password', '重置密码成功');

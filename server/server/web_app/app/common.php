@@ -2,18 +2,46 @@
 // 应用公共文件
 
 /*回调*/
+if(!function_exists('build_request_id'))
+{
+    function build_request_id()
+    {
+        try {
+            return bin2hex(random_bytes(8));
+        } catch (\Throwable $e) {
+            return substr(hash('sha256', uniqid('req_fallback_', true) . microtime(true)), 0, 16);
+        }
+    }
+}
+
+if(!function_exists('api_json'))
+{
+    function api_json(array $payload, $httpStatus=200)
+    {
+        if(!isset($payload['request_id']) || empty($payload['request_id'])){
+            $payload['request_id'] = build_request_id();
+        }
+        return json($payload, intval($httpStatus), [], [
+            'json_encode_param' => JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        ]);
+    }
+}
+
 if(!function_exists('notify'))
 {
-    function notify($code,$msg,$data=[])
+    function notify($code,$msg,$data=[],$httpStatus=200)
     {
         $result = [
             'code'=>$code,
-            'msg'=>$msg
+            'msg'=>$msg,
+            'request_id' => build_request_id()
         ];
         if(!empty($data)){
             $result['data']=$data;
         }
-        return json($result);
+        return json($result, intval($httpStatus), [], [
+            'json_encode_param' => JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        ]);
     }
 }
 if (!function_exists('password')) {

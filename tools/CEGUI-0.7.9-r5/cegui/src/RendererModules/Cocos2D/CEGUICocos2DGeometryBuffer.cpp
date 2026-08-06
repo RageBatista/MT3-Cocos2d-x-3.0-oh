@@ -9,7 +9,7 @@
 #include "CEGUICocos2DTexture.h"
 #include "CEGUICocos2DRenderer.h"
 
-#include "2d/platform/win32/CCGL.h"
+#include "RendererModules/Cocos2D/CEGUICocos2DGL.h"
 #include "2d/CCShaderCache.h"
 #include "2d/ccGLStateCache.h"
 #include "math/kazmath/kazmath/kazmath.h"

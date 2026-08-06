@@ -1,0 +1,448 @@
+<?php /*a:1:{s:48:"/www/wwwroot/web_app/app/admin/view/log/log.html";i:1777196143;}*/ ?>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<link rel="stylesheet" type="text/css" href="/static/template/css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="/static/template/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/static/template/css/style.min.css">
+<!--表格插件css-->
+<link rel="stylesheet" href="/static/template/js/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/static/template/css/style.min.css">
+<!--日期选择器css-->
+<link rel="stylesheet" type="text/css" href="/static/template/js/bootstrap-datepicker/bootstrap-datepicker3.min.css">
+<!--时间日期选择器css-->
+<link rel="stylesheet" type="text/css" href="/static/template/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" type="text/css" href="/static/template/css/style.min.css">
+<style>
+/* 日志条目样式 - 简洁版无颜色 */
+.log-container {
+	padding: 6px 0;
+	line-height: 1.6;
+}
+
+.log-header {
+	display: flex;
+	align-items: center;
+	margin-bottom: 4px;
+	font-size: 13px;
+}
+
+.log-type {
+	font-weight: 600;
+	color: #495057;
+	margin-right: 8px;
+	padding: 2px 8px;
+	background-color: #e9ecef;
+	border-radius: 3px;
+	font-size: 12px;
+}
+
+.log-action {
+	color: #212529;
+	font-size: 13px;
+}
+
+.log-params {
+	margin-top: 4px;
+	padding-left: 12px;
+	font-size: 12px;
+	color: #6c757d;
+}
+
+.log-param-item {
+	display: inline-block;
+	margin-right: 16px;
+	margin-bottom: 2px;
+}
+
+.log-param-key {
+	color: #6c757d;
+}
+
+.log-param-value {
+	color: #212529;
+	font-weight: 500;
+	padding: 1px 6px;
+	background-color: #f8f9fa;
+	border-radius: 2px;
+	margin-left: 4px;
+}
+
+.log-text {
+	font-size: 13px;
+	color: #495057;
+	word-break: break-all;
+}
+
+/* 表格行高调整 */
+#table td {
+	vertical-align: middle;
+}
+</style>
+</head>
+  
+<body>
+<div class="container-fluid">
+  
+  <div class="row">
+    
+    <div class="col-lg-12">
+      <div class="card">
+        <header class="card-header"><div class="card-title">日志查询</div></header>
+        <div class="card-body">
+          <div class="card-search mb-2-5">
+            <form class="search-form" onsubmit="return false;" role="form">
+              
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="row">
+                    <label class="col-sm-4 col-form-label"><span class="text-danger">*</span> 账号</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" name="username" value="" placeholder="账号" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <label class="col-sm-4 col-form-label"><span class="text-danger">*</span> 操作内容</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" name="info" value="" placeholder="操作内容" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="row">
+                    <label class="col-sm-4 col-form-label"><span class="text-danger">*</span> 操作日期</label>
+                    <div class="col-sm-8">
+					  <input type="text" class="form-control" name="date" data-provide="datepicker" data-today-highlight="true" data-autoclose="false" autocomplete="off"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary me-1" onclick="searchLog()">搜索</button>
+                  <button type="button" class="btn btn-default" onclick="resetLogSearch()">重置</button>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+  	      <table id="table"></table>
+          
+        </div>
+      </div>
+    </div>
+        
+  </div>
+  
+</div>
+<script type="text/javascript" src="/static/template/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/template/js/popper.min.js"></script>
+<script type="text/javascript" src="/static/template/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/template/js/main.min.js"></script>
+<!--表格插件js-->
+<script src="/static/template/js/bootstrap-table/bootstrap-table.js"></script>
+<script src="/static/template/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<!--通知弹窗-->
+<link rel="stylesheet" type="text/css" href="/static/template/alert/sweetalert2.min.css">
+<script  src="/static/template/alert/sweetalert2.all.min.js"></script>
+<!--日期选择器js-->
+<script type="text/javascript" src="/static/template/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="/static/template/js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+
+<!--时间日期选择器js-->
+<script type="text/javascript" src="/static/template/js/momentjs/moment.min.js"></script>
+<script type="text/javascript" src="/static/template/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/static/template/js/momentjs/locale/zh-cn.min.js"></script>
+<script type="text/javascript" src="/static/template/js/main.min.js"></script>
+
+
+<script>
+	function htmlEncode(str) {
+		if (str === null || str === undefined) return '';
+		return String(str).replace(/[&<>"'\/]/g, function (s) {
+			return {
+				"&": "&amp;",
+				"<": "&lt;",
+				">": "&gt;",
+				'"': "&quot;",
+				"'": "&#39;",
+				"/": "&#x2F;"
+			}[s];
+		});
+	}
+
+	var searchDefaults = {
+		username: '',
+		info: '',
+		date: ''
+	};
+
+	if (window.lyearSearchState && typeof lyearSearchState.apply === 'function') {
+		lyearSearchState.apply(searchDefaults);
+	}
+	$('.search-form').on('submit', function (event) {
+		event.preventDefault();
+		searchLog();
+	});
+
+	/**
+	 * 分页相关的配置
+	 **/
+	var pagination = {
+		// 分页方式：[client] 客户端分页，[server] 服务端分页
+		sidePagination: "server",
+		// 初始化加载第一页，默认第一页
+		pageNumber: 1,
+		// 每页的记录行数
+		pageSize: 10,
+		// 可供选择的每页的行数 - (亲测大于1000存在渲染问题)
+		pageList: [5, 10, 25, 50, 100],
+		// 在上百页的情况下体验较好 - 能够显示首尾页
+		paginationLoop: true,
+		// 展示首尾页的最小页数
+		paginationPagesBySide: 2
+	};
+	
+	/**
+	 * 按钮相关配置
+	 **/
+	var button = {
+		// 按钮的类
+		buttonsClass: 'default',
+		// 类名前缀
+		buttonsPrefix: 'btn'
+	}
+	
+	/**
+	 * 图标相关配置
+	 **/
+	var icon = {
+		// 图标前缀
+		iconsPrefix: 'mdi',
+		// 图标大小
+		iconSize: 'mini',
+		// 图标的设置
+		icons: {
+			paginationSwitchDown: 'mdi-door-closed',
+			paginationSwitchUp: 'mdi-door-open',
+			refresh: 'mdi-refresh',
+			toggleOff: 'mdi-toggle-switch-off',
+			toggleOn: 'mdi-toggle-switch',
+			columns: 'mdi-table-column-remove',
+			detailOpen: 'mdi-plus',
+			detailClose: 'mdi-minus',
+			fullscreen: 'mdi-monitor-screenshot',
+			search: 'mdi-table-search',
+			clearSearch: 'mdi-trash-can-outline'
+		}
+	};
+	
+	/**
+	 * 表格相关的配置
+	 **/
+	var table = Object.assign({}, icon, pagination, button, {
+		classes: 'table table-bordered table-hover table-striped lyear-table',
+		// 请求地址
+		url: '/index.php?s=/<?php echo htmlentities($app); ?>/log/list_table/type/<?php echo htmlentities($type); ?>',
+		// 唯一ID字段
+		uniqueId: 'id',
+		// 每行的唯一标识字段
+		idField: 'id',
+		// 是否启用点击选中行
+		clickToSelect: true,
+		// 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
+		// showToggle: true,
+		// 请求得到的数据类型
+		dataType: 'json',
+		// 请求方法
+		method: 'post',
+		// 工具按钮容器
+		toolbar: '#toolbar',
+		// 是否分页
+		pagination: true,
+		// 是否显示所有的列
+		showColumns: true,
+		// 是否显示刷新按钮
+		showRefresh: true,
+		// 显示图标
+		showButtonIcons: true,
+		// 显示文本
+		showButtonText: false,
+		// 显示全屏
+		showFullscreen: true,
+		// 开关控制分页
+		showPaginationSwitch: true,
+		// 总数字段
+		totalField: 'total',
+		// 当字段为 undefined 显示
+		undefinedText: '-',
+		// 排序方式
+		sortOrder: "desc"
+	});
+	
+	/**
+	 * 格式化操作内容
+	 */
+	function formatInfo(value, row) {
+		if (!value) return '-';
+
+		// GM操作格式: GM操作，参数信息:{...}，操作项：xxx
+		if (value.indexOf('GM操作') !== -1) {
+			var match = value.match(/GM操作，参数信息:(.+?)(?:，操作项：(.+))?$/);
+			if (match) {
+				try {
+					var jsonData = JSON.parse(match[1]);
+					var operation = match[2] || '未知操作';
+					var params = '';
+					for (var key in jsonData) {
+						params += '<span class="log-param-item">' +
+							'<span class="log-param-key">' + htmlEncode(key) + '</span>' +
+							'<span class="log-param-value">' + htmlEncode(jsonData[key]) + '</span>' +
+							'</span>';
+					}
+					return '<div class="log-container">' +
+						'<div class="log-header">' +
+						'<span class="log-type">GM操作</span>' +
+						'<span class="log-action">' + htmlEncode(operation) + '</span>' +
+						'</div>' +
+						'<div class="log-params">' + params + '</div>' +
+						'</div>';
+				} catch (e) {
+					// JSON解析失败，显示原文本
+					return '<div class="log-container"><div class="log-text">' + htmlEncode(value) + '</div></div>';
+				}
+			}
+		}
+
+		// 标准格式: 类型 - 操作, 参数1:值1, 参数2:值2
+		var typeMatch = value.match(/^([^-]+?)\s*-\s*([^,]+)(?:,\s*(.+))?$/);
+		if (typeMatch) {
+			var type = typeMatch[1].trim();
+			var action = typeMatch[2].trim();
+			var paramsStr = typeMatch[3] || '';
+
+			var params = '';
+			if (paramsStr) {
+				var paramPairs = paramsStr.split(/,\s*/);
+				paramPairs.forEach(function (pair) {
+					var idx = pair.indexOf(':');
+					if (idx > 0) {
+						var key = pair.substring(0, idx).trim();
+						var val = pair.substring(idx + 1).trim();
+						params += '<span class="log-param-item">' +
+							'<span class="log-param-key">' + htmlEncode(key) + '</span>' +
+							'<span class="log-param-value">' + htmlEncode(val) + '</span>' +
+							'</span>';
+					}
+				});
+			}
+
+			return '<div class="log-container">' +
+				'<div class="log-header">' +
+				'<span class="log-type">' + htmlEncode(type) + '</span>' +
+				'<span class="log-action">' + htmlEncode(action) + '</span>' +
+				'</div>' +
+				(params ? '<div class="log-params">' + params + '</div>' : '') +
+				'</div>';
+		}
+
+		// 普通文本日志
+		return '<div class="log-container"><div class="log-text">' + htmlEncode(value) + '</div></div>';
+	}
+
+	/**
+	 * 格式化时间 - 只显示日期，不显示时间
+	 */
+	function formatDateTime(value, row) {
+		return row.date || value || '-';
+	}
+
+	/**
+	 * 用于演示的列信息
+	 **/
+	var columns = [ {
+		field: 'id',
+		title: 'ID',
+		align: 'center',
+		sortable: true,
+		sortName: 'id',
+		switchable: false,
+		width: 60
+	}, {
+		field: 'username',
+		align: 'center',
+		title: '账号',
+		width: 120
+	}, {
+		field: 'info',
+		align: 'left',
+		title: '操作内容',
+		formatter: formatInfo,
+		width: 450
+	}, {
+		field: 'date',
+		align: 'center',
+		title: '操作时间',
+		formatter: formatDateTime,
+		width: 160
+	}, {
+		field: 'ip',
+		align: 'center',
+		title: '操作IP',
+		width: 120
+	}, {
+		field: 'city',
+		align: 'center',
+		title: '操作地点',
+		width: 100
+	}];
+    
+	
+	$('table').bootstrapTable(Object.assign({}, table, {
+		// 自定义的查询参数
+		queryParams: function (params) {
+			return {
+				// 每页数据量
+				limit: params.limit,
+				// sql语句起始索引
+				offset: params.offset,
+				page: (params.offset / params.limit) + 1,
+				// 排序的列名
+				sort: params.sort,
+				// 排序方式 'asc' 'desc'
+				sortOrder: params.order,
+				username: $('input[name="username"]').val(),
+				info: $('input[name="info"]').val(),
+				date: $('input[name="date"]').val()
+			};
+		},
+		columns,
+        onLoadSuccess: function(data){
+            $("[data-bs-toggle='tooltip']").tooltip();
+        }
+	}));
+
+	function searchLog() {
+		if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+			lyearSearchState.sync({
+				username: $('input[name="username"]').val(),
+				info: $('input[name="info"]').val(),
+				date: $('input[name="date"]').val()
+			}, searchDefaults);
+		}
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
+
+	function resetLogSearch() {
+		$('input[name="username"]').val('');
+		$('input[name="info"]').val('');
+		$('input[name="date"]').val('');
+		if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+			lyearSearchState.sync(searchDefaults, searchDefaults);
+		}
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
+</script>
+
+</body>
+</html>

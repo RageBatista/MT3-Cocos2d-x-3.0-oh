@@ -117,6 +117,7 @@ void kmGLPopMatrix(void)
     // state cache or an unmatched legacy pop must be reported and skipped.
     if (!initialized || !current_stack || current_stack->item_count == 0)
     {
+#if defined(_MSC_VER)
         const char* stackName = (current_stack == &modelview_matrix_stack) ? "MODELVIEW" :
                                 (current_stack == &projection_matrix_stack) ? "PROJECTION" :
                                 (current_stack == &texture_matrix_stack) ? "TEXTURE" : "UNKNOWN";
@@ -166,6 +167,7 @@ void kmGLPopMatrix(void)
                 sFreeAllCount, (int)initialized);
             OutputDebugStringA(warnMsg);
         }
+#endif
 
         return; // SAFETY: Do NOT pop from an empty stack
     }
@@ -188,12 +190,14 @@ void kmGLFreeAll()
     // MT3 debug: track kmGLFreeAll calls
     ++sFreeAllCount;
     sLastFreeAllMVBalance = sModelViewPushCount - sModelViewPopCount;
+#if defined(_MSC_VER)
     char dbgMsg[256];
     _snprintf_s(dbgMsg, sizeof(dbgMsg), _TRUNCATE,
         "[MT3_MATRIX_DEBUG] kmGLFreeAll called #%d, MV push=%d pop=%d balance=%d\n",
         sFreeAllCount, sModelViewPushCount, sModelViewPopCount,
         sLastFreeAllMVBalance);
     OutputDebugStringA(dbgMsg);
+#endif
 
     //Clear the matrix stacks
     km_mat4_stack_release(&modelview_matrix_stack);

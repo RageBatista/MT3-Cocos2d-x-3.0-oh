@@ -28,7 +28,6 @@
 #include "sprite/nuspritemanager.h"
 #include "UISpineSprite.h"
 #include "LoginManager.h"
-#include <mmsystem.h>
 #include "BattleManager.h"
 #include "MessageManager.h"
 #include "effect/nuspineeffect.h"
@@ -3028,7 +3027,7 @@ void GameUImanager::DrawUIState()
 			if (i > 19)
 				break;
 
-			unsigned int time = timeGetTime() - itStat->first;
+			unsigned int time = Nuclear::GetMilliSeconds() - itStat->first;
 			CEGUI::String name = itStat->second.name;
 			CEGUI::Window* wnd = CEGUI::WindowManager::getSingleton().getWindow(name);
 			if (wnd)//&&wnd->isVisible(false))

@@ -69,6 +69,12 @@ class Player extends BaseUser
                 ]);
             }
         }
+
+        // P3安全增强：过滤敏感字段，防止密码哈希等敏感数据泄露到上层
+        $sensitiveFields = ['password', 'pay_password', 'secret_key', 'pay_key', 'salt'];
+        foreach ($sensitiveFields as $field) {
+            unset($playerInfo[$field]);
+        }
         
         return $playerInfo;
     }
@@ -304,7 +310,7 @@ class Player extends BaseUser
         
         // 获取登录次数
         $loginLogModel = new PlayerLoginLog();
-        $stats['login_count'] = $loginLogModel->where('user_id', $userId)->count();
+        $stats['login_count'] = $loginLogModel->countByUserId($userId);
         
         return $stats;
     }

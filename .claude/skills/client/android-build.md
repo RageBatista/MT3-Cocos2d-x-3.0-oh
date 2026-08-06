@@ -214,9 +214,9 @@ Android 登录/注册接口地址固定来自：
 
 当前冻结基线（2026-04-06）：
 
-- `HttpServerAddressPlatForm=http://193.112.65.157:88/`
-- `HttpSdkLoginUrl=http://193.112.65.157:88/api/sdk/user_login`
-- `HttpSdkRegisterUrl=http://193.112.65.157:88/api/sdk/user_register`
+- `HttpServerAddressPlatForm=http://111.228.57.237:88/`
+- `HttpSdkLoginUrl=http://111.228.57.237:88/api/sdk/user_login`
+- `HttpSdkRegisterUrl=http://111.228.57.237:88/api/sdk/user_register`
 - 三份文件 MD5 一致：`D88A6719B1778991107F16BDC0965DB9`
 
 ### 8.2 时装切换后武器显示（共享 C++ 规则）

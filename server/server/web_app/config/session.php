@@ -5,7 +5,8 @@
 
 return [
     // session name
-    'name'           => 'PHPSESSID',
+    // 使用项目专用 session 名，避免同域应用互相覆盖会话
+    'name'           => env('SESSION_NAME', 'GSXDBSESSID'),
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
     // 驱动方式 支持file cache

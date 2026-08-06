@@ -25,10 +25,10 @@ GAME_ROOT := $(LOCAL_PATH)/../../../..
 $(call import-add-path,${GAME_ROOT}/)
 $(call import-add-path,${GAME_ROOT}/client/)
 $(call import-add-path,${GAME_ROOT}/common/)
+$(call import-add-path,${GAME_ROOT}/cocos2d-x-3.0-oh/)
+$(call import-add-path,${GAME_ROOT}/cocos2d-x-3.0-oh/cocos/)
+$(call import-add-path,${GAME_ROOT}/cocos2d-x-3.0-oh/external/)
 $(call import-add-path,${GAME_ROOT}/dependencies/)
-$(call import-add-path,${GAME_ROOT}/cocos2d-x-2.2.6/)
-$(call import-add-path,${GAME_ROOT}/cocos2d-x-2.2.6/extensions/)
-$(call import-add-path,${GAME_ROOT}/cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/)
 
 LOCAL_SRC_FILES := \
 	main.cpp \
@@ -58,6 +58,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += FireClient_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cauthc_static
 LOCAL_WHOLE_STATIC_LIBRARIES += updateengine_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos_network_static
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos_lua_static
 
 #add baidu location SDK -s
 LOCAL_SHARED_LIBRARIES += locSDK6a
@@ -69,12 +71,12 @@ LOCAL_SHARED_LIBRARIES += du
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-module,CocosDenshion/android)
+$(call import-module,audio/android)
 ifneq ($(TARGET_ARCH_ABI),arm64-v8a)
 $(call import-module,google-breakpad/android/google_breakpad)
 endif
-$(call import-module,cocos2dx)
-$(call import-module,cegui)
+$(call import-module,2d)
+$(call import-module,android/native/cegui-r5)
 $(call import-module,cauthc/projects/android)
 $(call import-module,platform)
 $(call import-module,ljfm)
@@ -82,4 +84,8 @@ $(call import-module,updateengine)
 $(call import-module,engine)
 $(call import-module,FireClient)
 $(call import-module,extensions)
+$(call import-module,network)
+$(call import-module,scripting/lua-bindings)
+$(call import-module,png/prebuilt/android)
+$(call import-module,jpeg/prebuilt/android)
 

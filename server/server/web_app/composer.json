@@ -50,6 +50,18 @@
         "post-autoload-dump": [
             "@php think service:discover",
             "@php think vendor:publish"
+        ],
+        "lint:syntax": "php -l public/index.php",
+        "test:smoke": [
+            "@php -r \"echo 'smoke placeholder'.PHP_EOL;\""
+        ],
+        "test:routes": [
+            "@php scripts/check_admin_routes.php"
+        ],
+        "check": [
+            "@lint:syntax",
+            "@test:smoke",
+            "@test:routes"
         ]
     }
 }

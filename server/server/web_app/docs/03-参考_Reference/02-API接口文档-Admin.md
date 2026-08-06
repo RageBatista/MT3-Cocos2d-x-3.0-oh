@@ -1,7 +1,7 @@
 # API 接口文档 - Admin 应用
 
-> 更新时间：2026-02-23
-> 说明：本文档基于代码分析生成，与当前仓库对齐。
+> 更新时间：2026-04-26
+> 说明：本文档基于代码分析生成，与当前仓库对齐。Admin/Agent 后台路由统一由 `route/web_admin_routes.php` 定义，根路由与模块路由共享同一真源。GM 模块由 5 个子控制器承载。
 
 ## 目录
 
@@ -11,14 +11,18 @@
 - [4. Order 控制器](#4-order-控制器)
 - [5. Settlement 控制器](#5-settlement-控制器)
 - [6. Transfer 控制器](#6-transfer-控制器)
-- [7. Gm 控制器](#7-gm-控制器)
-- [8. Item 控制器](#8-item-控制器)
-- [9. Configure 控制器](#9-configure-控制器)
-- [10. Log 控制器](#10-log-控制器)
-- [11. Fankui 控制器](#11-fankui-控制器)
-- [12. AgentRelation 控制器](#12-agentrelation-控制器)
-- [13. TestPay 控制器](#13-testpay-控制器)
-- [14. 错误码说明](#14-错误码说明)
+- [7. GmBase 基类](#7-gmbase-基类)
+- [8. GmPlayer 控制器](#8-gmplayer-控制器)
+- [9. GmServer 控制器](#9-gmserver-控制器)
+- [10. GmMail 控制器](#10-gmmail-控制器)
+- [11. GmCdk 控制器](#11-gmcdk-控制器)
+- [12. GmCleanData 控制器](#12-gmcleandata-控制器)
+- [13. Item 控制器](#13-item-控制器)
+- [14. Configure 控制器](#14-configure-控制器)
+- [15. Log 控制器](#15-log-控制器)
+- [16. Fankui 控制器](#16-fankui-控制器)
+- [17. AgentRelation 控制器](#17-agentrelation-控制器)
+- [18. 错误码说明](#18-错误码说明)
 
 ---
 
@@ -101,6 +105,7 @@
 
 - **路径**：`POST /admin/agent/editSubmit`
 - **说明**：提交编辑代理表单
+- **注意**：当前已禁用（硬编码返回"系统维护中"）
 
 ### 2.10 修改代理状态
 
@@ -190,8 +195,8 @@
 
 ### 3.14 角色数据
 
-- **路径**：`POST /admin/player/role_table`
-- **说明**：获取角色数据（AJAX）
+- **路径**：`GET /admin/player/role_table`
+- **说明**：获取角色数据（AJAX，当前页面 `app/admin/view/player/role_list.html` 使用 `bootstrapTable(method=get)`）
 
 ---
 
@@ -298,138 +303,189 @@
 
 ---
 
-## 7. Gm 控制器
+## 7. GmBase 基类
 
-**控制器位置**：[`app/admin/controller/Gm.php`](../../app/admin/controller/Gm.php)
+**控制器位置**：[`app/admin/controller/GmBase.php`](../../app/admin/controller/GmBase.php)
 
-### 7.1 玩家GM操作
+所有 GM 子控制器继承此基类，提供统一能力：
+
+- `checkGMPermission()`：验证当前管理员 type=1
+- `logGMOperation()`：通过 `PermissionAuditService` 记录 GM 操作日志
+- `requireGMPermission()`：权限拦截快捷方法
+- `requireCSRF()`：CSRF 校验快捷方法
+
+---
+
+## 8. GmPlayer 控制器
+
+**控制器位置**：[`app/admin/controller/GmPlayer.php`](../../app/admin/controller/GmPlayer.php)  
+**继承**：`GmBase`
+
+### 8.1 玩家GM操作
 
 - **路径**：`GET /admin/gm/player`
 - **说明**：显示GM操作页面
+- **参数**：`playerid`（可选，首次设置后存入 Session）、`mod`（可选，默认 `basic`）
 
-### 7.2 玩家GM提交
+### 8.2 玩家GM提交
 
 - **路径**：`POST /admin/gm/playerSub`
-- **说明**：提交GM操作
+- **说明**：提交GM操作（含CSRF验证）
+- **支持的 mod 类型**：`basic`、`role`、`pet`、`gang`、`equip`
 
-### 7.3 基础信息GM
+### 8.3 基础GM命令（basic）
 
-- **路径**：`POST /admin/gm/basic`
-- **说明**：执行基础信息GM（禁言、解禁、踢人等）
+支持的 `gmcmd`：`nonvoice`、`unnonvoice`、`coquest`、`clearbag`、`forgmbid`、`ungmforbid`、`superforbiduser`、`superunforbiduser`、`kick`、`baitantimeclear`、`checkcode`、`hideme`、`showme`、`battleEndSuccess`、`battleEndFail`、`cangbatou`
 
-### 7.4 角色GM
+### 8.4 角色GM命令（role）
 
-- **路径**：`POST /admin/gm/role`
-- **说明**：执行角色GM（设置等级、经验等）
+支持的 `gmcmd`：`addlevel`、`addRechargecurrency`/`addqian`、`subfushi`、`addvipexp`、`setvip`、`addgold`、`changebindtel`、`addsuperitem`、`grmail`、`addtitle`、`deltitle`、`addhyd`、`addRechargecurrencyS`/`addqianS`、`award`、`offlinetime`、`rolecmd`
 
-### 7.5 宠物GM
+### 8.5 宠物GM命令（pet）
 
-- **路径**：`POST /admin/gm/pet`
-- **说明**：执行宠物GM操作
+支持的 `gmcmd`：`addpetexp`、`addpet`、`addpetskill`、`delpetskill`、`setpetvalue`
 
-### 7.6 帮派GM
+### 8.6 帮派GM命令（gang）
 
-- **路径**：`POST /admin/gm/gang`
-- **说明**：执行帮派GM操作
+支持的 `gmcmd`：`addbanggong`、`addfactionmoney`、`bpgx`、`yaofangrefresh`、`dismissguild`
 
-### 7.7 装备GM
+### 8.7 装备GM命令（equip）
 
-- **路径**：`POST /admin/gm/equip`
-- **说明**：执行装备GM操作
+执行 `Gm::adddingzhiequip` 定制装备操作。
 
-### 7.8 服务器指令
+---
+
+## 9. GmServer 控制器
+
+**控制器位置**：[`app/admin/controller/GmServer.php`](../../app/admin/controller/GmServer.php)  
+**继承**：`GmBase`
+
+### 9.1 服务器指令
 
 - **路径**：`GET /admin/gm/server_cmd`
 - **说明**：显示服务器指令页面
 
-### 7.9 服务器指令提交
+### 9.2 服务器指令提交
 
 - **路径**：`POST /admin/gm/serverSub`
-- **说明**：提交服务器指令
+- **说明**：提交服务器指令（含CSRF验证）
+- **支持的 gmcmd**：`cmd`、`setdays`、`post`、`zmd`、`destroyzone`、`reload`、`stopgamegs`、`createrole0`、`createrole1`
 
-### 7.10 全服邮件
+---
+
+## 10. GmMail 控制器
+
+**控制器位置**：[`app/admin/controller/GmMail.php`](../../app/admin/controller/GmMail.php)  
+**继承**：`GmBase`
+
+### 10.1 全服邮件
 
 - **路径**：`GET /admin/gm/server_mail`
 - **说明**：显示全服邮件页面
 
-### 7.11 全服邮件提交
+### 10.2 全服邮件提交
 
 - **路径**：`POST /admin/gm/serverMailSub`
-- **说明**：提交全服邮件
+- **说明**：提交全服邮件（含CSRF验证），调用 `Gm::mailbycond`
 
-### 7.12 数据清理
+---
 
-- **路径**：`GET /admin/gm/cleanData`
-- **说明**：显示数据清理页面
+## 11. GmCdk 控制器
 
-### 7.13 查询清理数据
+**控制器位置**：[`app/admin/controller/GmCdk.php`](../../app/admin/controller/GmCdk.php)  
+**继承**：`GmBase`
 
-- **路径**：`POST /admin/gm/queryCleanData`
-- **说明**：查询可清理的数据
-
-### 7.14 执行清理
-
-- **路径**：`POST /admin/gm/doCleanData`
-- **说明**：执行数据清理
-
-### 7.15 获取数据统计
-
-- **路径**：`POST /admin/gm/getDataStatistics`
-- **说明**：获取数据统计信息
-
-### 7.16 清理所有数据
-
-- **路径**：`POST /admin/gm/doCleanAll`
-- **说明**：执行清理所有数据
-
-### 7.17 CDK管理
+### 11.1 CDK管理
 
 - **路径**：`GET /admin/gm/cdk`
 - **说明**：显示CDK管理页面
 
-### 7.18 查询CDK
+### 11.2 查询CDK
 
 - **路径**：`POST /admin/gm/cdkQuery`
-- **说明**：查询CDK信息
+- **参数**：`cdk`、`uid`、`qid`、`status`、`page`、`pageSize`
+- **说明**：多条件分页查询CDK
 
-### 7.19 CDK列表-未使用
+### 11.3 CDK列表-未使用
 
 - **路径**：`GET /admin/gm/cdkListUnused`
-- **说明**：获取未使用CDK列表
+- **说明**：获取未使用CDK分页列表
 
-### 7.20 CDK列表-已使用
+### 11.4 CDK列表-已使用
 
 - **路径**：`GET /admin/gm/cdkListUsed`
-- **说明**：获取已使用CDK列表
+- **说明**：获取已使用CDK分页列表
 
-### 7.21 CDK统计
+### 11.5 CDK统计
 
 - **路径**：`GET /admin/gm/cdkStats`
-- **说明**：获取CDK统计信息
+- **说明**：获取CDK总量/已用/未用统计
 
-### 7.22 生成CDK
+### 11.6 生成CDK
 
 - **路径**：`POST /admin/gm/cdkGenerate`
-- **说明**：批量生成CDK
+- **参数**：`count`（<=100000）、`lv`、`length`（16或20）、`csrf_token`
+- **说明**：批量生成CDK（含CSRF验证）
 
-### 7.23 更新CDK用户
+### 11.7 更新CDK用户
 
 - **路径**：`POST /admin/gm/cdkUpdateUid`
-- **说明**：更新CDK绑定用户
+- **说明**：更新已使用CDK的绑定用户（含CSRF验证）
 
-### 7.24 删除CDK
+### 11.8 删除CDK
 
 - **路径**：`POST /admin/gm/cdkDelete`
-- **说明**：删除CDK
+- **说明**：删除CDK记录（含CSRF验证）
 
-### 7.25 更新CDK密码
+### 11.9 更新CDK密码
 
 - **路径**：`POST /admin/gm/cdkUpdatePass`
-- **说明**：更新CDK密码
+- **说明**：更新已使用CDK的密码（含CSRF验证）
 
 ---
 
-## 8. Item 控制器
+## 12. GmCleanData 控制器
+
+**控制器位置**：[`app/admin/controller/GmCleanData.php`](../../app/admin/controller/GmCleanData.php)  
+**继承**：`GmBase`
+
+### 12.1 数据清理
+
+- **路径**：`GET /admin/gm/cleanData`
+- **说明**：显示数据清理页面
+
+### 12.2 清理数据提交
+
+- **路径**：`POST /admin/gm/cleanDataSub`
+- **说明**：执行单条数据清理（含CSRF验证）
+- **支持的 gmcmd**：`cleandata`、`cleanrole`、`cleanmail`、`cleangang`、`cleanshop`、`cleantask`
+
+### 12.3 查询清理数据
+
+- **路径**：`POST /admin/gm/queryCleanData`
+- **说明**：查询玩家关联数据统计（账号/绑定/订单/日志等）
+- **参数**：`userId` 或 `playerId`、`csrf_token`
+
+### 12.4 执行清理
+
+- **路径**：`POST /admin/gm/doCleanData`
+- **说明**：执行指定玩家数据清理（含CSRF验证 + 确认口令 `DELETE`）
+- **参数**：`userId` 或 `playerId`、`confirm_phrase`（必须为 `DELETE`）、`resetAutoIncrement`、`csrf_token`
+
+### 12.5 获取数据统计
+
+- **路径**：`GET /admin/gm/getDataStatistics`
+- **说明**：获取各表行数统计（含CSRF验证）
+
+### 12.6 清理所有数据
+
+- **路径**：`POST /admin/gm/doCleanAll`
+- **说明**：执行全量数据清理（含CSRF验证 + 确认口令 `DELETE_ALL`）
+- **参数**：`confirm_phrase`（必须为 `DELETE_ALL`）、`resetAutoIncrement`、`csrf_token`
+
+---
+
+## 13. Item 控制器
 
 **控制器位置**：[`app/admin/controller/Item.php`](../../app/admin/controller/Item.php)
 
@@ -460,7 +516,7 @@
 
 ---
 
-## 9. Configure 控制器
+## 14. Configure 控制器
 
 **控制器位置**：[`app/admin/controller/Configure.php`](../../app/admin/controller/Configure.php)
 
@@ -566,7 +622,7 @@
 
 ---
 
-## 10. Log 控制器
+## 15. Log 控制器
 
 **控制器位置**：[`app/admin/controller/Log.php`](../../app/admin/controller/Log.php)
 
@@ -592,7 +648,7 @@
 
 ---
 
-## 11. Fankui 控制器
+## 16. Fankui 控制器
 
 **控制器位置**：[`app/admin/controller/Fankui.php`](../../app/admin/controller/Fankui.php)
 
@@ -618,7 +674,7 @@
 
 ---
 
-## 12. AgentRelation 控制器
+## 17. AgentRelation 控制器
 
 **控制器位置**：[`app/admin/controller/AgentRelation.php`](../../app/admin/controller/AgentRelation.php)
 
@@ -649,42 +705,19 @@
 
 ---
 
-## 13. TestPay 控制器
-
-**控制器位置**：[`app/admin/controller/TestPay.php`](../../app/admin/controller/TestPay.php)
-
-### 13.1 测试支付首页
-
-- **路径**：`GET /admin/testPay/index`
-- **说明**：测试支付调试页面
-
-### 13.2 支付回调测试
-
-- **路径**：`POST/GET /admin/testPay/callback`
-- **说明**：测试支付回调处理
-
-### 13.3 创建测试订单
-
-- **路径**：`POST /admin/testPay/createOrder`
-- **说明**：创建测试订单
-
-### 13.4 查看测试佣金
-
-- **路径**：`GET /admin/testPay/viewCommission`
-- **说明**：查看测试佣金结果
-
----
-
-## 14. 错误码说明
+## 18. 错误码说明
 
 | 错误码 | 说明 |
 |--------|------|
-| 0 | 操作失败 |
 | 1 | 操作成功 |
+| 0 | 操作失败/业务拒绝 |
+| 403 | 无权限访问（PermissionGuard 拦截） |
+| 99 | 超管二次验证提示 |
+| 404 | 路由未命中/资源不存在 |
 | 401 | 未登录或登录已过期 |
-| 403 | 无权限访问 |
-| 404 | 资源不存在 |
 | 500 | 服务器内部错误 |
+
+> 说明：`PermissionGuard` 中间件在全局中间件链中执行细粒度权限校验，拦截时返回 HTTP 403 + `{"code":403,"msg":"无权限访问该资源","request_id":"..."}`。
 
 ---
 

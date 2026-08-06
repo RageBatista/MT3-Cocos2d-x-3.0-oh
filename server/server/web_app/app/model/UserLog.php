@@ -129,10 +129,11 @@ class UserLog extends Model{
     }
     public function getLogList($post=null,$lv=1,$table=null)
 	{
-		$page = isset($post['page'])?$post['page']:1;
-		$limit = isset($post['limit'])?$post['limit']:10;
-		$sortOrder = isset($post['sortOrder'])?$post['sortOrder']:'asc';
-		$sort = isset($post['sort'])?$post['sort']:'id';
+		$page = isset($post['page']) ? max(1, intval($post['page'])) : 1;
+		$limit = isset($post['limit']) ? max(1, min(100, intval($post['limit']))) : 10;
+		$sortOrder = (isset($post['sortOrder']) && strtolower((string)$post['sortOrder']) === 'desc') ? 'desc' : 'asc';
+		$allowedSorts = ['id', 'username', 'info', 'date', 'time', 'ip', 'city', 'lv'];
+		$sort = (isset($post['sort']) && in_array((string)$post['sort'], $allowedSorts, true)) ? (string)$post['sort'] : 'id';
 		$condition = [];
 		if($table!=null){
 			foreach($table as $val){

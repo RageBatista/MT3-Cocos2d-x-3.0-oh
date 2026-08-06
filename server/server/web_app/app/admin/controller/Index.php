@@ -10,6 +10,8 @@ use app\model\User as U;
 use app\model\Bind as B;
 use app\model\Server as S;
 use app\model\UserOrder as UO;
+use app\gm\Gm as Game;
+use think\facade\Cache;
 
 class Index extends BaseController
 {
@@ -145,17 +147,11 @@ class Index extends BaseController
 	$getAllServerList = $S->getAllServerList();
 	$serverCount = count($getAllServerList);
 	foreach ($getAllServerList as $key=>$val) {
-		// 安全修复: 严格验证端口号，防止命令注入
-		if (!is_numeric($val['serverport'])) {
-			$getAllServerList[$key]['online'] = 0;
-			continue;
-		}
-		$port = intval($val['serverport']);
-		if ($port < 1 || $port > 65535) {
-			$getAllServerList[$key]['online'] = 0;
-			continue;
-		}
-		$getAllServerList[$key]['online'] = exec('netstat -nat|grep -i '.escapeshellarg((string)$port).'|wc -l');
+		$probe = $this->resolveServerOnlineProbe($val);
+		$getAllServerList[$key]['online'] = $probe['online'];
+		$getAllServerList[$key]['online_probe_ok'] = $probe['success'];
+		$getAllServerList[$key]['online_probe_source'] = $probe['source'];
+		$getAllServerList[$key]['online_probe_message'] = $probe['message'];
 	}
 	
 
@@ -173,6 +169,70 @@ class Index extends BaseController
 			'js_server_names'=>json_encode(array_column($getAllServerList, 'name'), JSON_UNESCAPED_UNICODE|JSON_HEX_APOS|JSON_HEX_QUOT),
 			'js_server_onlines'=>json_encode(array_column($getAllServerList, 'online'), JSON_HEX_APOS|JSON_HEX_QUOT),
 		]);
+    }
+
+    private function resolveServerOnlineProbe(array $server): array
+    {
+		if (array_key_exists('online', $server) && is_numeric($server['online'])) {
+			return [
+				'success' => true,
+				'online' => max(0, intval($server['online'])),
+				'source' => 'database',
+				'message' => '使用数据库字段'
+			];
+		}
+
+		if (!is_numeric($server['serverport'] ?? null)) {
+			return 0;
+		}
+
+		$port = intval($server['serverport']);
+		if ($port < 1 || $port > 65535) {
+			return 0;
+		}
+
+		$cacheKey = 'admin:server:online:' . intval($server['id'] ?? 0) . ':' . $port;
+		$cached = Cache::get($cacheKey);
+		if (is_array($cached) && array_key_exists('online', $cached)) {
+			$cached['source'] = 'cache:' . ($cached['source'] ?? 'unknown');
+			return $cached;
+		}
+
+		$probe = $this->detectOnlineCountByJmx($server, $port);
+		Cache::set($cacheKey, $probe, 30);
+		return $probe;
+    }
+
+    private function detectOnlineCountByJmx(array $server, int $port): array
+    {
+		try {
+			$game = new Game();
+			$result = $game->probeOnlineCount([
+				'serverip' => $server['serverip'] ?? '',
+				'gmlocal' => $server['gmlocal'] ?? 0,
+				'gmport' => $server['gmport'] ?? $port,
+				'playerid' => 0,
+			]);
+			return [
+				'success' => (bool)($result['success'] ?? false),
+				'online' => max(0, intval($result['online'] ?? 0)),
+				'source' => $result['source'] ?? 'jmx',
+				'message' => $result['message'] ?? '未返回详细信息'
+			];
+		} catch (\Throwable $e) {
+			\think\facade\Log::warning('JMX在线人数获取异常', [
+				'server_id' => intval($server['id'] ?? 0),
+				'serverip' => $server['serverip'] ?? '',
+				'gmport' => intval($server['gmport'] ?? $port),
+				'error' => $e->getMessage(),
+			]);
+			return [
+				'success' => false,
+				'online' => 0,
+				'source' => 'jmx',
+				'message' => '异常: ' . $e->getMessage()
+			];
+		}
     }
 	
 }

@@ -4,7 +4,12 @@
 //#include "../Application/Framework/GameApplication.h"
 
 #import "FireClientAppDelegate.h"
+#if defined(MT3_COCOS2D_X_3)
+#import "platform/ios/CCEAGLView.h"
+#include "platform/ios/CCGLView.h"
+#else
 #include <EAGLView.h>
+#endif
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 //#import <libkern/OSMemoryNotification.h> //comment by liugeng. not found OSMemoryNotification.h under libkern
@@ -167,6 +172,17 @@ FireClientViewController * g_viewController;
     
     application.applicationIconBadgeNumber = 0;
     self.taskID = UIBackgroundTaskInvalid;
+#if defined(MT3_COCOS2D_X_3)
+    CCEAGLView *__glView = [CCEAGLView viewWithFrame: [self.window bounds]
+                                       pixelFormat: kEAGLColorFormatRGBA8
+                                       depthFormat: GL_DEPTH_COMPONENT16
+                                preserveBackbuffer: NO
+                                        sharegroup: nil
+                                     multiSampling: NO
+                                   numberOfSamples: 0 ];
+    cocos2d::GLView *glView = cocos2d::GLView::createWithEAGLView(__glView);
+    cocos2d::Director::getInstance()->setOpenGLView(glView);
+#else
     EAGLView *__glView = [EAGLView viewWithFrame: [self.window bounds]
                                      pixelFormat: kEAGLColorFormatRGBA8
                                      depthFormat: GL_DEPTH_COMPONENT16
@@ -174,6 +190,7 @@ FireClientViewController * g_viewController;
                                       sharegroup: nil
                                    multiSampling: NO
                                  numberOfSamples: 0 ];
+#endif
     
     //    __glView.transform = CGAffineTransformMakeScale(0.5, 0.5);
     // Use RootViewController manage EAGLView
@@ -181,11 +198,13 @@ FireClientViewController * g_viewController;
     self.viewController.wantsFullScreenLayout = YES;
     self.viewController.view = __glView;
     
+#if !defined(MT3_COCOS2D_X_3)
     if ([self.viewController respondsToSelector:@selector(traitCollection)] &&
         [self.viewController.traitCollection respondsToSelector:@selector(forceTouchCapability)] &&
         self.viewController.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
         __glView.forceTouchEnable = true;
     }
+#endif
     
     //[self.viewController.view addSubview:__glView];
     

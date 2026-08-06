@@ -8,11 +8,11 @@ LOCAL_MODULE_FILENAME := liblua
 LOCAL_SRC_FILES := manual/CCLuaBridge.cpp \
           manual/CCLuaEngine.cpp \
           manual/CCLuaStack.cpp \
+          manual/LJFMLuaLoader.cpp \
           manual/lua_debugger.c \
           manual/CCLuaValue.cpp \
           manual/Cocos2dxLuaLoader.cpp \
           manual/CCBProxy.cpp \
-          manual/Lua_web_socket.cpp \
           manual/LuaOpengl.cpp \
           manual/LuaScriptHandlerMgr.cpp \
           manual/LuaBasicConversions.cpp \
@@ -58,9 +58,10 @@ LOCAL_SRC_FILES := manual/CCLuaBridge.cpp \
 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../external/lua/tolua \
-                    $(LOCAL_PATH)/../../../external/lua/luajit/include \
+                    $(LOCAL_PATH)/../../../external/lua/lua \
                     $(LOCAL_PATH)/../../../external/lua \
                     $(LOCAL_PATH)/../../../extensions \
+					$(LOCAL_PATH)/../../2d/platform \
                     $(LOCAL_PATH)/../../editor-support/spine \
                     $(LOCAL_PATH)/../../editor-support/cocosbuilder \
                     $(LOCAL_PATH)/../../editor-support/cocostudio \
@@ -68,35 +69,37 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../external/lua/tolua \
                     $(LOCAL_PATH)/auto \
                     $(LOCAL_PATH)/manual \
                     $(LOCAL_PATH)/manual/platform/android \
-                    $(LOCAL_PATH)/manual/platform/android/jni
+                    $(LOCAL_PATH)/manual/platform/android/jni \
+                    $(LOCAL_PATH)/../../../../common/ljfm/code/include \
+                    $(LOCAL_PATH)/../../../../common/platform
 
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../external/lua/tolua \
-                           $(LOCAL_PATH)/../../../external/lua/luajit/include \
+                           $(LOCAL_PATH)/../../../external/lua/lua \
                            $(LOCAL_PATH)/../external \
                            $(LOCAL_PATH)/auto \
                            $(LOCAL_PATH)/manual
 
 
-LOCAL_WHOLE_STATIC_LIBRARIES := luajit_static
+LOCAL_WHOLE_STATIC_LIBRARIES := lua_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_static
-LOCAL_WHOLE_STATIC_LIBRARIES += websockets_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_network_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocosbuilder_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocostudio_static
 LOCAL_WHOLE_STATIC_LIBRARIES += spine_static
+LOCAL_WHOLE_STATIC_LIBRARIES += ljfm_static
 
-LOCAL_CFLAGS += -Wno-psabi
+LOCAL_CFLAGS += -Wno-psabi -DCC_ENABLE_WEBSOCKET=0 -D_OS_ANDROID -DANDROID
 LOCAL_EXPORT_CFLAGS += -Wno-psabi
 
 include $(BUILD_STATIC_LIBRARY)
 
-$(call import-module,lua/luajit/prebuilt/android)
+$(call import-module,lua/lua)
 $(call import-module,extensions)
 $(call import-module,2d)
-$(call import-module,websockets/prebuilt/android)
 $(call import-module,network)
 $(call import-module,editor-support/cocostudio)
 $(call import-module,editor-support/cocosbuilder)
 $(call import-module,editor-support/spine)
+$(call import-module,ljfm)

@@ -32,5 +32,9 @@ return [
     'fee' => [
         'enabled' => false,  // 是否启用转区费用
         'amount' => 0        // 转区费用（金币或道具）
-    ]
+    ],
+
+    // 是否启用 GM 全量迁移链路
+    // 默认关闭：当前环境下相关 GM 方法未实现，开启会导致执行失败
+    'gm_migration_enabled' => env('TRANSFER_GM_MIGRATION_ENABLED', false),
 ];

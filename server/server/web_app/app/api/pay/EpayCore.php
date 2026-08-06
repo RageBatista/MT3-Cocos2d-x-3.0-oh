@@ -18,6 +18,10 @@ class EpayCore
 		$this->submit_url = $config['apiurl'].'submit.php';
 		$this->mapi_url = $config['apiurl'].'mapi.php';
 		$this->api_url = $config['apiurl'].'api.php';
+		$this->sign_type = strtoupper((string)($config['sign_type'] ?? 'MD5'));
+		if (!in_array($this->sign_type, ['MD5', 'HMAC-SHA256'], true)) {
+			$this->sign_type = 'MD5';
+		}
 	}
 
 	// 发起支付（页面跳转）
@@ -78,10 +82,18 @@ class EpayCore
 			]);
 			return true;
 		}else{
+			$mask = function ($value) {
+				$value = (string)$value;
+				$len = strlen($value);
+				if ($len <= 8) {
+					return str_repeat('*', $len);
+				}
+				return substr($value, 0, 4) . str_repeat('*', $len - 8) . substr($value, -4);
+			};
 			Log::warning('支付回调签名验证失败', [
 				'orderid' => $get['out_trade_no'] ?? 'unknown',
-				'expected_sign' => $sign,
-				'received_sign' => $get['sign']
+				'expected_sign' => $mask($sign),
+				'received_sign' => $mask($get['sign'] ?? '')
 			]);
 			return false;
 		}
@@ -117,10 +129,18 @@ class EpayCore
 			]);
 			return true;
 		}else{
+			$mask = function ($value) {
+				$value = (string)$value;
+				$len = strlen($value);
+				if ($len <= 8) {
+					return str_repeat('*', $len);
+				}
+				return substr($value, 0, 4) . str_repeat('*', $len - 8) . substr($value, -4);
+			};
 			Log::warning('支付返回签名验证失败', [
 				'orderid' => $get['out_trade_no'] ?? 'unknown',
-				'expected_sign' => $sign,
-				'received_sign' => $get['sign']
+				'expected_sign' => $mask($sign),
+				'received_sign' => $mask($get['sign'] ?? '')
 			]);
 			return false;
 		}
@@ -164,16 +184,24 @@ class EpayCore
 		}
 		$signstr = substr($signstr,0,-1);
 		$signstr .= $this->key;
-		$sign = md5($signstr);
+		if ($this->sign_type === 'HMAC-SHA256') {
+			$sign = hash_hmac('sha256', $signstr, $this->key);
+		} else {
+			$sign = md5($signstr);
+		}
 		return $sign;
 	}
 
 	// 请求外部资源
 	private function getHttpResponse($url, $post = false, $timeout = 10){
+		if (stripos($url, 'https://') !== 0) {
+			Log::error('支付请求URL必须使用HTTPS', ['url' => $url]);
+			return '';
+		}
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		$httpheader[] = "Accept: */*";
 		$httpheader[] = "Accept-Language: zh-CN,zh;q=0.8";
 		$httpheader[] = "Connection: close";

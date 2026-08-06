@@ -1,9 +1,33 @@
 <?php
 namespace app\gm;
 
+use app\service\GmJmxcExecutorService;
+
 #[\AllowDynamicProperties]
 class Gm
 {
+	private const REGISTERED_COMMANDS = [
+		'nonvoice', 'unnonvoice', 'coquest', 'clearbag', 'forgmbid',
+		'superunforbiduser', 'superforbiduser', 'createrole', 'kick',
+		'baitantimeclear', 'checkcode', 'hideme', 'showme', 'battleend',
+		'cangbatou', 'addlevel', 'addrechargecurrency', 'subfushi',
+		'addvipexp', 'setvip', 'addgold', 'changebindtel', 'addsuperitem',
+		'addtitle', 'deltitle', 'addhyd', 'award', 'offlinetime', 'addpet',
+		'addpetskill', 'delpetskill', 'addpetexp', 'addlife', 'addbanggong',
+		'addfactionmoney', 'bpgx', 'yaofangrefresh', 'dismissguild',
+		'adddingzhiequip', 'setdays', 'sysmailbycond', 'post', 'zmd',
+		'destroyzone', 'reload', 'stopgamegs', 'readpackandpet', 'sysmail',
+		'setpetgrow', 'setpetattack', 'setpetdefend', 'setpetmagic',
+		'setpetphyforce', 'setpetspeed',
+	];
+
+	private const HIGH_RISK_COMMANDS = [
+		'addgold', 'addrechargecurrency', 'subfushi', 'setvip', 'addsuperitem',
+		'sysmail', 'sysmailbycond', 'destroyzone', 'reload', 'stopgamegs',
+		'dismissguild', 'superforbiduser', 'superunforbiduser',
+		'adddingzhiequip', 'addfactionmoney',
+	];
+
 	/** JMX认证用户名 */
 	private $jmxUsername = '';
 
@@ -12,6 +36,15 @@ class Gm
 
 	/** JMX认证Token（二次验证） */
 	private $jmxToken = '';
+
+	/** JMX配置是否完整可用 */
+	private $jmxAuthReady = false;
+
+	/** Java 可执行文件 */
+	private $javaBin = 'java';
+
+	/** 命令执行服务 */
+	private $commandExecutor = null;
 
 	/**
 	 * 构造函�?- 自动调用初始�?	 */
@@ -29,8 +62,10 @@ class Gm
 		setlocale(LC_ALL,$locale);
 		putenv('LC_ALL='.$locale);
 		$jmxc = app()->getRootPath().'jmxc/jmxc.jar';
-		$this->flag = 'export LANG="zh_CN.UTF-8" && ';
+		$this->flag = strtoupper((string)PHP_OS_FAMILY) === 'WINDOWS' ? '' : 'export LANG="zh_CN.UTF-8" && ';
 		$this->jmxcPath=$jmxc;
+		$this->javaBin = (string)env('JMX_JAVA_BIN', 'java');
+		$this->commandExecutor = new GmJmxcExecutorService();
 
 		// 加载JMX认证配置
 		$this->loadJmxConfig();
@@ -69,15 +104,197 @@ class Gm
 				$this->jmxUsername = $config['username'] ?? '';
 				$this->jmxPassword = $config['password'] ?? '';
 				$this->jmxToken = $config['token'] ?? '';
+				$this->jmxAuthReady = ($this->jmxUsername !== '' && $this->jmxPassword !== '' && $this->jmxToken !== '');
 			}
 
 			// 记录配置状态
-			$hasAuth = !empty($this->jmxUsername) && !empty($this->jmxPassword);
+			$hasAuth = $this->jmxAuthReady;
 			$hasToken = !empty($this->jmxToken);
-			\think\facade\Log::info('JMX配置状态: ' . ($hasAuth ? '已启用认证,user=' . $this->jmxUsername . ',Token=' . ($hasToken ? '已配置' : '未配置') : '未配置认证(安全风险)'));
+			\think\facade\Log::info('JMX配置状态: ' . ($hasAuth ? '已启用认证,Token=' . ($hasToken ? '已配置' : '未配置') : '未配置认证或配置不完整'));
 		} catch (\Exception $e) {
 			\think\facade\Log::error('JMX配置加载失败: ' . $e->getMessage());
 		}
+	}
+
+	private function buildAuditSummary(array $data, string $gmCommand): string
+	{
+		$serverip = ($data['gmlocal'] == 1) ? '127.0.0.1' : ($data['serverip'] ?? 'unknown');
+		$port = intval($data['gmport'] ?? 0);
+		$userId = $this->resolveGmUserId($data);
+		$playerid = intval($data['playerid'] ?? 0);
+		$cmd = $this->sanitizeGmCommandForLog($gmCommand);
+		return 'server=' . $serverip . ', port=' . $port . ', userId=' . $userId . ', playerId=' . $playerid . ', token=' . (!empty($this->jmxToken) ? 'configured' : 'missing') . ', command=' . $cmd;
+	}
+
+	private function resolveServerIp(array $data)
+	{
+		$serverip = (($data['gmlocal'] ?? 0) == 1) ? '127.0.0.1' : ($data['serverip'] ?? '');
+		return filter_var($serverip, FILTER_VALIDATE_IP);
+	}
+
+	private function buildJavaPrefix(): string
+	{
+		return $this->flag . escapeshellarg($this->javaBin);
+	}
+
+	private function resolveGmUserId(array $data): int
+	{
+		if (isset($data['gm_userid']) && is_numeric($data['gm_userid'])) {
+			return max(0, intval($data['gm_userid']));
+		}
+		if (isset($data['userid']) && is_numeric($data['userid'])) {
+			return max(0, intval($data['userid']));
+		}
+		return 0;
+	}
+
+	private function buildGmArgs(string $serverip, int $gmport, int $playerid, array $data = []): array
+	{
+		$gmUserId = $this->resolveGmUserId($data);
+		$args = [
+			$this->jmxUsername,
+			$this->jmxPassword,
+			$serverip,
+			(string)$gmport,
+			'gm',
+			'userId=' . $gmUserId,
+			'roleId=' . max(0, intval($playerid)),
+		];
+
+		if (!empty($this->jmxToken)) {
+			$args[] = 'token=' . $this->jmxToken;
+		}
+
+		return $args;
+	}
+
+	private function buildJmxArgs(string $serverip, int $gmport, string $functionName): array
+	{
+		return [
+			$this->jmxUsername,
+			$this->jmxPassword,
+			$serverip,
+			(string)$gmport,
+			$functionName,
+		];
+	}
+
+	private function escapeArgs(array $args): string
+	{
+		$escaped = array_map(static fn($arg) => escapeshellarg((string)$arg), $args);
+		return implode(' ', $escaped);
+	}
+
+	private function sanitizeLogText(string $text): string
+	{
+		$text = preg_replace('/token=[^\s\'"]+/i', 'token=***', $text);
+		$text = preg_replace('/(password=)[^\s\'"]+/i', '$1***', (string)$text);
+		$text = preg_replace('/(mobile|phone|tel)=?[0-9]{7,}/i', '$1=***', (string)$text);
+		$text = preg_replace('/\b1[3-9][0-9]{9}\b/', '1**********', (string)$text);
+		return (string)$text;
+	}
+
+	private function sanitizeGmCommandForLog(string $gmCommand): string
+	{
+		$cmd = str_replace(["\r", "\n", "\t"], ' ', $gmCommand);
+		$cmd = $this->sanitizeLogText($cmd);
+		$cmd = preg_replace('/(sysmail|sysmailbycond)\s+(.{0,120})/i', '$1 ***', (string)$cmd);
+		if (strlen($cmd) > 200) {
+			$cmd = substr($cmd, 0, 200) . '...';
+		}
+		return trim((string)$cmd);
+	}
+
+	private function envFlag(string $key, bool $default = false): bool
+	{
+		$value = env($key, $default ? 'true' : 'false');
+		if (is_bool($value)) {
+			return $value;
+		}
+		return in_array(strtolower((string)$value), ['1', 'true', 'on', 'yes'], true);
+	}
+
+	private function getCommandName(string $gmCommand): string
+	{
+		$normalized = trim(str_replace(["\r", "\n", "\t"], ' ', $gmCommand));
+		if ($normalized === '') {
+			return '';
+		}
+		$parts = preg_split('/\s+/', $normalized);
+		return strtolower((string)($parts[0] ?? ''));
+	}
+
+	private function isRegisteredCommand(string $commandName): bool
+	{
+		return in_array(strtolower($commandName), self::REGISTERED_COMMANDS, true);
+	}
+
+	private function isHighRiskCommand(string $commandName): bool
+	{
+		return in_array(strtolower($commandName), self::HIGH_RISK_COMMANDS, true);
+	}
+
+	private function hasHighRiskApproval(array $data): bool
+	{
+		if (!$this->envFlag('GM_HIGH_RISK_APPROVAL_REQUIRED', true)) {
+			return true;
+		}
+		$expected = trim((string)env('GM_HIGH_RISK_APPROVAL_CODE', ''));
+		$provided = trim((string)($data['approval_code'] ?? $data['gm_approval_code'] ?? ''));
+		return $expected !== '' && $provided !== '' && hash_equals($expected, $provided);
+	}
+
+	private function isBreakGlassAllowed(array $data): bool
+	{
+		if (!$this->envFlag('GM_BREAK_GLASS_ENABLED', false)) {
+			return false;
+		}
+		$expected = trim((string)env('GM_BREAK_GLASS_APPROVAL_CODE', ''));
+		$provided = trim((string)($data['break_glass_code'] ?? $data['approval_code'] ?? ''));
+		return $expected !== '' && $provided !== '' && hash_equals($expected, $provided);
+	}
+
+	private function ipMatchesCidr(string $ip, string $cidr): bool
+	{
+		if (strpos($cidr, '/') === false) {
+			return $ip === $cidr;
+		}
+		[$subnet, $bits] = explode('/', $cidr, 2);
+		$ipLong = ip2long($ip);
+		$subnetLong = ip2long($subnet);
+		$bits = intval($bits);
+		if ($ipLong === false || $subnetLong === false || $bits < 0 || $bits > 32) {
+			return false;
+		}
+		$mask = -1 << (32 - $bits);
+		return (($ipLong & $mask) === ($subnetLong & $mask));
+	}
+
+	private function isAllowedJmxTarget(string $serverip, int $gmport): bool
+	{
+		$raw = trim((string)env('GM_JMX_ALLOWED_TARGETS', '127.0.0.1:*'));
+		if ($raw === '') {
+			return false;
+		}
+		foreach (preg_split('/[,;\s]+/', $raw) as $entry) {
+			$entry = trim((string)$entry);
+			if ($entry === '') {
+				continue;
+			}
+			$host = $entry;
+			$port = '*';
+			if (strpos($entry, ':') !== false) {
+				[$host, $port] = explode(':', $entry, 2);
+			}
+			$host = trim($host);
+			$port = trim($port);
+			$portOk = ($port === '*' || intval($port) === $gmport);
+			$hostOk = ($host === '*' || $this->ipMatchesCidr($serverip, $host));
+			if ($hostOk && $portOk) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -85,22 +302,8 @@ class Gm
 	 */
 	private function buildJmxBaseCommand($serverip, $gmport, $playerid)
 	{
-		// 构建基础命令 - 统一使用 escapeshellarg() 转义所有参数
-		$cmd = 'java -jar ' . escapeshellarg($this->jmxcPath) .
-		       ' ' . escapeshellarg($this->jmxUsername) .
-		       ' ' . escapeshellarg($this->jmxPassword) .
-		       ' ' . escapeshellarg($serverip) .
-		       ' ' . escapeshellarg((string)$gmport) .
-		       ' ' . escapeshellarg('gm') .
-		       ' ' . escapeshellarg('userId=4096') .
-		       ' ' . escapeshellarg('roleId=' . intval($playerid));
-
-		// 添加Token参数（如果配置了）- 使用 escapeshellarg() 防止命令注入
-		if (!empty($this->jmxToken)) {
-			$cmd .= ' ' . escapeshellarg('token=' . $this->jmxToken);
-		}
-
-		return $cmd;
+		$args = $this->buildGmArgs((string)$serverip, intval($gmport), intval($playerid));
+		return $this->buildJavaPrefix() . ' -jar ' . escapeshellarg($this->jmxcPath) . ' ' . $this->escapeArgs($args);
 	}
 
 	/**
@@ -111,37 +314,129 @@ class Gm
 	 */
 	private function buildGmCommand($data, $gmCommand)
 	{
-		// 本地服务器使用127.0.0.1
-		$serverip = ($data['gmlocal'] == 1) ? '127.0.0.1' : $data['serverip'];
-
-		// 验证和转义参数
-		$serverip = filter_var($serverip, FILTER_VALIDATE_IP);
+		$serverip = $this->resolveServerIp($data);
 		if ($serverip === false) {
 			return ''; // 无效IP，由调用方处理
 		}
 
 		$gmport = intval($data['gmport']);
 		$playerid = intval($data['playerid']);
+		$args = $this->buildGmArgs($serverip, $gmport, $playerid, (array)$data);
+		$args[] = (string)$gmCommand;
+		return $this->buildJavaPrefix() . ' -jar ' . escapeshellarg($this->jmxcPath) . ' ' . $this->escapeArgs($args);
+	}
 
-		// 构建基础命令 - 统一使用 escapeshellarg() 转义所有参数
-		$cmd = $this->flag . 'java -jar ' . escapeshellarg($this->jmxcPath) .
-		       ' ' . escapeshellarg($this->jmxUsername) .
-		       ' ' . escapeshellarg($this->jmxPassword) .
-		       ' ' . escapeshellarg($serverip) .
-		       ' ' . escapeshellarg((string)$gmport) .
-		       ' ' . escapeshellarg('gm') .
-		       ' ' . escapeshellarg('userId=4096') .
-		       ' ' . escapeshellarg('roleId=' . $playerid);
-
-		// 添加Token参数（如果配置了）- 使用 escapeshellarg() 防止命令注入
-		if (!empty($this->jmxToken)) {
-			$cmd .= ' ' . escapeshellarg('token=' . $this->jmxToken);
+	private function buildJmxFunctionCommand(array $data, string $functionName): string
+	{
+		$serverip = $this->resolveServerIp($data);
+		if ($serverip === false) {
+			return '';
 		}
 
-		// 添加GM命令
-		$cmd .= ' ' . escapeshellarg($gmCommand);
+		$gmport = intval($data['gmport'] ?? 0);
+		if($gmport < 1 || $gmport > 65535){
+			return '';
+		}
 
-		return $cmd;
+		$args = $this->buildJmxArgs($serverip, $gmport, $functionName);
+		return $this->buildJavaPrefix() . ' -jar ' . escapeshellarg($this->jmxcPath) . ' ' . $this->escapeArgs($args);
+	}
+
+	private function buildGmCommandByClassPath(array $data, string $gmCommand): string
+	{
+		$serverip = $this->resolveServerIp($data);
+		if ($serverip === false) {
+			return '';
+		}
+
+		$gmport = intval($data['gmport'] ?? 0);
+		$playerid = intval($data['playerid'] ?? 0);
+		$args = $this->buildGmArgs($serverip, $gmport, $playerid, $data);
+		$args[] = $gmCommand;
+
+		return $this->buildJavaPrefix() . ' -cp ' . escapeshellarg($this->jmxcPath) . ' jmxc ' . $this->escapeArgs($args);
+	}
+
+	private function buildJmxFunctionCommandByClassPath(array $data, string $functionName): string
+	{
+		$serverip = $this->resolveServerIp($data);
+		if ($serverip === false) {
+			return '';
+		}
+
+		$gmport = intval($data['gmport'] ?? 0);
+		if($gmport < 1 || $gmport > 65535){
+			return '';
+		}
+
+		$args = $this->buildJmxArgs($serverip, $gmport, $functionName);
+		return $this->buildJavaPrefix() . ' -cp ' . escapeshellarg($this->jmxcPath) . ' jmxc ' . $this->escapeArgs($args);
+	}
+
+	public function probeOnlineCount($data): array
+	{
+		if (!$this->jmxAuthReady) {
+			return [
+				'success' => false,
+				'online' => 0,
+				'source' => 'jmx',
+				'message' => 'JMX认证未启用或配置不完整'
+			];
+		}
+
+		$cmd = $this->buildJmxFunctionCommand($data, 'GetMaxOnlineNum');
+		if ($cmd === '') {
+			return [
+				'success' => false,
+				'online' => 0,
+				'source' => 'jmx',
+				'message' => '服务器IP或端口无效'
+			];
+		}
+		$serverip = $this->resolveServerIp((array)$data);
+		$gmport = intval($data['gmport'] ?? 0);
+		if ($serverip === false || !$this->isAllowedJmxTarget((string)$serverip, $gmport)) {
+			\think\facade\Log::warning('JMX在线探测拒绝: 目标不在白名单|server=' . ($serverip ?: 'invalid') . '|port=' . $gmport);
+			return [
+				'success' => false,
+				'online' => 0,
+				'source' => 'jmx',
+				'message' => 'JMX目标不在白名单'
+			];
+		}
+
+		$fallbackCmd = $this->buildJmxFunctionCommandByClassPath((array)$data, 'GetMaxOnlineNum');
+		$execResult = $this->commandExecutor->execute($cmd, $fallbackCmd);
+		$out = $execResult['output'];
+		$ret = intval($execResult['exitCode']);
+		if (!empty($execResult['usedFallback'])) {
+			\think\facade\Log::warning('JMX在线探测失败，尝试 -cp jmxc 回退链路');
+		}
+		if ($ret !== 0) {
+			return [
+				'success' => false,
+				'online' => 0,
+				'source' => 'jmx',
+				'message' => '返回码=' . $ret
+			];
+		}
+
+		$lastLine = trim((string)end($out));
+		if (!is_numeric($lastLine)) {
+			return [
+				'success' => false,
+				'online' => 0,
+				'source' => 'jmx',
+				'message' => '返回结果非数字'
+			];
+		}
+
+		return [
+			'success' => true,
+			'online' => max(0, intval($lastLine)),
+			'source' => 'jmx',
+			'message' => '探测成功'
+		];
 	}
 	
 	/**
@@ -152,11 +447,30 @@ class Gm
 	 */
 	private function safeExecGmCommand($data, $gmCommand)
 	{
+		if (!$this->jmxAuthReady) {
+			\think\facade\Log::error('GM命令执行失败: JMX认证未启用或配置不完整');
+			return ['error' => 'JMX auth is not configured'];
+		}
+		if (!is_file($this->jmxcPath)) {
+			\think\facade\Log::error('GM命令执行失败: jmxc.jar不存在 ' . $this->jmxcPath);
+			return ['error' => 'jmxc.jar not found'];
+		}
+
 		// 验证端口
 		$gmport = intval($data['gmport']);
 		if($gmport < 1 || $gmport > 65535){
 			\think\facade\Log::error('GM命令执行失败: 无效的端口 ' . $gmport);
 			return ['error' => 'Invalid GM port'];
+		}
+
+		$serverip = $this->resolveServerIp((array)$data);
+		if ($serverip === false) {
+			\think\facade\Log::error('GM命令执行失败: 无效的服务器IP');
+			return ['error' => 'Invalid server IP'];
+		}
+		if (!$this->isAllowedJmxTarget((string)$serverip, $gmport)) {
+			\think\facade\Log::warning('GM命令执行拒绝: JMX目标不在白名单|server=' . $serverip . '|port=' . $gmport);
+			return ['error' => 'JMX target is not allowed'];
 		}
 
 		// 验证玩家ID（必须是数字）
@@ -166,36 +480,60 @@ class Gm
 			return ['error' => 'Invalid player ID'];
 		}
 
+		$commandName = $this->getCommandName((string)$gmCommand);
+		if (!$this->isRegisteredCommand($commandName)) {
+			\think\facade\Log::warning('GM命令执行拒绝: 命令未注册|cmd=' . $this->sanitizeGmCommandForLog((string)$gmCommand));
+			return ['error' => 'GM command is not registered'];
+		}
+		if ($this->isHighRiskCommand($commandName) && !$this->hasHighRiskApproval((array)$data)) {
+			\think\facade\Log::warning('GM命令执行拒绝: 高危命令缺少审批|cmd=' . $commandName);
+			return ['error' => 'High risk GM command requires approval'];
+		}
+
 		// 使用统一的buildGmCommand方法构建命令（包含Token）
 		$cmd = $this->buildGmCommand($data, $gmCommand);
 
 		// 检查命令构建是否成功
 		if (empty($cmd)) {
-			\think\facade\Log::error('GM命令执行失败: 无效的服务器IP');
+			\think\facade\Log::error('GM命令执行失败: 命令构建失败');
 			return ['error' => 'Invalid server IP'];
 		}
 
 		// 记录要执行的命令
-		\think\facade\Log::info('执行GM命令: ' . substr($cmd, 0, 500));
+		\think\facade\Log::info('执行GM命令概要: ' . $this->buildAuditSummary($data, $gmCommand));
 
 		// 执行命令并捕获输出和返回码
-		$out = [];
-		$ret = 0;
-		exec($cmd . ' 2>&1', $out, $ret);
+		$fallbackCmd = $this->buildGmCommandByClassPath((array)$data, (string)$gmCommand);
+		$execResult = $this->commandExecutor->execute($cmd, $fallbackCmd);
+		$out = $execResult['output'];
+		$ret = intval($execResult['exitCode']);
+		if (!empty($execResult['usedFallback'])) {
+			\think\facade\Log::warning('GM命令执行失败，尝试 -cp jmxc 回退链路');
+		}
 
 		// 记录执行结果
 		if ($ret !== 0) {
-			\think\facade\Log::error('GM命令执行失败: 返回码=' . $ret . ', 输出=' . implode("\n", $out));
-			return ['error' => '命令执行失败', 'code' => $ret, 'output' => implode("\n", $out)];
+			$joinedOut = $this->sanitizeLogText(implode("\n", $out));
+			\think\facade\Log::error('GM命令执行失败: 返回码=' . $ret . ', 输出=' . $joinedOut);
+			return ['error' => '命令执行失败', 'code' => $ret, 'output' => $joinedOut];
 		}
 
 		if (empty($out)) {
 			\think\facade\Log::warning('GM命令执行成功但没有输出');
 		} else {
-			\think\facade\Log::info('GM命令执行成功: ' . implode("\n", $out));
+			\think\facade\Log::info('GM命令执行成功: ' . $this->sanitizeLogText(implode("\n", $out)));
 		}
 
 		return $out;
+	}
+
+	public function getOnlineCount($data): int
+	{
+		$result = $this->probeOnlineCount($data);
+		if (!$result['success']) {
+			\think\facade\Log::warning('JMX在线人数获取失败: ' . $result['message']);
+		}
+		return intval($result['online'] ?? 0);
 	}
 	public function nonvoice($data)
 	{
@@ -226,7 +564,7 @@ class Gm
 	}
 	public function unforbid($data)
 	{
-		$gmCommand = 'ungmforbid ' . intval($data['playerid']);
+		$gmCommand = 'superunforbiduser ' . intval($data['playerid']);
 		return $this->safeExecGmCommand($data, $gmCommand);
 	}
 
@@ -463,16 +801,37 @@ class Gm
 		$gmCommand = 'dismissguild';
 		return $this->safeExecGmCommand($data, $gmCommand);
 	}
+	public function adddingzhiequip($data)
+	{
+		$playerid = intval($data['playerid']);
+		$equipid = intval($data['equipid'] ?? 0);
+		$skillid = intval($data['skillid'] ?? 0);
+		$effectid = intval($data['effectid'] ?? 0);
+		$suitid = intval($data['suitid'] ?? 0);
+		$baseattr = str_replace(['"', '\\', "'"], '', (string)($data['baseattr'] ?? ''));
+		$shuangjia = str_replace(['"', '\\', "'"], '', (string)($data['shuangjia'] ?? ''));
+		$ronglian = str_replace(['"', '\\', "'"], '', (string)($data['ronglian'] ?? ''));
+
+		$gmCommand = 'adddingzhiequip ' . $playerid . ' ' . $equipid . ' ' . $skillid . ' ' . $effectid . ' ' . $suitid . ' ' . $baseattr . ' ' . $shuangjia . ' ' . $ronglian;
+		return $this->safeExecGmCommand($data, $gmCommand);
+	}
 	public function cmd($data)
 	{
-		// 自定义命令 - 需要特殊权限
-		\think\facade\Log::info('执行自定义GM命令|cmd=' . substr($data['cmd'], 0, 100));
+		if (!$this->isBreakGlassAllowed((array)$data)) {
+			\think\facade\Log::warning('自定义GM命令被拒绝|原因=break-glass未启用或审批码无效');
+			return ['error' => 'Custom GM command is disabled'];
+		}
+		\think\facade\Log::info('执行自定义GM命令|cmd=' . $this->sanitizeGmCommandForLog((string)($data['cmd'] ?? '')));
 		return $this->safeExecGmCommand($data, $data['cmd']);
 	}
 	public function rolecmd($data)
 	{
+		if (!$this->isBreakGlassAllowed((array)$data)) {
+			\think\facade\Log::warning('角色GM命令被拒绝|原因=break-glass未启用或审批码无效');
+			return ['error' => 'Role GM command is disabled'];
+		}
 		$cmd = trim($data['cmd']);
-		\think\facade\Log::info('执行角色GM命令|cmd=' . substr($cmd, 0, 100));
+		\think\facade\Log::info('执行角色GM命令|cmd=' . $this->sanitizeGmCommandForLog($cmd));
 		
 		// 特殊处理：自动为 addsuperitem 命令添加角色ID参数
 		if (preg_match('/^addsuperitem\s+(\d+)\s*(\d*)/i', $cmd, $matches)) {
@@ -482,7 +841,7 @@ class Gm
 			
 			// 构建完整的命令，包含角色ID
 			$cmd = 'addsuperitem ' . $itemid . ' ' . $number . ' ' . $playerid;
-			\think\facade\Log::info('自动修正addsuperitem命令|原始=' . $data['cmd'] . '|修正后=' . $cmd);
+			\think\facade\Log::info('自动修正addsuperitem命令|原始=' . $this->sanitizeGmCommandForLog((string)$data['cmd']) . '|修正后=' . $this->sanitizeGmCommandForLog($cmd));
 		}
 		
 		return $this->safeExecGmCommand($data, $cmd);

@@ -33,7 +33,7 @@ namespace LJFMX
 		m_FullPathFileName = FI->GetFullPathFileName();
 		unsigned char* pData = NULL;
 #ifdef ANDROID
-		unsigned long ulSize = 0;
+		ssize_t ulSize = 0;
 		if (FI->m_FileArea == 0)
 		{
 			std::string PFN = ws2s(FI->GetFullPathFileName());

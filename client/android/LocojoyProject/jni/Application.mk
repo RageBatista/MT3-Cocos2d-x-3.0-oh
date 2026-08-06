@@ -3,6 +3,7 @@ APP_CPPFLAGS := -frtti -std=c++11
 APP_CPPFLAGS += -D__STDC_LIMIT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_CONSTANT_MACROS
 APP_ABI := arm64-v8a
 APP_PLATFORM := android-21
+APP_SHORT_COMMANDS := true
 APP_CFLAGS += -g -fPIC -ffunction-sections -fdata-sections
 APP_CPPFLAGS += -fPIC -ffunction-sections -fdata-sections
 APP_LDFLAGS += -Wl,--gc-sections -Wl,--no-undefined

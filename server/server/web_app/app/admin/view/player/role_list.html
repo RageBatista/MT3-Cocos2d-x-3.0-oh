@@ -21,7 +21,7 @@
                     </header>
                     <div class="card-body">
                         <div class="card-search mb-2-5">
-                            <form class="search-form" method="get" action="#!" role="form">
+                            <form class="search-form" onsubmit="return false;" role="form">
 
                                 <div class="row">
                                     <div class="col-md-3">
@@ -76,6 +76,7 @@
     <script type="text/javascript" src="__MB__/js/jquery.min.js"></script>
     <script type="text/javascript" src="__MB__/js/popper.min.js"></script>
     <script type="text/javascript" src="__MB__/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__MB__/js/main.min.js"></script>
     <!--表格插件-->
     <script src="__MB__/js/bootstrap-table/bootstrap-table.min.js"></script>
     <script src="__MB__/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
@@ -85,6 +86,20 @@
     <script src="__MB__/alert/sweetalert2.all.min.js"></script>
 
     <script type="text/javascript">
+        var searchDefaults = {
+            roleid: '',
+            name: '',
+            username: ''
+        };
+
+        if (window.lyearSearchState && typeof lyearSearchState.apply === 'function') {
+            lyearSearchState.apply(searchDefaults);
+        }
+        $('.search-form').on('submit', function (event) {
+            event.preventDefault();
+            searchRole();
+        });
+
         // HTML 转义函数，防止 XSS
         function htmlEncode(str) {
             return String(str).replace(/[&<>"'\/]/g, function (s) {
@@ -102,31 +117,33 @@
         // 职业映射
         var professionMap = {
             0: '未知',
-            1: '大唐官府',
-            2: '方寸山',
-            3: '狮驼岭',
-            4: '化生寺',
-            5: '龙宫',
-            6: '普陀山',
-            7: '魔王寨',
-            8: '阴曹地府',
-            9: '女儿村',
-            10: '天宫',
-            11: '五庄观',
-            12: '盘丝洞',
-            13: '神木林',
-            14: '无底洞',
-            15: '月宫',
-            16: '花果山',
-            17: '女魃墓',
-            18: '凌波城',
-            19: '天机城'
+            11: '大唐官府',
+            12: '方寸山',
+            13: '狮驼岭',
+            14: '阴曹地府',
+            15: '龙宫',
+            16: '普陀山',
+            17: '魔王寨',
+            18: '化生寺',
+            19: '月宫',
+            20: '女儿村',
+            21: '小雷音',
+            22: '花果山',
+            23: '须弥海',
+            24: '盘丝洞'
         };
 
         // 格式化时间戳
         function formatTimestamp(ts) {
-            if (!ts || ts == 0) return '-';
-            var d = new Date(ts * 1000);
+            if (ts === null || ts === undefined || ts === '' || ts == 0) return '-';
+            var n = Number(ts);
+            if (!isFinite(n) || n <= 0) return '-';
+            // 兼容秒(10位)与毫秒(13位)时间戳
+            if (n < 100000000000) {
+                n = n * 1000;
+            }
+            var d = new Date(n);
+            if (isNaN(d.getTime())) return '-';
             var Y = d.getFullYear();
             var M = ('0' + (d.getMonth() + 1)).slice(-2);
             var D = ('0' + d.getDate()).slice(-2);
@@ -209,13 +226,13 @@
                     title: '等级',
                     align: 'center',
                     formatter: function (value) {
-                        if (!value) return '<span class="badge badge-secondary">0</span>';
+                        if (!value) return '<span class="badge bg-secondary">0</span>';
                         var color = 'secondary';
                         if (value >= 100) color = 'danger';
                         else if (value >= 69) color = 'warning';
                         else if (value >= 40) color = 'primary';
                         else if (value >= 20) color = 'info';
-                        return '<span class="badge badge-' + color + '">' + value + '</span>';
+                        return '<span class="badge bg-' + color + '">' + value + '</span>';
                     }
                 },
                 {
@@ -223,7 +240,10 @@
                     title: '职业',
                     align: 'center',
                     formatter: function (value) {
-                        return htmlEncode(professionMap[value] || '未知(' + value + ')');
+                        if (value === null || value === undefined || value === '') {
+                            return '未知';
+                        }
+                        return htmlEncode(professionMap[value] || ('未知(' + value + ')'));
                     }
                 },
                 {
@@ -231,8 +251,14 @@
                     title: '所属账号',
                     align: 'center',
                     formatter: function (value, row) {
-                        if (!value) return '<span class="text-muted">无绑定</span>';
-                        return '<a href="/index.php?s=/{$app}/player/list&username=' + encodeURIComponent(value) + '&lastagent=0#!"><span class="btn btn-sm btn-primary">' + htmlEncode(value) + '</span></a>';
+                        if (!value) {
+                            var uid = parseInt(row.userid || 0, 10);
+                            if (uid > 0) {
+                                return '<span class="text-warning">UID:' + uid + '（账号未同步）</span>';
+                            }
+                            return '<span class="text-muted">无绑定</span>';
+                        }
+                        return '<a href="/index.php?s=/{$app}/player/list&username=' + encodeURIComponent(value) + '&lastagent=0"><span class="btn btn-sm btn-primary">' + htmlEncode(value) + '</span></a>';
                     }
                 },
                 {
@@ -255,6 +281,13 @@
         });
 
         function searchRole() {
+            if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+                lyearSearchState.sync({
+                    roleid: $('input[name="roleid"]').val(),
+                    name: $('input[name="name"]').val(),
+                    username: $('input[name="username"]').val()
+                }, searchDefaults);
+            }
             $('#roleTable').bootstrapTable('refresh', { pageNumber: 1 });
         }
 
@@ -262,6 +295,9 @@
             $('input[name="roleid"]').val('');
             $('input[name="name"]').val('');
             $('input[name="username"]').val('');
+            if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+                lyearSearchState.sync(searchDefaults, searchDefaults);
+            }
             $('#roleTable').bootstrapTable('refresh', { pageNumber: 1 });
         }
     </script>

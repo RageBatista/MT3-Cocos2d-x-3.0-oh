@@ -1,0 +1,28 @@
+enum TipType
+{
+    eMsgTip = 1,
+    eSystemTip = 2
+};
+
+class MessageTip : public Window
+{
+public:
+    static const string WidgetTypeName;
+    static const string EventNamespace;
+    static const string RichEditboxNameSuffix;
+    static const string EventStartFade;
+
+    RichEditbox* getRichEditbox() const;
+    Size getTextSize() const;
+    void SetDestYPos(float value);
+    float GetDestYPos();
+    bool GetTextureIsLoading();
+    void SetTipsType(CEGUI::TipType type);
+    CEGUI::TipType GetTipType();
+    void InitSysMsgParamter();
+    void SetStartYPos(float value);
+    float GetStartYPos();
+    void SetDisplayTime(float value);
+    float GetHeightScale();
+    void SetHeightScale(float value);
+};

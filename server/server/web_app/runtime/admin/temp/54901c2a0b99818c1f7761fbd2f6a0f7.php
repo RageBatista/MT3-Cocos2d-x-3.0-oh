@@ -1,0 +1,250 @@
+<?php /*a:1:{s:58:"/www/wwwroot/web_app/app/admin/view/player/voice_list.html";i:1777196143;}*/ ?>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<link rel="stylesheet" type="text/css" href="/static/template/css/materialdesignicons.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/template/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/template/css/style.min.css">
+	<!--表格插件css-->
+	<link rel="stylesheet" href="/static/template/js/bootstrap-table/bootstrap-table.min.css">
+</head>
+
+<body>
+	<div class="container-fluid">
+
+		<div class="row">
+
+			<div class="col-lg-12">
+				<div class="card">
+					<header class="card-header">
+						<div class="card-title">语音列表</div>
+					</header>
+					<div class="card-body">
+						<!-- 搜索表单 -->
+						<div class="card-search mb-2-5">
+							<form class="search-form" onsubmit="return false;" role="form">
+								<div class="row">
+									<div class="col-md-3">
+										<div class="row">
+											<label class="col-sm-4 col-form-label">UUID</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" name="uuid" value=""
+													placeholder="UUID" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="row">
+											<label class="col-sm-4 col-form-label">内容</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" name="text" value=""
+													placeholder="语音内容关键词" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<button type="button" class="btn btn-primary me-1"
+											onclick="searchVoice()">搜索</button>
+										<button type="button" class="btn btn-secondary"
+											onclick="resetSearch()">重置</button>
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<div id="toolbar" class="toolbar-btn-action"></div>
+						<table id="table"></table>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<script type="text/javascript" src="/static/template/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/template/js/popper.min.js"></script>
+	<script type="text/javascript" src="/static/template/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/static/template/js/main.min.js"></script>
+	<!--表格插件js-->
+	<script src="/static/template/js/bootstrap-table/bootstrap-table.js"></script>
+	<script src="/static/template/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<!--通知弹窗-->
+	<link rel="stylesheet" type="text/css" href="/static/template/alert/sweetalert2.min.css">
+	<script src="/static/template/alert/sweetalert2.all.min.js"></script>
+
+
+	<script>
+		// ===== 安全修复：XSS 防护函数 =====
+		function htmlEncode(str) {
+			if (str === null || str === undefined) return '';
+			return String(str).replace(/[&<>"'\/]/g, function (s) {
+				return {
+					"&": "&amp;",
+					"<": "&lt;",
+					">": "&gt;",
+					'"': "&quot;",
+					"'": "&#39;",
+					"/": "&#x2F;"
+				}[s];
+			});
+		}
+
+		var searchDefaults = {
+			uuid: '',
+			text: ''
+		};
+
+		lyearSearchState.apply(searchDefaults);
+		$('.search-form').on('submit', function (event) {
+			event.preventDefault();
+			searchVoice();
+		});
+
+		/**
+		 * 分页相关的配置
+		 **/
+		var pagination = {
+			sidePagination: "server",
+			pageNumber: 1,
+			pageSize: 10,
+			pageList: [5, 10, 25, 50, 100],
+			paginationLoop: true,
+			paginationPagesBySide: 2
+		};
+
+		/**
+		 * 按钮相关配置
+		 **/
+		var button = {
+			buttonsClass: 'default',
+			buttonsPrefix: 'btn'
+		}
+
+		/**
+		 * 图标相关配置
+		 **/
+		var icon = {
+			iconsPrefix: 'mdi',
+			iconSize: 'mini',
+			icons: {
+				paginationSwitchDown: 'mdi-door-closed',
+				paginationSwitchUp: 'mdi-door-open',
+				refresh: 'mdi-refresh',
+				toggleOff: 'mdi-toggle-switch-off',
+				toggleOn: 'mdi-toggle-switch',
+				columns: 'mdi-table-column-remove',
+				detailOpen: 'mdi-plus',
+				detailClose: 'mdi-minus',
+				fullscreen: 'mdi-monitor-screenshot',
+				search: 'mdi-table-search',
+				clearSearch: 'mdi-trash-can-outline'
+			}
+		};
+
+		/**
+		 * 表格相关的配置
+		 **/
+		var table = {
+			classes: 'table table-bordered table-hover table-striped lyear-table',
+			url: '/index.php?s=/<?php echo htmlentities($app); ?>/player/voice_list_table',
+			uniqueId: 'id',
+			idField: 'id',
+			clickToSelect: true,
+			dataType: 'json',
+			method: 'post',
+			toolbar: '#toolbar',
+			pagination: true,
+			showColumns: true,
+			showRefresh: true,
+			showButtonIcons: true,
+			showButtonText: false,
+			showFullscreen: true,
+			showPaginationSwitch: true,
+			totalField: 'total',
+			undefinedText: '-',
+			sortOrder: "asc",
+			...icon,
+			...pagination,
+			...button
+		};
+
+		/**
+		 * 列信息（安全修复：增加 htmlEncode 转义）
+		 **/
+		var columns = [{
+			field: 'example',
+			checkbox: true,
+			width: 3,
+			widthUnit: 'rem'
+		}, {
+			field: 'id',
+			title: 'ID',
+			align: 'center',
+			sortable: true,
+			sortName: 'id',
+			switchable: false,
+			width: 3,
+			widthUnit: 'rem'
+		}, {
+			field: 'uuid',
+			align: 'center',
+			title: 'UUID',
+			formatter: function (value) {
+				return htmlEncode(value);
+			}
+		}, {
+			field: 'text',
+			align: 'center',
+			title: '语音内容',
+			formatter: function (value) {
+				return htmlEncode(value);
+			}
+		}, {
+			field: 'time',
+			align: 'center',
+			title: '发送时间',
+			formatter: function (value) {
+				return htmlEncode(value);
+			}
+		}];
+
+		$('table').bootstrapTable({
+			...table,
+			queryParams: function (params) {
+				return {
+					limit: params.limit,
+					offset: params.offset,
+					page: (params.offset / params.limit) + 1,
+					sort: params.sort,
+					sortOrder: params.order,
+					uuid: $('input[name="uuid"]').val(),
+					text: $('input[name="text"]').val()
+				};
+			},
+			columns,
+			onLoadSuccess: function (data) {
+				$("[data-bs-toggle='tooltip']").tooltip();
+			}
+		});
+
+		function searchVoice() {
+			lyearSearchState.sync({
+				uuid: $('input[name="uuid"]').val(),
+				text: $('input[name="text"]').val()
+			}, searchDefaults);
+			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+		}
+
+		function resetSearch() {
+			$('input[name="uuid"]').val('');
+			$('input[name="text"]').val('');
+			lyearSearchState.sync(searchDefaults, searchDefaults);
+			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+		}
+	</script>
+
+</body>
+
+</html>

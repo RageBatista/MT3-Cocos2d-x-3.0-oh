@@ -8,7 +8,6 @@ use app\model\User as U;
 use app\model\Bind as B;
 use app\model\Agent as AG;
 use app\gm\Gm as Game;
-use think\facade\Session;
 use app\model\Server;
 use app\model\UserLog as ULog;
 
@@ -16,23 +15,6 @@ class Player extends BaseController
 {
     public function list()
     {
-		$get = $this->request->get();
-		$table_player = null;
-		if(isset($get['username'])&&isset($get['lastagent'])){
-			if($get['username']!=null){
-				$username = $this->validateInput($get['username']);
-				$table_player[] = ['u.username','like','%'.$username.'%'];
-			}
-			if($get['lastagent']!=0){
-				$lastagent = intval($get['lastagent']);
-				$table_player[] = ['u.lastagent','=',$lastagent];
-			}
-			Session::set('table_player', $table_player);
-		}else{
-			$table_player = null;
-			Session::delete('table_player');
-		}
-		
 		$AG = new AG();
 		$getAgentList = $AG->getAllAgentList($this->myAdmin['id']);
 		
@@ -40,8 +22,8 @@ class Player extends BaseController
     }
     public function list_table()
     {
-		$table_player = Session::get('table_player');
-		$post = $this->request->post();
+		$post = $this->request->param();
+		$table_player = $this->buildPlayerFilters($post);
 		$user = new U();
 		$getPlayerList = $user->getAgentPlayerList($post,$table_player,$this->myAdmin['id']);
 		$rows = $getPlayerList['rows'] ?? [];
@@ -125,46 +107,30 @@ class Player extends BaseController
 	
 	public function bindList()
     {
-		$selected = $this->request->param();
-		if(isset($selected['selected'])){
-			Session::set('table_bind_selected', 1);
-		}else{
-			Session::delete('table_bind_selected');
-		}
-		$get = $this->request->get();
-		$table_bind = null;
-		if(isset($get['username'])&&isset($get['playerid'])&&isset($get['playername'])){
-			if($get['username']!=null){
-				$username = $this->validateInput($get['username']);
-				$table_bind[] = ['u.username','like','%'.$username.'%'];
-			}
-			if($get['playerid']!=null){
-				$playerid = $this->validateInput($get['playerid']);
-				$table_bind[] = ['b.playerid','like','%'.$playerid.'%'];
-			}
-			if($get['playername']!=null){
-				$table_bind[] = ['b.playername','=',$get['playername']];
-			}
-			Session::set('table_bind', $table_bind);
-		}else{
-			$table_bind = null;
-			Session::delete('table_bind');
-		}
+		$selected = intval($this->request->param('selected', 0)) === 1 ? 1 : 0;
 		
-		
-        return view('bind_list');
+        return view('bind_list', ['selected' => $selected]);
     }
     public function bind_list_table()
     {
-		$table_bind = Session::get('table_bind');
-		$table_bind_selected = Session::get('table_bind_selected');
-		$post = $this->request->post();
+		$post = $this->request->param();
+		$table_bind = $this->buildBindFilters($post);
+		$table_bind_selected = intval($post['selected'] ?? 0) === 1 ? 1 : 0;
 		$bind = new B();
 		if($table_bind_selected==1){
 			$getBindList = $bind->getBindList($post,$table_bind);
 		}else{
 			$getBindList = $bind->getBindList($post,$table_bind,$this->myAdmin['id']);
 		}
+		\think\facade\Log::info('代理绑定列表接口返回', [
+			'total' => intval($getBindList['total'] ?? 0),
+			'rows' => count($getBindList['rows'] ?? []),
+			'selected' => $table_bind_selected,
+			'agent_id' => intval($this->myAdmin['id'] ?? 0),
+			'has_username' => isset($post['username']) && $this->hasSearchValue($post['username']) ? 1 : 0,
+			'has_playerid' => isset($post['playerid']) && $this->hasSearchValue($post['playerid']) ? 1 : 0,
+			'has_playername' => isset($post['playername']) && $this->hasSearchValue($post['playername']) ? 1 : 0,
+		]);
         return jsonp($getBindList);
     }
     public function status()
@@ -203,5 +169,53 @@ class Player extends BaseController
 		}else{
 			return notify(0,'玩家信息有误');
 		}
-    }
+	}
+
+	private function buildPlayerFilters(array $data)
+	{
+		$filters = [];
+
+		$username = isset($data['username']) ? trim((string)$data['username']) : '';
+		if ($username !== '') {
+			$filters[] = ['u.username', 'like', '%' . $this->validateInput($username) . '%'];
+		}
+
+		$lastagent = isset($data['lastagent']) ? intval($data['lastagent']) : 0;
+		if ($lastagent > 0) {
+			$filters[] = ['u.lastagent', '=', $lastagent];
+		}
+
+		return $filters ?: null;
+	}
+
+	private function buildBindFilters(array $data)
+	{
+		$filters = [];
+
+		$username = isset($data['username']) ? trim((string)$data['username']) : '';
+		if ($this->hasSearchValue($username)) {
+			$filters[] = ['u.username', 'like', '%' . $this->validateInput($username) . '%'];
+		}
+
+		$playerid = isset($data['playerid']) ? trim((string)$data['playerid']) : '';
+		if ($this->hasSearchValue($playerid)) {
+			$filters[] = ['b.playerid', 'like', '%' . $this->validateInput($playerid) . '%'];
+		}
+
+		$playername = isset($data['playername']) ? trim((string)$data['playername']) : '';
+		if ($this->hasSearchValue($playername)) {
+			$filters[] = ['b.playername', '=', $this->validateInput($playername)];
+		}
+
+		return $filters ?: null;
+	}
+
+	private function hasSearchValue($value): bool
+	{
+		$raw = trim((string)$value);
+		if ($raw === '') {
+			return false;
+		}
+		return trim($raw, " \t\n\r\0\x0B\"'") !== '';
+	}
 }

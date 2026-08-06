@@ -8,7 +8,7 @@ purpose:	数据上报管理器
 #include "ConnectGetServerInfo.h"
 #include "../../../../common/platform/utils/FileUtil.h"
 
-#include "../../../../cocos2d-x-2.2.6/cocos2dx/platform/android/jni/JniHelper.h"
+#include "platform/android/jni/JniHelper.h"
 #include <jni.h>
 
 class ReportManager : public CSingleton < ReportManager >

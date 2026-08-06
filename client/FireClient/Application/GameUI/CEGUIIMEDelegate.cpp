@@ -1,6 +1,6 @@
 #include "CEGUIIMEDelegate.h"
 #include "CCDirector.h"
-#include "platform/desktop/CCGLView.h"
+#include "CCGLView.h"
 #include "GameUIManager.h"
 #if !((defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP))
 #include "../../FireClient/IViewCtrl.h"

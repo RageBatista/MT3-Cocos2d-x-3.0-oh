@@ -16,7 +16,6 @@ class GameLoginLog extends Model
 {
     private const BASE_TABLE_LOG_INDEX = 'game_login_log_index';
     private const BASE_TABLE_CURSOR = 'game_login_log_cursor';
-    private const BASE_TABLE_ROLE_CACHE = 'game_login_role_cache';
     private const SYNC_MAX_LINES = 8000;
     private const FLUSH_BATCH_SIZE = 500;
 
@@ -76,6 +75,7 @@ class GameLoginLog extends Model
         $limit = max(1, min(200, intval($limit)));
 
         $query = Db::name(self::BASE_TABLE_LOG_INDEX);
+        $query->where('has_login_event', 1);
 
         if (!empty($filter['role_id'])) {
             $query->whereLike('role_id', '%' . $filter['role_id'] . '%');
@@ -249,6 +249,7 @@ class GameLoginLog extends Model
                         'school' => (string)($data['School'] ?? ''),
                         'race' => '',
                         'profession' => '',
+                        'has_login_event' => 1,
                         'status' => 1,
                         'created_at' => $now,
                         'updated_at' => $now,
@@ -308,8 +309,7 @@ class GameLoginLog extends Model
         Db::startTrans();
         try {
             if (!empty($roleBatch)) {
-                Db::name(self::BASE_TABLE_ROLE_CACHE)->insertAll($roleBatch, true);
-                self::applyRoleNamesToLogs($roleBatch);
+                self::upsertRoleInfoToLogs($roleBatch);
             }
 
             if (!empty($loginBatch)) {
@@ -353,7 +353,7 @@ class GameLoginLog extends Model
 
         if (!empty($missingKeys)) {
             $placeholders = implode(',', array_fill(0, count($missingKeys), '?'));
-            $sql = 'SELECT role_id, login_time, role_name, race, profession FROM `' . self::physicalTable(self::BASE_TABLE_ROLE_CACHE) . '` WHERE CONCAT(role_id, "|", login_time) IN (' . $placeholders . ')';
+            $sql = 'SELECT role_id, login_time, role_name, race, profession FROM `' . self::physicalTable(self::BASE_TABLE_LOG_INDEX) . '` WHERE CONCAT(role_id, "|", login_time) IN (' . $placeholders . ')';
             $rows = Db::query($sql, array_values($missingKeys));
             foreach ($rows as $row) {
                 $key = $row['role_id'] . '|' . $row['login_time'];
@@ -380,7 +380,7 @@ class GameLoginLog extends Model
     /**
      * 用 role 批次更新索引表中的角色信息
      */
-    private static function applyRoleNamesToLogs(array $roleBatch): void
+    private static function upsertRoleInfoToLogs(array $roleBatch): void
     {
         if (empty($roleBatch)) {
             return;
@@ -403,10 +403,52 @@ class GameLoginLog extends Model
             }
             $update['updated_at'] = $now;
 
-            Db::name(self::BASE_TABLE_LOG_INDEX)
+            $affected = Db::name(self::BASE_TABLE_LOG_INDEX)
                 ->where('role_id', $row['role_id'])
                 ->where('login_time', $row['login_time'])
                 ->update($update);
+
+            if ($affected > 0) {
+                continue;
+            }
+
+            $placeholder = [
+                'role_id' => $row['role_id'],
+                'role_name' => (string)($row['role_name'] ?? ''),
+                'account' => '',
+                'login_time' => $row['login_time'],
+                'logout_time' => null,
+                'ip' => '',
+                'device_id' => '',
+                'device_info' => '',
+                'os_version' => '',
+                'net_env' => '',
+                'channel' => '',
+                'platform' => '',
+                'is_first_login' => 0,
+                'level' => 0,
+                'vip_level' => 0,
+                'school' => '',
+                'race' => (string)($row['race'] ?? ''),
+                'profession' => (string)($row['profession'] ?? ''),
+                'has_login_event' => 0,
+                'status' => 1,
+                'created_at' => $now,
+                'updated_at' => $update['updated_at'],
+            ];
+
+            try {
+                Db::name(self::BASE_TABLE_LOG_INDEX)->insert($placeholder);
+            } catch (\Throwable $e) {
+                if (!self::isDuplicateKeyException($e)) {
+                    throw $e;
+                }
+
+                Db::name(self::BASE_TABLE_LOG_INDEX)
+                    ->where('role_id', $row['role_id'])
+                    ->where('login_time', $row['login_time'])
+                    ->update($update);
+            }
         }
     }
 
@@ -491,7 +533,6 @@ class GameLoginLog extends Model
 
         $tableLog = self::physicalTable(self::BASE_TABLE_LOG_INDEX);
         $tableCursor = self::physicalTable(self::BASE_TABLE_CURSOR);
-        $tableRole = self::physicalTable(self::BASE_TABLE_ROLE_CACHE);
 
         Db::execute(
             'CREATE TABLE IF NOT EXISTS `' . $tableLog . '` (
@@ -514,11 +555,13 @@ class GameLoginLog extends Model
                 `school` VARCHAR(64) NOT NULL DEFAULT "",
                 `race` VARCHAR(64) NOT NULL DEFAULT "",
                 `profession` VARCHAR(64) NOT NULL DEFAULT "",
+                `has_login_event` TINYINT NOT NULL DEFAULT 0,
                 `status` TINYINT NOT NULL DEFAULT 1,
                 `created_at` DATETIME NULL DEFAULT NULL,
                 `updated_at` DATETIME NULL DEFAULT NULL,
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `uniq_role_login_time` (`role_id`, `login_time`),
+                KEY `idx_visible_login_time` (`has_login_event`, `login_time`),
                 KEY `idx_login_time` (`login_time`),
                 KEY `idx_account` (`account`),
                 KEY `idx_ip` (`ip`),
@@ -537,22 +580,21 @@ class GameLoginLog extends Model
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
 
-        Db::execute(
-            'CREATE TABLE IF NOT EXISTS `' . $tableRole . '` (
-                `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                `role_id` VARCHAR(64) NOT NULL DEFAULT "",
-                `login_time` DATETIME NOT NULL,
-                `role_name` VARCHAR(128) NOT NULL DEFAULT "",
-                `race` VARCHAR(64) NOT NULL DEFAULT "",
-                `profession` VARCHAR(64) NOT NULL DEFAULT "",
-                `updated_at` DATETIME NULL DEFAULT NULL,
-                PRIMARY KEY (`id`),
-                UNIQUE KEY `uniq_role_login` (`role_id`, `login_time`),
-                KEY `idx_role_login_time` (`login_time`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
-        );
+        self::ensureLogIndexColumns($tableLog);
 
         self::$schemaReady = true;
+    }
+
+    private static function ensureLogIndexColumns(string $tableLog): void
+    {
+        $columnRows = Db::query('SHOW COLUMNS FROM `' . $tableLog . '` LIKE ?', ['has_login_event']);
+        if (empty($columnRows)) {
+            Db::execute(
+                'ALTER TABLE `' . $tableLog . '` ' .
+                'ADD COLUMN `has_login_event` TINYINT NOT NULL DEFAULT 0 AFTER `profession`, ' .
+                'ADD KEY `idx_visible_login_time` (`has_login_event`, `login_time`)'
+            );
+        }
     }
 
     /**
@@ -563,5 +605,12 @@ class GameLoginLog extends Model
         $defaultConn = (string)config('database.default', 'mysql');
         $prefix = (string)config('database.connections.' . $defaultConn . '.prefix', '');
         return $prefix . $baseTable;
+    }
+
+    private static function isDuplicateKeyException(\Throwable $exception): bool
+    {
+        $msg = strtolower($exception->getMessage());
+        return strpos($msg, 'duplicate entry') !== false
+            || strpos($msg, '1062') !== false;
     }
 }

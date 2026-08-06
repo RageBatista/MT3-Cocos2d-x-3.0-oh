@@ -11,6 +11,7 @@ use app\model\Server;
 use app\model\PayChannel as PC;
 use app\model\PayItem as PItem;
 use app\model\UserOrder as UL;
+use app\service\CacheLockService;
 use think\facade\Db;
 use think\facade\Cache;
 
@@ -19,12 +20,23 @@ use app\api\pay\EpayCore;
 
 class Pay extends BaseController
 {
+	private function payItemLegacyRawEnabled(): bool
+	{
+		$raw = strtolower(trim((string)env('API_PAYITEM_LEGACY_RAW', '0')));
+		return !in_array($raw, ['0', 'false', 'off', 'no'], true);
+	}
 	
 	public function getpayitem()
     {
 		$pay_item = new PItem();
 		$getPayItemList = $pay_item->getPayItemList(1,1);
-		return json_encode($getPayItemList,JSON_UNESCAPED_UNICODE);
+		if ($this->payItemLegacyRawEnabled()) {
+			return json_encode($getPayItemList,JSON_UNESCAPED_UNICODE);
+		}
+		return api_json([
+			'code' => 1,
+			'data' => $getPayItemList
+		]);
 	}
 	
 	
@@ -54,10 +66,10 @@ class Pay extends BaseController
 		if(isset($param[$paramName])){
 			// 验证参数不为空
 			if($param[$paramName] == null || $param[$paramName] === ''){
-				return json_encode([
+				return api_json([
 								"code"=>0,
 								"msg"=>"参数{$paramName}不能为空"
-							],JSON_UNESCAPED_UNICODE);
+							]);
 			}
 			${$paramName} = $param[$paramName];
 		}
@@ -65,10 +77,10 @@ class Pay extends BaseController
 	
 	// 验证必需参数
 	if(!isset($account)||!isset($roleid)||!isset($payid)||!isset($paytype)){
-		return json_encode([
+		return api_json([
 						"code"=>0,
 						"msg"=>"缺少必需参数"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 	}
 		if($paytype==1){
 			$type = 'alipay';
@@ -78,26 +90,26 @@ class Pay extends BaseController
 		$user = new User();
 		$userData = $user->getUsername($account);
 		if(!$userData){
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"用户不存在"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 		$bind = new Bind();
 		$bindData = $bind->getPlayerId($roleid);
 		if(!$bindData||$bindData['userid']!=$userData['id']){
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"角色信息不存在"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 		$server = new Server();
 		$serverData = $server->getServerId($bindData['serverid']);
 		if(!$serverData){
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"大区配置信息不存在"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 		
 		
@@ -107,67 +119,67 @@ class Pay extends BaseController
 		$goodsData = $pay_item->getPayItemById($payid);
 		// //{"id":12,"name":"\u6d4b\u8bd5\u4e003","icon":"3","price":10,"daylimit":0,"rolelimit":0,"info":"\u6d4b\u8bd5#\u6d4b\u8bd5#ceshi#ceshi3#ceshi45#ceshi123","mailinfo":"","xianyu":0,"vip":0,"effect":"0","status":1}
 		if(!$goodsData){
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"商品信息不存在"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 		if($goodsData['status']!=1){
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"商品已下架"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 	// ===== P1-B: 购买限制与下单原子化 =====
 	// 使用 Redis 分布式锁防止并发穿透
 	$lockKey = 'pay_order_lock:' . $roleid . ':' . $payid;
-	$lockAcquired = false;
+	$lockToken = null;
 	
 	try {
-		// 获取锁（10秒超时，锁有效期30秒）
-		$lockAcquired = Cache::store('redis')->set($lockKey, 1, 30);
+		// 获取锁（锁有效期30秒，原子 NX）
+		$lockToken = CacheLockService::acquire($lockKey, 30, 'redis');
 		
-		if (!$lockAcquired) {
-			return json_encode([
+		if ($lockToken === null) {
+			return api_json([
 				"code"=>0,
 				"msg"=>"系统繁忙，请稍后重试"
-			],JSON_UNESCAPED_UNICODE);
+			]);
 		}
 		
 		// 重新查询角色绑定数据（防止幻读）
 		$bind = new Bind();
 		$bindData = $bind->getPlayerId($roleid);
 		if(!$bindData||$bindData['userid']!=$userData['id']){
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"角色信息不存在"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 		
 		// 在锁内进行购买限制检查
 		if($goodsData['rolelimit']!=0){
 			if($bindData['rolelimit']!=null){
-				$rolelimit = unserialize($bindData['rolelimit']);
+				$rolelimit = safeUnserialize($bindData['rolelimit'], []);
 				if(isset($rolelimit[$payid])){
 					if($rolelimit[$payid]>=$goodsData['rolelimit']){
-						return json_encode([
+						return api_json([
 									"code"=>0,
 									"msg"=>"当前角色已达到购买限制"
-								],JSON_UNESCAPED_UNICODE);
+								]);
 					}
 				}
 			}
 		}
 		if($goodsData['daylimit']!=0){
 			if($bindData['daylimit']!=null){
-				$daylimit = unserialize($bindData['daylimit']);
+				$daylimit = safeUnserialize($bindData['daylimit'], []);
 				if(isset($daylimit[$payid])){
 					if($daylimit[$payid]['date']==date('Y-m-d')){
 						if($daylimit[$payid]['num']>=$goodsData['daylimit']){
-						return json_encode([
+						return api_json([
 									"code"=>0,
 									"msg"=>"今日购买次数已达上限，请明日再来"
-								],JSON_UNESCAPED_UNICODE);
+								]);
 						}
 					}
 				}
@@ -192,10 +204,10 @@ class Pay extends BaseController
 		}
 		
 		if(!$payment_channel){
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"暂无可用通道，请稍后重试"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 		//随机抽取通道
 		$channelKey = array_rand($payment_channel);
@@ -215,10 +227,10 @@ class Pay extends BaseController
 		$user_arr['playerid'] = $bindData['playerid'];
 		$user_arr1 = json_encode($user_arr,JSON_UNESCAPED_UNICODE);
 		if($user_arr1==null){
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"订单创建错误，请重新发起支付"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 		$item_arr = json_encode($goodsData,JSON_UNESCAPED_UNICODE);
 		$orderdata = [
@@ -256,19 +268,19 @@ class Pay extends BaseController
 			
 			if($orderadd===false){
 				Db::rollback();
-				return json_encode([
+				return api_json([
 							"code"=>0,
 							"msg"=>"订单写入错误，请重新发起支付"
-						],JSON_UNESCAPED_UNICODE);
+						]);
 			}
 			
 			Db::commit();
 		} catch (\Exception $e) {
 			Db::rollback();
-			return json_encode([
+			return api_json([
 						"code"=>0,
 						"msg"=>"订单创建异常，请重新发起支付"
-					],JSON_UNESCAPED_UNICODE);
+					]);
 		}
 		// ===== P1-B: 购买限制与下单原子化完成 =====
 		//当前域名（处理端口问题）
@@ -287,21 +299,19 @@ class Pay extends BaseController
 		//发起支付
 		$url = $this->pay($orderdata,$channel);
 			if($url=="fail"){
-				return json_encode([
+				return api_json([
 								"code"=>0,
 								"msg"=>"获取付款链接失败，请重试"
-							],JSON_UNESCAPED_UNICODE);
+							]);
 			}else{
-				return json_encode([
+				return api_json([
 								"code"=>1,
 								"url"=>base64_encode($url),
-							],JSON_UNESCAPED_UNICODE);
+							]);
 			}
 		} finally {
-			// 释放锁
-			if ($lockAcquired) {
-				Cache::store('redis')->delete($lockKey);
-			}
+			// 释放锁（仅释放自身持有的 token）
+			CacheLockService::release($lockKey, $lockToken, 'redis');
 		}
 		
 					
@@ -348,3 +358,5 @@ class Pay extends BaseController
 	}
 	
 }
+
+

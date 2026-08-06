@@ -241,7 +241,11 @@ class Profile extends BaseController
         $result = $user->save();
         
         if ($result) {
-            // P1修复：使用统一Session管理函数，确保与PLAYER_SESSION_PREFIX一致
+            // P3安全增强：改密后立即吊销所有旧Token（递增Redis版本号），旧Token立即失效
+            if (function_exists('invalidatePlayerTokens')) {
+                invalidatePlayerTokens((int)$player['id']);
+            }
+            // 生成携带新版本号的Token并更新Session
             if (function_exists('generatePlayerToken') && function_exists('setSession')) {
                 $token = generatePlayerToken($user->toArray());
                 setSession('token', $token);
@@ -340,6 +344,28 @@ class Profile extends BaseController
             // 确保目录存在
             if (!is_dir($fullSaveDir)) {
                 mkdir($fullSaveDir, 0755, true);
+            }
+
+            // P3安全增强：磁盘配额检查（头像目录总大小不超过500MB）
+            $avatarBaseDir = public_path() . 'uploads' . DIRECTORY_SEPARATOR . 'avatar';
+            $quotaLimitBytes = 500 * 1024 * 1024; // 500 MB
+            if (is_dir($avatarBaseDir)) {
+                $totalSize = 0;
+                $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(
+                    $avatarBaseDir,
+                    \FilesystemIterator::SKIP_DOTS
+                ));
+                foreach ($it as $fileInfo) {
+                    $totalSize += $fileInfo->getSize();
+                }
+                if ($totalSize >= $quotaLimitBytes) {
+                    \think\facade\Log::warning('uploadAvatar: avatar directory quota exceeded', [
+                        'player_id'  => $player['id'],
+                        'total_size' => $totalSize,
+                        'limit'      => $quotaLimitBytes,
+                    ]);
+                    return json(['code' => 0, 'msg' => '存储空间已满，暂时无法上传头像，请联系管理员']);
+                }
             }
             
             // 生成随机文件名，防止文件名被猜测遍历

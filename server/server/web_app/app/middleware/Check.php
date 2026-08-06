@@ -7,11 +7,17 @@ use think\facade\Request;
 use app\model\Agent as AG;
 use think\Response;
 use think\facade\Log;
+use think\facade\Cache;
 
 class Check extends BaseController
 {
     public function handle($request, \Closure $next)
     {
+        $blockedResponse = $this->blockKnownScannerRequest($request);
+        if ($blockedResponse instanceof Response) {
+            return $blockedResponse;
+        }
+
         // 检查请求的路由
         $app = app('http')->getName();
 		
@@ -27,7 +33,7 @@ class Check extends BaseController
 	
 	if($app=='admin'){
 		// 优先检查AuthService设置的新Session键（player_前缀）
-		$authResult = $this->verifyPlayerAdminAuth();
+		$authResult = $this->verifyPlayerAdminAuth(1);
 		if($authResult === true){
 			return $next($request);
 		}
@@ -40,7 +46,7 @@ class Check extends BaseController
 		
 	}elseif($app=='agent'){
 		// 优先检查AuthService设置的新Session键
-		$authResult = $this->verifyPlayerAdminAuth();
+		$authResult = $this->verifyPlayerAdminAuth(2);
 		if($authResult === true){
 			return $next($request);
 		}
@@ -54,6 +60,58 @@ class Check extends BaseController
 	}else{
 		return $next($request);
 	}
+    }
+
+    private function blockKnownScannerRequest($request): ?Response
+    {
+        $path = '/' . ltrim((string)$request->pathinfo(), '/');
+        $url = '/' . ltrim((string)$request->url(), '/');
+        $blockedPrefixes = [
+            '/user/api/index.php/role/get',
+            '/user/api/index.php/role/set',
+        ];
+
+        foreach ($blockedPrefixes as $prefix) {
+            if (stripos($url, $prefix) === 0 || stripos($path, $prefix) === 0) {
+                if ($this->isLikelyLegacyRoleCallback($request, $prefix)) {
+                    return null;
+                }
+                $ip = (string)$request->ip();
+                $cacheKey = 'security:block404:' . md5($ip . '|' . $prefix);
+                if (!Cache::get($cacheKey)) {
+                    Log::warning('拦截疑似扫描请求', [
+                        'ip' => $ip,
+                        'url' => $url,
+                        'path' => $path
+                    ]);
+                    Cache::set($cacheKey, 1, 300);
+                }
+                return Response::create('Not Found', 'html', 404);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 兼容旧客户端 role/get、role/set 回调：
+     * - 必须带账号参数
+     * - role/set 必须带 serverid
+     */
+    private function isLikelyLegacyRoleCallback($request, string $prefix): bool
+    {
+        $account = trim((string)$request->param('userid', $request->param('account', '')));
+        if ($account === '') {
+            return false;
+        }
+
+        if ($prefix === '/user/api/index.php/role/set') {
+            $serverId = intval($request->param('serverid', $request->param('new_serverid', $request->param('qu', 0))));
+            $roleId = intval($request->param('roleid', $request->param('new_roleid', $request->param('playerid', 0))));
+            return $serverId > 0 && $roleId > 0;
+        }
+
+        return true;
     }
     
     /**
@@ -73,16 +131,7 @@ class Check extends BaseController
   $token = Session::get($sessionTokenKey);
   $oldPassword = Session::get($sessionPasswordKey);
   
-  // 兼容性处理：自动迁移旧Session
-  if(!empty($username) && empty($token) && !empty($oldPassword)){
-   $AG_temp = new AG();
-   $findAdmin_temp = $AG_temp->getByUsername($username);
-   if($findAdmin_temp && hash_equals((string)$findAdmin_temp['password'], (string)$oldPassword)){
-    $token = $this->generateToken($findAdmin_temp);
-    Session::set($sessionTokenKey, $token);
-    Session::delete($sessionPasswordKey);
-   }
-  }
+  // 兼容性处理：旧密码Session迁移逻辑已下线，强制要求会话token
   
   // 验证用户名和token是否为空
   if(empty($username) || empty($token)){
@@ -100,9 +149,7 @@ class Check extends BaseController
    return adminLogout();
   }
   
-  // 验证token
-  $expectedToken = $this->generateToken($findAdmin);
-  if(!hash_equals($expectedToken, $token)){
+  if (!$this->isAdminTokenValid(intval($findAdmin['id']), intval($findAdmin['type']), (string)$token)) {
    return adminLogout();
   }
   
@@ -111,24 +158,40 @@ class Check extends BaseController
     
     /**
      * 验证AuthService设置的管理员Session（player_前缀键）
-     * AuthService::setAdminSession 设置的键：player_admin_id, player_admin_username, player_admin_token
+     * AuthService::setAdminSession 设置的键：player_admin_id, player_admin_username, player_admin_type, player_admin_token
+     * 严格校验 Session 类型与当前应用期望类型一致，防止 admin/agent 会话串用。
+     * @param int $expectedType 期望管理员类型（1=admin,2=agent）
      * @return bool 认证成功返回true，失败返回false
      */
-    private function verifyPlayerAdminAuth()
+    private function verifyPlayerAdminAuth(int $expectedType)
     {
         $prefix = 'player_';
         $adminId = Session::get($prefix . 'admin_id');
         $adminUsername = Session::get($prefix . 'admin_username');
+        $adminType = intval(Session::get($prefix . 'admin_type', 0));
         $adminToken = Session::get($prefix . 'admin_token');
         
         Log::info('Check.php::verifyPlayerAdminAuth START', [
             'adminId' => $adminId,
             'adminUsername' => $adminUsername,
+            'adminType' => $adminType,
+            'expectedType' => $expectedType,
             'hasToken' => !empty($adminToken)
         ]);
         
-        if (empty($adminId) || empty($adminUsername) || empty($adminToken)) {
+        if (empty($adminId) || empty($adminUsername) || empty($adminToken) || $adminType <= 0) {
             Log::info('Check.php::verifyPlayerAdminAuth FAILED: Missing Session Keys');
+            return false;
+        }
+
+        // 严格限制：admin 应用仅接受 type=1，agent 应用仅接受 type=2
+        if ($adminType !== $expectedType) {
+            Log::warning('Check.php::verifyPlayerAdminAuth FAILED: Session Type Mismatch', [
+                'adminId' => $adminId,
+                'adminUsername' => $adminUsername,
+                'sessionType' => $adminType,
+                'expectedType' => $expectedType
+            ]);
             return false;
         }
         
@@ -138,12 +201,19 @@ class Check extends BaseController
             Log::info('Check.php::verifyPlayerAdminAuth FAILED: Admin User Not Found in DB');
             return false;
         }
+
+        if (intval($findAdmin['type'] ?? 0) !== $expectedType) {
+            Log::warning('Check.php::verifyPlayerAdminAuth FAILED: DB Type Mismatch', [
+                'adminId' => $adminId,
+                'adminUsername' => $adminUsername,
+                'dbType' => intval($findAdmin['type'] ?? 0),
+                'expectedType' => $expectedType
+            ]);
+            return false;
+        }
         
-        // 验证token（与AuthService::generateAdminToken使用相同算法）
-        $expectedToken = $this->generateToken($findAdmin);
-        if (!hash_equals($expectedToken, $adminToken)) {
+        if (!$this->isAdminTokenValid(intval($findAdmin['id']), intval($findAdmin['type']), (string)$adminToken)) {
             Log::info('Check.php::verifyPlayerAdminAuth FAILED: Token Mismatch', [
-                'expected_length' => strlen($expectedToken),
                 'actual_length' => strlen($adminToken)
             ]);
             return false;
@@ -153,38 +223,16 @@ class Check extends BaseController
         return true;
     }
     
-    /**
-     * 生成安全的认证Token（P0安全加固：去除硬编码密钥）
-     * @param array $user 用户信息
-     * @return string Token字符串
-     */
-    private function generateToken($user)
+    private function isAdminTokenValid(int $adminId, int $adminType, string $token): bool
     {
-        // P0: 从配置读取密钥，不再使用硬编码
-        $secret = config('security.admin_auth.secret_key', '');
-
-        // P0: 安全检查：未配置密钥时拒绝高权限鉴权
-        if (empty($secret)) {
-            Log::error('后台鉴权密钥未配置，拒绝生成Token', [
-                'user_id' => $user['id'] ?? 'unknown',
-                'username' => $user['username'] ?? 'unknown'
-            ]);
-            throw new \Exception('系统安全配置错误：后台鉴权密钥未配置，请联系管理员');
+        if ($adminId <= 0 || $adminType <= 0 || $token === '') {
+            return false;
         }
-
-        // 检查密钥强度
-        static $weakSecretWarned = false;
-        if (strlen($secret) < 32 && !$weakSecretWarned) {
-            Log::warning('后台鉴权密钥强度不足', [
-                'secret_length' => strlen($secret),
-                'min_required' => 32
-            ]);
-            $weakSecretWarned = true;
+        $cacheKey = 'admin_auth_token:' . $adminType . ':' . $adminId;
+        $cachedToken = (string)Cache::get($cacheKey, '');
+        if ($cachedToken === '') {
+            return false;
         }
-
-        // 使用用户ID、用户名、密码hash和盐值生成token
-        // 这样即使攻击者知道用户名，也无法伪造token
-        $data = $user['id'] . $user['username'] . $user['password'];
-        return hash_hmac('sha256', $data, $secret);
+        return hash_equals($cachedToken, $token);
     }
 }

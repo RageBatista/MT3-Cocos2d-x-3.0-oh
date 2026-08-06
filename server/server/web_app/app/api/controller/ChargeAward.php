@@ -5,20 +5,28 @@ namespace app\api\controller;
 use app\BaseController;
 use app\model\User;
 use app\model\Bind;
-use app\model\Agent;
 use app\model\ChargeAward as CAward;
 use app\model\Server;
 use app\model\UserLog as UL;
 use app\gm\Gm as Game;
-use think\facade\Log;
 
 class ChargeAward extends BaseController
 {
+	private function apiResult(int $code, string $msg, array $extra = [])
+	{
+		return api_json(array_merge([
+			'code' => $code,
+			'msg' => $msg
+		], $extra));
+	}
 	
 	public function getchargeitem()
     {
 		$param = $this->request->param();
 		$checkuser = $this->checkuser($param);
+		if($checkuser==false){
+			return $this->apiResult(0,'账号验证不通过');
+		}
 		
 
 		$award = new CAward();
@@ -27,7 +35,7 @@ class ChargeAward extends BaseController
 	$bindData = $checkuser['bindData'];
 	if($param['type'] == 1){
 		if($bindData['lq_daycharge']!=null){
-			$lq_daycharge = unserialize($bindData['lq_daycharge']);
+			$lq_daycharge = safeUnserialize($bindData['lq_daycharge'], []);
 		}else{
 			$lq_daycharge = [];
 		}
@@ -47,7 +55,7 @@ class ChargeAward extends BaseController
 	
 	}else{
 		if($bindData['lq_rolecharge']!=null){
-			$lq_rolecharge = unserialize($bindData['lq_rolecharge']);
+			$lq_rolecharge = safeUnserialize($bindData['lq_rolecharge'], []);
 		}else{
 			$lq_rolecharge = [];
 		}
@@ -67,7 +75,7 @@ class ChargeAward extends BaseController
 			'data'=>$getAwardList,
 		];
 
-		return json_encode($data,JSON_UNESCAPED_UNICODE);
+		return api_json($data);
 	}
 	
 	
@@ -76,10 +84,7 @@ class ChargeAward extends BaseController
 		$param = $this->request->param();
 		$checkuser = $this->checkuser($param);
 		if($checkuser==false){
-			return json_encode([
-							"code"=>0,
-							"msg"=>"账号验证不通过"
-						],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'账号验证不通过');
 		}
 		$userData = $checkuser['userData'];
 		$bindData = $checkuser['bindData'];
@@ -88,37 +93,25 @@ class ChargeAward extends BaseController
 		if($bindData['chargedate']==date('Y-m-d')){
 			$daycharge = intval($bindData['daycharge']);
 		}else{
-			return json_encode([
-							"code"=>0,
-							"msg"=>"今日充值金额未达到领取条件"
-						],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'今日充值金额未达到领取条件');
 		}
 		
 		
 		$award = new CAward();
 		$getAwardById = $award->getAwardById($param['chargeid']);
 		if(!$getAwardById || $getAwardById['status']==0 || $getAwardById['type']!=1){
-			return json_encode([
-							"code"=>0,
-							"msg"=>"奖励内容不存在或暂未开放"
-						],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'奖励内容不存在或暂未开放');
 		}
 		if($getAwardById['value']>$daycharge){
-			return json_encode([
-							"code"=>0,
-							"msg"=>"今日充值金额未达到领取条件"
-						],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'今日充值金额未达到领取条件');
 		}
 		
 		
 	
 	if($bindData['lq_daycharge']!=null){
-		$lq_daycharge = unserialize($bindData['lq_daycharge']);
+		$lq_daycharge = safeUnserialize($bindData['lq_daycharge'], []);
 		if(isset($lq_daycharge[$param['chargeid']]) && $lq_daycharge[$param['chargeid']] == date('Y-m-d')){
-			return json_encode([
-						"code"=>0,
-						"msg"=>"您已领取此奖励"
-					],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'您已领取此奖励');
 		}else{
 			$lq_daycharge[$param['chargeid']] = date('Y-m-d');
 		}
@@ -153,16 +146,10 @@ class ChargeAward extends BaseController
 		if(isset($gameNotify[0])){
 			if(strpos($gameNotify[0],'success') !== false){
 				$userLog->addUserLog($userData['username'],'领取今日充值【'.$getAwardById['value'].'元】礼包奖励',$this->genericVariable);
-				return json_encode([
-								"code"=>1,
-								"msg"=>"领取成功,请查看邮件进行查收"
-							],JSON_UNESCAPED_UNICODE);
+				return $this->apiResult(1,'领取成功,请查看邮件进行查收');
 			}
 		}
-		return json_encode([
-						"code"=>0,
-						"msg"=>"领取失败，请重试或联系客服处理"
-					],JSON_UNESCAPED_UNICODE);
+		return $this->apiResult(0,'领取失败，请重试或联系客服处理');
 	}
 	
 	public function receiverole()
@@ -170,10 +157,7 @@ class ChargeAward extends BaseController
 		$param = $this->request->param();
 		$checkuser = $this->checkuser($param);
 		if($checkuser==false){
-			return json_encode([
-							"code"=>0,
-							"msg"=>"账号验证不通过"
-						],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'账号验证不通过');
 		}
 		$userData = $checkuser['userData'];
 		$bindData = $checkuser['bindData'];
@@ -183,27 +167,18 @@ class ChargeAward extends BaseController
 		$award = new CAward();
 		$getAwardById = $award->getAwardById($param['chargeid']);
 		if(!$getAwardById || $getAwardById['status']==0 || $getAwardById['type']!=2){
-			return json_encode([
-							"code"=>0,
-							"msg"=>"奖励内容不存在或暂未开放"
-						],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'奖励内容不存在或暂未开放');
 		}
 		if($getAwardById['value']>$charge){
-			return json_encode([
-							"code"=>0,
-							"msg"=>"今日充值金额未达到领取条件"
-						],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'今日充值金额未达到领取条件');
 		}
 		
 		
 	
 	if($bindData['lq_rolecharge']!=null){
-		$lq_rolecharge = unserialize($bindData['lq_rolecharge']);
+		$lq_rolecharge = safeUnserialize($bindData['lq_rolecharge'], []);
 		if(isset($lq_rolecharge[$param['chargeid']])){
-			return json_encode([
-						"code"=>0,
-						"msg"=>"您已领取此奖励"
-					],JSON_UNESCAPED_UNICODE);
+			return $this->apiResult(0,'您已领取此奖励');
 		}else{
 			$lq_rolecharge[$param['chargeid']] = date('Y-m-d');
 		}
@@ -238,16 +213,10 @@ class ChargeAward extends BaseController
 		if(isset($gameNotify[0])){
 			if(strpos($gameNotify[0],'success') !== false){
 				$userLog->addUserLog($userData['username'],'领取角色充值【'.$getAwardById['value'].'元】礼包奖励',$this->genericVariable);
-				return json_encode([
-								"code"=>1,
-								"msg"=>"领取成功,请查看邮件进行查收"
-							],JSON_UNESCAPED_UNICODE);
+				return $this->apiResult(1,'领取成功,请查看邮件进行查收');
 			}
 		}
-		return json_encode([
-						"code"=>0,
-						"msg"=>"领取失败，请重试或联系客服处理"
-					],JSON_UNESCAPED_UNICODE);
+		return $this->apiResult(0,'领取失败，请重试或联系客服处理');
 	}
 	
 	
@@ -261,19 +230,11 @@ class ChargeAward extends BaseController
 		$userData = $user->getUsername($userinfo['account']);
 	    $password = strtolower($userinfo['password']);
 		if(!$userData||password($password,$userData['password'])==false){
-     		$data = [
-    			'code'=>0,
-    			'msg'=>'您的原密码不正确',
-    		];
-    		return json_encode($data,JSON_UNESCAPED_UNICODE);
+    		return $this->apiResult(0,'您的原密码不正确');
 		}
 	 	$pattern = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,18}$/';
 		if(!preg_match($pattern, $userinfo['newpass'])){
-		    	$data = [
-    			'code'=>0,
-    			'msg'=>'密码必须为6-18位字母+数字',
-    		];
-    		return json_encode($data,JSON_UNESCAPED_UNICODE);
+    		return $this->apiResult(0,'密码必须为6-18位字母+数字');
 		}
 	    $newpass = password( $userinfo['newpass']);
 	    	$data = [
@@ -285,11 +246,7 @@ class ChargeAward extends BaseController
 				$userLog = new UL();
 			$info = '修改了密码';
 			$userLog->addUserLog($userinfo['account'],$info,$this->genericVariable);
-				$data = [
-    			'code'=>1,
-    			'msg'=>'密码修改成功，请您牢记新密码',
-    		];
-    		return json_encode($data,JSON_UNESCAPED_UNICODE);
+    		return $this->apiResult(1,'密码修改成功，请您牢记新密码');
 	}
 	
 private function checkuser($param)
@@ -335,7 +292,7 @@ private function checkuser($param)
 	}
 	$bind = new Bind();
 
-	$bindData = $bind->getPlayerId($param['roleid']);
+	$bindData = $bind->getPlayerId($roleid);
  
 		if(!$bindData||$bindData['userid']!=$userData['id']){
 		  
@@ -355,6 +312,7 @@ private function checkuser($param)
 			'serverip'  => $serverData['serverip'],
 			'gmlocal'  => $serverData['gmlocal'],
 			'gmport'  => $serverData['gmport'],
+			'gm_userid' => intval($bindData['userid'] ?? 0),
 			'playerid'  => $bindData['playerid'],
 		);
 		$data = array(

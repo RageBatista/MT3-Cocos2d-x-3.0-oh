@@ -1,6 +1,6 @@
-# API 接口文档 - 公共（与当前代码对齐）
+# API 接口文档 - 公共（源码对齐版）
 
-> 更新时间：2026-02-23  
+> 更新时间：2026-04-10  
 > 说明：本文档仅描述当前仓库可确认的公共行为与回调链路，避免使用已过时的统一错误码假设。
 
 ## 1. 公共约定
@@ -18,8 +18,8 @@
 
 ### 1.2 认证方式（现状）
 
-- Admin / Agent：`Check` 中间件基于 Session + HMAC Token 校验
-- Player：`PlayerAuth` 中间件基于 Session + 玩家 Token 校验
+- Admin / Agent：`Check` 中间件基于 Session + HMAC Token 校验，`PermissionGuard` 中间件基于 `config/permission.php` 执行细粒度权限点校验
+- Player：`PlayerAuth` 中间件基于 Session + 玩家 Token 校验，`TraceId` 中间件注入全链路追踪 ID
 - 支付回调：由支付平台回调 + 签名校验，不走用户会话认证
 
 ---
@@ -83,20 +83,45 @@
 ### 4.1 `POST/GET /api/call/test`
 
 - 用途：快速确认回调路由可达与日志可写
+- 默认不可用：`security.debug_endpoints.pay_callback_probe_enabled=false` 时返回 404
 - 返回 JSON，包含日志文件路径、写入结果、请求参数等
 
 ### 4.2 `POST/GET /api/call/checkurl`
 
 - 用途：输出当前构造的通知地址及最近订单摘要，用于联调排查
+- 默认不可用：同样受 `debug_endpoints` 开关控制
 
 ### 4.3 `POST/GET /api/call/epay1`
 
 - 用途：测试/调试入口
 - 生产环境限制：`APP_ENV=production` 时返回 `{"code":403,"msg":"此接口仅限测试环境使用"}`
 
+### 4.4 `GET /api/index/index`（调试输出，非正式业务接口）
+
+- 控制器：`app/api/controller/Index.php`
+- 当前行为：执行 `var_dump` 调试输出
+- 口径：仅用于临时调试，不应作为稳定 API 对外依赖
+- 建议：生产环境关闭或改为受限调试开关
+
 ---
 
-## 5. 与支付相关的公共错误语义（按代码）
+## 5. 兼容协议公共入口
+
+## 5.1 `GET/POST /enlist/submit_code`
+
+- 真实处理器：`app/api/controller/Enlist::submitCode`（通过 `route/app.php` 显式路由映射）
+- 说明：历史文档中引用的根应用兜底控制器 `app/controller/Enlist.php` 和 `app/controller/api/Enlist.php` 均不存在
+- 当前行为：执行真实绑定兼容流程，返回纯文本 `1/0`
+
+## 5.2 `GET/POST /user/api/index(.php)/role/set|get`
+
+- 真实处理器：`app/api/controller/LegacyRole::{set,get}`
+- `set`：执行绑定写入（支持 bind ticket）
+- `get`：返回角色绑定列表 JSON 字符串（旧协议文本返回）
+
+---
+
+## 6. 与支付相关的公共错误语义（按代码）
 
 项目未统一维护完整“全局错误码表”，以下为支付链路可确认语义：
 
@@ -109,7 +134,7 @@
 
 ---
 
-## 6. 相关文档
+## 7. 相关文档
 
 - `02-API接口文档-SDK.md`（SDK/API 业务接口）
 - `04-安全机制说明.md`（认证与中间件安全）

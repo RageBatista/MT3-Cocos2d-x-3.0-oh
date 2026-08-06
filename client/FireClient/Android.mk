@@ -119,77 +119,9 @@ CLIENT_UTILS := \
 	Application/Utils/Voice.cpp \
 	Application/Utils/CallLuaUtil.cpp \
 
-CLIENT_WEB := \
-	../../cocos2d-x-2.2.6/extensions/network/HttpClient.cpp \
-	../../cocos2d-x-2.2.6/extensions/network/WebSocket.cpp \
-
-CLIENT_LUA_KC_GLUE := \
+CLIENT_LUA_ENGINE := \
 	Application/Framework/LuaEngine.cpp \
 	Application/Framework/LuaFireClient.cpp \
-
-CLIENT_LUA_VM := \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lapi.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lauxlib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lbaselib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lcode.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/ldblib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/ldebug.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/ldo.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/ldump.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lfunc.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lgc.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/linit.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/liolib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/llex.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lmathlib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lmem.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/loadlib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lobject.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lopcodes.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/loslib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lparser.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lstate.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lstring.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lstrlib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/ltable.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/ltablib.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/ltm.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lua.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lundump.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lvm.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/lzio.c \
-	../../cocos2d-x-2.2.6/scripting/lua/lua/print.c \
-
-CLIENT_TOLUA++ := \
-	../../cocos2d-x-2.2.6/scripting/lua/tolua/tolua_event.c  \
-	../../cocos2d-x-2.2.6/scripting/lua/tolua/tolua_is.c \
-	../../cocos2d-x-2.2.6/scripting/lua/tolua/tolua_map.c \
-	../../cocos2d-x-2.2.6/scripting/lua/tolua/tolua_push.c \
-	../../cocos2d-x-2.2.6/scripting/lua/tolua/tolua_to.c  \
-
-CLIENT_LUA_COCOS2D_GLUE := \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/CCLuaBridge.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/CCLuaStack.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/CCLuaValue.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/Cocos2dxLuaLoader.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/tolua_fix.c \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/LuaCocos2d.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/LuaCocoStudio.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/CCBProxy.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/Lua_extensions_CCB.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/lua_cocos2dx_manual.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/lua_cocos2dx_extensions_manual.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/lua_cocos2dx_cocostudio_manual.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/xxtea/xxtea.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/CCLuaJavaBridge.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/jni/Java_org_cocos2dx_lib_Cocos2dxLuaJavaBridge.cpp \
-
-CLIENT_LUA_ENGINE := \
-	$(CLIENT_TOLUA++) \
-	$(CLIENT_LUA_KC_GLUE) \
-	$(CLIENT_LUA_COCOS2D_GLUE) \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/CCLuaEngine.cpp \
-	../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support/LJFMLuaLoader.cpp \
 
 CLIENT_SPEEX_LIB := \
 	../../dependencies/speex-1.2rc2/libspeex/bits.c \
@@ -268,11 +200,6 @@ LOCAL_SRC_FILES := \
 	${CLIENT_SPEEX_LIB} \
 	${CLIENT_OGG_LIB} \
 	${CLIENT_VORBIS_LIB} \
-	#${CLIENT_WEB} \
-
-ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
-LOCAL_SRC_FILES += $(CLIENT_LUA_VM)
-endif
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \
 	$(LOCAL_PATH)/Application  \
@@ -292,31 +219,26 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
 	$(LOCAL_PATH)/../../dependencies/pcre-8.31/prj2 \
 	$(LOCAL_PATH)/../../dependencies/freetype-2.4.9/include \
 	$(LOCAL_PATH)/../../dependencies/SILLY-0.1.0/include \
-	$(LOCAL_PATH)/../../dependencies/CEGUI/CEGUI/include \
-	$(LOCAL_PATH)/../../dependencies/CEGUI/CEGUI/include/elements \
+	$(LOCAL_PATH)/../../tools/CEGUI-0.7.9-r5/cegui/include \
+	$(LOCAL_PATH)/../../tools/CEGUI-0.7.9-r5/cegui/include/elements \
 	$(LOCAL_PATH)/../../dependencies/speex-1.2rc2/include \
 	$(LOCAL_PATH)/../../dependencies/speex-1.2rc2/include/speex \
 	$(LOCAL_PATH)/../../dependencies/libogg-1.3.2/include \
 	$(LOCAL_PATH)/../../dependencies/libvorbis-1.3.5/include \
 	$(LOCAL_PATH)/../../dependencies/libvorbis-1.3.5/lib \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx/include \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx/platform \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx/platform/android \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx/platform/android/jni \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx/kazmath/include \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/CocosDenshion/include \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/extensions \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/extensions/network \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/external/libwebsockets/android/include \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/external/curl/include/android \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/scripting/lua \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/scripting/lua/lua \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/scripting/lua/tolua \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/scripting/lua/xxtea \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/scripting/lua/cocos2dx_support \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/extensions \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/2d \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/2d/platform \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/2d/platform/android \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/2d/platform/android/jni \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/math/kazmath \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/audio/include \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/network \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/scripting/lua-bindings/manual \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/scripting/lua-bindings/auto \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/external/lua/lua \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/external/lua/tolua \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/extensions \
 	$(LOCAL_PATH)/../../engine \
 	$(LOCAL_PATH)/../../engine/common \
 	$(LOCAL_PATH)/../../common/platform \
@@ -331,9 +253,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
 	
 LOCAL_LDLIBS := -llog \
 
-ifneq ($(TARGET_ARCH_ABI),arm64-v8a)
-LOCAL_WHOLE_STATIC_LIBRARIES := luajit_static
-endif
+LOCAL_WHOLE_STATIC_LIBRARIES := cocos_lua_static
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos_network_static
 
 # define the macro to compile through support/zip_support/ioapi.c
 LOCAL_CFLAGS := \

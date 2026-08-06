@@ -35,10 +35,6 @@
 #define LOGD(...) ((void)0)
 #endif
 
-#if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
-#else
-#include "textures/ETCHeader.h"
-#endif
 #include <support/image_support/OgreDDSCodec.h>
 namespace cocos2d
 {
@@ -52,7 +48,12 @@ namespace Nuclear
 	static void RndTrace(const char* fmt, ...)
 	{
 		FILE* fp = NULL;
+#if defined(_MSC_VER)
 		if (fopen_s(&fp, "startup_bootstrap.log", "ab") != 0 || !fp) return;
+#else
+		fp = fopen("startup_bootstrap.log", "ab");
+		if (!fp) return;
+#endif
 		fputs("[MT3_RNDR] ", fp);
 		va_list args;
 		va_start(args, fmt);
@@ -856,22 +857,21 @@ namespace Nuclear
 #if (defined WIN7_32) || (defined WINAPI_FAMILY && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 #else
         unsigned char* etcheader_ptr = (unsigned char*)data;
-        if(size>=3 && etcheader_ptr[0]=='P' && etcheader_ptr[1]=='K' && etcheader_ptr[2]=='M')
+        if(size>=16 && etcheader_ptr[0]=='P' && etcheader_ptr[1]=='K' && etcheader_ptr[2]=='M')
         {
-            MaliSDK::ETCHeader etcheader = MaliSDK::ETCHeader((unsigned char*)etcheader_ptr);
-            
             cocos2d::Texture2D* d_texture = NULL;
-            if(d_texture != NULL)
+            cocos2d::Image image;
+            if (!image.initWithImageData((const unsigned char*)data, size))
+            {
+                return INVALID_PICTURE_HANDLE;
+            }
+
+            d_texture = new cocos2d::Texture2D();
+            if (!d_texture->initWithImage(&image))
             {
                 delete d_texture;
+                return INVALID_PICTURE_HANDLE;
             }
-            
-            d_texture = new cocos2d::Texture2D();
-            
-            bool bIsETC=false;
-
-            d_texture->initWithETCData(((unsigned char *)data), 0, 8, true,int(etcheader.getWidth()),int(etcheader.getHeight()), cocos2d::Texture2D::PixelFormat::ETC);
-            bIsETC=true;
             
             CTextureInfo TextureInfo;
             CPicInfo PicInfo;

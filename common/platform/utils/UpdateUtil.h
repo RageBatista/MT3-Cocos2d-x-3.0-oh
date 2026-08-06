@@ -2,10 +2,10 @@
 #define UpdateUtil_H
 
 #include "Singleton.hpp"
-#include "../../../cocos2d-x-2.2.6/cocos2dx/cocoa/CCObject.h"
-#include "../../../cocos2d-x-2.2.6/extensions/network/HttpClient.h"
-#include "../../../cocos2d-x-2.2.6/extensions/network/HttpRequest.h"
-#include "../../../cocos2d-x-2.2.6/extensions/network/HttpResponse.h"
+#include "base/CCRef.h"
+#include "network/HttpClient.h"
+#include "network/HttpRequest.h"
+#include "network/HttpResponse.h"
 
 #include "JsonUtil.h"
 #include "StringCover.h"
@@ -14,7 +14,7 @@
 
 typedef void(*SetDownloadSite_Func)(std::wstring DownloadSite, std::wstring AppSite, std::wstring WGSite);
 
-class UpdateJson : public cocos2d::CCObject, public CSingleton < UpdateJson >
+class UpdateJson : public cocos2d::Ref, public CSingleton < UpdateJson >
 {
 public:
 	SetDownloadSite_Func m_SetDownloadSite_Func;
@@ -41,12 +41,12 @@ public:
 	{
 		std::string strUrl = StringCover::to_string(wsURLFull);
 
-		cocos2d::extension::CCHttpRequest* request = new cocos2d::extension::CCHttpRequest;
+		cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest;
 		request->setUrl(strUrl.c_str());
-		request->setRequestType(cocos2d::extension::CCHttpRequest::kHttpGet);
+		request->setRequestType(cocos2d::network::HttpRequest::Type::GET);
 		request->setResponseCallback(this, httpresponse_selector(UpdateJson::onGetUpdateJson));
 
-		cocos2d::extension::CCHttpClient* client = cocos2d::extension::CCHttpClient::getInstance();
+		cocos2d::network::HttpClient* client = cocos2d::network::HttpClient::getInstance();
 		client->setTimeoutForConnect(10);
 		client->send(request);
 		request->release();
@@ -63,7 +63,7 @@ public:
 		return true;
 	}
 
-	void onGetUpdateJson(cocos2d::extension::CCHttpClient* client, cocos2d::extension::CCHttpResponse* response)
+	void onGetUpdateJson(cocos2d::network::HttpClient* client, cocos2d::network::HttpResponse* response)
 	{
 		if (!response)
 		{

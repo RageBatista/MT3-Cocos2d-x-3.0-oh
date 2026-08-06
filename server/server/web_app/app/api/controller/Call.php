@@ -10,6 +10,7 @@ use app\gm\Gm as Game;
 use app\model\User;
 use app\model\Bind;
 use app\model\Server;
+use app\service\CacheLockService;
 use think\facade\Db;
 use think\facade\Log;
 use think\facade\Cache;
@@ -19,9 +20,69 @@ use app\api\pay\EpayCore;
 
 class Call extends BaseController
 {
+	private function payCallbackLegacyTextEnabled(): bool
+	{
+		$raw = strtolower(trim((string)env('API_PAY_CALLBACK_LEGACY_TEXT', '1')));
+		return !in_array($raw, ['0', 'false', 'off', 'no'], true);
+	}
+
+	private function callbackOkResponse(array $data = [])
+	{
+		if ($this->payCallbackLegacyTextEnabled()) {
+			return 'success';
+		}
+		return api_json(array_merge([
+			'code' => 1,
+			'msg' => 'success',
+		], $data));
+	}
+
+	private function callbackFailResponse(string $msg = 'fail', array $data = [])
+	{
+		if ($this->payCallbackLegacyTextEnabled()) {
+			return 'fail';
+		}
+		return api_json(array_merge([
+			'code' => 0,
+			'msg' => $msg,
+		], $data), 400);
+	}
+
+	private function payCallbackDebugEnabled(): bool
+	{
+		if (!(bool)config('security.debug_endpoints.pay_callback_probe_enabled', false)) {
+			return false;
+		}
+
+		if ((bool)config('security.debug_endpoints.pay_callback_probe_local_only', true)) {
+			$clientIp = (string)$this->request->ip();
+			return in_array($clientIp, ['127.0.0.1', '::1'], true);
+		}
+
+		return true;
+	}
+
+	private function safeUnserializeArray($value): array
+	{
+		if (!is_string($value) || $value === '') {
+			return [];
+		}
+		try {
+			$result = @unserialize($value, ['allowed_classes' => false]);
+		} catch (\Throwable $e) {
+			return [];
+		}
+		return is_array($result) ? $result : [];
+	}
+
 	// 测试接口 - 确认回调URL可以访问
 	public function test()
 	{
+		if (!$this->payCallbackDebugEnabled()) {
+			Log::warning('支付调试接口被拒绝访问', ['endpoint' => 'api/call/test', 'ip' => $this->request->ip()]);
+			return api_json(['code' => 0, 'msg' => 'Not Found'], 404);
+		}
+
 		$logPath = runtime_path().'log/';
 		$logFile = $logPath.date('Ymd').'_pay_callback.log';
 		
@@ -33,23 +94,26 @@ class Call extends BaseController
 		// 尝试写入日志
 		$writeResult = @file_put_contents($logFile, date('Y-m-d H:i:s').' - 测试接口被访问'.PHP_EOL, FILE_APPEND);
 		
-		return json([
-			'status' => 'ok',
-			'message' => '回调接口正常',
-			'time' => date('Y-m-d H:i:s'),
-			'log_path' => $logPath,
-			'log_file' => $logFile,
-			'log_writable' => is_writable($logPath),
-			'log_exists' => file_exists($logFile),
-			'write_result' => $writeResult !== false ? 'success' : 'failed',
-			'get' => $_GET,
-			'post' => $_POST
+		return api_json([
+			'code' => 1,
+			'msg' => '回调接口正常',
+			'data' => [
+				'time' => date('Y-m-d H:i:s'),
+				'log_writable' => is_writable($logPath),
+				'log_exists' => file_exists($logFile),
+				'write_result' => $writeResult !== false ? 'success' : 'failed'
+			]
 		]);
 	}
 	
 	// 查看最近支付订单的回调URL（用于排查）
 	public function checkurl()
 	{
+		if (!$this->payCallbackDebugEnabled()) {
+			Log::warning('支付调试接口被拒绝访问', ['endpoint' => 'api/call/checkurl', 'ip' => $this->request->ip()]);
+			return api_json(['code' => 0, 'msg' => 'Not Found'], 404);
+		}
+
 		$order = new UL();
 		// 获取最近5个订单
 		$orders = \think\facade\Db::table('user_order')
@@ -72,17 +136,14 @@ class Call extends BaseController
 		$channel_host = input('server.REQUEST_SCHEME') . '://' . input('server.HTTP_HOST');
 		$notify_url = $channel_host.":88/api/call/epay";
 		
-		return json([
-			'message' => '最近订单信息',
-			'current_notify_url' => $notify_url,
-			'server_info' => [
-				'REQUEST_SCHEME' => input('server.REQUEST_SCHEME'),
-				'HTTP_HOST' => input('server.HTTP_HOST'),
-				'SERVER_NAME' => input('server.SERVER_NAME'),
-				'REMOTE_ADDR' => input('server.REMOTE_ADDR'),
-			],
-			'recent_orders' => $result,
-			'tip' => '检查 current_notify_url 是否可以从公网访问'
+		return api_json([
+			'code' => 1,
+			'msg' => '最近订单信息',
+			'data' => [
+				'current_notify_url' => $notify_url,
+				'recent_orders' => $result,
+				'tip' => '检查 current_notify_url 是否可以从公网访问'
+			]
 		]);
 	}
 	
@@ -137,7 +198,7 @@ class Call extends BaseController
 
         if(empty($payGet['out_trade_no'])){
             file_put_contents($logFile, date('Y-m-d H:i:s').' - 错误: 缺少订单号'.PHP_EOL, FILE_APPEND);
-            return '缺少订单号';
+            return $this->callbackFailResponse('缺少订单号');
         }
 
         $order = new UL();
@@ -145,13 +206,13 @@ class Call extends BaseController
 
         if(!$findOrder || !isset($findOrder['orderid'])){
             file_put_contents($logFile, date('Y-m-d H:i:s').' - 订单不存在: '.$payGet['out_trade_no'].PHP_EOL, FILE_APPEND);
-            return '订单不存在';
+            return $this->callbackFailResponse('订单不存在');
         }
 
         // P0: 幂等控制 - 订单已支付则直接返回成功
         if($findOrder['status'] == 1){
             file_put_contents($logFile, date('Y-m-d H:i:s').' - 订单已回调（幂等控制）'.PHP_EOL, FILE_APPEND);
-            return 'success';
+            return $this->callbackOkResponse();
         }
 
         // P0: 防重放保护
@@ -163,17 +224,19 @@ class Call extends BaseController
                     'reason' => $replayCheckResult['reason']
                 ]);
                 file_put_contents($logFile, date('Y-m-d H:i:s').' - 防重放保护触发: '.$replayCheckResult['reason'].PHP_EOL, FILE_APPEND);
-                return 'fail';
+                return $this->callbackFailResponse('防重放保护触发');
             }
         }
 
         // P0: 幂等控制 - 使用分布式锁防止并发回调
+        $lockKey = null;
+        $lockToken = null;
         if ($idempotencyEnabled) {
             $lockKey = 'pay_callback_lock:' . $payGet['out_trade_no'];
-            $lockAcquired = Cache::store('redis')->set($lockKey, 1, 60); // 60秒锁
-            if (!$lockAcquired) {
+            $lockToken = CacheLockService::acquire($lockKey, 60, 'redis');
+            if ($lockToken === null) {
                 file_put_contents($logFile, date('Y-m-d H:i:s').' - 获取幂等锁失败（并发回调）'.PHP_EOL, FILE_APPEND);
-                return 'success'; // 返回成功让支付平台重试
+                return $this->callbackFailResponse('并发回调，锁竞争失败'); // 返回失败让支付平台稍后重试
             }
         }
 
@@ -185,7 +248,7 @@ class Call extends BaseController
             if($findOrder['status'] == 1){
                 Db::commit();
                 file_put_contents($logFile, date('Y-m-d H:i:s').' - 订单已回调（事务内幂等检查）'.PHP_EOL, FILE_APPEND);
-                return 'success';
+                return $this->callbackOkResponse();
             }
 
             $userarr = json_decode($findOrder['user'],true);
@@ -219,17 +282,17 @@ class Call extends BaseController
                     file_put_contents($logFile, date('Y-m-d H:i:s').' - 订单更新成功'.PHP_EOL, FILE_APPEND);
 
                     Db::commit();
-                    return 'success';
+                    return $this->callbackOkResponse();
                 }else{
                     file_put_contents($logFile, date('Y-m-d H:i:s').' - 发货失败: '.$send.PHP_EOL, FILE_APPEND);
                     Db::rollback();
-                    return 'fail';
+                    return $this->callbackFailResponse('发货失败');
                 }
             }else{
                 // 签名验证失败，记录异常并返回失败
                 file_put_contents($logFile, date('Y-m-d H:i:s').' - 签名验证失败，可能存在篡改'.PHP_EOL, FILE_APPEND);
                 Db::rollback();
-                return 'fail';
+                return $this->callbackFailResponse('签名验证失败');
             }
         } catch (\Exception $e) {
             Db::rollback();
@@ -238,12 +301,11 @@ class Call extends BaseController
                 'error' => $e->getMessage()
             ]);
             file_put_contents($logFile, date('Y-m-d H:i:s').' - 处理异常: '.$e->getMessage().PHP_EOL, FILE_APPEND);
-            return 'fail';
+            return $this->callbackFailResponse('回调处理异常');
         } finally {
             // 释放幂等锁
-            if ($idempotencyEnabled) {
-                $lockKey = 'pay_callback_lock:' . $payGet['out_trade_no'];
-                Cache::store('redis')->delete($lockKey);
+            if ($idempotencyEnabled && $lockKey !== null) {
+                CacheLockService::release($lockKey, $lockToken, 'redis');
             }
         }
     }
@@ -272,8 +334,8 @@ class Call extends BaseController
             }
         }
 
-        // 2. 检查nonce（如果上游提供）
-        if (isset($params['nonce'])) {
+        // 2. nonce 为强制项（防重放）
+        if (isset($params['nonce']) && (string)$params['nonce'] !== '') {
             $nonceKey = 'pay_callback_nonce:' . $params['nonce'];
             $existingNonce = Cache::store('redis')->get($nonceKey);
 
@@ -287,12 +349,15 @@ class Call extends BaseController
             // 存储nonce，有效期比timestampTtl稍长
             Cache::store('redis')->set($nonceKey, $orderid, $timestampTtl + 60);
         } else {
-            // P0: 如果上游不提供nonce，记录安全日志并降级处理
-            Log::warning('支付回调未提供nonce参数，防重放保护降级', [
+            Log::warning('支付回调未提供nonce参数，已拒绝', [
                 'orderid' => $orderid,
                 'params' => array_keys($params)
             ]);
-            file_put_contents($logFile, date('Y-m-d H:i:s').' - 警告: 回调未提供nonce参数，防重放保护降级'.PHP_EOL, FILE_APPEND);
+            file_put_contents($logFile, date('Y-m-d H:i:s').' - 错误: 回调未提供nonce参数，拒绝处理'.PHP_EOL, FILE_APPEND);
+            return [
+                'valid' => false,
+                'reason' => 'missing_nonce'
+            ];
         }
 
         return ['valid' => true, 'reason' => ''];
@@ -317,8 +382,15 @@ class Call extends BaseController
   
   $order = new UL();
   $findOrder = $order->getOrderId("pay2025010801165702710");
+  if (!$findOrder) {
+   return json(['code' => 0, 'msg' => '测试订单不存在']);
+  }
   $send = $this->send($findOrder);
-  var_dump($send);
+  return json([
+   'code' => $send ? 1 : 0,
+   'msg' => $send ? '测试发货执行成功' : '测试发货执行失败',
+   'result' => $send
+  ]);
 
  }
 	
@@ -358,6 +430,7 @@ class Call extends BaseController
 	// 使用 Redis 原子计数器保证 daylimit 更新的并发安全
 	$daylimitUpdated = false;
 	if($itemarr['daylimit']!=0){
+		$dayLimitMax = intval($itemarr['daylimit'] ?? 0);
 		// 使用 Redis 原子计数器
 		$redisDayLimitKey = 'daylimit:' . $bindData['id'] . ':' . $itemarr['id'] . ':' . date('Y-m-d');
 		$currentCount = Cache::store('redis')->inc($redisDayLimitKey);
@@ -368,7 +441,7 @@ class Call extends BaseController
 		}
 		
 		// 检查是否超限
-		if ($currentCount > $goodsData['daylimit']) {
+		if ($currentCount > $dayLimitMax) {
 			// 超限，回滚计数
 			Cache::store('redis')->dec($redisDayLimitKey);
 			return false; // 发货失败
@@ -393,7 +466,7 @@ class Call extends BaseController
 				];
 				$daylimit = serialize($daylimit);
 			}else{
-				$daylimit = unserialize($bindData['daylimit']);
+				$daylimit = $this->safeUnserializeArray($bindData['daylimit']);
 				// 验证日期是否匹配，防止跨天问题
 				if(isset($daylimit[$itemarr['id']]) && $daylimit[$itemarr['id']]['date']!=$today){
 					// 日期不匹配，重置计数
@@ -427,6 +500,7 @@ class Call extends BaseController
 	
 	// rolelimit 更新（使用条件更新）
 	if($itemarr['rolelimit']!=0){
+		$roleLimitMax = intval($itemarr['rolelimit'] ?? 0);
 		Db::startTrans();
 		try {
 			// 重新查询最新数据
@@ -438,9 +512,9 @@ class Call extends BaseController
 				];
 				$rolelimit = serialize($rolelimit);
 			}else{
-				$rolelimit = unserialize($bindData['rolelimit']);
+				$rolelimit = $this->safeUnserializeArray($bindData['rolelimit']);
 				// 再次检查是否超限
-				if(isset($rolelimit[$itemarr['id']]) && $rolelimit[$itemarr['id']] >= $goodsData['rolelimit']){
+				if(isset($rolelimit[$itemarr['id']]) && $rolelimit[$itemarr['id']] >= $roleLimitMax){
 					Db::rollback();
 					// 回滚 daylimit 计数
 					if ($daylimitUpdated) {

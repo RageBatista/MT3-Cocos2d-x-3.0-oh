@@ -58,6 +58,11 @@ tmp/
 *.jar
 *.war
 *.ear
+!/client/3rdplatform/MeiqiaSdk/libs/*.jar
+!/client/3rdplatform/ShareSDK/libs/*.jar
+!/client/android/LocojoyProject/libs/*.jar
+!/cocos2d-x-3.0-oh/external/**/prebuilt/ios/*.a
+!/client/ios/vendor/fmod/lib/*.a
 
 # Android
 /client/android/**/build/
@@ -152,8 +157,11 @@ desktop.ini
 !/dependencies/third-party-rebuild/tiff-4.0.3/libtiff/libtiff.dll
 !/dependencies/third-party-rebuild/tiff-4.0.3/libtiff/libtiff.lib
 
-# Exclude tools runtime outputs; keep only CI gate entry scripts trackable
+# Exclude tools runtime outputs; keep canonical and gate entry scripts trackable
 /tools/
+!/tools/
+/tools/*
+/tools/*/**
 !/tools/codex/
 !/tools/codex/**
 /tools/codex/node_modules/
@@ -166,6 +174,7 @@ desktop.ini
 !/tools/scripts/Assert-ApkAbiContents.ps1
 !/tools/scripts/Assert-ApkInstallableStructure.ps1
 !/tools/scripts/Build-Android-Locojoy-WithGate.ps1
+!/tools/scripts/Generate-iOS-Upgrade30-Projects.ps1
 !/tools/scripts/Build-BinLayoutStudio-v120.ps1
 !/tools/scripts/Test-MT3-SecurityGate.ps1
 !/tools/scripts/Test-MT3-ResourceUiGate.ps1
@@ -192,6 +201,15 @@ desktop.ini
 # CEGUI-0.7.9-r5 source (dual-engine upgrade)
 !/tools/CEGUI-0.7.9-r5/
 !/tools/CEGUI-0.7.9-r5/**
+/tools/CEGUI-0.7.9-r5/**/obj/
+/tools/CEGUI-0.7.9-r5/**/*.obj
+/tools/CEGUI-0.7.9-r5/**/*.tlog
+/tools/CEGUI-0.7.9-r5/**/*.lastbuildstate
+/tools/CEGUI-0.7.9-r5/**/*.idb
+/tools/CEGUI-0.7.9-r5/**/*.pdb
+/tools/CEGUI-0.7.9-r5/**/*.lib
+/tools/CEGUI-0.7.9-r5/**/*.bak
+/tools/CEGUI-0.7.9-r5/_*.ps1
 /tools/CEGUI-0.7.9-r5/*Debug.win32/
 /tools/CEGUI-0.7.9-r5/*Release.win32/
 /tools/CEGUI-0.7.9-r5/*.sdf
@@ -213,6 +231,7 @@ local.properties
 
 # Cache / generated data (not part of source)
 /cache/
+/build/android-upgrade30-deps/
 /build_logs/
 /lib/
 /artifacts/triage/

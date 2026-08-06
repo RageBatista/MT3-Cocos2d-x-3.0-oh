@@ -4785,6 +4785,17 @@ public:
         setlen(len);
     }
 
+    String(const std::wstring& text)
+    {
+        init();
+        const size_type len = text.length();
+        grow(len);
+        utf32* pt = ptr();
+        for (size_type i = 0; i < len; ++i)
+            *pt++ = static_cast<utf32>(text[i]);
+        setlen(len);
+    }
+
 private:
 	/*************************************************************************
 		Implementation Functions

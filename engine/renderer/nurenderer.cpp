@@ -10,7 +10,12 @@ namespace Nuclear
 	static void RndTrace(const char* fmt, ...)
 	{
 		FILE* fp = NULL;
+	#if defined(_MSC_VER)
 		if (fopen_s(&fp, "startup_bootstrap.log", "ab") != 0 || !fp) return;
+	#else
+		fp = fopen("startup_bootstrap.log", "ab");
+		if (!fp) return;
+	#endif
 		fputs("[MT3_RNDR] ", fp);
 		va_list args;
 		va_start(args, fmt);

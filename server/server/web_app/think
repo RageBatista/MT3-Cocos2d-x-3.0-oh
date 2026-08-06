@@ -6,5 +6,11 @@ namespace think;
 // 加载基础文件
 require __DIR__ . '/vendor/autoload.php';
 
+$app = new App();
+$app->loadEnv();
+if (is_file(__DIR__ . DIRECTORY_SEPARATOR . '.env.local')) {
+    $app->setEnvName('local');
+}
+
 // 应用初始化
-(new App())->console->run();
+$app->console->run();

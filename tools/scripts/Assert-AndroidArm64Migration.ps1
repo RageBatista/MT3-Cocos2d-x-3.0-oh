@@ -1,17 +1,8 @@
 param(
     [string]$ProjectDir = "client/android/LocojoyProject",
-    [string]$CocosRoot = "cocos2d-x-2.2.6",
-    [string[]]$RequiredArm64StaticLibs = @(
-        "dependencies/zlib/prebuilt/android/arm64-v8a/libz.a",
-        "dependencies/png/prebuilt/android/arm64-v8a/libpng.a",
-        "dependencies/jpeg/prebuilt/android/arm64-v8a/libjpeg.a",
-        "cocos2d-x-2.2.6/external/curl/prebuilt/android/arm64-v8a/libcurl.a",
-        "cocos2d-x-2.2.6/external/curl/prebuilt/android/arm64-v8a/libssl.a",
-        "cocos2d-x-2.2.6/external/curl/prebuilt/android/arm64-v8a/libcrypto.a",
-        "cocos2d-x-2.2.6/external/tiff/prebuilt/android/arm64-v8a/libtiff.a",
-        "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libwebp/libs/arm64-v8a/libwebp.a",
-        "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libxml2/libs/arm64-v8a/libxml2.a"
-    ),
+    [ValidateSet("Legacy226", "Upgrade30")]
+    [string]$EngineProfile = "Upgrade30",
+    [string[]]$RequiredArm64StaticLibs = @(),
     [string[]]$RequiredArm64InputSharedLibs = @(
         "client/3rdplatform/duClient_SDK_Lib/libs/arm64-v8a/libdu.so",
         "client/3rdplatform/BaiduLBS_AndroidSDK_Lib/libs/arm64-v8a/liblocSDK6a.so"
@@ -30,14 +21,71 @@ $ErrorActionPreference = "Stop"
 
 $repoRoot = (Resolve-Path ".").Path
 $projectAbs = Join-Path $repoRoot $ProjectDir
+$profile = if ($EngineProfile -eq "Upgrade30") {
+    [pscustomobject]@{
+        CocosRoot = "cocos2d-x-3.0-oh"
+        CocosAndroidMk = "cocos2d-x-3.0-oh\cocos\2d\Android.mk"
+        CocosPlatformAndroidMk = "cocos2d-x-3.0-oh\cocos\2d\platform\android\Android.mk"
+        JniRoot = "cocos2d-x-3.0-oh\cocos\2d\platform\android\jni"
+        CeguiAndroidMk = "client\android\native\cegui-r5\Android.mk"
+        RequiredStaticLibs = @(
+            "cocos2d-x-3.0-oh/external/freetype2/prebuilt/android/arm64-v8a/libfreetype.a",
+            "cocos2d-x-3.0-oh/external/jpeg/prebuilt/android/arm64-v8a/libjpeg.a",
+            "cocos2d-x-3.0-oh/external/png/prebuilt/android/arm64-v8a/libpng.a",
+            "cocos2d-x-3.0-oh/external/tiff/prebuilt/android/arm64-v8a/libtiff.a",
+            "cocos2d-x-3.0-oh/external/webp/prebuilt/android/arm64-v8a/libwebp.a"
+        )
+        VersionedStaticLibs = @(
+            "cocos2d-x-3.0-oh/external/freetype2/prebuilt/android/arm64-v8a/libfreetype.a",
+            "cocos2d-x-3.0-oh/external/jpeg/prebuilt/android/arm64-v8a/libjpeg.a",
+            "cocos2d-x-3.0-oh/external/png/prebuilt/android/arm64-v8a/libpng.a",
+            "cocos2d-x-3.0-oh/external/tiff/prebuilt/android/arm64-v8a/libtiff.a",
+            "cocos2d-x-3.0-oh/external/webp/prebuilt/android/arm64-v8a/libwebp.a"
+        )
+    }
+}
+else {
+    [pscustomobject]@{
+        CocosRoot = "cocos2d-x-2.2.6"
+        CocosAndroidMk = "cocos2d-x-2.2.6\cocos2dx\Android.mk"
+        CocosPlatformAndroidMk = ""
+        JniRoot = "cocos2d-x-2.2.6\cocos2dx\platform\android\jni"
+        CeguiAndroidMk = "dependencies\cegui\Android.mk"
+        RequiredStaticLibs = @(
+            "dependencies/zlib/prebuilt/android/arm64-v8a/libz.a",
+            "dependencies/png/prebuilt/android/arm64-v8a/libpng.a",
+            "dependencies/jpeg/prebuilt/android/arm64-v8a/libjpeg.a",
+            "cocos2d-x-2.2.6/external/curl/prebuilt/android/arm64-v8a/libcurl.a",
+            "cocos2d-x-2.2.6/external/curl/prebuilt/android/arm64-v8a/libssl.a",
+            "cocos2d-x-2.2.6/external/curl/prebuilt/android/arm64-v8a/libcrypto.a",
+            "cocos2d-x-2.2.6/external/tiff/prebuilt/android/arm64-v8a/libtiff.a",
+            "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libwebp/libs/arm64-v8a/libwebp.a",
+            "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libxml2/libs/arm64-v8a/libxml2.a"
+        )
+        VersionedStaticLibs = @(
+            "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libwebp/libs/arm64-v8a/libwebp.a",
+            "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libxml2/libs/arm64-v8a/libxml2.a"
+        )
+    }
+}
+
+if ($RequiredArm64StaticLibs.Count -eq 0) {
+    $RequiredArm64StaticLibs = @($profile.RequiredStaticLibs)
+}
+
+$CocosRoot = $profile.CocosRoot
 $appMk = Join-Path $projectAbs "jni\Application.mk"
 $androidMk = Join-Path $projectAbs "jni\Android.mk"
 $engineAndroidMk = Join-Path $repoRoot "engine\Android.mk"
 $fireClientAndroidMk = Join-Path $repoRoot "client\FireClient\Android.mk"
-$cocosAndroidMk = Join-Path $repoRoot "$CocosRoot\cocos2dx\Android.mk"
-$jnih = Join-Path $repoRoot "$CocosRoot\cocos2dx\platform\android\jni\JniHelper.h"
-$jnicpp = Join-Path $repoRoot "$CocosRoot\cocos2dx\platform\android\jni\JniHelper.cpp"
-$helperCpp = Join-Path $repoRoot "$CocosRoot\cocos2dx\platform\android\jni\Java_org_cocos2dx_lib_Cocos2dxHelper.cpp"
+$ljfmAndroidMk = Join-Path $repoRoot "common\ljfm\Android.mk"
+$updateEngineAndroidMk = Join-Path $repoRoot "common\updateengine\Android.mk"
+$cocosAndroidMk = Join-Path $repoRoot $profile.CocosAndroidMk
+$cocosPlatformAndroidMk = if ($profile.CocosPlatformAndroidMk) { Join-Path $repoRoot $profile.CocosPlatformAndroidMk } else { "" }
+$ceguiAndroidMk = Join-Path $repoRoot $profile.CeguiAndroidMk
+$jnih = Join-Path $repoRoot "$($profile.JniRoot)\JniHelper.h"
+$jnicpp = Join-Path $repoRoot "$($profile.JniRoot)\JniHelper.cpp"
+$helperCpp = Join-Path $repoRoot "$($profile.JniRoot)\Java_org_cocos2dx_lib_Cocos2dxHelper.cpp"
 $mainCpp = Join-Path $projectAbs "jni\main.cpp"
 $activityJava = Join-Path $projectAbs "src\org\cocos2dx\lib\Cocos2dxActivity.java"
 $glSurfaceJava = Join-Path $projectAbs "src\org\cocos2dx\lib\Cocos2dxGLSurfaceView.java"
@@ -135,6 +183,17 @@ if (Assert-File $androidMk) {
     if ($mkText -match "google-breakpad/android/google_breakpad" -and $mkText -notmatch "ifneq\s*\(\$\(TARGET_ARCH_ABI\),arm64-v8a\)") {
         Add-Error "Breakpad import must be gated out for arm64-v8a unless arm64 breakpad is available."
     }
+    if ($EngineProfile -eq "Upgrade30") {
+        if ($mkText -notmatch [regex]::Escape($CocosRoot)) {
+            Add-Error "Locojoy Android.mk must import the $CocosRoot module root for Upgrade30."
+        }
+        if ($mkText -match "cocos2d-x-2\.2\.6") {
+            Add-Error "Locojoy Android.mk must not mix cocos2d-x-2.2.6 into Upgrade30."
+        }
+        if ($mkText -notmatch "import-module,android/native/cegui-r5") {
+            Add-Error "Locojoy Android.mk must import CEGUI 0.7.9-r5 from android/native/cegui-r5."
+        }
+    }
 }
 
 if (Assert-File $engineAndroidMk) {
@@ -145,12 +204,32 @@ if (Assert-File $engineAndroidMk) {
     if ($engineMkText -match "cocos_spine_static") {
         Add-Error "Engine Android.mk must use Spine from the current cocos_extension_static module."
     }
+    if ($EngineProfile -eq "Upgrade30" -and $engineMkText -match "cocos2d-x-2\.2\.6") {
+        Add-Error "Engine Android.mk must not mix cocos2d-x-2.2.6 into Upgrade30."
+    }
 }
 
 if (Assert-File $fireClientAndroidMk) {
     $fireClientMkText = Read-Text $fireClientAndroidMk
     if ($fireClientMkText -match "cocos2d-2\.0-rc2-x-2\.0\.1") {
         Add-Error "FireClient Android.mk must not import source files or modules from cocos2d-2.0-rc2-x-2.0.1."
+    }
+    if ($EngineProfile -eq "Upgrade30") {
+        if ($fireClientMkText -match "cocos2d-x-2\.2\.6|dependencies/CEGUI") {
+            Add-Error "FireClient Android.mk must use only cocos2d-x-3.0-oh and CEGUI-0.7.9-r5 inputs for Upgrade30."
+        }
+        if ($fireClientMkText -notmatch "cocos2d-x-3\.0-oh|external/lua") {
+            Add-Error "FireClient Android.mk does not expose Upgrade30 Cocos/Lua inputs."
+        }
+    }
+}
+
+foreach ($sharedMk in @($ljfmAndroidMk, $updateEngineAndroidMk)) {
+    if (Assert-File $sharedMk) {
+        $sharedText = Read-Text $sharedMk
+        if ($EngineProfile -eq "Upgrade30" -and $sharedText -match "cocos2d-x-2\.2\.6") {
+            Add-Error "$(Get-RepoRelativePath $sharedMk) must not mix cocos2d-x-2.2.6 into Upgrade30."
+        }
     }
 }
 
@@ -159,11 +238,41 @@ if (Assert-File $cocosAndroidMk) {
     if ($cocosMkText -match "cocos2d-2\.0-rc2-x-2\.0\.1") {
         Add-Error "Cocos Android.mk must not import prebuilt libraries from cocos2d-2.0-rc2-x-2.0.1."
     }
-    if ($cocosMkText -notmatch "\$\(call import-module,libxml2\)") {
-        Add-Error "Cocos Android.mk must import libxml2 from the current $CocosRoot third_party prebuilt root."
+    if ($EngineProfile -eq "Legacy226") {
+        if ($cocosMkText -notmatch "\$\(call import-module,libxml2\)") {
+            Add-Error "Cocos Android.mk must import libxml2 from the current $CocosRoot third_party prebuilt root."
+        }
+        if ($cocosMkText -notmatch "\$\(call import-module,libwebp\)") {
+            Add-Error "Cocos Android.mk must import libwebp from the current $CocosRoot third_party prebuilt root."
+        }
     }
-    if ($cocosMkText -notmatch "\$\(call import-module,libwebp\)") {
-        Add-Error "Cocos Android.mk must import libwebp from the current $CocosRoot third_party prebuilt root."
+    else {
+        foreach ($module in @("freetype2/prebuilt/android", "chipmunk", "2d/platform/android")) {
+            if ($cocosMkText -notmatch [regex]::Escape("`$(call import-module,$module)")) {
+                Add-Error "Upgrade30 Cocos Android.mk must import $module."
+            }
+        }
+    }
+}
+
+if ($EngineProfile -eq "Upgrade30" -and (Assert-File $cocosPlatformAndroidMk)) {
+    $platformMkText = Read-Text $cocosPlatformAndroidMk
+    foreach ($module in @("jpeg/prebuilt/android", "png/prebuilt/android", "tiff/prebuilt/android", "webp/prebuilt/android")) {
+        if ($platformMkText -notmatch [regex]::Escape("`$(call import-module,$module)")) {
+            Add-Error "Upgrade30 Android platform module must import $module."
+        }
+    }
+}
+
+if (Assert-File $ceguiAndroidMk) {
+    $ceguiMkText = Read-Text $ceguiAndroidMk
+    if ($EngineProfile -eq "Upgrade30") {
+        if ($ceguiMkText -notmatch "CEGUI-0\.7\.9-r5" -or $ceguiMkText -notmatch "LOCAL_MODULE\s*:=\s*cegui_static") {
+            Add-Error "Upgrade30 CEGUI Android module must build CEGUI-0.7.9-r5 as cegui_static."
+        }
+        if ($ceguiMkText -match "dependencies[/\\]cegui") {
+            Add-Error "Upgrade30 CEGUI Android module must not import the 0.7.1 source tree."
+        }
     }
 }
 
@@ -174,10 +283,7 @@ foreach ($relative in $RequiredArm64StaticLibs) {
     }
 }
 
-$versionedArm64StaticLibs = @(
-    "$CocosRoot/cocos2dx/platform/third_party/android/prebuilt/libwebp/libs/arm64-v8a/libwebp.a",
-    "$CocosRoot/cocos2dx/platform/third_party/android/prebuilt/libxml2/libs/arm64-v8a/libxml2.a"
-)
+$versionedArm64StaticLibs = @($profile.VersionedStaticLibs)
 
 if (Test-GitWorkTree) {
     foreach ($relative in $versionedArm64StaticLibs) {
@@ -224,12 +330,15 @@ if (Assert-File $jnicpp) {
     if ($jniText -notmatch "loadClass") {
         Add-Error "JniHelper.cpp must use cached ClassLoader.loadClass fallback for native threads."
     }
+    if ($jniText -notmatch "classloader\s*=\s*env->NewGlobalRef\s*\(\s*_c\s*\)") {
+        Add-Error "JniHelper.cpp must retain the Activity ClassLoader with a global reference."
+    }
 }
 
 if (Assert-File $helperCpp) {
     $helperText = Read-Text $helperCpp
-    if ($helperText -notmatch "NewGlobalRef") {
-        Add-Error "Cocos2dxHelper JNI bridge must cache global references instead of relying only on FindClass from native threads."
+    if ($helperText -notmatch "JniHelper::setClassLoaderFrom\s*\(\s*activity\s*\)") {
+        Add-Error "Cocos2dxHelper JNI bridge must initialize the cached Activity ClassLoader."
     }
     if ($helperText -notmatch "Java_org_cocos2dx_lib_Cocos2dxActivity_nativeInitJniBridge") {
         Add-Error "Cocos2dxActivity must expose nativeInitJniBridge for the real Locojoy Java entry."
@@ -238,11 +347,21 @@ if (Assert-File $helperCpp) {
 
 if (Assert-File $mainCpp) {
     $mainText = Read-Text $mainCpp
-    if ($mainText -notmatch "JNI_VERSION_1_6") {
-        Add-Error "JNI_OnLoad in project main.cpp must return JNI_VERSION_1_6."
+    if ($EngineProfile -eq "Upgrade30") {
+        if ($mainText -match "JNI_OnLoad|Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit") {
+            Add-Error "Upgrade30 project main.cpp must leave JNI_OnLoad/nativeInit ownership to javaactivity.cpp."
+        }
+        if ($mainText -notmatch "cocos_android_app_init") {
+            Add-Error "Upgrade30 project main.cpp must implement cocos_android_app_init."
+        }
     }
-    if ($mainText -match "JNI_VERSION_1_4") {
-        Add-Error "Project main.cpp must not use JNI_VERSION_1_4."
+    else {
+        if ($mainText -notmatch "JNI_VERSION_1_6") {
+            Add-Error "JNI_OnLoad in project main.cpp must return JNI_VERSION_1_6."
+        }
+        if ($mainText -match "JNI_VERSION_1_4") {
+            Add-Error "Project main.cpp must not use JNI_VERSION_1_4."
+        }
     }
 }
 
@@ -291,6 +410,7 @@ if (Assert-File $jdkGateScript) {
 
 Write-Host "Android arm64 migration gate"
 Write-Host "  ProjectDir : $projectAbs"
+Write-Host "  Profile    : $EngineProfile"
 Write-Host "  CocosRoot  : $CocosRoot"
 
 if ($errors.Count -gt 0) {

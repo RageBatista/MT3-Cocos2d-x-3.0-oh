@@ -7,9 +7,9 @@
 return [
     // JMX认证配置（与游戏服务器sys.properties保持一致）
     'jmx_auth' => [
-        'username' => env('JMX_USERNAME', 'admin'),
-        'password' => env('JMX_PASSWORD', 'change_me'),
+        'username' => env('JMX_USERNAME', ''),
+        'password' => env('JMX_PASSWORD', ''),
         'token' => env('JMX_TOKEN', ''),
-        'enabled' => env('JMX_AUTH_ENABLED', true),
+        'enabled' => env('JMX_AUTH_ENABLED', false),
     ],
 ];

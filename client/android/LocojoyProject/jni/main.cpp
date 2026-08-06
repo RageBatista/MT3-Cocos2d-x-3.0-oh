@@ -6,7 +6,7 @@
 
 #include "../../../common/platform/android/SDJniHelper.h"
 #include "../../../FireClient/Application/androidcommon/ChannelPlatformInterface.h"
-#include "../../../../cocos2d-x-2.2.6/cocos2dx/platform/VideoPlayerEngine.h"
+#include "../../../FireClient/Application/Framework/VideoPlayerEngine.h"
 
 
 #define  LOG_TAG    "main"
@@ -34,13 +34,12 @@ extern void gReceiveMemoryWarning();
 extern "C"
 {
 
-jint JNI_OnLoad(JavaVM *vm, void *reserved)
+bool cocos_android_app_init(JNIEnv* env, jobject thiz)
 {
-	LOGD("game vm %p", vm);
-    JniHelper::setJavaVM(vm);
-	MT3::JniHelper::setJavaVM(vm);
-
-    return JNI_VERSION_1_6;
+    (void)env;
+    (void)thiz;
+    MT3::JniHelper::setJavaVM(cocos2d::JniHelper::getJavaVM());
+    return gRunGameApplication();
 }
 
 // Breakpad disabled - incompatible with NDK r10e
@@ -57,34 +56,6 @@ void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeNotifyMemoryWarning(JNIEnv* en
 void Java_org_cocos2dx_lib_Cocos2dxVideoHelper_nativeExecuteVideoCallback(JNIEnv* env, jobject obj, jint index, jint event){
 	cocos2d::VideoPlayer::executeVideoCallback(index, event);
 }
-
-void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit(JNIEnv*  env, jobject thiz, jint w, jint h)
-{
-    if (!CCDirector::sharedDirector()->getOpenGLView())
-    {
-    
-    	LOGD("CCDirector::sharedDirector()->getOpenGLView() Done");
-    	
-        CCEGLView *view = CCEGLView::sharedOpenGLView();
-        view->setFrameSize(w, h);
-		
-		gRunGameApplication();
-    }
-    else
-    {
-		LOGD("java coco2dx native init");
-		ccDrawInit();
-		ccGLInvalidateStateCache();
-
-		CCShaderCache::sharedShaderCache()->reloadDefaultShaders();
-		//CCTextureCache::reloadAllTextures();
-		gSetReloadAllTexturesState(true);
-		ReloadAllTextures();
-        CCNotificationCenter::sharedNotificationCenter()->postNotification(EVENT_COME_TO_FOREGROUND, NULL);
-        CCDirector::sharedDirector()->setGLDefaultValues();
-    }
-}
-
 
 void jStringToBuffer(JNIEnv* env, jstring jstr, char * buffer)
 {

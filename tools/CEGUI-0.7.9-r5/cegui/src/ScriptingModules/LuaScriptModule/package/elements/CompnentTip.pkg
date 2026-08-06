@@ -1,0 +1,13 @@
+class CompnentTip : public Window
+{
+public:
+    static const string WidgetTypeName;
+    static const string EventNamespace;
+
+    void SetTipsText(const string& tip);
+    Size getTextSize() const;
+    void SetTargetCompnent(const RichEditboxComponent* component,
+                           bool inChatOutWindow = false);
+    void positionSelf(void);
+    void sizeSelf(void);
+};

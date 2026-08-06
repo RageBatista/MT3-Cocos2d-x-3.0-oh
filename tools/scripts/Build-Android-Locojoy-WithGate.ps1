@@ -1,5 +1,7 @@
 param(
     [string]$ProjectDir = "client/android/LocojoyProject",
+    [ValidateSet("Legacy226", "Upgrade30")]
+    [string]$EngineProfile = "Upgrade30",
     [ValidateSet("free", "monthpayment")]
     [string]$Channel = "free",
     [Alias("Target")]
@@ -396,7 +398,8 @@ function Get-NativeAbiProfile {
 function Get-CriticalLfsPaths {
     param(
         [Parameter(Mandatory = $true)][string]$RepoRoot,
-        [Parameter(Mandatory = $true)][string]$ProjectDir
+        [Parameter(Mandatory = $true)][string]$ProjectDir,
+        [Parameter(Mandatory = $true)][string]$EngineProfile
     )
 
     $abi = "arm64-v8a"
@@ -405,17 +408,31 @@ function Get-CriticalLfsPaths {
         "$ProjectDir/AndroidManifest.xml",
         "$ProjectDir/project.properties",
         "client/3rdplatform/duClient_SDK_Lib/libs/$abi/libdu.so",
-        "client/3rdplatform/BaiduLBS_AndroidSDK_Lib/libs/$abi/liblocSDK6a.so",
-        "dependencies/zlib/prebuilt/android/$abi/libz.a",
-        "dependencies/png/prebuilt/android/$abi/libpng.a",
-        "dependencies/jpeg/prebuilt/android/$abi/libjpeg.a",
-        "cocos2d-x-2.2.6/external/curl/prebuilt/android/$abi/libcurl.a",
-        "cocos2d-x-2.2.6/external/curl/prebuilt/android/$abi/libssl.a",
-        "cocos2d-x-2.2.6/external/curl/prebuilt/android/$abi/libcrypto.a",
-        "cocos2d-x-2.2.6/external/tiff/prebuilt/android/$abi/libtiff.a",
-        "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libwebp/libs/$abi/libwebp.a",
-        "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libxml2/libs/$abi/libxml2.a"
+        "client/3rdplatform/BaiduLBS_AndroidSDK_Lib/libs/$abi/liblocSDK6a.so"
     )
+
+    if ($EngineProfile -eq "Upgrade30") {
+        $paths += @(
+            "cocos2d-x-3.0-oh/external/freetype2/prebuilt/android/$abi/libfreetype.a",
+            "cocos2d-x-3.0-oh/external/jpeg/prebuilt/android/$abi/libjpeg.a",
+            "cocos2d-x-3.0-oh/external/png/prebuilt/android/$abi/libpng.a",
+            "cocos2d-x-3.0-oh/external/tiff/prebuilt/android/$abi/libtiff.a",
+            "cocos2d-x-3.0-oh/external/webp/prebuilt/android/$abi/libwebp.a"
+        )
+    }
+    else {
+        $paths += @(
+            "dependencies/zlib/prebuilt/android/$abi/libz.a",
+            "dependencies/png/prebuilt/android/$abi/libpng.a",
+            "dependencies/jpeg/prebuilt/android/$abi/libjpeg.a",
+            "cocos2d-x-2.2.6/external/curl/prebuilt/android/$abi/libcurl.a",
+            "cocos2d-x-2.2.6/external/curl/prebuilt/android/$abi/libssl.a",
+            "cocos2d-x-2.2.6/external/curl/prebuilt/android/$abi/libcrypto.a",
+            "cocos2d-x-2.2.6/external/tiff/prebuilt/android/$abi/libtiff.a",
+            "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libwebp/libs/$abi/libwebp.a",
+            "cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libxml2/libs/$abi/libxml2.a"
+        )
+    }
 
     return $paths
 }
@@ -651,6 +668,7 @@ function New-AndroidBuildPlan {
         project = [pscustomobject][ordered]@{
             dir = $ProjectAbs
             channel = $Channel
+            engineProfile = $EngineProfile
             buildSystem = $buildSystem
             target = $target
             gradleFiles = @($GradleFiles)
@@ -689,7 +707,7 @@ function New-AndroidBuildPlan {
             zipalign = $true
         }
         dependencies = [pscustomobject][ordered]@{
-            lfsCriticalPaths = @(Get-CriticalLfsPaths -RepoRoot $RepoRoot -ProjectDir $ProjectDir)
+            lfsCriticalPaths = @(Get-CriticalLfsPaths -RepoRoot $RepoRoot -ProjectDir $ProjectDir -EngineProfile $EngineProfile)
         }
     }
 }
@@ -766,6 +784,11 @@ if ($gradleFiles.Count -gt 0) {
     throw "Gradle files were detected, but this repository has no verified Gradle build chain. Refusing to mix build backends."
 }
 
+$migrationGate = Join-Path $repoRoot "tools\scripts\Assert-AndroidArm64Migration.ps1"
+Invoke-CheckedCommand -FailureMessage "Android $EngineProfile migration gate failed" -WorkingDir $repoRoot -Command {
+    powershell -NoProfile -ExecutionPolicy Bypass -File $migrationGate -ProjectDir $ProjectDir -EngineProfile $EngineProfile
+}
+
 if ($HydrateLfs) {
     $include = ($plan.dependencies.lfsCriticalPaths -join ",")
     Invoke-CheckedCommand -FailureMessage "git lfs pull failed" -Command {
@@ -788,6 +811,7 @@ if (-not $NoLfsCheck) {
 
 Write-Host "MT3 Android build"
 Write-Host "  Project       : $($plan.project.dir)"
+Write-Host "  EngineProfile : $($plan.project.engineProfile)"
 Write-Host "  BuildSystem   : $($plan.project.buildSystem)"
 Write-Host "  BuildType     : $($plan.build.buildType)"
 Write-Host "  PackageTarget : $($plan.build.packageTarget)"
@@ -894,11 +918,11 @@ Invoke-CheckedCommand -FailureMessage "Android LJFM resource path gate failed" -
 }
 
 Invoke-CheckedCommand -FailureMessage "Android audio JNI bridge gate failed" -Command {
-    powershell -NoProfile -ExecutionPolicy Bypass -File $audioJniBridgeGate -RepoRoot $repoRoot
+    powershell -NoProfile -ExecutionPolicy Bypass -File $audioJniBridgeGate -RepoRoot $repoRoot -EngineProfile $EngineProfile
 }
 
 Invoke-CheckedCommand -FailureMessage "Android startup black-screen guard failed" -Command {
-    powershell -NoProfile -ExecutionPolicy Bypass -File $startupBlackScreenGate -RepoRoot $repoRoot
+    powershell -NoProfile -ExecutionPolicy Bypass -File $startupBlackScreenGate -RepoRoot $repoRoot -EngineProfile $EngineProfile
 }
 
 Invoke-CheckedCommand -FailureMessage "zipalign check failed" -Command {

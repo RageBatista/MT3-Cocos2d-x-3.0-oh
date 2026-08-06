@@ -109,7 +109,7 @@
                                     <h5 class="alert-heading"><i class="mdi mdi-alert"></i> 危险操作警告</h5>
                                     <hr>
                                     <p class="mb-1" style="font-size: 13px;">
-                                        此操作将<strong>永久删除</strong>玩家数据：user_account、user_bind、user_order、user_log、user_voice、user_fankui
+                                        此操作将<strong>永久删除</strong>玩家数据：user_account、user_bind、role、role_relation、user_order、user_log(仅玩家日志)、user_voice、user_fankui、player_event_log、player_profile、user_transfer
                                     </p>
                                 </div>
 
@@ -138,7 +138,16 @@
                                                     <i class="mdi mdi-delete"></i> 按账号清理
                                                 </button>
                                             </div>
+                                            <div class="form-check mt-2">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="resetAutoIncrementByUser" checked>
+                                                <label class="form-check-label" for="resetAutoIncrementByUser"
+                                                    style="font-size: 12px;">
+                                                    清理后若相关表为空则重置AUTO_INCREMENT
+                                                </label>
+                                            </div>
                                         </div>
+                                    </div>
                                 </form>
 
                                 <!-- 查询结果显示区域 -->
@@ -157,7 +166,7 @@
                                     <h5 class="alert-heading"><i class="mdi mdi-alert-circle"></i> 一键清除全部玩家数据</h5>
                                     <hr>
                                     <p class="mb-2" style="font-size: 13px;">
-                                        此操作将清空所有玩家数据表，不可恢复！user_account、user_bind、user_order、user_log、user_voice、user_fankui
+                                        此操作将清空所有玩家数据表，不可恢复！user_account、user_bind、role、role_relation、user_order、user_log(仅玩家日志)、user_voice、user_fankui、player_event_log、player_profile、user_transfer
                                     </p>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="resetAutoIncrement" checked>
@@ -194,6 +203,20 @@
     <script type="text/javascript" src="__MB__/js/bootstrap-notify.min.js"></script>
     <script type="text/javascript">
         var csrf_token = "{$csrf_token}";
+        function htmlEncode(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/[&<>"'\/]/g, function (s) {
+                return {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;",
+                    "/": "&#x2F;"
+                }[s];
+            });
+        }
+
         $(document).ajaxStart(function () {
             $("button:submit").attr("disabled", true);
         }).ajaxStop(function () {
@@ -250,7 +273,7 @@
                 html += '<tr class="table-warning">';
                 html += '<td>玩家账号</td>';
                 html += '<td>' + data.userAccount.id + '</td>';
-                html += '<td>用户名: ' + data.userAccount.username + ', 状态: ' + (data.userAccount.status == 1 ? '正常' : '禁用') + '</td>';
+                html += '<td>用户名: ' + htmlEncode(data.userAccount.username) + ', 状态: ' + (data.userAccount.status == 1 ? '正常' : '禁用') + '</td>';
                 html += '</tr>';
             }
 
@@ -260,7 +283,7 @@
                     html += '<tr>';
                     html += '<td>角色绑定</td>';
                     html += '<td>' + bind.playerid + '</td>';
-                    html += '<td>角色名: ' + bind.playername + ', 服务器ID: ' + bind.serverid + ', 充值: ' + bind.charge + '</td>';
+                    html += '<td>角色名: ' + htmlEncode(bind.playername) + ', 服务器ID: ' + bind.serverid + ', 充值: ' + bind.charge + '</td>';
                     html += '</tr>';
                 });
             }
@@ -277,10 +300,31 @@
             // 日志数量
             if (data.logCount !== undefined) {
                 html += '<tr>';
-                html += '<td>日志记录</td>';
+                html += '<td>玩家日志</td>';
                 html += '<td>-</td>';
-                html += '<td>共 ' + data.logCount + ' 条日志记录</td>';
+                html += '<td>共 ' + data.logCount + ' 条玩家日志</td>';
                 html += '</tr>';
+            }
+            if (data.voiceCount !== undefined) {
+                html += '<tr><td>语音记录</td><td>-</td><td>共 ' + data.voiceCount + ' 条语音记录</td></tr>';
+            }
+            if (data.feedbackCount !== undefined) {
+                html += '<tr><td>反馈记录</td><td>-</td><td>共 ' + data.feedbackCount + ' 条反馈记录</td></tr>';
+            }
+            if (data.playerEventLogCount !== undefined) {
+                html += '<tr><td>玩家事件日志</td><td>-</td><td>共 ' + data.playerEventLogCount + ' 条记录</td></tr>';
+            }
+            if (data.profileCount !== undefined) {
+                html += '<tr><td>玩家资料</td><td>-</td><td>共 ' + data.profileCount + ' 条资料记录</td></tr>';
+            }
+            if (data.transferCount !== undefined) {
+                html += '<tr><td>转区申请</td><td>-</td><td>共 ' + data.transferCount + ' 条申请记录</td></tr>';
+            }
+            if (data.roleCount !== undefined) {
+                html += '<tr><td>角色主表(role)</td><td>-</td><td>共 ' + data.roleCount + ' 条关联角色</td></tr>';
+            }
+            if (data.roleRelationCount !== undefined) {
+                html += '<tr><td>角色关系(role_relation)</td><td>-</td><td>共 ' + data.roleRelationCount + ' 条关联关系</td></tr>';
             }
 
             html += '</tbody></table></div>';
@@ -294,7 +338,7 @@
         function confirmCleanByUser() {
             var userId = $('#userId').val();
             var playerId = $('#playerId').val();
-            var resetAutoIncrement = $('#resetAutoIncrement').is(':checked') ? 1 : 0;
+            var resetAutoIncrement = $('#resetAutoIncrementByUser').is(':checked') ? 1 : 0;
 
             if (!userId && !playerId) {
                 Swal.fire({
@@ -331,17 +375,17 @@
                         Swal.showValidationMessage('请输入 DELETE 确认操作');
                         return false;
                     }
-                    return true;
+                    return input;
                 }
             }).then(function (result) {
                 if (result.isConfirmed) {
-                    performClean(userId, playerId, resetAutoIncrement);
+                    performClean(userId, playerId, resetAutoIncrement, result.value);
                 }
             });
         }
 
         // 执行清理（按用户/角色）
-        function performClean(userId, playerId, resetAutoIncrement) {
+        function performClean(userId, playerId, resetAutoIncrement, confirmPhrase) {
             Swal.fire({
                 title: '正在清理数据...',
                 html: '请稍候',
@@ -355,6 +399,7 @@
                 userId: userId,
                 playerId: playerId,
                 resetAutoIncrement: resetAutoIncrement,
+                confirm_phrase: confirmPhrase,
                 csrf_token: csrf_token
             }, function (res) {
                 Swal.close();
@@ -387,13 +432,10 @@
 
         // 一键清除全部数据
         function confirmCleanAll() {
-            console.log('confirmCleanAll 被调用'); // 调试日志
-
             var resetAutoIncrement = 0;
             try {
                 resetAutoIncrement = $('#resetAutoIncrement').is(':checked') ? 1 : 0;
             } catch (e) {
-                console.log('checkbox错误:', e);
             }
 
             // 获取当前各表的数据统计
@@ -404,17 +446,21 @@
                 data: { csrf_token: csrf_token },
                 timeout: 10000,
                 success: function (res) {
-                    console.log('统计返回:', res); // 调试日志
                     if (res.code == 1) {
                         var stats = res.data;
                         var statsHtml = '<div style="text-align: left; background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0;">';
                         statsHtml += '<strong>当前数据统计：</strong><br>';
                         statsHtml += '• 玩家账号：' + stats.userAccountCount + ' 条<br>';
                         statsHtml += '• 角色绑定：' + stats.userBindCount + ' 条<br>';
+                        statsHtml += '• 角色主表：' + (stats.roleCount || 0) + ' 条<br>';
+                        statsHtml += '• 角色关系：' + (stats.roleRelationCount || 0) + ' 条<br>';
                         statsHtml += '• 订单记录：' + stats.userOrderCount + ' 条<br>';
-                        statsHtml += '• 日志记录：' + stats.userLogCount + ' 条<br>';
+                        statsHtml += '• 玩家日志：' + stats.userLogCount + ' 条<br>';
                         statsHtml += '• 语音记录：' + stats.userVoiceCount + ' 条<br>';
-                        statsHtml += '• 反馈记录：' + stats.userFankuiCount + ' 条';
+                        statsHtml += '• 反馈记录：' + stats.userFankuiCount + ' 条<br>';
+                statsHtml += '• 玩家事件日志：' + (stats.playerEventLogCount || 0) + ' 条<br>';
+                        statsHtml += '• 玩家资料：' + (stats.playerProfileCount || 0) + ' 条<br>';
+                        statsHtml += '• 转区申请：' + (stats.userTransferCount || 0) + ' 条';
                         statsHtml += '</div>';
 
                         // 三次确认弹窗
@@ -426,10 +472,15 @@
                                 '<ul style="text-align: left; margin-left: 20px; color: #666;">' +
                                 '<li>user_account（玩家账号）</li>' +
                                 '<li>user_bind（角色绑定）</li>' +
+                                '<li>role（角色主表）</li>' +
+                                '<li>role_relation（角色关系）</li>' +
                                 '<li>user_order（订单记录）</li>' +
-                                '<li>user_log（日志记录）</li>' +
+                                '<li>user_log（仅玩家日志，保留代理/管理员审计日志）</li>' +
                                 '<li>user_voice（语音记录）</li>' +
                                 '<li>user_fankui（反馈记录）</li>' +
+                                '<li>player_event_log（玩家事件日志）</li>' +
+                                '<li>player_profile（玩家资料）</li>' +
+                                '<li>user_transfer（转区申请）</li>' +
                                 '</ul>' +
                                 '<p style="color: #dc3545; font-weight: bold;">此操作不可恢复！</p>' +
                                 '<p>请输入 <strong>DELETE_ALL</strong> 确认操作：</p>',
@@ -445,12 +496,11 @@
                                     Swal.showValidationMessage('请输入 DELETE_ALL 确认操作');
                                     return false;
                                 }
-                                return true;
+                                return input;
                             }
                         }).then(function (result) {
-                            console.log('用户确认:', result); // 调试日志
                             if (result.isConfirmed) {
-                                performCleanAll(resetAutoIncrement);
+                                performCleanAll(resetAutoIncrement, result.value);
                             }
                         });
                     } else {
@@ -462,20 +512,18 @@
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.log('统计请求失败:', status, error);
+                    var detail = xhr && xhr.status ? 'HTTP ' + xhr.status : status;
                     Swal.fire({
                         icon: 'error',
                         title: '请求失败',
-                        text: '无法获取数据统计，请检查网络连接'
+                        text: '无法获取数据统计：' + detail
                     });
                 }
             });
         }
 
         // 执行清除全部
-        function performCleanAll(resetAutoIncrement) {
-            console.log('performCleanAll 被调用, resetAutoIncrement=', resetAutoIncrement); // 调试日志
-
+        function performCleanAll(resetAutoIncrement, confirmPhrase) {
             Swal.fire({
                 title: '正在清空所有玩家数据...',
                 html: '请稍候，这可能需要一些时间',
@@ -487,9 +535,9 @@
 
             $.post('/index.php?s=/{$app}/gm/doCleanAll', {
                 resetAutoIncrement: resetAutoIncrement,
+                confirm_phrase: confirmPhrase,
                 csrf_token: csrf_token
             }, function (res) {
-                console.log('清空返回:', res); // 调试日志
                 Swal.close();
                 if (res.code == 1) {
                     displayOperationResult(res.data);
@@ -506,7 +554,6 @@
                     });
                 }
             }).fail(function () {
-                console.log('清空请求失败'); // 调试日志
                 Swal.close();
                 Swal.fire({
                     icon: 'error',
@@ -518,8 +565,6 @@
 
         // 显示操作结果
         function displayOperationResult(data) {
-            console.log('displayOperationResult 被调用, data=', data); // 调试日志
-
             var html = '';
 
             // 处理全部清空的结果
@@ -529,19 +574,22 @@
 
             if (data.clearedTables && data.clearedTables.length > 0) {
                 $.each(data.clearedTables, function (i, table) {
-                    html += '<div class="result-item result-success">✓ 已清空 ' + table.table + ' 表，删除 ' + table.count + ' 条记录</div>';
+                    html += '<div class="result-item result-success">✓ 已清空 ' + htmlEncode(table.table) + ' 表，删除 ' + htmlEncode(table.count) + ' 条记录</div>';
                 });
             }
 
             if (data.deletedUserAccount) {
-                html += '<div class="result-item result-success">✓ 已删除玩家账号: ' + data.deletedUserAccount.username + ' (ID: ' + data.deletedUserAccount.id + ')</div>';
+                html += '<div class="result-item result-success">✓ 已删除玩家账号: ' + htmlEncode(data.deletedUserAccount.username) + ' (ID: ' + htmlEncode(data.deletedUserAccount.id) + ')</div>';
             }
 
             if (data.deletedBinds && data.deletedBinds.length > 0) {
                 html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedBinds.length + ' 个角色绑定记录</div>';
                 $.each(data.deletedBinds, function (i, bind) {
-                    html += '<div class="result-item result-info">  - 角色: ' + bind.playername + ' (ID: ' + bind.playerid + ')</div>';
+                    html += '<div class="result-item result-info">  - 角色: ' + htmlEncode(bind.playername) + ' (ID: ' + htmlEncode(bind.playerid) + ')</div>';
                 });
+            }
+            if (data.deletedOrphanBinds !== undefined) {
+                html += '<div class="result-item result-info">✓ 已额外清理孤儿绑定 ' + data.deletedOrphanBinds + ' 条</div>';
             }
 
             if (data.deletedOrders !== undefined) {
@@ -549,7 +597,7 @@
             }
 
             if (data.deletedLogs !== undefined) {
-                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedLogs + ' 条日志记录</div>';
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedLogs + ' 条玩家日志</div>';
             }
 
             if (data.deletedVoices !== undefined) {
@@ -559,15 +607,38 @@
             if (data.deletedFeedbacks !== undefined) {
                 html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedFeedbacks + ' 条反馈记录</div>';
             }
+            if (data.deletedProfiles !== undefined) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedProfiles + ' 条玩家资料</div>';
+            }
+                            if (data.deletedPlayerEvents !== undefined) {
+                                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedPlayerEvents + ' 条玩家事件日志</div>';
+            }
+            if (data.deletedTransfers !== undefined) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedTransfers + ' 条转区申请</div>';
+            }
+            if (data.deletedRoles !== undefined) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedRoles + ' 条角色主表记录</div>';
+            }
+            if (data.deletedRoleRelations !== undefined) {
+                html += '<div class="result-item result-success">✓ 已删除 ' + data.deletedRoleRelations + ' 条角色关系记录</div>';
+            }
 
             if (data.resetTables && data.resetTables.length > 0) {
                 html += '<div class="result-item result-info">✓ 已重置以下表的AUTO_INCREMENT为1: ' + data.resetTables.join(', ') + '</div>';
             }
 
+            if (data.remainingRows) {
+                $.each(data.remainingRows, function (tableName, leftCount) {
+                    if (parseInt(leftCount, 10) > 0) {
+                        html += '<div class="result-item result-error">✗ 表 ' + htmlEncode(tableName) + ' 清理后仍剩余 ' + leftCount + ' 条数据</div>';
+                    }
+                });
+            }
+
             if (data.errors && data.errors.length > 0) {
                 html += '<div class="result-item result-error">✗ 操作过程中发生错误：</div>';
                 $.each(data.errors, function (i, error) {
-                    html += '<div class="result-item result-error">  - ' + error + '</div>';
+                    html += '<div class="result-item result-error">  - ' + htmlEncode(error) + '</div>';
                 });
             }
 

@@ -94,18 +94,32 @@ class PlayerAuth
             return redirect($loginRedirect);
         }
         
+        // P3安全增强：缓存穿透防护（Null Object Cache）
+        // 正常数据缓存 600s；不存在的 ID 缓存 '__NOT_FOUND__' 标记 60s，
+        // 防止同一无效 ID 每次请求都穿透到数据库。
         $playerInfo = null;
+        $cacheKey = 'player_user:' . $playerId;
         try {
-            $cacheKey = 'player_user:' . $playerId;
-            $playerInfo = Cache::get($cacheKey);
+            $cached = Cache::get($cacheKey);
+            if ($cached === '__NOT_FOUND__') {
+                // 命中空值标记：该玩家不存在，阻断请求
+                Log::warning('PlayerAuth: hit NOT_FOUND cache, blocking request', [
+                    'user_id' => $playerId,
+                ]);
+                if ($isAsyncRequest) {
+                    return json(['code' => 401, 'msg' => '账号不存在，请重新登录']);
+                }
+                return redirect($loginRedirect);
+            }
+            $playerInfo = $cached ?: null;
         } catch (\Exception $e) {
             $playerInfo = null;
         }
-        
+
         if (!$playerInfo) {
             try {
                 $playerModel = new \app\player\model\Player();
-                
+
                 try {
                     $statusCheck = $playerModel->checkPlayerStatus($playerId);
                 } catch (\Exception $statusEx) {
@@ -114,12 +128,10 @@ class PlayerAuth
                         'username' => $playerUsername,
                         'error' => $statusEx->getMessage()
                     ]);
-                    // 状态检查失败时不阻断，继续尝试获取玩家信息
                     $statusCheck = ['valid' => true, 'message' => ''];
                 }
-                
+
                 if (!$statusCheck['valid']) {
-                    // CDK授权链路中session id为角色ID，不应按账号状态拦截
                     if ($isCdkSession) {
                         $statusCheck = ['valid' => true, 'message' => ''];
                     } else {
@@ -130,14 +142,13 @@ class PlayerAuth
                         if (function_exists('clearAllPlayerSession')) {
                             clearAllPlayerSession();
                         }
-                        
                         if ($isAsyncRequest) {
                             return json(['code' => 403, 'msg' => $statusCheck['message']]);
                         }
                         return redirect($loginRedirect);
                     }
                 }
-                
+
                 try {
                     $playerInfo = $playerModel->getPlayerInfo($playerId);
                 } catch (\Exception $infoEx) {
@@ -147,7 +158,6 @@ class PlayerAuth
                         'error' => $infoEx->getMessage(),
                         'trace' => $infoEx->getTraceAsString()
                     ]);
-                    // 获取完整信息失败时，构建最小玩家信息以避免阻断
                     $playerInfo = [
                         'id' => $playerId,
                         'username' => $playerUsername,
@@ -155,9 +165,8 @@ class PlayerAuth
                         'servers' => []
                     ];
                 }
-                
+
                 if (!$playerInfo) {
-                    // CDK会话允许无账号主档信息，使用最小会话信息继续
                     if ($isCdkSession) {
                         $playerInfo = [
                             'id' => $playerId,
@@ -168,11 +177,13 @@ class PlayerAuth
                             'login_mode' => 'cdk'
                         ];
                     } else {
-                        Log::warning('PlayerAuth: player info not found', [
+                        Log::warning('PlayerAuth: player info not found, caching NOT_FOUND to prevent cache penetration', [
                             'user_id' => $playerId,
                             'username' => $playerUsername
                         ]);
-                        // 信息不存在时构建最小信息而非阻断
+                        // 写入空值缓存（短 TTL 60s），防止缓存穿透
+                        try { Cache::set($cacheKey, '__NOT_FOUND__', 60); } catch (\Exception $e) {}
+                        // 仍构建最小信息以避免硬阻断（Session fallback 场景）
                         $playerInfo = [
                             'id' => $playerId,
                             'username' => $playerUsername,
@@ -181,9 +192,8 @@ class PlayerAuth
                         ];
                     }
                 }
-                
+
                 try {
-                    // P2性能优化：缓存时长从300秒提升至600秒，减少数据库查询频率
                     Cache::set($cacheKey, $playerInfo, 600);
                 } catch (\Exception $e) {
                 }
@@ -194,7 +204,6 @@ class PlayerAuth
                     'error' => $e->getMessage(),
                     'trace' => $e->getTraceAsString()
                 ]);
-                // 即使出现异常也构建最小信息
                 $playerInfo = [
                     'id' => $playerId,
                     'username' => $playerUsername,

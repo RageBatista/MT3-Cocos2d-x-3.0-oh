@@ -34,7 +34,7 @@ THE SOFTWARE.
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 // Java class
-#define  CLASS_NAME "org/cocos2dx/lib/Cocos2dxHelper"
+#define  CLASS_NAME "org/cocos2dx/lib/Cocos2dxActivity"
 
 namespace CocosDenshion {
     namespace android {
@@ -209,7 +209,7 @@ namespace CocosDenshion {
             int ret = 0;
             std::string fullPath = CocosDenshion::android::getFullPathWithoutAssetsPrefix(pszFilePath);
         
-            if (! getJNIStaticMethodInfo(methodInfo, "playEffect", "(Ljava/lang/String;ZFFF)I")) {
+            if (! getJNIStaticMethodInfo(methodInfo, "playEffect", "(Ljava/lang/String;Z)I")) {
                 return ret;
             }
         
@@ -217,8 +217,7 @@ namespace CocosDenshion {
             ret = methodInfo.env->CallStaticIntMethod(methodInfo.classID,
                                                       methodInfo.methodID,
                                                       stringArg,
-                                                      bLoop,
-                                                      pitch, pan, gain);
+                                                      bLoop);
             methodInfo.env->DeleteLocalRef(stringArg);
             methodInfo.env->DeleteLocalRef(methodInfo.classID);
         

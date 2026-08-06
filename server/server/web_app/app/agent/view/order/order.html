@@ -24,7 +24,7 @@
         <header class="card-header"><div class="card-title">订单查询</div></header>
         <div class="card-body">
           <div class="card-search mb-2-5">
-            <form class="search-form" method="get" action="#!" role="form">
+            <form class="search-form" onsubmit="return false;" role="form">
               
               <div class="row">
                 <div class="col-md-3">
@@ -44,8 +44,8 @@
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <button type="submit" class="btn btn-primary me-1">搜索</button>
-                  <button type="reset" class="btn btn-default">重置</button>
+                  <button type="button" class="btn btn-primary me-1" onclick="searchOrder()">搜索</button>
+                  <button type="button" class="btn btn-default" onclick="resetOrderSearch()">重置</button>
                 </div>
               </div>
               
@@ -82,6 +82,17 @@
 
 
 <script>
+	var searchDefaults = {
+		orderid: '',
+		user: ''
+	};
+
+	lyearSearchState.apply(searchDefaults);
+	$('.search-form').on('submit', function (event) {
+		event.preventDefault();
+		searchOrder();
+	});
+
 	/**
 	 * 分页相关的配置
 	 **/
@@ -284,7 +295,9 @@
 				// 排序的列名
 				sort: params.sort,
 				// 排序方式 'asc' 'desc'
-				sortOrder: params.order
+				sortOrder: params.order,
+				orderid: $('input[name="orderid"]').val(),
+				user: $('input[name="user"]').val()
 			};
 		},
 		columns,
@@ -292,6 +305,21 @@
             $("[data-bs-toggle='tooltip']").tooltip();
         }
 	});
+
+	function searchOrder() {
+		lyearSearchState.sync({
+			orderid: $('input[name="orderid"]').val(),
+			user: $('input[name="user"]').val()
+		}, searchDefaults);
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
+
+	function resetOrderSearch() {
+		$('input[name="orderid"]').val('');
+		$('input[name="user"]').val('');
+		lyearSearchState.sync(searchDefaults, searchDefaults);
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
 </script>
 
 </body>

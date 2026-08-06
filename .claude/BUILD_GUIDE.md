@@ -220,13 +220,13 @@ cmd /c "cd /d E:\MT3\client\resource\tools && LJFilePack_打包安卓.bat"
 
 ```powershell
 # 免费服
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-Android-Locojoy-WithGate.ps1 -ProjectDir "client/android/LocojoyProject" -BuildType Release -Channel free -Jobs 4 -CleanIntermediates -SyncRes -ResSourceDir "client/res_android/res" -NdkBuildPath "D:\Android\android-sdk-64\ndk\16.1.4479499\ndk-build.cmd" -JdkHome $env:JAVA_HOME -AndroidSdkRoot $env:ANDROID_HOME -RequireArm64InApk
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-Android-Locojoy-WithGate.ps1 -EngineProfile Upgrade30 -ProjectDir "client/android/LocojoyProject" -BuildType Release -Channel free -Jobs 4 -CleanIntermediates -SyncRes -ResSourceDir "client/res_android/res" -NdkBuildPath "D:\Android\android-sdk-64\ndk\16.1.4479499\ndk-build.cmd" -JdkHome $env:JAVA_HOME -AndroidSdkRoot $env:ANDROID_HOME -RequireArm64InApk
 
 # 点卡服当前未恢复/未验证；脚本会拒绝 -Channel monthpayment，直到 build_monthpayment.xml 恢复并重新验收。
 
 # 64位包（当前 LocojoyProject arm64-v8a 编译闭环）
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Assert-AndroidArm64Migration.ps1
-powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-Android-Locojoy-WithGate.ps1 -ProjectDir "client/android/LocojoyProject" -BuildType Debug -Channel free -Jobs 4 -SyncRes -ResSourceDir "client/res_android/res" -NdkBuildPath "D:\Android\android-sdk-64\ndk\16.1.4479499\ndk-build.cmd" -JdkHome $env:JAVA_HOME -AndroidSdkRoot $env:ANDROID_HOME -RequireArm64InApk
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Assert-AndroidArm64Migration.ps1 -EngineProfile Upgrade30
+powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-Android-Locojoy-WithGate.ps1 -EngineProfile Upgrade30 -ProjectDir "client/android/LocojoyProject" -BuildType Debug -Channel free -Jobs 4 -SyncRes -ResSourceDir "client/res_android/res" -NdkBuildPath "D:\Android\android-sdk-64\ndk\16.1.4479499\ndk-build.cmd" -JdkHome $env:JAVA_HOME -AndroidSdkRoot $env:ANDROID_HOME -RequireArm64InApk
 ```
 
 说明：
@@ -239,8 +239,10 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-Android-Locojoy-W
 - `client/android/LocojoyProject/assets/res/**` 是同步到 APK 工程的生成产物，严禁手工修改；如需更新，只能由打包脚本和 `-SyncRes`/构建链刷新。
 - 启用 `-RequireArm64InApk` 时，会在结构门禁后执行 ABI 门禁，校验 APK 内 `lib/arm64-v8a` 及必需 so。
 - 默认会自动探测 `ndk-build.cmd` 与 `ant.bat`；也可显式传 `-NdkBuildPath/-AntPath`。
-- `Assert-AndroidArm64Migration.ps1` 是 arm64 构建前置总门禁：会校验 `Application.mk`、当前 `cocos2d-x-2.2.6` 下的 arm64 静态库、`libxml2/libwebp` import 不得漂回旧 2.0 树、JNI ClassLoader bridge，以及 common/Locojoy/Joysdk/Yijie 的 `nativeInitJniBridge(this) -> nativeSetPaths(...)` 顺序。
-- `cocos2d-x-2.2.6/cocos2dx/platform/third_party/android/prebuilt/libwebp/libs/arm64-v8a/libwebp.a` 与 `libxml2/libs/arm64-v8a/libxml2.a` 是 arm64 基线归档文件，必须随当前 2.2.6 树纳入版本控制；若被 `.gitignore` 忽略，总门禁会失败。
+- `Assert-AndroidArm64Migration.ps1` 默认校验 Upgrade30：包括 `Application.mk`、Cocos 3.0 arm64 静态库、CEGUI 0.7.9-r5 module、JNI ClassLoader bridge，以及 common/Locojoy/Joysdk/Yijie 的 `nativeInitJniBridge(this) -> nativeSetPaths(...)` 顺序。
+- Upgrade30 arm64 基线归档为 freetype、jpeg、png、tiff、webp 五组 `cocos2d-x-3.0-oh/external/**/prebuilt/android/arm64-v8a/*.a`，必须纳入版本控制并通过 LFS/哈希检查。
+- 需要从固定上游归档重建上述五组依赖时，执行 `powershell -NoProfile -ExecutionPolicy Bypass -File .\client\android\scripts\Build-Upgrade30-Arm64Prebuilts.ps1 -NdkBuildPath "D:\Android\android-sdk-64\ndk\16.1.4479499\ndk-build.cmd"`；脚本校验下载 SHA256，使用 NDK r16 clang 构建并复制到 canonical prebuilt 目录。
+- canonical wrapper 在 APK 生成后继续执行 profile-aware 音频 JNI、启动黑屏保护、ZIP 并发读、LJFM 路径、结构、ABI 与 zipalign 门禁。
 
 ### 2. 手动命令（排障兜底）
 
@@ -263,6 +265,64 @@ Get-FileHash .\client\android\LocojoyProject\bin\mt3-debug.apk -Algorithm SHA256
 ```powershell
 & "D:\android-sdk_r24.1.2-windows\android-sdk-windows\build-tools\22.0.1\aapt.exe" dump badging .\client\android\LocojoyProject\bin\mt3-debug.apk
 ```
+
+2026-08-06 Upgrade30 Debug canonical 验证产物：
+
+- 路径：`client/android/LocojoyProject/bin/mt3-debug.apk`
+- 大小：`1844777345` bytes
+- SHA256：`96CDA4D5A2CBF2D2312E8EF3DDCCB3C2DC0BB904C2859FD1F7C260ADB0B6146C`
+- native-code：`arm64-v8a`
+
+## iOS 客户端构建（Upgrade30）
+
+### 0. Windows 静态准备
+
+Windows 只验证 Xcode 工程、路径、宏、Spine source membership 和 vendor 输入：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\scripts\Build-iOS-MT3.ps1 -EngineProfile Upgrade30 -StaticGateOnly
+```
+
+当前结果为 `64/64 PASS`，状态文件为 `client/ios/Upgrade30/READY_FOR_XCODE_BUILD.md`。Windows 不执行 `xcodebuild`。
+
+### 1. macOS 环境切换
+
+```bash
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -license accept
+xcodebuild -version
+xcrun --sdk iphoneos --show-sdk-path
+```
+
+要求：完整 Xcode、PowerShell 7、`arm64`、`IPHONEOS_DEPLOYMENT_TARGET=12.0`。签名证书、Team 与 Provisioning Profile 只从本机 Keychain、命令参数或 CI Secret 注入。
+
+### 2. 编译与链接验证
+
+```bash
+pwsh -NoProfile -File ./tools/scripts/Build-iOS-MT3.ps1 \
+  -EngineProfile Upgrade30 \
+  -Configuration Debug \
+  -TargetDevice Device \
+  -Architectures arm64 \
+  -DeploymentTarget 12.0 \
+  -SkipCodeSign
+```
+
+### 3. 签名 Release 构建
+
+```bash
+pwsh -NoProfile -File ./tools/scripts/Build-iOS-MT3.ps1 \
+  -EngineProfile Upgrade30 \
+  -Configuration Release \
+  -TargetDevice Device \
+  -Architectures arm64 \
+  -DeploymentTarget 12.0 \
+  -DevelopmentTeam TEAM_ID \
+  -CodeSignIdentity "Apple Development: NAME (TEAM_ID)" \
+  -ProvisioningProfile PROFILE_UUID
+```
+
+完整环境切换、回滚点与交接说明见 `client/ios/Upgrade30/READY_FOR_XCODE_BUILD.md`。
 
 ## 产物校验
 

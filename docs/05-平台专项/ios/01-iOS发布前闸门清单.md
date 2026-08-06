@@ -1,6 +1,15 @@
 # iOS 发布前闸门清单
 
-> 返回 [客户端打包指南](../01-客户端打包指南.md)。本页区分源码静态核验与 Xcode/设备实测，不引用已移除的自动化脚本。
+> 返回 [客户端打包指南](../01-客户端打包指南.md)。本页区分 Windows 静态核验与 macOS/Xcode/设备实测；canonical 基线为 Upgrade30。
+
+## 0. Upgrade30 工程状态
+
+- [ ] `client/ios/Upgrade30/READY_FOR_XCODE_BUILD.md` 状态为 `READY_FOR_XCODE_BUILD`。
+- [ ] Windows 静态门禁输出 `64/64 PASS`。
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/scripts/Build-iOS-MT3.ps1 -EngineProfile Upgrade30 -StaticGateOnly
+```
 
 ## 1. 更新入口
 
@@ -48,13 +57,13 @@ rg -n "getSdkLoginAddress|getSdkRegisterAddress|LoginAccount\(|RegisterAccount\(
 
 ## 5. 共享引擎与 ABI
 
-- [ ] 共享 `engine/**` 改动已用 iOS 工具链重编 `engine.xcodeproj`。
+- [ ] 共享 `engine/**` 改动已用 iOS 工具链重编 `engine-Upgrade30.xcodeproj`。
 - [ ] `FireClient` 链接的是本轮重编的 `libengine.a`，不是旧产物。
 - [ ] 公共头文件/对象布局变化已按下游顺序全链重编。
 
 ```powershell
-rg -n "libengine.a|engine.xcodeproj" client/FireClient/FireClient.xcodeproj/project.pbxproj
-rg -n "nuspritemanager.cpp in Sources" engine/engine.xcodeproj/project.pbxproj
+rg -n "libengine.a|engine-Upgrade30.xcodeproj" client/FireClient/FireClient-Upgrade30.xcodeproj/project.pbxproj
+rg -n "nuspritemanager.cpp in Sources" engine/engine-Upgrade30.xcodeproj/project.pbxproj
 ```
 
 ## 6. ATS 与渠道配置

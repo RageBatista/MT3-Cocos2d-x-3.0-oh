@@ -15,7 +15,7 @@ class User extends Validate
         'confirm_password' => 'require|confirm:password',
         'email' => 'email',
         'phone' => 'mobile',
-        'invite_code' => 'alphaNum|length:4,8'
+        'invite_code' => 'require|alphaNum|length:4,8'
     ];
     
     protected $message = [
@@ -28,6 +28,7 @@ class User extends Validate
         'confirm_password.confirm' => '两次输入的密码不一致',
         'email' => '邮箱格式不正确',
         'phone' => '手机号格式不正确',
+        'invite_code.require' => '邀请码不能为空',
         'invite_code.alphaNum' => '邀请码必须为字母和数字',
         'invite_code.length' => '邀请码长度必须为4-8位'
     ];

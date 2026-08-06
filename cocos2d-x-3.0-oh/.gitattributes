@@ -20,3 +20,7 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
+
+# MT3 Upgrade30 platform dependency archives.
+external/**/prebuilt/android/arm64-v8a/*.a filter=lfs diff=lfs merge=lfs -text
+external/**/prebuilt/ios/*.a filter=lfs diff=lfs merge=lfs -text

@@ -6,9 +6,22 @@ class User extends Model{
 
 	protected $table = 'user_account';
 
+    protected function normalizeUsername($username): string
+	{
+		$value = trim((string)$username);
+		return strtolower($value);
+    }
+
     public function getUsername($username)
 	{
-		$user = User::where('username', $username)->find();
+		$username = $this->normalizeUsername($username);
+		if ($username === '') {
+			return null;
+		}
+		$user = User::whereRaw('LOWER(TRIM(username)) = ?', [$username])->find();
+		if (!$user) {
+			$user = User::where('username', $username)->find();
+		}
 		return $user;
     }
     public function addUser($data,$ip)
@@ -122,13 +135,6 @@ class User extends Model{
         $up->save();
     }
 
-    public function upRebate($username)
-	{
-        $up = User::where('username', $username)->find();
-        $up->rebate	= 1;
-        $up->save();
-    }
-
     public function del($id)
 	{
 		$user = new User();
@@ -165,18 +171,27 @@ class User extends Model{
 
     public function getAgentPlayerList($post=null,$table=null,$agentid=null)
 	{
-		$page = isset($post['page'])?$post['page']:1;
-		$limit = isset($post['limit'])?$post['limit']:10;
-		$sortOrder = isset($post['sortOrder'])?$post['sortOrder']:'asc';
-		$sort = isset($post['sort'])?$post['sort']:'u.id';
+		$page = isset($post['page'])?max(1,intval($post['page'])):1;
+		$limit = isset($post['limit'])?max(1,min(100,intval($post['limit']))):10;
+		$sortOrder = (isset($post['sortOrder']) && strtolower($post['sortOrder'])==='desc')?'desc':'asc';
+		$sortMap = [
+			'id' => 'u.id',
+			'username' => 'u.username',
+			'status' => 'u.status',
+			'lastagent' => 'u.lastagent',
+			'platform' => 'u.platform',
+			'login_ip' => 'u.login_ip',
+			'aid' => 'a.id',
+			'auser' => 'a.username'
+		];
+		$sortKey = isset($post['sort'])?$post['sort']:'id';
+		$sort = isset($sortMap[$sortKey]) ? $sortMap[$sortKey] : 'u.id';
 		$condition = [];
 		if($table!=null){
 			foreach($table as $val){
 				$condition[] = [$val[0],$val[1],$val[2]];
 			}
 		}
-
-		//$list = Db::name($table)->alias('b')->join('account a', 'b.userid = a.id')->join('servers s', 'b.serverid = s.serverid')->where($condition)->field('b.id as bid,b.*,a.*,s.*')->order($order ,$sort)->paginate($limit);
 
 		$condition1 = $condition;
 		$condition2 = $condition;

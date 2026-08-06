@@ -21,7 +21,11 @@
 
 #include "ConnectGetServerInfo.h"
 #include "GameApplication.h"
+#if defined(MT3_COCOS2D_X_3)
+#import "platform/ios/CCEAGLView.h"
+#else
 #include "EAGLView.h"
+#endif
 
 int prewTag=0;   //0为初始值，1为向上推中
 float prewMoveY=0.0f;
@@ -49,6 +53,7 @@ float prewMoveY=0.0f;
 
 - (void) traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
 {
+#if !defined(MT3_COCOS2D_X_3)
     if ([self respondsToSelector:@selector(traitCollection)] &&
         [self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &&
         self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
@@ -59,6 +64,7 @@ float prewMoveY=0.0f;
             view.forceTouchEnable = true;
         }
     }
+#endif
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

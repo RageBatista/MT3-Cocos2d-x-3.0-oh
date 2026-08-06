@@ -1,250 +1,124 @@
-# API 接口文档 - Login 应用
+# API 接口文档 - Login（源码对齐版）
 
-> 更新时间：2026-03-01
-> 说明：本文档基于代码分析生成，与当前仓库对齐。
+> 更新时间：2026-04-10  
+> 应用定位：历史授权兼容入口（当前主链路为 `player/*`）
 
-## 目录
+## 1. 路由口径
 
-- [1. 模块概述](#1-模块概述)
-- [2. Auth 控制器](#2-auth-控制器)
-- [3. Index 控制器](#3-index-控制器)
-- [4. User 控制器](#4-user-控制器)
-- [5. 错误码说明](#5-错误码说明)
+Login 应用存在两类入口：
 
----
+1. 显式兼容重定向（定义在 `route/player.php`）  
+2. 隐式控制器路由（开发环境 `url_route_must=false` 时 `/login/{controller}/{action}` 可达；生产环境走显式重定向）
 
-## 1. 模块概述
+说明：当路径命中显式重定向时，优先走重定向，不会进入 Login 控制器对应方法。
 
-Login 应用提供管理员/代理登录入口和玩家CDK授权功能。
+## 2. Index 控制器（后台登录）
 
-**路由前缀**：`/login`
+控制器：[`../../app/login/controller/Index.php`](../../app/login/controller/Index.php)
 
-**控制器映射**：
+### 2.1 登录页
 
-| 控制器 | 路径 | 说明 |
-|--------|------|------|
-| [`Auth`](#2-auth-控制器) | `app/login/controller/Auth.php` | CDK授权与玩家认证 |
-| [`Index`](#3-index-控制器) | `app/login/controller/Index.php` | 管理员/代理登录 |
-| [`User`](#4-user-控制器) | `app/login/controller/User.php` | 玩家账号登录 |
+- 路径：`GET /login/index/index`
 
----
+### 2.2 登录提交
 
-## 2. Auth 控制器
+- 路径：`POST /login/index/submit`
+- 参数：
+  - `username`
+  - `password`
+  - `captcha`（`verify_step=1` 时必填）
+  - `verify_step`（`1|2`）
+  - `super_admin_key`（超管二次验证）
+  - `csrf_token`
+- 关键行为：
+  1. 强制 CSRF 校验
+  2. 超管第一步返回 `code=99` 提示二次验证
+  3. 鉴权成功后写入 `player_admin_*` 与兼容 Session 键
 
-**控制器位置**：[`app/login/controller/Auth.php`](../../app/login/controller/Auth.php)
+## 3. User 控制器（历史账号登录）
 
-### 2.1 授权页面
+控制器：[`../../app/login/controller/User.php`](../../app/login/controller/User.php)
 
-- **路径**：`GET /login/auth/index` 或 `GET /login/auth/auth`
-- **功能**：显示CDK授权页面
-- **鉴权**：无需登录
+### 3.1 页面
 
-### 2.2 用户登录页面
+- 路径：`GET /login/user/index`
 
-- **路径**：`GET /login/auth/userLogin`
-- **功能**：显示玩家账号密码登录页面
-- **鉴权**：无需登录
+### 3.2 提交
 
-### 2.3 用户登录提交
+- 路径：`POST /login/user/submit`
+- 参数：
+  - `username`
+  - `password`
+  - `serverid`（可选）
+- 关键行为：
+  1. 受 `player.auth_enabled` 开关控制
+  2. 登录成功后写入 `auth_*` 会话（`auth_uid/auth_serverid/auth_cdk...`）
 
-- **路径**：`POST /login/auth/userLoginSubmit`
-- **功能**：玩家账号密码登录
-- **鉴权**：无需登录
-- **请求参数**：
+## 4. Auth 控制器（历史 CDK/GM 入口）
 
-| 参数名 | 类型 | 必填 | 说明 |
-|--------|------|------|------|
-| username | string | 是 | 用户名（6-18位字母数字） |
-| password | string | 是 | 密码（6-18位字母数字） |
-| serverid | string | 否 | 服务器ID |
+控制器：[`../../app/login/controller/Auth.php`](../../app/login/controller/Auth.php)
 
-- **响应示例**：
-```json
-// 成功
-{"code": 1, "msg": "登录成功"}
+### 4.1 页面与账号登录
 
-// 失败
-{"code": 0, "msg": "账号或密码错误"}
-```
+- `GET /login/auth/index`
+- `GET /login/auth/auth`
+- `GET /login/auth/userLogin`
+- `POST /login/auth/userLoginSubmit`
 
-### 2.4 获取服务器列表
+### 4.2 CDK 授权链路
 
-- **路径**：`GET /login/auth/getServers`
-- **功能**：获取可用服务器列表
-- **鉴权**：无需登录（需开启授权功能）
-- **响应示例**：
-```json
-{
-  "code": 1,
-  "data": [
-    {"serverid": 1, "name": "服务器1", "groupname": "分组A"}
-  ]
-}
-```
+- `GET /login/auth/getServers`
+- `POST /login/auth/authSubmit`
+- `POST /login/auth/authExisting`
+- `GET /login/auth/authSuccess`
+- `GET /login/auth/dashboard`
+- `GET /login/auth/logout`
 
-### 2.5 CDK授权提交
+授权相关参数：
 
-- **路径**：`POST /login/auth/authSubmit`
-- **功能**：提交CDK授权信息
-- **鉴权**：无需登录（需开启授权功能）
-- **请求参数**：
+- `uid`：游戏角色ID
+- `cdk`：CDK（16/20位）
+- `authpass`：授权密码
+- `serverid`：区组标识（兼容 `serverid/主键id/gmport`）
 
-| 参数名 | 类型 | 必填 | 说明 |
-|--------|------|------|------|
-| serverid | string | 是 | 服务器ID |
-| authpass | string | 否 | 授权密码 |
-| uid | int | 是 | 玩家UID |
-| cdk | string | 是 | CDK激活码 |
+### 4.3 历史发放能力（兼容）
 
-- **响应示例**：
-```json
-// 成功（首次绑定）
-{"code": 1, "msg": "授权成功（首次绑定）"}
+- `POST /login/auth/getItemList`
+- `POST /login/auth/prepareOp`
+- `POST /login/auth/sendItem`
+- `POST /login/auth/rechargeXianyu`
 
-// 失败
-{"code": 0, "msg": "CDK不存在"}
-```
+签名约束：
 
-### 2.6 授权成功页面
+1. `prepareOp` 返回 `ts`、`sig`
+2. 真正执行时需提交 `op_ts`、`op_sig`
+3. `sendItem` 需 `item_token` + `number`
+4. `rechargeXianyu` 需 `number`
 
-- **路径**：`GET /login/auth/authSuccess`
-- **功能**：显示授权成功信息
-- **鉴权**：需要Session中的授权信息
+## 5. 显式兼容重定向（当前生效）
 
-### 2.7 已有授权登录
+以下路径在 `route/player.php` 中已定义重定向：
 
-- **路径**：`POST /login/auth/authExisting`
-- **功能**：使用已有授权记录登录
-- **鉴权**：无需登录（需开启授权功能）
-- **请求参数**：
-
-| 参数名 | 类型 | 必填 | 说明 |
-|--------|------|------|------|
-| uid | int | 是 | 玩家UID |
-| authpass | string | 是 | 授权密码 |
-| serverid | string | 否 | 服务器ID |
-
-- **响应示例**：
-```json
-// 成功
-{"code": 1, "msg": "登录成功（已有授权）"}
-
-// 失败
-{"code": 0, "msg": "授权密码不正确"}
-```
-
-### 2.8 控制面板
-
-- **路径**：`GET /login/auth/dashboard`
-- **功能**：显示授权用户控制面板
-- **鉴权**：需要Session中的授权信息
-
-### 2.9 退出登录
-
-- **路径**：`GET /login/auth/logout`
-- **功能**：清除授权Session并跳转授权页
-- **鉴权**：无需登录
-
----
-
-## 3. Index 控制器
-
-**控制器位置**：[`app/login/controller/Index.php`](../../app/login/controller/Index.php)
-
-### 3.1 登录页面
-
-- **路径**：`GET /login/index/index`
-- **功能**：显示管理员/代理登录页面
-- **鉴权**：无需登录
-
-### 3.2 登录提交
-
-- **路径**：`POST /login/index/submit`
-- **功能**：管理员/代理登录验证
-- **鉴权**：无需登录
-- **请求参数**：
-
-| 参数名 | 类型 | 必填 | 说明 |
-|--------|------|------|------|
-| username | string | 是 | 用户名（6-18位字母数字） |
-| password | string | 是 | 密码（6-18位字母数字） |
-| captcha | string | 是 | 验证码 |
-| super_admin_key | string | 否 | 超级管理员二次验证密钥 |
-| verify_step | string | 否 | 验证步骤（默认"1"） |
-| csrf_token | string | 是 | CSRF令牌 |
-
-- **响应示例**：
-```json
-// 成功
-{"code": 1, "msg": "登录成功"}
-
-// 失败
-{"code": 0, "msg": "验证码不正确"}
-```
-
----
-
-## 4. User 控制器
-
-**控制器位置**：[`app/login/controller/User.php`](../../app/login/controller/User.php)
-
-### 4.1 用户登录页面
-
-- **路径**：`GET /login/user/index`
-- **功能**：显示玩家登录页面
-- **鉴权**：无需登录
-
-### 4.2 用户登录提交
-
-- **路径**：`POST /login/user/submit`
-- **功能**：玩家账号密码登录
-- **鉴权**：无需登录（需开启授权功能）
-- **请求参数**：
-
-| 参数名 | 类型 | 必填 | 说明 |
-|--------|------|------|------|
-| username | string | 是 | 用户名（6-18位字母数字） |
-| password | string | 是 | 密码（6-18位字母数字） |
-| serverid | string | 否 | 服务器ID |
-
-- **响应示例**：
-```json
-// 成功
-{"code": 1, "msg": "登录成功"}
-
-// 失败
-{"code": 0, "msg": "账号或密码错误"}
-```
-
----
-
-## 5. 错误码说明
-
-| 错误码 | 说明 |
-|--------|------|
-| 0 | 操作失败（具体原因见msg字段） |
-| 1 | 操作成功 |
-
-### 常见错误信息
-
-| 错误信息 | 说明 |
-|----------|------|
-| 玩家授权功能未开启 | `config('player.auth_enabled')` 为 false |
-| 账号格式不正确 | 用户名不符合6-18位字母数字格式 |
-| 密码格式不正确 | 密码不符合6-18位字母数字格式 |
-| 账号或密码错误 | 用户名不存在或密码不匹配 |
-| 账号已被禁用 | 用户status字段不为1 |
-| 暂无可用大区 | 未配置有效服务器 |
-| CDK格式不正确 | CDK不符合16或20位字母数字格式 |
-| CDK不存在 | 数据库中未找到该CDK |
-| CDK已使用 | CDK状态为已使用 |
-| 验证码不正确 | 图形验证码校验失败 |
-
----
-
-## 6. 相关文档
-
-- [API接口文档-公共](02-API接口文档-公共.md)
-- [API接口文档-Player](02-API接口文档-Player.md)
-- [安全机制说明](04-安全机制说明.md)
-- [配置文件说明](03-配置文件说明.md)
+- `GET /login/auth` -> `/player/cdk/index`
+- `GET /login/auth/auth` -> `/player/cdk/index`
+- `GET /login/auth/dashboard` -> `/player/cdk/dashboard`
+- `GET /login/auth/senditem` -> `/player/cdk/senditem`
+- `GET /login/auth/sendItem` -> `/player/cdk/senditem`
+- `GET /login/auth/senditem/index` -> `/player/cdk/senditem`
+- `GET /login/auth/logout` -> `/player/cdk/logout`
+- `GET /login/auth/success` -> `/player/cdk/dashboard`
+- `GET /login/index` -> `/player/admin/login`
+- `GET /login/user` -> `/player/cdk/index`
+- `POST /login/index/submit` -> `/player/admin/doLogin`
+
+## 6. 已知限制
+
+1. Login 模块是兼容层，新增接入应优先使用 `player/*`。  
+2. `Auth` 发放接口依赖 `OP_SECRET_SALT` 与授权会话，不建议对外直接暴露。  
+3. `Login` 与 `Player` 存在并行会话语义，联调时需明确是“账号登录态”还是“CDK 授权态”。
+
+## 7. 相关文档
+
+- [API接口文档-Player](./02-API接口文档-Player.md)
+- [API接口文档-公共](./02-API接口文档-公共.md)
+- [安全机制说明](./04-安全机制说明.md)

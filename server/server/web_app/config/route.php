@@ -13,7 +13,12 @@ return [
     // 是否开启路由延迟解析
     'url_lazy_route'        => false,
     // 是否强制使用路由
-    'url_route_must'        => false,
+    // 生产默认强制显式路由；可通过 ROUTE_MUST 显式覆盖
+    'url_route_must'        => in_array(
+        strtolower((string)env('ROUTE_MUST', env('APP_ENV', 'production') === 'production' ? '1' : '0')),
+        ['1', 'true', 'on', 'yes'],
+        true
+    ),
     // 合并路由规则
     'route_rule_merge'      => false,
     // 路由是否完全匹配
@@ -27,9 +32,9 @@ return [
     // 默认的路由变量规则
     'default_route_pattern' => '[\w\.]+',
     // 是否开启请求缓存 true自动缓存 支持设置请求缓存规则
-    'request_cache_key'     => false,
+    'request_cache_key'     => env('REQUEST_CACHE_KEY', false),
     // 请求缓存有效期
-    'request_cache_expire'  => null,
+    'request_cache_expire'  => intval(env('REQUEST_CACHE_EXPIRE', 30)),
     // 全局请求缓存排除规则
     'request_cache_except'  => [],
     // 默认控制器名

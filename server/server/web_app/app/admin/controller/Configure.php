@@ -12,6 +12,33 @@ use app\model\PayChannel as PC;
 
 class Configure extends BaseController
 {
+    private function resolveNoticeFilePath(): string
+    {
+		$root = rtrim(app()->getRootPath(), DIRECTORY_SEPARATOR);
+		$serverDir = $root . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'server';
+		$phpPath = $serverDir . DIRECTORY_SEPARATOR . 'notice.php';
+		$htmlPath = $serverDir . DIRECTORY_SEPARATOR . 'notice.html';
+		if (is_file($phpPath)) {
+			return $phpPath;
+		}
+		if (is_file($htmlPath)) {
+			return $htmlPath;
+		}
+		return $phpPath;
+    }
+
+    private function ensureNoticeFileReady(string $filePath): bool
+    {
+		$dir = dirname($filePath);
+		if (!is_dir($dir) && !@mkdir($dir, 0755, true) && !is_dir($dir)) {
+			return false;
+		}
+		if (!is_file($filePath) && @file_put_contents($filePath, '') === false) {
+			return false;
+		}
+		return true;
+    }
+
     public function serverConfig()
     {
         return view('server_config',['title'=>$this->config['server_title']]);
@@ -288,14 +315,11 @@ class Configure extends BaseController
 	
     public function noticeConfig()
     {
-		$file_path = app()->getRootPath() ."public/server/notice.html";
-		$file = fopen($file_path, "r");
-		$str = null;
-		while(!feof($file)) {
-			$line = fgets($file);
-			$str .= $line;
+		$file_path = $this->resolveNoticeFilePath();
+		if (!$this->ensureNoticeFileReady($file_path)) {
+			return notify(0, '公告文件目录不可写，请检查/public/server权限');
 		}
-		fclose($file);
+		$str = (string)file_get_contents($file_path);
         return view('notice_config',['str'=>$str]);
     }
     public function upNotice()
@@ -305,14 +329,16 @@ class Configure extends BaseController
 		if (!$this->checkToken($post['csrf_token'] ?? '')) {
 			return notify(0, '非法请求：CSRF令牌无效');
 		}
-		$file_path = app()->getRootPath() ."public/server/notice.html";
+		$file_path = $this->resolveNoticeFilePath();
+		if (!$this->ensureNoticeFileReady($file_path)) {
+			return notify(0, '公告文件目录不可写，请检查/public/server权限');
+		}
 		$notice = $post['notice'];
-        //打开文件
-        $openFile = fopen($file_path,"w");
-        fwrite($openFile, $notice);
-        fclose($openFile);
+		if (@file_put_contents($file_path, (string)$notice) === false) {
+			return notify(0, '公告保存失败，请检查文件写入权限');
+		}
 		return notify(1,'保存成功');
-	}
+		}
 	
     public function payConfig()
     {

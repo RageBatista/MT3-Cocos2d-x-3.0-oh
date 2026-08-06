@@ -23,7 +23,7 @@
 					</header>
 					<div class="card-body">
 						<div class="card-search mb-2-5">
-							<form class="search-form" method="get" action="#!" role="form">
+							<form class="search-form" onsubmit="return false;" role="form">
 
 								<div class="row">
 									<div class="col-md-4">
@@ -114,6 +114,19 @@
 			Toast.fire({ icon: icon, title: title });
 		}
 
+		var searchDefaults = {
+			username: '',
+			lastagent: '0'
+		};
+
+		if (window.lyearSearchState && typeof lyearSearchState.apply === 'function') {
+			lyearSearchState.apply(searchDefaults);
+		}
+		$('.search-form').on('submit', function (event) {
+			event.preventDefault();
+			searchPlayer();
+		});
+
 		/**
 		 * 分页相关的配置
 		 **/
@@ -158,7 +171,7 @@
 		/**
 		 * 表格相关的配置
 		 **/
-		var table = {
+		var table = Object.assign({}, icon, pagination, button, {
 			classes: 'table table-bordered table-hover table-striped lyear-table',
 			url: '/index.php?s=/{$app}/player/list_table',
 			uniqueId: 'id',
@@ -176,11 +189,8 @@
 			showPaginationSwitch: true,
 			totalField: 'total',
 			undefinedText: '-',
-			sortOrder: "asc",
-			...icon,
-			...pagination,
-			...button
-		};
+			sortOrder: "asc"
+		});
 
 		/**
 		 * 列信息
@@ -225,7 +235,7 @@
 			align: 'center',
 			title: '查看角色',
 			formatter: function (value, row) {
-				return '<a href="/index.php?s=/{$app}/player/bindlist/selected/1&username=' + encodeURIComponent(row.username) + '&playerid=&playername="><span class="btn btn-primary">点击查看</span></a>';
+				return '<a href="/index.php?s=/{$app}/player/bindlist/selected/1&username=' + encodeURIComponent(row.username) + '"><span class="btn btn-primary">点击查看</span></a>';
 			}
 		}, {
 			field: 'status',
@@ -312,8 +322,7 @@
 			});
 		}
 
-		$('table').bootstrapTable({
-			...table,
+		$('table').bootstrapTable(Object.assign({}, table, {
 			queryParams: function (params) {
 				return {
 					limit: params.limit,
@@ -325,19 +334,28 @@
 					lastagent: $('select[name="lastagent"]').val()
 				};
 			},
-			columns,
+			columns: columns,
 			onLoadSuccess: function (data) {
 				$("[data-bs-toggle='tooltip']").tooltip();
 			}
-		});
+		}));
 
 		function searchPlayer() {
+			if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+				lyearSearchState.sync({
+					username: $('input[name="username"]').val(),
+					lastagent: $('select[name="lastagent"]').val()
+				}, searchDefaults);
+			}
 			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
 		}
 
 		function resetPlayerSearch() {
 			$('input[name="username"]').val('');
 			$('select[name="lastagent"]').val('0');
+			if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+				lyearSearchState.sync(searchDefaults, searchDefaults);
+			}
 			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
 		}
 

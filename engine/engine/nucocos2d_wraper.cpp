@@ -467,7 +467,11 @@ namespace Nuclear
         {
             char buf[256];
             sprintf(buf, "EngineLayer::draw #%d enter\n", sDrawCount);
+#if defined(WIN32) || defined(_WIN32)
             OutputDebugStringA(buf);
+#else
+            LOGI("%s", buf);
+#endif
         }
 
         Layer::draw(renderer, transform, transformUpdated);

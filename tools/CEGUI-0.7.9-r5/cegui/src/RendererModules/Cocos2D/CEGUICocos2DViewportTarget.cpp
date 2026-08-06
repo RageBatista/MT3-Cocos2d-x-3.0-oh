@@ -4,7 +4,7 @@
 #include "CEGUIGeometryBuffer.h"
 #include "CEGUIExceptions.h"
 
-#include "2d/platform/win32/CCGL.h"
+#include "RendererModules/Cocos2D/CEGUICocos2DGL.h"
 
 namespace CEGUI
 {

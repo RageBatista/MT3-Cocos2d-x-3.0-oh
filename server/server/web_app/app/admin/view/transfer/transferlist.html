@@ -19,7 +19,7 @@
           </header>
           <div class="card-body">
             <div class="card-search mb-2-5">
-              <form class="search-form" method="get" action="#!" role="form">
+              <form class="search-form" onsubmit="return false;" role="form">
                 <div class="row">
                   <div class="col-md-3">
                     <div class="row">
@@ -71,8 +71,8 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary me-1">搜索</button>
-                    <button type="reset" class="btn btn-default">重置</button>
+                    <button type="button" class="btn btn-primary me-1" onclick="searchTransfer()">搜索</button>
+                    <button type="button" class="btn btn-default" onclick="resetTransferSearch()">重置</button>
                   </div>
                 </div>
               </form>
@@ -99,6 +99,19 @@
   <script src="__MB__/alert/sweetalert2.all.min.js"></script>
 
   <script>
+    var searchDefaults = {
+      keyword: '',
+      status: '',
+      source_server_id: '',
+      target_server_id: ''
+    };
+
+    lyearSearchState.apply(searchDefaults);
+    $('.search-form').on('submit', function (event) {
+      event.preventDefault();
+      searchTransfer();
+    });
+
     // 构建服务器名称映射
     var serverMap = {};
     {volist name = "servers" id = "server" }
@@ -242,7 +255,11 @@
           offset: params.offset,
           page: (params.offset / params.limit) + 1,
           sort: params.sort,
-          sortOrder: params.order
+          sortOrder: params.order,
+          keyword: $('input[name="keyword"]').val(),
+          status: $('select[name="status"]').val(),
+          source_server_id: $('select[name="source_server_id"]').val(),
+          target_server_id: $('select[name="target_server_id"]').val()
         };
       },
       columns,
@@ -250,6 +267,25 @@
         $("[data-bs-toggle='tooltip']").tooltip();
       }
     });
+
+    function searchTransfer() {
+      lyearSearchState.sync({
+        keyword: $('input[name="keyword"]').val(),
+        status: $('select[name="status"]').val(),
+        source_server_id: $('select[name="source_server_id"]').val(),
+        target_server_id: $('select[name="target_server_id"]').val()
+      }, searchDefaults);
+      $('#table').bootstrapTable('refresh', { pageNumber: 1 });
+    }
+
+    function resetTransferSearch() {
+      $('input[name="keyword"]').val('');
+      $('select[name="status"]').val('');
+      $('select[name="source_server_id"]').val('');
+      $('select[name="target_server_id"]').val('');
+      lyearSearchState.sync(searchDefaults, searchDefaults);
+      $('#table').bootstrapTable('refresh', { pageNumber: 1 });
+    }
   </script>
 
 </body>

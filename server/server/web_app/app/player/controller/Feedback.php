@@ -91,10 +91,15 @@ class Feedback extends BaseController
             return notify(0, '角色不存在');
         }
 
+        $now = date('Y-m-d H:i:s');
         $feedbackData = [
+            'uid' => intval($player['id'] ?? 0),
+            'username' => (string)($player['username'] ?? ''),
             'role' => $roleId,
             'info' => $content,
-            'time' => date('Y-m-d H:i:s')
+            'time' => $now,
+            'created_at' => $now,
+            'updated_at' => $now
         ];
 
         try {
@@ -135,4 +140,3 @@ class Feedback extends BaseController
         return $result;
     }
 }
-

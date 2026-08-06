@@ -58,94 +58,91 @@ class PlayerSecurity
     }
     
     /**
-     * 检查请求频率限制
+     * 检查请求频率限制（Redis Sorted Set 滑动窗口，原子操作）
      * @param string $ip IP地址
      */
     private function checkRequestRateLimit($ip)
     {
         try {
             $cache = Cache::store('redis');
-            $key = 'request_rate:' . $ip;
-            
-            // 获取当前时间窗口内的请求数
-            $currentTime = time();
-            $windowStart = $currentTime - 60; // 1分钟窗口
-            
-            $requests = $cache->get($key, []);
-            
-            // 清理过期的请求记录
-            $requests = array_filter($requests, function($timestamp) use ($windowStart) {
-                return $timestamp > $windowStart;
-            });
-            
-            // 添加当前请求
-            $requests[] = $currentTime;
-            
-            // 检查是否超过限制（1分钟内最多60个请求）
-            if (count($requests) > 60) {
-                // 标记为可疑IP
+            $redis = $cache->handler();
+            $key   = 'req_rate:' . $ip;
+            $now   = microtime(true) * 1000; // 毫秒时间戳，精度更高
+            $windowMs  = 60 * 1000;          // 1分钟窗口（毫秒）
+            $threshold = 60;                  // 1分钟内最多60个请求
+
+            // Lua 脚本：原子滑动窗口（Sorted Set）
+            // 1. 移除窗口外的旧记录
+            // 2. 统计当前窗口内请求数
+            // 3. 添加本次请求（score=now，member=now+random防重复）
+            // 4. 设置 key 过期时间
+            // 返回：滑动窗口内请求计数
+            $luaScript = <<<'LUA'
+local key     = KEYS[1]
+local now     = tonumber(ARGV[1])
+local window  = tonumber(ARGV[2])
+local member  = ARGV[3]
+redis.call('ZREMRANGEBYSCORE', key, 0, now - window)
+local cnt = redis.call('ZCARD', key)
+redis.call('ZADD', key, now, member)
+redis.call('PEXPIRE', key, window + 1000)
+return cnt
+LUA;
+            // member 加随机后缀避免相同毫秒内的请求被 ZADD 覆盖
+            $member = $now . '_' . mt_rand(0, 9999);
+            $count  = (int)$redis->eval($luaScript, [$key, $now, $windowMs, $member], 1);
+
+            if ($count > $threshold) {
                 $suspiciousKey = 'suspicious_ip:' . $ip;
-                $suspiciousCount = $cache->get($suspiciousKey, 0);
-                
+                $suspiciousCount = (int)($redis->get($suspiciousKey) ?? 0);
                 Log::warning('Request rate limit exceeded', [
-                    'ip' => $ip,
-                    'request_count' => count($requests),
-                    'suspicious_count' => $suspiciousCount,
-                    'user_agent' => Request::header('user-agent')
+                    'ip'              => $ip,
+                    'request_count'   => $count,
+                    'suspicious_count'=> $suspiciousCount,
+                    'user_agent'      => Request::header('user-agent'),
                 ]);
-                
-                // 按需求关闭玩家端IP封禁拦截：仅记录可疑计数，不再拉黑IP
-                $cache->set($suspiciousKey, $suspiciousCount + 1, 300);
+                $redis->set($suspiciousKey, $suspiciousCount + 1, ['ex' => 300]);
             }
-            
-            // 保存请求记录
-            $cache->set($key, $requests, 120);
         } catch (\Exception $e) {
-            // Redis不可用时的降级方案：使用文件缓存
-            $key = 'request_rate:' . $ip;
+            // Redis 不可用时降级：文件缓存计数，LOCK_EX 保障单写
+            $key      = 'req_rate:' . $ip;
             $cacheDir = runtime_path('cache' . DIRECTORY_SEPARATOR . 'player');
             if (!is_dir($cacheDir)) {
                 mkdir($cacheDir, 0755, true);
             }
             $cacheFile = $cacheDir . DIRECTORY_SEPARATOR . md5($key) . '.json';
-            
+
             $data = ['requests' => [], 'suspicious_count' => 0];
             if (file_exists($cacheFile)) {
-                // 使用JSON解码替代include，避免安全风险
                 $cachedData = json_decode(file_get_contents($cacheFile), true);
                 if (is_array($cachedData)) {
                     $data = $cachedData;
                 }
             }
-            
-            // 获取当前时间窗口内的请求数
+
             $currentTime = time();
             $windowStart = $currentTime - 60;
-            
-            // 清理过期的请求记录
-            $data['requests'] = array_filter($data['requests'], function($timestamp) use ($windowStart) {
-                return $timestamp > $windowStart;
-            });
-            
-            // 添加当前请求
+            $data['requests'] = array_values(array_filter(
+                $data['requests'],
+                fn($t) => $t > $windowStart
+            ));
             $data['requests'][] = $currentTime;
-            
-            // 检查是否超过限制
+
             if (count($data['requests']) > 60) {
                 Log::warning('Request rate limit exceeded (file cache)', [
-                    'ip' => $ip,
-                    'request_count' => count($data['requests']),
-                    'suspicious_count' => $data['suspicious_count'],
-                    'user_agent' => Request::header('user-agent')
+                    'ip'              => $ip,
+                    'request_count'   => count($data['requests']),
+                    'suspicious_count'=> $data['suspicious_count'],
+                    'user_agent'      => Request::header('user-agent'),
                 ]);
-                
-                // 按需求关闭玩家端IP封禁拦截：仅记录可疑计数，不再拉黑IP
                 $data['suspicious_count']++;
             }
-            
-            // 保存请求记录（使用JSON序列化替代var_export，避免安全问题）
-            $content = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            file_put_contents($cacheFile, $content, LOCK_EX);
+
+            file_put_contents(
+                $cacheFile,
+                json_encode($data, JSON_UNESCAPED_UNICODE),
+                LOCK_EX
+            );
         }
     }
 }

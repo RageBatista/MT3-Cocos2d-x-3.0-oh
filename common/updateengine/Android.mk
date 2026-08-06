@@ -22,13 +22,16 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../platform \
 	$(LOCAL_PATH)/../platform/android \
 	$(LOCAL_PATH)/../ljfm/code/include \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/extensions \
-	$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx/platform \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/base \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/network \
+	$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/2d/platform \
 
 
 LOCAL_WHOLE_STATIC_LIBRARIES := \
 	platform_static \
- 	ljfm_static \
+	ljfm_static \
+	cocos_network_static \
 
 ifneq ($(TARGET_ARCH_ABI),arm64-v8a)
 LOCAL_WHOLE_STATIC_LIBRARIES += xmlio_static

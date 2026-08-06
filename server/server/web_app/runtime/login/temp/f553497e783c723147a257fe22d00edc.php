@@ -1,4 +1,4 @@
-<?php /*a:1:{s:52:"/www/wwwroot/web_app/app/login/view/index/index.html";i:1772268863;}*/ ?>
+<?php /*a:1:{s:52:"/www/wwwroot/web_app/app/login/view/index/index.html";i:1777196146;}*/ ?>
 <html lang="zh">
 
 <head>
@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 	<meta name="author" content="yinq">
 	<title>登录 - <?php echo htmlentities($config['name']); ?></title>
-	<link rel="shortcut icon" type="image/x-icon" href="/static/template/favicon.ico">
+	<link rel="icon" href="<?php echo htmlentities($config['logo']); ?>">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-touch-fullscreen" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -54,7 +54,7 @@
 			<a href="#"> <img alt="light year admin" src="<?php echo htmlentities($config['logo']); ?>"> </a>
 		</div>
 
-		<form action="/index.php?s=/login/index/submit" method="post" class="signin-form needs-validation" novalidate>
+		<form action="/login/index/submit" method="post" class="signin-form needs-validation" novalidate>
 			<input type="hidden" name="csrf_token" value="<?php echo htmlentities($csrf_token); ?>" />
 			<div class="mb-3 has-feedback">
 				<span class="mdi mdi-account" aria-hidden="true"></span>
@@ -112,8 +112,9 @@
 				return false;
 			}
 			var $data = $(this).serialize();
+			var submitUrl = $(this).attr('action');
 
-			$.post($(this).attr('action'), $data, function (res) {
+			$.post(submitUrl, $data, function (res) {
 				// 超级管理员需要二次验证 (code=99)
 				if (res.code == 99) {
 					// 弹出二次验证对话框
@@ -138,7 +139,7 @@
 						if (result.isConfirmed) {
 							// 用户输入了验证密钥，提交二次验证
 							var verifyData = $data + '&super_admin_key=' + encodeURIComponent(result.value) + '&verify_step=2';
-							$.post('/index.php?s=/login/index/submit', verifyData, function (verifyRes) {
+							$.post(submitUrl, verifyData, function (verifyRes) {
 								if (verifyRes.code == 1) {
 									var Toast = Swal.mixin({
 										toast: true,

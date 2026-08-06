@@ -129,11 +129,16 @@ if (!function_exists('generatePlayerToken')) {
             $weakSaltWarned = true;
         }
         
+        $userId = (int)$user['id'];
         $timestamp = time();
-        $data = $user['id'] . '|' . $user['username'] . '|' . $timestamp;
+
+        // P3安全增强：写入/刷新 token 版本号到 Redis，用于 Token 吊销
+        $version = _getOrCreateTokenVersion($userId);
+
+        $data = $userId . '|' . $user['username'] . '|' . $timestamp . '|' . $version;
         $token = hash('sha256', $data . $secret);
         
-        return $token . '.' . $timestamp;
+        return $token . '.' . $timestamp . '.' . $version;
     }
 }
 
@@ -154,24 +159,28 @@ if (!function_exists('verifyPlayerToken')) {
             return false;
         }
         
-        // 分离Token和时间戳
+        // 分离Token、时间戳、版本号（新格式: hash.timestamp.version）
         $parts = explode('.', $token);
-        if (count($parts) != 2) {
+        $partsCount = count($parts);
+
+        // 兼容旧格式（2段：无版本号）和新格式（3段：含版本号）
+        if ($partsCount < 2 || $partsCount > 3) {
             \think\facade\Log::warning('verifyPlayerToken: invalid token format', [
-                'parts_count' => count($parts),
+                'parts_count' => $partsCount,
                 'user_id' => $user['id'] ?? 'unknown'
             ]);
             return false;
         }
         
         $tokenPart = $parts[0];
-        $timestamp = $parts[1];
+        $timestamp  = $parts[1];
+        $version    = $partsCount === 3 ? (int)$parts[2] : null;
         
         // 验证Token时效性（24小时有效）
-        if (time() - $timestamp > 86400) {
+        if (time() - (int)$timestamp > 86400) {
             \think\facade\Log::warning('verifyPlayerToken: token expired', [
                 'user_id' => $user['id'] ?? 'unknown',
-                'token_age' => time() - $timestamp,
+                'token_age' => time() - (int)$timestamp,
                 'max_age' => 86400
             ]);
             return false;
@@ -186,8 +195,28 @@ if (!function_exists('verifyPlayerToken')) {
             ]);
             return false;
         }
-        
-        $data = $user['id'] . '|' . $user['username'] . '|' . $timestamp;
+
+        // P3安全增强：版本号校验（新格式 token 才做版本校验，兼容旧格式平滑过渡）
+        if ($version !== null) {
+            $userId = (int)($user['id'] ?? 0);
+            $currentVersion = _getOrCreateTokenVersion($userId);
+            if ($version !== $currentVersion) {
+                \think\facade\Log::warning('verifyPlayerToken: token version mismatch (revoked)', [
+                    'user_id'        => $userId,
+                    'token_version'  => $version,
+                    'current_version'=> $currentVersion,
+                ]);
+                return false;
+            }
+            $data = $user['id'] . '|' . $user['username'] . '|' . $timestamp . '|' . $version;
+        } else {
+            // 旧格式兼容：无版本号，不做版本校验，但记录警告
+            \think\facade\Log::info('verifyPlayerToken: legacy token format (no version), skip revocation check', [
+                'user_id' => $user['id'] ?? 'unknown',
+            ]);
+            $data = $user['id'] . '|' . $user['username'] . '|' . $timestamp;
+        }
+
         $expectedToken = hash('sha256', $data . $secret);
         
         $result = hash_equals($expectedToken, $tokenPart);
@@ -202,6 +231,71 @@ if (!function_exists('verifyPlayerToken')) {
         }
         
         return $result;
+    }
+}
+
+/**
+ * 获取或初始化玩家 Token 版本号（内部辅助函数）
+ * 版本号存储于 Redis，key 格式：token_version:{userId}
+ * 默认 TTL 30天，用户主动吊销或改密时调用 invalidatePlayerTokens() 递增
+ * @param int $userId
+ * @return int 当前版本号
+ */
+if (!function_exists('_getOrCreateTokenVersion')) {
+    function _getOrCreateTokenVersion(int $userId): int
+    {
+        $key = 'token_version:' . $userId;
+        $ttl = 86400 * 30; // 30天
+        try {
+            $cache = Cache::store('redis');
+            $ver = $cache->get($key);
+            if ($ver === null) {
+                // 首次登录：初始化版本号为1
+                $cache->set($key, 1, $ttl);
+                return 1;
+            }
+            // 刷新 TTL（每次成功登录续期）
+            $cache->set($key, (int)$ver, $ttl);
+            return (int)$ver;
+        } catch (\Exception $e) {
+            // Redis 不可用时降级：版本号固定返回0（跳过版本校验）
+            \think\facade\Log::warning('_getOrCreateTokenVersion: Redis unavailable, skip version check', [
+                'user_id' => $userId,
+                'error'   => $e->getMessage(),
+            ]);
+            return 0;
+        }
+    }
+}
+
+/**
+ * 强制吊销指定用户的所有 Token（改密、管理员封号等场景）
+ * 通过递增 Redis 中的版本号，使所有已签发的旧 Token 立即失效
+ * @param int $userId
+ */
+if (!function_exists('invalidatePlayerTokens')) {
+    function invalidatePlayerTokens(int $userId): void
+    {
+        $key = 'token_version:' . $userId;
+        $ttl = 86400 * 30;
+        try {
+            $cache = Cache::store('redis');
+            $ver = $cache->get($key, 0);
+            $newVer = (int)$ver + 1;
+            $cache->set($key, $newVer, $ttl);
+            // 同时清除用户信息缓存，强制重新加载
+            $cache->delete('player_user:' . $userId);
+            \think\facade\Log::info('invalidatePlayerTokens: token version bumped', [
+                'user_id'     => $userId,
+                'old_version' => (int)$ver,
+                'new_version' => $newVer,
+            ]);
+        } catch (\Exception $e) {
+            \think\facade\Log::error('invalidatePlayerTokens: Redis unavailable, token revocation failed', [
+                'user_id' => $userId,
+                'error'   => $e->getMessage(),
+            ]);
+        }
     }
 }
 
@@ -415,33 +509,47 @@ if (!function_exists('checkLoginRateLimit')) {
 
         try {
             $cache = Cache::store('redis');
-            $key = 'login_limit:' . $ip;
-            
-            // 检查是否被锁定
-            $lockedUntil = $cache->get($key . ':locked');
-            if ($lockedUntil && $lockedUntil > time()) {
+            $redis = $cache->handler(); // 获取底层 Redis 对象
+            $key       = 'login_limit:' . $ip;
+            $lockedKey = $key . ':locked';
+
+            // 检查是否被锁定（Redis GET，单次原子读）
+            $lockedUntil = (int)$redis->get($lockedKey);
+            if ($lockedUntil > 0 && $lockedUntil > time()) {
                 $remainingTime = $lockedUntil - time();
                 return [
                     'allowed' => false,
                     'message' => '登录尝试次数过多，请' . ceil($remainingTime / 60) . '分钟后再试'
                 ];
             }
-            
-            // 获取当前尝试次数
-            $attempts = $cache->get($key, 0);
-            
+
+            // Lua 脚本：原子执行 INCR + 首次设置 EXPIRE（消除竞争窗口）
+            // KEYS[1]=计数key  ARGV[1]=窗口TTL(秒)  ARGV[2]=最大尝试次数
+            // 返回值：当前计数
+            $luaScript = <<<'LUA'
+local cnt = redis.call('INCR', KEYS[1])
+if cnt == 1 then
+    redis.call('EXPIRE', KEYS[1], ARGV[1])
+end
+return cnt
+LUA;
+            $windowTtl = $lockTime; // 滑动窗口与锁定时间对齐
+            $attempts = $redis->eval($luaScript, [$key, $windowTtl, $maxAttempts], 1);
+
             if ($attempts >= $maxAttempts) {
-                // 锁定IP
-                $cache->set($key . ':locked', time() + $lockTime, $lockTime);
+                // 记录锁定过期时间（绝对时间戳），原子设置
+                $expireAt = time() + $lockTime;
+                $redis->set($lockedKey, $expireAt, ['ex' => $lockTime]);
                 return [
                     'allowed' => false,
                     'message' => '登录尝试次数过多，请' . ceil($lockTime / 60) . '分钟后再试'
                 ];
             }
-            
+
             return ['allowed' => true, 'message' => ''];
+
         } catch (\Exception $e) {
-            // Redis不可用时的降级方案：使用文件缓存
+            // Redis 不可用时降级：文件锁（LOCK_EX 保障单写，低频场景足够）
             $key = 'login_limit:' . $ip;
             $cacheDir = runtime_path('cache' . DIRECTORY_SEPARATOR . 'player');
             if (!is_dir($cacheDir)) {
@@ -465,8 +573,14 @@ if (!function_exists('checkLoginRateLimit')) {
                     'message' => '登录尝试次数过多，请' . ceil($remainingTime / 60) . '分钟后再试'
                 ];
             }
+
+            // 窗口过期时重置计数
+            $windowExpiry = ($data['window_start'] ?? 0) + $lockTime;
+            if (time() > $windowExpiry) {
+                $data['attempts'] = 0;
+                $data['window_start'] = time();
+            }
             
-            // 检查尝试次数
             if ($data['attempts'] >= $maxAttempts) {
                 // 锁定IP
                 $data['locked_until'] = time() + $lockTime;
@@ -497,17 +611,14 @@ if (!function_exists('recordLoginAttempt')) {
 
         try {
             $cache = Cache::store('redis');
+            $redis = $cache->handler();
             $key = 'login_limit:' . $ip;
-            
+
             if ($success) {
-                // 登录成功，清除尝试记录
-                $cache->delete($key);
-                $cache->delete($key . ':locked');
-            } else {
-                // 登录失败，增加尝试次数
-                $attempts = $cache->get($key, 0);
-                $cache->set($key, $attempts + 1, 300);
+                // 登录成功：原子删除计数键和锁定键
+                $redis->del([$key, $key . ':locked']);
             }
+            // 登录失败时：计数已由 checkLoginRateLimit() 的 Lua INCR 处理，此处无需重复递增
         } catch (\Exception $e) {
             // Redis不可用时的降级方案：使用文件缓存
             $key = 'login_limit:' . $ip;
@@ -807,24 +918,23 @@ if (!function_exists('logPlayerAction')) {
     function logPlayerAction($playerId, $action, $detail = '', $extra = [])
     {
         $log = [
-            'player_id' => $playerId,
-            'action' => $action,
-            'detail' => $detail,
-            'ip' => getPlayerIP(),
+            'trace_id'   => $_SERVER['TRACE_ID'] ?? '',   // 全链路追踪ID（由TraceId中间件注入）
+            'player_id'  => $playerId,
+            'action'     => $action,
+            'detail'     => $detail,
+            'ip'         => getPlayerIP(),
             'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
-            'extra' => json_encode($extra),
-            'created_at' => date('Y-m-d H:i:s')
+            'extra'      => json_encode($extra, JSON_UNESCAPED_UNICODE),
+            'created_at' => date('Y-m-d H:i:s'),
         ];
         
-        // 可以写入日志文件或数据库
-        // 这里使用文件日志
         $logDir = runtime_path('log' . DIRECTORY_SEPARATOR . 'player');
         if (!is_dir($logDir)) {
             mkdir($logDir, 0755, true);
         }
         
         $logFile = $logDir . DIRECTORY_SEPARATOR . date('Ymd') . '.log';
-        $logLine = json_encode($log) . PHP_EOL;
+        $logLine = json_encode($log, JSON_UNESCAPED_UNICODE) . PHP_EOL;
         file_put_contents($logFile, $logLine, FILE_APPEND);
     }
 }

@@ -4,163 +4,241 @@ namespace app\player\model;
 use think\Model;
 
 /**
- * PlayerLoginLog模型 - 玩家登录日志模型
- * 记录玩家登录日志
+ * PlayerLoginLog 模型
+ * 向后兼容 player_login_log 历史调用，当前实际写入 player_event_log
  */
 class PlayerLoginLog extends Model
 {
-    protected $table = 'player_login_log';
-    
-    protected $autoWriteTimestamp = 'datetime';
-    
-    protected $createTime = 'created_at';
-    protected $updateTime = false;
-    
-    /**
-     * 添加登录日志
-     * @param int $userId 用户ID
-     * @param string $username 用户名
-     * @param string $ip IP地址
-     * @param string $platform 平台
-     * @return bool 添加结果
-     */
+    protected $table = 'player_event_log';
+
+    private const CATEGORY = 'login';
+    private const EVENT_SUCCESS = 'login_success';
+    private const EVENT_FAILED = 'login_failed';
+
     public function addLoginLog($userId, $username, $ip, $platform = 'web')
     {
-        if (empty($userId) || $userId <= 0) {
+        $uid = intval($userId);
+        if ($uid <= 0) {
             return false;
         }
-        
-        $log = new PlayerLoginLog();
-        $log->user_id = $userId;
-        $log->username = $username;
-        $log->ip = $ip;
-        $log->platform = $platform;
-        $log->user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-        $log->status = 1; // 1: 成功, 0: 失败
-        
-        return $log->save();
+
+        return $this->writeLoginEvent($uid, (string)$username, (string)$ip, (string)$platform, true, '');
     }
-    
-    /**
-     * 添加登录失败日志
-     * @param string $username 用户名
-     * @param string $ip IP地址
-     * @param string $reason 失败原因
-     * @return bool 添加结果
-     */
+
     public function addFailedLog($username, $ip, $reason = '')
     {
-        $log = new PlayerLoginLog();
-        $log->user_id = 0;
-        $log->username = $username;
-        $log->ip = $ip;
-        $log->platform = 'web';
-        $log->user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-        $log->status = 0; // 失败
-        $log->remark = $reason;
-        
-        return $log->save();
+        return $this->writeLoginEvent(0, (string)$username, (string)$ip, 'web', false, (string)$reason);
     }
-    
-    /**
-     * 获取登录日志
-     * @param int $userId 用户ID
-     * @param int $page 页码
-     * @param int $limit 每页数量
-     * @return array 登录日志列表
-     */
+
     public function getLoginLogs($userId, $page = 1, $limit = 20)
     {
-        if (empty($userId) || $userId <= 0) {
+        $uid = intval($userId);
+        if ($uid <= 0) {
             return [];
         }
-        
-        $query = $this->where('user_id', $userId);
-        
-        $list = $query->order('id', 'desc')
+
+        $page = max(1, intval($page));
+        $limit = max(1, intval($limit));
+
+        $rows = $this->buildLoginQuery()
+            ->where('uid', $uid)
+            ->order('id', 'desc')
             ->page($page, $limit)
-            ->select();
-        
-        $total = $this->where('user_id', $userId)->count();
-        
+            ->select()
+            ->toArray();
+        $total = $this->countByUserId($uid);
+
         return [
-            'list' => $list,
+            'list' => $this->mapRowsToLegacy($rows),
             'total' => $total,
             'page' => $page,
             'limit' => $limit,
-            'pages' => ceil($total / $limit)
+            'pages' => $total > 0 ? ceil($total / $limit) : 0,
         ];
     }
-    
-    /**
-     * 获取最近的登录记录
-     * @param int $userId 用户ID
-     * @param int $limit 数量限制
-     * @return array 登录记录
-     */
+
     public function getRecentLogs($userId, $limit = 5)
     {
-        if (empty($userId) || $userId <= 0) {
+        $uid = intval($userId);
+        if ($uid <= 0) {
             return [];
         }
-        
-        return $this->where('user_id', $userId)
-            ->where('status', 1)
+
+        $rows = $this->buildLoginQuery()
+            ->where('uid', $uid)
+            ->where('success', 1)
             ->order('id', 'desc')
-            ->limit($limit)
+            ->limit(max(1, intval($limit)))
             ->select()
             ->toArray();
+
+        return $this->mapRowsToLegacy($rows);
     }
-    
-    /**
-     * 获取IP登录失败次数
-     * @param string $ip IP地址
-     * @param int $timeRange 时间范围（秒）
-     * @return int 失败次数
-     */
+
     public function getFailedCountByIP($ip, $timeRange = 300)
     {
         if (empty($ip)) {
             return 0;
         }
-        
-        $startTime = date('Y-m-d H:i:s', time() - $timeRange);
-        
-        return $this->where('ip', $ip)
-            ->where('status', 0)
+
+        $startTime = date('Y-m-d H:i:s', time() - max(1, intval($timeRange)));
+
+        return intval($this->buildLoginQuery()
+            ->where('ip', (string)$ip)
+            ->where('success', 0)
             ->where('created_at', '>=', $startTime)
-            ->count();
+            ->count());
     }
-    
-    /**
-     * 获取用户登录失败次数
-     * @param string $username 用户名
-     * @param int $timeRange 时间范围（秒）
-     * @return int 失败次数
-     */
+
     public function getFailedCountByUsername($username, $timeRange = 300)
     {
         if (empty($username)) {
             return 0;
         }
-        
-        $startTime = date('Y-m-d H:i:s', time() - $timeRange);
-        
-        return $this->where('username', $username)
-            ->where('status', 0)
+
+        $startTime = date('Y-m-d H:i:s', time() - max(1, intval($timeRange)));
+
+        return intval($this->buildLoginQuery()
+            ->where('username', (string)$username)
+            ->where('success', 0)
             ->where('created_at', '>=', $startTime)
-            ->count();
+            ->count());
     }
-    
-    /**
-     * 清理旧的登录日志
-     * @param int $days 保留天数
-     * @return int 删除的记录数
-     */
+
     public function cleanOldLogs($days = 90)
     {
-        $expireDate = date('Y-m-d H:i:s', time() - ($days * 86400));
-        
-        return $this->where('created_at', '<', $expireDate)->delete();
+        $expireDate = date('Y-m-d H:i:s', time() - (max(1, intval($days)) * 86400));
+
+        return $this->buildLoginQuery()
+            ->where('created_at', '<', $expireDate)
+            ->delete();
+    }
+
+    public function countByUserId($userId): int
+    {
+        $uid = intval($userId);
+        if ($uid <= 0) {
+            return 0;
+        }
+
+        return intval($this->buildLoginQuery()
+            ->where('uid', $uid)
+            ->count());
+    }
+
+    public function countAllLoginEvents(): int
+    {
+        return intval($this->buildLoginQuery()->count());
+    }
+
+    public function getLatestSuccessfulUsernameByUserId(int $userId): string
+    {
+        if ($userId <= 0) {
+            return '';
+        }
+
+        return trim((string)$this->buildLoginQuery()
+            ->where('uid', $userId)
+            ->where('success', 1)
+            ->whereNotNull('username')
+            ->where('username', '<>', '')
+            ->order('id', 'desc')
+            ->value('username'));
+    }
+
+    public function countUserEventsForCleanup(int $userId, string $username = ''): int
+    {
+        $query = $this->buildCleanupQuery($userId, $username);
+        return $query ? intval($query->count()) : 0;
+    }
+
+    public function deleteUserEventsForCleanup(int $userId, string $username = ''): int
+    {
+        $query = $this->buildCleanupQuery($userId, $username);
+        return $query ? intval($query->delete()) : 0;
+    }
+
+    private function writeLoginEvent(int $userId, string $username, string $ip, string $platform, bool $success, string $reason): bool
+    {
+        $log = new self();
+        return (bool)$log->save([
+            'category' => self::CATEGORY,
+            'event_type' => $success ? self::EVENT_SUCCESS : self::EVENT_FAILED,
+            'uid' => $userId,
+            'username' => $username,
+            'ip' => $ip,
+            'success' => $success ? 1 : 0,
+            'status' => $success ? 'success' : 'failed',
+            'message' => $reason,
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+            'extra' => json_encode([
+                'platform' => $platform,
+                'client' => $platform,
+            ], JSON_UNESCAPED_UNICODE),
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
+    }
+
+    private function buildLoginQuery()
+    {
+        return self::where('category', self::CATEGORY);
+    }
+
+    private function buildCleanupQuery(int $userId, string $username = '')
+    {
+        $uid = max(0, intval($userId));
+        $username = trim($username);
+        if ($uid <= 0 && $username === '') {
+            return null;
+        }
+
+        $query = self::where('uid', '>=', 0);
+        if ($uid > 0 && $username !== '') {
+            $query->where(function ($builder) use ($uid, $username) {
+                $builder->where('uid', $uid)
+                    ->whereOr(function ($subQuery) use ($username) {
+                        $subQuery->where('uid', 0)
+                            ->where('username', $username);
+                    });
+            });
+            return $query;
+        }
+
+        if ($uid > 0) {
+            return $query->where('uid', $uid);
+        }
+
+        return $query->where('username', $username);
+    }
+
+    private function mapRowsToLegacy(array $rows): array
+    {
+        $mapped = [];
+        foreach ($rows as $row) {
+            $extra = $this->decodeExtra($row['extra'] ?? '');
+            $mapped[] = [
+                'id' => intval($row['id'] ?? 0),
+                'user_id' => intval($row['uid'] ?? 0),
+                'username' => (string)($row['username'] ?? ''),
+                'ip' => (string)($row['ip'] ?? ''),
+                'platform' => (string)($extra['platform'] ?? $extra['client'] ?? 'web'),
+                'user_agent' => (string)($row['user_agent'] ?? ''),
+                'status' => intval($row['success'] ?? 0),
+                'remark' => (string)($row['message'] ?? $row['detail'] ?? ''),
+                'created_at' => (string)($row['created_at'] ?? ''),
+            ];
+        }
+
+        return $mapped;
+    }
+
+    private function decodeExtra($value): array
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        $decoded = json_decode((string)$value, true);
+        return is_array($decoded) ? $decoded : [];
     }
 }

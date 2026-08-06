@@ -38,6 +38,14 @@ extern "C" {
 #define Json_Array 5
 #define Json_Object 6
 
+#define Json_create Spine_Json_create
+#define Json_dispose Spine_Json_dispose
+#define Json_getItem Spine_Json_getItem
+#define Json_getString Spine_Json_getString
+#define Json_getFloat Spine_Json_getFloat
+#define Json_getInt Spine_Json_getInt
+#define Json_getError Spine_Json_getError
+
 /* The Json structure: */
 typedef struct Json {
 	struct Json* next;

@@ -3,6 +3,7 @@ namespace app\model;
 use think\Model;
 use think\facade\Db;
 use think\facade\Cache;
+use app\service\CacheLockService;
 
 class UserOrder extends Model{
 
@@ -132,9 +133,9 @@ class UserOrder extends Model{
  {
         // 使用分布式锁保证幂等性
         $lockKey = 'order_refund_lock:' . $id;
-        $lockAcquired = Cache::store('redis')->set($lockKey, 1, 30);
+        $lockToken = CacheLockService::acquire($lockKey, 30, 'redis');
         
-        if (!$lockAcquired) {
+        if ($lockToken === null) {
             return '订单退款处理中，请勿重复操作';
         }
         
@@ -181,8 +182,8 @@ class UserOrder extends Model{
             Db::rollback();
             return '订单退款异常：' . $e->getMessage();
         } finally {
-            // 释放锁
-            Cache::store('redis')->delete($lockKey);
+            // 释放锁（仅释放自身持有的 token）
+            CacheLockService::release($lockKey, $lockToken, 'redis');
         }
     }
 
@@ -361,8 +362,11 @@ class UserOrder extends Model{
      */
     public function countByUserId($userid)
     {
-        // user字段包含JSON数据，检查是否包含该userid
-        return UserOrder::where('user', 'like', '%"userid":' . $userid . '%')->count();
+        [$playerIds, $username] = $this->resolveCleanupIdentity($userid);
+
+        $query = UserOrder::where('id', '>', 0);
+        $this->applyCleanupFilter($query, $playerIds, $username);
+        return $query->count();
     }
 
     /**
@@ -370,7 +374,90 @@ class UserOrder extends Model{
      */
     public function deleteByUserId($userid)
     {
-        return UserOrder::where('user', 'like', '%"userid":' . $userid . '%')->delete();
+        [$playerIds, $username] = $this->resolveCleanupIdentity($userid);
+
+        $query = UserOrder::where('id', '>', 0);
+        $this->applyCleanupFilter($query, $playerIds, $username);
+        return $query->delete();
+    }
+
+    /**
+     * 清理辅助：解析用户对应的角色ID和账号名。
+     */
+    private function resolveCleanupIdentity($userid): array
+    {
+        $uid = intval($userid);
+        if ($uid <= 0) {
+            return [[], ''];
+        }
+
+        $playerIds = Db::name('user_bind')->where('userid', $uid)->column('playerid');
+        $cleanPlayerIds = [];
+        if (is_array($playerIds)) {
+            foreach ($playerIds as $pid) {
+                $pid = intval($pid);
+                if ($pid > 0) {
+                    $cleanPlayerIds[$pid] = $pid;
+                }
+            }
+        }
+
+        $username = '';
+        $userRow = Db::name('user_account')->where('id', $uid)->field('username')->find();
+        if ($userRow) {
+            $username = trim((string)($userRow['username'] ?? ''));
+        }
+
+        return [array_values($cleanPlayerIds), $username];
+    }
+
+    /**
+     * 清理辅助：将订单匹配条件应用到查询。
+     * user_order.user 为 JSON 文本，历史格式可能是数字/字符串两种 playerid。
+     */
+    private function applyCleanupFilter($query, array $playerIds, string $username): void
+    {
+        $query->where(function ($where) use ($playerIds, $username) {
+            $hasCondition = false;
+
+            foreach ($playerIds as $pid) {
+                $pid = intval($pid);
+                if ($pid <= 0) {
+                    continue;
+                }
+
+                $numericPattern = '%"playerid":' . $pid . '%';
+                $stringPattern = '%"playerid":"' . $pid . '"%';
+
+                if (!$hasCondition) {
+                    $where->where(function ($sub) use ($numericPattern, $stringPattern) {
+                        $sub->whereLike('user', $numericPattern)
+                            ->whereOr('user', 'like', $stringPattern);
+                    });
+                    $hasCondition = true;
+                } else {
+                    $where->whereOr(function ($sub) use ($numericPattern, $stringPattern) {
+                        $sub->whereLike('user', $numericPattern)
+                            ->whereOr('user', 'like', $stringPattern);
+                    });
+                }
+            }
+
+            $username = trim($username);
+            if ($username !== '') {
+                $usernamePattern = '%"username":"' . $username . '"%';
+                if (!$hasCondition) {
+                    $where->whereLike('user', $usernamePattern);
+                } else {
+                    $where->whereOr('user', 'like', $usernamePattern);
+                }
+                $hasCondition = true;
+            }
+
+            if (!$hasCondition) {
+                $where->whereRaw('1 = 0');
+            }
+        });
     }
 
     /**

@@ -35,7 +35,7 @@ THE SOFTWARE.
 #define  LOG_TAG    "Java_org_cocos2dx_lib_Cocos2dxHelper.cpp"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
-#define  CLASS_NAME "org/cocos2dx/lib/Cocos2dxHelper"
+#define  CLASS_NAME "org/cocos2dx/lib/Cocos2dxActivity"
 
 EditTextCallback s_pfEditTextCallback = NULL;
 void* s_ctx = NULL;
@@ -46,6 +46,14 @@ using namespace std;
 string g_apkPath;
 
 extern "C" {
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxActivity_nativeInitJniBridge(JNIEnv* env, jclass clazz, jobject activity) {
+        (void)env;
+        (void)clazz;
+        if (activity) {
+            JniHelper::setClassLoaderFrom(activity);
+        }
+    }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxHelper_nativeSetApkPath(JNIEnv*  env, jobject thiz, jstring apkPath) {
         g_apkPath = JniHelper::jstring2string(apkPath);
@@ -86,7 +94,7 @@ void showDialogJNI(const char * pszMsg, const char * pszTitle) {
     }
 
     JniMethodInfo t;
-    if (JniHelper::getStaticMethodInfo(t, CLASS_NAME, "showDialog", "(Ljava/lang/String;Ljava/lang/String;)V")) {
+    if (JniHelper::getStaticMethodInfo(t, CLASS_NAME, "showMessageBox", "(Ljava/lang/String;Ljava/lang/String;)V")) {
         jstring stringArg1;
 
         if (!pszTitle) {

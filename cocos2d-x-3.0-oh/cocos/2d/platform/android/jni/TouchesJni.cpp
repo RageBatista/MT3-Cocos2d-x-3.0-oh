@@ -27,42 +27,55 @@ THE SOFTWARE.
 
 #include <android/log.h>
 #include <jni.h>
+#include <vector>
 
 using namespace cocos2d;
 
 extern "C" {
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesBegin(JNIEnv * env, jobject thiz, jint id, jfloat x, jfloat y) {
-        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &id, &x, &y);
+        intptr_t touchId = static_cast<intptr_t>(id);
+        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &touchId, &x, &y);
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesEnd(JNIEnv * env, jobject thiz, jint id, jfloat x, jfloat y) {
-        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &id, &x, &y);
+        intptr_t touchId = static_cast<intptr_t>(id);
+        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &touchId, &x, &y);
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesMove(JNIEnv * env, jobject thiz, jintArray ids, jfloatArray xs, jfloatArray ys) {
         int size = env->GetArrayLength(ids);
-        jint id[size];
-        jfloat x[size];
-        jfloat y[size];
+        std::vector<jint> jniIds(size);
+        std::vector<intptr_t> touchIds(size);
+        std::vector<jfloat> x(size);
+        std::vector<jfloat> y(size);
 
-        env->GetIntArrayRegion(ids, 0, size, id);
-        env->GetFloatArrayRegion(xs, 0, size, x);
-        env->GetFloatArrayRegion(ys, 0, size, y);
+        env->GetIntArrayRegion(ids, 0, size, jniIds.data());
+        env->GetFloatArrayRegion(xs, 0, size, x.data());
+        env->GetFloatArrayRegion(ys, 0, size, y.data());
+        for (int i = 0; i < size; ++i)
+        {
+            touchIds[i] = static_cast<intptr_t>(jniIds[i]);
+        }
 
-        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesMove(size, id, x, y);
+        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesMove(size, touchIds.data(), x.data(), y.data());
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesCancel(JNIEnv * env, jobject thiz, jintArray ids, jfloatArray xs, jfloatArray ys) {
         int size = env->GetArrayLength(ids);
-        jint id[size];
-        jfloat x[size];
-        jfloat y[size];
+        std::vector<jint> jniIds(size);
+        std::vector<intptr_t> touchIds(size);
+        std::vector<jfloat> x(size);
+        std::vector<jfloat> y(size);
 
-        env->GetIntArrayRegion(ids, 0, size, id);
-        env->GetFloatArrayRegion(xs, 0, size, x);
-        env->GetFloatArrayRegion(ys, 0, size, y);
+        env->GetIntArrayRegion(ids, 0, size, jniIds.data());
+        env->GetFloatArrayRegion(xs, 0, size, x.data());
+        env->GetFloatArrayRegion(ys, 0, size, y.data());
+        for (int i = 0; i < size; ++i)
+        {
+            touchIds[i] = static_cast<intptr_t>(jniIds[i]);
+        }
 
-        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesCancel(size, id, x, y);
+        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesCancel(size, touchIds.data(), x.data(), y.data());
     }
 
     #define KEYCODE_BACK 0x04

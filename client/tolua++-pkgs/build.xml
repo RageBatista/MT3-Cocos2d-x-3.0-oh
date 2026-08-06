@@ -49,6 +49,10 @@
       <replacetoken><![CDATA[LUAOBJ_REF cancelselfIndex = *((LUAOBJ_REF*)  tolua_ref_luaobj(tolua_S,]]></replacetoken>
       <replacevalue><![CDATA[int cancelselfIndex = (tolua_ref_luaobj(tolua_S,]]></replacevalue>
     </replace>
+    <replace file="../FireClient/Application/Framework/LuaFireClient.cpp">
+      <replacetoken><![CDATA[tolua_tonumber(tolua_S,5,cocos2d::network::HttpRequest::Type::POST)]]></replacetoken>
+      <replacevalue><![CDATA[tolua_tonumber(tolua_S,5,(int)cocos2d::network::HttpRequest::Type::POST)]]></replacevalue>
+    </replace>
   </target>
   <target name="LuaFireClientWin32_Replace">
     <replace file="../FireClient/Application/Framework/LuaFireClientWin32.cpp">

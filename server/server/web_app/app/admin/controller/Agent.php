@@ -9,45 +9,23 @@ use app\model\Agentjs as AGJS;
 use app\model\User as U;
 use app\model\UserOrder as UO;
 use app\model\Config as C;
-use think\facade\Session;
 use think\facade\Db;
 
 class Agent extends BaseController
 {
     public function list()
     {
-		$get = $this->request->get();
-		$table_agent = null;
-		if(isset($get['username'])&&isset($get['invite'])&&isset($get['lv'])){
-			if($get['username']!=null){
-				$table_agent[] = ['username','like','%'.$get['username'].'%'];
-			}
-			if($get['invite']!=null){
-				$table_agent[] = ['invite','like','%'.$get['invite'].'%'];
-			}
-			if($get['lv']!=0){
-				$table_agent[] = ['lv','=',$get['lv']];
-			}
-			Session::set('table_agent', $table_agent);
-		}else{
-			$table_agent = null;
-			Session::delete('table_agent');
-		}
         return view('list');
     }
     public function jiesuanlist()
     {
-		$get = $this->request->get();
-		$table_agent = null;
-		Session::delete('table_agent');
         return view('jiesuanlist');
     }
     public function list_jiesuan()
     {
             $AGJS = new AGJS();
-            $table_agent = Session::get('table_agent');
-            $post = $this->request->post();
-            $getAgentjsList = $AGJS->getAgentjsList($post, $table_agent);
+            $post = $this->request->param();
+            $getAgentjsList = $AGJS->getAgentjsList($post, null);
 
             $rows = $getAgentjsList['rows'] ?? [];
             $uidMap = [];
@@ -93,8 +71,8 @@ class Agent extends BaseController
     
     public function list_table()
     {
-        $table_agent = Session::get('table_agent');
-        $post = $this->request->post();
+        $post = $this->request->param();
+        $table_agent = $this->buildAgentFilters($post);
         $AG = new AG();
         $day = [
             'today' => date("Y-m-d"),
@@ -288,6 +266,28 @@ class Agent extends BaseController
         $defaultConn = (string)config('database.default', 'mysql');
         $prefix = (string)config('database.connections.' . $defaultConn . '.prefix', '');
         return $prefix . $baseTable;
+    }
+
+    private function buildAgentFilters(array $data)
+    {
+        $filters = [];
+
+        $username = isset($data['username']) ? trim((string)$data['username']) : '';
+        if ($username !== '') {
+            $filters[] = ['username', 'like', '%' . $this->validateInput($username) . '%'];
+        }
+
+        $invite = isset($data['invite']) ? trim((string)$data['invite']) : '';
+        if ($invite !== '') {
+            $filters[] = ['invite', 'like', '%' . $this->validateInput($invite) . '%'];
+        }
+
+        $lv = isset($data['lv']) ? intval($data['lv']) : 0;
+        if ($lv > 0) {
+            $filters[] = ['lv', '=', $lv];
+        }
+
+        return $filters ?: null;
     }
 
 	public function jiesuan()

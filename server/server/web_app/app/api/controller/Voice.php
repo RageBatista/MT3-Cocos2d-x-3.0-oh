@@ -23,6 +23,19 @@ class Voice extends BaseController
 	 * 最大文件大小（字节）5MB
 	 */
 	private const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+	private function apiError(string $message, int $code = 0)
+	{
+		return api_json([
+			'code' => $code,
+			'error' => $message
+		]);
+	}
+
+	private function apiSuccess(array $payload)
+	{
+		return api_json($payload);
+	}
 	
 	/**
 	 * 接收语音文件
@@ -34,55 +47,41 @@ class Voice extends BaseController
 		
 		// 安全验证：检查必要参数
 		if (!isset($fileInput['uuid']) || !isset($fileInput['speech'])) {
-			return json_encode([
-				'error' => 'Missing required parameters'
-			]);
+			return $this->apiError('Missing required parameters');
 		}
 		
 		// 安全验证：验证UUID格式
 		$uuid = $this->sanitizeUuid($fileInput['uuid']);
 		if ($uuid === null) {
-			return json_encode([
-				'error' => 'Invalid UUID format'
-			]);
+			return $this->apiError('Invalid UUID format');
 		}
 		
 		// 安全验证：验证base64编码的数据
 		$speechData = $fileInput['speech'];
 		if (!$this->isValidBase64($speechData)) {
-			return json_encode([
-				'error' => 'Invalid speech data format'
-			]);
+			return $this->apiError('Invalid speech data format');
 		}
 		
 		// 安全验证：解码并验证文件大小
 		$fileContent = base64_decode($speechData, true);
 		if ($fileContent === false) {
-			return json_encode([
-				'error' => 'Failed to decode speech data'
-			]);
+			return $this->apiError('Failed to decode speech data');
 		}
 		
 		// 检查文件大小
 		$fileSize = strlen($fileContent);
 		if ($fileSize > self::MAX_FILE_SIZE) {
-			return json_encode([
-				'error' => 'File size exceeds limit'
-			]);
+			return $this->apiError('File size exceeds limit');
 		}
 		
 		// 安全验证：验证文件内容（AMR文件头检查）
 		if (!$this->isValidAmrFile($fileContent)) {
-			return json_encode([
-				'error' => 'Invalid file format'
-			]);
+			return $this->apiError('Invalid file format');
 		}
 		
 		// 安全验证：验证channelId
 		if (!isset($fileInput['channelId'])) {
-			return json_encode([
-				'error' => 'Missing channelId'
-			]);
+			return $this->apiError('Missing channelId');
 		}
 		$channelId = intval($fileInput['channelId']);
 		
@@ -93,18 +92,14 @@ class Voice extends BaseController
 		// 确保上传目录存在
 		if (!is_dir($uploadDir)) {
 			if (!mkdir($uploadDir, 0755, true)) {
-				return json_encode([
-					'error' => 'Failed to create upload directory'
-				]);
+				return $this->apiError('Failed to create upload directory');
 			}
 		}
 		
 		// 安全写入文件
 		$bytesWritten = file_put_contents($filePath, $fileContent);
 		if ($bytesWritten === false) {
-			return json_encode([
-				'error' => 'Failed to save file'
-			]);
+			return $this->apiError('Failed to save file');
 		}
 		
 		// 记录文件上传日志
@@ -136,7 +131,7 @@ class Voice extends BaseController
 		$voice = new V();
 		$voiceData = $voice->insVoice($data);
 		
-		return json_encode([
+		return $this->apiSuccess([
 			"uuid"=>$uuid,
 			"channelid"=>$channelId,
 			"text"=>$text
@@ -151,13 +146,13 @@ class Voice extends BaseController
 		//  /api/voice/iat/uuid/
 		$getUuid = $this->request->param();
 		if(!isset($getUuid['uuid'])){
-			return json_encode(['error' => 'Missing UUID parameter']);
+			return $this->apiError('Missing UUID parameter');
 		}
 		
 		// 安全验证：验证UUID格式
 		$uuid = $this->sanitizeUuid($getUuid['uuid']);
 		if ($uuid === null) {
-			return json_encode(['error' => 'Invalid UUID format']);
+			return $this->apiError('Invalid UUID format');
 		}
 		
 		$voice = new V();
@@ -166,19 +161,19 @@ class Voice extends BaseController
 		// 安全验证：验证文件存在
 		$filePath = public_path() . 'iat/' . $uuid . '.amr';
 		if (!file_exists($filePath)) {
-			return json_encode(['error' => 'File not found']);
+			return $this->apiError('File not found');
 		}
 		
 		// 安全验证：验证文件大小
 		$fileSize = filesize($filePath);
 		if ($fileSize > self::MAX_FILE_SIZE) {
-			return json_encode(['error' => 'File size exceeds limit']);
+			return $this->apiError('File size exceeds limit');
 		}
 		
 		// 安全验证：验证文件内容
 		$fileContent = file_get_contents($filePath);
 		if (!$this->isValidAmrFile($fileContent)) {
-			return json_encode(['error' => 'Invalid file format']);
+			return $this->apiError('Invalid file format');
 		}
 		
 		header("Content-type: application/octet-stream;charset=utf-8");
@@ -229,7 +224,8 @@ class Voice extends BaseController
 			return $resp->toJsonString();
 		}
 		catch(TencentCloudSDKException $e) {
-			echo $e;
+			\think\facade\Log::error('腾讯云语音识别异常: ' . $e->getMessage());
+			return null;
 		}
     }
 	

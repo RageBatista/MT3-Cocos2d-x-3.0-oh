@@ -50,6 +50,10 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $false)]
+    [ValidateSet("Legacy226", "Upgrade30")]
+    [string]$EngineProfile = "Upgrade30",
+
+    [Parameter(Mandatory = $false)]
     [ValidateSet("Debug", "Release")]
     [string]$Configuration = "Debug",
 
@@ -135,8 +139,14 @@ function Get-IOSRepoRoot {
 }
 
 function Get-DefaultProjectPath {
-    param([string]$RepoRoot)
-    return Join-Path $RepoRoot "client/FireClient/FireClient.xcodeproj"
+    param([string]$RepoRoot, [string]$EngineProfile)
+    $project = if ($EngineProfile -eq "Upgrade30") {
+        "client/FireClient/FireClient-Upgrade30.xcodeproj"
+    }
+    else {
+        "client/FireClient/FireClient.xcodeproj"
+    }
+    return Join-Path $RepoRoot $project
 }
 
 function Get-DefaultOutputDir {
@@ -151,7 +161,7 @@ function Get-DefaultOutputDir {
 # iOS 静态工程门禁
 # ============================================================
 function Invoke-IOSProjectStaticGate {
-    param([string]$RepoRoot)
+    param([string]$RepoRoot, [string]$EngineProfile)
 
     $checks = New-Object System.Collections.Generic.List[object]
 
@@ -189,7 +199,7 @@ function Invoke-IOSProjectStaticGate {
     }
 
     function Test-IOSProjectCocosPathsResolve {
-        param([string]$Name, [string]$RelativePath)
+        param([string]$Name, [string]$RelativePath, [string]$CocosRoot)
 
         $text = Read-IOSProjectText $RelativePath
         if ($null -eq $text) {
@@ -199,7 +209,8 @@ function Invoke-IOSProjectStaticGate {
 
         $projectBundle = Split-Path -Parent (Join-Path $RepoRoot $RelativePath)
         $projectRoot = Split-Path -Parent $projectBundle
-        $pattern = '(?:(?:\$\((?:SRCROOT|PROJECT_DIR)\)/)?(?:\.\./)+)cocos2d-x-2\.2\.6[^"";,\s]*'
+        $escapedRoot = [regex]::Escape($CocosRoot)
+        $pattern = '(?:(?:\$\((?:SRCROOT|PROJECT_DIR)\)/)?(?:\.\./)+)' + $escapedRoot + '[^"";,\s]*'
         $references = @([regex]::Matches($text, $pattern) | ForEach-Object {
             $_.Value.TrimEnd('/')
         } | Sort-Object -Unique)
@@ -214,7 +225,7 @@ function Invoke-IOSProjectStaticGate {
         }
 
         $detail = if ($references.Count -eq 0) {
-            "no cocos2d-x-2.2.6 references found"
+            "no $CocosRoot references found"
         }
         elseif ($missing.Count -gt 0) {
             "missing: {0}" -f ($missing -join ', ')
@@ -226,17 +237,18 @@ function Invoke-IOSProjectStaticGate {
     }
 
     function Test-IOSEngineSpineSourceSet {
-        param([string]$RelativePath)
+        param([string]$RelativePath, [string]$SpineRoot, [string]$Label)
 
         $text = Read-IOSProjectText $RelativePath
-        $spineRoot = Join-Path $RepoRoot "cocos2d-x-2.2.6/extensions/spine"
-        $sources = @(Get-ChildItem -LiteralPath $spineRoot -Filter *.cpp -File -ErrorAction SilentlyContinue |
+        $spineRootAbs = Join-Path $RepoRoot $SpineRoot
+        $sources = @(Get-ChildItem -LiteralPath $spineRootAbs -Filter *.cpp -File -ErrorAction SilentlyContinue |
             Sort-Object Name | Select-Object -ExpandProperty Name)
         $missing = New-Object System.Collections.Generic.List[string]
 
         foreach ($source in $sources) {
             $escaped = [regex]::Escape($source)
-            $hasFileReference = $null -ne $text -and $text -match ("path = `"?{0}`"?;" -f $escaped)
+            $pathPattern = 'path = "?[^";]*' + $escaped + '"?;'
+            $hasFileReference = $null -ne $text -and $text -match $pathPattern
             $hasBuildMembership = $null -ne $text -and $text -match ("/\* {0} in Sources \*/" -f $escaped)
             if (-not ($hasFileReference -and $hasBuildMembership)) {
                 $missing.Add($source)
@@ -252,26 +264,103 @@ function Invoke-IOSProjectStaticGate {
         else {
             "{0} Spine C++ sources included" -f $sources.Count
         }
-        Add-IOSGateCheck -Name "engine Spine 2.2.6 source set" -Passed ($sources.Count -gt 0 -and $missing.Count -eq 0) -Detail $detail
+        Add-IOSGateCheck -Name "engine $Label source set" -Passed ($sources.Count -gt 0 -and $missing.Count -eq 0) -Detail $detail
     }
 
-    $fireProject = "client/FireClient/FireClient.xcodeproj/project.pbxproj"
-    $engineProject = "engine/engine.xcodeproj/project.pbxproj"
-    $ceguiProject = "dependencies/cegui/CEGUI.xcodeproj/project.pbxproj"
+    if ($EngineProfile -eq "Upgrade30") {
+        $fireProject = "client/FireClient/FireClient-Upgrade30.xcodeproj/project.pbxproj"
+        $engineProject = "engine/engine-Upgrade30.xcodeproj/project.pbxproj"
+        $ceguiProject = "client/ios/CEGUI-0.7.9-r5.xcodeproj/project.pbxproj"
+        $cocosProject = "cocos2d-x-3.0-oh/build/cocos2d_libs.xcodeproj/project.pbxproj"
+        $readyMarker = "client/ios/Upgrade30/READY_FOR_XCODE_BUILD.md"
 
-    Test-IOSPathCheck "FireClient project file" $fireProject
-    Test-IOSPathCheck "engine project file" $engineProject
-    Test-IOSPathCheck "CEGUI project file" $ceguiProject
-    Test-IOSPathCheck "iOS Cocos 2.2.6 project file" "cocos2d-x-2.2.6/cocos2dx/proj.ios/cocos2dx.xcodeproj/project.pbxproj"
-    Test-IOSPathCheck "iOS Cocos 2.2.6 public header" "cocos2d-x-2.2.6/cocos2dx/include/cocos2d.h"
-    Test-IOSPathCheck "iOS Cocos 2.2.6 Lua header" "cocos2d-x-2.2.6/scripting/lua/lua/lua.h"
-    Test-IOSPathCheck "iOS Spine 2.2.6 header" "cocos2d-x-2.2.6/extensions/spine/spine.h"
-    Test-IOSPathCheck "iOS Spine 2.2.6 renderer" "cocos2d-x-2.2.6/extensions/spine/CCSkeletonAnimation.cpp"
-    Test-IOSPathCheck "iOS FMOD archive" "cocos2d-x-2.2.6/external/fmod/ios/lib/libfmodex_iphoneos.a"
-    Test-IOSPathCheck "iOS curl archive" "cocos2d-x-2.2.6/external/curl/prebuilt/ios/libcurl.a"
-    Test-IOSPathCheck "FireClient entry" "client/FireClient/FireClient/main.m"
-    Test-IOSPathCheck "FireClient delegate" "client/FireClient/FireClient/FireClientAppDelegate.mm"
-    Test-IOSPathCheck "FireClient view controller" "client/FireClient/FireClient/FireClientViewController.mm"
+        Test-IOSPathCheck "FireClient Upgrade30 project file" $fireProject
+        Test-IOSPathCheck "engine Upgrade30 project file" $engineProject
+        Test-IOSPathCheck "CEGUI 0.7.9-r5 project file" $ceguiProject
+        Test-IOSPathCheck "Cocos 3.0-oh project file" $cocosProject
+        Test-IOSPathCheck "Cocos 3.0-oh public header" "cocos2d-x-3.0-oh/cocos/2d/cocos2d.h"
+        Test-IOSPathCheck "Cocos 3.0-oh iOS GL header" "cocos2d-x-3.0-oh/cocos/2d/platform/ios/CCGL.h"
+        Test-IOSPathCheck "Cocos 3.0-oh Spine renderer" "cocos2d-x-3.0-oh/cocos/editor-support/spine/CCSkeletonAnimation.cpp"
+        Test-IOSPathCheck "CEGUI 0.7.9-r5 public header" "tools/CEGUI-0.7.9-r5/cegui/include/CEGUI.h"
+        Test-IOSPathCheck "CEGUI 0.7.9-r5 Cocos renderer" "tools/CEGUI-0.7.9-r5/cegui/src/RendererModules/Cocos2D/CEGUICocos2DRenderer.cpp"
+        foreach ($vendorInput in @(
+            @{ Name = "Cocos iOS curl arm64 archive"; Path = "cocos2d-x-3.0-oh/external/curl/prebuilt/ios/libcurl_arm64.a" },
+            @{ Name = "Cocos iOS curl archive"; Path = "cocos2d-x-3.0-oh/external/curl/prebuilt/ios/libcurl.a" },
+            @{ Name = "Cocos iOS freetype header"; Path = "cocos2d-x-3.0-oh/external/freetype2/include/ios/freetype/freetype.h" },
+            @{ Name = "Cocos iOS freetype arm64 archive"; Path = "cocos2d-x-3.0-oh/external/freetype2/prebuilt/ios/libfreetype_arm64.a" },
+            @{ Name = "Cocos iOS freetype archive"; Path = "cocos2d-x-3.0-oh/external/freetype2/prebuilt/ios/libfreetype.a" },
+            @{ Name = "Cocos iOS jpeg arm64 archive"; Path = "cocos2d-x-3.0-oh/external/jpeg/prebuilt/ios/libjpeg_arm64.a" },
+            @{ Name = "Cocos iOS jpeg archive"; Path = "cocos2d-x-3.0-oh/external/jpeg/prebuilt/ios/libjpeg.a" },
+            @{ Name = "Cocos iOS Lua archive"; Path = "cocos2d-x-3.0-oh/external/lua/lua/prebuilt/ios/liblua.a" },
+            @{ Name = "Cocos iOS LuaJIT archive"; Path = "cocos2d-x-3.0-oh/external/lua/luajit/prebuilt/ios/libluajit.a" },
+            @{ Name = "Cocos iOS png header"; Path = "cocos2d-x-3.0-oh/external/png/include/ios/png.h" },
+            @{ Name = "Cocos iOS png arm64 archive"; Path = "cocos2d-x-3.0-oh/external/png/prebuilt/ios/libpng_arm64.a" },
+            @{ Name = "Cocos iOS png archive"; Path = "cocos2d-x-3.0-oh/external/png/prebuilt/ios/libpng.a" },
+            @{ Name = "Cocos iOS tiff arm64 archive"; Path = "cocos2d-x-3.0-oh/external/tiff/prebuilt/ios/libtiff_arm64.a" },
+            @{ Name = "Cocos iOS tiff archive"; Path = "cocos2d-x-3.0-oh/external/tiff/prebuilt/ios/libtiff.a" },
+            @{ Name = "Cocos iOS webp arm64 archive"; Path = "cocos2d-x-3.0-oh/external/webp/prebuilt/ios/libwebp_arm64.a" },
+            @{ Name = "Cocos iOS webp archive"; Path = "cocos2d-x-3.0-oh/external/webp/prebuilt/ios/libwebp.a" },
+            @{ Name = "Cocos iOS websockets archive"; Path = "cocos2d-x-3.0-oh/external/websockets/prebuilt/ios/libwebsockets.a" },
+            @{ Name = "MT3 iOS FMOD archive"; Path = "client/ios/vendor/fmod/lib/libfmodex_iphoneos.a" }
+        )) {
+            Test-IOSPathCheck $vendorInput.Name $vendorInput.Path
+        }
+        Test-IOSPathCheck "Upgrade30 ready marker" $readyMarker
+        Test-IOSPathCheck "FireClient delegate" "client/FireClient/FireClient/FireClientAppDelegate.mm"
+        Test-IOSPathCheck "FireClient view controller" "client/FireClient/FireClient/FireClientViewController.mm"
+
+        Test-IOSProjectPattern "FireClient target" $fireProject "(?m)^\s*name = FireClient;"
+        Test-IOSProjectPattern "FireClient CEGUI 0.7.9-r5 dependency" $fireProject "CEGUI-0\.7\.9-r5\.xcodeproj"
+        Test-IOSProjectPattern "FireClient Upgrade30 engine dependency" $fireProject "engine-Upgrade30\.xcodeproj"
+        Test-IOSProjectPattern "FireClient Cocos 3.0-oh root" $fireProject "cocos2d-x-3\.0-oh"
+        Test-IOSProjectPattern "FireClient Cocos 3.0-oh Lua root" $fireProject "cocos2d-x-3\.0-oh/external/lua"
+        Test-IOSProjectPattern "FireClient Upgrade30 macro" $fireProject "MT3_COCOS2D_X_3=1"
+        Test-IOSProjectAbsentPattern "FireClient legacy inputs removed" $fireProject "cocos2d-x-2\.2\.6|dependencies/cegui"
+        Test-IOSProjectCocosPathsResolve "FireClient Cocos 3.0-oh paths" $fireProject "cocos2d-x-3.0-oh"
+
+        Test-IOSProjectPattern "engine target" $engineProject "(?m)^\s*name = engine;"
+        Test-IOSProjectPattern "engine Cocos 3.0-oh subproject" $engineProject "cocos2d_libs\.xcodeproj"
+        Test-IOSProjectPattern "engine Spine 3.0-oh group" $engineProject "cocos2d-x-3\.0-oh/cocos/editor-support/spine"
+        Test-IOSProjectPattern "engine Upgrade30 macro" $engineProject "MT3_COCOS2D_X_3=1"
+        Test-IOSProjectAbsentPattern "engine legacy inputs removed" $engineProject "cocos2d-x-2\.2\.6|extensions/libSpine"
+        Test-IOSProjectCocosPathsResolve "engine Cocos 3.0-oh paths" $engineProject "cocos2d-x-3.0-oh"
+        Test-IOSEngineSpineSourceSet $engineProject "cocos2d-x-3.0-oh/cocos/editor-support/spine" "Spine 3.0-oh"
+
+        foreach ($target in @("CEGUI", "CEGUIBase", "CEGUICocos2DRender", "CEGUIFalagardWRBase", "CEGUIImageCodec", "CEGUIXmlParser", "CEGUILuaScriptModule")) {
+            Test-IOSProjectPattern ("CEGUI target {0}" -f $target) $ceguiProject ("(?m)^\s*name = {0};" -f [regex]::Escape($target))
+        }
+        Test-IOSProjectPattern "CEGUI 0.7.9-r5 source root" $ceguiProject "tools/CEGUI-0\.7\.9-r5"
+        Test-IOSProjectPattern "CEGUI Cocos 3.0-oh root" $ceguiProject "cocos2d-x-3\.0-oh"
+        Test-IOSProjectPattern "CEGUI static macro" $ceguiProject "CEGUI_STATIC"
+        Test-IOSProjectPattern "CEGUI Upgrade30 macro" $ceguiProject "MT3_COCOS2D_X_3=1"
+        Test-IOSProjectAbsentPattern "CEGUI legacy inputs removed" $ceguiProject "cocos2d-x-2\.2\.6|dependencies/cegui/CEGUI"
+        Test-IOSProjectCocosPathsResolve "CEGUI Cocos 3.0-oh paths" $ceguiProject "cocos2d-x-3.0-oh"
+
+        Test-IOSProjectPattern "Cocos 3.0-oh target" $cocosProject '(?m)^\s*name = "cocos2dx iOS";'
+        Test-IOSProjectPattern "Cocos iOS GL view source" $cocosProject "CCEAGLView\.mm in Sources"
+        Test-IOSProjectAbsentPattern "Cocos legacy EAGLView source removed" $cocosProject "(?<!CC)EAGLView\.mm in Sources"
+        Test-IOSProjectPattern "FireClient CCEAGLView branch" "client/FireClient/FireClient/FireClientAppDelegate.mm" "MT3_COCOS2D_X_3[\s\S]*CCEAGLView"
+        Test-IOSProjectPattern "FireClient GLView registration" "client/FireClient/FireClient/FireClientAppDelegate.mm" "createWithEAGLView[\s\S]*setOpenGLView"
+        Test-IOSProjectPattern "FireClient legacy Force Touch guard" "client/FireClient/FireClient/FireClientViewController.mm" "#if !defined\(MT3_COCOS2D_X_3\)[\s\S]*forceTouchEnable"
+    }
+    else {
+        $fireProject = "client/FireClient/FireClient.xcodeproj/project.pbxproj"
+        $engineProject = "engine/engine.xcodeproj/project.pbxproj"
+        $ceguiProject = "dependencies/cegui/CEGUI.xcodeproj/project.pbxproj"
+
+        Test-IOSPathCheck "FireClient project file" $fireProject
+        Test-IOSPathCheck "engine project file" $engineProject
+        Test-IOSPathCheck "CEGUI project file" $ceguiProject
+        Test-IOSPathCheck "iOS Cocos 2.2.6 project file" "cocos2d-x-2.2.6/cocos2dx/proj.ios/cocos2dx.xcodeproj/project.pbxproj"
+        Test-IOSPathCheck "iOS Cocos 2.2.6 public header" "cocos2d-x-2.2.6/cocos2dx/include/cocos2d.h"
+        Test-IOSPathCheck "iOS Cocos 2.2.6 Lua header" "cocos2d-x-2.2.6/scripting/lua/lua/lua.h"
+        Test-IOSPathCheck "iOS Spine 2.2.6 header" "cocos2d-x-2.2.6/extensions/spine/spine.h"
+        Test-IOSPathCheck "iOS Spine 2.2.6 renderer" "cocos2d-x-2.2.6/extensions/spine/CCSkeletonAnimation.cpp"
+        Test-IOSPathCheck "iOS FMOD archive" "cocos2d-x-2.2.6/external/fmod/ios/lib/libfmodex_iphoneos.a"
+        Test-IOSPathCheck "iOS curl archive" "cocos2d-x-2.2.6/external/curl/prebuilt/ios/libcurl.a"
+        Test-IOSPathCheck "FireClient entry" "client/FireClient/FireClient/main.m"
+        Test-IOSPathCheck "FireClient delegate" "client/FireClient/FireClient/FireClientAppDelegate.mm"
+        Test-IOSPathCheck "FireClient view controller" "client/FireClient/FireClient/FireClientViewController.mm"
 
     Test-IOSProjectPattern "FireClient target" $fireProject "(?m)^\s*name = FireClient;"
     Test-IOSProjectPattern "FireClient product" $fireProject "(?m)^\s*productName = FireClient;"
@@ -283,7 +372,7 @@ function Invoke-IOSProjectStaticGate {
     Test-IOSProjectPattern "FireClient published build macro" $fireProject "PUBLISHED_VERSION"
     Test-IOSProjectAbsentPattern "FireClient legacy Cocos root removed" $fireProject "cocos2d-2\.0-rc2-x-2\.0\.1"
     Test-IOSProjectAbsentPattern "FireClient legacy Lua and Spine inputs removed" $fireProject "libluajit|LuaFunctor|tolua_push\.cpp|extensions/libSpine"
-    Test-IOSProjectCocosPathsResolve "FireClient Cocos 2.2.6 paths" $fireProject
+        Test-IOSProjectCocosPathsResolve "FireClient Cocos 2.2.6 paths" $fireProject "cocos2d-x-2.2.6"
 
     Test-IOSProjectPattern "engine target" $engineProject "(?m)^\s*name = engine;"
     Test-IOSProjectPattern "engine product" $engineProject "(?m)^\s*productName = engine;"
@@ -293,8 +382,8 @@ function Invoke-IOSProjectStaticGate {
     Test-IOSProjectPattern "engine Spine 2.2.6 renderer" $engineProject "CCSkeletonAnimation\.cpp in Sources"
     Test-IOSProjectAbsentPattern "engine legacy Cocos root removed" $engineProject "cocos2d-2\.0-rc2-x-2\.0\.1"
     Test-IOSProjectAbsentPattern "engine legacy Spine layout removed" $engineProject "extensions/libSpine|spine-c/|spine-cocos2dx/include|SkeletonRenderer|PolygonBatch"
-    Test-IOSProjectCocosPathsResolve "engine Cocos 2.2.6 paths" $engineProject
-    Test-IOSEngineSpineSourceSet $engineProject
+        Test-IOSProjectCocosPathsResolve "engine Cocos 2.2.6 paths" $engineProject "cocos2d-x-2.2.6"
+        Test-IOSEngineSpineSourceSet $engineProject "cocos2d-x-2.2.6/extensions/spine" "Spine 2.2.6"
 
     foreach ($target in @(
         "CEGUI",
@@ -312,7 +401,8 @@ function Invoke-IOSProjectStaticGate {
     Test-IOSProjectPattern "CEGUI static macro" $ceguiProject "CEGUI_STATIC"
     Test-IOSProjectPattern "CEGUI published build macro" $ceguiProject "PUBLISHED_VERSION"
     Test-IOSProjectAbsentPattern "CEGUI legacy Cocos root removed" $ceguiProject "cocos2d-2\.0-rc2-x-2\.0\.1"
-    Test-IOSProjectCocosPathsResolve "CEGUI Cocos 2.2.6 paths" $ceguiProject
+        Test-IOSProjectCocosPathsResolve "CEGUI Cocos 2.2.6 paths" $ceguiProject "cocos2d-x-2.2.6"
+    }
 
     $checkArray = $checks.ToArray()
     $failed = @($checkArray | Where-Object { -not $_.Passed })
@@ -391,8 +481,12 @@ function New-XcodebuildCommand {
         [string]$Configuration,
         [string]$TargetDevice,
         [string[]]$Architectures,
+        [string]$DeploymentTarget,
+        [string]$DevelopmentTeam,
+        [string]$BundleIdentifier,
         [string]$CodeSignIdentity,
         [string]$ProvisioningProfile,
+        [bool]$SkipCodeSign,
         [bool]$Clean,
         [bool]$Archive,
         [bool]$ShowVerbose,
@@ -457,12 +551,22 @@ function New-XcodebuildCommand {
         $cmd += " ONLY_ACTIVE_ARCH=NO ARCHS=`"$archs`""
     }
 
+    $cmd += " IPHONEOS_DEPLOYMENT_TARGET=`"$DeploymentTarget`""
+    $cmd += " PRODUCT_BUNDLE_IDENTIFIER=`"$BundleIdentifier`""
+
+    if (-not [string]::IsNullOrWhiteSpace($DevelopmentTeam)) {
+        $cmd += " DEVELOPMENT_TEAM=`"$DevelopmentTeam`""
+    }
+
     # 代码签名
-    if (-not [string]::IsNullOrWhiteSpace($CodeSignIdentity)) {
+    if ($SkipCodeSign) {
+        $cmd += " CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO"
+    }
+    elseif (-not [string]::IsNullOrWhiteSpace($CodeSignIdentity)) {
         $cmd += " CODE_SIGN_IDENTITY=`"$CodeSignIdentity`""
     }
 
-    if (-not [string]::IsNullOrWhiteSpace($ProvisioningProfile)) {
+    if (-not $SkipCodeSign -and -not [string]::IsNullOrWhiteSpace($ProvisioningProfile)) {
         $cmd += " PROVISIONING_PROFILE=`"$ProvisioningProfile`""
     }
 
@@ -531,7 +635,8 @@ function Test-IOSBuildPrerequisites {
         [string]$ProjectPath,
         [string]$CodeSignIdentity,
         [string]$ProvisioningProfile,
-        [string]$TargetDevice
+        [string]$TargetDevice,
+        [bool]$SkipCodeSign
     )
 
     $errors = @()
@@ -547,7 +652,7 @@ function Test-IOSBuildPrerequisites {
     }
 
     # 真机打包需要签名
-    if ($TargetDevice -eq "Device" -or $TargetDevice -eq "Any") {
+    if (-not $SkipCodeSign -and ($TargetDevice -eq "Device" -or $TargetDevice -eq "Any")) {
         if ([string]::IsNullOrWhiteSpace($CodeSignIdentity)) {
             $errors += "真机打包需要指定 -CodeSignIdentity"
         }
@@ -568,8 +673,13 @@ if (-not $repoRoot) {
     exit 1
 }
 
+if ($SkipCodeSign -and ($Archive -or $Export)) {
+    Write-Error "-SkipCodeSign 仅用于编译和链接验证，不得与 -Archive 或 -Export 同时使用。"
+    exit 1
+}
+
 if ([string]::IsNullOrWhiteSpace($ProjectPath)) {
-    $ProjectPath = Get-DefaultProjectPath -RepoRoot $repoRoot
+    $ProjectPath = Get-DefaultProjectPath -RepoRoot $repoRoot -EngineProfile $EngineProfile
 }
 
 if ([string]::IsNullOrWhiteSpace($OutputDir)) {
@@ -577,7 +687,7 @@ if ([string]::IsNullOrWhiteSpace($OutputDir)) {
 }
 
 try {
-    Invoke-IOSProjectStaticGate -RepoRoot $repoRoot
+    Invoke-IOSProjectStaticGate -RepoRoot $repoRoot -EngineProfile $EngineProfile
 }
 catch {
     Write-Error $_
@@ -594,11 +704,16 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  MT3 iOS 构建配置" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  配置    : $Configuration"
+Write-Host "  基线    : $EngineProfile"
 Write-Host "  目标    : $TargetDevice"
 Write-Host "  项目    : $ProjectPath"
 Write-Host "  输出    : $OutputDir"
+Write-Host "  部署版本: iOS $DeploymentTarget"
+Write-Host "  Bundle ID: $BundleIdentifier"
+Write-Host "  团队    : $DevelopmentTeam"
 Write-Host "  签名    : $CodeSignIdentity"
 Write-Host "  描述文件: $ProvisioningProfile"
+Write-Host "  免签验证: $($SkipCodeSign.IsPresent)"
 Write-Host "  架构    : $($Architectures -join ', ')"
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
@@ -608,8 +723,12 @@ if ($WhatIf) {
         -Configuration $Configuration `
         -TargetDevice $TargetDevice `
         -Architectures $Architectures `
+        -DeploymentTarget $DeploymentTarget `
+        -DevelopmentTeam $DevelopmentTeam `
+        -BundleIdentifier $BundleIdentifier `
         -CodeSignIdentity $CodeSignIdentity `
         -ProvisioningProfile $ProvisioningProfile `
+        -SkipCodeSign $SkipCodeSign.IsPresent `
         -Clean $Clean.IsPresent `
         -Archive $Archive.IsPresent `
         -ShowVerbose $showVerbose `
@@ -629,7 +748,8 @@ if (-not (Test-Path $OutputDir)) {
 $errors = Test-IOSBuildPrerequisites -ProjectPath $ProjectPath `
     -CodeSignIdentity $CodeSignIdentity `
     -ProvisioningProfile $ProvisioningProfile `
-    -TargetDevice $TargetDevice
+    -TargetDevice $TargetDevice `
+    -SkipCodeSign $SkipCodeSign.IsPresent
 
 if ($errors.Count -gt 0) {
     Write-Host ""
@@ -652,8 +772,12 @@ $buildCmd = New-XcodebuildCommand -ProjectPath $ProjectPath `
     -Configuration $Configuration `
     -TargetDevice $TargetDevice `
     -Architectures $Architectures `
+    -DeploymentTarget $DeploymentTarget `
+    -DevelopmentTeam $DevelopmentTeam `
+    -BundleIdentifier $BundleIdentifier `
     -CodeSignIdentity $CodeSignIdentity `
     -ProvisioningProfile $ProvisioningProfile `
+    -SkipCodeSign $SkipCodeSign.IsPresent `
     -Clean $Clean.IsPresent `
     -Archive $Archive.IsPresent `
     -ShowVerbose $showVerbose `

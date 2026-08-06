@@ -27,6 +27,7 @@ class AuthService
      * Token有效期（秒）
      */
     const TOKEN_EXPIRE = 86400;
+    const ADMIN_TOKEN_EXPIRE = 43200;
     
     /**
      * 登录类型常量
@@ -142,16 +143,17 @@ class AuthService
         $serverInfo = $this->resolveServer($serverId);
         $resolvedServerId = $serverInfo['serverid'] ?? 0;
         
+        $authPassHash = password_hash($authPass, PASSWORD_DEFAULT);
         $updated = 0;
         try {
             $updated = Db::execute(
-                'UPDATE cdks SET uid = ?, status = 1, used_at = NOW(), qid = ?, pass = ? WHERE id = ? AND status = 0 AND uid = 0',
-                [$uid, $resolvedServerId, $authPass, intval($rec['id'])]
+                'UPDATE cdks SET uid = ?, status = 1, used_at = NOW(), qid = ?, pass = ?, pass_hash = ? WHERE id = ? AND status = 0 AND uid = 0',
+                [$uid, $resolvedServerId, $authPass, $authPassHash, intval($rec['id'])]
             );
         } catch (\Throwable $e) {
             $updated = Db::execute(
-                'UPDATE cdks SET uid = ?, status = 1, qid = ?, pass = ? WHERE id = ? AND status = 0 AND uid = 0',
-                [$uid, $resolvedServerId, $authPass, intval($rec['id'])]
+                'UPDATE cdks SET uid = ?, status = 1, qid = ?, pass = ?, pass_hash = ? WHERE id = ? AND status = 0 AND uid = 0',
+                [$uid, $resolvedServerId, $authPass, $authPassHash, intval($rec['id'])]
             );
         }
         
@@ -201,7 +203,7 @@ class AuthService
         }
         
         $row = Db::query(
-            'SELECT id, cdk, lv, qid, uid, pass FROM cdks WHERE uid = ? AND status = 1 ORDER BY used_at DESC, id DESC LIMIT 1',
+            'SELECT id, cdk, lv, qid, uid, pass, pass_hash FROM cdks WHERE uid = ? AND status = 1 ORDER BY used_at DESC, id DESC LIMIT 1',
             [$uid]
         );
         
@@ -211,12 +213,20 @@ class AuthService
         
         $rec = $row[0];
         
-        if (empty($rec['pass'])) {
+        $passHash = (string)($rec['pass_hash'] ?? '');
+        if (empty($rec['pass']) && $passHash === '') {
             return ['success' => false, 'message' => '该授权记录未设置授权密码'];
         }
-        
-        if ($rec['pass'] !== $authPass) {
-            return ['success' => false, 'message' => '授权密码不正确'];
+
+        if ($passHash !== '') {
+            if (!password_verify($authPass, $passHash)) {
+                return ['success' => false, 'message' => '授权密码不正确'];
+            }
+        } else {
+            if ($rec['pass'] !== $authPass) {
+                return ['success' => false, 'message' => '授权密码不正确'];
+            }
+            Db::execute('UPDATE cdks SET pass_hash = ? WHERE id = ?', [password_hash($authPass, PASSWORD_DEFAULT), intval($rec['id'])]);
         }
         
         $serverInfo = $this->resolveServer($serverId);
@@ -437,12 +447,15 @@ class AuthService
         Session::regenerate(true);
         
         $token = $this->generateAdminToken($admin);
+        $adminId = intval($admin['id'] ?? 0);
+        $adminType = intval($admin['type'] ?? 0);
         
-        Session::set(self::SESSION_PREFIX . 'admin_id', $admin['id']);
+        Session::set(self::SESSION_PREFIX . 'admin_id', $adminId);
         Session::set(self::SESSION_PREFIX . 'admin_username', $admin['username']);
-        Session::set(self::SESSION_PREFIX . 'admin_type', $admin['type']);
+        Session::set(self::SESSION_PREFIX . 'admin_type', $adminType);
         Session::set(self::SESSION_PREFIX . 'admin_token', $token);
         Session::set(self::SESSION_PREFIX . 'admin_auth_time', time());
+        Cache::set($this->buildAdminTokenCacheKey($adminId, $adminType), $token, self::ADMIN_TOKEN_EXPIRE);
         
         Log::info('AuthService::setAdminSession OK', [
             'admin_id' => $admin['id'],
@@ -475,11 +488,16 @@ class AuthService
             $weakPlayerSecretWarned = true;
         }
 
+        // P3安全增强：写入/刷新 token 版本号（与 common.php 保持格式一致）
+        $version = function_exists('_getOrCreateTokenVersion')
+            ? _getOrCreateTokenVersion($uid)
+            : 0;
+
         $timestamp = time();
-        $data = $uid . '|' . $username . '|' . $timestamp;
+        $data = $uid . '|' . $username . '|' . $timestamp . '|' . $version;
         $token = hash('sha256', $data . $secret);
-        
-        return $token . '.' . $timestamp;
+
+        return $token . '.' . $timestamp . '.' . $version;
     }
     
     /**
@@ -489,23 +507,20 @@ class AuthService
      */
     private function generateAdminToken(array $admin): string
     {
-        $secret = (string)config('security.admin_auth.secret_key', '');
-        if ($secret === '') {
-            throw new \RuntimeException('后台鉴权密钥未配置');
+        $adminId = intval($admin['id'] ?? 0);
+        $adminType = intval($admin['type'] ?? 0);
+        if ($adminId <= 0 || $adminType <= 0) {
+            throw new \RuntimeException('管理员信息不完整');
         }
-
-        static $weakAdminSecretWarned = false;
-        if (strlen($secret) < 32 && !$weakAdminSecretWarned) {
-            Log::warning('AuthService::generateAdminToken secret length too short', [
-                'secret_length' => strlen($secret),
-                'min_required' => 32,
-                'admin_id' => $admin['id'] ?? 0
+        try {
+            return bin2hex(random_bytes(32));
+        } catch (\Throwable $e) {
+            Log::error('AuthService::generateAdminToken random_bytes failed', [
+                'admin_id' => $adminId,
+                'error' => $e->getMessage()
             ]);
-            $weakAdminSecretWarned = true;
+            throw new \RuntimeException('管理员令牌生成失败');
         }
-
-        $data = $admin['id'] . $admin['username'] . $admin['password'];
-        return hash_hmac('sha256', $data, $secret);
     }
     
     /**
@@ -518,17 +533,21 @@ class AuthService
     public function verifyToken(int $uid, string $username, string $token): bool
     {
         $parts = explode('.', $token);
-        if (count($parts) != 2) {
+        $partsCount = count($parts);
+
+        // 兼容旧格式（2段）和新格式（3段：含版本号）
+        if ($partsCount < 2 || $partsCount > 3) {
             return false;
         }
-        
+
         $tokenPart = $parts[0];
-        $timestamp = $parts[1];
-        
+        $timestamp  = (int)$parts[1];
+        $version    = $partsCount === 3 ? (int)$parts[2] : null;
+
         if (time() - $timestamp > self::TOKEN_EXPIRE) {
             return false;
         }
-        
+
         $secret = (string)config('player.op_secret_salt', '');
         if ($secret === '') {
             Log::error('AuthService::verifyToken OP_SECRET_SALT未配置，拒绝验证', [
@@ -538,9 +557,24 @@ class AuthService
             return false;
         }
 
-        $data = $uid . '|' . $username . '|' . $timestamp;
+        // P3安全增强：版本号校验（新格式才校验，旧格式兼容通行）
+        if ($version !== null && function_exists('_getOrCreateTokenVersion')) {
+            $currentVersion = _getOrCreateTokenVersion($uid);
+            if ($version !== $currentVersion) {
+                Log::warning('AuthService::verifyToken token version mismatch (revoked)', [
+                    'uid'             => $uid,
+                    'token_version'   => $version,
+                    'current_version' => $currentVersion,
+                ]);
+                return false;
+            }
+            $data = $uid . '|' . $username . '|' . $timestamp . '|' . $version;
+        } else {
+            $data = $uid . '|' . $username . '|' . $timestamp;
+        }
+
         $expectedToken = hash('sha256', $data . $secret);
-        
+
         return hash_equals($expectedToken, $tokenPart);
     }
     
@@ -610,10 +644,20 @@ class AuthService
      */
     public function adminLogout(): void
     {
+        $adminId = intval(Session::get(self::SESSION_PREFIX . 'admin_id', 0));
+        $adminType = intval(Session::get(self::SESSION_PREFIX . 'admin_type', 0));
+        if ($adminId > 0 && $adminType > 0) {
+            Cache::delete($this->buildAdminTokenCacheKey($adminId, $adminType));
+        }
         $keys = ['admin_id', 'admin_username', 'admin_type', 'admin_token', 'admin_auth_time'];
         foreach ($keys as $key) {
             Session::delete(self::SESSION_PREFIX . $key);
         }
+    }
+
+    private function buildAdminTokenCacheKey(int $adminId, int $adminType): string
+    {
+        return 'admin_auth_token:' . $adminType . ':' . $adminId;
     }
     
     /**

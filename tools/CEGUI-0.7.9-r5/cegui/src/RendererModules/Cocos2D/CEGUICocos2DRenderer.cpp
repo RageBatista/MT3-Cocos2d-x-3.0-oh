@@ -23,7 +23,7 @@
 #include "2d/CCShaderCache.h"
 #include "2d/CCConfiguration.h"
 #include "2d/CCDirector.h"
-#include "2d/platform/win32/CCGL.h"
+#include "RendererModules/Cocos2D/CEGUICocos2DGL.h"
 #include "math/kazmath/kazmath/kazmath.h"
 #include "math/kazmath/kazmath/GL/matrix.h"
 

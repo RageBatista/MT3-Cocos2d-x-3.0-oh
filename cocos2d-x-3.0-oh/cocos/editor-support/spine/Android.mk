@@ -28,6 +28,7 @@ SlotData.cpp \
 BoundingBoxAttachment.cpp \
 Event.cpp \
 EventData.cpp \
+MT3SpineDiagnostic.cpp \
 SkeletonBounds.cpp \
 extension.cpp \
 spine-cocos2dx.cpp

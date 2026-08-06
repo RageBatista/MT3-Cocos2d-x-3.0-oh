@@ -4,7 +4,6 @@ namespace app\service;
 use app\model\Transfer as TransferModel;
 use app\model\Server;
 use app\model\Bind;
-use app\model\User;
 use app\gm\Gm as Game;
 use think\facade\Db;
 use think\facade\Log;
@@ -45,105 +44,118 @@ class TransferExecutionService
                 ];
             }
 
-            Db::startTrans();
             try {
-            // 获取转区申请信息
-            $transferModel = new TransferModel();
-            $transfer = $transferModel->getTransferDetail($transferId);
-            
-            if (!$transfer) {
-                throw new \Exception('转区申请不存在');
-            }
-            
-            if ($transfer['status'] != TransferModel::STATUS_PROCESSING) {
-                throw new \Exception('转区申请状态不正确');
-            }
-            
-            // 获取源服务器和目标服务器信息
-            $serverModel = new Server();
-            $sourceServer = $serverModel->find($transfer['source_server_id']);
-            $targetServer = $serverModel->find($transfer['target_server_id']);
-            
-            if (!$sourceServer || !$targetServer) {
-                throw new \Exception('服务器信息不存在');
-            }
-            
-            // 获取角色信息
-            $bindModel = new Bind();
-            $role = $bindModel->where('playerid', $transfer['role'])
-                ->where('serverid', $transfer['source_server_id'])
-                ->find();
-            
-            if (!$role) {
-                throw new \Exception('角色不存在');
-            }
-            
-            // 检查角色是否在线
-            $isOnline = $this->checkRoleOnline($sourceServer, $transfer['role']);
-            if ($isOnline) {
-                throw new \Exception('角色在线，无法转区');
-            }
-            
-            // 备份角色数据
-            $backupData = $this->backupRoleData($sourceServer, $transfer['role']);
-            if (!$backupData['success']) {
-                throw new \Exception('备份角色数据失败：' . $backupData['message']);
-            }
-            
-            // 迁移角色数据到目标服务器
-            $migrateResult = $this->migrateRoleData(
-                $sourceServer,
-                $targetServer,
-                $transfer['role'],
-                $role
-            );
-            
-            if (!$migrateResult['success']) {
-                // 迁移失败，尝试恢复
-                $this->restoreRoleData($sourceServer, $transfer['role'], $backupData['data']);
-                throw new \Exception('迁移角色数据失败：' . $migrateResult['message']);
-            }
-            
-            // 获取目标服务器的新角色ID
-            $targetRoleId = $migrateResult['target_role_id'];
-            
-            // 更新转区申请状态
-            $transferModel->where('id', $transferId)->update([
-                'status' => TransferModel::STATUS_COMPLETED,
-                'target_role_id' => $targetRoleId,
-                'target_role_name' => $role['rolename'],
-                'reply' => '转区已完成，目标角色ID：' . $targetRoleId,
-                'processed_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
-            
-            // 更新角色绑定信息
-            $bindModel->where('playerid', $transfer['role'])
-                ->where('serverid', $transfer['source_server_id'])
-                ->update([
-                    'serverid' => $transfer['target_server_id'],
-                    'playerid' => $targetRoleId
+                Db::startTrans();
+
+                // 获取转区申请信息
+                $transferModel = new TransferModel();
+                $transfer = $transferModel->getTransferDetail($transferId);
+                if (!$transfer) {
+                    throw new \Exception('转区申请不存在');
+                }
+
+                if ((int)$transfer['status'] !== TransferModel::STATUS_PROCESSING) {
+                    throw new \Exception('转区申请状态不正确');
+                }
+
+                // 注意：source/target_server_id 存储的是 serverid 字段，不是主键 id
+                $serverModel = new Server();
+                $sourceServer = $serverModel->getServerId($transfer['source_server_id']);
+                $targetServer = $serverModel->getServerId($transfer['target_server_id']);
+                if (!$sourceServer || !$targetServer) {
+                    throw new \Exception('服务器信息不存在');
+                }
+
+                $bindModel = new Bind();
+                $role = $bindModel->where('playerid', $transfer['role'])
+                    ->where('serverid', $transfer['source_server_id'])
+                    ->find();
+                if (!$role) {
+                    throw new \Exception('角色不存在');
+                }
+
+                $roleData = is_array($role) ? $role : $role->toArray();
+                $targetRoleId = intval($transfer['role']);
+                $targetRoleName = (string)($roleData['playername'] ?? ('角色' . $targetRoleId));
+                $reply = '转区已完成（绑定级转区，未执行GM迁移）';
+                $executionMode = 'binding_only';
+
+                // 仅在显式启用时，才执行 GM 迁移链路（否则会命中未实现GM方法）
+                if ($this->isGmMigrationEnabled()) {
+                    $executionMode = 'gm_migration';
+
+                    $isOnline = $this->checkRoleOnline($sourceServer, intval($transfer['role']));
+                    if ($isOnline) {
+                        throw new \Exception('角色在线，无法转区');
+                    }
+
+                    $backupData = $this->backupRoleData($sourceServer, intval($transfer['role']));
+                    if (empty($backupData['success'])) {
+                        throw new \Exception('备份角色数据失败：' . ($backupData['message'] ?? '未知错误'));
+                    }
+
+                    $migrateResult = $this->migrateRoleData(
+                        $sourceServer,
+                        $targetServer,
+                        intval($transfer['role']),
+                        $roleData
+                    );
+                    if (empty($migrateResult['success'])) {
+                        $this->restoreRoleData($sourceServer, intval($transfer['role']), $backupData['data'] ?? []);
+                        throw new \Exception('迁移角色数据失败：' . ($migrateResult['message'] ?? '未知错误'));
+                    }
+
+                    $targetRoleId = intval($migrateResult['target_role_id'] ?? 0);
+                    if ($targetRoleId <= 0) {
+                        throw new \Exception('迁移完成但未返回目标角色ID');
+                    }
+                    $targetRoleName = (string)($roleData['playername'] ?? ('角色' . $targetRoleId));
+                    $reply = '转区已完成，目标角色ID：' . $targetRoleId;
+                }
+
+                $updatedTransferRows = $transferModel->where('id', $transferId)
+                    ->where('status', TransferModel::STATUS_PROCESSING)
+                    ->update([
+                        'status' => TransferModel::STATUS_COMPLETED,
+                        'target_role_id' => $targetRoleId,
+                        'target_role_name' => $targetRoleName,
+                        'reply' => $reply,
+                        'processed_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                if ($updatedTransferRows === 0) {
+                    throw new \Exception('转区申请状态更新失败，可能已被其他请求处理');
+                }
+
+                $updatedBindRows = $bindModel->where('playerid', $transfer['role'])
+                    ->where('serverid', $transfer['source_server_id'])
+                    ->update([
+                        'serverid' => $transfer['target_server_id'],
+                        'playerid' => $targetRoleId
+                    ]);
+                if ($updatedBindRows === 0) {
+                    throw new \Exception('角色绑定更新失败');
+                }
+
+                $this->sendTransferNotification($targetServer, $targetRoleId, $transfer);
+
+                Db::commit();
+
+                Log::info('转区执行成功', [
+                    'transfer_id' => $transferId,
+                    'source_server' => $transfer['source_server_id'],
+                    'target_server' => $transfer['target_server_id'],
+                    'source_role' => $transfer['role'],
+                    'target_role' => $targetRoleId,
+                    'execution_mode' => $executionMode
                 ]);
-            
-            // 发送游戏内邮件通知
-            $this->sendTransferNotification($targetServer, $targetRoleId, $transfer);
-            
-            Db::commit();
-            
-            Log::info('转区执行成功', [
-                'transfer_id' => $transferId,
-                'source_server' => $transfer['source_server_id'],
-                'target_server' => $transfer['target_server_id'],
-                'source_role' => $transfer['role'],
-                'target_role' => $targetRoleId
-            ]);
-            
-            return [
-                'success' => true,
-                'target_role_id' => $targetRoleId,
-                'message' => '转区成功'
-            ];
-            
+
+                return [
+                    'success' => true,
+                    'target_role_id' => $targetRoleId,
+                    'message' => $executionMode === 'gm_migration' ? '转区成功' : '转区成功（绑定级）'
+                ];
+
             } catch (\Exception $e) {
                 Db::rollback();
 
@@ -173,6 +185,14 @@ class TransferExecutionService
                 Cache::store('redis')->delete($lockKey);
             }
         }
+    }
+
+    /**
+     * 是否启用 GM 全量迁移链路（默认关闭，避免命中未实现GM方法）
+     */
+    private function isGmMigrationEnabled(): bool
+    {
+        return (bool) config('transfer.gm_migration_enabled', false);
     }
     
     /**
@@ -415,7 +435,7 @@ class TransferExecutionService
                 'data' => json_encode($backupData)
             ]);
             
-            return $result && $result['success'];
+            return $this->isGmSuccessResult($result);
             
         } catch (\Exception $e) {
             Log::error('恢复角色数据失败', [
@@ -452,7 +472,7 @@ class TransferExecutionService
                 'awardContent' => '' // 可以添加转区补偿物品
             ]);
             
-            return $result && $result['success'];
+            return $this->isGmSuccessResult($result);
             
         } catch (\Exception $e) {
             Log::error('发送转区通知邮件失败', [
@@ -463,6 +483,27 @@ class TransferExecutionService
             
             return false;
         }
+    }
+
+    /**
+     * 统一解析GM命令返回结构
+     */
+    private function isGmSuccessResult($result): bool
+    {
+        if (!is_array($result)) {
+            return false;
+        }
+
+        if (isset($result['success'])) {
+            return (bool) $result['success'];
+        }
+
+        if (isset($result['error'])) {
+            return false;
+        }
+
+        $line = (string)($result[0] ?? '');
+        return $line !== '' && stripos($line, 'success') !== false;
     }
     
     /**

@@ -144,12 +144,13 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../common/xmlio/xmlio/xmlio \
 	$(LOCAL_PATH)/../dependencies/freetype-2.4.9/include \
 	$(LOCAL_PATH)/../dependencies/LJXML/Include \
-	$(LOCAL_PATH)/../cocos2d-x-2.2.6/CocosDenshion/include \
-	$(LOCAL_PATH)/../cocos2d-x-2.2.6/extensions \
+	$(LOCAL_PATH)/../cocos2d-x-3.0-oh/cocos/audio/include \
+	$(LOCAL_PATH)/../cocos2d-x-3.0-oh/extensions \
 
 LOCAL_LDLIBS := -llog \
 
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static
+LOCAL_WHOLE_STATIC_LIBRARIES += spine_static
 
 # define the macro to compile through support/zip_support/ioapi.c                
 LOCAL_CFLAGS := \
@@ -168,4 +169,5 @@ LOCAL_CPPFLAGS := -fexceptions  -fpermissive
 
 include $(BUILD_STATIC_LIBRARY)
 
-$(call import-module,cocos2dx)
+$(call import-module,2d)
+$(call import-module,editor-support/spine)

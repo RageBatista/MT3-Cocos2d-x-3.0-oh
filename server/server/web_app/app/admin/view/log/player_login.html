@@ -25,7 +25,7 @@
         <div class="card-body">
           <!-- 搜索表单 -->
           <div class="card-search mb-2-5">
-            <form class="search-form" method="get" action="/index.php?s=/{$app}/log/playerLogin" role="form">
+            <form class="search-form" onsubmit="return false;" role="form">
               <div class="row">
                 <div class="col-md-2">
                   <label class="col-form-label">角色ID</label>
@@ -54,8 +54,8 @@
               </div>
               <div class="row mt-2">
                 <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary me-1">搜索</button>
-                  <button type="reset" class="btn btn-default" onclick="location.href='/index.php?s=/{$app}/log/playerLogin'">重置</button>
+                  <button type="button" class="btn btn-primary me-1" onclick="searchPlayerLogin()">搜索</button>
+                  <button type="button" class="btn btn-default" onclick="resetPlayerLogin()">重置</button>
                 </div>
               </div>
             </form>
@@ -79,6 +79,23 @@
 <script src="__MB__/alert/sweetalert2.all.min.js"></script>
 
 <script>
+var searchDefaults = {
+    role_id: '',
+    role_name: '',
+    account: '',
+    ip: '',
+    start_date: '',
+    end_date: ''
+};
+
+if (window.lyearSearchState && typeof lyearSearchState.apply === 'function') {
+    lyearSearchState.apply(searchDefaults);
+}
+$('.search-form').on('submit', function (event) {
+    event.preventDefault();
+    searchPlayerLogin();
+});
+
 var pagination = {
     sidePagination: "server",
     pageNumber: 1,
@@ -111,13 +128,13 @@ var icon = {
     }
 };
 
-var table = {
+var table = Object.assign({}, icon, pagination, button, {
     classes: 'table table-bordered table-hover table-striped lyear-table',
     url: '/index.php?s=/{$app}/log/playerLoginList',
     uniqueId: 'role_id',
     idField: 'role_id',
     clickToSelect: true,
-    dataType: 'jsonp',
+    dataType: 'json',
     method: 'post',
     toolbar: '#toolbar',
     pagination: true,
@@ -130,11 +147,8 @@ var table = {
     totalField: 'total',
     undefinedText: '-',
     sortOrder: "desc",
-    sortName: 'login_time',
-    ...icon,
-    ...pagination,
-    ...button
-};
+    sortName: 'login_time'
+});
 
 var columns = [{
     field: 'role_id',
@@ -215,22 +229,54 @@ var columns = [{
     }
 }];
 
-$('#loginLogTable').bootstrapTable({
-    ...table,
+$('#loginLogTable').bootstrapTable(Object.assign({}, table, {
     queryParams: function(params) {
         return {
             limit: params.limit,
             offset: params.offset,
             page: (params.offset / params.limit) + 1,
             sort: params.sort,
-            sortOrder: params.order
+            sortOrder: params.order,
+            role_id: $('input[name="role_id"]').val(),
+            role_name: $('input[name="role_name"]').val(),
+            account: $('input[name="account"]').val(),
+            ip: $('input[name="ip"]').val(),
+            start_date: $('input[name="start_date"]').val(),
+            end_date: $('input[name="end_date"]').val()
         };
     },
     columns: columns,
     onLoadSuccess: function(data) {
         $("[data-bs-toggle='tooltip']").tooltip();
     }
-});
+}));
+
+function searchPlayerLogin() {
+    if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+        lyearSearchState.sync({
+            role_id: $('input[name="role_id"]').val(),
+            role_name: $('input[name="role_name"]').val(),
+            account: $('input[name="account"]').val(),
+            ip: $('input[name="ip"]').val(),
+            start_date: $('input[name="start_date"]').val(),
+            end_date: $('input[name="end_date"]').val()
+        }, searchDefaults);
+    }
+    $('#loginLogTable').bootstrapTable('refresh', { pageNumber: 1 });
+}
+
+function resetPlayerLogin() {
+    $('input[name="role_id"]').val('');
+    $('input[name="role_name"]').val('');
+    $('input[name="account"]').val('');
+    $('input[name="ip"]').val('');
+    $('input[name="start_date"]').val('');
+    $('input[name="end_date"]').val('');
+    if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+        lyearSearchState.sync(searchDefaults, searchDefaults);
+    }
+    $('#loginLogTable').bootstrapTable('refresh', { pageNumber: 1 });
+}
 </script>
 
 </body>

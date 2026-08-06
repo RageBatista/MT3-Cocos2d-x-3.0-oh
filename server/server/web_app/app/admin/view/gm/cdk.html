@@ -73,6 +73,7 @@
               <!-- ========== 查询 Tab ========== -->
               <div class="tab-pane fade show active" id="query" role="tabpanel">
                 <form id="cdkQueryForm" method="post" class="edit-form">
+                  <input type="hidden" name="csrf_token" value="{$csrf_token}" />
                   <div class="row g-3">
                     <div class="col-md-3">
                       <label class="form-label">CDK码</label>
@@ -132,6 +133,7 @@
               <!-- ========== 生成 Tab ========== -->
               <div class="tab-pane fade" id="generate" role="tabpanel">
                 <form id="cdkGenerateForm" method="post" class="edit-form">
+                  <input type="hidden" name="csrf_token" value="{$csrf_token}" />
                   <div class="row g-3">
                     <div class="col-md-4">
                       <label class="form-label">生成数量</label>
@@ -245,6 +247,7 @@
 
     // ===== 分页 =====
     var PAGE_SIZE = 10;
+    var csrf_token = "{$csrf_token}";
     var queryPage = 1, queryTotalPages = 0, queryTotal = 0, lastQueryData = '';
     var unusedPage = 1, unusedTotalPages = 0, unusedTotal = 0;
     var usedPage = 1, usedTotalPages = 0, usedTotal = 0;
@@ -389,7 +392,7 @@
         }
       }).then(function (result) {
         if (!result.isConfirmed) return;
-        $.post('/index.php?s=/{$app}/gm/cdkUpdateUid', { id: id, uid: result.value }, function (res) {
+        $.post('/index.php?s=/{$app}/gm/cdkUpdateUid', { id: id, uid: result.value, csrf_token: csrf_token }, function (res) {
           if (res.code === 1) { toastOk(res.msg || '修改成功'); loadUsed(); loadStats(); }
           else { toastErr(res.msg || '修改失败'); }
         }).fail(function () { toastWarn('服务异常'); });
@@ -407,7 +410,7 @@
         cancelButtonText: '取消'
       }).then(function (result) {
         if (!result.isConfirmed) return;
-        $.post('/index.php?s=/{$app}/gm/cdkUpdatePass', { id: id, pass: (result.value || '').trim() }, function (res) {
+        $.post('/index.php?s=/{$app}/gm/cdkUpdatePass', { id: id, pass: (result.value || '').trim(), csrf_token: csrf_token }, function (res) {
           if (res.code === 1) { toastOk(res.msg || '修改成功'); loadUsed(); }
           else { toastErr(res.msg || '修改失败'); }
         }).fail(function () { toastWarn('服务异常'); });
@@ -425,7 +428,7 @@
         cancelButtonText: '取消'
       }).then(function (result) {
         if (!result.isConfirmed) return;
-        $.post('/index.php?s=/{$app}/gm/cdkDelete', { id: id }, function (res) {
+        $.post('/index.php?s=/{$app}/gm/cdkDelete', { id: id, csrf_token: csrf_token }, function (res) {
           if (res.code === 1) {
             toastOk(res.msg || '删除成功');
             if (usedPage > 1 && $('#usedTableBody tr').length <= 1) { usedPage--; }

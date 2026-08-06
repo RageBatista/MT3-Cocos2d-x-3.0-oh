@@ -90,7 +90,7 @@
         <header class="card-header"><div class="card-title">日志查询</div></header>
         <div class="card-body">
           <div class="card-search mb-2-5">
-            <form class="search-form" method="get" action="#!" role="form">
+            <form class="search-form" onsubmit="return false;" role="form">
               
               <div class="row">
                 <div class="col-md-2">
@@ -118,8 +118,8 @@
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <button type="submit" class="btn btn-primary me-1">搜索</button>
-                  <button type="reset" class="btn btn-default">重置</button>
+                  <button type="button" class="btn btn-primary me-1" onclick="searchLog()">搜索</button>
+                  <button type="button" class="btn btn-default" onclick="resetLogSearch()">重置</button>
                 </div>
               </div>
               
@@ -156,6 +156,34 @@
 
 
 <script>
+	function htmlEncode(str) {
+		if (str === null || str === undefined) return '';
+		return String(str).replace(/[&<>"'\/]/g, function (s) {
+			return {
+				"&": "&amp;",
+				"<": "&lt;",
+				">": "&gt;",
+				'"': "&quot;",
+				"'": "&#39;",
+				"/": "&#x2F;"
+			}[s];
+		});
+	}
+
+	var searchDefaults = {
+		username: '',
+		info: '',
+		date: ''
+	};
+
+	if (window.lyearSearchState && typeof lyearSearchState.apply === 'function') {
+		lyearSearchState.apply(searchDefaults);
+	}
+	$('.search-form').on('submit', function (event) {
+		event.preventDefault();
+		searchLog();
+	});
+
 	/**
 	 * 分页相关的配置
 	 **/
@@ -211,7 +239,7 @@
 	/**
 	 * 表格相关的配置
 	 **/
-	var table = {
+	var table = Object.assign({}, icon, pagination, button, {
 		classes: 'table table-bordered table-hover table-striped lyear-table',
 		// 请求地址
 		url: '/index.php?s=/{$app}/log/list_table/type/{$type}',
@@ -224,7 +252,7 @@
 		// 是否显示详细视图和列表视图的切换按钮(clickToSelect同时设置为true时点击会报错)
 		// showToggle: true,
 		// 请求得到的数据类型
-		dataType: 'jsonp',
+		dataType: 'json',
 		// 请求方法
 		method: 'post',
 		// 工具按钮容器
@@ -248,11 +276,8 @@
 		// 当字段为 undefined 显示
 		undefinedText: '-',
 		// 排序方式
-		sortOrder: "desc",
-		...icon,
-		...pagination,
-		...button
-	};
+		sortOrder: "desc"
+	});
 	
 	/**
 	 * 格式化操作内容
@@ -269,21 +294,21 @@
 					var operation = match[2] || '未知操作';
 					var params = '';
 					for (var key in jsonData) {
-						params += `<span class="log-param-item">
-							<span class="log-param-key">${key}</span>
-							<span class="log-param-value">${jsonData[key]}</span>
-						</span>`;
+						params += '<span class="log-param-item">' +
+							'<span class="log-param-key">' + htmlEncode(key) + '</span>' +
+							'<span class="log-param-value">' + htmlEncode(jsonData[key]) + '</span>' +
+							'</span>';
 					}
-					return `<div class="log-container">
-						<div class="log-header">
-							<span class="log-type">GM操作</span>
-							<span class="log-action">${operation}</span>
-						</div>
-						<div class="log-params">${params}</div>
-					</div>`;
+					return '<div class="log-container">' +
+						'<div class="log-header">' +
+						'<span class="log-type">GM操作</span>' +
+						'<span class="log-action">' + htmlEncode(operation) + '</span>' +
+						'</div>' +
+						'<div class="log-params">' + params + '</div>' +
+						'</div>';
 				} catch (e) {
 					// JSON解析失败，显示原文本
-					return `<div class="log-container"><div class="log-text">${value}</div></div>`;
+					return '<div class="log-container"><div class="log-text">' + htmlEncode(value) + '</div></div>';
 				}
 			}
 		}
@@ -298,30 +323,30 @@
 			var params = '';
 			if (paramsStr) {
 				var paramPairs = paramsStr.split(/,\s*/);
-				paramPairs.forEach(pair => {
+				paramPairs.forEach(function (pair) {
 					var idx = pair.indexOf(':');
 					if (idx > 0) {
 						var key = pair.substring(0, idx).trim();
 						var val = pair.substring(idx + 1).trim();
-						params += `<span class="log-param-item">
-							<span class="log-param-key">${key}</span>
-							<span class="log-param-value">${val}</span>
-						</span>`;
+						params += '<span class="log-param-item">' +
+							'<span class="log-param-key">' + htmlEncode(key) + '</span>' +
+							'<span class="log-param-value">' + htmlEncode(val) + '</span>' +
+							'</span>';
 					}
 				});
 			}
 
-			return `<div class="log-container">
-				<div class="log-header">
-					<span class="log-type">${type}</span>
-					<span class="log-action">${action}</span>
-				</div>
-				${params ? `<div class="log-params">${params}</div>` : ''}
-			</div>`;
+			return '<div class="log-container">' +
+				'<div class="log-header">' +
+				'<span class="log-type">' + htmlEncode(type) + '</span>' +
+				'<span class="log-action">' + htmlEncode(action) + '</span>' +
+				'</div>' +
+				(params ? '<div class="log-params">' + params + '</div>' : '') +
+				'</div>';
 		}
 
 		// 普通文本日志
-		return `<div class="log-container"><div class="log-text">${value}</div></div>`;
+		return '<div class="log-container"><div class="log-text">' + htmlEncode(value) + '</div></div>';
 	}
 
 	/**
@@ -372,8 +397,7 @@
 	}];
     
 	
-	$('table').bootstrapTable({
-		...table,
+	$('table').bootstrapTable(Object.assign({}, table, {
 		// 自定义的查询参数
 		queryParams: function (params) {
 			return {
@@ -385,14 +409,38 @@
 				// 排序的列名
 				sort: params.sort,
 				// 排序方式 'asc' 'desc'
-				sortOrder: params.order
+				sortOrder: params.order,
+				username: $('input[name="username"]').val(),
+				info: $('input[name="info"]').val(),
+				date: $('input[name="date"]').val()
 			};
 		},
 		columns,
         onLoadSuccess: function(data){
             $("[data-bs-toggle='tooltip']").tooltip();
         }
-	});
+	}));
+
+	function searchLog() {
+		if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+			lyearSearchState.sync({
+				username: $('input[name="username"]').val(),
+				info: $('input[name="info"]').val(),
+				date: $('input[name="date"]').val()
+			}, searchDefaults);
+		}
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
+
+	function resetLogSearch() {
+		$('input[name="username"]').val('');
+		$('input[name="info"]').val('');
+		$('input[name="date"]').val('');
+		if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+			lyearSearchState.sync(searchDefaults, searchDefaults);
+		}
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
 </script>
 
 </body>

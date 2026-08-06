@@ -14,8 +14,14 @@ namespace think;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$app = new App();
+$app->loadEnv();
+if (is_file(dirname(__DIR__) . DIRECTORY_SEPARATOR . '.env.local')) {
+    $app->setEnvName('local');
+}
+
 // 执行HTTP应用并响应
-$http = (new App())->http;
+$http = $app->http;
 
 $response = $http->run();
 

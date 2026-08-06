@@ -45,7 +45,11 @@ namespace utils {
     double gettime()
     {
         struct timeval tv;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
         cocos2d::gettimeofday(&tv, nullptr);
+#else
+        ::gettimeofday(&tv, nullptr);
+#endif
 
         return (double)tv.tv_sec + (double)tv.tv_usec/1000000;
     }

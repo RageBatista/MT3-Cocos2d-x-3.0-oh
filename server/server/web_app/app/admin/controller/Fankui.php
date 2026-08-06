@@ -4,7 +4,6 @@ declare (strict_types = 1);
 namespace app\admin\controller;
 
 use app\BaseController;
-use think\facade\Session;
 use app\model\Fankui as F;
 use app\model\Bind;
 use app\model\Server;
@@ -14,26 +13,12 @@ class Fankui extends BaseController
 {
     public function fankuiList()
     {
-		$get = $this->request->get();
-		$table_fankui = null;
-		if(isset($get['info'])){
-			if($get['info']!=null){
-				$info = $this->validateInput($get['info']);
-				$table_fankui[] = ['info','like','%'.$info.'%'];
-			}
-			Session::set('table_fankui', $table_fankui);
-		}else{
-			$table_fankui = null;
-			Session::delete('table_fankui');
-		}
-		
-		
         return view('fankui_list');
     }
     public function fankui_list_table()
     {
-		$table_fankui = Session::get('table_fankui');
-		$post = $this->request->post();
+		$post = $this->request->param();
+		$table_fankui = $this->buildFankuiFilters($post);
 		$fankui = new F();
 		$getFankuiList = $fankui->getFankuiList($post,$table_fankui);
         return jsonp($getFankuiList);
@@ -93,10 +78,24 @@ class Fankui extends BaseController
 		
 		// 检查邮件发送结果，成功后才标记为已处理
 		if(isset($gameNotify[0]) && strpos($gameNotify[0],'success') !== false){
-			$upStatus = $fankui->upStatus($id);
+			$adminId = intval($this->myAdmin['id'] ?? 0);
+			$upStatus = $fankui->upStatus($id, $info, $adminId);
+			if(!$upStatus){
+				return notify(0,'反馈状态更新失败');
+			}
 			return notify(1,'邮件回复成功');
 		}else{
 			return notify(0,'邮件发送失败，请检查角色是否在线或区服是否正常');
 		}
     }
+
+	private function buildFankuiFilters(array $data)
+	{
+		$info = isset($data['info']) ? trim((string)$data['info']) : '';
+		if ($info === '') {
+			return null;
+		}
+
+		return [['info', 'like', '%' . $this->validateInput($info) . '%']];
+	}
 }

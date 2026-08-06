@@ -13,7 +13,7 @@
 #include "ljfsfile.h"
 #include "ljfszipfile.h"
 
-#elif defined(_OS_IOS)
+#elif defined(_OS_IOS) || defined(_OS_ANDROID)
 
 #include "ljfmimage.h"
 #include "ljfmopen.h"

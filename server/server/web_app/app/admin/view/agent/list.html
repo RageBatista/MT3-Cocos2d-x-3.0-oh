@@ -22,7 +22,7 @@
 					</header>
 					<div class="card-body">
 						<div class="card-search mb-2-5">
-							<form class="search-form" method="get" action="#!" role="form">
+							<form class="search-form" onsubmit="return false;" role="form">
 
 								<div class="row">
 									<div class="col-md-3">
@@ -60,8 +60,8 @@
 										</div>
 									</div>
 									<div class="col-md-3">
-										<button type="submit" class="btn btn-primary me-1">搜索</button>
-										<button type="reset" class="btn btn-default">重置</button>
+										<button type="button" class="btn btn-primary me-1" onclick="searchAgent()">搜索</button>
+										<button type="button" class="btn btn-default" onclick="resetAgentSearch()">重置</button>
 									</div>
 								</div>
 
@@ -99,6 +99,18 @@
 
 
 	<script>
+		var searchDefaults = {
+			username: '',
+			invite: '',
+			lv: '0'
+		};
+
+		lyearSearchState.apply(searchDefaults);
+		$('.search-form').on('submit', function (event) {
+			event.preventDefault();
+			searchAgent();
+		});
+
 		/**
 		 * 分页相关的配置
 		 **/
@@ -569,7 +581,10 @@
 					// 排序的列名
 					sort: params.sort,
 					// 排序方式 'asc' 'desc'
-					sortOrder: params.order
+					sortOrder: params.order,
+					username: $('input[name="username"]').val(),
+					invite: $('input[name="invite"]').val(),
+					lv: $('select[name="lv"]').val()
 				};
 			},
 			columns,
@@ -577,6 +592,23 @@
 				$("[data-bs-toggle='tooltip']").tooltip();
 			}
 		});
+
+		function searchAgent() {
+			lyearSearchState.sync({
+				username: $('input[name="username"]').val(),
+				invite: $('input[name="invite"]').val(),
+				lv: $('select[name="lv"]').val()
+			}, searchDefaults);
+			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+		}
+
+		function resetAgentSearch() {
+			$('input[name="username"]').val('');
+			$('input[name="invite"]').val('');
+			$('select[name="lv"]').val('0');
+			lyearSearchState.sync(searchDefaults, searchDefaults);
+			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+		}
 	</script>
 
 </body>

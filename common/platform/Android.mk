@@ -46,4 +46,4 @@ LOCAL_CPPFLAGS := -fexceptions -fpermissive
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,cauthc/projects/android)
-$(call import-module,cocos2dx)
+$(call import-module,2d)

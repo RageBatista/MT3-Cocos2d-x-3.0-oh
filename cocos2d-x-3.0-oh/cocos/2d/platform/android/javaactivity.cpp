@@ -37,7 +37,7 @@ THE SOFTWARE.
 #define  LOG_TAG    "main"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
-void cocos_android_app_init(JNIEnv* env, jobject thiz) __attribute__((weak));
+bool cocos_android_app_init(JNIEnv* env, jobject thiz) __attribute__((weak));
 
 using namespace cocos2d;
 
@@ -48,7 +48,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     JniHelper::setJavaVM(vm);
 
-    return JNI_VERSION_1_4;
+    return JNI_VERSION_1_6;
 }
 
 void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit(JNIEnv*  env, jobject thiz, jint w, jint h)
@@ -61,9 +61,11 @@ void Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit(JNIEnv*  env, jobject thi
         glview->setFrameSize(w, h);
         director->setOpenGLView(glview);
 
-        cocos_android_app_init(env, thiz);
-
-        cocos2d::Application::getInstance()->run();
+        const bool appOwnsRunLoop = cocos_android_app_init && cocos_android_app_init(env, thiz);
+        if (!appOwnsRunLoop)
+        {
+            cocos2d::Application::getInstance()->run();
+        }
     }
     else
     {

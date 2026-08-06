@@ -19,7 +19,7 @@
         <header class="card-header"><div class="card-title">物品列表</div></header>
         <div class="card-body">
           <div class="card-search mb-2-5">
-            <form class="search-form" id="itemSearchForm" method="get" action="/index.php?s=/{$app}/item/itemList" role="form">
+            <form class="search-form" id="itemSearchForm" onsubmit="return false;" role="form">
               
               <div class="row">
                 <div class="col-md-3">
@@ -60,8 +60,8 @@
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <button type="submit" class="btn btn-primary me-1">搜索</button>
-                  <button type="reset" class="btn btn-default">重置</button>
+                  <button type="button" class="btn btn-primary me-1" onclick="searchItems()">搜索</button>
+                  <button type="button" class="btn btn-default" onclick="resetItemSearch()">重置</button>
                 </div>
               </div>
               
@@ -130,6 +130,14 @@
 
 
 <script>
+	var searchDefaults = {
+		name: '',
+		itemid: '',
+		type: '0'
+	};
+
+	lyearSearchState.apply(searchDefaults, '#itemSearchForm');
+
 	/**
 	 * 测试连接 - 验证路由是否正常工作
 	 */
@@ -486,16 +494,27 @@
         }
 	});
 
-	// 搜索/重置：阻止表单跳转，改为刷新表格数据
 	$searchForm.on('submit', function (e) {
 		e.preventDefault();
+		searchItems();
+	});
+
+	function searchItems() {
+		lyearSearchState.sync({
+			name: $.trim($searchForm.find('input[name="name"]').val() || ''),
+			itemid: $.trim($searchForm.find('input[name="itemid"]').val() || ''),
+			type: $searchForm.find('select[name="type"]').val() || '0'
+		}, searchDefaults);
 		$('#table').bootstrapTable('refresh', {pageNumber: 1});
-	});
-	$searchForm.on('reset', function () {
-		setTimeout(function () {
-			$('#table').bootstrapTable('refresh', {pageNumber: 1});
-		}, 0);
-	});
+	}
+
+	function resetItemSearch() {
+		$searchForm.find('input[name="name"]').val('');
+		$searchForm.find('input[name="itemid"]').val('');
+		$searchForm.find('select[name="type"]').val('0');
+		lyearSearchState.sync(searchDefaults, searchDefaults);
+		$('#table').bootstrapTable('refresh', {pageNumber: 1});
+	}
 </script>
 
 </body>

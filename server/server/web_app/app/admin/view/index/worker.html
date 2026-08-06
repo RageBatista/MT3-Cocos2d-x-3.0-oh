@@ -176,6 +176,34 @@
 					</div>
 					<div class="card-body">
 						<canvas class="js-chartjs-bars"></canvas>
+						<div class="table-responsive mt-3">
+							<table class="table table-sm table-hover mb-0">
+								<thead>
+									<tr>
+										<th>区服</th>
+										<th>在线</th>
+										<th>探测来源</th>
+										<th>状态</th>
+									</tr>
+								</thead>
+								<tbody>
+									{volist name="getAllServerList" id="server"}
+									<tr>
+										<td>{$server.name}</td>
+										<td>{$server.online}</td>
+										<td><small>{$server.online_probe_source|default='unknown'}</small></td>
+										<td>
+											{if condition="$server.online_probe_ok"}
+											<span class="badge badge-success">{$server.online_probe_message|default='探测成功'}</span>
+											{else /}
+											<span class="badge badge-warning text-dark">{$server.online_probe_message|default='探测失败'}</span>
+											{/if}
+										</td>
+									</tr>
+									{/volist}
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

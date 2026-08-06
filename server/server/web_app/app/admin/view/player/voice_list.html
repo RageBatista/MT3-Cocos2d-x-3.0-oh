@@ -22,7 +22,7 @@
 					<div class="card-body">
 						<!-- 搜索表单 -->
 						<div class="card-search mb-2-5">
-							<form class="search-form" method="get" action="#!" role="form">
+							<form class="search-form" onsubmit="return false;" role="form">
 								<div class="row">
 									<div class="col-md-3">
 										<div class="row">
@@ -89,6 +89,17 @@
 				}[s];
 			});
 		}
+
+		var searchDefaults = {
+			uuid: '',
+			text: ''
+		};
+
+		lyearSearchState.apply(searchDefaults);
+		$('.search-form').on('submit', function (event) {
+			event.preventDefault();
+			searchVoice();
+		});
 
 		/**
 		 * 分页相关的配置
@@ -218,12 +229,17 @@
 		});
 
 		function searchVoice() {
+			lyearSearchState.sync({
+				uuid: $('input[name="uuid"]').val(),
+				text: $('input[name="text"]').val()
+			}, searchDefaults);
 			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
 		}
 
 		function resetSearch() {
 			$('input[name="uuid"]').val('');
 			$('input[name="text"]').val('');
+			lyearSearchState.sync(searchDefaults, searchDefaults);
 			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
 		}
 	</script>

@@ -164,6 +164,7 @@ TOLUA_API int class_gc_event (lua_State* L);
 extern "C++" {
 
 #include <string>
+#include "../../../../common/platform/utils/StringUtil.h"
 
 static inline const char* tolua_tocppstring (lua_State* L, int narg, const char* def) {
 
@@ -184,18 +185,8 @@ static inline void tolua_pushwstring(lua_State* L, const wchar_t* value)
         lua_pushnil(L);
     else
     {
-        std::wstring ws(value);
-        int len = WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), (int)ws.length(), NULL, 0, NULL, NULL);
-        if (len > 0)
-        {
-            std::string str(len, 0);
-            WideCharToMultiByte(CP_UTF8, 0, ws.c_str(), (int)ws.length(), &str[0], len, NULL, NULL);
-            lua_pushlstring(L, str.c_str(), len);
-        }
-        else
-        {
-            lua_pushstring(L, "");
-        }
+        const std::string str = SHARE_Wstring2String(std::wstring(value));
+        lua_pushlstring(L, str.c_str(), str.length());
     }
 }
 
@@ -205,18 +196,7 @@ static inline std::wstring tolua_tocppwstring(lua_State* L, int narg, const wcha
     if (!s)
         return def ? def : L"";
     else
-    {
-        int len = MultiByteToWideChar(CP_UTF8, 0, s, -1, NULL, 0);
-        if (len > 0)
-        {
-            std::wstring ws(len, 0);
-            MultiByteToWideChar(CP_UTF8, 0, s, -1, &ws[0], len);
-            if (!ws.empty() && ws.back() == L'\0')
-                ws.pop_back();
-            return ws;
-        }
-        return L"";
-    }
+        return SHARE_String2Wstring(s);
 }
 
 } // extern "C++"

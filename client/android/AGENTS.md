@@ -4,6 +4,8 @@
 
 ## 首轮路由
 
+- canonical 引擎/UI 基线为 `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`，默认 `EngineProfile=Upgrade30`；`Legacy226` 仅作回滚。
+
 - `LocojoyProject/**`：当前免费服主渠道工程，构建主线为 `NDK r16 clang + Ant + JDK8`。
 - `common/**`：Android 公共 Java/JNI/资源承载目录，改动需确认各渠道引用关系。
 - `JoysdkProject/**`、`YijieProject/**`：保留渠道工程；不要把未复验渠道当作当前 free 主线。
@@ -19,7 +21,8 @@
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File ..\..\tools\scripts\Assert-AndroidJdk8Gate.ps1 -JdkHome "C:\Program Files\Java\jdk1.8.0_144"
-powershell -NoProfile -ExecutionPolicy Bypass -File ..\..\tools\scripts\Assert-AndroidArm64Migration.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File ..\..\tools\scripts\Assert-AndroidArm64Migration.ps1 -EngineProfile Upgrade30
+powershell -NoProfile -ExecutionPolicy Bypass -File ..\..\tools\scripts\Build-Android-Locojoy-WithGate.ps1 -EngineProfile Upgrade30 -ProjectDir client/android/LocojoyProject -BuildType Debug -Channel free -Jobs 4
 ```
 
 资源改动后的打包入口必须显式走 `cmd.exe`：

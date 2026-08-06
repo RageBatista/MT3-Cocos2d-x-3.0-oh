@@ -14,6 +14,7 @@ use app\model\UserLog as ULog;
 use app\model\BlackIP as BIP;
 use app\model\Voice as V;
 use DateTime;
+use think\facade\Log;
 
 class Player extends BaseController
 {
@@ -240,29 +241,51 @@ public function modify(){
     {
         return view('bind_list');
     }
-    public function bind_list_table()
+	public function bind_list_table()
     {
 		$post = $this->request->post();
+		$bind = new B();
 		
 		// 重构：从请求参数直接获取搜索条件（不再依赖 Session，避免多标签页冲突）
 		$table_bind = null;
-		if(isset($post['username']) && $post['username'] != ''){
+		if(isset($post['username']) && $this->hasSearchValue($post['username'])){
 			$username = $this->validateInput($post['username']);
+			if ($username !== '') {
 			$table_bind[] = ['u.username','like','%'.$username.'%'];
+			}
 		}
-		if(isset($post['playerid']) && $post['playerid'] != ''){
+		if(isset($post['playerid']) && $this->hasSearchValue($post['playerid'])){
 			$playerid = $this->validateInput($post['playerid']);
+			if ($playerid !== '') {
 			$table_bind[] = ['b.playerid','like','%'.$playerid.'%'];
+			}
 		}
-		if(isset($post['playername']) && $post['playername'] != ''){
+		if(isset($post['playername']) && $this->hasSearchValue($post['playername'])){
 			$playername = $this->validateInput($post['playername']);
+			if ($playername !== '') {
 			$table_bind[] = ['b.playername','=',$playername];
+			}
 		}
 		
-		$bind = new B();
 		$getBindList = $bind->getBindList($post,$table_bind);
+		Log::info('后台绑定列表接口返回', [
+			'total' => intval($getBindList['total'] ?? 0),
+			'rows' => count($getBindList['rows'] ?? []),
+			'has_username' => isset($post['username']) && $this->hasSearchValue($post['username']) ? 1 : 0,
+			'has_playerid' => isset($post['playerid']) && $this->hasSearchValue($post['playerid']) ? 1 : 0,
+			'has_playername' => isset($post['playername']) && $this->hasSearchValue($post['playername']) ? 1 : 0,
+		]);
         return json($getBindList);
     }
+
+	private function hasSearchValue($value): bool
+	{
+		$raw = trim((string)$value);
+		if ($raw === '') {
+			return false;
+		}
+		return trim($raw, " \t\n\r\0\x0B\"'") !== '';
+	}
     public function status()
     {
 		$user = new U();

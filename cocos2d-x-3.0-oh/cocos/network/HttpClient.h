@@ -89,6 +89,9 @@ public:
      * @return int
      */
     inline int getTimeoutForRead() {return _timeoutForRead;};
+
+    /** Poll pending responses while legacy update flows block the cocos thread. **/
+    void dispatchResponseCallbacks();
         
 private:
     HttpClient();
@@ -101,9 +104,6 @@ private:
      */
     bool lazyInitThreadSemphore();
     void networkThread();
-    /** Poll function called from main thread to dispatch callbacks when http requests finished **/
-    void dispatchResponseCallbacks();
-    
 private:
     int _timeoutForConnect;
     int _timeoutForRead;

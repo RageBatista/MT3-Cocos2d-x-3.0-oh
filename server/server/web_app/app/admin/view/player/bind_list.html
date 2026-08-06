@@ -21,7 +21,7 @@
 					</header>
 					<div class="card-body">
 						<div class="card-search mb-2-5">
-							<form class="search-form" method="get" action="#!" role="form">
+							<form class="search-form" onsubmit="return false;" role="form">
 
 								<div class="row">
 									<div class="col-md-3">
@@ -99,6 +99,20 @@
 			});
 		}
 
+		var searchDefaults = {
+			username: '',
+			playerid: '',
+			playername: ''
+		};
+
+		if (window.lyearSearchState && typeof lyearSearchState.apply === 'function') {
+			lyearSearchState.apply(searchDefaults);
+		}
+		$('.search-form').on('submit', function (event) {
+			event.preventDefault();
+			searchBind();
+		});
+
 		/**
 		 * 分页相关的配置
 		 **/
@@ -154,7 +168,7 @@
 		/**
 		 * 表格相关的配置
 		 **/
-		var table = {
+		var table = Object.assign({}, icon, pagination, button, {
 			classes: 'table table-bordered table-hover table-striped lyear-table',
 			// 请求地址
 			url: '/index.php?s=/{$app}/player/bind_list_table',
@@ -191,11 +205,8 @@
 			// 当字段为 undefined 显示
 			undefinedText: '-',
 			// 排序方式
-			sortOrder: "asc",
-			...icon,
-			...pagination,
-			...button
-		};
+			sortOrder: "asc"
+		});
 
 		/**
 		 * 用于演示的列信息
@@ -227,9 +238,12 @@
 			align: 'center',
 			title: '所属账号',  // 自定义方法
 			formatter: function (value, row, index) {
-				var safeUsername = htmlEncode(row.username || '');
-				return '<a href="/index.php?s=/{$app}/player/list&username=' + encodeURIComponent(row.username) + '&lastagent=0#!"><span class="btn btn-primary">' + safeUsername + '</span></a>'
-					;
+				var username = (row.username || '').toString().trim();
+				if (!username) {
+					return '<span class="btn btn-warning btn-sm">账号待同步</span>';
+				}
+				var safeUsername = htmlEncode(username);
+				return '<a href="/index.php?s=/{$app}/player/list&username=' + encodeURIComponent(username) + '&lastagent=0"><span class="btn btn-primary">' + safeUsername + '</span></a>';
 			}
 		}, {
 			field: 'name',
@@ -279,37 +293,26 @@
 
 			// 使用 Sweetalert2 的 HTML 功能创建输入框表单
 			Swal.fire({
-				title: '💰 补充充值',
-				html: `
-                <div style="text-align: left; padding: 10px;">
-                    <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 20px;">
-                        <p style="margin: 5px 0;"><strong>角色名称:</strong> ${playername}</p>
-                        <p style="margin: 5px 0;"><strong>角色ID:</strong> ${playerid}</p>
-                    </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">
-                            💰 补充金额 (元)
-                        </label>
-                        <input id="money-input"
-                               type="number"
-                               class="swal2-input"
-                               placeholder="请输入要补充的金额"
-                               min="0"
-                               step="0.01"
-                               style="width: 90%; margin: 0; height: 45px; font-size: 16px;">
-                    </div>
-                </div>
-            `,
+				title: '补充充值',
+				html: '<div style="text-align: left; padding: 10px;">' +
+					'<div style="background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 20px;">' +
+					'<p style="margin: 5px 0;"><strong>角色名称:</strong> ' + playername + '</p>' +
+					'<p style="margin: 5px 0;"><strong>角色ID:</strong> ' + playerid + '</p>' +
+					'</div>' +
+					'<div style="margin-bottom: 20px;">' +
+					'<label style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">补充金额 (元)</label>' +
+					'<input id="money-input" type="number" class="swal2-input" placeholder="请输入要补充的金额" min="0" step="0.01" style="width: 90%; margin: 0; height: 45px; font-size: 16px;">' +
+					'</div>' +
+					'</div>',
 				icon: 'info',
 				showCancelButton: true,
-				confirmButtonText: '✓ 确认补充充值',
-				cancelButtonText: '✗ 取消',
+				confirmButtonText: '确认补充充值',
+				cancelButtonText: '取消',
 				confirmButtonColor: '#28a745',
 				cancelButtonColor: '#6c757d',
 				width: '450px',
 				focusConfirm: false,
-				preConfirm: () => {
+				preConfirm: function () {
 					var money = document.getElementById('money-input').value;
 
 					if (!money || money <= 0) {
@@ -319,7 +322,7 @@
 
 					return { money: money };
 				}
-			}).then((result) => {
+			}).then(function (result) {
 				if (result.isConfirmed) {
 					var data = result.value;
 
@@ -328,7 +331,7 @@
 						title: '处理中...',
 						html: '正在提交补充充值请求',
 						allowOutsideClick: false,
-						didOpen: () => {
+						didOpen: function () {
 							Swal.showLoading();
 						}
 					});
@@ -343,22 +346,20 @@
 						if (res.code == 1) {
 							Swal.fire({
 								icon: 'success',
-								title: '✅ 补充充值成功',
-								html: `
-                                <div style="text-align: left; padding: 10px;">
-                                    <p><strong>角色:</strong> ${playername} (ID: ${playerid})</p>
-                                    <p><strong>补充金额:</strong> ¥${data.money}</p>
-                                </div>
-                            `,
+								title: '补充充值成功',
+								html: '<div style="text-align: left; padding: 10px;">' +
+									'<p><strong>角色:</strong> ' + playername + ' (ID: ' + playerid + ')</p>' +
+									'<p><strong>补充金额:</strong> ' + htmlEncode(data.money) + ' 元</p>' +
+									'</div>',
 								confirmButtonColor: '#28a745'
-							}).then(() => {
+							}).then(function () {
 								// 刷新表格
-								$('table').bootstrapTable('refresh');
+								$('#table').bootstrapTable('refresh');
 							});
 						} else {
 							Swal.fire({
 								icon: 'error',
-								title: '❌ 操作失败',
+								title: '操作失败',
 								text: res.msg,
 								confirmButtonColor: '#dc3545'
 							});
@@ -375,8 +376,11 @@
 			});
 		}
 
-		$('table').bootstrapTable({
-			...table,
+		var $bindTable = $('#table');
+		if ($bindTable.data('bootstrap.table')) {
+			$bindTable.bootstrapTable('destroy');
+		}
+		$bindTable.bootstrapTable(Object.assign({}, table, {
 			// 自定义的查询参数（重构：搜索参数通过请求传递，不再依赖 Session）
 			queryParams: function (params) {
 				return {
@@ -390,13 +394,20 @@
 					playername: $('input[name="playername"]').val()
 				};
 			},
-			columns,
+			columns: columns,
 			onLoadSuccess: function (data) {
 				$("[data-bs-toggle='tooltip']").tooltip();
 			}
-		});
+		}));
 
 		function searchBind() {
+			if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+				lyearSearchState.sync({
+					username: $('input[name="username"]').val(),
+					playerid: $('input[name="playerid"]').val(),
+					playername: $('input[name="playername"]').val()
+				}, searchDefaults);
+			}
 			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
 		}
 
@@ -404,6 +415,9 @@
 			$('input[name="username"]').val('');
 			$('input[name="playerid"]').val('');
 			$('input[name="playername"]').val('');
+			if (window.lyearSearchState && typeof lyearSearchState.sync === 'function') {
+				lyearSearchState.sync(searchDefaults, searchDefaults);
+			}
 			$('#table').bootstrapTable('refresh', { pageNumber: 1 });
 		}
 	</script>

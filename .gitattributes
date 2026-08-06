@@ -4,3 +4,11 @@
 /.codex/hooks/mt3-posttool-evidence.ps1 text eol=lf
 /.claude/scripts/audit_codex_guardrails.ps1 text eol=lf
 /.claude/tests/test-codex-session-hooks.ps1 text eol=lf
+
+# Upgrade30 platform dependency archives.
+/client/3rdplatform/MeiqiaSdk/libs/*.jar filter=lfs diff=lfs merge=lfs -text
+/client/3rdplatform/ShareSDK/libs/*.jar filter=lfs diff=lfs merge=lfs -text
+/client/android/LocojoyProject/libs/*.jar filter=lfs diff=lfs merge=lfs -text
+/client/ios/vendor/fmod/lib/*.a filter=lfs diff=lfs merge=lfs -text
+/cocos2d-x-3.0-oh/external/**/prebuilt/android/arm64-v8a/*.a filter=lfs diff=lfs merge=lfs -text
+/cocos2d-x-3.0-oh/external/**/prebuilt/ios/*.a filter=lfs diff=lfs merge=lfs -text

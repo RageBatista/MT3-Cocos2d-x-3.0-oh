@@ -5,40 +5,19 @@ namespace app\agent\controller;
 
 use app\BaseController;
 use app\model\Agent as AG;
-use think\facade\Session;
 use think\facade\Db;
 
 class Agent extends BaseController
 {
     public function list()
     {
-		$get = $this->request->get();
-		$table_agent = null;
-		if(isset($get['username'])&&isset($get['lv'])&&isset($get['invite'])){
-			if($get['username']!=null){
-				$username = $this->validateInput($get['username']);
-				$table_agent[] = ['username','like','%'.$username.'%'];
-			}
-			if($get['invite']!=null){
-				$invite = $this->validateInput($get['invite']);
-				$table_agent[] = ['invite','like','%'.$invite.'%'];
-			}
-			if($get['lv']!=0){
-				$lv = intval($get['lv']);
-				$table_agent[] = ['lv','=',$lv];
-			}
-			Session::set('table_agent', $table_agent);
-		}else{
-			$table_agent = null;
-			Session::delete('table_agent');
-		}
         return view('list');
     }
     public function list_table()
     {
-	$table_agent = Session::get('table_agent');
+	$post = $this->request->param();
+	$table_agent = $this->buildAgentFilters($post);
 	$table_agent[] = ['agent_tree','like','%@'.$this->myAdmin['id'].'@%'];
-	$post = $this->request->post();
 	$AG = new AG();
 	$day = [
 		'today'=>date("Y-m-d"),
@@ -243,6 +222,28 @@ class Agent extends BaseController
 		$defaultConn = (string)config('database.default', 'mysql');
 		$prefix = (string)config('database.connections.' . $defaultConn . '.prefix', '');
 		return $prefix . $baseTable;
+	}
+
+	private function buildAgentFilters(array $data)
+	{
+		$filters = [];
+
+		$username = isset($data['username']) ? trim((string)$data['username']) : '';
+		if ($username !== '') {
+			$filters[] = ['username', 'like', '%' . $this->validateInput($username) . '%'];
+		}
+
+		$invite = isset($data['invite']) ? trim((string)$data['invite']) : '';
+		if ($invite !== '') {
+			$filters[] = ['invite', 'like', '%' . $this->validateInput($invite) . '%'];
+		}
+
+		$lv = isset($data['lv']) ? intval($data['lv']) : 0;
+		if ($lv > 0) {
+			$filters[] = ['lv', '=', $lv];
+		}
+
+		return $filters;
 	}
     public function add()
     {

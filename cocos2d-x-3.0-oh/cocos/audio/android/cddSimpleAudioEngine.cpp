@@ -30,6 +30,16 @@ THE SOFTWARE.
 namespace CocosDenshion {
 
     static SimpleAudioEngine *s_pEngine = 0;
+    static const char *s_audioClassName = "org/cocos2dx/lib/Cocos2dxActivity";
+
+    static bool getMT3AudioMethodInfo(cocos2d::JniMethodInfo &methodInfo,
+                                      const char *methodName,
+                                      const char *signature) {
+        return cocos2d::JniHelper::getStaticMethodInfo(methodInfo,
+                                                       s_audioClassName,
+                                                       methodName,
+                                                       signature);
+    }
 
     SimpleAudioEngine* SimpleAudioEngine::getInstance() {
         if (! s_pEngine) {
@@ -79,4 +89,64 @@ namespace CocosDenshion {
     void SimpleAudioEngine::stopAllEffects() { }
     void SimpleAudioEngine::preloadEffect(const char* pszFilePath) { }
     void SimpleAudioEngine::unloadEffect(const char* pszFilePath) { }
+
+    void SimpleAudioEngine::setEffectVolume(unsigned int nSoundId, float fVolume) {
+        cocos2d::JniMethodInfo methodInfo;
+        if (!getMT3AudioMethodInfo(methodInfo, "setEffectVolume", "(IF)V")) {
+            return;
+        }
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID,
+                                             static_cast<jint>(nSoundId), fVolume);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+
+    bool SimpleAudioEngine::hasEffect(unsigned int nSoundId) {
+        cocos2d::JniMethodInfo methodInfo;
+        if (!getMT3AudioMethodInfo(methodInfo, "hasEffect", "(I)Z")) {
+            return false;
+        }
+        const jboolean result = methodInfo.env->CallStaticBooleanMethod(
+            methodInfo.classID, methodInfo.methodID, static_cast<jint>(nSoundId));
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        return result == JNI_TRUE;
+    }
+
+    bool SimpleAudioEngine::isEffectPlaying(unsigned int nSoundId) {
+        cocos2d::JniMethodInfo methodInfo;
+        if (!getMT3AudioMethodInfo(methodInfo, "isEffectPlaying", "(I)Z")) {
+            return false;
+        }
+        const jboolean result = methodInfo.env->CallStaticBooleanMethod(
+            methodInfo.classID, methodInfo.methodID, static_cast<jint>(nSoundId));
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        return result == JNI_TRUE;
+    }
+
+    void SimpleAudioEngine::stopEffectByPath(const char* pszFilePath) {
+        cocos2d::JniMethodInfo methodInfo;
+        if (!pszFilePath ||
+            !getMT3AudioMethodInfo(methodInfo, "stopEffectByPath", "(Ljava/lang/String;)V")) {
+            return;
+        }
+        const std::string fullPath = android::getFullPathWithoutAssetsPrefix(pszFilePath);
+        jstring path = methodInfo.env->NewStringUTF(fullPath.c_str());
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, path);
+        methodInfo.env->DeleteLocalRef(path);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+
+    bool SimpleAudioEngine::getEffectIsPlaying(const char* pszFilePath) {
+        cocos2d::JniMethodInfo methodInfo;
+        if (!pszFilePath ||
+            !getMT3AudioMethodInfo(methodInfo, "getEffectIsPlaying", "(Ljava/lang/String;)Z")) {
+            return false;
+        }
+        const std::string fullPath = android::getFullPathWithoutAssetsPrefix(pszFilePath);
+        jstring path = methodInfo.env->NewStringUTF(fullPath.c_str());
+        const jboolean result = methodInfo.env->CallStaticBooleanMethod(
+            methodInfo.classID, methodInfo.methodID, path);
+        methodInfo.env->DeleteLocalRef(path);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        return result == JNI_TRUE;
+    }
 }

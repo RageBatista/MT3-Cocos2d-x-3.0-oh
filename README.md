@@ -1,11 +1,11 @@
 # MT3 — 梦幻西游 MG 版本
 
-> **版本**：2.0.0  
-> **更新日期**：2026-08-03  
+> **版本**：2.1.0
+> **更新日期**：2026-08-06
 > **仓库**：[supercegui-wan/MT3](https://github.com/supercegui-wan/MT3)（正式）｜ [RageBatista/MT3-Cocos2d-x-3.0-oh](https://github.com/RageBatista/MT3-Cocos2d-x-3.0-oh)（备用）  
 > **技术栈**：C++ / Lua / Java / Cocos2d-x / CEGUI / Nuclear Engine
 
-MT3 是一款基于 Cocos2d-x 的 2D MMORPG 项目，采用四层架构，涵盖 Win32、Android、iOS 客户端、Java 服务端及资源生产链。Win32 canonical 已使用 `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`；Android/iOS 保持 `cocos2d-x-2.2.6` 平台基线。
+MT3 是一款基于 Cocos2d-x 的 2D MMORPG 项目，采用四层架构，涵盖 Win32、Android、iOS 客户端、Java 服务端及资源生产链。Win32、Android 与 iOS canonical 均已切换到 `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`；`cocos2d-x-2.2.6` 与 `dependencies/cegui` 仅保留给 `Legacy226` 回滚链。
 
 ---
 
@@ -43,10 +43,10 @@ MT3 是一个大型商业 2D MMORPG 游戏项目，具备以下核心系统：
 | 维度 | 状态 |
 |------|------|
 | Win32 canonical | `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`，外部构建入口为 `Build-MT3-Exe-Canonical.ps1` |
-| Android 主线 | `cocos2d-x-2.2.6`，LocojoyProject free，`arm64-v8a` |
-| iOS 工程 | `cocos2d-x-2.2.6`；仅在 macOS/Xcode 环境验收 |
+| Android 主线 | `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`，LocojoyProject free，`arm64-v8a`，Debug canonical 已通过 |
+| iOS 工程 | Upgrade30 三工程与 vendor 已准备，Windows 静态门禁 `64/64 PASS`，状态为 `READY_FOR_XCODE_BUILD` |
 | 服务端 | JDK 1.7/1.8 + Ant，入口为 `server/server/game_server/build.xml` |
-| 升级验收 | Win32 构建、依赖审计与 UI/登录链复盘见 `docs/MT3-双引擎升级实施记录-2026-08-02.md` |
+| 升级验收 | Win32 记录见 `docs/MT3-双引擎升级实施记录-2026-08-02.md`；iOS 构建交接见 `client/ios/Upgrade30/READY_FOR_XCODE_BUILD.md` |
 
 ---
 
@@ -56,7 +56,7 @@ MT3 是一个大型商业 2D MMORPG 游戏项目，具备以下核心系统：
 
 - **跨平台支持**：Win32（VS2013）、Android（NDK r16b）、iOS（Xcode）
 - **Lua 脚本驱动**：UI 对话框、游戏逻辑和数据同步位于 `client/resource/res/script/`
-- **CEGUI UI 框架**：Win32 canonical 使用 CEGUI 0.7.9-r5；Android/iOS 与历史兼容链保留各自依赖基线
+- **CEGUI UI 框架**：三端 canonical 使用 CEGUI 0.7.9-r5；0.7.1 仅保留给 Legacy226/历史链
 - **自研 Nuclear 引擎**：场景/世界/精灵/地图/动画/特效一体化渲染
 - **热更新系统**：PFS 资源包差异更新，支持三端资源同步
 - **网络通信**：libcurl HTTP 客户端、gnet 游戏协议、RPC 远程调用
@@ -121,8 +121,8 @@ MT3/
 │   │   └── LocojoyProject/          # free 渠道主线
 │   └── Build-MT3-v120.ps1           # Win32 构建依赖链
 ├── engine/                          # Nuclear 自研引擎
-├── cocos2d-x-2.2.6/                 # Android/iOS 平台基线
-├── cocos2d-x-3.0-oh/                # Win32 canonical 基线
+├── cocos2d-x-2.2.6/                 # Legacy226 回滚基线
+├── cocos2d-x-3.0-oh/                # Win32/Android/iOS canonical 基线
 ├── common/                          # 公共库
 │   └── platform/                    # 平台抽象、单例模式等
 ├── server/                          # 服务端
@@ -261,11 +261,25 @@ powershell -ExecutionPolicy Bypass -File .\tools\scripts\Build-MT3-FullValidatio
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools\scripts\Build-Android-Locojoy-WithGate.ps1 `
+    -EngineProfile Upgrade30 `
     -ProjectDir client\android\LocojoyProject `
     -BuildType Debug `
     -Channel free `
     -Jobs 4
 ```
+
+### iOS（Upgrade30）
+
+Windows 静态准备与门禁：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass `
+    -File tools\scripts\Build-iOS-MT3.ps1 `
+    -EngineProfile Upgrade30 `
+    -StaticGateOnly
+```
+
+当前状态为 `READY_FOR_XCODE_BUILD`。macOS 环境切换、免签编译验证和签名构建命令见 [iOS Upgrade30 构建交接](client/ios/Upgrade30/READY_FOR_XCODE_BUILD.md)。
 
 ### 服务端
 

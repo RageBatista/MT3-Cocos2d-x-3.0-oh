@@ -37,6 +37,10 @@ extern "C" {
 
 #include "Cocos2dxLuaLoader.h"
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include "LJFMLuaLoader.h"
+#endif
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #include "platform/ios/CCLuaObjcBridge.h"
 #endif
@@ -45,7 +49,11 @@ extern "C" {
 #include "platform/android/CCLuaJavaBridge.h"
 #endif
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_OHOS || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#ifndef CC_ENABLE_WEBSOCKET
+#define CC_ENABLE_WEBSOCKET 1
+#endif
+
+#if CC_ENABLE_WEBSOCKET && (CC_TARGET_PLATFORM == CC_PLATFORM_OHOS || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #include "Lua_web_socket.h"
 #endif
 #include "LuaOpengl.h"
@@ -182,7 +190,7 @@ bool LuaStack::init(void)
     LuaJavaBridge::luaopen_luaj(_state);
 #endif
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_OHOS)
+#if CC_ENABLE_WEBSOCKET && (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_OHOS)
     tolua_web_socket_open(_state);
     register_web_socket_manual(_state);
 #endif
@@ -193,6 +201,9 @@ bool LuaStack::init(void)
 
     // add cocos2dx loader
     addLuaLoader(cocos2dx_lua_loader);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    addLuaLoader(loader_LJFM);
+#endif
 
     return true;
 }

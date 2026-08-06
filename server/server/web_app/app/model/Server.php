@@ -8,10 +8,23 @@ class Server extends Model{
 	
     public function getServerList($post=null)
 	{
-		$page = isset($post['page'])?$post['page']:1;
-		$limit = isset($post['limit'])?$post['limit']:10;
-		$sortOrder = isset($post['sortOrder'])?$post['sortOrder']:'asc';
-		$sort = isset($post['sort'])?$post['sort']:'id';
+		$page = isset($post['page'])?max(1,intval($post['page'])):1;
+		$limit = isset($post['limit'])?max(1,min(100,intval($post['limit']))):10;
+		$sortOrder = (isset($post['sortOrder']) && strtolower($post['sortOrder'])==='desc')?'desc':'asc';
+		$sortMap = [
+			'id' => 'id',
+			'groupname' => 'groupname',
+			'name' => 'name',
+			'serverip' => 'serverip',
+			'serverport' => 'serverport',
+			'gmport' => 'gmport',
+			'serverid' => 'serverid',
+			'opentime' => 'opentime',
+			'gmlocal' => 'gmlocal',
+			'status' => 'status'
+		];
+		$sortKey = isset($post['sort'])?$post['sort']:'id';
+		$sort = isset($sortMap[$sortKey]) ? $sortMap[$sortKey] : 'id';
 		$server = Server::limit($limit)->page($page)->order($sort ,$sortOrder)->select();
 		$total = Server::count();
 		$data = $server->toArray();

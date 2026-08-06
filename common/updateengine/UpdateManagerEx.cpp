@@ -313,7 +313,7 @@ int UpdateManagerEx::StepLoadVersion()
 	m_Channel = UpdateJson::GetChannelNameInt();
 	m_ChannelCaption = UpdateJson::GetChannelNameWStr();
 
-	cocos2d::extension::CCHttpClient* HTTPClient = cocos2d::extension::CCHttpClient::getInstance();
+	cocos2d::network::HttpClient* HTTPClient = cocos2d::network::HttpClient::getInstance();
     UpdateJson::NewInstance()->SetCB_SetDownloadSite_Func(UpdateManagerEx::SetDownloadSite);
 
 	std::vector<std::wstring> jsonSiteCandidates = BuildJsonSiteCandidates();
@@ -337,7 +337,7 @@ int UpdateManagerEx::StepLoadVersion()
 		UpdateJson::NewInstance()->RequestUpdateJson(curJsonSite, m_VersionBaseCaption, m_ChannelCaption);
 		while (m_DownloadSiteIsBack == 0)
 		{
-			HTTPClient->dispatchResponseCallbacks(0);
+			HTTPClient->dispatchResponseCallbacks();
 			usleep(1000);
 		}
 

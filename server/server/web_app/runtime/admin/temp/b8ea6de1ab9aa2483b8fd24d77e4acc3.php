@@ -1,4 +1,4 @@
-<?php /*a:1:{s:53:"/www/wwwroot/web_app/app/admin/view/index/worker.html";i:1772268861;}*/ ?>
+<?php /*a:1:{s:53:"/www/wwwroot/web_app/app/admin/view/index/worker.html";i:1777196143;}*/ ?>
 <!DOCTYPE html>
 <html lang="zh">
 
@@ -177,6 +177,34 @@
 					</div>
 					<div class="card-body">
 						<canvas class="js-chartjs-bars"></canvas>
+						<div class="table-responsive mt-3">
+							<table class="table table-sm table-hover mb-0">
+								<thead>
+									<tr>
+										<th>区服</th>
+										<th>在线</th>
+										<th>探测来源</th>
+										<th>状态</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if(is_array($getAllServerList) || $getAllServerList instanceof \think\Collection || $getAllServerList instanceof \think\Paginator): $i = 0; $__LIST__ = $getAllServerList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$server): $mod = ($i % 2 );++$i;?>
+									<tr>
+										<td><?php echo htmlentities($server['name']); ?></td>
+										<td><?php echo htmlentities($server['online']); ?></td>
+										<td><small><?php echo htmlentities((isset($server['online_probe_source']) && ($server['online_probe_source'] !== '')?$server['online_probe_source']:'unknown')); ?></small></td>
+										<td>
+											<?php if($server['online_probe_ok']): ?>
+											<span class="badge badge-success"><?php echo htmlentities((isset($server['online_probe_message']) && ($server['online_probe_message'] !== '')?$server['online_probe_message']:'探测成功')); ?></span>
+											<?php else: ?>
+											<span class="badge badge-warning text-dark"><?php echo htmlentities((isset($server['online_probe_message']) && ($server['online_probe_message'] !== '')?$server['online_probe_message']:'探测失败')); ?></span>
+											<?php endif; ?>
+										</td>
+									</tr>
+									<?php endforeach; endif; else: echo "" ;endif; ?>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -32,8 +32,38 @@
 #include "platform/CCFileUtils.h"
 #include "unzip.h"
 #include <map>
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include <pthread.h>
+#endif
 
 NS_CC_BEGIN
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+namespace
+{
+    pthread_mutex_t s_zipFileReadMutex = PTHREAD_MUTEX_INITIALIZER;
+
+    class ZipFileReadLock
+    {
+    public:
+        ZipFileReadLock()
+        : _locked(pthread_mutex_lock(&s_zipFileReadMutex) == 0)
+        {
+        }
+
+        ~ZipFileReadLock()
+        {
+            if (_locked)
+            {
+                pthread_mutex_unlock(&s_zipFileReadMutex);
+            }
+        }
+
+    private:
+        bool _locked;
+    };
+}
+#endif
 
 unsigned int ZipUtils::s_uEncryptedPvrKeyParts[4] = {0,0,0,0};
 unsigned int ZipUtils::s_uEncryptionKey[1024];
@@ -578,6 +608,10 @@ bool ZipFile::fileExists(const std::string &fileName) const
 
 unsigned char *ZipFile::getFileData(const std::string &fileName, ssize_t *size)
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    ZipFileReadLock readLock;
+#endif
+
     unsigned char * buffer = nullptr;
     if (size)
         *size = 0;

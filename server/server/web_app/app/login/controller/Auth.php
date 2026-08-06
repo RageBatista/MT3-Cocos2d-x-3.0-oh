@@ -221,16 +221,17 @@ class Auth extends BaseController
         }
 
         if ($status === 0 && $boundUid === 0) {
+            $authPassHash = password_hash($authpass, PASSWORD_DEFAULT);
             $updated = 0;
             try {
                 $updated = Db::execute(
-                    'UPDATE cdks SET uid = ?, status = 1, used_at = NOW(), qid = ?, pass = ? WHERE id = ? AND status = 0 AND uid = 0',
-                    [$uid, $serverid, $authpass, intval($rec['id'])]
+                    'UPDATE cdks SET uid = ?, status = 1, used_at = NOW(), qid = ?, pass = ?, pass_hash = ? WHERE id = ? AND status = 0 AND uid = 0',
+                    [$uid, $serverid, $authpass, $authPassHash, intval($rec['id'])]
                 );
             } catch (\Throwable $e) {
                 $updated = Db::execute(
-                    'UPDATE cdks SET uid = ?, status = 1, qid = ?, pass = ? WHERE id = ? AND status = 0 AND uid = 0',
-                    [$uid, $serverid, $authpass, intval($rec['id'])]
+                    'UPDATE cdks SET uid = ?, status = 1, qid = ?, pass = ?, pass_hash = ? WHERE id = ? AND status = 0 AND uid = 0',
+                    [$uid, $serverid, $authpass, $authPassHash, intval($rec['id'])]
                 );
             }
 
@@ -282,7 +283,7 @@ class Auth extends BaseController
         }
 
         $row = Db::query(
-            'SELECT id, cdk, lv, qid, uid, pass FROM cdks WHERE uid = ? AND status = 1 ORDER BY used_at DESC, id DESC LIMIT 1',
+            'SELECT id, cdk, lv, qid, uid, pass, pass_hash FROM cdks WHERE uid = ? AND status = 1 ORDER BY used_at DESC, id DESC LIMIT 1',
             [$uid]
         );
         if (!$row) {
@@ -290,11 +291,19 @@ class Auth extends BaseController
         }
         $rec = $row[0];
 
-        if (empty($rec['pass'])) {
+        $passHash = (string)($rec['pass_hash'] ?? '');
+        if (empty($rec['pass']) && $passHash === '') {
             return json(['code' => 0, 'msg' => '该授权记录未设置授权密码']);
         }
-        if ($rec['pass'] !== $authpass) {
-            return json(['code' => 0, 'msg' => '授权密码不正确']);
+        if ($passHash !== '') {
+            if (!password_verify($authpass, $passHash)) {
+                return json(['code' => 0, 'msg' => '授权密码不正确']);
+            }
+        } else {
+            if ($rec['pass'] !== $authpass) {
+                return json(['code' => 0, 'msg' => '授权密码不正确']);
+            }
+            Db::execute('UPDATE cdks SET pass_hash = ? WHERE id = ?', [password_hash($authpass, PASSWORD_DEFAULT), intval($rec['id'])]);
         }
 
         $S = new Server();
@@ -526,7 +535,11 @@ class Auth extends BaseController
     {
         $exp = time() + $this->itemTokenTtl();
         $payload = $itemid . '|' . $exp;
-        $sig = hash_hmac('sha256', $payload, $this->opSecret());
+        $secret = $this->opSecret();
+        if ($secret === '') {
+            return '';
+        }
+        $sig = hash_hmac('sha256', $payload, $secret);
         return $this->base64UrlEncode($payload . '|' . $sig);
     }
 
@@ -555,7 +568,11 @@ class Auth extends BaseController
         }
 
         $payload = $itemid . '|' . $exp;
-        $expect = hash_hmac('sha256', $payload, $this->opSecret());
+        $secret = $this->opSecret();
+        if ($secret === '') {
+            return [false, 0, '签名配置无效'];
+        }
+        $expect = hash_hmac('sha256', $payload, $secret);
         if (!hash_equals($expect, $sig)) {
             return [false, 0, 'item token verify failed'];
         }
@@ -717,7 +734,11 @@ class Auth extends BaseController
                     $name = 'Item-' . $id;
                 }
 
-                $items[] = ['name' => $name, 'token' => $this->makeItemToken($id)];
+                $token = $this->makeItemToken($id);
+                if ($token === '') {
+                    return json(['code' => 0, 'msg' => '签名配置无效']);
+                }
+                $items[] = ['name' => $name, 'token' => $token];
                 if (count($items) >= 5000) break 2;
             }
         }
@@ -769,14 +790,21 @@ class Auth extends BaseController
 
         $ts  = time();
         $sig = $this->computeOpSig($action, $ts, $params);
+        if ($sig === '') {
+            return json(['code' => 0, 'msg' => '签名配置无效']);
+        }
         return json(['code' => 1, 'data' => ['ts' => $ts, 'sig' => $sig]]);
     }
 
     private function opSecret()
     {
-        $salt = (string)config('player.op_secret_salt');
+        $salt = trim((string)config('player.op_secret_salt'));
         if ($salt === '') {
-            $salt = getenv('OP_SECRET_SALT') ?: 'CHANGE_ME_OP_SALT';
+            $salt = trim((string)getenv('OP_SECRET_SALT'));
+        }
+        if ($salt === '' || strpos($salt, 'CHANGE_ME_') === 0 || strlen($salt) < 32) {
+            \think\facade\Log::error('Auth::opSecret OP_SECRET_SALT未配置或强度不足，拒绝签名相关操作');
+            return '';
         }
         $uid = (string)Session::get('auth_uid');
         $serverid = (string)Session::get('auth_serverid');
@@ -785,9 +813,13 @@ class Auth extends BaseController
 
     private function computeOpSig($action, $ts, $params)
     {
+        $secret = $this->opSecret();
+        if ($secret === '') {
+            return '';
+        }
         ksort($params);
         $base = $action . '|' . $ts . '|' . http_build_query($params, '', '&');
-        return hash_hmac('sha256', $base, $this->opSecret());
+        return hash_hmac('sha256', $base, $secret);
     }
 
     private function requireValidSignature($action, $params)
@@ -804,6 +836,9 @@ class Auth extends BaseController
             return [false, '操作签名已过期'];
         }
         $expect = $this->computeOpSig($action, $ts, $params);
+        if ($expect === '') {
+            return [false, '签名配置无效'];
+        }
         if (!hash_equals($expect, $sig)) {
             return [false, '签名校验失败'];
         }

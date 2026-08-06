@@ -7,9 +7,12 @@
 - `FireClient/Application/**`：继续读 `FireClient/Application/AGENTS.md`；这里是客户端主业务、网络、Lua 桥接和 ProtoDef 边界。
 - `MT3Win32App/**`：继续读 `MT3Win32App/AGENTS.md`；这里是 Win32 壳层、启动入口、资源脚本与混合编码目录。
 - `android/**`：继续读 `android/AGENTS.md`；这里固定走 `NDK r16 clang + Ant + JDK8` 当前主线。
+- `FireClient/FireClient/**`：iOS 壳层与 ObjC++ 生命周期；canonical 使用 `FireClient-Upgrade30.xcodeproj`，Windows 只执行静态门禁，macOS/Xcode 执行最终构建。
 - `resource/**`、`Launcher/**`、平台资源目录：优先判定是资源发布链、启动器更新还是平台资源问题，必要时联动 `resource-packaging-pipeline`、`platform-bridge`。
 
 ## 本目录硬边界
+
+- Android/iOS canonical 均使用 `cocos2d-x-3.0-oh + CEGUI-0.7.9-r5`；原 Xcode 工程与 2.2.6/CEGUI 0.7.1 只作为 `Legacy226` 回滚入口。
 
 - 客户端问题先取证再修改；证据优先来自日志、调用链、构建输出、资源实物与产物时间戳，不把“最小修改”当默认目标，先修真正根因。
 - 修改 `client/FireClient/Application/**.h` 前，先按 ABI 敏感变更处理；至少满足 `Rebuild FireClient -> Build MT3`。
@@ -23,6 +26,7 @@
 ```powershell
 powershell -ExecutionPolicy Bypass -File ..\tools\scripts\Check-v120Toolset.ps1
 powershell -ExecutionPolicy Bypass -File ..\tools\scripts\Build-MT3-Exe-Canonical.ps1 -Configuration Release
+powershell -ExecutionPolicy Bypass -File ..\tools\scripts\Build-iOS-MT3.ps1 -EngineProfile Upgrade30 -StaticGateOnly
 Get-Item .\resource\bin\Release\MT3.exe | Select-Object FullName, Length, LastWriteTime
 ```
 

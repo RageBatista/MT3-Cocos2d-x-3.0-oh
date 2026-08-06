@@ -14,8 +14,11 @@ class Role extends Model{
     public function getList($filter = [], $page = 1, $size = 20)
     {
         $query = Db::name('role')->alias('r')
-            ->leftJoin('user_account u', 'r.userid = u.id')
-            ->field('r.roleid, r.name, r.avatar, r.level, r.userid, r.profession, r.createtime, r.lastlogintime, u.username');
+            // 绑定关系优先于 role.userid（user_bind 是权威绑定源）
+            ->leftJoin('user_bind b', 'b.playerid = r.roleid AND b.id = (SELECT MIN(bb.id) FROM user_bind bb WHERE bb.playerid = r.roleid)')
+            ->leftJoin('user_account ur', 'ur.id = r.userid')
+            ->leftJoin('user_account ub', 'ub.id = b.userid')
+            ->field('CAST(r.roleid AS CHAR) AS roleid, r.name, r.avatar, r.level, COALESCE(b.userid, ur.id, r.userid) AS userid, r.profession, r.createtime, r.lastlogintime, COALESCE(ub.username, ur.username) AS username');
 
         if (!empty($filter['roleid'])) {
             $query->where('r.roleid', intval($filter['roleid']));
@@ -24,7 +27,9 @@ class Role extends Model{
             $query->whereLike('r.name', '%' . $filter['name'] . '%');
         }
         if (!empty($filter['username'])) {
-            $query->whereLike('u.username', '%' . $filter['username'] . '%');
+            $query->whereRaw('COALESCE(ub.username, ur.username) LIKE :username', [
+                'username' => '%' . $filter['username'] . '%'
+            ]);
         }
         if (!empty($filter['level_min'])) {
             $query->where('r.level', '>=', intval($filter['level_min']));
@@ -33,7 +38,7 @@ class Role extends Model{
             $query->where('r.level', '<=', intval($filter['level_max']));
         }
 
-        $total = $query->count();
+        $total = (clone $query)->count();
         $list = $query->order('r.roleid', 'desc')
             ->page($page, $size)
             ->select()
@@ -48,8 +53,11 @@ class Role extends Model{
     public function getListForTable($filter = [], $offset = 0, $limit = 20)
     {
         $query = Db::name('role')->alias('r')
-            ->leftJoin('user_account u', 'r.userid = u.id')
-            ->field('r.roleid, r.name, r.avatar, r.level, r.userid, r.profession, r.createtime, r.lastlogintime, u.username');
+            // 绑定关系优先于 role.userid（user_bind 是权威绑定源）
+            ->leftJoin('user_bind b', 'b.playerid = r.roleid AND b.id = (SELECT MIN(bb.id) FROM user_bind bb WHERE bb.playerid = r.roleid)')
+            ->leftJoin('user_account ur', 'ur.id = r.userid')
+            ->leftJoin('user_account ub', 'ub.id = b.userid')
+            ->field('CAST(r.roleid AS CHAR) AS roleid, r.name, r.avatar, r.level, COALESCE(b.userid, ur.id, r.userid) AS userid, r.profession, r.createtime, r.lastlogintime, COALESCE(ub.username, ur.username) AS username');
 
         if (!empty($filter['roleid'])) {
             $query->where('r.roleid', intval($filter['roleid']));
@@ -58,10 +66,12 @@ class Role extends Model{
             $query->whereLike('r.name', '%' . $filter['name'] . '%');
         }
         if (!empty($filter['username'])) {
-            $query->whereLike('u.username', '%' . $filter['username'] . '%');
+            $query->whereRaw('COALESCE(ub.username, ur.username) LIKE :username', [
+                'username' => '%' . $filter['username'] . '%'
+            ]);
         }
 
-        $total = $query->count();
+        $total = (clone $query)->count();
         $list = $query->order('r.roleid', 'desc')
             ->limit($offset, $limit)
             ->select()

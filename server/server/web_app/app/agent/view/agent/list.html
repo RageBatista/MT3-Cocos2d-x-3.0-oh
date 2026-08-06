@@ -19,7 +19,7 @@
         <header class="card-header"><div class="card-title">代理列表</div></header>
         <div class="card-body">
           <div class="card-search mb-2-5">
-            <form class="search-form" method="get" action="#!" role="form">
+            <form class="search-form" onsubmit="return false;" role="form">
               
               <div class="row">
                 <div class="col-md-3">
@@ -50,8 +50,8 @@
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <button type="submit" class="btn btn-primary me-1">搜索</button>
-                  <button type="reset" class="btn btn-default">重置</button>
+                  <button type="button" class="btn btn-primary me-1" onclick="searchAgent()">搜索</button>
+                  <button type="button" class="btn btn-default" onclick="resetAgentSearch()">重置</button>
                 </div>
               </div>
               
@@ -95,6 +95,18 @@
 
 
 <script>
+	var searchDefaults = {
+		username: '',
+		invite: '',
+		lv: '0'
+	};
+
+	lyearSearchState.apply(searchDefaults);
+	$('.search-form').on('submit', function (event) {
+		event.preventDefault();
+		searchAgent();
+	});
+
 	/**
 	 * 分页相关的配置
 	 **/
@@ -285,10 +297,6 @@
             'click .edit-btn': function (event, value, row, index) {
                 event.stopPropagation();
                 editUser(row);
-            },
-            'click .del-btn': function (event, value, row, index) {
-                event.stopPropagation();
-                delUser(row);
             }
         }
     }];
@@ -296,9 +304,7 @@
     // 自定义操作按钮
     function btnGroup () {
         var html =
-            '<a href="#!" class="btn btn-sm btn-default me-1 edit-btn" title="编辑" data-bs-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>' ;
-			//+
-          //  '<a href="#!" class="btn btn-sm btn-default del-btn" title="删除" data-bs-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>'
+            '<a href="#!" class="btn btn-sm btn-default me-1 edit-btn" title="编辑" data-bs-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>';
         return html;
     }
   
@@ -306,64 +312,6 @@
     function editUser(row) {
 		var id = row.id;
 		location.href='/index.php?s=/{$app}/agent/edit&id='+id;
-    }
-    //操作方法 - 删除
-    function delUser(row) {
-		var id = row.id;
-		$.post("/index.php?s=/{$app}/agent/del", {id:id}, function(res) {
-			if(res.code==1){
-				var Toast = Swal.mixin({
-				  toast: true,
-				  position: "top",
-				  showConfirmButton: false,
-				  timer: 1500,
-				  timerProgressBar: true,
-				  didOpen: (toast) => {
-					toast.onmouseenter = Swal.stopTimer;
-					toast.onmouseleave = Swal.resumeTimer;
-				  }
-				});
-				Toast.fire({
-				  icon: "success",
-				  title: res.msg
-				});
-				setTimeout("self.location.reload();",1500);
-			}else {
-				var Toast = Swal.mixin({
-				  toast: true,
-				  position: "top",
-				  showConfirmButton: false,
-				  timer: 1500,
-				  timerProgressBar: true,
-				  didOpen: (toast) => {
-					toast.onmouseenter = Swal.stopTimer;
-					toast.onmouseleave = Swal.resumeTimer;
-				  }
-				});
-				Toast.fire({
-				  icon: "error",
-				  title: res.msg
-				});
-				//setTimeout("self.location.reload();",1500);
-			}
-		}).fail(function () {
-			var Toast = Swal.mixin({
-			  toast: true,
-			  position: "top",
-			  showConfirmButton: false,
-			  timer: 1500,
-			  timerProgressBar: true,
-			  didOpen: (toast) => {
-				toast.onmouseenter = Swal.stopTimer;
-				toast.onmouseleave = Swal.resumeTimer;
-			  }
-			});
-			Toast.fire({
-			  icon: "question",
-			  title: '服务异常'
-			});
-			//setTimeout("self.location.reload();",1500);
-		});
     }
 	
 	$('table').bootstrapTable({
@@ -379,7 +327,10 @@
 				// 排序的列名
 				sort: params.sort,
 				// 排序方式 'asc' 'desc'
-				sortOrder: params.order
+				sortOrder: params.order,
+				username: $('input[name="username"]').val(),
+				invite: $('input[name="invite"]').val(),
+				lv: $('select[name="lv"]').val()
 			};
 		},
 		columns,
@@ -387,6 +338,23 @@
             $("[data-bs-toggle='tooltip']").tooltip();
         }
 	});
+
+	function searchAgent() {
+		lyearSearchState.sync({
+			username: $('input[name="username"]').val(),
+			invite: $('input[name="invite"]').val(),
+			lv: $('select[name="lv"]').val()
+		}, searchDefaults);
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
+
+	function resetAgentSearch() {
+		$('input[name="username"]').val('');
+		$('input[name="invite"]').val('');
+		$('select[name="lv"]').val('0');
+		lyearSearchState.sync(searchDefaults, searchDefaults);
+		$('#table').bootstrapTable('refresh', { pageNumber: 1 });
+	}
 </script>
 
 </body>

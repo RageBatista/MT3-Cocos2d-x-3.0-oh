@@ -2,7 +2,7 @@
 // 全局中间件定义文件
 return [
     // 全局请求缓存
-    // \think\middleware\CheckRequestCache::class,
+    \think\middleware\CheckRequestCache::class,
     // 多语言加载
     // \think\middleware\LoadLangPack::class,
     // Session初始化
@@ -10,5 +10,7 @@ return [
 	// 访问频率限制
 	//\think\middleware\Throttle::class,
 	// 权限验证
-	 \app\middleware\Check::class  
+	 \app\middleware\Check::class,
+    // 细粒度权限点校验
+    \app\middleware\PermissionGuard::class
 ];

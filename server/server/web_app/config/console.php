@@ -5,6 +5,7 @@
 return [
     // 指令定义
     'commands' => [
-		'notice' => 'app\command\Notice'
+		'notice' => 'app\command\Notice',
+		'bind:sync-missing' => 'app\command\SyncRoleBindings'
     ],
 ];

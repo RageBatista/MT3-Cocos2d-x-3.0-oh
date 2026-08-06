@@ -26,7 +26,7 @@ LOCAL_SRC_FILES := \
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/code \
                     $(LOCAL_PATH)/code/include \
                     $(LOCAL_PATH)/../platform \
-$(LOCAL_PATH)/../../cocos2d-x-2.2.6/cocos2dx/include \
+$(LOCAL_PATH)/../../cocos2d-x-3.0-oh/cocos/2d \
 
 
 LOCAL_LDLIBS := -llog \
@@ -46,6 +46,6 @@ LOCAL_CPPFLAGS := -fexceptions -fpermissive
 
 include $(BUILD_STATIC_LIBRARY)
 
-$(call import-module,cocos2dx)
+$(call import-module,2d)
 
 

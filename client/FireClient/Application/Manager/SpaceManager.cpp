@@ -9,7 +9,6 @@
 #include "CEGUITexture.h"
 #include "CEGUIImageset.h"
 #include "CCScriptSupport.h"
-#include <mmsystem.h>
 #include "oggenc/oggenc.h"
 #include "Utils/Voice.h"
 

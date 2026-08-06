@@ -44,8 +44,8 @@
 ## 推荐学习资源
 
 ### ThinkPHP 框架
-- [ThinkPHP 8 官方文档](https://doc.thinkphp.cn/v8_0/)
-- [ThinkPHP 多应用模式](https://www.kancloud.cn/manual/thinkphp6_0/1037487)
+- [ThinkPHP 官方文档](https://doc.thinkphp.cn/)
+- [ThinkPHP 8 文档入口](https://doc.thinkphp.cn/v8_0/)
 
 ### PHP 编码规范
 - [PSR-12 编码规范](https://www.php-fig.org/psr/psr-12/)

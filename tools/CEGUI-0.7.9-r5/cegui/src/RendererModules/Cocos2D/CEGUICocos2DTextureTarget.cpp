@@ -10,7 +10,7 @@
 #include "2d/CCRenderTexture.h"
 #include "2d/CCSprite.h"
 #include "2d/platform/CCImage.h"
-#include "2d/platform/win32/CCGL.h"
+#include "RendererModules/Cocos2D/CEGUICocos2DGL.h"
 
 #include <cstring>
 
